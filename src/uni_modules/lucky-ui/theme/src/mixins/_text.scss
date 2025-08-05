@@ -1,0 +1,19 @@
+// =============================================================================
+// 混入: 文本处理 (Text)
+// =============================================================================
+
+// --- 单行文本溢出省略 ---
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// --- 多行文本溢出省略 ---
+@mixin text-ellipsis-multiple($lines: 2) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+}

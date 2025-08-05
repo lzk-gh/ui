@@ -1,0 +1,50 @@
+// =============================================================================
+// 基础样式: 样式重置 (Reset)
+// =============================================================================
+
+// 全局盒模型设置为 border-box
+// 解释：uni-app 默认就是 border-box，但显式声明可增强代码可读性和跨端一致性。
+page,
+view,
+text,
+image,
+button,
+input,
+textarea,
+form,
+label,
+navigator,
+swiper,
+swiper-item {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// 移除列表的默认样式
+ul,
+ol {
+  list-style: none;
+}
+
+// 让图片表现得更可预测
+// 解释：uni-app 的 image 组件默认为 inline-block
+image {
+  max-width: 100%;
+  vertical-align: middle; // 解决图片底部的空隙
+}
+
+// 继承字体样式
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent; // 移除移动端点击时的默认高亮效果
+}
+
+// 简化 a 标签
+navigator {
+  text-decoration: none;
+  color: inherit;
+}

@@ -1,0 +1,71 @@
+// =============================================================================
+// 基础样式: 排版 (Typography)
+// =============================================================================
+// 为 h1-h6, p, a 等排版元素定义基础样式，
+// 便于在富文本渲染等场景中保持样式统一。
+// =============================================================================
+@use '../tokens' as theme;
+
+// --- 标题 ---
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: theme.$font-family-base;
+  font-weight: theme.$font-weight-bold;
+  line-height: theme.$line-height-tight;
+  color: theme.$color-text-primary;
+  margin-top: theme.$spacing-xl;
+  margin-bottom: theme.$spacing-md;
+}
+
+.h1 {
+  font-size: theme.$font-size-xxl;
+}
+.h2 {
+  font-size: theme.$font-size-xl;
+}
+.h3 {
+  font-size: theme.$font-size-lg;
+}
+// h4, h5, h6 使用基础字号，通过字重区分
+.h4 {
+  font-size: theme.$font-size-base;
+}
+.h5 {
+  font-size: theme.$font-size-base;
+}
+.h6 {
+  font-size: theme.$font-size-base;
+}
+
+// --- 段落 ---
+.p {
+  margin-bottom: theme.$spacing-md;
+}
+
+// --- 链接---
+.a,
+navigator {
+  color: theme.$color-text-link;
+
+  // 过渡效果
+  transition: color theme.$motion-duration-sm;
+
+  &:hover {
+    // 在 H5 端，设置 hover 效果
+    color: theme.$color-brand-primary-hover;
+    text-decoration: underline;
+  }
+}
+
+// --- 其他行内元素 ---
+.strong {
+  font-weight: theme.$font-weight-bold;
+}
+
+.small {
+  font-size: theme.$font-size-sm;
+}

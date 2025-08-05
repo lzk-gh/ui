@@ -1,0 +1,75 @@
+// =============================================================================
+// 设计令牌: 色彩 (Colors)
+// =============================================================================
+// 命名约定规范 - $color-[类别]-[属性]-[变体]
+// =============================================================================
+
+// --- 基础色板 ---
+// 解释：构成整个色彩系统的基础。应避免在组件中直接使用，而是用于构建下方的语义化颜色
+
+// 品牌色 / 主色
+$color-brand-100: #f0f0fa; // 最浅的紫色背景
+$color-brand-200: #d9d8f3;
+$color-brand-300: #c1bfe9;
+$color-brand-400: #938ee0;
+$color-brand-500: #7b75dd;
+$color-brand-600: #6965db; // [核心] 基础主色
+$color-brand-700: #554fcf;
+$color-brand-800: #413f8a; // [核心] 深主色
+$color-brand-900: #292762;
+$color-brand-1000: #030064; // [核心] 暗夜紫
+
+// 中性色
+$color-gray-100: #f5f6f7;
+$color-gray-200: #e8eaed;
+$color-gray-300: #dfe1e5;
+$color-gray-400: #c1c7d0;
+$color-gray-500: #a5adba; // 主要边框色
+$color-gray-600: #8993a4; // 占位符、禁用文字
+$color-gray-700: #6b778c; // 次要文字
+$color-gray-800: #42526e; // 主要文字
+$color-gray-900: #172b4d; // 标题级文字
+
+// 功能色 (Functional Colors)
+$color-green-500: #07c160; // 成功
+$color-red-500: #ee0a24; // 错误
+$color-orange-500: #ff976a; // 警告
+$color-yellow-500: #ffc400; // 提示
+
+// 基础色
+$color-white: #ffffff;
+$color-black: #000000;
+
+// --- 语义化颜色令牌 ---
+// 解释：组件应该消费这些颜色变量。它们提供了业务含义和设计意图，并为主题化做好了准备
+
+// 品牌色 & 交互
+$color-brand-primary: $color-brand-600;
+$color-brand-primary-light: $color-brand-100;
+$color-brand-primary-hover: $color-brand-700;
+$color-brand-primary-active: $color-brand-800;
+
+// 文字颜色
+$color-text-primary: $color-gray-800; // 主要文字，如标题、正文
+$color-text-secondary: $color-gray-700; // 次要文字，如辅助信息
+$color-text-placeholder: $color-gray-600; // 输入框占位符文字
+$color-text-disabled: $color-gray-500; // 禁用状态文字
+$color-text-inverse: $color-white; // 反色文字，用于深色背景
+$color-text-link: $color-brand-primary; // 链接文字
+$color-text-error: $color-red-500; // 错误文字
+
+// 背景颜色
+$color-bg-body: $color-gray-100; // 页面整体背景
+$color-bg-container: $color-white; // 卡片、弹窗等容器背景
+$color-bg-container-active: $color-gray-200; // 容器按压态背景
+$color-bg-mask: rgba($color-black, 0.7); // 遮罩层背景
+
+// 边框 / 分割线颜色
+$color-border-primary: $color-gray-400; // 主要边框/分割线
+$color-border-secondary: $color-gray-300; // 次要、更弱的边框
+
+// 功能色
+$color-functional-success: $color-green-500;
+$color-functional-warning: $color-orange-500;
+$color-functional-error: $color-red-500;
+$color-functional-info: $color-brand-primary;

@@ -1,0 +1,28 @@
+// =============================================================================
+// 基础样式: 全局 (Global)
+// =============================================================================
+// 引入设计令牌，用于设置全局基础风格。
+// =============================================================================
+@use '../tokens' as theme;
+
+page {
+  // --- 字体与排版 ---
+  font-family: theme.$font-family-base;
+  font-size: theme.$font-size-base;
+  line-height: theme.$line-height-base;
+  color: theme.$color-text-primary;
+
+  // --- 背景 ---
+  background-color: theme.$color-bg-body;
+
+  // --- 视觉优化 ---
+  // 解释： 开启 Webkit 内核的字体平滑，让字体看起来更清晰舒适
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // --- 滚动行为 ---
+  // 解释：
+  // 1. 在 H5 端，可以设置平滑滚动
+  // 2. 在小程序和 App 端此属性可能无效
+  scroll-behavior: smooth;
+}
