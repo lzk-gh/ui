@@ -1,13 +1,25 @@
+<template>
+  <!-- App.vue 不再强行包裹页面根，以免误解。页面各自决定主题类。 -->
+  <slot />
+</template>
+
 <script setup lang="ts">
-import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
-onLaunch(() => {
-  console.log("App Launch");
-});
-onShow(() => {
-  console.log("App Show");
-});
-onHide(() => {
-  console.log("App Hide");
+import { onLaunch } from '@dcloudio/uni-app';
+import { initLkIconsFont } from '@/uni_modules/lucky-ui/utils/init-lk-icons';
+
+// 如果走 base64
+import { LK_ICONS_TTF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/fonts/lk-icons.base64';
+
+onLaunch(async () => {
+  await initLkIconsFont({ source: 'base64', data: LK_ICONS_TTF_BASE64 });
+  // 默认设置主题 data-theme='light'（H5）
+  if (typeof document !== 'undefined') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
 });
 </script>
-<style></style>
+
+<style lang="scss">
+@import "@/uni_modules/lucky-ui/theme/src/index.scss";
+/* 可放全局覆盖 */
+</style>

@@ -4,14 +4,21 @@
 
 // --- 顺序重要 ---
 
-// 1. 基础样式
-// 解释：首先进行样式重置，并设定全局的排版和基础风格。
-@use 'base';
+//// 1. 基础样式
+//// 解释：首先进行样式重置，并设定全局的排版和基础风格。
+//@use 'base';
+//
+//// 2. 主题定义
+//// 解释：接着定义 CSS 自定义属性，用于实现动态主题切换。
+//@use 'themes';
+//
+//// 3. 原子化工具类
+//// 解释：最后引入工具类，它们具有最高优先级 (!important)，用于快速微调样式。
+//@use 'utilities';
 
-// 2. 主题定义
-// 解释：接着定义 CSS 自定义属性，用于实现动态主题切换。
-@use 'themes';
-
-// 3. 原子化工具类
-// 解释：最后引入工具类，它们具有最高优先级 (!important)，用于快速微调样式。
-@use 'utilities';
+@use './base/reset';
+@use './base/global';
+@use './base/typography';
+@use './themes/light';
+@use './themes/dark';
+@use './component-vars';
