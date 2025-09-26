@@ -4,13 +4,12 @@
  * 不再依赖 flex order；所有 item 顺序即 slot 顺序
  * 仍支持 activeEffect / labelPosition / 自定义颜色
  */
-import {computed, onMounted, inject, onBeforeUnmount, ref, nextTick} from 'vue';
+import {computed, onMounted, inject, onBeforeUnmount, ref} from 'vue';
 import {LkBadge} from "@/uni_modules/lucky-ui/components";
 import LkIcon from "@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue";
 
 defineOptions({name: 'LkTabbarItem'});
 
-/** 属性（中文注释） */
 const props = defineProps({
   /** 唯一标识（与父 Tabbar modelValue 对应） */
   name: {type: [String, Number], required: true},
@@ -32,6 +31,7 @@ const tabbar = inject<any>('LkTabbar');
 if (!tabbar) console.warn('[LkTabbarItem] 必须放在 LkTabbar 内使用');
 
 const rootRef = ref<HTMLElement|null>(null);
+
 const isActive = computed(()=> tabbar?.active.value === props.name);
 
 const colors = computed(()=> {
@@ -80,9 +80,6 @@ function click() {
 
 onMounted(()=> {
   tabbar?.register({ name: props.name, el: rootRef.value });
-  nextTick(()=> {
-    // underline / FAB 重新测量由父调度（父在注册时已有 schedule）
-  });
 });
 onBeforeUnmount(()=> tabbar?.unregister(props.name));
 </script>
@@ -121,7 +118,6 @@ onBeforeUnmount(()=> tabbar?.unregister(props.name));
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
   min-width:0;
-  gap:4rpx; /* 某些小程序不完全支持 gap，可改用 margin-bottom 兼容 */
 
   &__icon {
     line-height:1;
