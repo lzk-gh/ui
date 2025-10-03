@@ -169,6 +169,8 @@ const boxStyle = computed(() => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'stretch',
+  justifyContent: 'space-around',
+  height: '100%',
   width: '100%',
   boxSizing: 'border-box'
 }));
@@ -401,7 +403,6 @@ provide('LkTabbar', {
   transitionMs: computed(()=> props.transitionMs),
   hasFab: computed(()=> props.centralFab),
   fabIndex: computed(()=> props.fabIndex),
-  // 兼容旧接口 (不再需要 order 支持)
   supportsOrder: computed(()=> false)
 });
 
@@ -509,33 +510,27 @@ function onFabClick() {
   }
   &--shape-square { border-radius:0; }
 
-  .lk-tabbar__underline {
-    position:absolute;
-    bottom:0;
-    left:0;
-    pointer-events:none;
+  // 当同时存在 variant-pill 时去掉 shape-pill 带来的内部样式（避免双重阴影/边框）
+  // 当同一元素同时拥有 variant-pill 与 shape-pill 修饰符时（BEM 并列）
+  // 使用显式类连接，避免 Sass 对 & 拼接的限制
+  .lk-tabbar__box--variant-pill.lk-tabbar__box--shape-pill {
+    width: auto;
+    margin: 0;
+    box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.12);
   }
 
+  .lk-tabbar__underline { position:absolute; bottom:0; left:0; pointer-events:none; }
   .lk-tabbar__fab {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background: var(--lk-color-primary);
-    color: var(--lk-color-text-inverse);
-    box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.25);
-    font-size:40rpx;
-    font-weight:600;
+    display:flex; align-items:center; justify-content:center; border-radius:50%;
+    background: var(--lk-color-primary); color: var(--lk-color-text-inverse);
+    box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.25); font-size:40rpx; font-weight:600;
     transition: box-shadow var(--lk-transition-fast), transform var(--lk-transition-fast);
-    &:active {
-      transform: scale(.94);
-      box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.2);
-    }
+    &:active { transform: scale(.94); box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.2); }
   }
   .lk-tabbar__fab-text { font-size:40rpx; }
 }
 
-/* 暗色 */
+// 暗色主题
 :deep([data-theme='dark']) .lk-tabbar__box {
   &--variant-outline { border-top-color: var(--lk-color-border); }
   &--variant-pill {
