@@ -3,7 +3,14 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app",
+				"navigationBarTitleText": "Lucky UI",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/component-detail/index",
+			"style": {
+				"navigationBarTitleText": "组件详情",
 				"navigationStyle": "custom"
 			}
 		}

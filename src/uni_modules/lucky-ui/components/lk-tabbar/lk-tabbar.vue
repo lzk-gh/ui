@@ -485,16 +485,27 @@ function onFabClick() {
     box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.12);
   }
 
-  &--shape-pill:not(&--variant-pill) {
+  &--shape-pill {
     width: calc(100% - 24rpx);
     margin: 0 auto;
     border-radius: 999rpx;
     overflow:hidden;
     box-shadow: inset 0 0 0 2rpx var(--lk-color-border-weak);
+    
+    &.lk-tabbar__box--variant-pill {
+      width: auto;
+      margin: 0;
+      box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.12);
+    }
   }
-  &--shape-rounded:not(&--variant-pill) {
+  &--shape-rounded {
     border-radius: var(--lk-radius-lg);
     overflow:hidden;
+    
+    &.lk-tabbar__box--variant-pill {
+      border-radius: 999rpx;
+      overflow: visible;
+    }
   }
   &--shape-square { border-radius:0; }
 
@@ -531,7 +542,7 @@ function onFabClick() {
     background: var(--lk-color-bg-surface);
     border: 2rpx solid var(--lk-color-border-weak);
   }
-  &--shape-pill:not(&--variant-pill) {
+  &--shape-pill {
     background: var(--lk-color-bg-surface);
   }
 }
