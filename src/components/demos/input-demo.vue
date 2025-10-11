@@ -29,6 +29,8 @@
           <lk-icon name="person-fill" size="32" />
         </template>
       </lk-input>
+      <lk-input v-model="value10" prefix-icon="envelope-fill" placeholder="邮箱" style="margin-top: 16rpx;" />
+      <lk-input v-model="value11" suffix-icon="calendar-fill" placeholder="选择日期" style="margin-top: 16rpx;" />
     </demo-block>
 
     <demo-block title="字数统计">
@@ -52,6 +54,8 @@ const value6 = ref('禁用状态');
 const value7 = ref('');
 const value8 = ref('');
 const value9 = ref('');
+const value10 = ref('');
+const value11 = ref('');
 </script>
 
 <style scoped lang="scss">

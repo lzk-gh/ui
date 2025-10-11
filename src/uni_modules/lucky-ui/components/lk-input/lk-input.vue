@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import LkIcon from '../lk-icon/lk-icon.vue';
 
 defineOptions({ name:'LkInput' });
 
 const props = defineProps({
   modelValue: { type:[String,Number], default:'' },
-  size: { type:String, default:'md' }, // sm|md|lg
+  size: { type:String, default:'md' },
   type: { type:String, default:'text' },
   placeholder: { type:String, default:'' },
   disabled: { type:Boolean, default:false },
@@ -15,14 +16,17 @@ const props = defineProps({
   maxlength: { type:Number, default:-1 },
   showCount: { type:Boolean, default:false },
   prop: { type:String, default:'' },
-  autofocus: { type:Boolean, default:false }
+  autofocus: { type:Boolean, default:false },
+  prefixIcon: { type:String, default:'' },
+  suffixIcon: { type:String, default:'' },
+  showWordLimit: { type:Boolean, default:false }
 });
+
 const emit = defineEmits(['update:modelValue','input','change','focus','blur','clear']);
 
 const form = inject(formContextKey, null);
-const inner = ref<any>(props.modelValue);
-watch(()=>props.modelValue, v=> inner.value=v);
 
+const inner = ref<any>(props.modelValue);
 const composing = ref(false);
 
 function commit(val:any, change=false){
@@ -31,7 +35,7 @@ function commit(val:any, change=false){
   emit('input', val);
   if(change){
     emit('change', val);
-    if(props.prop) form?.emitFieldChange(props.prop);
+    if(props.prop) form?.emitFieldChange(props.prop, val);
   }
 }
 
@@ -57,7 +61,7 @@ function clear(){
 }
 
 const count = computed(()=>{
-  if(!props.showCount) return '';
+  if(!props.showCount && !props.showWordLimit) return '';
   const len = String(inner.value ?? '').length;
   return props.maxlength> -1 ? `${len}/${props.maxlength}` : `${len}`;
 });
@@ -69,10 +73,18 @@ const classes = computed(()=>[
     'has-count': !!count.value
   }
 ]);
+
+watch(()=>props.modelValue, v=> inner.value=v);
 </script>
 
 <template>
   <view :class="classes">
+    <view v-if="$slots.prefix || prefixIcon" class="lk-input__prefix">
+      <slot name="prefix">
+        <lk-icon v-if="prefixIcon" :name="prefixIcon" size="32" />
+      </slot>
+    </view>
+
     <input
         class="lk-input__inner"
         :value="inner"
@@ -88,6 +100,12 @@ const classes = computed(()=>[
         @compositionstart="onCompositionStart"
         @compositionend="onCompositionEnd"
     />
+    <view v-if="$slots.suffix || suffixIcon" class="lk-input__suffix">
+      <slot name="suffix">
+        <lk-icon v-if="suffixIcon" :name="suffixIcon" size="32" />
+      </slot>
+    </view>
+
     <view v-if="clearable && !disabled && !readonly && inner" class="lk-input__clear" @click="clear">×</view>
     <view v-if="count" class="lk-input__count">{{ count }}</view>
   </view>
@@ -129,6 +147,18 @@ const classes = computed(()=>[
     color:var(--lk-color-text);
     line-height:calc(var(--_height) - 4rpx);
     &::placeholder { color:var(--_placeholder); }
+  }
+  &__prefix, &__suffix {
+    display:flex;
+    align-items:center;
+    color:var(--lk-color-text-secondary);
+    flex-shrink:0;
+  }
+  &__prefix {
+    margin-right:8rpx;
+  }
+  &__suffix {
+    margin-left:8rpx;
   }
   &__clear {
     margin-left:8rpx;
