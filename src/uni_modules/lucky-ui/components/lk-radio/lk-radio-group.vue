@@ -6,7 +6,9 @@ const props = defineProps({
   modelValue: { type:[String,Number,Boolean], default:null },
   size: { type:String, default:'md' },
   disabled: { type:Boolean, default:false },
-  direction: { type:String, default:'row' }
+  direction: { type:String, default:'row' }, // row | column
+  iconType: { type:String, default:'dot' }, // dot | check | custom
+  shape: { type:String, default:'circle' }, // circle | square
 });
 const emit = defineEmits(['update:modelValue','change']);
 
@@ -20,7 +22,9 @@ provide('LkRadioGroup', {
   value: ()=>props.modelValue,
   update,
   size: props.size,
-  disabled: props.disabled
+  disabled: props.disabled,
+  iconType: props.iconType,
+  shape: props.shape,
 });
 </script>
 

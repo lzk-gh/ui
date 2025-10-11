@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed } from 'vue';
+import { inject, computed, useSlots } from 'vue';
 
 defineOptions({ name:'LkRadio' });
 const props = defineProps({
@@ -7,14 +7,20 @@ const props = defineProps({
   label: { type:[String,Number,Boolean], required:true },
   size: { type:String, default:'' },
   disabled: { type:Boolean, default:false },
+  iconType: { type:String, default:'' }, // dot | check | icon (使用插槽)
+  shape: { type:String, default:'' }, // circle | square
 });
 const emit = defineEmits(['update:modelValue','change']);
 
+const slots = useSlots();
 const group = inject<any>('LkRadioGroup', null);
 const isGroup = computed(()=> !!group?.isGroup);
 const mergedSize = computed(()=> props.size || group?.size || 'md');
+const mergedIconType = computed(()=> props.iconType || group?.iconType || 'dot');
+const mergedShape = computed(()=> props.shape || group?.shape || 'circle');
 const checked = computed(()=> isGroup.value ? group.value() === props.label : props.modelValue === props.label);
 const isDisabled = computed(()=> isGroup.value ? group.disabled : props.disabled);
+const hasIconSlot = computed(()=> !!slots.icon);
 
 function select(){
   if(isDisabled.value || checked.value) return;
@@ -29,11 +35,20 @@ function select(){
 <template>
   <view
       class="lk-radio"
-      :class="[`lk-radio--${mergedSize}`, { 'is-checked': checked, 'is-disabled': isDisabled }]"
+      :class="[
+        `lk-radio--${mergedSize}`, 
+        `lk-radio--${mergedShape}`,
+        `lk-radio--${mergedIconType}`,
+        { 'is-checked': checked, 'is-disabled': isDisabled }
+      ]"
       @click="select"
   >
     <view class="lk-radio__outer">
-      <view class="lk-radio__inner" />
+      <view v-if="mergedIconType === 'dot'" class="lk-radio__inner lk-radio__dot" />
+      <view v-else-if="mergedIconType === 'check'" class="lk-radio__inner lk-radio__check">✓</view>
+      <view v-else-if="mergedIconType === 'icon' || hasIconSlot" class="lk-radio__inner lk-radio__icon">
+        <slot name="icon" :checked="checked" :disabled="isDisabled" />
+      </view>
     </view>
     <view class="lk-radio__label"><slot>{{ label }}</slot></view>
   </view>
@@ -65,15 +80,47 @@ function select(){
     background:var(--lk-color-bg-surface);
     transition:border-color var(--lk-transition-fast), background var(--lk-transition-fast), transform var(--lk-transition-fast);
   }
+  
   &__inner {
-    width:48%; height:48%;
+    transition: transform var(--lk-transition-base), opacity var(--lk-transition-fast);
+    opacity:0;
+    transform:scale(.2);
+  }
+  
+  &__dot {
+    width:48%; 
+    height:48%;
     background:var(--lk-color-primary);
     border-radius:50%;
-    transform:scale(.2);
-    opacity:0;
-    transition: transform var(--lk-transition-base), opacity var(--lk-transition-fast);
   }
+  
+  &__check {
+    font-size: calc(var(--_size) * 0.65);
+    color: var(--lk-color-primary);
+    font-weight: bold;
+    line-height: 1;
+  }
+  
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--lk-color-primary);
+    font-size: calc(var(--_size) * 0.7);
+  }
+  
   &__label { margin-left:var(--_gap); }
+
+  &--square {
+    .lk-radio__outer {
+      border-radius: var(--lk-radius-md);
+    }
+    .lk-radio__dot {
+      border-radius: var(--lk-radius-sm);
+    }
+  }
 
   &:active:not(.is-disabled) .lk-radio__outer { transform:scale(.94); }
 
@@ -82,7 +129,10 @@ function select(){
       border-color:var(--lk-color-primary);
       background:var(--lk-color-primary-bg-soft);
     }
-    .lk-radio__inner { opacity:1; transform:scale(1); }
+    .lk-radio__inner { 
+      opacity:1; 
+      transform:scale(1); 
+    }
   }
 
   &.is-disabled { opacity:.45; cursor:not-allowed; }
