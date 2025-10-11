@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { PropType } from 'vue';
 defineOptions({ name: 'LkBadge' });
 
 const props = defineProps({
@@ -7,8 +8,14 @@ const props = defineProps({
   max: { type: Number, default: 99 },
   dot: { type: Boolean, default: false },
   hidden: { type: Boolean, default: false },
-  offset: { type: Array as () => [number, number], default: () => [0,0] }, // [x,y] rpx
-  type: { type: String, default: 'primary' } // primary 预留
+  offset: { 
+    type: Array, 
+    default: () => [0,0], 
+    validator: (value: any) => Array.isArray(value) && value.length === 2 && typeof value[0] === 'number' && typeof value[1] === 'number'
+  },
+  type: { type: String, default: 'primary' },
+  color: { type: String, default: '' },
+  bgColor: { type: String, default: '' }
 });
 
 const displayValue = computed(()=> {
@@ -27,9 +34,11 @@ const displayValue = computed(()=> {
         class="lk-badge"
         :class="{'is-dot': dot}"
         :style="{
-        right: offset[0] + 'rpx',
-        top: offset[1] + 'rpx'
-      }"
+          right: (offset as [number, number])[0] + 'rpx',
+          top: (offset as [number, number])[1] + 'rpx',
+          color: color,
+          background: bgColor
+        }"
     >
       <text v-if="!dot">{{ displayValue }}</text>
     </view>

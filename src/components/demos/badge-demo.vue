@@ -16,13 +16,13 @@
 
     <demo-block title="小红点">
       <view class="demo-row">
-        <lk-badge dot>
+        <lk-badge dot bg-color="#f00">
           <lk-button>新消息</lk-button>
         </lk-badge>
-        <lk-badge dot>
+        <lk-badge dot bg-color="#f00">
           <lk-icon name="chat-dots-fill" size="44" />
         </lk-badge>
-        <lk-badge dot>
+        <lk-badge dot bg-color="#f00">
           <lk-avatar text="U" />
         </lk-badge>
       </view>
@@ -44,7 +44,7 @@
 
     <demo-block title="不同类型">
       <view class="demo-row">
-        <lk-badge :value="8" type="primary">
+        <lk-badge :value="8" type="primary" color="#000">
           <lk-button>主要</lk-button>
         </lk-badge>
         <lk-badge :value="8" type="success">
