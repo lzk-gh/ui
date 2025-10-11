@@ -28,10 +28,11 @@ function update(next:number){
   val.value = next;
   emit('update:modelValue', next);
   emit('change', next);
-  if(props.prop) form?.emitFieldChange(props.prop);
+  if(props.prop) form?.emitFieldChange(props.prop, next);
 }
 function inc(){ if(props.disabled) return; update(val.value + props.step); }
 function dec(){ if(props.disabled) return; update(val.value - props.step); }
+function handleInput(e: any) { update(Number(e.detail.value || 0)); }
 
 const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-disabled': props.disabled }]);
 </script>
@@ -39,7 +40,7 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
 <template>
   <view :class="classes">
     <view class="lk-stepper__btn" :class="{ 'is-disabled': val<=min }" @click="dec">-</view>
-    <input class="lk-stepper__input" type="number" :value="val" @input="e=>update(Number(e.detail.value||0))" />
+    <input class="lk-stepper__input" type="number" :value="val" @input="handleInput" />
     <view class="lk-stepper__btn" :class="{ 'is-disabled': val>=max }" @click="inc">+</view>
   </view>
 </template>
@@ -49,6 +50,7 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
   --_h: var(--lk-control-height-md);
   --_fs: var(--lk-control-font-size-md);
   --_radius: var(--lk-radius-lg);
+  width: fit-content;
   display: inline-flex;
   align-items: stretch;
   border: 2rpx solid var(--lk-input-border-color);
@@ -57,6 +59,8 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
   background: var(--lk-input-bg);
   &--sm { --_h: var(--lk-control-height-sm); --_fs: var(--lk-control-font-size-sm); --_radius: var(--lk-radius-md); }
   &--lg { --_h: var(--lk-control-height-lg); --_fs: var(--lk-control-font-size-lg); --_radius: var(--lk-radius-pill); }
+  &--small { --_h: var(--lk-control-height-sm); --_fs: var(--lk-control-font-size-sm); --_radius: var(--lk-radius-md); }
+  &--large { --_h: var(--lk-control-height-lg); --_fs: var(--lk-control-font-size-lg); --_radius: var(--lk-radius-pill); }
   &__btn {
     width: var(--_h);
     display: flex;
@@ -77,12 +81,15 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
   }
   &__input {
     width: 140rpx;
+    height: var(--_h);
+    line-height: var(--_h);
     text-align: center;
     border: none;
     outline: none;
     font-size: var(--_fs);
     color: var(--lk-color-text);
     background: transparent;
+    box-sizing: border-box;
   }
   &.is-disabled {
     opacity: .6;
