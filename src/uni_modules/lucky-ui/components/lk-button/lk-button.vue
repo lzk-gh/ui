@@ -88,15 +88,17 @@ function onClick(e: MouseEvent) {
     box-shadow: inset 0 0 0 2rpx var(--lk-color-primary);
   }
   &--text {
+    height: auto;
     background: transparent;
     color: var(--lk-color-primary);
-    padding: 0 12rpx;
+    padding: 0;
+    border-radius: 0;
   }
   &--soft {
     background: var(--lk-color-primary-bg-soft);
     color: var(--lk-color-primary);
   }
-  &--danger { /* 仍使用品牌色体系：用 active 做按压感 */
+  &--danger {
     background: var(--lk-color-primary-active);
   }
 
@@ -114,8 +116,6 @@ function onClick(e: MouseEvent) {
     &.lk-button--text {
       &:active {
         color: var(--lk-color-primary-active);
-        background: var(--lk-color-primary-bg-soft);
-        border-radius: var(--lk-radius-sm);
       }
     }
     &.lk-button--soft {
@@ -164,6 +164,11 @@ function onClick(e: MouseEvent) {
   &:focus-visible {
     outline: var(--lk-focus-ring-width) solid var(--lk-focus-ring-color);
     outline-offset: 4rpx;
+  }
+
+  &::after {
+    border: none;
+    padding: 0;
   }
 }
 
