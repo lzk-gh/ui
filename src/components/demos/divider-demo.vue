@@ -35,11 +35,11 @@
       <view class="content-group">
         <text>这是第一组内容</text>
       </view>
-      <lk-divider text="Section 1" />
+      <lk-divider text="Section 1" text-position="40%" />
       <view class="content-group">
         <text>这是第二组内容</text>
       </view>
-      <lk-divider text="Section 2" />
+      <lk-divider text="Section 2" :show-bg="false" />
       <view class="content-group">
         <text>这是第三组内容</text>
       </view>
