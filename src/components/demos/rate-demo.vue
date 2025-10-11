@@ -27,6 +27,10 @@
     <demo-block title="自定义尺寸">
       <lk-rate v-model="value7" size="40" />
     </demo-block>
+
+    <demo-block title="自定义图标（lk-icon）">
+      <lk-rate v-model="value8" allow-half icon="star-fill" color="#f5a623" :size="48" />
+    </demo-block>
   </view>
 </template>
 
@@ -42,6 +46,7 @@ const value4 = ref(2);
 const value5 = ref(5);
 const value6 = ref(4);
 const value7 = ref(3);
+const value8 = ref(2.5);
 </script>
 
 <style scoped lang="scss">
