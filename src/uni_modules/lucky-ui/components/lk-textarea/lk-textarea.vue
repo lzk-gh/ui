@@ -55,7 +55,7 @@ function clear() {
   emit('update:modelValue', '');
   emit('clear');
   emit('change','');
-  if(props.prop) form?.emitFieldChange(props.prop);
+  if(props.prop) form?.emitFieldChange(props.prop, '');
   adjustHeight();
 }
 

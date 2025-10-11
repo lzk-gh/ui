@@ -5,7 +5,11 @@
     </demo-block>
 
     <demo-block title="字数限制">
-      <lk-textarea v-model="value2" :maxlength="200" show-word-limit placeholder="最多200字" />
+      <lk-textarea v-model="value2" :maxlength="200" show-count placeholder="最多200字" />
+    </demo-block>
+
+    <demo-block title="字数统计">
+      <lk-textarea v-model="value5" show-count placeholder="显示字数统计" />
     </demo-block>
 
     <demo-block title="自动高度">
@@ -27,6 +31,7 @@ const value1 = ref('');
 const value2 = ref('');
 const value3 = ref('');
 const value4 = ref('禁用状态');
+const value5 = ref('');
 </script>
 
 <style scoped lang="scss">
