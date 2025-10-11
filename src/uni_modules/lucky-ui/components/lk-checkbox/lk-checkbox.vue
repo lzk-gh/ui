@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed } from 'vue';
+import { inject, computed, useSlots } from 'vue';
 
 defineOptions({ name:'LkCheckbox' });
 
@@ -10,13 +10,19 @@ const props = defineProps({
   falseValue: { type:[Boolean,String,Number], default:false },
   size: { type:String, default:'' },
   disabled: { type:Boolean, default:false },
-  indeterminate: { type:Boolean, default:false }
+  indeterminate: { type:Boolean, default:false },
+  iconType: { type:String, default:'' }, // check | dot | icon (使用插槽)
+  shape: { type:String, default:'' }, // square | circle
 });
 const emit = defineEmits(['update:modelValue','change']);
 
+const slots = useSlots();
 const group = inject<any>('LkCheckboxGroup', null);
 const isGroup = computed(()=> !!group?.isGroup);
 const mergedSize = computed(()=> props.size || group?.size || 'md');
+const mergedIconType = computed(()=> props.iconType || group?.iconType || 'check');
+const mergedShape = computed(()=> props.shape || group?.shape || 'square');
+const hasIconSlot = computed(()=> !!slots.icon);
 
 const checked = computed(()=>{
   if(isGroup.value) return group.checkedSet.value.has(props.label);
@@ -38,15 +44,29 @@ function toggle(){
 <template>
   <view
       class="lk-checkbox"
-      :class="[`lk-checkbox--${mergedSize}`, {
-      'is-checked': checked,
-      'is-disabled': isDisabled,
-      'is-indeterminate': indeterminate
-    }]"
+      :class="[
+        `lk-checkbox--${mergedSize}`,
+        `lk-checkbox--${mergedShape}`,
+        `lk-checkbox--${mergedIconType}`,
+        {
+          'is-checked': checked,
+          'is-disabled': isDisabled,
+          'is-indeterminate': indeterminate
+        }
+      ]"
       @click="toggle"
   >
     <view class="lk-checkbox__box">
-      <view class="lk-checkbox__icon" />
+      <!-- 默认勾选图标 -->
+      <lk-icon v-if="mergedIconType === 'check' && !hasIconSlot && !indeterminate" name="check" class="lk-checkbox__icon lk-checkbox__check" />
+      <!-- 不确定状态图标 -->
+      <lk-icon v-else-if="indeterminate" name="minus" class="lk-checkbox__icon lk-checkbox__indeterminate" />
+      <!-- 圆点图标 -->
+      <view v-else-if="mergedIconType === 'dot'" class="lk-checkbox__icon lk-checkbox__dot" />
+      <!-- 自定义插槽图标 -->
+      <view v-else-if="mergedIconType === 'icon' || hasIconSlot" class="lk-checkbox__icon lk-checkbox__custom">
+        <slot name="icon" :checked="checked" :disabled="isDisabled" :indeterminate="indeterminate" />
+      </view>
     </view>
     <view class="lk-checkbox__label"><slot>{{ label }}</slot></view>
   </view>
@@ -83,25 +103,54 @@ function toggle(){
     transition: background var(--lk-transition-fast), border-color var(--lk-transition-fast), transform var(--lk-transition-fast);
     box-sizing:border-box;
   }
+  
   &__icon {
-    position:relative;
-    width:60%;
-    height:60%;
     opacity:0;
-    transform:scale(.5) rotate(8deg);
-    transition: transform var(--lk-transition-base), opacity var(--lk-transition-fast);
-    &::before{
-      content:'';
-      position:absolute;
-      left:50%; top:50%;
-      width:60%; height:36%;
-      border:var(--_border-size) solid #fff;
-      border-top:0; border-left:0;
-      transform:translate(-50%,-50%) rotate(45deg);
-      border-radius:2rpx;
+    transition: transform var(--lk-transition-fast), opacity var(--lk-transition-fast);
+  }
+  
+  // 勾选图标样式
+  &__check {
+    transform:scale(0) rotate(0);
+    color: #fff;
+    font-size: calc(var(--_size) * 0.9);
+  }
+  
+  // 不确定状态图标样式
+  &__indeterminate {
+    transform:scale(0) rotate(0);
+    color: #fff;
+    font-size: calc(var(--_size) * 0.7);
+  }
+  
+  // 圆点图标样式
+  &__dot {
+    width:48%;
+    height:48%;
+    background:#fff;
+    border-radius:50%;
+    transform:scale(.2);
+  }
+  
+  // 自定义图标样式
+  &__custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-size: calc(var(--_size) * 0.7);
+  }
+  
+  &__label { margin-left:var(--_gap); }
+
+  // 圆形样式
+  &--circle {
+    .lk-checkbox__box {
+      border-radius: 50%;
     }
   }
-  &__label { margin-left:var(--_gap); }
 
   &:active:not(.is-disabled) .lk-checkbox__box { transform:scale(.94); }
 
@@ -112,7 +161,12 @@ function toggle(){
     }
     .lk-checkbox__icon {
       opacity:1;
+    }
+    .lk-checkbox__check {
       transform:scale(1) rotate(0);
+    }
+    .lk-checkbox__dot {
+      transform:scale(1);
     }
   }
 
@@ -121,15 +175,9 @@ function toggle(){
       background:var(--lk-color-primary);
       border-color:var(--lk-color-primary);
     }
-    .lk-checkbox__icon {
+    .lk-checkbox__indeterminate {
       opacity:1;
-      transform:none;
-      &::before {
-        width:70%; height:0;
-        border:0;
-        border-top:var(--_border-size) solid #fff;
-        transform:translate(-50%,-50%) rotate(0);
-      }
+      transform:scale(1) rotate(0);
     }
   }
 

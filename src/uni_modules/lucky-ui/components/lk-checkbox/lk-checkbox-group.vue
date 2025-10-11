@@ -8,7 +8,9 @@ const props = defineProps({
   min: { type:Number, default:0 },
   size: { type:String, default:'md' }, // sm|md|lg
   disabled: { type:Boolean, default:false },
-  direction: { type:String, default:'row' } // row|column
+  direction: { type:String, default:'row' }, // row|column
+  iconType: { type:String, default:'check' }, // check | dot | icon
+  shape: { type:String, default:'square' }, // square | circle
 });
 const emit = defineEmits(['update:modelValue','change']);
 
@@ -32,7 +34,9 @@ provide('LkCheckboxGroup', {
   checkedSet:set,
   toggle,
   size: props.size,
-  disabled: props.disabled
+  disabled: props.disabled,
+  iconType: props.iconType,
+  shape: props.shape,
 });
 </script>
 
