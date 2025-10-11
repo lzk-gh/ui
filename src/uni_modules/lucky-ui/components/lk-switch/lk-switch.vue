@@ -7,7 +7,7 @@ const props = defineProps({
   modelValue: { type:[Boolean,String,Number], default:false },
   activeValue: { type:[Boolean,String,Number], default:true },
   inactiveValue: { type:[Boolean,String,Number], default:false },
-  size: { type:String, default:'md' }, // sm|md|lg
+  size: { type:String, default:'default' }, // small|default|large
   disabled: { type:Boolean, default:false },
   loading: { type:Boolean, default:false },
   beforeChange: { type:Function, default:null }
@@ -68,10 +68,11 @@ function onClick(){
   align-items:center;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-  transition: background var(--lk-switch-transition);
+  transition: background 0.15s ease;
 
-  &--sm { --_h: var(--lk-switch-height-sm); }
-  &--lg { --_h: var(--lk-switch-height-lg); }
+  &--small { --_h: var(--lk-switch-height-sm); }
+  &--default { --_h: var(--lk-switch-height-md); }
+  &--large { --_h: var(--lk-switch-height-lg); }
 
   &__knob {
     width:calc(var(--_h) - var(--_gap)*2);
@@ -79,7 +80,7 @@ function onClick(){
     background:var(--_knob-bg);
     border-radius:50%;
     box-shadow:0 4rpx 8rpx rgba(0,0,0,.15);
-    transition: transform var(--lk-switch-transition), background var(--lk-switch-transition);
+    transition: transform 0.15s ease;
     position:relative;
   }
   &.is-checked {
@@ -100,7 +101,7 @@ function onClick(){
 
   &.is-disabled { opacity:.45; cursor:not-allowed; }
   &.is-loading { cursor:progress; }
-  &:active:not(.is-disabled):not(.is-loading) .lk-switch__knob { transform:translateX(calc((var(--is-checked,0)*100%))) scale(.92); }
+  &:active:not(.is-disabled):not(.is-loading) .lk-switch__knob { transform:translateX(calc((var(--is-checked,0)*100%))) scale(0.95); }
 }
 
 @keyframes lk-switch-spin { to { transform:translate(-50%, -50%) rotate(360deg); } }
