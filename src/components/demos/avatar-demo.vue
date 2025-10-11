@@ -38,10 +38,10 @@
     <demo-block title="带图标">
       <view class="demo-row">
         <lk-avatar>
-          <lk-icon name="person-fill" size="32" />
+          <lk-icon name="house-fill" size="32" />
         </lk-avatar>
         <lk-avatar>
-          <lk-icon name="people-fill" size="32" />
+          <lk-icon name="upload" size="32" />
         </lk-avatar>
         <lk-avatar shape="square">
           <lk-icon name="building" size="32" />

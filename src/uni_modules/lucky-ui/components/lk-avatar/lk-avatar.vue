@@ -64,5 +64,8 @@ function onError() {
     font-weight: 600;
     letter-spacing: 1rpx;
   }
+  &__text {
+    line-height: 1;
+  }
 }
 </style>
