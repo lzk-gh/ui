@@ -20,6 +20,6 @@ onLaunch(async () => {
 </script>
 
 <style lang="scss">
-@import "@/uni_modules/lucky-ui/theme/src/index.scss";
+@use "@/uni_modules/lucky-ui/theme/src/index.scss" as *;
 /* 可放全局覆盖 */
 </style>

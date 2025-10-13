@@ -19,9 +19,62 @@
 
         <!-- 演示区域 -->
         <view class="demo-area">
-          <!-- 动态加载对应的演示组件 -->
-          <component :is="demoComponent" v-if="demoComponent" />
-          
+          <!-- 动态加载对应的演示组件（小程序不支持 <component :is>，改用 v-if 静态切换） -->
+          <ButtonDemo v-if="componentName==='button'" />
+          <IconDemo v-else-if="componentName==='icon'" />
+          <TagDemo v-else-if="componentName==='tag'" />
+          <BadgeDemo v-else-if="componentName==='badge'" />
+          <AvatarDemo v-else-if="componentName==='avatar'" />
+          <DividerDemo v-else-if="componentName==='divider'" />
+          <NoticeBarDemo v-else-if="componentName==='notice-bar'" />
+          <ImageDemo v-else-if="componentName==='image'" />
+
+          <FormDemo v-else-if="componentName==='form'" />
+          <InputDemo v-else-if="componentName==='input'" />
+          <TextareaDemo v-else-if="componentName==='textarea'" />
+          <SelectDemo v-else-if="componentName==='select'" />
+          <RadioDemo v-else-if="componentName==='radio'" />
+          <CheckboxDemo v-else-if="componentName==='checkbox'" />
+          <SwitchDemo v-else-if="componentName==='switch'" />
+          <StepperDemo v-else-if="componentName==='stepper'" />
+          <SliderDemo v-else-if="componentName==='slider'" />
+          <RateDemo v-else-if="componentName==='rate'" />
+          <UploadDemo v-else-if="componentName==='upload'" />
+
+          <CardDemo v-else-if="componentName==='card'" />
+          <CellDemo v-else-if="componentName==='cell'" />
+          <CollapseDemo v-else-if="componentName==='collapse'" />
+          <TableDemo v-else-if="componentName==='table'" />
+          <TabsDemo v-else-if="componentName==='tabs'" />
+          <TimelineDemo v-else-if="componentName==='timeline'" />
+          <StepsDemo v-else-if="componentName==='steps'" />
+          <ProgressDemo v-else-if="componentName==='progress'" />
+          <LoadingDemo v-else-if="componentName==='loading'" />
+          <SkeletonDemo v-else-if="componentName==='skeleton'" />
+          <CarouselDemo v-else-if="componentName==='carousel'" />
+          <SegmentedDemo v-else-if="componentName==='segmented'" />
+          <PaginationDemo v-else-if="componentName==='pagination'" />
+
+          <ModalDemo v-else-if="componentName==='modal'" />
+          <PopupDemo v-else-if="componentName==='popup'" />
+          <ToastDemo v-else-if="componentName==='toast'" />
+          <ActionSheetDemo v-else-if="componentName==='action-sheet'" />
+          <DrawerDemo v-else-if="componentName==='drawer'" />
+          <OverlayDemo v-else-if="componentName==='overlay'" />
+          <TooltipDemo v-else-if="componentName==='tooltip'" />
+          <DropdownDemo v-else-if="componentName==='dropdown'" />
+
+          <NavbarDemo v-else-if="componentName==='navbar'" />
+          <TabbarDemo v-else-if="componentName==='tabbar'" />
+          <BreadcrumbDemo v-else-if="componentName==='breadcrumb'" />
+
+          <CalendarDemo v-else-if="componentName==='calendar'" />
+          <DatePickerDemo v-else-if="componentName==='date-picker'" />
+          <TimePickerDemo v-else-if="componentName==='time-picker'" />
+          <CascaderDemo v-else-if="componentName==='cascader'" />
+          <TreeDemo v-else-if="componentName==='tree'" />
+          <VirtualListDemo v-else-if="componentName==='virtual-list'" />
+
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
             <lk-icon name="code-square" size="100" color="textTertiary" />
@@ -126,6 +179,7 @@ const componentIcon = computed(() => componentMap[componentName.value]?.icon || 
 const componentColor = computed(() => componentMap[componentName.value]?.color || 'primary');
 
 // 动态演示组件
+// 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if
 const demoComponent = ref<any>(null);
 
 // 页面加载
