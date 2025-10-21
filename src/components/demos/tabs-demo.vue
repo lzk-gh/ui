@@ -14,22 +14,8 @@
       </lk-tabs>
     </demo-block>
 
-    <demo-block title="禁用标签">
-      <lk-tabs v-model="activeTab2">
-        <lk-tab-pane label="正常" name="1">
-          <view class="tab-content">正常标签内容</view>
-        </lk-tab-pane>
-        <lk-tab-pane label="禁用" name="2" disabled>
-          <view class="tab-content">禁用标签内容</view>
-        </lk-tab-pane>
-        <lk-tab-pane label="正常" name="3">
-          <view class="tab-content">正常标签内容</view>
-        </lk-tab-pane>
-      </lk-tabs>
-    </demo-block>
-
     <demo-block title="带徽标">
-      <lk-tabs v-model="activeTab3">
+      <lk-tabs v-model="activeTab2">
         <lk-tab-pane label="消息" name="1">
           <template #label>
             <view class="tab-label">
@@ -48,6 +34,30 @@
           </template>
           <view class="tab-content">通知列表</view>
         </lk-tab-pane>
+      </lk-tabs>
+    </demo-block>
+
+    <demo-block title="左右插槽">
+      <lk-tabs v-model="activeTab3">
+        <template #left>
+          <view class="tab-slot-item">
+            <text>🔍</text>
+          </view>
+        </template>
+        <lk-tab-pane label="首页" name="1">
+          <view class="tab-content">首页内容</view>
+        </lk-tab-pane>
+        <lk-tab-pane label="分类" name="2">
+          <view class="tab-content">分类内容</view>
+        </lk-tab-pane>
+        <lk-tab-pane label="我的" name="3">
+          <view class="tab-content">我的内容</view>
+        </lk-tab-pane>
+        <template #right>
+          <view class="tab-slot-item">
+            <text>⋯</text>
+          </view>
+        </template>
       </lk-tabs>
     </demo-block>
   </view>
@@ -85,5 +95,13 @@ const activeTab3 = ref('1');
   display: flex;
   align-items: center;
   gap: 8rpx;
+}
+
+.tab-slot-item {
+  padding: 24rpx 16rpx;
+  font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
