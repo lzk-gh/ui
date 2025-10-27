@@ -10,7 +10,9 @@ const props = defineProps({
   width: { type: String, default: '600rpx' },
   showClose: { type: Boolean, default: true },
   closeOnOverlay: { type: Boolean, default: true },
-  zIndex: { type: Number, default: 1300 }
+  zIndex: { type: Number, default: 1300 },
+  showHeader: { type: Boolean, default: true },
+  showFooter: { type: Boolean, default: true }
 });
 const emit = defineEmits(['update:modelValue','open','close','confirm','cancel']);
 
@@ -37,20 +39,19 @@ const show = computed(()=> props.modelValue);
 <template>
   <lk-overlay :show="show" :z-index="zIndex" @update:show="close" @click="onOverlayClick"/>
   <view
-      v-if="show"
       class="lk-modal"
       :style="{ zIndex: zIndex + 1, width }"
   >
-    <view class="lk-modal__header" v-if="title || $slots.header">
+    <view class="lk-modal__header" v-if="show && showHeader && (title || showClose || $slots.header)">
       <slot name="header">
         <text class="lk-modal__title">{{ title }}</text>
       </slot>
       <view v-if="showClose" class="lk-modal__close" @click="close">×</view>
     </view>
-    <view class="lk-modal__body">
+    <view v-if="show" class="lk-modal__body">
       <slot />
     </view>
-    <view class="lk-modal__footer" v-if="$slots.footer || true">
+    <view class="lk-modal__footer" v-if="show && showFooter">
       <slot name="footer">
         <lk-button size="small" variant="outline" @click="cancel">取消</lk-button>
         <lk-button size="small" @click="confirm">确定</lk-button>
