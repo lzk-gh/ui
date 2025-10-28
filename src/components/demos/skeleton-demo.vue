@@ -16,6 +16,17 @@
       <lk-skeleton animated :rows="3" />
     </demo-block>
 
+    <demo-block title="自定义行宽与圆角">
+      <lk-skeleton :rows="4" :row-width="['90%','80%','70%','60%']" :animated="true" :round="true" />
+    </demo-block>
+
+    <demo-block title="头像尺寸与圆形头像">
+      <view style="display:flex; gap: 24rpx; align-items:center; flex-wrap: wrap;">
+        <lk-skeleton avatar :avatar-size="'56rpx'" :rows="2" />
+        <lk-skeleton avatar round :avatar-size="'88rpx'" title :rows="2" />
+      </view>
+    </demo-block>
+
     <demo-block title="实际应用">
       <lk-skeleton v-if="loading" avatar title :rows="4" animated />
       <view v-else class="content-loaded">
