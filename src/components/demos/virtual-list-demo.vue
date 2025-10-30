@@ -1,146 +1,106 @@
 <template>
-  <view class="component-demo">
-    <demo-block title="基础用法">
-      <text class="info-text">1000条数据，只渲染可视区域</text>
-      <lk-virtual-list 
-        :data="listData1" 
-        :item-height="100"
-        height="600rpx"
-      >
-        <template #default="{ item, index }">
-          <view class="list-item">
-            <text class="item-index">{{ index + 1 }}</text>
-            <text class="item-text">{{ item.text }}</text>
-          </view>
-        </template>
-      </lk-virtual-list>
-    </demo-block>
+  <view class="demo-container">
+    <text class="title">虚拟列表演示</text>
+    <!-- 简单状态栏 -->
+    <view class="toolbar">
+      <text>总数：{{ list.length }}</text>
+      <text v-if="loading" class="loading">加载中...</text>
+    </view>
 
-    <demo-block title="不同高度">
-      <lk-virtual-list 
-        :data="listData2" 
-        :item-height="80"
-        height="500rpx"
-      >
-        <template #default="{ item }">
-          <view class="list-item-dynamic">
-            <lk-avatar :src="item.avatar" />
-            <view class="item-content">
-              <text class="item-name">{{ item.name }}</text>
-              <text class="item-desc">{{ item.desc }}</text>
-            </view>
-          </view>
-        </template>
-      </lk-virtual-list>
-    </demo-block>
-
-    <demo-block title="性能对比">
-      <text class="info-text">虚拟列表可以高效渲染大量数据</text>
-      <view class="stats">
-        <text>数据量: {{ listData1.length }}条</text>
-        <text>渲染节点: ~10个</text>
-        <text>性能提升: 100倍+</text>
-      </view>
-    </demo-block>
+    <lk-virtual-list
+      :items="list"
+      :item-height="50"
+      :height="400"
+      :buffer="6"
+      :dynamic-overscan="true"
+      :max-overscan-rows="24"
+      :overscan-boost-factor="0.7"
+      :prefetch-rows="30"
+      :lower-threshold="'120rpx'"
+      @prefetch="onPrefetch"
+      @reach-bottom="onReachBottom"
+      @scroll="onScroll"
+    >
+      <template #default="{ items, start }">
+        <view v-for="(item, i) in items" :key="item.id" class="item">
+          {{ start + i + 1 }}. {{ item.text }}
+        </view>
+      </template>
+    </lk-virtual-list>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import LkVirtualList from '@/uni_modules/lucky-ui/components/lk-virtual-list/lk-virtual-list.vue';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
-// 生成1000条数据
-const listData1 = ref(
-  Array.from({ length: 1000 }, (_, i) => ({
-    id: i,
-    text: `列表项 ${i + 1}`
-  }))
-);
+// 真实分页模拟：首次加载一页，滚动到底或预取触发再加载下一页
+const list = ref<{ id: number; text: string }[]>([]);
+const loading = ref(false);
+const pageSize = 100;
+let currentPage = 0;
+let totalPages = Infinity; // 模拟无尽流；如果有总页数请设置为具体数字
 
-// 生成用户列表数据
-const listData2 = ref(
-  Array.from({ length: 500 }, (_, i) => ({
-    id: i,
-    name: `用户${i + 1}`,
-    desc: `这是用户${i + 1}的描述信息`,
-    avatar: `https://picsum.photos/100?random=${i}`
-  }))
-);
+async function loadNextPage() {
+  if (loading.value) return;
+  if (currentPage >= totalPages) return;
+  loading.value = true;
+  const pageToLoad = currentPage + 1;
+  // 模拟异步接口
+  await new Promise((r) => setTimeout(r, 400));
+  const startId = (pageToLoad - 1) * pageSize;
+  const newItems = Array.from({ length: pageSize }, (_, i) => {
+    const id = startId + i;
+    return { id, text: `项目 ${id + 1}` };
+  });
+  list.value.push(...newItems);
+  currentPage = pageToLoad;
+  loading.value = false;
+}
+
+onMounted(() => {
+  // 首屏加载
+  loadNextPage();
+});
+
+function onPrefetch() {
+  loadNextPage();
+}
+
+function onReachBottom() {
+  loadNextPage();
+}
+
+function onScroll(data: any) {
+  // 可用于调试滚动窗口：start/end
+  // console.log('滚动事件', data);
+}
 </script>
 
-<style scoped lang="scss">
-.component-demo {
+<style scoped>
+.demo-container {
+  padding: 20px;
+}
+.title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.toolbar {
   display: flex;
-  flex-direction: column;
-  gap: 24rpx;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
 }
-
-.info-text {
-  display: block;
-  margin-bottom: 16rpx;
-  font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+.loading {
+  color: #2979ff;
 }
-
-.list-item {
+.item {
+  height: 50px;
   display: flex;
   align-items: center;
-  gap: 24rpx;
-  padding: 24rpx;
-  border-bottom: 2rpx solid var(--lk-color-border);
-}
-
-.item-index {
-  flex-shrink: 0;
-  width: 60rpx;
-  font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
-}
-
-.item-text {
-  font-size: 28rpx;
-  color: var(--lk-color-text);
-}
-
-.list-item-dynamic {
-  display: flex;
-  align-items: center;
-  gap: 24rpx;
-  padding: 20rpx;
-  border-bottom: 2rpx solid var(--lk-color-border);
-}
-
-.item-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
-}
-
-.item-name {
-  font-size: 28rpx;
-  font-weight: 500;
-  color: var(--lk-color-text);
-}
-
-.item-desc {
-  font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
-}
-
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-  padding: 24rpx;
-  background: var(--lk-color-bg);
-  border-radius: 16rpx;
-  
-  text {
-    font-size: 28rpx;
-    color: var(--lk-color-text);
-  }
+  padding: 0 10px;
+  border-bottom: 1px solid #eee;
 }
 </style>
