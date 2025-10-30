@@ -1,30 +1,22 @@
-<script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount } from 'vue';
-
-defineOptions({ name:'LkCarouselItem' });
-
-const carousel = inject<any>('LkCarousel');
-onMounted(()=> carousel?.register?.({}));
-onBeforeUnmount(()=> carousel?.unregister?.({}));
+<script lang="ts" setup>
+defineProps<{
+  src?: string;
+}>();
 </script>
 
 <template>
   <view class="lk-carousel-item">
-    <slot />
+    <image v-if="src" class="lk-carousel-item__image" :src="src" />
+    <slot v-else></slot>
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .lk-carousel-item {
-  flex:0 0 100%;
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36rpx;
-  color: var(--lk-color-text);
-  background: var(--lk-color-primary-bg-soft);
-  user-select:none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
