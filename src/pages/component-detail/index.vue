@@ -74,6 +74,7 @@
           <CascaderDemo v-else-if="componentName==='cascader'" />
           <TreeDemo v-else-if="componentName==='tree'" />
           <VirtualListDemo v-else-if="componentName==='virtual-list'" />
+          <WaterfallDemo v-else-if="componentName==='waterfall'" />
 
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
@@ -169,6 +170,7 @@ const componentMap: Record<string, any> = {
   'cascader': { title: 'Cascader 级联选择', desc: '级联选择器', icon: 'diagram-2-fill', color: 'info' },
   'tree': { title: 'Tree 树形控件', desc: '树形结构组件', icon: 'diagram-3-fill', color: 'success' },
   'virtual-list': { title: 'VirtualList 虚拟列表', desc: '长列表优化组件', icon: 'list-nested', color: 'primary' },
+  'waterfall': { title: 'Waterfall 瀑布流', desc: '多列不规则流布局', icon: 'grid-3x2-gap', color: 'primary' },
 };
 
 // 当前组件名称
@@ -251,6 +253,7 @@ import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import CascaderDemo from '@/components/demos/cascader-demo.vue';
 import TreeDemo from '@/components/demos/tree-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
+import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
@@ -314,6 +317,7 @@ const demoComponentMap: Record<string, any> = {
   'cascader': CascaderDemo,
   'tree': TreeDemo,
   'virtual-list': VirtualListDemo,
+  'waterfall': WaterfallDemo,
 };
 
 // 加载对应的演示组件

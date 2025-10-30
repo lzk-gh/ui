@@ -6,6 +6,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "verbatimModuleSyntax": true,
     "lib": ["esnext", "dom"],
     "types": ["@dcloudio/types"]
   },

@@ -74,6 +74,7 @@ export { default as LkTree } from './lk-tree/lk-tree.vue';
 export { default as LkTreeNode } from './lk-tree/lk-tree-node.vue';
 
 export { default as LkVirtualList } from './lk-virtual-list/lk-virtual-list.vue';
+export { default as LkWaterfall } from './lk-waterfall/lk-waterfall.vue';
 
 export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
 export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
