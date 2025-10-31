@@ -54,6 +54,7 @@
           <CarouselDemo v-else-if="componentName==='carousel'" />
           <SegmentedDemo v-else-if="componentName==='segmented'" />
           <PaginationDemo v-else-if="componentName==='pagination'" />
+          <BacktopDemo v-else-if="componentName==='backtop'" />
 
           <ModalDemo v-else-if="componentName==='modal'" />
           <PopupDemo v-else-if="componentName==='popup'" />
@@ -162,6 +163,7 @@ const componentMap: Record<string, any> = {
   'navbar': { title: 'Navbar 导航栏', desc: '顶部导航栏组件', icon: 'phone', color: 'primary' },
   'tabbar': { title: 'Tabbar 标签栏', desc: '底部标签栏组件', icon: 'menu-button-wide', color: 'success' },
   'breadcrumb': { title: 'Breadcrumb 面包屑', desc: '导航路径组件', icon: 'chevron-right', color: 'warning' },
+  'backtop': { title: 'Backtop 回到顶部', desc: '快速返回页面顶部的悬浮按钮', icon: 'arrow-up-circle', color: 'primary' },
   
   // 高级组件
   'calendar': { title: 'Calendar 日历', desc: '日历选择组件', icon: 'calendar3', color: 'primary' },
@@ -230,6 +232,7 @@ import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
 import PaginationDemo from '@/components/demos/pagination-demo.vue';
+import BacktopDemo from '@/components/demos/backtop-demo.vue';
 
 // 反馈组件
 import ModalDemo from '@/components/demos/modal-demo.vue';
@@ -294,6 +297,7 @@ const demoComponentMap: Record<string, any> = {
   'carousel': CarouselDemo,
   'segmented': SegmentedDemo,
   'pagination': PaginationDemo,
+  'backtop': BacktopDemo,
   
   // 反馈组件
   'modal': ModalDemo,

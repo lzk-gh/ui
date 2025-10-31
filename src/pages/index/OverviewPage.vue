@@ -4,7 +4,7 @@
       <!-- 统计卡片 -->
       <view class="stats-card">
         <view class="stats-item">
-          <text class="stats-number">52</text>
+          <text class="stats-number">53</text>
           <text class="stats-label">组件总数</text>
         </view>
         <view class="stats-divider"></view>
@@ -159,7 +159,8 @@ const categories = [
     components: [
       { name: 'navbar', label: 'Navbar', desc: '导航栏', icon: 'layout-text-window' },
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
-      { name: 'breadcrumb', label: 'Breadcrumb', desc: '面包屑', icon: 'chevron-right' }
+      { name: 'breadcrumb', label: 'Breadcrumb', desc: '面包屑', icon: 'chevron-right' },
+      { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle-fill' }
     ]
   },
   {

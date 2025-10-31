@@ -79,3 +79,4 @@ export { default as LkWaterfall } from './lk-waterfall/lk-waterfall.vue';
 export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
 export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
 export { default as LkTable } from './lk-table/lk-table.vue';
+export { default as LkBacktop } from './lk-backtop/lk-backtop.vue';
