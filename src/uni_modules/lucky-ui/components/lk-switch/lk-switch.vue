@@ -85,7 +85,7 @@ function onClick(){
   }
   &.is-checked {
     background:var(--_bg-on);
-    .lk-switch__knob { transform:translateX(calc(100% + var(--_gap)*0)); }
+    .lk-switch__knob { transform:translateX(calc(100% + var(--_gap))); }
   }
   &__spinner {
     width:60%;
