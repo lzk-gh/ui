@@ -90,24 +90,24 @@ const categories = [
     color: 'primary',
     components: [
       { name: 'button', label: 'Button', desc: '按钮', icon: 'app-indicator' },
-      { name: 'icon', label: 'Icon', desc: '图标', icon: 'emoji-smile' },
+      { name: 'icon', label: 'Icon', desc: '图标', icon: 'house' },
       { name: 'tag', label: 'Tag', desc: '标签', icon: 'tag' },
       { name: 'badge', label: 'Badge', desc: '徽标', icon: 'bell' },
-      { name: 'avatar', label: 'Avatar', desc: '头像', icon: 'person-circle' },
-      { name: 'divider', label: 'Divider', desc: '分割线', icon: 'hr' },
-      { name: 'notice-bar', label: 'NoticeBar', desc: '通知栏', icon: 'megaphone' },
+      { name: 'avatar', label: 'Avatar', desc: '头像', icon: 'house' },
+      { name: 'divider', label: 'Divider', desc: '分割线', icon: 'house' },
+      { name: 'notice-bar', label: 'NoticeBar', desc: '通知栏', icon: 'house' },
       { name: 'image', label: 'Image', desc: '图片', icon: 'image' }
     ]
   },
   {
     name: '表单组件',
-    icon: 'ui-checks-grid',
+    icon: 'house',
     color: 'success',
     components: [
-      { name: 'form', label: 'Form', desc: '表单', icon: 'card-list' },
-      { name: 'input', label: 'Input', desc: '输入框', icon: 'input-cursor-text' },
-      { name: 'textarea', label: 'Textarea', desc: '文本域', icon: 'textarea-t' },
-      { name: 'select', label: 'Select', desc: '选择器', icon: 'menu-button-wide' },
+      { name: 'form', label: 'Form', desc: '表单', icon: 'house' },
+      { name: 'input', label: 'Input', desc: '输入框', icon: 'house' },
+      { name: 'textarea', label: 'Textarea', desc: '文本域', icon: 'house' },
+      { name: 'select', label: 'Select', desc: '选择器', icon: 'house' },
       { name: 'radio', label: 'Radio', desc: '单选框', icon: 'record-circle' },
       { name: 'checkbox', label: 'Checkbox', desc: '复选框', icon: 'check-square' },
       { name: 'switch', label: 'Switch', desc: '开关', icon: 'toggle-on' },
@@ -124,16 +124,16 @@ const categories = [
     components: [
       { name: 'card', label: 'Card', desc: '卡片', icon: 'credit-card-2-front' },
       { name: 'cell', label: 'Cell', desc: '单元格', icon: 'list-ul' },
-      { name: 'collapse', label: 'Collapse', desc: '折叠面板', icon: 'arrows-collapse' },
+      { name: 'collapse', label: 'Collapse', desc: '折叠面板', icon: 'house' },
       { name: 'table', label: 'Table', desc: '表格', icon: 'table' },
-      { name: 'tabs', label: 'Tabs', desc: '标签页', icon: 'ui-radios' },
+      { name: 'tabs', label: 'Tabs', desc: '标签页', icon: 'house' },
       { name: 'timeline', label: 'Timeline', desc: '时间轴', icon: 'hourglass-split' },
-      { name: 'steps', label: 'Steps', desc: '步骤条', icon: 'bar-chart-steps' },
+      { name: 'steps', label: 'Steps', desc: '步骤条', icon: 'house' },
       { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
       { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
       { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'border' },
-      { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'collection-play' },
-      { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'segmented-nav' },
+      { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'house' },
+      { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
       { name: 'pagination', label: 'Pagination', desc: '分页', icon: 'three-dots' }
     ]
   },
@@ -147,7 +147,7 @@ const categories = [
       { name: 'toast', label: 'Toast', desc: '轻提示', icon: 'chat-right-text' },
       { name: 'action-sheet', label: 'ActionSheet', desc: '动作面板', icon: 'list-task' },
       { name: 'drawer', label: 'Drawer', desc: '抽屉', icon: 'layout-sidebar' },
-      { name: 'overlay', label: 'Overlay', desc: '遮罩', icon: 'bounding-box' },
+      { name: 'overlay', label: 'Overlay', desc: '遮罩', icon: 'house' },
       { name: 'tooltip', label: 'Tooltip', desc: '气泡提示', icon: 'chat-square-quote' },
       { name: 'dropdown', label: 'Dropdown', desc: '下拉菜单', icon: 'caret-down-square' }
     ]
@@ -173,8 +173,8 @@ const categories = [
       { name: 'time-picker', label: 'TimePicker', desc: '时间选择', icon: 'clock' },
       { name: 'date-range-picker', label: 'DateRangePicker', desc: '日期范围', icon: 'calendar-range' },
       { name: 'date-time-picker', label: 'DateTimePicker', desc: '日期时间', icon: 'calendar-check' },
-      { name: 'cascader', label: 'Cascader', desc: '级联选择', icon: 'diagram-3' },
-      { name: 'tree', label: 'Tree', desc: '树形控件', icon: 'diagram-2' },
+      { name: 'cascader', label: 'Cascader', desc: '级联选择', icon: 'house' },
+      { name: 'tree', label: 'Tree', desc: '树形控件', icon: 'house' },
       { name: 'virtual-list', label: 'VirtualList', desc: '虚拟列表', icon: 'list-columns' },
       { name: 'waterfall', label: 'Waterfall', desc: '瀑布流', icon: 'grid-3x2' }
     ]
