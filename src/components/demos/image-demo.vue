@@ -114,20 +114,6 @@
       </view>
     </demo-block>
 
-    <demo-block title="图片网格">
-      <view class="image-grid-layout">
-        <lk-image
-          v-for="i in 9"
-          :key="i"
-          :src="`https://picsum.photos/300/300?random=${i + 20}`"
-          width="220rpx"
-          height="220rpx"
-          radius="var(--lk-radius-md)"
-          preview
-        />
-      </view>
-    </demo-block>
-
     <demo-block title="卡片式图片">
       <view class="image-card">
         <lk-image
