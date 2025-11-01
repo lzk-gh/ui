@@ -1,5 +1,5 @@
 <template>
-  <view class="app-container">
+  <view class="app-container" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
     <!-- 顶部导航栏 -->
     <lk-navbar :title="pageTitle" :show-back="false">
       <template #right>
@@ -37,33 +37,11 @@
     </view>
 
     <!-- 底部 Tabbar -->
-    <lk-tabbar 
-      v-model="activeTab"
-      :central-fab="true"
-      :fab-index="20"
-      fab-index-position-strategy="between"
-      :fab-size="120"
-      :fab-elevate="36"
-      :fab-avoid-overlap="true"
-      :fab-avoid-padding="40"
-      @fab-click="handleFabClick"
-    >
-      <lk-tabbar-item name="overview" icon="grid-3x3-gap-fill">
-        总览
-      </lk-tabbar-item>
-      <lk-tabbar-item name="basic" icon="box-seam-fill">
-        基础
-      </lk-tabbar-item>
-      <lk-tabbar-item name="form" icon="ui-checks-grid">
-        表单
-      </lk-tabbar-item>
-      <lk-tabbar-item name="feedback" icon="chat-square-dots-fill">
-        反馈
-      </lk-tabbar-item>
-
-      <template #fab>
-        <lk-icon name="search" size="48" />
-      </template>
+    <lk-tabbar v-model="activeTab">
+      <lk-tabbar-item name="组件总览" icon="grid" value="overview" />
+      <lk-tabbar-item name="基础组件" icon="box" value="basic" />
+      <lk-tabbar-item name="表单组件" icon="box" value="form" />
+      <lk-tabbar-item name="反馈组件" icon="chat" value="feedback" />
     </lk-tabbar>
   </view>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <view class="detail-page">
+  <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
     <!-- 导航栏 -->
     <lk-navbar :title="componentTitle" />
 
@@ -104,6 +104,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import { onLoad } from '@dcloudio/uni-app';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
@@ -185,6 +186,9 @@ const componentColor = computed(() => componentMap[componentName.value]?.color |
 // 动态演示组件
 // 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if
 const demoComponent = ref<any>(null);
+
+// 主题
+const { theme } = useTheme();
 
 // 页面加载
 onLoad((options) => {

@@ -1,544 +1,369 @@
 <script setup lang="ts">
-/**
- * Lucky UI - LkTabbar（统一实现：FAB 绝对定位 + 运行时测量）
- * 特点：
- *  - 不用 flex order / 不拆左右插槽；fabIndex 任意位置跨端一致
- *  - fabIndex 语义（positionStrategy='between'）: 在第 fabIndex 个 item 之前插入(0=最左，length=最右)
- *  - positionStrategy='center-item' 时：FAB 对齐第 fabIndex 个 item 的中心
- *  - 通过测量 items DOM 计算 FAB x 坐标，绝对定位覆盖（浮动）
- *  - 可选 fabAvoidOverlap 减少遮挡：对相邻 item 增加 padding
- */
-import {
-  ref, computed, provide, onMounted, watch, onBeforeUnmount, nextTick
-} from 'vue';
+import { computed, ref, onMounted, provide } from 'vue';
 
 defineOptions({ name: 'LkTabbar' });
 
-/** 组件属性（中文简洁注释） */
-const props = defineProps({
-  /** 双向绑定：当前激活项 name */
-  modelValue: { type: [String, Number], default: '' },
-  /** 是否固定在底部（true 时渲染占位并 fixed） */
-  fixed: { type: Boolean, default: true },
-  /** 是否适配底部安全区（全面屏底部 inset） */
-  safeArea: { type: Boolean, default: true },
-  /** 层级 z-index */
-  zIndex: { type: Number, default: 100 },
-  /** 背景色（blur 模式忽略） */
-  background: { type: String, default: 'var(--lk-color-bg-surface)' },
-  /** 激活态文字/图标颜色 */
-  activeColor: { type: String, default: 'var(--lk-color-primary)' },
-  /** 未激活态文字/图标颜色 */
-  inactiveColor: { type: String, default: 'var(--lk-color-text-secondary)' },
-  /** Tabbar 可见高度（rpx，不含安全区） */
-  height: { type: [Number, String], default: 100 },
+type TabbarType = 'TIC' | 'FAB' | 'CONCISE' | 'CAPSULE';
 
-  /** 外观：flat | elevated | outline | blur | pill */
-  variant: { type: String, default: 'flat' },
-  /** 激活效果：scale | background | underline | lift */
-  activeEffect: { type: String, default: 'background' },
-  /** 形状：rounded | pill | square */
-  shape: { type: String, default: 'rounded' },
+const props = defineProps<{
+  modelValue?: string;
+  fixed?: boolean;
+  safeArea?: boolean;
+  zIndex?: number;
+  type?: TabbarType;
+  // 自定义样式能力
+  backgroundColor?: string; // 背景颜色
+  topBorder?: boolean; // 顶部边框
+  topLeftRadius?: number | string; // 左上角圆角
+  topRightRadius?: number | string; // 右上角圆角
+  topShadow?: boolean; // 顶部阴影
+  activeColor?: string; // 激活颜色（图标/文字）
+  inactiveColor?: string; // 未激活颜色（图标/文字）
+  // 全局磨砂效果（可在任何 type 上启用）
+  frosted?: boolean;
+  // FAB 相关
+  fabSize?: number | string; // FAB 直径
+  // 胶囊相关参数（用于 CAPSULE 类型）
+  capsuleWidth?: number | string; // 胶囊容器宽度（数字视为 rpx）
+  capsuleOffset?: number | string; // 胶囊距离底部/上浮位移（数字视为 rpx）
+}>();
 
-  /** 是否启用 FAB */
-  centralFab: { type: Boolean, default: false },
-  /**
-   * FAB 插入索引（整型）
-   * positionStrategy='between'：表示位于第 fabIndex 个 item 之前(0..items.length)
-   * positionStrategy='center-item'：表示对齐第 fabIndex 个 item 的中心(0..items.length-1)
-   */
-  fabIndex: { type: Number, default: -1 },
-  /** FAB 上浮高度（视觉向上位移 rpx） */
-  fabElevate: { type: Number, default: 28 },
-  /** FAB 直径（rpx） */
-  fabSize: { type: Number, default: 112 },
-  /** FAB 图标名称（若存在优先显示图标） */
-  fabIcon: { type: String, default: '' },
-  /** FAB 文本（无图标时显示） */
-  fabLabel: { type: String, default: '' },
+const emit = defineEmits<{
+  (e: 'update:modelValue', val: string): void;
+  (e: 'change', val: string): void;
+  (e: 'fab-click'): void;
+}>();
 
-  /** FAB 定位策略：between | center-item */
-  fabIndexPositionStrategy: { type: String, default: 'between' },
-  /** 避免 FAB 遮挡相邻项：true 时给两侧项增加内边距 */
-  fabAvoidOverlap: { type: Boolean, default: false },
-  /** FAB 避让额外内边距（rpx，左右应用） */
-  fabAvoidPadding: { type: Number, default: 32 },
+// 获取系统信息（用于安全区与占位高度）
+const sys = typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ safeArea: { bottom: 0 }, windowHeight: 0 } as any);
+const safeAreaInfo = sys.safeArea || { bottom: 0 };
 
-  /** 标签位置：below | beside | hidden */
-  labelPosition: { type: String, default: 'below' },
+// 维护子项注册顺序，用于默认选中第一个
+const itemValues = ref<string[]>([]);
 
-  /** 激活背景色（background/lift 效果使用） */
-  activeBgColor: { type: String, default: 'var(--lk-color-primary-bg-soft)' },
-  /** 下划线颜色 */
-  underlineColor: { type: String, default: 'var(--lk-color-primary)' },
-  /** 下划线高度（rpx） */
-  underlineHeight: { type: Number, default: 6 },
-  /** 下划线圆角（rpx） */
-  underlineRadius: { type: Number, default: 3 },
-
-  /** 动画过渡时长（ms） */
-  transitionMs: { type: Number, default: 240 },
-  /** blur 模式模糊强度 */
-  blurIntensity: { type: Number, default: 12 }
+// 计算激活索引与指示器位置（仅 TIC 使用）
+const activeValue = computed(() => props.modelValue ?? itemValues.value[0] ?? '');
+const activeIndex = computed(() => Math.max(0, itemValues.value.indexOf(activeValue.value)));
+const itemCount = computed(() => Math.max(1, itemValues.value.length));
+const indicatorStyle = computed(() => {
+  // TIC 类型：根据激活项移动
+  if ((props.type ?? 'TIC') === 'TIC') {
+    const leftPercent = ((activeIndex.value + 0.5) / itemCount.value) * 100;
+    return { left: leftPercent + '%' } as Record<string, string>;
+  }
+  // FAB 类型：固定居中
+  if (props.type === 'FAB') {
+    return { left: '50%' } as Record<string, string>;
+  }
+  return {} as Record<string, string>;
 });
 
-const emit = defineEmits(['update:modelValue','change','fabClick','mounted']);
+function formatSize(v?: number | string) {
+  if (v == null) return undefined;
+  return typeof v === 'number' ? `${v}rpx` : v;
+}
 
-type Item = { name: any; el?: HTMLElement | null };
-const items = ref<Item[]>([]);
-const innerValue = ref<any>(props.modelValue);
-watch(() => props.modelValue, v => (innerValue.value = v));
+function parseNumber(v?: number | string) {
+  if (v == null) return undefined;
+  if (typeof v === 'number') return v;
+  const m = String(v).match(/(-?\d+(?:\.\d+)?)/);
+  return m ? Number(m[1]) : undefined;
+}
 
-function register(item: Item) {
-  const exists = items.value.find(i => i.name === item.name);
-  if (!exists) {
-    items.value.push(item);
-    if (innerValue.value === '' || innerValue.value === undefined || innerValue.value === null) {
-      select(item.name, false);
-    }
-  } else {
-    exists.el = item.el;
+const rootStyle = computed(() => {
+  const style: Record<string, string | number> = {};
+  if (props.zIndex != null) style.zIndex = props.zIndex;
+  if (props.backgroundColor) style.backgroundColor = props.backgroundColor;
+  if (props.activeColor) (style as any)['--lk-tabbar-active-color'] = props.activeColor;
+  if (props.inactiveColor) (style as any)['--lk-tabbar-inactive-color'] = props.inactiveColor;
+  if (props.backgroundColor) (style as any)['--lk-tabbar-background'] = props.backgroundColor;
+  const tl = formatSize(props.topLeftRadius);
+  const tr = formatSize(props.topRightRadius);
+  if (tl) (style as any)['--lk-tabbar-top-left-radius'] = tl;
+  if (tr) (style as any)['--lk-tabbar-top-right-radius'] = tr;
+  const fab = formatSize(props.fabSize);
+  if (fab) (style as any)['--lk-tabbar-fab-size'] = fab;
+  const cw = formatSize(props.capsuleWidth);
+  if (cw) (style as any)['--lk-tabbar-capsule-width'] = cw;
+  const co = formatSize(props.capsuleOffset);
+  if (co) (style as any)['--lk-tabbar-capsule-offset'] = co;
+  // placeholder height: 基于 type 与尺寸计算（单位 rpx）
+  let placeholder = 100; // default 100rpx
+  const fabNum = parseNumber(props.fabSize) ?? 110;
+  const capsuleOffsetNum = parseNumber(props.capsuleOffset) ?? 18;
+  if ((props.type ?? 'TIC') === 'FAB') {
+    placeholder = Math.max(100, fabNum);
+  } else if (props.type === 'CAPSULE') {
+    placeholder = 100 + capsuleOffsetNum;
   }
-  scheduleMeasure();
-  nextTick(updateUnderline);
-}
-function unregister(name: any) {
-  items.value = items.value.filter(i => i.name !== name);
-  scheduleMeasure();
-  nextTick(updateUnderline);
-}
-function getIndex(name: any) {
-  return items.value.findIndex(i => i.name === name);
-}
-
-function select(name:any, trigger=true) {
-  if (name === innerValue.value) return;
-  innerValue.value = name;
-  emit('update:modelValue', name);
-  if (trigger) emit('change', name);
-  nextTick(updateUnderline);
-}
-const active = computed(()=> innerValue.value);
-
-/* 安全区换算 */
-const systemInfo = ref<any>({});
-const safeAreaBottomPx = ref(0);
-const safeAreaBottomRpx = computed(()=> {
-  if (!props.safeArea) return 0;
-  if (!safeAreaBottomPx.value) return 0;
-  const ww = systemInfo.value.windowWidth || 375;
-  return Math.round(safeAreaBottomPx.value * 750 / ww);
-});
-function computeSafeArea() {
-  try {
-    // #ifdef MP
-    const info = uni.getSystemInfoSync();
-    systemInfo.value = info;
-    if (info.safeArea && info.safeArea.bottom) {
-      const gap = info.screenHeight - info.safeArea.bottom;
-      if (gap > 0) safeAreaBottomPx.value = gap;
-    }
-    // #endif
-    // #ifdef H5
-    systemInfo.value = { windowWidth: window.innerWidth };
-    // #endif
-  } catch(e){}
-}
-
-const baseHeightRpx = computed(()=> {
-  const v = typeof props.height === 'number' ? props.height : parseInt(props.height+'',10);
-  return isNaN(v) ? 100 : v;
-});
-const totalBarHeightRpx = computed(()=> baseHeightRpx.value + safeAreaBottomRpx.value);
-
-const placeholderStyle = computed(()=> props.fixed ? { height: totalBarHeightRpx.value + 'rpx' } : {});
-const rootStyle = computed(()=> ({
-  zIndex: props.zIndex,
-  height: totalBarHeightRpx.value + 'rpx'
-}));
-
-const boxStyle = computed(() => ({
-  minHeight: baseHeightRpx.value + 'rpx',
-  background: props.variant === 'blur'
-      ? 'rgba(var(--lk-bg-blur-rgb,255,255,255),0.68)'
-      : (props.variant === 'outline' ? 'transparent' : props.background),
-  backdropFilter: props.variant === 'blur' ? `blur(${props.blurIntensity}px)` : undefined,
-  WebkitBackdropFilter: props.variant === 'blur' ? `blur(${props.blurIntensity}px)` : undefined,
-  transition: `background ${props.transitionMs}ms, backdrop-filter ${props.transitionMs}ms`,
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'stretch',
-  justifyContent: 'space-around',
-  height: '100%',
-  width: '100%',
-  boxSizing: 'border-box'
-}));
-
-const tabbarClass = computed(()=>[
-  'lk-tabbar',
-  { 'is-fixed': props.fixed }
-]);
-const boxClass = computed(()=>[
-  'lk-tabbar__box',
-  `lk-tabbar__box--variant-${props.variant}`,
-  `lk-tabbar__box--shape-${props.shape}`,
-  `lk-tabbar__box--effect-${props.activeEffect}`,
-  `lk-tabbar__box--labels-${props.labelPosition}`,
-  { 'has-fab': props.centralFab }
-]);
-
-/* 下划线 */
-const underlineStyle = ref<any>({ opacity:0 });
-function updateUnderline() {
-  if (props.activeEffect !== 'underline') return;
-  const act = items.value.find(i=> i.name === innerValue.value);
-  if (!act || !act.el) {
-    underlineStyle.value = { opacity:0 };
-    return;
-  }
-  const el = act.el!;
-  const rect = el.getBoundingClientRect?.();
-  const parent = el.parentElement?.getBoundingClientRect?.();
-  if (!rect || !parent) return;
-  underlineStyle.value = {
-    width: rect.width + 'px',
-    transform: `translateX(${rect.left - parent.left}px)`,
-    opacity: 1
-  };
-}
-
-/* FAB 绝对定位计算 */
-const fabStyle = ref<any>({ display: 'none' });
-
-function measureFab() {
-  if (!props.centralFab) {
-    fabStyle.value = { display: 'none' };
-    return;
-  }
-  // 合法性判断
-  const count = items.value.length;
-  if (count === 0) {
-    fabStyle.value = { display: 'none' };
-    return;
-  }
-
-  // 找到一个容器（任取第一个 item 的 parent）
-  const firstEl = items.value[0].el as HTMLElement | null;
-  if (!firstEl || !firstEl.parentElement) return;
-  const containerRect = firstEl.parentElement.getBoundingClientRect?.();
-  if (!containerRect) return;
-
-  const fabSizePx = rpxToPx(props.fabSize);
-  let leftPx = 0;
-
-  if (props.fabIndexPositionStrategy === 'between') {
-    // between 模式：允许 0..count
-    let idx = props.fabIndex;
-    if (idx < 0) {
-      // 自动居中：在中间 gap
-      idx = Math.floor(count / 2);
-    }
-    if (idx > count) idx = count;
-
-    // 计算参考点 = gap 中点
-    if (idx === 0) {
-      // 最左 gap：使用第一个 item 左 + 负半 FAB
-      const firstRect = items.value[0].el?.getBoundingClientRect?.();
-      if (!firstRect) return;
-      leftPx = firstRect.left - fabSizePx / 2;
-    } else if (idx === count) {
-      // 最右 gap：最后一个右边 - 半 FAB
-      const lastRect = items.value[count - 1].el?.getBoundingClientRect?.();
-      if (!lastRect) return;
-      leftPx = lastRect.right - fabSizePx / 2;
-    } else {
-      const prevRect = items.value[idx - 1].el?.getBoundingClientRect?.();
-      const nextRect = items.value[idx].el?.getBoundingClientRect?.();
-      if (!prevRect || !nextRect) return;
-      const mid = (prevRect.right + nextRect.left) / 2;
-      leftPx = mid - fabSizePx / 2;
-    }
-  } else {
-    // center-item 模式：对齐某个 item 的中心 (0..count-1)
-    let idx = props.fabIndex;
-    if (idx < 0 || idx >= count) {
-      // 自动取中间 item
-      idx = Math.floor((count - 1) / 2);
-    }
-    const rect = items.value[idx].el?.getBoundingClientRect?.();
-    if (!rect) return;
-    const center = (rect.left + rect.right) / 2;
-    leftPx = center - fabSizePx / 2;
-  }
-
-  // 约束在容器内
-  if (leftPx < containerRect.left) leftPx = containerRect.left;
-  if (leftPx + fabSizePx > containerRect.right) leftPx = containerRect.right - fabSizePx;
-
-  const offsetX = leftPx - containerRect.left;
-
-  fabStyle.value = {
-    display: 'flex',
-    position: 'absolute',
-    left: '0px',
-    top: '0px',
-    transform: `translate(${offsetX}px, -${props.fabElevate}rpx)`,
-    width: props.fabSize + 'rpx',
-    height: props.fabSize + 'rpx'
-  };
-
-  // 避让：给左/右相邻项 padding
-  if (props.fabAvoidOverlap) {
-    applyAvoidOverlap(offsetX, fabSizePx, containerRect.width);
-  } else {
-    clearAvoidOverlap();
-  }
-}
-
-/* 将 rpx 转成 px（基于 750 设计宽） */
-function rpxToPx(rpx: number | string): number {
-  const v = typeof rpx === 'number' ? rpx : parseInt(rpx+'',10);
-  const pxBase = systemInfo.value.windowWidth || 375;
-  return v * pxBase / 750;
-}
-
-/* 避让逻辑：找到最接近 FAB 中心的左右 item，增加 padding */
-const avoidPrev = ref<HTMLElement|null>(null);
-const avoidNext = ref<HTMLElement|null>(null);
-function applyAvoidOverlap(offsetX: number, fabSizePx: number, containerW: number) {
-  const fabCenter = offsetX + fabSizePx / 2;
-  let prev: { el: HTMLElement, center: number } | null = null;
-  let next: { el: HTMLElement, center: number } | null = null;
-
-  items.value.forEach(it => {
-    const rect = it.el?.getBoundingClientRect?.();
-    const parentRect = it.el?.parentElement?.getBoundingClientRect?.();
-    if (!rect || !parentRect) return;
-    const center = rect.left - parentRect.left + rect.width / 2;
-    if (center <= fabCenter) {
-      if (!prev || center > prev.center) prev = { el: it.el!, center };
-    } else {
-      if (!next || center < next.center) next = { el: it.el!, center };
-    }
-  });
-
-  clearAvoidOverlap();
-
-  const padRpx = props.fabAvoidPadding;
-  const pad = padRpx + 'rpx';
-  if (prev) {
-    avoidPrev.value = prev.el;
-    prev.el.style.paddingRight = pad;
-  }
-  if (next) {
-    avoidNext.value = next.el;
-    next.el.style.paddingLeft = pad;
-  }
-}
-function clearAvoidOverlap() {
-  if (avoidPrev.value) {
-    avoidPrev.value.style.paddingRight = '';
-    avoidPrev.value = null;
-  }
-  if (avoidNext.value) {
-    avoidNext.value.style.paddingLeft = '';
-    avoidNext.value = null;
-  }
-}
-
-/* 节流测量 */
-let measureTimer: any = null;
-function scheduleMeasure() {
-  if (measureTimer) return;
-  measureTimer = setTimeout(()=> {
-    measureTimer = null;
-    nextTick(measureFab);
-    nextTick(updateUnderline);
-  }, 50);
-}
-
-/* 事件监听（H5 resize） */
-function onResize() {
-  scheduleMeasure();
-}
-
-onMounted(()=> {
-  computeSafeArea();
-  emit('mounted');
-  // #ifdef H5
-  window.addEventListener('resize', onResize);
-  window.addEventListener('orientationchange', onResize);
-  // #endif
-  scheduleMeasure();
-});
-onBeforeUnmount(()=> {
-  items.value = [];
-  // #ifdef H5
-  window.removeEventListener('resize', onResize);
-  window.removeEventListener('orientationchange', onResize);
-  // #endif
+  (style as any)['--lk-tabbar-placeholder-height'] = `${placeholder}rpx`;
+  return style;
 });
 
-watch([
-  () => props.centralFab,
-  () => props.fabIndex,
-  () => props.fabSize,
-  () => props.fabIndexPositionStrategy,
-  () => props.fabAvoidOverlap
-], scheduleMeasure);
+function registerItem(val?: string) {
+  const v = val ?? '';
+  if (!v) return;
+  if (!itemValues.value.includes(v)) itemValues.value.push(v);
+}
 
-provide('LkTabbar', {
-  active,
-  register,
-  unregister,
+function select(val?: string) {
+  const v = val ?? '';
+  if (!v) return;
+  if (v !== props.modelValue) {
+    emit('update:modelValue', v);
+    emit('change', v);
+  }
+}
+
+function getSafeAreaHeight() {
+  // 底部安全区域高度
+  return safeAreaInfo.bottom > 0 ? sys.windowHeight - safeAreaInfo.bottom : 0;
+}
+
+function getTabbarHeight() {
+  // Tabbar 高度，默认 50px (约 100rpx)
+  return 50;
+}
+
+// 如果外部未传 active，则在子项注册完成后默认选中第一项
+onMounted(() => {
+  if ((props.modelValue == null || props.modelValue === '') && itemValues.value.length > 0) {
+    emit('update:modelValue', itemValues.value[0]);
+  }
+});
+
+// 对外提供给子项使用的上下文
+provide('lkTabbar', {
+  activeValue: computed(() => props.modelValue ?? itemValues.value[0] ?? ''),
   select,
-  getIndex,
-  activeColor: computed(()=> props.activeColor),
-  inactiveColor: computed(()=> props.inactiveColor),
-  baseHeightRpx,
-  labelPosition: computed(()=> props.labelPosition),
-  activeEffect: computed(()=> props.activeEffect),
-  activeBgColor: computed(()=> props.activeBgColor),
-  transitionMs: computed(()=> props.transitionMs),
-  hasFab: computed(()=> props.centralFab),
-  fabIndex: computed(()=> props.fabIndex),
-  supportsOrder: computed(()=> false)
+  registerItem,
 });
+// 额外提供 type 给子项
+provide('lkTabbarType', props.type ?? 'TIC');
 
-function onFabClick() {
-  emit('fabClick');
-}
+
 </script>
 
 <template>
-  <view v-if="props.fixed" class="lk-tabbar__placeholder" :style="placeholderStyle" />
-  <view :class="tabbarClass" :style="rootStyle">
-    <view :class="boxClass" :style="boxStyle">
-      <!-- items slot -->
-      <slot />
-
-      <!-- underline -->
-      <view
-          v-if="props.activeEffect==='underline'"
-          class="lk-tabbar__underline"
-          :style="{
-          ...underlineStyle,
-          height: props.underlineHeight + 'rpx',
-            borderRadius: props.underlineRadius + 'rpx',
-            background: props.underlineColor,
-            transition: 'transform '+props.transitionMs+'ms, width '+props.transitionMs+'ms, opacity '+props.transitionMs+'ms'
-        }"
-      />
-
-      <!-- FAB (绝对定位) -->
-      <view
-          v-if="props.centralFab"
-          class="lk-tabbar__fab"
-          :style="fabStyle"
-          @click="onFabClick"
-      >
-        <slot name="fab">
-          <lk-icon v-if="props.fabIcon" :name="props.fabIcon" size="48" />
-          <text v-else class="lk-tabbar__fab-text">{{ props.fabLabel || '+' }}</text>
-        </slot>
+  <view 
+    class="lk-tabbar"
+    :class="[
+      `lk-tabbar--type-${props.type ?? 'TIC'}`,
+      { 
+        'lk-tabbar--fixed': props.fixed, 
+        'lk-tabbar--safe-area': props.safeArea,
+        'lk-tabbar--top-border': props.topBorder,
+        'lk-tabbar--top-shadow': props.topShadow,
+        'lk-tabbar--frosted': props.frosted
+      }
+    ]"
+    :style="rootStyle"
+  >
+    <template v-if="(props.type ?? 'TIC') === 'TIC'">
+      <view class="lk-tabbar__items">
+        <!-- 全局指示器：常驻，依据激活项平移 -->
+        <view class="lk-tabbar__indicator" :style="indicatorStyle" />
+        <slot />
       </view>
-    </view>
+    </template>
+    <template v-else-if="props.type === 'CONCISE'">
+      <view class="lk-tabbar__items lk-tabbar__items--concise">
+        <!-- concise 类型占位，后续可补充具体内容 -->
+        <slot />
+      </view>
+    </template>
+    <template v-else-if="props.type === 'FAB'">
+      <view class="lk-tabbar__items lk-tabbar__items--fab">
+        <!-- FAB 固定在中间的圆形按钮（可通过 named slot 覆盖内容） -->
+        <slot />
+        <view class="lk-tabbar__fab" @click="emit('fab-click')">
+          <slot name="fab">
+            <lk-icon name="plus-lg" size="40" />
+          </slot>
+        </view>
+      </view>
+    </template>
+    <template v-else-if="props.type === 'CAPSULE'">
+      <view class="lk-tabbar__items lk-tabbar__items--capsule">
+        <slot />
+      </view>
+    </template>
+
+    <!-- 占位符，当 fixed 时撑起高度 -->
+    <view
+      v-if="props.fixed"
+      class="lk-tabbar__placeholder"
+      :style="props.safeArea ? 'height: calc(var(--lk-tabbar-placeholder-height,100rpx) + env(safe-area-inset-bottom));' : 'height: var(--lk-tabbar-placeholder-height,100rpx);'"
+    />
   </view>
 </template>
 
 <style scoped lang="scss">
-.lk-tabbar__placeholder { width:100%; flex-shrink:0; }
-
 .lk-tabbar {
-  position: relative;
-  width: 100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  background:transparent;
+  display: flex;
+  background-color: #fefefe;
+  // 以 CSS 变量控制顶部圆角
+  border-top-left-radius: var(--lk-tabbar-top-left-radius, 14rpx);
+  border-top-right-radius: var(--lk-tabbar-top-right-radius, 14rpx);
+  box-sizing: border-box;
+  color: var(--lk-tabbar-inactive-color, #666666);
 
-  &.is-fixed {
-    // #ifdef MP
-    position:fixed;
-    bottom:0;
-    // #endif
-    // #ifdef H5
-    position:fixed;
-    bottom:0;
-    // #endif
-  }
-}
-
-.lk-tabbar__box {
-  position:relative;
-  width:100%;
-  box-sizing:border-box;
-
-  &--variant-flat { box-shadow: 0 -4rpx 12rpx rgba(0,0,0,0.05); }
-  &--variant-elevated { box-shadow: 0 -6rpx 24rpx rgba(0,0,0,0.12); }
-  &--variant-outline { border-top: 2rpx solid var(--lk-color-border-weak); }
-  &--variant-blur { box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.08); }
-  &--variant-pill {
-    padding: 0 16rpx;
-    border: 2rpx solid var(--lk-color-border-weak);
-    border-radius: 999rpx;
-    box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.12);
+  &--top-border {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
   }
 
-  &--shape-pill {
-    width: calc(100% - 24rpx);
-    margin: 0 auto;
-    border-radius: 999rpx;
-    overflow:hidden;
-    box-shadow: inset 0 0 0 2rpx var(--lk-color-border-weak);
-    
-    &.lk-tabbar__box--variant-pill {
-      width: auto;
-      margin: 0;
-      box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.12);
+  &--top-shadow {
+    box-shadow: 0 -8rpx 28rpx rgba(0, 0, 0, 0.08);
+  }
+
+  &--type-TIC {
+    // TIC 类型默认样式
+  }
+  &--type-CONCISE {
+    // concise 类型样式，后续可补充
+  }
+  &--type-FAB {
+    // fab 类型样式，后续可补充
+  }
+  &--type-FROSTED {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1rpx solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6rpx 28rpx rgba(0, 0, 0, 0.12);
+  }
+  &--frosted {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1rpx solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6rpx 28rpx rgba(0, 0, 0, 0.12);
+  }
+
+  &--type-CAPSULE {
+    // 胶囊风格：整体居中、可见四角、距离底部一定距离
+    background: transparent;
+    .lk-tabbar__items--capsule {
+      width: var(--lk-tabbar-capsule-width, 86%);
+      margin: 0 auto;
+      background: var(--lk-tabbar-background, #fff);
+      border-radius: 36rpx;
+      box-shadow: 0 12rpx 36rpx rgba(0,0,0,0.12);
+      padding: 10rpx 24rpx;
+      display: flex;
+      justify-content: space-around;
+      transform: translateY(calc(-1 * var(--lk-tabbar-capsule-offset, 18rpx))); // 悬浮效果
+      position: relative;
+      z-index: 2;
     }
   }
-  &--shape-rounded {
-    border-radius: var(--lk-radius-lg);
-    overflow:hidden;
-    
-    &.lk-tabbar__box--variant-pill {
-      border-radius: 999rpx;
-      overflow: visible;
+
+  .lk-tabbar__items {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    &--concise {
+      // concise 类型样式占位
+    }
+    &--fab {
+      padding-top: 20rpx; // 为悬浮按钮留出一些视觉空间
+    }
+    &--frosted {
+      // 玻璃态类型样式占位
     }
   }
-  &--shape-square { border-radius:0; }
 
-  // 当同时存在 variant-pill 时去掉 shape-pill 带来的内部样式（避免双重阴影/边框）
-  // 当同一元素同时拥有 variant-pill 与 shape-pill 修饰符时（BEM 并列）
-  // 使用显式类连接，避免 Sass 对 & 拼接的限制
-  .lk-tabbar__box--variant-pill.lk-tabbar__box--shape-pill {
-    width: auto;
-    margin: 0;
-    box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.12);
+  .lk-tabbar__placeholder {
+    width: 100%;
+    height: var(--lk-tabbar-placeholder-height, 100rpx);
+    pointer-events: none;
+    display: block;
   }
 
-  .lk-tabbar__underline { position:absolute; bottom:0; left:0; pointer-events:none; }
+  // 全局平移动画指示器（位于所有 item 背后）
+  .lk-tabbar__indicator {
+    position: absolute;
+    top: -50%;
+    width: 110rpx;
+    height: 110rpx;
+    background-color: #eae8ff;
+    border-radius: 50%;
+    margin-top: 6rpx;
+    border: 12rpx solid #141414;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 0;
+    transition: left 0.3s ease;
+
+    // 左侧过渡弧形，随指示器一起移动
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -42rpx;
+      width: 40rpx;
+      height: 40rpx;
+      background: transparent;
+      border-top-right-radius: 40rpx;
+      box-shadow: 2rpx -12rpx 0 0 #141414;
+    }
+
+    // 右侧对称弧形
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -42rpx;
+      width: 40rpx;
+      height: 40rpx;
+      background: transparent;
+      border-top-left-radius: 40rpx;
+      box-shadow: -2rpx -12rpx 0 0 #141414;
+    }
+  }
+
+  // FAB 中间固定按钮
   .lk-tabbar__fab {
-    display:flex; align-items:center; justify-content:center; border-radius:50%;
-    background: var(--lk-color-primary); color: var(--lk-color-text-inverse);
-    box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.25); font-size:40rpx; font-weight:600;
-    transition: box-shadow var(--lk-transition-fast), transform var(--lk-transition-fast);
-    &:active { transform: scale(.94); box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.2); }
-  }
-  .lk-tabbar__fab-text { font-size:40rpx; }
-}
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: var(--lk-tabbar-fab-size, 110rpx);
+    height: var(--lk-tabbar-fab-size, 110rpx);
+    border-radius: 50%;
+    background-color: #eae8ff;
+    border: 12rpx solid #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    color: var(--lk-tabbar-active-color, var(--lk-color-primary));
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.18);
 
-// 暗色主题
-:deep([data-theme='dark']) .lk-tabbar__box {
-  &--variant-outline { border-top-color: var(--lk-color-border); }
-  &--variant-pill {
-    background: var(--lk-color-bg-surface);
-    border: 2rpx solid var(--lk-color-border-weak);
-  }
-  &--shape-pill {
-    background: var(--lk-color-bg-surface);
+    // 左右弧形与 TIC 风格保持一致
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -42rpx;
+      width: 40rpx;
+      height: 40rpx;
+      background: transparent;
+      border-top-right-radius: 40rpx;
+      box-shadow: 2rpx -12rpx 0 0 #141414;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -42rpx;
+      width: 40rpx;
+      height: 40rpx;
+      background: transparent;
+      border-top-left-radius: 40rpx;
+      box-shadow: -2rpx -12rpx 0 0 #141414;
+    }
   }
 }
 </style>
