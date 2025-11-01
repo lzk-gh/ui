@@ -16,37 +16,37 @@
 
     <demo-block title="图标尺寸">
       <view class="demo-row" style="align-items: flex-end;">
-        <lk-icon name="star-fill" size="24" color="var(--lk-color-warning)" />
-        <lk-icon name="star-fill" size="32" color="var(--lk-color-warning)" />
-        <lk-icon name="star-fill" size="40" color="var(--lk-color-warning)" />
-        <lk-icon name="star-fill" size="48" color="var(--lk-color-warning)" />
-        <lk-icon name="star-fill" size="56" color="var(--lk-color-warning)" />
+        <lk-icon name="star" size="24" color="var(--lk-color-warning)" />
+        <lk-icon name="star" size="32" color="var(--lk-color-warning)" />
+        <lk-icon name="star" size="40" color="var(--lk-color-warning)" />
+        <lk-icon name="star" size="48" color="var(--lk-color-warning)" />
+        <lk-icon name="star" size="56" color="var(--lk-color-warning)" />
       </view>
     </demo-block>
 
     <demo-block title="图标颜色">
       <view class="demo-row">
-        <lk-icon name="heart-fill" size="44" color="#ff4757" />
-        <lk-icon name="heart-fill" size="44" color="#5352ed" />
-        <lk-icon name="heart-fill" size="44" color="#2ed573" />
-        <lk-icon name="heart-fill" size="44" color="#ffa502" />
-        <lk-icon name="heart-fill" size="44" color="#747d8c" />
+        <lk-icon name="heart" size="44" color="#ff4757" />
+        <lk-icon name="heart" size="44" color="#5352ed" />
+        <lk-icon name="heart" size="44" color="#2ed573" />
+        <lk-icon name="heart" size="44" color="#ffa502" />
+        <lk-icon name="heart" size="44" color="#747d8c" />
       </view>
     </demo-block>
 
     <demo-block title="图标动画">
       <view class="demo-row">
         <lk-icon name="arrow-clockwise" size="40" class="icon-spin" color="var(--lk-color-primary)" />
-        <lk-icon name="heart-fill" size="40" class="icon-beat" color="#ff4757" />
-        <lk-icon name="star-fill" size="40" class="icon-shake" color="var(--lk-color-warning)" />
-        <lk-icon name="bell-fill" size="40" class="icon-swing" color="var(--lk-color-info)" />
+        <lk-icon name="heart" size="40" class="icon-beat" color="#ff4757" />
+        <lk-icon name="star" size="40" class="icon-shake" color="var(--lk-color-warning)" />
+        <lk-icon name="bell" size="40" class="icon-swing" color="var(--lk-color-info)" />
       </view>
     </demo-block>
 
     <demo-block title="图标与文本">
       <view class="icon-text-group">
         <view class="icon-text-item">
-          <lk-icon name="house-fill" size="32" color="var(--lk-color-primary)" />
+          <lk-icon name="house" size="32" color="var(--lk-color-primary)" />
           <text>首页</text>
         </view>
         <view class="icon-text-item">
@@ -54,11 +54,11 @@
           <text>搜索</text>
         </view>
         <view class="icon-text-item">
-          <lk-icon name="bell-fill" size="32" color="var(--lk-color-primary)" />
+          <lk-icon name="bell" size="32" color="var(--lk-color-primary)" />
           <text>通知</text>
         </view>
         <view class="icon-text-item">
-          <lk-icon name="person-fill" size="32" color="var(--lk-color-primary)" />
+          <lk-icon name="person" size="32" color="var(--lk-color-primary)" />
           <text>我的</text>
         </view>
       </view>
@@ -72,10 +72,10 @@ import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const commonIcons = ref([
-  'house-fill', 'search', 'bell-fill', 'heart-fill',
-  'star-fill', 'gear-fill', 'person-fill', 'chat-dots-fill',
-  'envelope-fill', 'calendar-fill', 'camera-fill', 'image-fill',
-  'file-earmark-fill', 'download', 'upload', 'trash-fill'
+  'house', 'search', 'bell', 'heart',
+  'star', 'gear', 'person', 'chat-dots',
+  'envelope', 'calendar', 'camera', 'image',
+  'file-earmark', 'download', 'upload', 'trash'
 ]);
 
 const copyIcon = (name: string) => {
