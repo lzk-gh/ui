@@ -12,10 +12,6 @@ import { LK_ICONS_TTF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/f
 
 onLaunch(async () => {
   await initLkIconsFont({ source: 'base64', data: LK_ICONS_TTF_BASE64 });
-  // 默认设置主题 data-theme='light'（H5）
-  if (typeof document !== 'undefined') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  }
 });
 </script>
 

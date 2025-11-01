@@ -8,6 +8,8 @@
 page,
 .lk-theme-light,
 [data-theme='light'] {
+    /* 页面背景（与 body 一致，用于业务层引用） */
+    --lk-color-bg-page: #f5f6f7;
     --lk-color-primary: #6965db;
     --lk-color-primary-hover: #554fcf;
     --lk-color-primary-active: #413f8a;
@@ -78,6 +80,8 @@ page,
 /* DARK */
 .lk-theme-dark,
 [data-theme='dark'] {
+    /* 页面背景（与 body 一致，用于业务层引用） */
+    --lk-color-bg-page: #141414;
     --lk-color-primary: #7b75dd;
     --lk-color-primary-hover: #938ee0;
     --lk-color-primary-active: #c1bfe9;

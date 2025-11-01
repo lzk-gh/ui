@@ -30,7 +30,7 @@
         />
         <lk-icon 
           v-if="searchKeyword" 
-          name="x-circle-fill" 
+          name="x-circle" 
           size="32" 
           color="textTertiary"
           @click="searchKeyword = ''"
@@ -54,7 +54,7 @@
             @click="navigateToDetail(comp.name)"
           >
             <view class="card-icon">
-              <lk-icon :name="comp.icon" size="48" :color="category.color" />
+              <lk-icon :name="comp.icon" size="48" />
             </view>
             <text class="card-name">{{ comp.label }}</text>
             <text class="card-desc">{{ comp.desc }}</text>
@@ -86,17 +86,17 @@ const searchKeyword = ref('');
 const categories = [
   {
     name: '基础组件',
-    icon: 'box-seam-fill',
+    icon: 'box-seam',
     color: 'primary',
     components: [
       { name: 'button', label: 'Button', desc: '按钮', icon: 'app-indicator' },
       { name: 'icon', label: 'Icon', desc: '图标', icon: 'emoji-smile' },
-      { name: 'tag', label: 'Tag', desc: '标签', icon: 'tag-fill' },
-      { name: 'badge', label: 'Badge', desc: '徽标', icon: 'bell-fill' },
+      { name: 'tag', label: 'Tag', desc: '标签', icon: 'tag' },
+      { name: 'badge', label: 'Badge', desc: '徽标', icon: 'bell' },
       { name: 'avatar', label: 'Avatar', desc: '头像', icon: 'person-circle' },
       { name: 'divider', label: 'Divider', desc: '分割线', icon: 'hr' },
-      { name: 'notice-bar', label: 'NoticeBar', desc: '通知栏', icon: 'megaphone-fill' },
-      { name: 'image', label: 'Image', desc: '图片', icon: 'image-fill' }
+      { name: 'notice-bar', label: 'NoticeBar', desc: '通知栏', icon: 'megaphone' },
+      { name: 'image', label: 'Image', desc: '图片', icon: 'image' }
     ]
   },
   {
@@ -107,14 +107,14 @@ const categories = [
       { name: 'form', label: 'Form', desc: '表单', icon: 'card-list' },
       { name: 'input', label: 'Input', desc: '输入框', icon: 'input-cursor-text' },
       { name: 'textarea', label: 'Textarea', desc: '文本域', icon: 'textarea-t' },
-      { name: 'select', label: 'Select', desc: '选择器', icon: 'menu-button-wide-fill' },
-      { name: 'radio', label: 'Radio', desc: '单选框', icon: 'record-circle-fill' },
-      { name: 'checkbox', label: 'Checkbox', desc: '复选框', icon: 'check-square-fill' },
+      { name: 'select', label: 'Select', desc: '选择器', icon: 'menu-button-wide' },
+      { name: 'radio', label: 'Radio', desc: '单选框', icon: 'record-circle' },
+      { name: 'checkbox', label: 'Checkbox', desc: '复选框', icon: 'check-square' },
       { name: 'switch', label: 'Switch', desc: '开关', icon: 'toggle-on' },
       { name: 'stepper', label: 'Stepper', desc: '步进器', icon: 'plus-slash-minus' },
       { name: 'slider', label: 'Slider', desc: '滑块', icon: 'sliders' },
-      { name: 'rate', label: 'Rate', desc: '评分', icon: 'star-fill' },
-      { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload-fill' }
+      { name: 'rate', label: 'Rate', desc: '评分', icon: 'star' },
+      { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' }
     ]
   },
   {
@@ -122,7 +122,7 @@ const categories = [
     icon: 'grid-3x3-gap',
     color: 'warning',
     components: [
-      { name: 'card', label: 'Card', desc: '卡片', icon: 'credit-card-2-front-fill' },
+      { name: 'card', label: 'Card', desc: '卡片', icon: 'credit-card-2-front' },
       { name: 'cell', label: 'Cell', desc: '单元格', icon: 'list-ul' },
       { name: 'collapse', label: 'Collapse', desc: '折叠面板', icon: 'arrows-collapse' },
       { name: 'table', label: 'Table', desc: '表格', icon: 'table' },
@@ -132,14 +132,14 @@ const categories = [
       { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
       { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
       { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'border' },
-      { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'collection-play-fill' },
+      { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'collection-play' },
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'segmented-nav' },
       { name: 'pagination', label: 'Pagination', desc: '分页', icon: 'three-dots' }
     ]
   },
   {
     name: '反馈组件',
-    icon: 'chat-square-dots-fill',
+    icon: 'chat-square-dots',
     color: 'danger',
     components: [
       { name: 'modal', label: 'Modal', desc: '对话框', icon: 'window' },
@@ -149,18 +149,18 @@ const categories = [
       { name: 'drawer', label: 'Drawer', desc: '抽屉', icon: 'layout-sidebar' },
       { name: 'overlay', label: 'Overlay', desc: '遮罩', icon: 'bounding-box' },
       { name: 'tooltip', label: 'Tooltip', desc: '气泡提示', icon: 'chat-square-quote' },
-      { name: 'dropdown', label: 'Dropdown', desc: '下拉菜单', icon: 'caret-down-square-fill' }
+      { name: 'dropdown', label: 'Dropdown', desc: '下拉菜单', icon: 'caret-down-square' }
     ]
   },
   {
     name: '导航组件',
-    icon: 'signpost-split-fill',
+    icon: 'signpost-split',
     color: 'info',
     components: [
       { name: 'navbar', label: 'Navbar', desc: '导航栏', icon: 'layout-text-window' },
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
       { name: 'breadcrumb', label: 'Breadcrumb', desc: '面包屑', icon: 'chevron-right' },
-      { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle-fill' }
+      { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' }
     ]
   },
   {
@@ -302,7 +302,7 @@ const navigateToDetail = (componentName: string) => {
 .category-count {
   font-size: 24rpx;
   color: var(--lk-color-text-secondary);
-  background: var(--lk-color-fill);
+  background: var(--lk-color);
   padding: 4rpx 16rpx;
   border-radius: 999rpx;
 }
@@ -337,8 +337,6 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--card-color, var(--lk-color-primary));
-  opacity: 0.1;
   border-radius: var(--lk-radius-md);
   margin-bottom: 8rpx;
 }
