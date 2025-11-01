@@ -49,7 +49,7 @@ function onClick(){
 .lk-cell {
   display:flex;
   align-items:flex-start;
-  padding: 28rpx 32rpx;
+  padding: 28rpx 0;
   background: var(--lk-color-bg-surface);
   font-size: 28rpx;
   position: relative;
