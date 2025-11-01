@@ -8,33 +8,51 @@
       <lk-loading text="加载中..." />
     </demo-block>
 
-    <demo-block title="不同类型">
-      <view class="loading-row">
-        <lk-loading type="spinner" />
-        <lk-loading type="circular" />
-        <lk-loading type="dots" />
-      </view>
-    </demo-block>
-
     <demo-block title="不同尺寸">
       <view class="loading-row">
-        <lk-loading size="small" />
+        <lk-loading size="60" />
         <lk-loading />
-        <lk-loading size="large" />
+        <lk-loading size="30" />
       </view>
     </demo-block>
 
     <demo-block title="自定义颜色">
       <view class="loading-row">
-        <lk-loading color="primary" />
-        <lk-loading color="success" />
-        <lk-loading color="warning" />
-        <lk-loading color="danger" />
+        <lk-loading color="#f00" />
+        <lk-loading color="#0f0" />
+        <lk-loading color="#00f" />
+        <lk-loading color="#000" />
       </view>
     </demo-block>
 
-    <demo-block title="垂直排列">
-      <lk-loading vertical text="加载中..." />
+    <demo-block title="弹跳样式">
+      <view class="loading-row">
+        <lk-loading type="bounce" text="弹跳加载" />
+      </view>
+    </demo-block>
+
+    <demo-block title="波浪样式">
+      <view class="loading-row">
+        <lk-loading type="wave" text="波浪加载" />
+      </view>
+    </demo-block>
+
+    <demo-block title="环形样式">
+      <view class="loading-row">
+        <lk-loading type="ring" text="环形加载" />
+      </view>
+    </demo-block>
+
+    <demo-block title="省略号样式">
+      <view class="loading-row">
+        <lk-loading type="ellipsis" text="省略号加载" />
+      </view>
+    </demo-block>
+
+    <demo-block title="文字闪光样式">
+      <view class="loading-row">
+        <lk-loading type="text" text="Loading..." />
+      </view>
     </demo-block>
   </view>
 </template>
