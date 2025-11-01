@@ -73,20 +73,6 @@
       </view>
     </demo-block>
 
-    <demo-block title="按钮组">
-      <view class="button-group">
-        <lk-button shape="square">
-          <lk-icon name="chevron-left" />
-        </lk-button>
-        <lk-button shape="square">1</lk-button>
-        <lk-button shape="square">2</lk-button>
-        <lk-button shape="square">3</lk-button>
-        <lk-button shape="square">
-          <lk-icon name="chevron-right" />
-        </lk-button>
-      </view>
-    </demo-block>
-
     <demo-block title="渐变按钮">
       <view class="demo-row">
         <lk-button class="gradient-btn gradient-purple">紫色</lk-button>
