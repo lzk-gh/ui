@@ -36,7 +36,10 @@
     "icons:prepare": "node src/uni_modules/lucky-ui/scripts/prepare-mobile-icons.js",
     "icons:build": "node src/uni_modules/lucky-ui/scripts/build-icons.svgtofont.js",
     "icons:base64": "node src/uni_modules/lucky-ui/scripts/gen-font-base64.js",
-    "icons:all": "pnpm run icons:prepare && pnpm run icons:build"
+    "icons:all": "pnpm run icons:prepare && pnpm run icons:build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-4030620241128001",
@@ -70,6 +73,7 @@
     "svgtofont": "^6.4.0",
     "typescript": "^4.9.4",
     "vite": "5.2.8",
+    "vitepress": "^1.5.0",
     "vue-tsc": "^1.0.24"
   }
 }
