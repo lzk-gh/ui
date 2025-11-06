@@ -28,6 +28,8 @@
           <DividerDemo v-else-if="componentName==='divider'" />
           <NoticeBarDemo v-else-if="componentName==='notice-bar'" />
           <ImageDemo v-else-if="componentName==='image'" />
+          <GridDemo v-else-if="componentName==='grid'" />
+          <SpaceDemo v-else-if="componentName==='space'" />
 
           <FormDemo v-else-if="componentName==='form'" />
           <InputDemo v-else-if="componentName==='input'" />
@@ -40,6 +42,13 @@
           <SliderDemo v-else-if="componentName==='slider'" />
           <RateDemo v-else-if="componentName==='rate'" />
           <UploadDemo v-else-if="componentName==='upload'" />
+          <PickerDemo v-else-if="componentName==='picker'" />
+          <PickerViewDemo v-else-if="componentName==='picker-view'" />
+          <AreaPickerDemo v-else-if="componentName==='area-picker'" />
+          <NumberKeyboardDemo v-else-if="componentName==='number-keyboard'" />
+          <VerifyCodeDemo v-else-if="componentName==='verify-code'" />
+          <ColorPickerDemo v-else-if="componentName==='color-picker'" />
+          <SignatureDemo v-else-if="componentName==='signature'" />
 
           <CardDemo v-else-if="componentName==='card'" />
           <CellDemo v-else-if="componentName==='cell'" />
@@ -68,6 +77,9 @@
           <NavbarDemo v-else-if="componentName==='navbar'" />
           <TabbarDemo v-else-if="componentName==='tabbar'" />
           <BreadcrumbDemo v-else-if="componentName==='breadcrumb'" />
+          <IndexBarDemo v-else-if="componentName==='index-bar'" />
+          <AnchorDemo v-else-if="componentName==='anchor'" />
+          <StickyDemo v-else-if="componentName==='sticky'" />
 
           <CalendarDemo v-else-if="componentName==='calendar'" />
           <DatePickerDemo v-else-if="componentName==='date-picker'" />
@@ -76,6 +88,7 @@
           <TreeDemo v-else-if="componentName==='tree'" />
           <VirtualListDemo v-else-if="componentName==='virtual-list'" />
           <WaterfallDemo v-else-if="componentName==='waterfall'" />
+          <ImageCropperDemo v-else-if="componentName==='image-cropper'" />
 
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
@@ -121,6 +134,8 @@ const componentMap: Record<string, any> = {
   'divider': { title: 'Divider 分割线', desc: '区隔内容的分割线', icon: 'dash-lg', color: 'textSecondary' },
   'notice-bar': { title: 'NoticeBar 通知栏', desc: '用于展示通知消息', icon: 'megaphone-fill', color: 'warning' },
   'image': { title: 'Image 图片', desc: '增强的图片展示组件', icon: 'image-fill', color: 'success' },
+  'grid': { title: 'Grid 栅格', desc: '24 栅格布局系统', icon: 'grid-3x3-gap', color: 'primary' },
+  'space': { title: 'Space 间距', desc: '设置组件之间的间距', icon: 'arrows-expand', color: 'primary' },
   
   // 表单组件
   'form': { title: 'Form 表单', desc: '表单容器与验证', icon: 'ui-checks', color: 'primary' },
@@ -134,6 +149,13 @@ const componentMap: Record<string, any> = {
   'slider': { title: 'Slider 滑块', desc: '滑动选择组件', icon: 'sliders', color: 'warning' },
   'rate': { title: 'Rate 评分', desc: '星级评分组件', icon: 'star-fill', color: 'warning' },
   'upload': { title: 'Upload 上传', desc: '文件上传组件', icon: 'cloud-upload-fill', color: 'info' },
+  'picker': { title: 'Picker 选择器', desc: '弹出选择器', icon: 'menu-button-wide', color: 'success' },
+  'picker-view': { title: 'PickerView 选择器视图', desc: '内联滚动选择视图', icon: 'columns', color: 'success' },
+  'area-picker': { title: 'AreaPicker 地区选择', desc: '省市区三级联动选择', icon: 'geo-alt', color: 'success' },
+  'number-keyboard': { title: 'NumberKeyboard 数字键盘', desc: '用于数字输入的虚拟键盘', icon: '123', color: 'warning' },
+  'verify-code': { title: 'VerifyCode 验证码', desc: '短信/验证码输入', icon: 'shield-lock', color: 'warning' },
+  'color-picker': { title: 'ColorPicker 取色器', desc: '支持 HSV/RGB/HEX', icon: 'palette', color: 'info' },
+  'signature': { title: 'Signature 手写签名', desc: 'Canvas 手写与导出', icon: 'pen', color: 'info' },
   
   // 数据展示组件
   'card': { title: 'Card 卡片', desc: '通用卡片容器', icon: 'card-text', color: 'primary' },
@@ -165,6 +187,9 @@ const componentMap: Record<string, any> = {
   'tabbar': { title: 'Tabbar 标签栏', desc: '底部标签栏组件', icon: 'menu-button-wide', color: 'success' },
   'breadcrumb': { title: 'Breadcrumb 面包屑', desc: '导航路径组件', icon: 'chevron-right', color: 'warning' },
   'backtop': { title: 'Backtop 回到顶部', desc: '快速返回页面顶部的悬浮按钮', icon: 'arrow-up-circle', color: 'primary' },
+  'index-bar': { title: 'IndexBar 索引栏', desc: '字母索引快速定位', icon: 'sort-alpha-down', color: 'primary' },
+  'anchor': { title: 'Anchor 锚点', desc: '页面锚点与激活', icon: 'hash', color: 'primary' },
+  'sticky': { title: 'Sticky 粘性布局', desc: '基于位置的吸附布局', icon: 'pin-angle', color: 'primary' },
   
   // 高级组件
   'calendar': { title: 'Calendar 日历', desc: '日历选择组件', icon: 'calendar3', color: 'primary' },
@@ -174,6 +199,7 @@ const componentMap: Record<string, any> = {
   'tree': { title: 'Tree 树形控件', desc: '树形结构组件', icon: 'diagram-3-fill', color: 'success' },
   'virtual-list': { title: 'VirtualList 虚拟列表', desc: '长列表优化组件', icon: 'list-nested', color: 'primary' },
   'waterfall': { title: 'Waterfall 瀑布流', desc: '多列不规则流布局', icon: 'grid-3x2-gap', color: 'primary' },
+  'image-cropper': { title: 'ImageCropper 图片裁剪', desc: '基于 Canvas 的裁剪', icon: 'crop', color: 'danger' },
 };
 
 // 当前组件名称
@@ -208,6 +234,8 @@ import AvatarDemo from '@/components/demos/avatar-demo.vue';
 import DividerDemo from '@/components/demos/divider-demo.vue';
 import NoticeBarDemo from '@/components/demos/notice-bar-demo.vue';
 import ImageDemo from '@/components/demos/image-demo.vue';
+import GridDemo from '@/components/demos/grid-demo.vue';
+import SpaceDemo from '@/components/demos/space-demo.vue';
 
 // 表单组件
 import FormDemo from '@/components/demos/form-demo.vue';
@@ -221,6 +249,13 @@ import StepperDemo from '@/components/demos/stepper-demo.vue';
 import SliderDemo from '@/components/demos/slider-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
+import PickerDemo from '@/components/demos/picker-demo.vue';
+import PickerViewDemo from '@/components/demos/picker-view-demo.vue';
+import AreaPickerDemo from '@/components/demos/area-picker-demo.vue';
+import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
+import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
+import ColorPickerDemo from '@/components/demos/color-picker-demo.vue';
+import SignatureDemo from '@/components/demos/signature-demo.vue';
 
 // 数据展示组件
 import CardDemo from '@/components/demos/card-demo.vue';
@@ -252,6 +287,9 @@ import DropdownDemo from '@/components/demos/dropdown-demo.vue';
 import NavbarDemo from '@/components/demos/navbar-demo.vue';
 import TabbarDemo from '@/components/demos/tabbar-demo.vue';
 import BreadcrumbDemo from '@/components/demos/breadcrumb-demo.vue';
+import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
+import AnchorDemo from '@/components/demos/anchor-demo.vue';
+import StickyDemo from '@/components/demos/sticky-demo.vue';
 
 // 高级组件
 import CalendarDemo from '@/components/demos/calendar-demo.vue';
@@ -261,6 +299,7 @@ import CascaderDemo from '@/components/demos/cascader-demo.vue';
 import TreeDemo from '@/components/demos/tree-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
+import ImageCropperDemo from '@/components/demos/image-cropper-demo.vue';
 
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
@@ -273,6 +312,8 @@ const demoComponentMap: Record<string, any> = {
   'divider': DividerDemo,
   'notice-bar': NoticeBarDemo,
   'image': ImageDemo,
+  'grid': GridDemo,
+  'space': SpaceDemo,
   
   // 表单组件
   'form': FormDemo,
@@ -286,6 +327,13 @@ const demoComponentMap: Record<string, any> = {
   'slider': SliderDemo,
   'rate': RateDemo,
   'upload': UploadDemo,
+  'picker': PickerDemo,
+  'picker-view': PickerViewDemo,
+  'area-picker': AreaPickerDemo,
+  'number-keyboard': NumberKeyboardDemo,
+  'verify-code': VerifyCodeDemo,
+  'color-picker': ColorPickerDemo,
+  'signature': SignatureDemo,
   
   // 数据展示组件
   'card': CardDemo,
@@ -317,6 +365,9 @@ const demoComponentMap: Record<string, any> = {
   'navbar': NavbarDemo,
   'tabbar': TabbarDemo,
   'breadcrumb': BreadcrumbDemo,
+  'index-bar': IndexBarDemo,
+  'anchor': AnchorDemo,
+  'sticky': StickyDemo,
   
   // 高级组件
   'calendar': CalendarDemo,
@@ -326,6 +377,7 @@ const demoComponentMap: Record<string, any> = {
   'tree': TreeDemo,
   'virtual-list': VirtualListDemo,
   'waterfall': WaterfallDemo,
+  'image-cropper': ImageCropperDemo,
 };
 
 // 加载对应的演示组件

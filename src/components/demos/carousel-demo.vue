@@ -94,6 +94,17 @@
       />
     </demo-block>
 
+    <demo-block title="指示器外部显示（不覆盖内容）">
+      <lk-carousel
+        :carouselList="carouselList"
+        v-model:current="curOverlay"
+        indicator-type="dots"
+        :indicator-overlay="false"
+        @click="handleClick"
+        @change="onChange"
+      />
+    </demo-block>
+
     <demo-block title="自适应内容高度（autoHeight，自定义内容）">
       <lk-carousel
         :carouselList="autoContentSlides"
@@ -158,6 +169,7 @@ const curVertical = ref(0)
 const curCard = ref(0)
 const curPeek = ref(0)
 const curAnimDot = ref(0)
+const curOverlay = ref(0)
 const curAutoHeight = ref(0)
 
 const handleClick = (item: any, index: number) => {

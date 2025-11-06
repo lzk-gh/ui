@@ -4,12 +4,12 @@
       <!-- 统计卡片 -->
       <view class="stats-card">
         <view class="stats-item">
-          <text class="stats-number">53</text>
+          <text class="stats-number">{{ totalComponents }}</text>
           <text class="stats-label">组件总数</text>
         </view>
         <view class="stats-divider"></view>
         <view class="stats-item">
-          <text class="stats-number">7</text>
+          <text class="stats-number">{{ categoryCount }}</text>
           <text class="stats-label">分类</text>
         </view>
         <view class="stats-divider"></view>
@@ -96,7 +96,9 @@ const categories = [
       { name: 'avatar', label: 'Avatar', desc: '头像', icon: 'house' },
       { name: 'divider', label: 'Divider', desc: '分割线', icon: 'house' },
       { name: 'notice-bar', label: 'NoticeBar', desc: '通知栏', icon: 'house' },
-      { name: 'image', label: 'Image', desc: '图片', icon: 'image' }
+      { name: 'image', label: 'Image', desc: '图片', icon: 'image' },
+      { name: 'grid', label: 'Grid', desc: '栅格布局', icon: 'grid-3x3-gap' },
+      { name: 'space', label: 'Space', desc: '元素间距', icon: 'arrows-expand' }
     ]
   },
   {
@@ -114,7 +116,14 @@ const categories = [
       { name: 'stepper', label: 'Stepper', desc: '步进器', icon: 'plus-slash-minus' },
       { name: 'slider', label: 'Slider', desc: '滑块', icon: 'sliders' },
       { name: 'rate', label: 'Rate', desc: '评分', icon: 'star' },
-      { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' }
+      { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' },
+      { name: 'picker', label: 'Picker', desc: '选择器', icon: 'menu-button-wide' },
+      { name: 'picker-view', label: 'PickerView', desc: '内联选择器', icon: 'columns' },
+      { name: 'area-picker', label: 'AreaPicker', desc: '地区选择', icon: 'geo-alt' },
+      { name: 'number-keyboard', label: 'NumberKeyboard', desc: '数字键盘', icon: '123' },
+      { name: 'verify-code', label: 'VerifyCode', desc: '验证码', icon: 'shield-lock' },
+      { name: 'color-picker', label: 'ColorPicker', desc: '取色器', icon: 'palette' },
+      { name: 'signature', label: 'Signature', desc: '手写签名', icon: 'pen' }
     ]
   },
   {
@@ -160,7 +169,10 @@ const categories = [
       { name: 'navbar', label: 'Navbar', desc: '导航栏', icon: 'layout-text-window' },
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
       { name: 'breadcrumb', label: 'Breadcrumb', desc: '面包屑', icon: 'chevron-right' },
-      { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' }
+      { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' },
+      { name: 'index-bar', label: 'IndexBar', desc: '字母索引', icon: 'sort-alpha-down' },
+      { name: 'anchor', label: 'Anchor', desc: '页面锚点', icon: 'hash' },
+      { name: 'sticky', label: 'Sticky', desc: '粘性布局', icon: 'pin-angle' }
     ]
   },
   {
@@ -176,7 +188,8 @@ const categories = [
       { name: 'cascader', label: 'Cascader', desc: '级联选择', icon: 'house' },
       { name: 'tree', label: 'Tree', desc: '树形控件', icon: 'house' },
       { name: 'virtual-list', label: 'VirtualList', desc: '虚拟列表', icon: 'list-columns' },
-      { name: 'waterfall', label: 'Waterfall', desc: '瀑布流', icon: 'grid-3x2' }
+      { name: 'waterfall', label: 'Waterfall', desc: '瀑布流', icon: 'grid-3x2' },
+      { name: 'image-cropper', label: 'ImageCropper', desc: '图片裁剪', icon: 'crop' }
     ]
   }
 ];
@@ -200,6 +213,12 @@ const filteredCategories = computed(() => {
     }))
     .filter(cat => cat.components.length > 0);
 });
+
+// 统计数据
+const totalComponents = computed(() =>
+  categories.reduce((sum, cat) => sum + cat.components.length, 0)
+);
+const categoryCount = computed(() => categories.length);
 
 // 跳转到详情页
 const navigateToDetail = (componentName: string) => {

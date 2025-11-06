@@ -37,7 +37,7 @@
     </view>
 
     <!-- 底部 Tabbar -->
-    <lk-tabbar v-model="activeTab">
+    <lk-tabbar v-model="activeTab" type="CONCISE">
       <lk-tabbar-item name="组件总览" icon="grid" value="overview" />
       <lk-tabbar-item name="基础组件" icon="box" value="basic" />
       <lk-tabbar-item name="表单组件" icon="box" value="form" />

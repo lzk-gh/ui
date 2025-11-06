@@ -37,7 +37,7 @@
     "icons:build": "node src/uni_modules/lucky-ui/scripts/build-icons.svgtofont.js",
     "icons:base64": "node src/uni_modules/lucky-ui/scripts/gen-font-base64.js",
     "icons:all": "pnpm run icons:prepare && pnpm run icons:build",
-    "docs:dev": "vitepress dev docs",
+    "docs:dev": "vitepress dev docs --port 4173",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },

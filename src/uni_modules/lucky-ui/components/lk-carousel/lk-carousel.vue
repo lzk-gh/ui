@@ -14,7 +14,7 @@ interface Props {
   // 新增：是否显示指示器
   showIndicators?: boolean;
   // 新增：指示器类型：点状/条状/数字
-  indicatorType?: 'dots' | 'bars' | 'number';
+  indicatorType?: 'dots' | 'bars' | 'number' | 'none';
   // 新增：指示器位置；auto 会在 vertical=true 时放到 right，否则 bottom
   indicatorPosition?: 'top' | 'bottom' | 'left' | 'right' | 'auto';
   // 新增：指示器对齐：居中/开始/结束
@@ -41,6 +41,10 @@ interface Props {
   autoHeight?: boolean;
   // 新增：固定高度（autoHeight=false 时生效）
   height?: string | number;
+  // 新增：指示器是否覆盖在内容上方（默认 true）。false 时指示器会渲染在轮播外部，不覆盖内容
+  indicatorOverlay?: boolean;
+  // 新增：是否启用循环（loop）。默认 true
+  loop?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -69,6 +73,8 @@ const props = withDefaults(defineProps<Props>(), {
   indicatorAnimated: true,
   autoHeight: false,
   height: '400rpx',
+  indicatorOverlay: true,
+  loop: true,
 });
 
 const emit = defineEmits<{
@@ -84,13 +90,17 @@ const length = computed(() => props.carouselList?.length || 0);
 const slots = useSlots();
 const hasDefaultSlot = computed(() => !!slots.default);
 const autoplayEnabled = computed(() => props.autoPlay && length.value > 1);
-const circular = computed(() => length.value > 1);
+// 是否启用循环：受用户配置 loop 控制，同时必须有多张图片
+const circular = computed(() => !!props.loop && length.value > 1);
 const resolvedIndicatorPosition = computed(() => {
   if (props.indicatorPosition && props.indicatorPosition !== 'auto') return props.indicatorPosition;
   return props.vertical ? 'right' : 'bottom';
 });
 const indicatorVertical = computed(() => ['left', 'right'].includes(resolvedIndicatorPosition.value));
-const showIndicators = computed(() => props.showIndicators && length.value > 1);
+// 是否展示指示器：支持 indicatorType='none' 直接不展示
+const showIndicators = computed(() => props.showIndicators && props.indicatorType !== 'none' && length.value > 1);
+// 是否为非覆盖（外部）指示器
+const indicatorOutside = computed(() => !props.indicatorOverlay && showIndicators.value);
 
 // 统一处理 previous/next margin：卡片优先，其次 peek
 const previousMargin = computed(() => {
@@ -106,10 +116,39 @@ const nextMargin = computed(() => {
 
 // 自适应高度支持
 const currentHeight = ref<number>(0);
+// 外部指示器实际像素高度（仅在 indicatorOverlay=false 时生效）
+const indicatorHeightPx = ref<number>(0);
 const instance = getCurrentInstance();
 const heightProp = computed(() => typeof props.height === 'number' ? `${props.height}px` : props.height);
-const outerStyle = computed(() => props.autoHeight ? { height: `${Math.max(0, currentHeight.value)}px` } : { height: heightProp.value });
-const swiperStyle = outerStyle; // swiper 与容器保持同高
+
+// 不同类型指示器的预估占位（rpx，用于固定高时 CSS calc）
+const indicatorSpaceRpx = computed(() => {
+  if (!indicatorOutside.value) return '0rpx';
+  const type = props.indicatorType;
+  if (type === 'number') return '40rpx';
+  if (type === 'bars') return '28rpx';
+  return '32rpx'; // dots 默认
+});
+
+// 外层容器样式：autoHeight 时包含内容高度 + 指示器像素高度；固定高保持传入高度
+const outerStyle = computed(() => {
+  if (props.autoHeight) {
+    const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
+    return { height: `${Math.max(0, total)}px` };
+  }
+  return { height: heightProp.value, '--lk-indicator-space': indicatorSpaceRpx.value } as any;
+});
+
+// swiper 样式：autoHeight 使用内容像素高；固定高用 calc(100% - 指示器占位)
+const swiperStyle = computed(() => {
+  if (props.autoHeight) {
+    return { height: `${Math.max(0, currentHeight.value)}px` };
+  }
+  if (indicatorOutside.value) {
+    return { height: 'calc(100% - var(--lk-indicator-space))' } as any;
+  }
+  return { height: '100%' };
+});
 
 function measureActiveHeight() {
   if (!props.autoHeight) return;
@@ -133,6 +172,21 @@ function measureActiveHeight() {
   });
 }
 
+function measureIndicatorHeight() {
+  if (!props.autoHeight || !indicatorOutside.value) {
+    indicatorHeightPx.value = 0;
+    return;
+  }
+  nextTick(() => {
+    const q = uni.createSelectorQuery().in(instance as any);
+    q.select('#lk-indicators-outside').boundingClientRect((rect) => {
+      const r: any = rect as any;
+      const h = Array.isArray(r) ? (r[0]?.height || 0) : (r?.height || 0);
+      indicatorHeightPx.value = h || 0;
+    }).exec();
+  });
+}
+
 // v-model 同步（外 -> 内）
 watch(
   () => props.current,
@@ -142,6 +196,7 @@ watch(
     const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
     innerCurrent.value = clamped;
     measureActiveHeight();
+    measureIndicatorHeight();
   }
 );
 
@@ -152,12 +207,14 @@ watch(
     if (n <= 0) {
       innerCurrent.value = 0;
       currentHeight.value = 0;
+      indicatorHeightPx.value = 0;
       return;
     }
     if (innerCurrent.value > n - 1) {
       innerCurrent.value = n - 1;
     }
     measureActiveHeight();
+    measureIndicatorHeight();
   }
 );
 
@@ -171,6 +228,7 @@ function onSwiperChange(e: any) {
   const idx = e?.detail?.current ?? 0;
   updateActive(idx);
   measureActiveHeight();
+  measureIndicatorHeight();
 }
 
 function onItemClick(index: number) {
@@ -185,10 +243,12 @@ function setActive(index: number) {
   const clamped = Math.max(0, Math.min(index, n - 1));
   updateActive(clamped);
   measureActiveHeight();
+  measureIndicatorHeight();
 }
 
 onMounted(() => {
   measureActiveHeight();
+  measureIndicatorHeight();
 });
 </script>
 
@@ -231,44 +291,88 @@ onMounted(() => {
       </swiper-item>
     </swiper>
 
-    <!-- 指示器：数字类型 -->
-    <view
-      v-if="showIndicators && indicatorType === 'number'"
-      class="lk-indicators number"
-      :class="[
-        `pos-${resolvedIndicatorPosition}`,
-        `align-${indicatorAlign}`,
-        { vertical: indicatorVertical },
-      ]"
-    >
-      <view class="lk-indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
-    </view>
-
-    <!-- 指示器：点状或条状 -->
-    <view
-      v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
-      class="lk-indicators"
-      :class="[
-        `pos-${resolvedIndicatorPosition}`,
-        `align-${indicatorAlign}`,
-        { vertical: indicatorVertical, bars: indicatorType === 'bars', animated: indicatorAnimated },
-      ]"
-    >
+    <template v-if="props.indicatorOverlay">
+      <!-- 指示器：数字类型 -->
       <view
-        v-for="(_, index) in carouselList"
-        :key="index"
-        class="lk-indicator"
-        :class="{
-          active: index === innerCurrent,
-          dot: indicatorType === 'dots',
-          bar: indicatorType === 'bars',
-        }"
-        :style="{
-          backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
-        }"
-        @click="indicatorClickable ? setActive(index) : undefined"
-      ></view>
-    </view>
+        v-if="showIndicators && indicatorType === 'number'"
+        class="lk-indicators number"
+        :class="[
+          `pos-${resolvedIndicatorPosition}`,
+          `align-${indicatorAlign}`,
+          { vertical: indicatorVertical },
+        ]"
+      >
+        <view class="lk-indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
+      </view>
+
+      <!-- 指示器：点状或条状 -->
+      <view
+        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
+        class="lk-indicators"
+        :class="[
+          `pos-${resolvedIndicatorPosition}`,
+          `align-${indicatorAlign}`,
+          { vertical: indicatorVertical, bars: indicatorType === 'bars', animated: indicatorAnimated },
+        ]"
+      >
+        <view
+          v-for="(_, index) in carouselList"
+          :key="index"
+          class="lk-indicator"
+          :class="{
+            active: index === innerCurrent,
+            dot: indicatorType === 'dots',
+            bar: indicatorType === 'bars',
+          }"
+          :style="{
+            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
+          }"
+          @click="indicatorClickable ? setActive(index) : undefined"
+        ></view>
+      </view>
+    </template>
+    <template v-if="!props.indicatorOverlay">
+      <!-- 指示器：数字类型 -->
+      <view
+        v-if="showIndicators && indicatorType === 'number'"
+        class="lk-indicators outside number"
+        id="lk-indicators-outside"
+        :class="[
+          `pos-${resolvedIndicatorPosition}`,
+          `align-${indicatorAlign}`,
+          { vertical: indicatorVertical },
+        ]"
+      >
+        <view class="lk-indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
+      </view>
+
+      <!-- 指示器：点状或条状 -->
+      <view
+        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
+        class="lk-indicators outside"
+        id="lk-indicators-outside"
+        :class="[
+          `pos-${resolvedIndicatorPosition}`,
+          `align-${indicatorAlign}`,
+          { vertical: indicatorVertical, bars: indicatorType === 'bars', animated: indicatorAnimated },
+        ]"
+      >
+        <view
+          v-for="(_, index) in carouselList"
+          :key="index"
+          class="lk-indicator"
+          :class="{
+            active: index === innerCurrent,
+            dot: indicatorType === 'dots',
+            bar: indicatorType === 'bars',
+          }"
+          :style="{
+            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
+          }"
+          @click="indicatorClickable ? setActive(index) : undefined"
+        ></view>
+      </view>
+    </template>
   </view>
 </template>
 
@@ -277,7 +381,6 @@ onMounted(() => {
   position: relative;
   width: 100%;
   height: 400rpx;
-  overflow: hidden;
 
   .lk-swiper {
     width: 100%;
@@ -380,6 +483,21 @@ onMounted(() => {
       font-size: 24rpx;
       line-height: 1;
     }
+  }
+
+  /* outside 模式（指示器不覆盖内容） */
+  .lk-indicators.outside {
+    position: static;
+    margin-top: 12rpx;
+    left: auto;
+    right: auto;
+    transform: none;
+    justify-content: center;
+  }
+  .lk-indicators.outside.pos-bottom,
+  .lk-indicators.outside.pos-top {
+    left: auto;
+    transform: none;
   }
 }
 

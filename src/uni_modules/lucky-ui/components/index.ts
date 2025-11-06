@@ -80,3 +80,32 @@ export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
 export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
 export { default as LkTable } from './lk-table/lk-table.vue';
 export { default as LkBacktop } from './lk-backtop/lk-backtop.vue';
+
+// New: Grid
+export { default as LkRow } from './lk-grid/lk-row.vue';
+export { default as LkCol } from './lk-grid/lk-col.vue';
+// New: Sticky
+export { default as LkSticky } from './lk-sticky/lk-sticky.vue';
+// New: Picker & PickerView
+export { default as LkPicker } from './lk-picker/lk-picker.vue';
+export { default as LkPickerView } from './lk-picker-view/lk-picker-view.vue';
+// New: Space
+export { default as LkSpace } from './lk-space/lk-space.vue';
+// New: IndexBar
+export { default as LkIndexBar } from './lk-index-bar/lk-index-bar.vue';
+export { default as LkIndexAnchor } from './lk-index-bar/lk-index-anchor.vue';
+// New: Anchor
+export { default as LkAnchor } from './lk-anchor/lk-anchor.vue';
+export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';
+// New: NumberKeyboard
+export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue';
+// New: VerifyCode
+export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
+// New: ImageCropper
+export { default as LkImageCropper } from './lk-image-cropper/lk-image-cropper.vue';
+// New: AreaPicker
+export { default as LkAreaPicker } from './lk-area-picker/lk-area-picker.vue';
+// New: Signature
+export { default as LkSignature } from './lk-signature/lk-signature.vue';
+// New: ColorPicker
+export { default as LkColorPicker } from './lk-color-picker/lk-color-picker.vue';

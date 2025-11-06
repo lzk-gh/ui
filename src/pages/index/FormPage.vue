@@ -4,7 +4,7 @@
     <view class="page-header">
       <lk-icon name="ui-checks-grid" size="80" color="#fff" />
       <text class="header-title">表单组件</text>
-      <text class="header-desc">11 个常用表单组件</text>
+  <text class="header-desc">18 个常用表单组件</text>
     </view>
 
     <!-- 组件列表 -->
@@ -49,7 +49,14 @@ const components = [
   { name: 'stepper', title: 'Stepper 步进器', desc: '数字增减操作', icon: 'plus-slash-minus' },
   { name: 'slider', title: 'Slider 滑块', desc: '滑动选择数值', icon: 'sliders' },
   { name: 'rate', title: 'Rate 评分', desc: '用于评分操作', icon: 'star-fill' },
-  { name: 'upload', title: 'Upload 上传', desc: '文件上传组件', icon: 'cloud-upload-fill' }
+  { name: 'upload', title: 'Upload 上传', desc: '文件上传组件', icon: 'cloud-upload-fill' },
+  { name: 'picker', title: 'Picker 选择器', desc: '弹出选择器', icon: 'menu-button-wide' },
+  { name: 'picker-view', title: 'PickerView 选择器视图', desc: '内联滚动选择', icon: 'columns' },
+  { name: 'area-picker', title: 'AreaPicker 地区选择', desc: '省市区三级联动', icon: 'geo-alt' },
+  { name: 'number-keyboard', title: 'NumberKeyboard 数字键盘', desc: '用于数字输入的键盘', icon: '123' },
+  { name: 'verify-code', title: 'VerifyCode 验证码', desc: '短信/验证码输入', icon: 'shield-lock' },
+  { name: 'color-picker', title: 'ColorPicker 取色器', desc: '支持 HSV/RGB/HEX', icon: 'palette' },
+  { name: 'signature', title: 'Signature 手写签名', desc: 'Canvas 手写与导出', icon: 'pen' }
 ];
 
 const navigateToDetail = (componentName: string) => {
