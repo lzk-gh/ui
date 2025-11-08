@@ -142,11 +142,7 @@ function click() {
             transition: enableTransition ? 'transform 0.3s ease-in-out' : 'none',
           }"
         >
-          <view
-            v-for="(msg, index) in verticalList"
-            :key="index"
-            class="lk-notice-bar__message"
-          >
+          <view v-for="(msg, index) in verticalList" :key="index" class="lk-notice-bar__message">
             {{ msg }}
           </view>
         </view>

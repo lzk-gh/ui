@@ -37,12 +37,7 @@ const show = computed(() => props.modelValue);
 </script>
 
 <template>
-  <lk-overlay
-    :show="show"
-    :z-index="zIndex"
-    @update:show="close"
-    @click="onOverlayClick"
-  />
+  <lk-overlay :show="show" :z-index="zIndex" @update:show="close" @click="onOverlayClick" />
   <view class="lk-modal" :style="{ zIndex: zIndex + 1, width }">
     <view
       class="lk-modal__header"

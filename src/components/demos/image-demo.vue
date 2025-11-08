@@ -2,11 +2,7 @@
   <view class="component-demo">
     <demo-block title="基础用法">
       <view class="demo-row">
-        <lk-image
-          src="https://picsum.photos/200/200?random=1"
-          width="200rpx"
-          height="200rpx"
-        />
+        <lk-image src="https://picsum.photos/200/200?random=1" width="200rpx" height="200rpx" />
         <lk-image
           src="https://picsum.photos/200/200?random=2"
           width="200rpx"
@@ -25,11 +21,7 @@
     <demo-block title="图片形状">
       <view class="demo-row">
         <view class="image-demo-item">
-          <lk-image
-            src="https://picsum.photos/200/200?random=4"
-            width="160rpx"
-            height="160rpx"
-          />
+          <lk-image src="https://picsum.photos/200/200?random=4" width="160rpx" height="160rpx" />
           <text>默认</text>
         </view>
         <view class="image-demo-item">

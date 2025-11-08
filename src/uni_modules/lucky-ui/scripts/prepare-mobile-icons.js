@@ -24,9 +24,7 @@ function matchAny(name, regexList) {
 async function ensureEmptyDir(dir) {
   await fsp.mkdir(dir, { recursive: true });
   const files = await fsp.readdir(dir);
-  await Promise.all(
-    files.map(f => fsp.rm(path.join(dir, f), { recursive: true, force: true }))
-  );
+  await Promise.all(files.map(f => fsp.rm(path.join(dir, f), { recursive: true, force: true })));
 }
 async function ensureParentDir(filePath) {
   await fsp.mkdir(path.dirname(filePath), { recursive: true });

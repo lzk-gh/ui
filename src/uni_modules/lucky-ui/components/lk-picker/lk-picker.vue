@@ -50,11 +50,7 @@ function onConfirm() {
           {{ props.confirmText }}
         </button>
       </view>
-      <lk-picker-view
-        :columns="props.columns"
-        v-model="innerValue"
-        class="lk-picker__view"
-      />
+      <lk-picker-view :columns="props.columns" v-model="innerValue" class="lk-picker__view" />
     </view>
   </lk-popup>
 </template>

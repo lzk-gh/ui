@@ -33,8 +33,8 @@ async function validate(opts?: { fields?: string[] }) {
   if (errors.length) return Promise.reject(errors);
 }
 function resetFields(list?: string[]) {
-  (list?.length ? fields.filter(f => f.prop && list.includes(f.prop)) : fields).forEach(
-    f => f.reset()
+  (list?.length ? fields.filter(f => f.prop && list.includes(f.prop)) : fields).forEach(f =>
+    f.reset()
   );
 }
 function emitFieldBlur(prop: string) {

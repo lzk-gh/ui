@@ -105,8 +105,7 @@ const popStyle = computed(() => {
     '--lk-tooltip-offset': `${props.offset}rpx`,
   };
   if (props.width !== undefined && props.width !== null && props.width !== '') {
-    style.width =
-      typeof props.width === 'number' ? `${props.width}rpx` : String(props.width);
+    style.width = typeof props.width === 'number' ? `${props.width}rpx` : String(props.width);
   }
   return style as any;
 });

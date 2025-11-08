@@ -54,13 +54,9 @@ const classes = computed(() => [
 
 <template>
   <view :class="classes">
-    <view class="lk-stepper__btn" :class="{ 'is-disabled': val <= min }" @click="dec"
-      >-</view
-    >
+    <view class="lk-stepper__btn" :class="{ 'is-disabled': val <= min }" @click="dec">-</view>
     <input class="lk-stepper__input" type="number" :value="val" @input="handleInput" />
-    <view class="lk-stepper__btn" :class="{ 'is-disabled': val >= max }" @click="inc"
-      >+</view
-    >
+    <view class="lk-stepper__btn" :class="{ 'is-disabled': val >= max }" @click="inc">+</view>
   </view>
 </template>
 

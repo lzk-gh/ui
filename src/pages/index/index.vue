@@ -1,8 +1,5 @@
 <template>
-  <view
-    class="app-container"
-    :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'"
-  >
+  <view class="app-container" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
     <!-- 顶部导航栏 -->
     <lk-navbar :title="pageTitle" :show-back="false">
       <template #right>

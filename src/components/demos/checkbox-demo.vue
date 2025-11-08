@@ -141,12 +141,7 @@
     </demo-block>
 
     <demo-block title="组合示例">
-      <lk-checkbox-group
-        v-model="value9"
-        direction="column"
-        shape="circle"
-        icon-type="dot"
-      >
+      <lk-checkbox-group v-model="value9" direction="column" shape="circle" icon-type="dot">
         <lk-checkbox label="1">纵向 + 圆形 + 圆点</lk-checkbox>
         <lk-checkbox label="2">纵向 + 圆形 + 圆点</lk-checkbox>
         <lk-checkbox label="3">纵向 + 圆形 + 圆点</lk-checkbox>
@@ -178,9 +173,7 @@ const value8_2 = ref(['1']);
 const value9 = ref(['1', '2']);
 
 const isAllSelected = computed(() => value3.value.length === 4);
-const isIndeterminate = computed(
-  () => value3.value.length > 0 && value3.value.length < 4
-);
+const isIndeterminate = computed(() => value3.value.length > 0 && value3.value.length < 4);
 
 const handleCheckAll = (checked: boolean) => {
   value3.value = checked ? ['1', '2', '3', '4'] : [];

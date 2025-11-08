@@ -17,9 +17,7 @@ const iconStyle = computed(() => {
   const styles: Record<string, string> = {};
   if (props.color) styles.color = props.color;
   if (props.size) {
-    styles.fontSize = /^\d+$/.test(String(props.size))
-      ? `${props.size}rpx`
-      : String(props.size);
+    styles.fontSize = /^\d+$/.test(String(props.size)) ? `${props.size}rpx` : String(props.size);
   }
   return styles;
 });

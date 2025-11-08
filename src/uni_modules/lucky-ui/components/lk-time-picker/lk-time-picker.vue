@@ -83,9 +83,7 @@ const seconds = computed(() => gen(props.stepSecond, 60));
   <view class="lk-time-picker" :class="{ 'is-disabled': disabled }" @click="open">
     <text v-if="display" class="lk-time-picker__value">{{ display }}</text>
     <text v-else class="lk-time-picker__placeholder">{{ placeholder }}</text>
-    <view v-if="clearable && display" class="lk-time-picker__clear" @click.stop="clear"
-      >×</view
-    >
+    <view v-if="clearable && display" class="lk-time-picker__clear" @click.stop="clear">×</view>
   </view>
   <lk-popup v-model="show" position="bottom">
     <view class="lk-time-picker__panel">

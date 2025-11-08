@@ -15,12 +15,7 @@
     <demo-block title="不同尺寸">
       <lk-segmented v-model="value4" :options="options1" size="small" />
       <lk-segmented v-model="value5" :options="options1" style="margin-top: 16rpx" />
-      <lk-segmented
-        v-model="value6"
-        :options="options1"
-        size="large"
-        style="margin-top: 16rpx"
-      />
+      <lk-segmented v-model="value6" :options="options1" size="large" style="margin-top: 16rpx" />
     </demo-block>
   </view>
 </template>

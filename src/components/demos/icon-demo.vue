@@ -2,12 +2,7 @@
   <view class="component-demo">
     <demo-block title="常用图标 (点击复制)">
       <view class="icon-grid">
-        <view
-          v-for="icon in commonIcons"
-          :key="icon"
-          class="icon-item"
-          @click="copyIcon(icon)"
-        >
+        <view v-for="icon in commonIcons" :key="icon" class="icon-item" @click="copyIcon(icon)">
           <lk-icon :name="icon" size="36" />
           <text class="icon-label">{{ icon }}</text>
         </view>
@@ -43,12 +38,7 @@
           color="var(--lk-color-primary)"
         />
         <lk-icon name="heart" size="40" class="icon-beat" color="#ff4757" />
-        <lk-icon
-          name="star"
-          size="40"
-          class="icon-shake"
-          color="var(--lk-color-warning)"
-        />
+        <lk-icon name="star" size="40" class="icon-shake" color="var(--lk-color-warning)" />
         <lk-icon name="bell" size="40" class="icon-swing" color="var(--lk-color-info)" />
       </view>
     </demo-block>

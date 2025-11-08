@@ -10,12 +10,8 @@
 
     <demo-block title="带图标">
       <lk-breadcrumb>
-        <lk-breadcrumb-item>
-          <lk-icon name="house-fill" size="28" /> 首页
-        </lk-breadcrumb-item>
-        <lk-breadcrumb-item>
-          <lk-icon name="folder-fill" size="28" /> 产品
-        </lk-breadcrumb-item>
+        <lk-breadcrumb-item> <lk-icon name="house-fill" size="28" /> 首页 </lk-breadcrumb-item>
+        <lk-breadcrumb-item> <lk-icon name="folder-fill" size="28" /> 产品 </lk-breadcrumb-item>
         <lk-breadcrumb-item>详情</lk-breadcrumb-item>
       </lk-breadcrumb>
     </demo-block>

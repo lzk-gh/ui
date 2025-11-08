@@ -1,8 +1,5 @@
 <template>
-  <view
-    class="detail-page"
-    :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'"
-  >
+  <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
     <!-- 导航栏 -->
     <lk-navbar :title="componentTitle" />
 
@@ -527,16 +524,10 @@ const componentMap: Record<string, any> = {
 
 // 当前组件名称
 const componentName = ref('');
-const componentTitle = computed(
-  () => componentMap[componentName.value]?.title || '组件详情'
-);
+const componentTitle = computed(() => componentMap[componentName.value]?.title || '组件详情');
 const componentDesc = computed(() => componentMap[componentName.value]?.desc || '');
-const componentIcon = computed(
-  () => componentMap[componentName.value]?.icon || 'box-seam'
-);
-const componentColor = computed(
-  () => componentMap[componentName.value]?.color || 'primary'
-);
+const componentIcon = computed(() => componentMap[componentName.value]?.icon || 'box-seam');
+const componentColor = computed(() => componentMap[componentName.value]?.color || 'primary');
 
 // 动态演示组件
 // 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if

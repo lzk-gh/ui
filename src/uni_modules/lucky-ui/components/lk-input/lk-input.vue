@@ -22,14 +22,7 @@ const props = defineProps({
   showWordLimit: { type: Boolean, default: false },
 });
 
-const emit = defineEmits([
-  'update:modelValue',
-  'input',
-  'change',
-  'focus',
-  'blur',
-  'clear',
-]);
+const emit = defineEmits(['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear']);
 
 const form = inject(formContextKey, null);
 
@@ -125,10 +118,7 @@ watch(
       </slot>
     </view>
 
-    <view
-      v-if="clearable && !disabled && !readonly && inner"
-      class="lk-input__clear"
-      @click="clear"
+    <view v-if="clearable && !disabled && !readonly && inner" class="lk-input__clear" @click="clear"
       >×</view
     >
     <view v-if="count" class="lk-input__count">{{ count }}</view>

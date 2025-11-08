@@ -17,11 +17,9 @@ const emit = defineEmits(['back', 'click-left', 'click-right']);
 const slots = useSlots();
 
 // 获取系统信息
-const sys =
-  typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ statusBarHeight: 0 } as any);
+const sys = typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ statusBarHeight: 0 } as any);
 const statusBarHeight = sys.statusBarHeight || 0;
-const windowWidth: number =
-  sys && typeof sys.windowWidth === 'number' ? sys.windowWidth : 0;
+const windowWidth: number = sys && typeof sys.windowWidth === 'number' ? sys.windowWidth : 0;
 
 // 获取胶囊按钮信息（仅小程序）
 let menuButtonInfo: any = { height: 0, top: 0 };

@@ -33,9 +33,7 @@
       </lk-steps>
       <view class="button-group">
         <lk-button @click="prevStep" :disabled="currentStep === 0">上一步</lk-button>
-        <lk-button type="primary" @click="nextStep" :disabled="currentStep === 3"
-          >下一步</lk-button
-        >
+        <lk-button type="primary" @click="nextStep" :disabled="currentStep === 3">下一步</lk-button>
       </view>
     </demo-block>
   </view>

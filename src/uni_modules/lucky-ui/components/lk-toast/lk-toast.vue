@@ -64,16 +64,8 @@ onUnmounted(() => clearTimers());
 </script>
 
 <template>
-  <view
-    v-if="overlay && show"
-    class="lk-toast__overlay"
-    :class="{ 'is-lock': forbidClick }"
-  />
-  <view
-    v-if="show"
-    class="lk-toast"
-    :class="[`lk-toast--${position}`, { 'is-leave': leaving }]"
-  >
+  <view v-if="overlay && show" class="lk-toast__overlay" :class="{ 'is-lock': forbidClick }" />
+  <view v-if="show" class="lk-toast" :class="[`lk-toast--${position}`, { 'is-leave': leaving }]">
     <view class="lk-toast__inner">
       <lk-icon v-if="icon" :name="icon" size="44" class="lk-toast__icon" />
       <text class="lk-toast__text"

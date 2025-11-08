@@ -117,9 +117,7 @@ function onClick(e: MouseEvent) {
   /* Hover / Active */
   &:not(.is-disabled):not(.is-loading) {
     &.lk-button--solid,
-    &:not(.lk-button--outline):not(.lk-button--text):not(.lk-button--soft):not(
-        .lk-button--danger
-      ) {
+    &:not(.lk-button--outline):not(.lk-button--text):not(.lk-button--soft):not(.lk-button--danger) {
       &:active {
         background: var(--_bg-active);
       }

@@ -6,13 +6,7 @@ import LkButton from '../lk-button/lk-button.vue';
 
 defineOptions({ name: 'LkDatePicker' });
 
-type PickerType =
-  | 'date'
-  | 'range'
-  | 'year-month'
-  | 'multiple'
-  | 'date-time'
-  | 'range-date-time';
+type PickerType = 'date' | 'range' | 'year-month' | 'multiple' | 'date-time' | 'range-date-time';
 type RangeValue = [Date | null, Date | null];
 
 const props = defineProps({
@@ -73,19 +67,14 @@ const h2 = ref<number>(new Date().getHours());
 const m2 = ref<number>(new Date().getMinutes());
 const s2 = ref<number>(0);
 
-const isDateTime = computed(
-  () => props.type === 'date-time' || props.type === 'range-date-time'
-);
-const isRangeLike = computed(
-  () => props.type === 'range' || props.type === 'range-date-time'
-);
+const isDateTime = computed(() => props.type === 'date-time' || props.type === 'range-date-time');
+const isRangeLike = computed(() => props.type === 'range' || props.type === 'range-date-time');
 const isMultiple = computed(() => props.type === 'multiple');
 
 // 同步外部 value 到内部
 function parseDate(val: any): Date | null {
   if (!val) return null;
-  if (val instanceof Date)
-    return new Date(val.getFullYear(), val.getMonth(), val.getDate());
+  if (val instanceof Date) return new Date(val.getFullYear(), val.getMonth(), val.getDate());
   const d = new Date(val);
   return isNaN(+d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
@@ -258,10 +247,7 @@ function confirm() {
 
         <template v-if="isDateTime">
           <view class="lk-date-picker__time">
-            <view
-              class="time-row"
-              v-if="type === 'date-time' || type === 'range-date-time'"
-            >
+            <view class="time-row" v-if="type === 'date-time' || type === 'range-date-time'">
               <text class="time-label">开始时间</text>
               <view class="time-cols">
                 <view class="col">

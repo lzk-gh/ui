@@ -29,13 +29,7 @@ const props = defineProps({
   title: { type: String, default: '' },
   showClose: { type: Boolean, default: true },
 });
-const emit = defineEmits([
-  'update:modelValue',
-  'open',
-  'close',
-  'after-enter',
-  'after-leave',
-]);
+const emit = defineEmits(['update:modelValue', 'open', 'close', 'after-enter', 'after-leave']);
 
 const display = ref(false);
 const anim = ref<'enter' | 'leave' | ''>('');
@@ -104,10 +98,7 @@ const wrapperStyle = computed(() => {
   <view v-if="display" :class="cls" :style="wrapperStyle" @touchmove.stop>
     <view v-if="title || showClose" class="lk-drawer__header">
       <text v-if="title" class="lk-drawer__title">{{ title }}</text>
-      <view
-        v-if="showClose"
-        class="lk-drawer__close"
-        @click="emit('update:modelValue', false)"
+      <view v-if="showClose" class="lk-drawer__close" @click="emit('update:modelValue', false)"
         >×</view
       >
     </view>

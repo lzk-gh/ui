@@ -85,9 +85,7 @@ const overscanCount = computed(() => overscanBase.value + overscanDynamic.value)
 
 const list = computed(() => props.items);
 const totalHeight = computed(() => list.value.length * itemPx.value);
-const baseVisibleCount = computed(() =>
-  Math.ceil(containerHeightPx.value / itemPx.value)
-);
+const baseVisibleCount = computed(() => Math.ceil(containerHeightPx.value / itemPx.value));
 const visibleCount = computed(() => baseVisibleCount.value + overscanCount.value * 2);
 
 const windowStart = ref(0);
@@ -269,28 +267,15 @@ defineExpose({ scrollToIndex, scrollToTop });
         paddingBottom: bottomPaddingTotal + 'px',
       }"
     >
-      <slot
-        :items="visibleItems"
-        :start="startIndex"
-        :end="endIndex"
-        :itemHeight="itemPx"
-      />
+      <slot :items="visibleItems" :start="startIndex" :end="endIndex" :itemHeight="itemPx" />
     </view>
     <template v-else>
-      <view
-        class="lk-virtual-list__phantom"
-        :style="{ height: totalScrollable + 'px' }"
-      />
+      <view class="lk-virtual-list__phantom" :style="{ height: totalScrollable + 'px' }" />
       <view
         class="lk-virtual-list__container"
         :style="{ transform: `translate3d(0, ${topPadding}px, 0)` }"
       >
-        <slot
-          :items="visibleItems"
-          :start="startIndex"
-          :end="endIndex"
-          :itemHeight="itemPx"
-        />
+        <slot :items="visibleItems" :start="startIndex" :end="endIndex" :itemHeight="itemPx" />
       </view>
     </template>
   </scroll-view>

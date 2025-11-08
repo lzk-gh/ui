@@ -67,10 +67,7 @@ export function useTheme() {
     setTheme(_theme.value === 'light' ? 'dark' : 'light');
   }
   // 初始化（H5 首次加载）
-  if (
-    typeof document !== 'undefined' &&
-    !document.documentElement.getAttribute('data-theme')
-  ) {
+  if (typeof document !== 'undefined' && !document.documentElement.getAttribute('data-theme')) {
     applyDomTheme(_theme.value);
   }
   return { theme, setTheme, toggleTheme };

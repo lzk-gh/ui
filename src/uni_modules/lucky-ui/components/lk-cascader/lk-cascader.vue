@@ -101,9 +101,7 @@ const display = computed(() => {
   <view class="lk-cascader" :class="{ 'is-disabled': disabled }" @click="open">
     <text v-if="display" class="lk-cascader__value">{{ display }}</text>
     <text v-else class="lk-cascader__placeholder">{{ placeholder }}</text>
-    <view v-if="clearable && display" class="lk-cascader__clear" @click.stop="clear"
-      >×</view
-    >
+    <view v-if="clearable && display" class="lk-cascader__clear" @click.stop="clear">×</view>
   </view>
   <lk-popup v-model="show" position="bottom">
     <view class="lk-cascader__panel">

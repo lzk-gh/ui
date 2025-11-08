@@ -103,11 +103,7 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .page-header {
-  background: linear-gradient(
-    135deg,
-    var(--lk-color-danger) 0%,
-    var(--lk-color-danger-hover) 100%
-  );
+  background: linear-gradient(135deg, var(--lk-color-danger) 0%, var(--lk-color-danger-hover) 100%);
   padding: 64rpx 32rpx;
   display: flex;
   flex-direction: column;

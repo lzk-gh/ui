@@ -75,16 +75,9 @@ function previewImage(i: number) {
 
 <template>
   <view class="lk-upload" :class="{ 'is-disabled': disabled }">
-    <view
-      v-for="(f, i) in files"
-      :key="f + i"
-      class="lk-upload__item"
-      @click="previewImage(i)"
-    >
+    <view v-for="(f, i) in files" :key="f + i" class="lk-upload__item" @click="previewImage(i)">
       <image :src="f" mode="aspectFill" class="lk-upload__img" />
-      <view v-if="deletable && !disabled" class="lk-upload__del" @click.stop="remove(i)"
-        >×</view
-      >
+      <view v-if="deletable && !disabled" class="lk-upload__del" @click.stop="remove(i)">×</view>
     </view>
     <view v-if="selectable && files.length < max" class="lk-upload__add" @click="select">
       <lk-icon name="plus" size="44" />

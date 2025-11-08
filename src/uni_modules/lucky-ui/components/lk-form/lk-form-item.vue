@@ -72,8 +72,7 @@ async function doValidate(trigger?: 'blur' | 'change') {
       try {
         const r = await rule.validator(val, rule, form.model);
         if (r === false) errs.push({ field: props.prop, message: m, rule });
-        else if (typeof r === 'string')
-          errs.push({ field: props.prop, message: r, rule });
+        else if (typeof r === 'string') errs.push({ field: props.prop, message: r, rule });
       } catch (e: any) {
         errs.push({ field: props.prop, message: e?.message || m, rule });
       }

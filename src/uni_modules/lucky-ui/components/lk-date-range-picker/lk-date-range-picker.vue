@@ -3,11 +3,7 @@ import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkButton from '../lk-button/lk-button.vue';
 import LkCalendar from '../lk-calendar/lk-calendar.vue';
-import {
-  dateRangeArray,
-  parseDate,
-  formatDate,
-} from '@/uni_modules/lucky-ui/utils/date-utils';
+import { dateRangeArray, parseDate, formatDate } from '@/uni_modules/lucky-ui/utils/date-utils';
 
 defineOptions({ name: 'LkDateRangePicker' });
 
@@ -111,10 +107,7 @@ const rightMonthAnchor = computed(() => {
   <view class="lk-date-range-picker" :class="{ 'is-disabled': disabled }" @click="open">
     <text v-if="display" class="lk-date-range-picker__value">{{ display }}</text>
     <text v-else class="lk-date-range-picker__placeholder">{{ placeholder }}</text>
-    <view
-      v-if="clearable && display"
-      class="lk-date-range-picker__clear"
-      @click.stop="clear"
+    <view v-if="clearable && display" class="lk-date-range-picker__clear" @click.stop="clear"
       >×</view
     >
   </view>
@@ -147,9 +140,7 @@ const rightMonthAnchor = computed(() => {
       </view>
       <view class="lk-date-range-picker__actions">
         <lk-button size="small" variant="outline" @click="close">取消</lk-button>
-        <lk-button size="small" @click="confirm" :disabled="!start || !end"
-          >确定</lk-button
-        >
+        <lk-button size="small" @click="confirm" :disabled="!start || !end">确定</lk-button>
       </view>
     </view>
   </lk-popup>

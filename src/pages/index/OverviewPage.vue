@@ -38,11 +38,7 @@
       </view>
 
       <!-- 组件分类 -->
-      <view
-        v-for="category in filteredCategories"
-        :key="category.name"
-        class="category-section"
-      >
+      <view v-for="category in filteredCategories" :key="category.name" class="category-section">
         <view class="category-header">
           <lk-icon :name="category.icon" size="40" :color="category.color" />
           <text class="category-title">{{ category.name }}</text>

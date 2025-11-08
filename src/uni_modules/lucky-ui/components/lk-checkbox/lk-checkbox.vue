@@ -70,10 +70,7 @@ function toggle() {
         class="lk-checkbox__icon lk-checkbox__indeterminate"
       />
       <!-- 圆点图标 -->
-      <view
-        v-else-if="mergedIconType === 'dot'"
-        class="lk-checkbox__icon lk-checkbox__dot"
-      />
+      <view v-else-if="mergedIconType === 'dot'" class="lk-checkbox__icon lk-checkbox__dot" />
       <!-- 自定义插槽图标 -->
       <view
         v-else-if="mergedIconType === 'icon' || hasIconSlot"

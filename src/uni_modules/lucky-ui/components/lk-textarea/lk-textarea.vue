@@ -18,14 +18,7 @@ const props = defineProps({
   prop: { type: String, default: '' },
 });
 
-const emit = defineEmits([
-  'update:modelValue',
-  'input',
-  'change',
-  'focus',
-  'blur',
-  'clear',
-]);
+const emit = defineEmits(['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear']);
 
 const form = inject(formContextKey, null);
 const val = ref(props.modelValue);

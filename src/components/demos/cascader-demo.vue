@@ -24,12 +24,7 @@
     </demo-block>
 
     <demo-block title="多选">
-      <lk-cascader
-        v-model="value4"
-        :options="options"
-        multiple
-        placeholder="请选择多个地区"
-      />
+      <lk-cascader v-model="value4" :options="options" multiple placeholder="请选择多个地区" />
     </demo-block>
   </view>
 </template>

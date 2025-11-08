@@ -46,9 +46,7 @@ const itemValues = ref<string[]>([]);
 
 // 计算激活索引与指示器位置（仅 TIC 使用）
 const activeValue = computed(() => props.modelValue ?? itemValues.value[0] ?? '');
-const activeIndex = computed(() =>
-  Math.max(0, itemValues.value.indexOf(activeValue.value))
-);
+const activeIndex = computed(() => Math.max(0, itemValues.value.indexOf(activeValue.value)));
 const itemCount = computed(() => Math.max(1, itemValues.value.length));
 const indicatorStyle = computed(() => {
   // TIC 类型：根据激活项移动
@@ -80,10 +78,8 @@ const rootStyle = computed(() => {
   if (props.zIndex != null) style.zIndex = props.zIndex;
   if (props.backgroundColor) style.backgroundColor = props.backgroundColor;
   if (props.activeColor) (style as any)['--lk-tabbar-active-color'] = props.activeColor;
-  if (props.inactiveColor)
-    (style as any)['--lk-tabbar-inactive-color'] = props.inactiveColor;
-  if (props.backgroundColor)
-    (style as any)['--lk-tabbar-background'] = props.backgroundColor;
+  if (props.inactiveColor) (style as any)['--lk-tabbar-inactive-color'] = props.inactiveColor;
+  if (props.backgroundColor) (style as any)['--lk-tabbar-background'] = props.backgroundColor;
   const tl = formatSize(props.topLeftRadius);
   const tr = formatSize(props.topRightRadius);
   if (tl) (style as any)['--lk-tabbar-top-left-radius'] = tl;
@@ -134,10 +130,7 @@ function getTabbarHeight() {
 
 // 如果外部未传 active，则在子项注册完成后默认选中第一项
 onMounted(() => {
-  if (
-    (props.modelValue == null || props.modelValue === '') &&
-    itemValues.value.length > 0
-  ) {
+  if ((props.modelValue == null || props.modelValue === '') && itemValues.value.length > 0) {
     emit('update:modelValue', itemValues.value[0]);
   }
 });
@@ -264,9 +257,7 @@ provide('lkTabbarType', props.type ?? 'TIC');
       padding: 10rpx 24rpx;
       display: flex;
       justify-content: space-around;
-      transform: translateY(
-        calc(-1 * var(--lk-tabbar-capsule-offset, 18rpx))
-      ); // 悬浮效果
+      transform: translateY(calc(-1 * var(--lk-tabbar-capsule-offset, 18rpx))); // 悬浮效果
       position: relative;
       z-index: 2;
     }

@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  ref,
-  watch,
-  computed,
-  inject,
-  getCurrentInstance,
-  onMounted,
-  nextTick,
-} from 'vue';
+import { ref, watch, computed, inject, getCurrentInstance, onMounted, nextTick } from 'vue';
 import { formContextKey } from '../lk-form/context';
 
 defineOptions({ name: 'LkSlider' });
@@ -21,13 +13,7 @@ const props = defineProps({
   showValue: { type: Boolean, default: true },
   prop: { type: String, default: '' },
 });
-const emit = defineEmits([
-  'update:modelValue',
-  'change',
-  'input',
-  'dragstart',
-  'dragend',
-]);
+const emit = defineEmits(['update:modelValue', 'change', 'input', 'dragstart', 'dragend']);
 
 const form = inject(formContextKey, null);
 

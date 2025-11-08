@@ -26,9 +26,7 @@
     </demo-block>
 
     <demo-block title="自定义位置与形状">
-      <view class="desc"
-        >可通过 right、bottom 调整位置，shape 支持 circle/square/round。</view
-      >
+      <view class="desc">可通过 right、bottom 调整位置，shape 支持 circle/square/round。</view>
       <view class="placeholder" />
       <view class="placeholder" />
       <lk-backtop :right="'40rpx'" :bottom="'160rpx'" shape="round" />
@@ -40,19 +38,13 @@
       <view class="placeholder" />
       <view class="placeholder" />
       <lk-backtop :bottom="'240rpx'">
-        <lk-icon
-          name="arrow-up-circle-fill"
-          size="40"
-          color="var(--lk-color-text-inverse)"
-        />
+        <lk-icon name="arrow-up-circle-fill" size="40" color="var(--lk-color-text-inverse)" />
         <text class="slot-text">TOP</text>
       </lk-backtop>
     </demo-block>
 
     <demo-block title="阈值与动画时长">
-      <view class="desc"
-        >通过 visibilityHeight 控制出现阈值，通过 duration 控制回顶动画时长。</view
-      >
+      <view class="desc">通过 visibilityHeight 控制出现阈值，通过 duration 控制回顶动画时长。</view>
       <view class="placeholder" />
       <view class="placeholder" />
       <lk-backtop :bottom="'320rpx'" :visibilityHeight="600" :duration="500" />

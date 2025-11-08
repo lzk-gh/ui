@@ -61,8 +61,7 @@ export function rgbToHsv(rgb: RGB): HSV {
 export function rgbToHex(rgb: RGB): string {
   const toHex = (n: number) => n.toString(16).padStart(2, '0');
   const { r, g, b, a } = rgb;
-  if (a === undefined || a >= 1)
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+  if (a === undefined || a >= 1) return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
   return `#${toHex(r)}${toHex(g)}${toHex(b)}${toHex(Math.round(clamp(a, 0, 1) * 255))}`.toUpperCase();
 }
 
@@ -77,11 +76,7 @@ export function hexToRgb(hex: string): RGB | null {
   return { r, g, b, a };
 }
 
-export function formatFromHSV(
-  hsv: HSV,
-  fmt: 'hex' | 'rgb' | 'hsv',
-  alpha = false
-): string {
+export function formatFromHSV(hsv: HSV, fmt: 'hex' | 'rgb' | 'hsv', alpha = false): string {
   if (fmt === 'hsv')
     return `${Math.round(hsv.h)},${Math.round(hsv.s * 100)}%,${Math.round(hsv.v * 100)}%${alpha ? `,` + (hsv.a ?? 1) : ''}`;
   const rgb = hsvToRgb(hsv);

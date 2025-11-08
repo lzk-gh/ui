@@ -112,12 +112,7 @@ function onClick(ev: Event) {
         <slot name="dot">
           <view class="lk-timeline-item__dot" :style="dotStyle">
             <slot name="icon">
-              <image
-                v-if="icon"
-                class="lk-timeline-item__icon"
-                :src="icon"
-                mode="aspectFit"
-              />
+              <image v-if="icon" class="lk-timeline-item__icon" :src="icon" mode="aspectFit" />
             </slot>
           </view>
         </slot>
@@ -250,8 +245,7 @@ function onClick(ev: Event) {
   }
 }
 
-.lk-timeline.is-last-tail-visible
-  :deep(.lk-timeline-item:last-child .lk-timeline-item__line) {
+.lk-timeline.is-last-tail-visible :deep(.lk-timeline-item:last-child .lk-timeline-item__line) {
   display: block !important;
 }
 </style>

@@ -24,9 +24,7 @@ type TabbarContext = {
 const tabbar = inject<TabbarContext>('lkTabbar');
 
 const currentValue = computed(() => props.value ?? props.name ?? '');
-const isActive = computed(
-  () => (tabbar?.activeValue?.value ?? '') === currentValue.value
-);
+const isActive = computed(() => (tabbar?.activeValue?.value ?? '') === currentValue.value);
 const showBadge = computed(() => props.dot || props.badge !== undefined);
 
 function handleClick() {

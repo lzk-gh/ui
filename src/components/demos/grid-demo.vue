@@ -5,14 +5,7 @@
     </demo-block>
 
     <demo-block title="滑动网格">
-      <lk-grid
-        :columns="4"
-        :rows="3"
-        :gap="16"
-        :item-gap="12"
-        :carousel="true"
-        :items="items"
-      />
+      <lk-grid :columns="4" :rows="3" :gap="16" :item-gap="12" :carousel="true" :items="items" />
     </demo-block>
   </view>
 </template>

@@ -34,9 +34,7 @@
 
     <demo-block title="多选日期">
       <lk-button type="primary" @click="showPicker4">选择多个日期</lk-button>
-      <text class="result-text"
-        >已选: {{ selectedMultiple.map(formatDate).join(', ') }}</text
-      >
+      <text class="result-text">已选: {{ selectedMultiple.map(formatDate).join(', ') }}</text>
       <lk-date-picker
         v-model="visible4"
         :value="selectedMultiple"

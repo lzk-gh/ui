@@ -51,13 +51,7 @@ const props = defineProps({
   valueFormat: { type: String, default: 'YYYY-MM-DD' },
 });
 
-const emit = defineEmits([
-  'update:modelValue',
-  'change',
-  'month-change',
-  'confirm',
-  'clear',
-]);
+const emit = defineEmits(['update:modelValue', 'change', 'month-change', 'confirm', 'clear']);
 
 // 工具函数
 function pad(n: number) {
@@ -234,16 +228,11 @@ function outputValue() {
   if (props.valueType === 'string') {
     if (isInRangeMode()) {
       const [s, e] = internalRange.value;
-      return [
-        s ? formatDate(s, props.valueFormat) : '',
-        e ? formatDate(e, props.valueFormat) : '',
-      ];
+      return [s ? formatDate(s, props.valueFormat) : '', e ? formatDate(e, props.valueFormat) : ''];
     } else if (isInMultipleMode()) {
       return internalMultiple.value.map(d => formatDate(d, props.valueFormat));
     }
-    return internalSingle.value
-      ? formatDate(internalSingle.value, props.valueFormat)
-      : '';
+    return internalSingle.value ? formatDate(internalSingle.value, props.valueFormat) : '';
   } else {
     if (isInRangeMode()) return internalRange.value;
     if (isInMultipleMode()) return internalMultiple.value;
@@ -395,10 +384,7 @@ const accentStyle = computed(() => {
     <view v-if="showShortcuts" class="lk-calendar__shortcuts">
       <view class="lk-calendar__chip" @click="applyShortcut('today')">今天</view>
       <view class="lk-calendar__chip" @click="applyShortcut('yesterday')">昨天</view>
-      <view
-        v-if="type === 'range'"
-        class="lk-calendar__chip"
-        @click="applyShortcut('last7')"
+      <view v-if="type === 'range'" class="lk-calendar__chip" @click="applyShortcut('last7')"
         >近7天</view
       >
       <view class="lk-calendar__chip" @click="applyShortcut('thisMonth')">本月</view>

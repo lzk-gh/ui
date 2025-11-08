@@ -4,15 +4,9 @@
       <lk-dropdown>
         <lk-button>下拉菜单 <lk-icon name="chevron-down" /></lk-button>
         <template #menu>
-          <lk-dropdown-item name="1" @click="handleSelect('选项一')"
-            >选项一</lk-dropdown-item
-          >
-          <lk-dropdown-item name="2" @click="handleSelect('选项二')"
-            >选项二</lk-dropdown-item
-          >
-          <lk-dropdown-item name="3" @click="handleSelect('选项三')"
-            >选项三</lk-dropdown-item
-          >
+          <lk-dropdown-item name="1" @click="handleSelect('选项一')">选项一</lk-dropdown-item>
+          <lk-dropdown-item name="2" @click="handleSelect('选项二')">选项二</lk-dropdown-item>
+          <lk-dropdown-item name="3" @click="handleSelect('选项三')">选项三</lk-dropdown-item>
         </template>
       </lk-dropdown>
     </demo-block>
@@ -32,15 +26,9 @@
       <lk-dropdown>
         <lk-button type="primary">操作 <lk-icon name="chevron-down" /></lk-button>
         <template #menu>
-          <lk-dropdown-item name="edit">
-            <lk-icon name="pencil-square" /> 编辑
-          </lk-dropdown-item>
-          <lk-dropdown-item name="delete">
-            <lk-icon name="trash-fill" /> 删除
-          </lk-dropdown-item>
-          <lk-dropdown-item name="share">
-            <lk-icon name="share-fill" /> 分享
-          </lk-dropdown-item>
+          <lk-dropdown-item name="edit"> <lk-icon name="pencil-square" /> 编辑 </lk-dropdown-item>
+          <lk-dropdown-item name="delete"> <lk-icon name="trash-fill" /> 删除 </lk-dropdown-item>
+          <lk-dropdown-item name="share"> <lk-icon name="share-fill" /> 分享 </lk-dropdown-item>
         </template>
       </lk-dropdown>
     </demo-block>

@@ -223,10 +223,7 @@ const visibleCards = computed(() => {
             <template v-for="node in placed">
               <!-- 仅渲染与窗口相交的卡片 -->
               <view
-                v-if="
-                  node.top < end * itemHeight &&
-                  node.top + node.height > start * itemHeight
-                "
+                v-if="node.top < end * itemHeight && node.top + node.height > start * itemHeight"
                 :key="node.id + '-' + node.index"
                 class="lk-waterfall__card"
                 :style="{

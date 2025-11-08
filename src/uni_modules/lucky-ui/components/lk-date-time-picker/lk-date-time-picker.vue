@@ -68,10 +68,7 @@ function confirm() {
   <view class="lk-date-time-picker" :class="{ 'is-disabled': disabled }" @click="open">
     <text v-if="display" class="lk-date-time-picker__value">{{ display }}</text>
     <text v-else class="lk-date-time-picker__placeholder">{{ placeholder }}</text>
-    <view
-      v-if="clearable && display"
-      class="lk-date-time-picker__clear"
-      @click.stop="clear"
+    <view v-if="clearable && display" class="lk-date-time-picker__clear" @click.stop="clear"
       >×</view
     >
   </view>

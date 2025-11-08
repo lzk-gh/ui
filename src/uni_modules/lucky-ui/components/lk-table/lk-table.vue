@@ -120,9 +120,7 @@ function defaultSortMethod(a: any, b: any, asc: boolean) {
   if (va == null) return asc ? -1 : 1;
   if (vb == null) return asc ? 1 : -1;
   if (typeof va === 'number' && typeof vb === 'number') return asc ? va - vb : vb - va;
-  return asc
-    ? String(va).localeCompare(String(vb))
-    : String(vb).localeCompare(String(va));
+  return asc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
 }
 
 function cycleSort(col: TableColumn) {
@@ -183,9 +181,7 @@ const summaryRow = computed(() => {
   const row: Record<string, any> = {};
   visibleColumns.value.forEach(col => {
     if (!col.summary) return;
-    const values = sortedData.value
-      .map(r => r[col.key])
-      .filter(v => typeof v === 'number');
+    const values = sortedData.value.map(r => r[col.key]).filter(v => typeof v === 'number');
     if (!values.length) return;
     if (col.summary === 'sum') {
       row[col.key] = values.reduce((s, v) => s + v, 0);
@@ -210,8 +206,7 @@ function onRowClick(row: any, idx: number) {
 const wrapStyle = computed(() => {
   const st: any = {};
   if (props.maxHeight) {
-    st.maxHeight =
-      typeof props.maxHeight === 'number' ? props.maxHeight + 'px' : props.maxHeight;
+    st.maxHeight = typeof props.maxHeight === 'number' ? props.maxHeight + 'px' : props.maxHeight;
   }
   return st;
 });
@@ -251,8 +246,7 @@ const wrapStyle = computed(() => {
                 {
                   'is-sortable': col.sortable,
                   'is-sorted-asc': sortState.key === col.key && sortState.order === 'asc',
-                  'is-sorted-desc':
-                    sortState.key === col.key && sortState.order === 'desc',
+                  'is-sorted-desc': sortState.key === col.key && sortState.order === 'desc',
                 },
               ]"
               :style="{
@@ -296,14 +290,9 @@ const wrapStyle = computed(() => {
                 class="lk-table__td lk-table__td--checkbox"
                 @click.stop="toggleRow(row)"
               >
-                <lk-checkbox
-                  :model-value="isSelected(row)"
-                  @update:modelValue="toggleRow(row)"
-                />
+                <lk-checkbox :model-value="isSelected(row)" @update:modelValue="toggleRow(row)" />
               </view>
-              <view v-if="showIndex" class="lk-table__td lk-table__td--index">{{
-                ri + 1
-              }}</view>
+              <view v-if="showIndex" class="lk-table__td lk-table__td--index">{{ ri + 1 }}</view>
               <view
                 v-for="col in visibleColumns"
                 :key="col.key + ri"
@@ -350,14 +339,9 @@ const wrapStyle = computed(() => {
         <!-- Summary -->
         <view v-if="summary && summaryRow" class="lk-table__footer">
           <view class="lk-table__tr lk-table__tr--summary">
-            <view
-              v-if="selectable"
-              class="lk-table__td lk-table__td--checkbox summary-cell"
-            >
+            <view v-if="selectable" class="lk-table__td lk-table__td--checkbox summary-cell">
             </view>
-            <view v-if="showIndex" class="lk-table__td lk-table__td--index summary-cell"
-              >合计</view
-            >
+            <view v-if="showIndex" class="lk-table__td lk-table__td--index summary-cell">合计</view>
             <template v-for="col in visibleColumns" :key="col.key">
               <view
                 class="lk-table__td summary-cell"
@@ -370,12 +354,7 @@ const wrapStyle = computed(() => {
                   textAlign: col.align || undefined,
                 }"
               >
-                <slot
-                  name="summary"
-                  :column="col"
-                  :value="summaryRow[col.key]"
-                  :row="summaryRow"
-                >
+                <slot name="summary" :column="col" :value="summaryRow[col.key]" :row="summaryRow">
                   {{ summaryRow[col.key] !== undefined ? summaryRow[col.key] : '' }}
                 </slot>
               </view>
@@ -531,8 +510,7 @@ const wrapStyle = computed(() => {
   &.is-striped .lk-table__body .lk-table__tr:nth-child(2n) {
     background: var(--_bg-stripe);
   }
-  .lk-table__body
-    .lk-table__tr:not(.lk-table__tr--summary):not(.lk-table__tr--head):active {
+  .lk-table__body .lk-table__tr:not(.lk-table__tr--summary):not(.lk-table__tr--head):active {
     background: var(--_bg-hover);
   }
   .lk-table__tr.is-selected {

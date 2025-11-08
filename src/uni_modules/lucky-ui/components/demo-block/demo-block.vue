@@ -39,11 +39,7 @@ const props = defineProps({
     bottom: 8rpx;
     width: 12rpx;
     border-radius: 6rpx;
-    background: linear-gradient(
-      180deg,
-      var(--lk-color-primary),
-      var(--lk-color-primary-active)
-    );
+    background: linear-gradient(180deg, var(--lk-color-primary), var(--lk-color-primary-active));
   }
   &__body {
     display: flex;

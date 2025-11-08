@@ -7,11 +7,7 @@
         </lk-form-item>
 
         <lk-form-item label="密码" prop="password">
-          <lk-input
-            v-model="formData.password"
-            type="password"
-            placeholder="请输入密码"
-          />
+          <lk-input v-model="formData.password" type="password" placeholder="请输入密码" />
         </lk-form-item>
 
         <lk-form-item label="邮箱" prop="email">

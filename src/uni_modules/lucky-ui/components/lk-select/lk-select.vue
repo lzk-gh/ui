@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-  ref,
-  computed,
-  provide,
-  watch,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  inject,
-} from 'vue';
+import { ref, computed, provide, watch, onMounted, onBeforeUnmount, nextTick, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
 defineOptions({ name: 'LkSelect' });
 
@@ -47,9 +38,7 @@ function syncFromValue() {
     internal.value = Array.isArray(props.modelValue) ? [...props.modelValue] : [];
   } else {
     internal.value =
-      props.modelValue !== undefined &&
-      props.modelValue !== null &&
-      props.modelValue !== ''
+      props.modelValue !== undefined && props.modelValue !== null && props.modelValue !== ''
         ? [props.modelValue]
         : [];
   }
@@ -155,13 +144,8 @@ function onBlur() {
         </lk-tag>
       </view>
 
-      <text v-if="!internal.length" class="lk-select__placeholder">{{
-        placeholder
-      }}</text>
-      <view
-        v-if="clearable && internal.length"
-        class="lk-select__clear"
-        @click.stop="clear"
+      <text v-if="!internal.length" class="lk-select__placeholder">{{ placeholder }}</text>
+      <view v-if="clearable && internal.length" class="lk-select__clear" @click.stop="clear"
         >×</view
       >
       <view class="lk-select__arrow" :class="{ 'is-up': open }">⌄</view>

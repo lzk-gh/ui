@@ -16,12 +16,7 @@
 
     <demo-block title="自定义按钮">
       <lk-button type="primary" @click="showModal3">自定义按钮</lk-button>
-      <lk-modal
-        v-model="visible3"
-        title="警告"
-        confirm-text="知道了"
-        :show-cancel="false"
-      >
+      <lk-modal v-model="visible3" title="警告" confirm-text="知道了" :show-cancel="false">
         <text>这是一个警告提示</text>
       </lk-modal>
     </demo-block>

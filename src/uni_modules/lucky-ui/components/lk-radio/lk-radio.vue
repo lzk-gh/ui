@@ -47,9 +47,7 @@ function select() {
   >
     <view class="lk-radio__outer">
       <view v-if="mergedIconType === 'dot'" class="lk-radio__inner lk-radio__dot" />
-      <view v-else-if="mergedIconType === 'check'" class="lk-radio__inner lk-radio__check"
-        >✓</view
-      >
+      <view v-else-if="mergedIconType === 'check'" class="lk-radio__inner lk-radio__check">✓</view>
       <view
         v-else-if="mergedIconType === 'icon' || hasIconSlot"
         class="lk-radio__inner lk-radio__icon"

@@ -15,12 +15,7 @@
     <demo-block title="多列 Picker">
       <lk-button @click="show2 = true">选择日期时段</lk-button>
       <view class="result">当前：{{ value2.join(' / ') }}</view>
-      <lk-picker
-        v-model:visible="show2"
-        v-model="value2"
-        title="日期/时段"
-        :columns="columns2"
-      />
+      <lk-picker v-model:visible="show2" v-model="value2" title="日期/时段" :columns="columns2" />
     </demo-block>
   </view>
 </template>

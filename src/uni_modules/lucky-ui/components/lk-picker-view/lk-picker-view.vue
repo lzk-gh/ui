@@ -66,9 +66,7 @@ function onChange(e: any) {
 <template>
   <picker-view :value="selectedIndex" @change="onChange" class="lk-picker-view">
     <picker-view-column v-for="(col, ci) in columns" :key="ci">
-      <view class="lk-picker-view__item" v-for="(opt, oi) in col" :key="oi">{{
-        opt.label
-      }}</view>
+      <view class="lk-picker-view__item" v-for="(opt, oi) in col" :key="oi">{{ opt.label }}</view>
     </picker-view-column>
   </picker-view>
 </template>

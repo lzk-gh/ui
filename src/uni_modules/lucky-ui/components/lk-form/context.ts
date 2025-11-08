@@ -56,5 +56,4 @@ export interface FormItemContext {
 }
 
 export const formContextKey: InjectionKey<FormContext> = Symbol('LkFormContext');
-export const formItemContextKey: InjectionKey<FormItemContext> =
-  Symbol('LkFormItemContext');
+export const formItemContextKey: InjectionKey<FormItemContext> = Symbol('LkFormItemContext');

@@ -97,12 +97,7 @@
     </demo-block>
 
     <demo-block title="组合示例">
-      <lk-radio-group
-        v-model="value8"
-        direction="column"
-        shape="square"
-        icon-type="check"
-      >
+      <lk-radio-group v-model="value8" direction="column" shape="square" icon-type="check">
         <lk-radio label="option1">纵向 + 方形 + 勾选</lk-radio>
         <lk-radio label="option2">纵向 + 方形 + 勾选</lk-radio>
         <lk-radio label="option3">纵向 + 方形 + 勾选</lk-radio>

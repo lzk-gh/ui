@@ -615,12 +615,9 @@ export const HTTP_STATUS = {
  * 状态码判断工具
  */
 export const isSuccessStatus = (status: number): boolean => status >= 200 && status < 300;
-export const isRedirectStatus = (status: number): boolean =>
-  status >= 300 && status < 400;
-export const isClientErrorStatus = (status: number): boolean =>
-  status >= 400 && status < 500;
-export const isServerErrorStatus = (status: number): boolean =>
-  status >= 500 && status < 600;
+export const isRedirectStatus = (status: number): boolean => status >= 300 && status < 400;
+export const isClientErrorStatus = (status: number): boolean => status >= 400 && status < 500;
+export const isServerErrorStatus = (status: number): boolean => status >= 500 && status < 600;
 
 /**
  * 响应数据转换工具

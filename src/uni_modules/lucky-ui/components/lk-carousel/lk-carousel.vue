@@ -1,13 +1,5 @@
 <script lang="ts" setup>
-import {
-  ref,
-  computed,
-  watch,
-  nextTick,
-  getCurrentInstance,
-  onMounted,
-  useSlots,
-} from 'vue';
+import { ref, computed, watch, nextTick, getCurrentInstance, onMounted, useSlots } from 'vue';
 import lkCarouselItem from './lk-carousel-item.vue';
 
 interface Props {
@@ -101,8 +93,7 @@ const autoplayEnabled = computed(() => props.autoPlay && length.value > 1);
 // 是否启用循环：受用户配置 loop 控制，同时必须有多张图片
 const circular = computed(() => !!props.loop && length.value > 1);
 const resolvedIndicatorPosition = computed(() => {
-  if (props.indicatorPosition && props.indicatorPosition !== 'auto')
-    return props.indicatorPosition;
+  if (props.indicatorPosition && props.indicatorPosition !== 'auto') return props.indicatorPosition;
   return props.vertical ? 'right' : 'bottom';
 });
 const indicatorVertical = computed(() =>
@@ -148,8 +139,7 @@ const indicatorSpaceRpx = computed(() => {
 // 外层容器样式：autoHeight 时包含内容高度 + 指示器像素高度；固定高保持传入高度
 const outerStyle = computed(() => {
   if (props.autoHeight) {
-    const total =
-      currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
+    const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
     return { height: `${Math.max(0, total)}px` };
   }
   return {
@@ -340,9 +330,7 @@ onMounted(() => {
 
       <!-- 指示器：点状或条状 -->
       <view
-        v-else-if="
-          showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')
-        "
+        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
         class="lk-indicators"
         :class="[
           `pos-${resolvedIndicatorPosition}`,
@@ -364,8 +352,7 @@ onMounted(() => {
             bar: indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor:
-              index === innerCurrent ? indicatorActiveColor : indicatorColor,
+            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
           }"
           @click="indicatorClickable ? setActive(index) : undefined"
         ></view>
@@ -388,9 +375,7 @@ onMounted(() => {
 
       <!-- 指示器：点状或条状 -->
       <view
-        v-else-if="
-          showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')
-        "
+        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
         class="lk-indicators outside"
         id="lk-indicators-outside"
         :class="[
@@ -413,8 +398,7 @@ onMounted(() => {
             bar: indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor:
-              index === innerCurrent ? indicatorActiveColor : indicatorColor,
+            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
           }"
           @click="indicatorClickable ? setActive(index) : undefined"
         ></view>

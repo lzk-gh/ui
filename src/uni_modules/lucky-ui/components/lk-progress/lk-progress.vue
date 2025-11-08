@@ -36,11 +36,7 @@ const circleProps = computed(() => {
     <text v-if="showText && !textInside" class="lk-progress__text">{{ pct }}%</text>
   </view>
 
-  <view
-    v-else
-    class="lk-progress-circle"
-    :style="{ width: size + 'rpx', height: size + 'rpx' }"
-  >
+  <view v-else class="lk-progress-circle" :style="{ width: size + 'rpx', height: size + 'rpx' }">
     <svg :width="size" :height="size" viewBox="0 0 100 100">
       <circle
         class="lk-progress-circle__track"

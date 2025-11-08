@@ -42,11 +42,7 @@ function onClick() {
 </script>
 
 <template>
-  <view
-    class="lk-image"
-    :style="{ width, height, borderRadius: radius }"
-    @click="onClick"
-  >
+  <view class="lk-image" :style="{ width, height, borderRadius: radius }" @click="onClick">
     <image
       v-if="!state.error"
       class="lk-image__inner"

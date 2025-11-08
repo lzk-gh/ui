@@ -6,18 +6,8 @@
 
     <demo-block title="输入类型">
       <lk-input v-model="value2" type="text" placeholder="文本输入" />
-      <lk-input
-        v-model="value3"
-        type="number"
-        placeholder="数字输入"
-        style="margin-top: 16rpx"
-      />
-      <lk-input
-        v-model="value4"
-        type="password"
-        placeholder="密码输入"
-        style="margin-top: 16rpx"
-      />
+      <lk-input v-model="value3" type="number" placeholder="数字输入" style="margin-top: 16rpx" />
+      <lk-input v-model="value4" type="password" placeholder="密码输入" style="margin-top: 16rpx" />
     </demo-block>
 
     <demo-block title="清除按钮">
@@ -54,12 +44,7 @@
     </demo-block>
 
     <demo-block title="字数统计">
-      <lk-input
-        v-model="value9"
-        :maxlength="20"
-        show-word-limit
-        placeholder="最多20个字"
-      />
+      <lk-input v-model="value9" :maxlength="20" show-word-limit placeholder="最多20个字" />
     </demo-block>
   </view>
 </template>

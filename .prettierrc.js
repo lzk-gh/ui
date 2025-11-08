@@ -1,6 +1,6 @@
 module.exports = {
   // 基础配置
-  printWidth: 90, // 每行最大字符数
+  printWidth: 100, // 每行最大字符数
   tabWidth: 2, // 缩进空格数
   useTabs: false, // 使用空格缩进
   semi: true, // 语句末尾加分号

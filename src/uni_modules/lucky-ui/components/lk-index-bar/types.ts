@@ -1,8 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 
-export const defaultIndexList = Array.from({ length: 26 }, (_, i) =>
-  String.fromCharCode(65 + i)
-);
+export const defaultIndexList = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
 export const lkIndexBarProps = {
   indexList: {

@@ -17,14 +17,7 @@
           <lk-button>自定义内容（点击打开）</lk-button>
           <template #content>
             <view style="display: flex; align-items: center; gap: 12rpx">
-              <view
-                style="
-                  width: 20rpx;
-                  height: 20rpx;
-                  border-radius: 50%;
-                  background: #16a34a;
-                "
-              />
+              <view style="width: 20rpx; height: 20rpx; border-radius: 50%; background: #16a34a" />
               <text>一段可自定义的内容，包含图形和文字</text>
             </view>
           </template>
@@ -51,15 +44,9 @@
     <demo-block title="位置（placement）">
       <view class="demo-grid">
         <lk-tooltip content="Top" placement="top"><lk-button>Top</lk-button></lk-tooltip>
-        <lk-tooltip content="Right" placement="right"
-          ><lk-button>Right</lk-button></lk-tooltip
-        >
-        <lk-tooltip content="Bottom" placement="bottom"
-          ><lk-button>Bottom</lk-button></lk-tooltip
-        >
-        <lk-tooltip content="Left" placement="left"
-          ><lk-button>Left</lk-button></lk-tooltip
-        >
+        <lk-tooltip content="Right" placement="right"><lk-button>Right</lk-button></lk-tooltip>
+        <lk-tooltip content="Bottom" placement="bottom"><lk-button>Bottom</lk-button></lk-tooltip>
+        <lk-tooltip content="Left" placement="left"><lk-button>Left</lk-button></lk-tooltip>
       </view>
     </demo-block>
 

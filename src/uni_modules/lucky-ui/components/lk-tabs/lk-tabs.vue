@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  ref,
-  provide,
-  watch,
-  onMounted,
-  nextTick,
-  computed,
-  getCurrentInstance,
-} from 'vue';
+import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
 
 defineOptions({ name: 'LkTabs' });
 

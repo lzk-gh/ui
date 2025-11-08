@@ -14,14 +14,10 @@ function scrollTo(letter: string) {
   active.value = letter;
   // #ifdef H5
   try {
-    const root: any = props.scrollTarget
-      ? document.querySelector(props.scrollTarget)
-      : window;
+    const root: any = props.scrollTarget ? document.querySelector(props.scrollTarget) : window;
     const el = (
       props.scrollTarget
-        ? document.querySelector(
-            `${props.scrollTarget} [data-lk-index-anchor="${letter}"]`
-          )
+        ? document.querySelector(`${props.scrollTarget} [data-lk-index-anchor="${letter}"]`)
         : document.querySelector(`[data-lk-index-anchor="${letter}"]`)
     ) as HTMLElement | null;
     if (el) {

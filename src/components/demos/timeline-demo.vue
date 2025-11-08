@@ -3,18 +3,10 @@
     <demo-block title="基础用法（竖向，实线）">
       <lk-timeline>
         <lk-timeline-item title="创建项目">
-          <view
-            class="lk-timeline-item__content"
-            hover-class="none"
-            hover-stop-propagation="false"
-          >
+          <view class="lk-timeline-item__content" hover-class="none" hover-stop-propagation="false">
             项目立项，需求评审与任务分配
           </view>
-          <view
-            class="lk-timeline-item__extra"
-            hover-class="none"
-            hover-stop-propagation="false"
-          >
+          <view class="lk-timeline-item__extra" hover-class="none" hover-stop-propagation="false">
             2024-01-10
           </view>
         </lk-timeline-item>
@@ -64,9 +56,7 @@
       <lk-timeline>
         <lk-timeline-item time="2024-01-15 10:00">
           <template #left>
-            <text style="color: var(--lk-color-text-secondary); font-size: 22rpx"
-              >UTC+8</text
-            >
+            <text style="color: var(--lk-color-text-secondary); font-size: 22rpx">UTC+8</text>
           </template>
           用户注册
         </lk-timeline-item>

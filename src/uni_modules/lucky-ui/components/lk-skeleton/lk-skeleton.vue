@@ -22,18 +22,14 @@ const props = defineProps({
 
 function getRowWidth(i: number): string {
   if (Array.isArray(props.rowWidth)) {
-    return String(
-      props.rowWidth[i] || props.rowWidth[props.rowWidth.length - 1] || '100%'
-    );
+    return String(props.rowWidth[i] || props.rowWidth[props.rowWidth.length - 1] || '100%');
   }
   return String(props.rowWidth);
 }
 
 const hostStyle = computed(() => {
   const dur =
-    typeof props.duration === 'number'
-      ? `${props.duration}s`
-      : String(props.duration || '1.8s');
+    typeof props.duration === 'number' ? `${props.duration}s` : String(props.duration || '1.8s');
   return {
     '--lk-skel-duration': dur,
     '--lk-skel-ease': props.easing,
@@ -119,17 +115,17 @@ const hostStyle = computed(() => {
     );
     background-size: 300% 100%;
     &.is-anim {
-      animation: lk-skeleton-move var(--lk-skel-duration, 2.4s)
-        var(--lk-skel-ease, ease-in-out) infinite;
+      animation: lk-skeleton-move var(--lk-skel-duration, 2.4s) var(--lk-skel-ease, ease-in-out)
+        infinite;
     }
   }
   &__title.is-anim {
-    animation: lk-skeleton-move var(--lk-skel-duration, 2.4s)
-      var(--lk-skel-ease, ease-in-out) infinite;
+    animation: lk-skeleton-move var(--lk-skel-duration, 2.4s) var(--lk-skel-ease, ease-in-out)
+      infinite;
   }
   &__avatar.is-anim {
-    animation: lk-skeleton-move var(--lk-skel-duration, 2.4s)
-      var(--lk-skel-ease, ease-in-out) infinite;
+    animation: lk-skeleton-move var(--lk-skel-duration, 2.4s) var(--lk-skel-ease, ease-in-out)
+      infinite;
   }
 }
 @keyframes lk-skeleton-move {

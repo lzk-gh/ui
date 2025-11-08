@@ -20,12 +20,7 @@
         <lk-icon name="star-fill" size="24" color="var(--lk-color-warning)" />
       </lk-divider>
       <lk-divider text-position="left">
-        <lk-icon
-          name="heart-fill"
-          size="24"
-          color="var(--lk-color-danger)"
-          class="mr-8"
-        />
+        <lk-icon name="heart-fill" size="24" color="var(--lk-color-danger)" class="mr-8" />
         热门推荐
       </lk-divider>
     </demo-block>

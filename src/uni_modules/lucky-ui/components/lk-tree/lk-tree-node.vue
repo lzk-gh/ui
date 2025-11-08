@@ -31,11 +31,7 @@ function onCheck() {
         :class="{ 'is-leaf': !hasChildren }"
         @click="toggleExpand"
       >
-        <lk-icon
-          v-if="hasChildren"
-          :name="expanded ? 'arrow-down' : 'arrow-right'"
-          size="28"
-        />
+        <lk-icon v-if="hasChildren" :name="expanded ? 'arrow-down' : 'arrow-right'" size="28" />
       </view>
       <view
         v-if="checkable"

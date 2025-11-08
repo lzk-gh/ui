@@ -53,41 +53,22 @@ function onClose() {
     <view class="lk-nkb">
       <view class="lk-nkb__body">
         <view class="lk-nkb__row">
-          <button
-            class="lk-nkb__key"
-            v-for="k in keys.slice(0, 3)"
-            :key="k"
-            @click="onKey(k)"
-          >
+          <button class="lk-nkb__key" v-for="k in keys.slice(0, 3)" :key="k" @click="onKey(k)">
             {{ k }}
           </button>
         </view>
         <view class="lk-nkb__row">
-          <button
-            class="lk-nkb__key"
-            v-for="k in keys.slice(3, 6)"
-            :key="k"
-            @click="onKey(k)"
-          >
+          <button class="lk-nkb__key" v-for="k in keys.slice(3, 6)" :key="k" @click="onKey(k)">
             {{ k }}
           </button>
         </view>
         <view class="lk-nkb__row">
-          <button
-            class="lk-nkb__key"
-            v-for="k in keys.slice(6, 9)"
-            :key="k"
-            @click="onKey(k)"
-          >
+          <button class="lk-nkb__key" v-for="k in keys.slice(6, 9)" :key="k" @click="onKey(k)">
             {{ k }}
           </button>
         </view>
         <view class="lk-nkb__row">
-          <button
-            class="lk-nkb__key"
-            v-if="props.extraKey"
-            @click="onKey(props.extraKey)"
-          >
+          <button class="lk-nkb__key" v-if="props.extraKey" @click="onKey(props.extraKey)">
             {{ props.extraKey }}
           </button>
           <button class="lk-nkb__key" @click="onKey('0')">0</button>

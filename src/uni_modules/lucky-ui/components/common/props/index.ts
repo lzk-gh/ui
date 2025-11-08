@@ -95,17 +95,12 @@ export const LkProp = {
    * @param name 属性名
    * @returns
    */
-  enum: <T extends readonly string[], D extends T[number]>(
-    values: T,
-    def: D,
-    name = 'prop'
-  ) => ({
+  enum: <T extends readonly string[], D extends T[number]>(values: T, def: D, name = 'prop') => ({
     type: String as PropType<T[number]>,
     default: def,
     validator: (v: any): v is T[number] => {
       const ok = values.includes(v);
-      if (!ok)
-        console.warn(`[LkUi] ${name} 无效值: "${v}"，可选值：${values.join(' | ')}`);
+      if (!ok) console.warn(`[LkUi] ${name} 无效值: "${v}"，可选值：${values.join(' | ')}`);
       return ok;
     },
   }),

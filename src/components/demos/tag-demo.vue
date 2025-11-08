@@ -13,31 +13,23 @@
     <demo-block title="可关闭标签">
       <view class="demo-row">
         <lk-tag v-if="tags.tag1" closable @close="tags.tag1 = false">可关闭</lk-tag>
-        <lk-tag v-if="tags.tag2" closable type="primary" @close="tags.tag2 = false"
-          >主要</lk-tag
-        >
-        <lk-tag v-if="tags.tag3" closable type="success" @close="tags.tag3 = false"
-          >成功</lk-tag
-        >
-        <lk-button v-if="!allTagsVisible" size="medium" @click="resetTags"
-          >恢复</lk-button
-        >
+        <lk-tag v-if="tags.tag2" closable type="primary" @close="tags.tag2 = false">主要</lk-tag>
+        <lk-tag v-if="tags.tag3" closable type="success" @close="tags.tag3 = false">成功</lk-tag>
+        <lk-button v-if="!allTagsVisible" size="medium" @click="resetTags">恢复</lk-button>
       </view>
     </demo-block>
 
     <demo-block title="标签尺寸">
       <view class="demo-row">
-        <lk-tag size="small" type="primary">小标签</lk-tag>
-        <lk-tag size="medium" type="primary">中等</lk-tag>
-        <lk-tag size="large" type="primary">大标签</lk-tag>
+        <lk-tag size="sm">小标签</lk-tag>
+        <lk-tag size="md">中等</lk-tag>
+        <lk-tag size="lg">大标签</lk-tag>
       </view>
     </demo-block>
 
     <demo-block title="圆形标签">
       <view class="demo-row">
         <lk-tag round>默认</lk-tag>
-        <lk-tag round type="primary">主要</lk-tag>
-        <lk-tag round type="success">成功</lk-tag>
       </view>
     </demo-block>
 
@@ -79,9 +71,7 @@ const tags = ref({
   tag3: true,
 });
 
-const allTagsVisible = computed(
-  () => tags.value.tag1 && tags.value.tag2 && tags.value.tag3
-);
+const allTagsVisible = computed(() => tags.value.tag1 && tags.value.tag2 && tags.value.tag3);
 
 const selectableTags = ref([
   { name: 'vue', label: 'Vue', selected: false },
