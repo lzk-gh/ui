@@ -57,7 +57,7 @@ async function loadNextPage() {
   if (currentPage >= totalPages) return;
   loading.value = true;
   const pageToLoad = currentPage + 1;
-  await new Promise((r) => setTimeout(r, 400));
+  await new Promise(r => setTimeout(r, 400));
   const startId = (pageToLoad - 1) * pageSize;
   const newItems = Array.from({ length: pageSize }, (_, i) => {
     const id = startId + i;

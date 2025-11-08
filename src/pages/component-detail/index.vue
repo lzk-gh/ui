@@ -1,5 +1,8 @@
 <template>
-  <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
+  <view
+    class="detail-page"
+    :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'"
+  >
     <!-- 导航栏 -->
     <lk-navbar :title="componentTitle" />
 
@@ -20,75 +23,75 @@
         <!-- 演示区域 -->
         <view class="demo-area">
           <!-- 动态加载对应的演示组件（小程序不支持 <component :is>，改用 v-if 静态切换） -->
-          <ButtonDemo v-if="componentName==='button'" />
-          <IconDemo v-else-if="componentName==='icon'" />
-          <TagDemo v-else-if="componentName==='tag'" />
-          <BadgeDemo v-else-if="componentName==='badge'" />
-          <AvatarDemo v-else-if="componentName==='avatar'" />
-          <DividerDemo v-else-if="componentName==='divider'" />
-          <NoticeBarDemo v-else-if="componentName==='notice-bar'" />
-          <ImageDemo v-else-if="componentName==='image'" />
-          <GridDemo v-else-if="componentName==='grid'" />
-          <SpaceDemo v-else-if="componentName==='space'" />
+          <ButtonDemo v-if="componentName === 'button'" />
+          <IconDemo v-else-if="componentName === 'icon'" />
+          <TagDemo v-else-if="componentName === 'tag'" />
+          <BadgeDemo v-else-if="componentName === 'badge'" />
+          <AvatarDemo v-else-if="componentName === 'avatar'" />
+          <DividerDemo v-else-if="componentName === 'divider'" />
+          <NoticeBarDemo v-else-if="componentName === 'notice-bar'" />
+          <ImageDemo v-else-if="componentName === 'image'" />
+          <GridDemo v-else-if="componentName === 'grid'" />
+          <SpaceDemo v-else-if="componentName === 'space'" />
 
-          <FormDemo v-else-if="componentName==='form'" />
-          <InputDemo v-else-if="componentName==='input'" />
-          <TextareaDemo v-else-if="componentName==='textarea'" />
-          <SelectDemo v-else-if="componentName==='select'" />
-          <RadioDemo v-else-if="componentName==='radio'" />
-          <CheckboxDemo v-else-if="componentName==='checkbox'" />
-          <SwitchDemo v-else-if="componentName==='switch'" />
-          <StepperDemo v-else-if="componentName==='stepper'" />
-          <SliderDemo v-else-if="componentName==='slider'" />
-          <RateDemo v-else-if="componentName==='rate'" />
-          <UploadDemo v-else-if="componentName==='upload'" />
-          <PickerDemo v-else-if="componentName==='picker'" />
-          <PickerViewDemo v-else-if="componentName==='picker-view'" />
-          <AreaPickerDemo v-else-if="componentName==='area-picker'" />
-          <NumberKeyboardDemo v-else-if="componentName==='number-keyboard'" />
-          <VerifyCodeDemo v-else-if="componentName==='verify-code'" />
-          <ColorPickerDemo v-else-if="componentName==='color-picker'" />
-          <SignatureDemo v-else-if="componentName==='signature'" />
+          <FormDemo v-else-if="componentName === 'form'" />
+          <InputDemo v-else-if="componentName === 'input'" />
+          <TextareaDemo v-else-if="componentName === 'textarea'" />
+          <SelectDemo v-else-if="componentName === 'select'" />
+          <RadioDemo v-else-if="componentName === 'radio'" />
+          <CheckboxDemo v-else-if="componentName === 'checkbox'" />
+          <SwitchDemo v-else-if="componentName === 'switch'" />
+          <StepperDemo v-else-if="componentName === 'stepper'" />
+          <SliderDemo v-else-if="componentName === 'slider'" />
+          <RateDemo v-else-if="componentName === 'rate'" />
+          <UploadDemo v-else-if="componentName === 'upload'" />
+          <PickerDemo v-else-if="componentName === 'picker'" />
+          <PickerViewDemo v-else-if="componentName === 'picker-view'" />
+          <AreaPickerDemo v-else-if="componentName === 'area-picker'" />
+          <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
+          <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
+          <ColorPickerDemo v-else-if="componentName === 'color-picker'" />
+          <SignatureDemo v-else-if="componentName === 'signature'" />
 
-          <CardDemo v-else-if="componentName==='card'" />
-          <CellDemo v-else-if="componentName==='cell'" />
-          <CollapseDemo v-else-if="componentName==='collapse'" />
-          <TableDemo v-else-if="componentName==='table'" />
-          <TabsDemo v-else-if="componentName==='tabs'" />
-          <TimelineDemo v-else-if="componentName==='timeline'" />
-          <StepsDemo v-else-if="componentName==='steps'" />
-          <ProgressDemo v-else-if="componentName==='progress'" />
-          <LoadingDemo v-else-if="componentName==='loading'" />
-          <SkeletonDemo v-else-if="componentName==='skeleton'" />
-          <CarouselDemo v-else-if="componentName==='carousel'" />
-          <SegmentedDemo v-else-if="componentName==='segmented'" />
-          <PaginationDemo v-else-if="componentName==='pagination'" />
-          <BacktopDemo v-else-if="componentName==='backtop'" />
+          <CardDemo v-else-if="componentName === 'card'" />
+          <CellDemo v-else-if="componentName === 'cell'" />
+          <CollapseDemo v-else-if="componentName === 'collapse'" />
+          <TableDemo v-else-if="componentName === 'table'" />
+          <TabsDemo v-else-if="componentName === 'tabs'" />
+          <TimelineDemo v-else-if="componentName === 'timeline'" />
+          <StepsDemo v-else-if="componentName === 'steps'" />
+          <ProgressDemo v-else-if="componentName === 'progress'" />
+          <LoadingDemo v-else-if="componentName === 'loading'" />
+          <SkeletonDemo v-else-if="componentName === 'skeleton'" />
+          <CarouselDemo v-else-if="componentName === 'carousel'" />
+          <SegmentedDemo v-else-if="componentName === 'segmented'" />
+          <PaginationDemo v-else-if="componentName === 'pagination'" />
+          <BacktopDemo v-else-if="componentName === 'backtop'" />
 
-          <ModalDemo v-else-if="componentName==='modal'" />
-          <PopupDemo v-else-if="componentName==='popup'" />
-          <ToastDemo v-else-if="componentName==='toast'" />
-          <ActionSheetDemo v-else-if="componentName==='action-sheet'" />
-          <DrawerDemo v-else-if="componentName==='drawer'" />
-          <OverlayDemo v-else-if="componentName==='overlay'" />
-          <TooltipDemo v-else-if="componentName==='tooltip'" />
-          <DropdownDemo v-else-if="componentName==='dropdown'" />
+          <ModalDemo v-else-if="componentName === 'modal'" />
+          <PopupDemo v-else-if="componentName === 'popup'" />
+          <ToastDemo v-else-if="componentName === 'toast'" />
+          <ActionSheetDemo v-else-if="componentName === 'action-sheet'" />
+          <DrawerDemo v-else-if="componentName === 'drawer'" />
+          <OverlayDemo v-else-if="componentName === 'overlay'" />
+          <TooltipDemo v-else-if="componentName === 'tooltip'" />
+          <DropdownDemo v-else-if="componentName === 'dropdown'" />
 
-          <NavbarDemo v-else-if="componentName==='navbar'" />
-          <TabbarDemo v-else-if="componentName==='tabbar'" />
-          <BreadcrumbDemo v-else-if="componentName==='breadcrumb'" />
-          <IndexBarDemo v-else-if="componentName==='index-bar'" />
-          <AnchorDemo v-else-if="componentName==='anchor'" />
-          <StickyDemo v-else-if="componentName==='sticky'" />
+          <NavbarDemo v-else-if="componentName === 'navbar'" />
+          <TabbarDemo v-else-if="componentName === 'tabbar'" />
+          <BreadcrumbDemo v-else-if="componentName === 'breadcrumb'" />
+          <IndexBarDemo v-else-if="componentName === 'index-bar'" />
+          <AnchorDemo v-else-if="componentName === 'anchor'" />
+          <StickyDemo v-else-if="componentName === 'sticky'" />
 
-          <CalendarDemo v-else-if="componentName==='calendar'" />
-          <DatePickerDemo v-else-if="componentName==='date-picker'" />
-          <TimePickerDemo v-else-if="componentName==='time-picker'" />
-          <CascaderDemo v-else-if="componentName==='cascader'" />
-          <TreeDemo v-else-if="componentName==='tree'" />
-          <VirtualListDemo v-else-if="componentName==='virtual-list'" />
-          <WaterfallDemo v-else-if="componentName==='waterfall'" />
-          <ImageCropperDemo v-else-if="componentName==='image-cropper'" />
+          <CalendarDemo v-else-if="componentName === 'calendar'" />
+          <DatePickerDemo v-else-if="componentName === 'date-picker'" />
+          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
+          <CascaderDemo v-else-if="componentName === 'cascader'" />
+          <TreeDemo v-else-if="componentName === 'tree'" />
+          <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
+          <WaterfallDemo v-else-if="componentName === 'waterfall'" />
+          <ImageCropperDemo v-else-if="componentName === 'image-cropper'" />
 
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
@@ -104,7 +107,7 @@
             <lk-icon name="book-fill" size="32" color="primary" />
             <text>组件 API</text>
           </view>
-          
+
           <lk-cell title="属性 Props" label="查看所有可配置属性" is-link />
           <lk-cell title="事件 Events" label="查看所有事件回调" is-link />
           <lk-cell title="插槽 Slots" label="查看所有插槽说明" is-link />
@@ -126,88 +129,414 @@ import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
 // 组件信息映射
 const componentMap: Record<string, any> = {
   // 基础组件
-  'button': { title: 'Button 按钮', desc: '用于触发操作的交互元素', icon: 'square-fill', color: 'primary' },
-  'icon': { title: 'Icon 图标', desc: '语义化的矢量图标', icon: 'heart-fill', color: 'danger' },
-  'tag': { title: 'Tag 标签', desc: '用于标记和分类的标签', icon: 'tag-fill', color: 'success' },
-  'badge': { title: 'Badge 徽标', desc: '展示消息数量的徽标', icon: 'circle-fill', color: 'warning' },
-  'avatar': { title: 'Avatar 头像', desc: '用户头像展示组件', icon: 'person-circle', color: 'info' },
-  'divider': { title: 'Divider 分割线', desc: '区隔内容的分割线', icon: 'dash-lg', color: 'textSecondary' },
-  'notice-bar': { title: 'NoticeBar 通知栏', desc: '用于展示通知消息', icon: 'megaphone-fill', color: 'warning' },
-  'image': { title: 'Image 图片', desc: '增强的图片展示组件', icon: 'image-fill', color: 'success' },
-  'grid': { title: 'Grid 栅格', desc: '24 栅格布局系统', icon: 'grid-3x3-gap', color: 'primary' },
-  'space': { title: 'Space 间距', desc: '设置组件之间的间距', icon: 'arrows-expand', color: 'primary' },
-  
+  button: {
+    title: 'Button 按钮',
+    desc: '用于触发操作的交互元素',
+    icon: 'square-fill',
+    color: 'primary',
+  },
+  icon: {
+    title: 'Icon 图标',
+    desc: '语义化的矢量图标',
+    icon: 'heart-fill',
+    color: 'danger',
+  },
+  tag: {
+    title: 'Tag 标签',
+    desc: '用于标记和分类的标签',
+    icon: 'tag-fill',
+    color: 'success',
+  },
+  badge: {
+    title: 'Badge 徽标',
+    desc: '展示消息数量的徽标',
+    icon: 'circle-fill',
+    color: 'warning',
+  },
+  avatar: {
+    title: 'Avatar 头像',
+    desc: '用户头像展示组件',
+    icon: 'person-circle',
+    color: 'info',
+  },
+  divider: {
+    title: 'Divider 分割线',
+    desc: '区隔内容的分割线',
+    icon: 'dash-lg',
+    color: 'textSecondary',
+  },
+  'notice-bar': {
+    title: 'NoticeBar 通知栏',
+    desc: '用于展示通知消息',
+    icon: 'megaphone-fill',
+    color: 'warning',
+  },
+  image: {
+    title: 'Image 图片',
+    desc: '增强的图片展示组件',
+    icon: 'image-fill',
+    color: 'success',
+  },
+  grid: {
+    title: 'Grid 栅格',
+    desc: '24 栅格布局系统',
+    icon: 'grid-3x3-gap',
+    color: 'primary',
+  },
+  space: {
+    title: 'Space 间距',
+    desc: '设置组件之间的间距',
+    icon: 'arrows-expand',
+    color: 'primary',
+  },
+
   // 表单组件
-  'form': { title: 'Form 表单', desc: '表单容器与验证', icon: 'ui-checks', color: 'primary' },
-  'input': { title: 'Input 输入框', desc: '文本输入组件', icon: 'input-cursor-text', color: 'primary' },
-  'textarea': { title: 'Textarea 多行输入', desc: '多行文本输入', icon: 'textarea-t', color: 'primary' },
-  'select': { title: 'Select 选择器', desc: '下拉选择组件', icon: 'menu-button-wide-fill', color: 'success' },
-  'radio': { title: 'Radio 单选框', desc: '单项选择组件', icon: 'record-circle-fill', color: 'success' },
-  'checkbox': { title: 'Checkbox 复选框', desc: '多项选择组件', icon: 'check-square-fill', color: 'success' },
-  'switch': { title: 'Switch 开关', desc: '开关切换组件', icon: 'toggle-on', color: 'success' },
-  'stepper': { title: 'Stepper 步进器', desc: '数字增减组件', icon: 'plus-slash-minus', color: 'warning' },
-  'slider': { title: 'Slider 滑块', desc: '滑动选择组件', icon: 'sliders', color: 'warning' },
-  'rate': { title: 'Rate 评分', desc: '星级评分组件', icon: 'star-fill', color: 'warning' },
-  'upload': { title: 'Upload 上传', desc: '文件上传组件', icon: 'cloud-upload-fill', color: 'info' },
-  'picker': { title: 'Picker 选择器', desc: '弹出选择器', icon: 'menu-button-wide', color: 'success' },
-  'picker-view': { title: 'PickerView 选择器视图', desc: '内联滚动选择视图', icon: 'columns', color: 'success' },
-  'area-picker': { title: 'AreaPicker 地区选择', desc: '省市区三级联动选择', icon: 'geo-alt', color: 'success' },
-  'number-keyboard': { title: 'NumberKeyboard 数字键盘', desc: '用于数字输入的虚拟键盘', icon: '123', color: 'warning' },
-  'verify-code': { title: 'VerifyCode 验证码', desc: '短信/验证码输入', icon: 'shield-lock', color: 'warning' },
-  'color-picker': { title: 'ColorPicker 取色器', desc: '支持 HSV/RGB/HEX', icon: 'palette', color: 'info' },
-  'signature': { title: 'Signature 手写签名', desc: 'Canvas 手写与导出', icon: 'pen', color: 'info' },
-  
+  form: {
+    title: 'Form 表单',
+    desc: '表单容器与验证',
+    icon: 'ui-checks',
+    color: 'primary',
+  },
+  input: {
+    title: 'Input 输入框',
+    desc: '文本输入组件',
+    icon: 'input-cursor-text',
+    color: 'primary',
+  },
+  textarea: {
+    title: 'Textarea 多行输入',
+    desc: '多行文本输入',
+    icon: 'textarea-t',
+    color: 'primary',
+  },
+  select: {
+    title: 'Select 选择器',
+    desc: '下拉选择组件',
+    icon: 'menu-button-wide-fill',
+    color: 'success',
+  },
+  radio: {
+    title: 'Radio 单选框',
+    desc: '单项选择组件',
+    icon: 'record-circle-fill',
+    color: 'success',
+  },
+  checkbox: {
+    title: 'Checkbox 复选框',
+    desc: '多项选择组件',
+    icon: 'check-square-fill',
+    color: 'success',
+  },
+  switch: {
+    title: 'Switch 开关',
+    desc: '开关切换组件',
+    icon: 'toggle-on',
+    color: 'success',
+  },
+  stepper: {
+    title: 'Stepper 步进器',
+    desc: '数字增减组件',
+    icon: 'plus-slash-minus',
+    color: 'warning',
+  },
+  slider: {
+    title: 'Slider 滑块',
+    desc: '滑动选择组件',
+    icon: 'sliders',
+    color: 'warning',
+  },
+  rate: {
+    title: 'Rate 评分',
+    desc: '星级评分组件',
+    icon: 'star-fill',
+    color: 'warning',
+  },
+  upload: {
+    title: 'Upload 上传',
+    desc: '文件上传组件',
+    icon: 'cloud-upload-fill',
+    color: 'info',
+  },
+  picker: {
+    title: 'Picker 选择器',
+    desc: '弹出选择器',
+    icon: 'menu-button-wide',
+    color: 'success',
+  },
+  'picker-view': {
+    title: 'PickerView 选择器视图',
+    desc: '内联滚动选择视图',
+    icon: 'columns',
+    color: 'success',
+  },
+  'area-picker': {
+    title: 'AreaPicker 地区选择',
+    desc: '省市区三级联动选择',
+    icon: 'geo-alt',
+    color: 'success',
+  },
+  'number-keyboard': {
+    title: 'NumberKeyboard 数字键盘',
+    desc: '用于数字输入的虚拟键盘',
+    icon: '123',
+    color: 'warning',
+  },
+  'verify-code': {
+    title: 'VerifyCode 验证码',
+    desc: '短信/验证码输入',
+    icon: 'shield-lock',
+    color: 'warning',
+  },
+  'color-picker': {
+    title: 'ColorPicker 取色器',
+    desc: '支持 HSV/RGB/HEX',
+    icon: 'palette',
+    color: 'info',
+  },
+  signature: {
+    title: 'Signature 手写签名',
+    desc: 'Canvas 手写与导出',
+    icon: 'pen',
+    color: 'info',
+  },
+
   // 数据展示组件
-  'card': { title: 'Card 卡片', desc: '通用卡片容器', icon: 'card-text', color: 'primary' },
-  'cell': { title: 'Cell 单元格', desc: '列表单元格组件', icon: 'list-ul', color: 'primary' },
-  'collapse': { title: 'Collapse 折叠面板', desc: '可折叠的内容面板', icon: 'arrows-collapse', color: 'primary' },
-  'table': { title: 'Table 表格', desc: '数据表格组件', icon: 'table', color: 'success' },
-  'tabs': { title: 'Tabs 标签页', desc: '选项卡切换组件', icon: 'layout-text-sidebar', color: 'success' },
-  'timeline': { title: 'Timeline 时间轴', desc: '垂直时间轴组件', icon: 'clock-history', color: 'warning' },
-  'steps': { title: 'Steps 步骤条', desc: '步骤流程组件', icon: 'diagram-3-fill', color: 'warning' },
-  'progress': { title: 'Progress 进度条', desc: '进度指示组件', icon: 'hourglass-split', color: 'info' },
-  'loading': { title: 'Loading 加载', desc: '加载状态提示', icon: 'arrow-repeat', color: 'info' },
-  'skeleton': { title: 'Skeleton 骨架屏', desc: '内容加载占位', icon: 'menu-up', color: 'textSecondary' },
-  'carousel': { title: 'Carousel 轮播图', desc: '图片轮播组件', icon: 'images', color: 'danger' },
-  'segmented': { title: 'Segmented 分段器', desc: '分段选择组件', icon: 'segmented-nav', color: 'primary' },
-  'pagination': { title: 'Pagination 分页', desc: '数据分页组件', icon: 'three-dots', color: 'primary' },
-  
+  card: {
+    title: 'Card 卡片',
+    desc: '通用卡片容器',
+    icon: 'card-text',
+    color: 'primary',
+  },
+  cell: {
+    title: 'Cell 单元格',
+    desc: '列表单元格组件',
+    icon: 'list-ul',
+    color: 'primary',
+  },
+  collapse: {
+    title: 'Collapse 折叠面板',
+    desc: '可折叠的内容面板',
+    icon: 'arrows-collapse',
+    color: 'primary',
+  },
+  table: {
+    title: 'Table 表格',
+    desc: '数据表格组件',
+    icon: 'table',
+    color: 'success',
+  },
+  tabs: {
+    title: 'Tabs 标签页',
+    desc: '选项卡切换组件',
+    icon: 'layout-text-sidebar',
+    color: 'success',
+  },
+  timeline: {
+    title: 'Timeline 时间轴',
+    desc: '垂直时间轴组件',
+    icon: 'clock-history',
+    color: 'warning',
+  },
+  steps: {
+    title: 'Steps 步骤条',
+    desc: '步骤流程组件',
+    icon: 'diagram-3-fill',
+    color: 'warning',
+  },
+  progress: {
+    title: 'Progress 进度条',
+    desc: '进度指示组件',
+    icon: 'hourglass-split',
+    color: 'info',
+  },
+  loading: {
+    title: 'Loading 加载',
+    desc: '加载状态提示',
+    icon: 'arrow-repeat',
+    color: 'info',
+  },
+  skeleton: {
+    title: 'Skeleton 骨架屏',
+    desc: '内容加载占位',
+    icon: 'menu-up',
+    color: 'textSecondary',
+  },
+  carousel: {
+    title: 'Carousel 轮播图',
+    desc: '图片轮播组件',
+    icon: 'images',
+    color: 'danger',
+  },
+  segmented: {
+    title: 'Segmented 分段器',
+    desc: '分段选择组件',
+    icon: 'segmented-nav',
+    color: 'primary',
+  },
+  pagination: {
+    title: 'Pagination 分页',
+    desc: '数据分页组件',
+    icon: 'three-dots',
+    color: 'primary',
+  },
+
   // 反馈组件
-  'modal': { title: 'Modal 模态框', desc: '模态对话框组件', icon: 'window', color: 'primary' },
-  'popup': { title: 'Popup 弹出层', desc: '多方向弹出层', icon: 'app-indicator', color: 'primary' },
-  'toast': { title: 'Toast 轻提示', desc: '轻量级提示反馈', icon: 'chat-left-text-fill', color: 'success' },
-  'action-sheet': { title: 'ActionSheet 动作面板', desc: '底部动作选择', icon: 'menu-app-fill', color: 'success' },
-  'drawer': { title: 'Drawer 抽屉', desc: '侧边抽屉组件', icon: 'layout-sidebar-inset', color: 'warning' },
-  'overlay': { title: 'Overlay 遮罩层', desc: '页面遮罩组件', icon: 'square', color: 'textSecondary' },
-  'tooltip': { title: 'Tooltip 文字提示', desc: '文字提示气泡', icon: 'chat-square-quote-fill', color: 'info' },
-  'dropdown': { title: 'Dropdown 下拉菜单', desc: '下拉菜单组件', icon: 'menu-down', color: 'danger' },
-  
+  modal: {
+    title: 'Modal 模态框',
+    desc: '模态对话框组件',
+    icon: 'window',
+    color: 'primary',
+  },
+  popup: {
+    title: 'Popup 弹出层',
+    desc: '多方向弹出层',
+    icon: 'app-indicator',
+    color: 'primary',
+  },
+  toast: {
+    title: 'Toast 轻提示',
+    desc: '轻量级提示反馈',
+    icon: 'chat-left-text-fill',
+    color: 'success',
+  },
+  'action-sheet': {
+    title: 'ActionSheet 动作面板',
+    desc: '底部动作选择',
+    icon: 'menu-app-fill',
+    color: 'success',
+  },
+  drawer: {
+    title: 'Drawer 抽屉',
+    desc: '侧边抽屉组件',
+    icon: 'layout-sidebar-inset',
+    color: 'warning',
+  },
+  overlay: {
+    title: 'Overlay 遮罩层',
+    desc: '页面遮罩组件',
+    icon: 'square',
+    color: 'textSecondary',
+  },
+  tooltip: {
+    title: 'Tooltip 文字提示',
+    desc: '文字提示气泡',
+    icon: 'chat-square-quote-fill',
+    color: 'info',
+  },
+  dropdown: {
+    title: 'Dropdown 下拉菜单',
+    desc: '下拉菜单组件',
+    icon: 'menu-down',
+    color: 'danger',
+  },
+
   // 导航组件
-  'navbar': { title: 'Navbar 导航栏', desc: '顶部导航栏组件', icon: 'phone', color: 'primary' },
-  'tabbar': { title: 'Tabbar 标签栏', desc: '底部标签栏组件', icon: 'menu-button-wide', color: 'success' },
-  'breadcrumb': { title: 'Breadcrumb 面包屑', desc: '导航路径组件', icon: 'chevron-right', color: 'warning' },
-  'backtop': { title: 'Backtop 回到顶部', desc: '快速返回页面顶部的悬浮按钮', icon: 'arrow-up-circle', color: 'primary' },
-  'index-bar': { title: 'IndexBar 索引栏', desc: '字母索引快速定位', icon: 'sort-alpha-down', color: 'primary' },
-  'anchor': { title: 'Anchor 锚点', desc: '页面锚点与激活', icon: 'hash', color: 'primary' },
-  'sticky': { title: 'Sticky 粘性布局', desc: '基于位置的吸附布局', icon: 'pin-angle', color: 'primary' },
-  
+  navbar: {
+    title: 'Navbar 导航栏',
+    desc: '顶部导航栏组件',
+    icon: 'phone',
+    color: 'primary',
+  },
+  tabbar: {
+    title: 'Tabbar 标签栏',
+    desc: '底部标签栏组件',
+    icon: 'menu-button-wide',
+    color: 'success',
+  },
+  breadcrumb: {
+    title: 'Breadcrumb 面包屑',
+    desc: '导航路径组件',
+    icon: 'chevron-right',
+    color: 'warning',
+  },
+  backtop: {
+    title: 'Backtop 回到顶部',
+    desc: '快速返回页面顶部的悬浮按钮',
+    icon: 'arrow-up-circle',
+    color: 'primary',
+  },
+  'index-bar': {
+    title: 'IndexBar 索引栏',
+    desc: '字母索引快速定位',
+    icon: 'sort-alpha-down',
+    color: 'primary',
+  },
+  anchor: {
+    title: 'Anchor 锚点',
+    desc: '页面锚点与激活',
+    icon: 'hash',
+    color: 'primary',
+  },
+  sticky: {
+    title: 'Sticky 粘性布局',
+    desc: '基于位置的吸附布局',
+    icon: 'pin-angle',
+    color: 'primary',
+  },
+
   // 高级组件
-  'calendar': { title: 'Calendar 日历', desc: '日历选择组件', icon: 'calendar3', color: 'primary' },
-  'date-picker': { title: 'DatePicker 日期选择', desc: '日期选择器', icon: 'calendar-date-fill', color: 'success' },
-  'time-picker': { title: 'TimePicker 时间选择', desc: '时间选择器', icon: 'clock-fill', color: 'warning' },
-  'cascader': { title: 'Cascader 级联选择', desc: '级联选择器', icon: 'diagram-2-fill', color: 'info' },
-  'tree': { title: 'Tree 树形控件', desc: '树形结构组件', icon: 'diagram-3-fill', color: 'success' },
-  'virtual-list': { title: 'VirtualList 虚拟列表', desc: '长列表优化组件', icon: 'list-nested', color: 'primary' },
-  'waterfall': { title: 'Waterfall 瀑布流', desc: '多列不规则流布局', icon: 'grid-3x2-gap', color: 'primary' },
-  'image-cropper': { title: 'ImageCropper 图片裁剪', desc: '基于 Canvas 的裁剪', icon: 'crop', color: 'danger' },
+  calendar: {
+    title: 'Calendar 日历',
+    desc: '日历选择组件',
+    icon: 'calendar3',
+    color: 'primary',
+  },
+  'date-picker': {
+    title: 'DatePicker 日期选择',
+    desc: '日期选择器',
+    icon: 'calendar-date-fill',
+    color: 'success',
+  },
+  'time-picker': {
+    title: 'TimePicker 时间选择',
+    desc: '时间选择器',
+    icon: 'clock-fill',
+    color: 'warning',
+  },
+  cascader: {
+    title: 'Cascader 级联选择',
+    desc: '级联选择器',
+    icon: 'diagram-2-fill',
+    color: 'info',
+  },
+  tree: {
+    title: 'Tree 树形控件',
+    desc: '树形结构组件',
+    icon: 'diagram-3-fill',
+    color: 'success',
+  },
+  'virtual-list': {
+    title: 'VirtualList 虚拟列表',
+    desc: '长列表优化组件',
+    icon: 'list-nested',
+    color: 'primary',
+  },
+  waterfall: {
+    title: 'Waterfall 瀑布流',
+    desc: '多列不规则流布局',
+    icon: 'grid-3x2-gap',
+    color: 'primary',
+  },
+  'image-cropper': {
+    title: 'ImageCropper 图片裁剪',
+    desc: '基于 Canvas 的裁剪',
+    icon: 'crop',
+    color: 'danger',
+  },
 };
 
 // 当前组件名称
 const componentName = ref('');
-const componentTitle = computed(() => componentMap[componentName.value]?.title || '组件详情');
+const componentTitle = computed(
+  () => componentMap[componentName.value]?.title || '组件详情'
+);
 const componentDesc = computed(() => componentMap[componentName.value]?.desc || '');
-const componentIcon = computed(() => componentMap[componentName.value]?.icon || 'box-seam');
-const componentColor = computed(() => componentMap[componentName.value]?.color || 'primary');
+const componentIcon = computed(
+  () => componentMap[componentName.value]?.icon || 'box-seam'
+);
+const componentColor = computed(
+  () => componentMap[componentName.value]?.color || 'primary'
+);
 
 // 动态演示组件
 // 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if
@@ -217,7 +546,7 @@ const demoComponent = ref<any>(null);
 const { theme } = useTheme();
 
 // 页面加载
-onLoad((options) => {
+onLoad(options => {
   if (options?.name) {
     componentName.value = options.name;
     loadDemoComponent(options.name);
@@ -304,79 +633,79 @@ import ImageCropperDemo from '@/components/demos/image-cropper-demo.vue';
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
   // 基础组件
-  'button': ButtonDemo,
-  'icon': IconDemo,
-  'tag': TagDemo,
-  'badge': BadgeDemo,
-  'avatar': AvatarDemo,
-  'divider': DividerDemo,
+  button: ButtonDemo,
+  icon: IconDemo,
+  tag: TagDemo,
+  badge: BadgeDemo,
+  avatar: AvatarDemo,
+  divider: DividerDemo,
   'notice-bar': NoticeBarDemo,
-  'image': ImageDemo,
-  'grid': GridDemo,
-  'space': SpaceDemo,
-  
+  image: ImageDemo,
+  grid: GridDemo,
+  space: SpaceDemo,
+
   // 表单组件
-  'form': FormDemo,
-  'input': InputDemo,
-  'textarea': TextareaDemo,
-  'select': SelectDemo,
-  'radio': RadioDemo,
-  'checkbox': CheckboxDemo,
-  'switch': SwitchDemo,
-  'stepper': StepperDemo,
-  'slider': SliderDemo,
-  'rate': RateDemo,
-  'upload': UploadDemo,
-  'picker': PickerDemo,
+  form: FormDemo,
+  input: InputDemo,
+  textarea: TextareaDemo,
+  select: SelectDemo,
+  radio: RadioDemo,
+  checkbox: CheckboxDemo,
+  switch: SwitchDemo,
+  stepper: StepperDemo,
+  slider: SliderDemo,
+  rate: RateDemo,
+  upload: UploadDemo,
+  picker: PickerDemo,
   'picker-view': PickerViewDemo,
   'area-picker': AreaPickerDemo,
   'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,
   'color-picker': ColorPickerDemo,
-  'signature': SignatureDemo,
-  
+  signature: SignatureDemo,
+
   // 数据展示组件
-  'card': CardDemo,
-  'cell': CellDemo,
-  'collapse': CollapseDemo,
-  'table': TableDemo,
-  'tabs': TabsDemo,
-  'timeline': TimelineDemo,
-  'steps': StepsDemo,
-  'progress': ProgressDemo,
-  'loading': LoadingDemo,
-  'skeleton': SkeletonDemo,
-  'carousel': CarouselDemo,
-  'segmented': SegmentedDemo,
-  'pagination': PaginationDemo,
-  'backtop': BacktopDemo,
-  
+  card: CardDemo,
+  cell: CellDemo,
+  collapse: CollapseDemo,
+  table: TableDemo,
+  tabs: TabsDemo,
+  timeline: TimelineDemo,
+  steps: StepsDemo,
+  progress: ProgressDemo,
+  loading: LoadingDemo,
+  skeleton: SkeletonDemo,
+  carousel: CarouselDemo,
+  segmented: SegmentedDemo,
+  pagination: PaginationDemo,
+  backtop: BacktopDemo,
+
   // 反馈组件
-  'modal': ModalDemo,
-  'popup': PopupDemo,
-  'toast': ToastDemo,
+  modal: ModalDemo,
+  popup: PopupDemo,
+  toast: ToastDemo,
   'action-sheet': ActionSheetDemo,
-  'drawer': DrawerDemo,
-  'overlay': OverlayDemo,
-  'tooltip': TooltipDemo,
-  'dropdown': DropdownDemo,
-  
+  drawer: DrawerDemo,
+  overlay: OverlayDemo,
+  tooltip: TooltipDemo,
+  dropdown: DropdownDemo,
+
   // 导航组件
-  'navbar': NavbarDemo,
-  'tabbar': TabbarDemo,
-  'breadcrumb': BreadcrumbDemo,
+  navbar: NavbarDemo,
+  tabbar: TabbarDemo,
+  breadcrumb: BreadcrumbDemo,
   'index-bar': IndexBarDemo,
-  'anchor': AnchorDemo,
-  'sticky': StickyDemo,
-  
+  anchor: AnchorDemo,
+  sticky: StickyDemo,
+
   // 高级组件
-  'calendar': CalendarDemo,
+  calendar: CalendarDemo,
   'date-picker': DatePickerDemo,
   'time-picker': TimePickerDemo,
-  'cascader': CascaderDemo,
-  'tree': TreeDemo,
+  cascader: CascaderDemo,
+  tree: TreeDemo,
   'virtual-list': VirtualListDemo,
-  'waterfall': WaterfallDemo,
+  waterfall: WaterfallDemo,
   'image-cropper': ImageCropperDemo,
 };
 
@@ -411,7 +740,11 @@ const loadDemoComponent = async (name: string) => {
 
 // 信息卡片
 .info-card {
-  background: linear-gradient(135deg, var(--lk-color-primary-bg-soft) 0%, var(--lk-color-bg-surface) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--lk-color-primary-bg-soft) 0%,
+    var(--lk-color-bg-surface) 100%
+  );
   border-radius: var(--lk-radius-xl);
   padding: 40rpx;
   margin-bottom: 24rpx;

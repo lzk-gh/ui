@@ -9,7 +9,10 @@ export type Columns = PickerOption[] | PickerOption[][];
 
 export const lkPickerViewProps = {
   columns: { type: [Array] as unknown as PropType<Columns>, default: () => [] },
-  modelValue: { type: [Array, String, Number, Object, Boolean] as unknown as PropType<any>, default: null },
+  modelValue: {
+    type: [Array, String, Number, Object, Boolean] as unknown as PropType<any>,
+    default: null,
+  },
 } as const;
 
 export type LkPickerViewProps = ExtractPropTypes<typeof lkPickerViewProps>;

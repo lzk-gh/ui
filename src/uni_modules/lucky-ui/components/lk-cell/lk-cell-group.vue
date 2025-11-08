@@ -1,15 +1,18 @@
 <script setup lang="ts">
-defineOptions({ name:'LkCellGroup' });
+defineOptions({ name: 'LkCellGroup' });
 const props = defineProps({
   title: { type: String, default: '' },
   inset: { type: Boolean, default: false },
   border: { type: Boolean, default: true },
-  card: { type: Boolean, default: false }
+  card: { type: Boolean, default: false },
 });
 </script>
 
 <template>
-  <view class="lk-cell-group" :class="[{ 'is-inset': inset, 'is-card': card, 'is-border': border }]">
+  <view
+    class="lk-cell-group"
+    :class="[{ 'is-inset': inset, 'is-card': card, 'is-border': border }]"
+  >
     <view v-if="title" class="lk-cell-group__title">{{ title }}</view>
     <view class="lk-cell-group__body">
       <slot />
@@ -19,8 +22,8 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .lk-cell-group {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   gap: 0;
   &__title {
     padding: 16rpx 8rpx 8rpx 12rpx;

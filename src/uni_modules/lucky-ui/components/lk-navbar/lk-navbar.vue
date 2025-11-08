@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
 
-defineOptions({ name:'LkNavbar' });
+defineOptions({ name: 'LkNavbar' });
 
 const props = defineProps({
   title: { type: String, default: '' },
@@ -11,15 +11,17 @@ const props = defineProps({
   showBack: { type: Boolean, default: true },
   placeholder: { type: Boolean, default: true },
   safeArea: { type: Boolean, default: true },
-  zIndex: { type: Number, default: 110 }
+  zIndex: { type: Number, default: 110 },
 });
-const emit = defineEmits(['back','click-left','click-right']);
+const emit = defineEmits(['back', 'click-left', 'click-right']);
 const slots = useSlots();
 
 // 获取系统信息
-const sys = typeof uni !== 'undefined' ? uni.getSystemInfoSync() : { statusBarHeight: 0 } as any;
+const sys =
+  typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ statusBarHeight: 0 } as any);
 const statusBarHeight = sys.statusBarHeight || 0;
-const windowWidth: number = (sys && typeof sys.windowWidth === 'number') ? sys.windowWidth : 0;
+const windowWidth: number =
+  sys && typeof sys.windowWidth === 'number' ? sys.windowWidth : 0;
 
 // 获取胶囊按钮信息（仅小程序）
 let menuButtonInfo: any = { height: 0, top: 0 };
@@ -46,7 +48,12 @@ const navbarContentHeight = computed(() => {
 const contentPaddingRight = computed(() => {
   const hasRightContent = !!props.rightText || !!slots.right;
   // #ifdef MP
-  if (hasRightContent && menuButtonInfo && typeof menuButtonInfo.left === 'number' && typeof windowWidth === 'number') {
+  if (
+    hasRightContent &&
+    menuButtonInfo &&
+    typeof menuButtonInfo.left === 'number' &&
+    typeof windowWidth === 'number'
+  ) {
     const rightSpace = windowWidth - menuButtonInfo.left; // 胶囊到右边的距离（包含胶囊宽度与边距）
     return Math.max(rightSpace + 4, 12); // 额外预留 4px 缓冲，最小 12px
   }
@@ -57,30 +64,35 @@ const contentPaddingRight = computed(() => {
 function back() {
   emit('back');
   // #ifdef MP
-  uni.navigateBack({ delta:1 });
+  uni.navigateBack({ delta: 1 });
   // #endif
 }
-
 </script>
 
 <template>
-  <view
-      class="lk-navbar"
-      :class="{ 'is-fixed': fixed }"
-      :style="{ zIndex: zIndex }"
-  >
+  <view class="lk-navbar" :class="{ 'is-fixed': fixed }" :style="{ zIndex: zIndex }">
     <!-- 状态栏占位 -->
-    <view v-if="safeArea" class="lk-navbar__status-bar" :style="{ height: statusBarHeight + 'px' }" />
-    
+    <view
+      v-if="safeArea"
+      class="lk-navbar__status-bar"
+      :style="{ height: statusBarHeight + 'px' }"
+    />
+
     <!-- 导航栏内容 -->
-    <view class="lk-navbar__content" :style="{ height: navbarContentHeight + 'px', paddingRight: contentPaddingRight + 'px' }">
+    <view
+      class="lk-navbar__content"
+      :style="{
+        height: navbarContentHeight + 'px',
+        paddingRight: contentPaddingRight + 'px',
+      }"
+    >
       <view class="lk-navbar__left" @click="$emit('click-left')">
         <lk-icon
-            v-if="showBack"
-            name="arrow-left"
-            size="36"
-            class="lk-navbar__back"
-            @click.stop="back"
+          v-if="showBack"
+          name="arrow-left"
+          size="36"
+          class="lk-navbar__back"
+          @click.stop="back"
         />
         <text v-if="leftText" class="lk-navbar__text">{{ leftText }}</text>
         <slot name="left" />
@@ -95,12 +107,14 @@ function back() {
       </view>
     </view>
   </view>
-  
+
   <!-- 占位符，当 fixed 时撑起高度 -->
-  <view 
-      v-if="fixed && placeholder" 
-      class="lk-navbar__placeholder" 
-      :style="{ height: (safeArea ? statusBarHeight : 0) + navbarContentHeight + 'px' }" 
+  <view
+    v-if="fixed && placeholder"
+    class="lk-navbar__placeholder"
+    :style="{
+      height: (safeArea ? statusBarHeight : 0) + navbarContentHeight + 'px',
+    }"
   />
 </template>
 
@@ -110,32 +124,33 @@ function back() {
   background: var(--lk-color-bg-surface);
   color: var(--lk-color-text);
   box-shadow: var(--lk-shadow-sm);
-  
+
   &.is-fixed {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
   }
-  
+
   &__status-bar {
     width: 100%;
     background: var(--lk-color-bg-surface);
   }
-  
+
   &__content {
     display: flex;
     align-items: center;
     padding: 0 24rpx;
     gap: 12rpx;
   }
-  
-  &__left, &__right {
+
+  &__left,
+  &__right {
     display: flex;
     align-items: center;
     gap: 8rpx;
   }
-  
+
   &__center {
     flex: 1;
     display: flex;
@@ -143,21 +158,21 @@ function back() {
     align-items: center;
     min-width: 0;
   }
-  
+
   &__title {
     font-size: 32rpx;
     font-weight: 600;
   }
-  
-  &__back { 
-    color: var(--lk-color-primary); 
+
+  &__back {
+    color: var(--lk-color-primary);
   }
-  
-  &__text { 
-    font-size: 26rpx; 
-    color: var(--lk-color-text-secondary); 
+
+  &__text {
+    font-size: 26rpx;
+    color: var(--lk-color-text-secondary);
   }
-  
+
   &__placeholder {
     width: 100%;
   }

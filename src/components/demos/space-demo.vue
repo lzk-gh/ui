@@ -34,7 +34,20 @@ const split = h('text', { style: 'color: var(--lk-color-border);' }, '|');
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.cell { background: var(--lk-color-bg-elevated); padding: 16rpx 24rpx; border-radius: var(--lk-radius-sm); }
-.tag { background: var(--lk-color-primary-bg-soft); color: var(--lk-color-primary); padding: 6rpx 12rpx; border-radius: var(--lk-radius-sm); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.cell {
+  background: var(--lk-color-bg-elevated);
+  padding: 16rpx 24rpx;
+  border-radius: var(--lk-radius-sm);
+}
+.tag {
+  background: var(--lk-color-primary-bg-soft);
+  color: var(--lk-color-primary);
+  padding: 6rpx 12rpx;
+  border-radius: var(--lk-radius-sm);
+}
 </style>

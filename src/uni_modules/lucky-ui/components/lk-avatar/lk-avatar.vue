@@ -9,10 +9,13 @@ const props = defineProps({
   round: { type: Boolean, default: true },
   shape: { type: String, default: 'circle' }, // circle | square | rounded
   alt: { type: String, default: '' },
-  bg: { type: String, default: '' }
+  bg: { type: String, default: '' },
 });
 const hasError = ref(false);
-watch(()=>props.src, ()=> hasError.value = false);
+watch(
+  () => props.src,
+  () => (hasError.value = false)
+);
 
 function onError() {
   hasError.value = true;
@@ -21,23 +24,23 @@ function onError() {
 
 <template>
   <view
-      class="lk-avatar"
-      :class="[`lk-avatar--${shape}`, { 'is-fallback': hasError || !src }]"
-      :style="{
+    class="lk-avatar"
+    :class="[`lk-avatar--${shape}`, { 'is-fallback': hasError || !src }]"
+    :style="{
       width: size + 'rpx',
       height: size + 'rpx',
-      background: bg || 'var(--lk-color-primary-bg-soft)'
+      background: bg || 'var(--lk-color-primary-bg-soft)',
     }"
   >
     <image
-        v-if="src && !hasError"
-        class="lk-avatar__img"
-        :src="src"
-        mode="aspectFill"
-        @error="onError"
+      v-if="src && !hasError"
+      class="lk-avatar__img"
+      :src="src"
+      mode="aspectFill"
+      @error="onError"
     />
     <text v-else class="lk-avatar__text">
-      <slot>{{ text.slice(0,1).toUpperCase() }}</slot>
+      <slot>{{ text.slice(0, 1).toUpperCase() }}</slot>
     </text>
   </view>
 </template>
@@ -52,9 +55,15 @@ function onError() {
   font-size: 26rpx;
   color: var(--lk-color-primary-active);
   background: var(--lk-color-primary-bg-soft);
-  &--circle { border-radius: 50%; }
-  &--square { border-radius: var(--lk-radius-xs); }
-  &--rounded { border-radius: var(--lk-radius-lg); }
+  &--circle {
+    border-radius: 50%;
+  }
+  &--square {
+    border-radius: var(--lk-radius-xs);
+  }
+  &--rounded {
+    border-radius: var(--lk-radius-lg);
+  }
   &__img {
     width: 100%;
     height: 100%;

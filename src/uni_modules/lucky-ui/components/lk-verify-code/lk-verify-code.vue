@@ -10,11 +10,18 @@ const emit = defineEmits(lkVerifyCodeEmits);
 const val = ref(props.modelValue || '');
 const inputRef = ref<any>(null);
 
-watch(() => props.modelValue, v => { if (v !== val.value) val.value = v || ''; });
+watch(
+  () => props.modelValue,
+  v => {
+    if (v !== val.value) val.value = v || '';
+  }
+);
 
 function focus() {
   // #ifdef H5
-  try { inputRef.value && inputRef.value.focus && inputRef.value.focus(); } catch (e) {}
+  try {
+    inputRef.value && inputRef.value.focus && inputRef.value.focus();
+  } catch (e) {}
   // #endif
 }
 
@@ -31,24 +38,53 @@ function onKeydown(e: any) {
   // 允许退格
 }
 
-onMounted(async () => { if (props.autofocus) await nextTick().then(focus); });
+onMounted(async () => {
+  if (props.autofocus) await nextTick().then(focus);
+});
 </script>
 
 <template>
   <view class="lk-vc" @click="focus">
-    <input class="lk-vc__input" :value="val" :maxlength="props.length" :type="props.type" @input="onInput" ref="inputRef" />
+    <input
+      class="lk-vc__input"
+      :value="val"
+      :maxlength="props.length"
+      :type="props.type"
+      @input="onInput"
+      ref="inputRef"
+    />
     <view class="lk-vc__boxes">
       <view v-for="i in props.length" :key="i" class="lk-vc__box">
         <text v-if="props.mask && i <= val.length">•</text>
-        <text v-else>{{ val[i-1] || '' }}</text>
+        <text v-else>{{ val[i - 1] || '' }}</text>
       </view>
     </view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.lk-vc { position: relative; }
-.lk-vc__input { position: absolute; opacity: 0; pointer-events: none; height:0; width:0; }
-.lk-vc__boxes { display:flex; gap: 12rpx; }
-.lk-vc__box { width: 84rpx; height: 84rpx; border: 2rpx solid var(--lk-color-border); border-radius: var(--lk-radius-md); display:flex; align-items:center; justify-content:center; font-size: 36rpx; }
+.lk-vc {
+  position: relative;
+}
+.lk-vc__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+}
+.lk-vc__boxes {
+  display: flex;
+  gap: 12rpx;
+}
+.lk-vc__box {
+  width: 84rpx;
+  height: 84rpx;
+  border: 2rpx solid var(--lk-color-border);
+  border-radius: var(--lk-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
 </style>

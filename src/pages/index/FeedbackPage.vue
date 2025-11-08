@@ -10,8 +10,8 @@
     <!-- 组件列表 -->
     <view class="component-list">
       <lk-cell-group>
-        <lk-cell 
-          v-for="comp in components" 
+        <lk-cell
+          v-for="comp in components"
           :key="comp.name"
           :title="comp.title"
           :label="comp.desc"
@@ -39,19 +39,59 @@ defineProps<{
 }>();
 
 const components = [
-  { name: 'modal', title: 'Modal 对话框', desc: '模态对话框组件', icon: 'window' },
-  { name: 'popup', title: 'Popup 弹出层', desc: '从底部/顶部弹出', icon: 'window-stack' },
-  { name: 'toast', title: 'Toast 轻提示', desc: '轻量级消息提示', icon: 'chat-right-text' },
-  { name: 'action-sheet', title: 'ActionSheet 动作面板', desc: '底部动作选择菜单', icon: 'list-task' },
-  { name: 'drawer', title: 'Drawer 抽屉', desc: '侧边滑出的面板', icon: 'layout-sidebar' },
-  { name: 'overlay', title: 'Overlay 遮罩', desc: '创建一层遮罩', icon: 'bounding-box' },
-  { name: 'tooltip', title: 'Tooltip 气泡提示', desc: '简单的文字提示气泡', icon: 'chat-square-quote' },
-  { name: 'dropdown', title: 'Dropdown 下拉菜单', desc: '向下弹出的菜单', icon: 'caret-down-square-fill' }
+  {
+    name: 'modal',
+    title: 'Modal 对话框',
+    desc: '模态对话框组件',
+    icon: 'window',
+  },
+  {
+    name: 'popup',
+    title: 'Popup 弹出层',
+    desc: '从底部/顶部弹出',
+    icon: 'window-stack',
+  },
+  {
+    name: 'toast',
+    title: 'Toast 轻提示',
+    desc: '轻量级消息提示',
+    icon: 'chat-right-text',
+  },
+  {
+    name: 'action-sheet',
+    title: 'ActionSheet 动作面板',
+    desc: '底部动作选择菜单',
+    icon: 'list-task',
+  },
+  {
+    name: 'drawer',
+    title: 'Drawer 抽屉',
+    desc: '侧边滑出的面板',
+    icon: 'layout-sidebar',
+  },
+  {
+    name: 'overlay',
+    title: 'Overlay 遮罩',
+    desc: '创建一层遮罩',
+    icon: 'bounding-box',
+  },
+  {
+    name: 'tooltip',
+    title: 'Tooltip 气泡提示',
+    desc: '简单的文字提示气泡',
+    icon: 'chat-square-quote',
+  },
+  {
+    name: 'dropdown',
+    title: 'Dropdown 下拉菜单',
+    desc: '向下弹出的菜单',
+    icon: 'caret-down-square-fill',
+  },
 ];
 
 const navigateToDetail = (componentName: string) => {
   uni.navigateTo({
-    url: `/pages/component-detail/index?name=${componentName}`
+    url: `/pages/component-detail/index?name=${componentName}`,
   });
 };
 </script>
@@ -63,7 +103,11 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .page-header {
-  background: linear-gradient(135deg, var(--lk-color-danger) 0%, var(--lk-color-danger-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--lk-color-danger) 0%,
+    var(--lk-color-danger-hover) 100%
+  );
   padding: 64rpx 32rpx;
   display: flex;
   flex-direction: column;
@@ -80,7 +124,7 @@ const navigateToDetail = (componentName: string) => {
 
 .header-desc {
   font-size: 26rpx;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .component-list {

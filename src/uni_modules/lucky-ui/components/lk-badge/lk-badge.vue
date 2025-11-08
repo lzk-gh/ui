@@ -8,20 +8,24 @@ const props = defineProps({
   max: { type: Number, default: 99 },
   dot: { type: Boolean, default: false },
   hidden: { type: Boolean, default: false },
-  offset: { 
-    type: Array, 
-    default: () => [0,0], 
-    validator: (value: any) => Array.isArray(value) && value.length === 2 && typeof value[0] === 'number' && typeof value[1] === 'number'
+  offset: {
+    type: Array,
+    default: () => [0, 0],
+    validator: (value: any) =>
+      Array.isArray(value) &&
+      value.length === 2 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number',
   },
   type: { type: String, default: 'primary' },
   color: { type: String, default: '' },
-  bgColor: { type: String, default: '' }
+  bgColor: { type: String, default: '' },
 });
 
-const displayValue = computed(()=> {
-  if(props.dot) return '';
+const displayValue = computed(() => {
+  if (props.dot) return '';
   const val = props.value;
-  if(typeof val === 'number' && val > props.max) return props.max + '+';
+  if (typeof val === 'number' && val > props.max) return props.max + '+';
   return val;
 });
 </script>
@@ -30,15 +34,15 @@ const displayValue = computed(()=> {
   <view class="lk-badge-wrapper">
     <slot />
     <view
-        v-if="!hidden && (dot || value !== '' )"
-        class="lk-badge"
-        :class="{'is-dot': dot}"
-        :style="{
-          right: (offset as [number, number])[0] + 'rpx',
-          top: (offset as [number, number])[1] + 'rpx',
-          color: color,
-          background: bgColor
-        }"
+      v-if="!hidden && (dot || value !== '')"
+      class="lk-badge"
+      :class="{ 'is-dot': dot }"
+      :style="{
+        right: (offset as [number, number])[0] + 'rpx',
+        top: (offset as [number, number])[1] + 'rpx',
+        color: color,
+        background: bgColor,
+      }"
     >
       <text v-if="!dot">{{ displayValue }}</text>
     </view>

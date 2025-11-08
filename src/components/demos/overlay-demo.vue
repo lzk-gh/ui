@@ -78,7 +78,11 @@ const showOverlay3 = () => {
   border-radius: 16rpx;
 }
 
-.row { display:flex; flex-wrap:wrap; gap: 16rpx; }
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
 
 .overlay-text {
   font-size: 28rpx;

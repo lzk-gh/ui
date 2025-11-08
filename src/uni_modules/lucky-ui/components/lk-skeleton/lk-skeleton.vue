@@ -17,36 +17,55 @@ const props = defineProps({
   round: { type: Boolean, default: false },
   // 动画时长与缓动：更丝滑（默认更慢）
   duration: { type: [Number, String] as any, default: 2.4 }, // 秒，传 2.4 或 '2400ms'
-  easing: { type: String, default: 'ease-in-out' }
+  easing: { type: String, default: 'ease-in-out' },
 });
 
-function getRowWidth(i:number): string {
-  if(Array.isArray(props.rowWidth)) {
-    return String(props.rowWidth[i] || props.rowWidth[props.rowWidth.length -1] || '100%');
+function getRowWidth(i: number): string {
+  if (Array.isArray(props.rowWidth)) {
+    return String(
+      props.rowWidth[i] || props.rowWidth[props.rowWidth.length - 1] || '100%'
+    );
   }
   return String(props.rowWidth);
 }
 
 const hostStyle = computed(() => {
-  const dur = typeof props.duration === 'number' ? `${props.duration}s` : String(props.duration || '1.8s');
+  const dur =
+    typeof props.duration === 'number'
+      ? `${props.duration}s`
+      : String(props.duration || '1.8s');
   return {
     '--lk-skel-duration': dur,
-    '--lk-skel-ease': props.easing
+    '--lk-skel-ease': props.easing,
   } as any;
 });
 </script>
 
 <template>
   <view class="lk-skeleton" v-if="loading" :style="hostStyle">
-    <view v-if="avatar" class="lk-skeleton__avatar" :class="{ 'is-anim': animated }" :style="{ width: avatarSize, height: avatarSize, borderRadius: round?'50%':'var(--lk-radius-md)'}"></view>
+    <view
+      v-if="avatar"
+      class="lk-skeleton__avatar"
+      :class="{ 'is-anim': animated }"
+      :style="{
+        width: avatarSize,
+        height: avatarSize,
+        borderRadius: round ? '50%' : 'var(--lk-radius-md)',
+      }"
+    ></view>
     <view class="lk-skeleton__content">
-      <view v-if="title" class="lk-skeleton__title" :class="{ 'is-anim': animated }" :style="{ width: titleWidth, height: titleHeight }" />
       <view
-          v-for="i in rows"
-          :key="i"
-          class="lk-skeleton__row"
-          :style="{ width: getRowWidth(i-1) }"
-          :class="{ 'is-anim': animated }"
+        v-if="title"
+        class="lk-skeleton__title"
+        :class="{ 'is-anim': animated }"
+        :style="{ width: titleWidth, height: titleHeight }"
+      />
+      <view
+        v-for="i in rows"
+        :key="i"
+        class="lk-skeleton__row"
+        :style="{ width: getRowWidth(i - 1) }"
+        :class="{ 'is-anim': animated }"
       />
     </view>
   </view>
@@ -99,13 +118,26 @@ const hostStyle = computed(() => {
       var(--lk-skel-base) 63%
     );
     background-size: 300% 100%;
-    &.is-anim { animation: lk-skeleton-move var(--lk-skel-duration, 2.4s) var(--lk-skel-ease, ease-in-out) infinite; }
+    &.is-anim {
+      animation: lk-skeleton-move var(--lk-skel-duration, 2.4s)
+        var(--lk-skel-ease, ease-in-out) infinite;
+    }
   }
-  &__title.is-anim { animation: lk-skeleton-move var(--lk-skel-duration, 2.4s) var(--lk-skel-ease, ease-in-out) infinite; }
-  &__avatar.is-anim { animation: lk-skeleton-move var(--lk-skel-duration, 2.4s) var(--lk-skel-ease, ease-in-out) infinite; }
+  &__title.is-anim {
+    animation: lk-skeleton-move var(--lk-skel-duration, 2.4s)
+      var(--lk-skel-ease, ease-in-out) infinite;
+  }
+  &__avatar.is-anim {
+    animation: lk-skeleton-move var(--lk-skel-duration, 2.4s)
+      var(--lk-skel-ease, ease-in-out) infinite;
+  }
 }
 @keyframes lk-skeleton-move {
-  0% { background-position: 200% 0; }
-  100% { background-position: -100% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
 }
 </style>

@@ -3,9 +3,7 @@
     <demo-block title="基础用法">
       <lk-button type="primary" @click="showPopup1">显示弹出层</lk-button>
       <lk-popup v-model="visible1">
-        <view class="popup-content">
-          这是弹出层内容
-        </view>
+        <view class="popup-content"> 这是弹出层内容 </view>
       </lk-popup>
     </demo-block>
 
@@ -33,9 +31,7 @@
     <demo-block title="圆角">
       <lk-button type="primary" @click="showPopup2">圆角弹出层</lk-button>
       <lk-popup v-model="visible2" round>
-        <view class="popup-content">
-          圆角弹出层内容
-        </view>
+        <view class="popup-content"> 圆角弹出层内容 </view>
       </lk-popup>
     </demo-block>
   </view>

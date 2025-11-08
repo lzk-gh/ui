@@ -1,5 +1,8 @@
 <template>
-  <view class="app-container" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
+  <view
+    class="app-container"
+    :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'"
+  >
     <!-- 顶部导航栏 -->
     <lk-navbar :title="pageTitle" :show-back="false">
       <template #right>
@@ -12,28 +15,16 @@
     <!-- 子页面容器 -->
     <view class="pages-container">
       <!-- 组件总览 -->
-      <home-page 
-        v-show="activeTab === 'overview'" 
-        :content-height="contentHeight" 
-      />
-      
+      <home-page v-show="activeTab === 'overview'" :content-height="contentHeight" />
+
       <!-- 基础组件 -->
-      <basic-page 
-        v-show="activeTab === 'basic'" 
-        :content-height="contentHeight" 
-      />
-      
+      <basic-page v-show="activeTab === 'basic'" :content-height="contentHeight" />
+
       <!-- 表单组件 -->
-      <form-page 
-        v-show="activeTab === 'form'" 
-        :content-height="contentHeight" 
-      />
-      
+      <form-page v-show="activeTab === 'form'" :content-height="contentHeight" />
+
       <!-- 反馈组件 -->
-      <feedback-page 
-        v-show="activeTab === 'feedback'" 
-        :content-height="contentHeight" 
-      />
+      <feedback-page v-show="activeTab === 'feedback'" :content-height="contentHeight" />
     </view>
 
     <!-- 底部 Tabbar -->
@@ -74,7 +65,7 @@ const pageTitle = computed(() => {
     overview: 'Lucky UI - 组件总览',
     basic: '基础组件',
     form: '表单组件',
-    feedback: '反馈组件'
+    feedback: '反馈组件',
   };
   return titles[activeTab.value] || 'Lucky UI';
 });
@@ -91,12 +82,12 @@ const handleFabClick = () => {
   uni.showToast({
     title: '组件搜索功能开发中...',
     icon: 'none',
-    duration: 1500
+    duration: 1500,
   });
 };
 
 // 监听标签页切换
-watch(activeTab, (newTab) => {
+watch(activeTab, newTab => {
   console.log('切换到标签页:', newTab);
 });
 </script>

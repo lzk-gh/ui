@@ -1,5 +1,13 @@
 <script lang="ts" setup>
-import { ref, computed, watch, nextTick, getCurrentInstance, onMounted, useSlots } from 'vue';
+import {
+  ref,
+  computed,
+  watch,
+  nextTick,
+  getCurrentInstance,
+  onMounted,
+  useSlots,
+} from 'vue';
 import lkCarouselItem from './lk-carousel-item.vue';
 
 interface Props {
@@ -78,9 +86,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  'update:current': [value: number]
-  'change': [value: number]
-  'click': [item: any, index: number]
+  'update:current': [value: number];
+  change: [value: number];
+  click: [item: any, index: number];
 }>();
 
 // swiper 绑定的内部 current
@@ -93,12 +101,17 @@ const autoplayEnabled = computed(() => props.autoPlay && length.value > 1);
 // 是否启用循环：受用户配置 loop 控制，同时必须有多张图片
 const circular = computed(() => !!props.loop && length.value > 1);
 const resolvedIndicatorPosition = computed(() => {
-  if (props.indicatorPosition && props.indicatorPosition !== 'auto') return props.indicatorPosition;
+  if (props.indicatorPosition && props.indicatorPosition !== 'auto')
+    return props.indicatorPosition;
   return props.vertical ? 'right' : 'bottom';
 });
-const indicatorVertical = computed(() => ['left', 'right'].includes(resolvedIndicatorPosition.value));
+const indicatorVertical = computed(() =>
+  ['left', 'right'].includes(resolvedIndicatorPosition.value)
+);
 // 是否展示指示器：支持 indicatorType='none' 直接不展示
-const showIndicators = computed(() => props.showIndicators && props.indicatorType !== 'none' && length.value > 1);
+const showIndicators = computed(
+  () => props.showIndicators && props.indicatorType !== 'none' && length.value > 1
+);
 // 是否为非覆盖（外部）指示器
 const indicatorOutside = computed(() => !props.indicatorOverlay && showIndicators.value);
 
@@ -119,7 +132,9 @@ const currentHeight = ref<number>(0);
 // 外部指示器实际像素高度（仅在 indicatorOverlay=false 时生效）
 const indicatorHeightPx = ref<number>(0);
 const instance = getCurrentInstance();
-const heightProp = computed(() => typeof props.height === 'number' ? `${props.height}px` : props.height);
+const heightProp = computed(() =>
+  typeof props.height === 'number' ? `${props.height}px` : props.height
+);
 
 // 不同类型指示器的预估占位（rpx，用于固定高时 CSS calc）
 const indicatorSpaceRpx = computed(() => {
@@ -133,10 +148,14 @@ const indicatorSpaceRpx = computed(() => {
 // 外层容器样式：autoHeight 时包含内容高度 + 指示器像素高度；固定高保持传入高度
 const outerStyle = computed(() => {
   if (props.autoHeight) {
-    const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
+    const total =
+      currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
     return { height: `${Math.max(0, total)}px` };
   }
-  return { height: heightProp.value, '--lk-indicator-space': indicatorSpaceRpx.value } as any;
+  return {
+    height: heightProp.value,
+    '--lk-indicator-space': indicatorSpaceRpx.value,
+  } as any;
 });
 
 // swiper 样式：autoHeight 使用内容像素高；固定高用 calc(100% - 指示器占位)
@@ -155,19 +174,23 @@ function measureActiveHeight() {
   const idx = innerCurrent.value;
   nextTick(() => {
     const q = uni.createSelectorQuery().in(instance as any);
-    q.select(`#lk-slide-${idx}`).boundingClientRect((rect) => {
-      const r: any = rect as any;
-      const h = Array.isArray(r) ? (r[0]?.height || 0) : (r?.height || 0);
-      if (h) currentHeight.value = h;
-    }).exec();
+    q.select(`#lk-slide-${idx}`)
+      .boundingClientRect(rect => {
+        const r: any = rect as any;
+        const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
+        if (h) currentHeight.value = h;
+      })
+      .exec();
     // 再次测量以适配图片延迟加载
     setTimeout(() => {
       const q2 = uni.createSelectorQuery().in(instance as any);
-      q2.select(`#lk-slide-${idx}`).boundingClientRect((rect) => {
-        const r: any = rect as any;
-        const h = Array.isArray(r) ? (r[0]?.height || 0) : (r?.height || 0);
-        if (h) currentHeight.value = h;
-      }).exec();
+      q2.select(`#lk-slide-${idx}`)
+        .boundingClientRect(rect => {
+          const r: any = rect as any;
+          const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
+          if (h) currentHeight.value = h;
+        })
+        .exec();
     }, 200);
   });
 }
@@ -179,18 +202,20 @@ function measureIndicatorHeight() {
   }
   nextTick(() => {
     const q = uni.createSelectorQuery().in(instance as any);
-    q.select('#lk-indicators-outside').boundingClientRect((rect) => {
-      const r: any = rect as any;
-      const h = Array.isArray(r) ? (r[0]?.height || 0) : (r?.height || 0);
-      indicatorHeightPx.value = h || 0;
-    }).exec();
+    q.select('#lk-indicators-outside')
+      .boundingClientRect(rect => {
+        const r: any = rect as any;
+        const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
+        indicatorHeightPx.value = h || 0;
+      })
+      .exec();
   });
 }
 
 // v-model 同步（外 -> 内）
 watch(
   () => props.current,
-  (val) => {
+  val => {
     const n = length.value;
     if (typeof val !== 'number' || n === 0) return;
     const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
@@ -203,7 +228,7 @@ watch(
 // 数据源长度变化时，校正 current
 watch(
   () => length.value,
-  (n) => {
+  n => {
     if (n <= 0) {
       innerCurrent.value = 0;
       currentHeight.value = 0;
@@ -277,7 +302,15 @@ onMounted(() => {
             'is-inactive': index !== innerCurrent,
             'auto-height': autoHeight,
           }"
-          :style="card ? { '--lk-card-scale': String(cardScale), '--lk-card-radius': cardRadius, '--lk-card-shadow': cardShadow } : undefined"
+          :style="
+            card
+              ? {
+                  '--lk-card-scale': String(cardScale),
+                  '--lk-card-radius': cardRadius,
+                  '--lk-card-shadow': cardShadow,
+                }
+              : undefined
+          "
           :id="`lk-slide-${index}`"
           @click="onItemClick(index)"
         >
@@ -307,12 +340,18 @@ onMounted(() => {
 
       <!-- 指示器：点状或条状 -->
       <view
-        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
+        v-else-if="
+          showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')
+        "
         class="lk-indicators"
         :class="[
           `pos-${resolvedIndicatorPosition}`,
           `align-${indicatorAlign}`,
-          { vertical: indicatorVertical, bars: indicatorType === 'bars', animated: indicatorAnimated },
+          {
+            vertical: indicatorVertical,
+            bars: indicatorType === 'bars',
+            animated: indicatorAnimated,
+          },
         ]"
       >
         <view
@@ -325,7 +364,8 @@ onMounted(() => {
             bar: indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
+            backgroundColor:
+              index === innerCurrent ? indicatorActiveColor : indicatorColor,
           }"
           @click="indicatorClickable ? setActive(index) : undefined"
         ></view>
@@ -348,13 +388,19 @@ onMounted(() => {
 
       <!-- 指示器：点状或条状 -->
       <view
-        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
+        v-else-if="
+          showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')
+        "
         class="lk-indicators outside"
         id="lk-indicators-outside"
         :class="[
           `pos-${resolvedIndicatorPosition}`,
           `align-${indicatorAlign}`,
-          { vertical: indicatorVertical, bars: indicatorType === 'bars', animated: indicatorAnimated },
+          {
+            vertical: indicatorVertical,
+            bars: indicatorType === 'bars',
+            animated: indicatorAnimated,
+          },
         ]"
       >
         <view
@@ -367,7 +413,8 @@ onMounted(() => {
             bar: indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
+            backgroundColor:
+              index === innerCurrent ? indicatorActiveColor : indicatorColor,
           }"
           @click="indicatorClickable ? setActive(index) : undefined"
         ></view>
@@ -406,7 +453,7 @@ onMounted(() => {
     }
     &.is-card.is-active {
       transform: scale(1);
-      box-shadow: var(--lk-card-shadow, 0 12rpx 32rpx rgba(0,0,0,0.18));
+      box-shadow: var(--lk-card-shadow, 0 12rpx 32rpx rgba(0, 0, 0, 0.18));
       z-index: 2;
     }
   }
@@ -453,7 +500,11 @@ onMounted(() => {
 
     /* 点/条 */
     .lk-indicator {
-      transition: background-color 0.28s ease, width 0.28s ease, height 0.28s ease, transform 0.28s ease;
+      transition:
+        background-color 0.28s ease,
+        width 0.28s ease,
+        height 0.28s ease,
+        transform 0.28s ease;
       &.dot {
         width: 12rpx;
         height: 12rpx;
@@ -500,5 +551,4 @@ onMounted(() => {
     transform: none;
   }
 }
-
 </style>

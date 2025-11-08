@@ -18,9 +18,31 @@ import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue'
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.long-list { height: 800rpx; overflow-y: auto; border: 2rpx solid var(--lk-color-border); }
-.sticky-bar { background: var(--lk-color-bg-elevated); padding: 16rpx 24rpx; font-weight: 600; border-bottom: 2rpx solid var(--lk-color-border); }
-.item { padding: 20rpx 24rpx; border-bottom: 2rpx solid var(--lk-color-border); }
-.placeholder { height: 200rpx; display:flex; align-items:center; justify-content:center; color: var(--lk-color-text-tertiary); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.long-list {
+  height: 800rpx;
+  overflow-y: auto;
+  border: 2rpx solid var(--lk-color-border);
+}
+.sticky-bar {
+  background: var(--lk-color-bg-elevated);
+  padding: 16rpx 24rpx;
+  font-weight: 600;
+  border-bottom: 2rpx solid var(--lk-color-border);
+}
+.item {
+  padding: 20rpx 24rpx;
+  border-bottom: 2rpx solid var(--lk-color-border);
+}
+.placeholder {
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lk-color-text-tertiary);
+}
 </style>

@@ -2,7 +2,10 @@ import type { ExtractPropTypes, PropType } from 'vue';
 import type { Columns } from '../lk-picker-view/types';
 
 export const lkPickerProps = {
-  modelValue: { type: [Array, String, Number, Object, Boolean] as unknown as PropType<any>, default: null },
+  modelValue: {
+    type: [Array, String, Number, Object, Boolean] as unknown as PropType<any>,
+    default: null,
+  },
   columns: { type: [Array] as unknown as PropType<Columns>, default: () => [] },
   title: { type: String, default: '' },
   confirmText: { type: String, default: '确定' },

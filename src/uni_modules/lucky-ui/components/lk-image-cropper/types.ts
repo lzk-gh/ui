@@ -1,10 +1,13 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 
-export type Aspect = number | '1:1'|'4:3'|'16:9';
+export type Aspect = number | '1:1' | '4:3' | '16:9';
 
 export const lkImageCropperProps = {
   src: { type: String, required: true },
-  aspectRatio: { type: [Number, String] as unknown as PropType<Aspect>, default: '1:1' },
+  aspectRatio: {
+    type: [Number, String] as unknown as PropType<Aspect>,
+    default: '1:1',
+  },
   round: { type: Boolean, default: false },
   minZoom: { type: Number, default: 1 },
   maxZoom: { type: Number, default: 3 },

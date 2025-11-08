@@ -6,15 +6,15 @@
 
     <demo-block title="线条粗细">
       <lk-progress :percentage="50" :stroke-width="8" />
-      <lk-progress :percentage="70" :stroke-width="12" style="margin-top: 16rpx;" />
-      <lk-progress :percentage="90" :stroke-width="16" style="margin-top: 16rpx;" />
+      <lk-progress :percentage="70" :stroke-width="12" style="margin-top: 16rpx" />
+      <lk-progress :percentage="90" :stroke-width="16" style="margin-top: 16rpx" />
     </demo-block>
 
     <demo-block title="不同状态">
       <lk-progress :percentage="30" />
-      <lk-progress :percentage="70" status="success" style="margin-top: 16rpx;" />
-      <lk-progress :percentage="50" status="warning" style="margin-top: 16rpx;" />
-      <lk-progress :percentage="100" status="error" style="margin-top: 16rpx;" />
+      <lk-progress :percentage="70" status="success" style="margin-top: 16rpx" />
+      <lk-progress :percentage="50" status="warning" style="margin-top: 16rpx" />
+      <lk-progress :percentage="100" status="error" style="margin-top: 16rpx" />
     </demo-block>
 
     <demo-block title="显示文字">

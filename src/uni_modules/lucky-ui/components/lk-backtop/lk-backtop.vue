@@ -21,7 +21,10 @@ const props = defineProps({
   // 回到顶部动画时长（ms）
   duration: { type: Number, default: 300 },
   // 形状：circle | square | round
-  shape: { type: String as () => 'circle' | 'square' | 'round', default: 'circle' },
+  shape: {
+    type: String as () => 'circle' | 'square' | 'round',
+    default: 'circle',
+  },
   // 尺寸：sm | md | lg
   size: { type: String as () => 'sm' | 'md' | 'lg', default: 'md' },
   // 默认图标名（使用内置 lk-icon）
@@ -40,13 +43,11 @@ const emit = defineEmits(['click', 'to-top', 'change:visible']);
 
 const visible = ref(false);
 const computedVisible = computed(() => {
-  return props.usePageScroll
-    ? visible.value
-    : props.scrollTop >= props.visibilityHeight;
+  return props.usePageScroll ? visible.value : props.scrollTop >= props.visibilityHeight;
 });
 
 if (props.usePageScroll) {
-  onPageScroll((e) => {
+  onPageScroll(e => {
     const next = e.scrollTop >= props.visibilityHeight;
     if (next !== visible.value) {
       visible.value = next;
@@ -57,7 +58,7 @@ if (props.usePageScroll) {
   // 受控模式，根据外部传入的 scrollTop 判断显隐
   watch(
     () => props.scrollTop,
-    (st) => {
+    st => {
       const next = st >= props.visibilityHeight;
       if (next !== visible.value) {
         // 这里保留内部 visible 仅用于触发变更事件，实际显隐取决于 computedVisible
@@ -120,7 +121,7 @@ const classes = computed(() => [
   --_radius: 50%;
   --_bg: var(--lk-color-primary);
   --_bg-active: var(--lk-color-primary-active);
-  --_shadow: 0 8rpx 20rpx rgba(0,0,0,.12);
+  --_shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.12);
 
   position: fixed;
   display: inline-flex;
@@ -136,22 +137,39 @@ const classes = computed(() => [
   -webkit-tap-highlight-color: transparent;
   opacity: 0;
   transform: translateY(12rpx);
-  transition: opacity var(--lk-transition-fast), transform var(--lk-transition-fast), background var(--lk-transition-fast);
+  transition:
+    opacity var(--lk-transition-fast),
+    transform var(--lk-transition-fast),
+    background var(--lk-transition-fast);
 
-  &--sm { --_size: 72rpx; }
-  &--md { --_size: 88rpx; }
-  &--lg { --_size: 104rpx; }
+  &--sm {
+    --_size: 72rpx;
+  }
+  &--md {
+    --_size: 88rpx;
+  }
+  &--lg {
+    --_size: 104rpx;
+  }
 
-  &--shape-square { --_radius: var(--lk-radius-sm); }
-  &--shape-round { --_radius: var(--lk-radius-pill); }
-  &--shape-circle { --_radius: 50%; }
+  &--shape-square {
+    --_radius: var(--lk-radius-sm);
+  }
+  &--shape-round {
+    --_radius: var(--lk-radius-pill);
+  }
+  &--shape-circle {
+    --_radius: 50%;
+  }
 
   &.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  &:active { background: var(--_bg-active); }
+  &:active {
+    background: var(--_bg-active);
+  }
 
   &__text {
     font-size: 24rpx;

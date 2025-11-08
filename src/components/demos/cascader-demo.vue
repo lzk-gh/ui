@@ -1,16 +1,12 @@
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
-      <lk-cascader 
-        v-model="value1" 
-        :options="options"
-        placeholder="请选择地区"
-      />
+      <lk-cascader v-model="value1" :options="options" placeholder="请选择地区" />
     </demo-block>
 
     <demo-block title="自定义字段名">
-      <lk-cascader 
-        v-model="value2" 
+      <lk-cascader
+        v-model="value2"
         :options="customOptions"
         :field-names="{ label: 'name', value: 'id', children: 'child' }"
         placeholder="请选择"
@@ -18,8 +14,8 @@
     </demo-block>
 
     <demo-block title="动态加载">
-      <lk-cascader 
-        v-model="value3" 
+      <lk-cascader
+        v-model="value3"
         :options="asyncOptions"
         lazy
         @load="loadData"
@@ -28,8 +24,8 @@
     </demo-block>
 
     <demo-block title="多选">
-      <lk-cascader 
-        v-model="value4" 
+      <lk-cascader
+        v-model="value4"
         :options="options"
         multiple
         placeholder="请选择多个地区"
@@ -55,17 +51,17 @@ const options = [
     children: [
       { label: '广州市', value: 'guangzhou' },
       { label: '深圳市', value: 'shenzhen' },
-      { label: '东莞市', value: 'dongguan' }
-    ]
+      { label: '东莞市', value: 'dongguan' },
+    ],
   },
   {
     label: '浙江省',
     value: 'zhejiang',
     children: [
       { label: '杭州市', value: 'hangzhou' },
-      { label: '宁波市', value: 'ningbo' }
-    ]
-  }
+      { label: '宁波市', value: 'ningbo' },
+    ],
+  },
 ];
 
 const customOptions = [
@@ -74,30 +70,38 @@ const customOptions = [
     id: 1,
     child: [
       { name: '子类1-1', id: 11 },
-      { name: '子类1-2', id: 12 }
-    ]
+      { name: '子类1-2', id: 12 },
+    ],
   },
   {
     name: '类目2',
     id: 2,
     child: [
       { name: '子类2-1', id: 21 },
-      { name: '子类2-2', id: 22 }
-    ]
-  }
+      { name: '子类2-2', id: 22 },
+    ],
+  },
 ];
 
 const asyncOptions = ref([
   { label: '选项1', value: 1, isLeaf: false },
-  { label: '选项2', value: 2, isLeaf: false }
+  { label: '选项2', value: 2, isLeaf: false },
 ]);
 
 const loadData = (node: any) => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       const children = [
-        { label: `子选项${node.value}-1`, value: `${node.value}-1`, isLeaf: true },
-        { label: `子选项${node.value}-2`, value: `${node.value}-2`, isLeaf: true }
+        {
+          label: `子选项${node.value}-1`,
+          value: `${node.value}-1`,
+          isLeaf: true,
+        },
+        {
+          label: `子选项${node.value}-2`,
+          value: `${node.value}-2`,
+          isLeaf: true,
+        },
       ];
       resolve(children);
     }, 1000);

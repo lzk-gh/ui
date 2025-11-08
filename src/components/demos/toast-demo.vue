@@ -34,43 +34,43 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const showToast1 = () => {
   uni.showToast({
     title: '这是一条提示',
-    icon: 'none'
+    icon: 'none',
   });
 };
 
 const showSuccess = () => {
   uni.showToast({
     title: '操作成功',
-    icon: 'success'
+    icon: 'success',
   });
 };
 
 const showError = () => {
   uni.showToast({
     title: '操作失败',
-    icon: 'error'
+    icon: 'error',
   });
 };
 
 const showWarning = () => {
   uni.showToast({
     title: '警告提示',
-    icon: 'none'
+    icon: 'none',
   });
 };
 
 const showInfo = () => {
   uni.showToast({
     title: '提示信息',
-    icon: 'none'
+    icon: 'none',
   });
 };
 
 const showLoading = () => {
   uni.showLoading({
-    title: '加载中...'
+    title: '加载中...',
   });
-  
+
   setTimeout(() => {
     uni.hideLoading();
   }, 2000);
@@ -79,21 +79,21 @@ const showLoading = () => {
 const showTop = () => {
   uni.showToast({
     title: '顶部提示',
-    icon: 'none'
+    icon: 'none',
   });
 };
 
 const showCenter = () => {
   uni.showToast({
     title: '中间提示',
-    icon: 'none'
+    icon: 'none',
   });
 };
 
 const showBottom = () => {
   uni.showToast({
     title: '底部提示',
-    icon: 'none'
+    icon: 'none',
   });
 };
 </script>

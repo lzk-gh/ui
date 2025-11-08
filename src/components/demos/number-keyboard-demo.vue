@@ -25,12 +25,25 @@ import LkNumberKeyboard from '@/uni_modules/lucky-ui/components/lk-number-keyboa
 const show = ref(false);
 const value = ref('');
 
-function onInput(ch: string) { value.value += ch; }
-function onDelete() { value.value = value.value.slice(0, -1); }
-function onConfirm() { show.value = false; }
+function onInput(ch: string) {
+  value.value += ch;
+}
+function onDelete() {
+  value.value = value.value.slice(0, -1);
+}
+function onConfirm() {
+  show.value = false;
+}
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.value { margin-top: 12rpx; color: var(--lk-color-text-secondary); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.value {
+  margin-top: 12rpx;
+  color: var(--lk-color-text-secondary);
+}
 </style>

@@ -47,7 +47,7 @@ async function loadNextPage() {
   loading.value = true;
   const pageToLoad = currentPage + 1;
   // 模拟异步接口
-  await new Promise((r) => setTimeout(r, 400));
+  await new Promise(r => setTimeout(r, 400));
   const startId = (pageToLoad - 1) * pageSize;
   const newItems = Array.from({ length: pageSize }, (_, i) => {
     const id = startId + i;

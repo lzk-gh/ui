@@ -11,7 +11,7 @@ const props = defineProps({
   variant: { type: String, default: 'spinner' }, // spinner|dots|bar
   type: { type: String, default: undefined }, // 优先级高于 variant
   vertical: { type: Boolean, default: false },
-  text: { type: String, default: '' }
+  text: { type: String, default: '' },
 });
 
 const _type = computed(() => {
@@ -21,40 +21,88 @@ const _type = computed(() => {
 </script>
 
 <template>
-  <view class="lk-loading" :class="[`lk-loading--${_type}`, { 'is-vertical': vertical }]" :style="{ '--_color': color }" role="status" aria-live="polite">
+  <view
+    class="lk-loading"
+    :class="[`lk-loading--${_type}`, { 'is-vertical': vertical }]"
+    :style="{ '--_color': color }"
+    role="status"
+    aria-live="polite"
+  >
     <!-- Spinner（改进） -->
-    <view v-if="_type==='spinner'" class="lk-loading__spinner" :style="{ width: (typeof size === 'number' ? size : parseInt(size)) + 'rpx', height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx' }"></view>
+    <view
+      v-if="_type === 'spinner'"
+      class="lk-loading__spinner"
+      :style="{
+        width: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+        height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+      }"
+    ></view>
 
     <!-- Dots -->
-    <view v-else-if="_type==='dots'" class="lk-loading__dots" :style="{ height:(typeof size === 'number' ? size : parseInt(size)) + 'rpx' }">
+    <view
+      v-else-if="_type === 'dots'"
+      class="lk-loading__dots"
+      :style="{
+        height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+      }"
+    >
       <view v-for="i in 3" :key="i" class="dot"></view>
     </view>
 
     <!-- Bar -->
-    <view v-else-if="_type==='bar'" class="lk-loading__bar" :style="{ width: (Number(size) * 2) + 'rpx'}">
+    <view
+      v-else-if="_type === 'bar'"
+      class="lk-loading__bar"
+      :style="{ width: Number(size) * 2 + 'rpx' }"
+    >
       <view class="bar-indicator"></view>
     </view>
 
     <!-- Bounce -->
-    <view v-else-if="_type==='bounce'" class="lk-loading__bounce" :style="{ height:(typeof size === 'number' ? size : parseInt(size)) + 'rpx' }">
+    <view
+      v-else-if="_type === 'bounce'"
+      class="lk-loading__bounce"
+      :style="{
+        height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+      }"
+    >
       <view v-for="i in 3" :key="i" class="bounce-ball"></view>
     </view>
 
     <!-- Wave -->
-    <view v-else-if="_type==='wave'" class="lk-loading__wave" :style="{ height:(typeof size === 'number' ? size : parseInt(size)) + 'rpx' }">
+    <view
+      v-else-if="_type === 'wave'"
+      class="lk-loading__wave"
+      :style="{
+        height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+      }"
+    >
       <view v-for="i in 5" :key="i" class="wave-bar"></view>
     </view>
 
     <!-- Ring -->
-    <view v-else-if="_type==='ring'" class="lk-loading__ring" :style="{ width: (typeof size === 'number' ? size : parseInt(size)) + 'rpx', height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx' }"></view>
+    <view
+      v-else-if="_type === 'ring'"
+      class="lk-loading__ring"
+      :style="{
+        width: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+        height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+      }"
+    ></view>
 
     <!-- Ellipsis -->
-    <view v-else-if="_type==='ellipsis'" class="lk-loading__ellipsis" :style="{ height:(typeof size === 'number' ? size : parseInt(size)) + 'rpx' }">
+    <view
+      v-else-if="_type === 'ellipsis'"
+      class="lk-loading__ellipsis"
+      :style="{
+        height: (typeof size === 'number' ? size : parseInt(size)) + 'rpx',
+      }"
+    >
       <view v-for="i in 3" :key="i" class="ellipsis-dot"></view>
     </view>
 
     <!-- Text Shine -->
-    <view v-else-if="_type==='text'" class="lk-loading__text-shine">
+    <view v-else-if="_type === 'text'" class="lk-loading__text-shine">
       <text class="loading-text">{{ text || 'Loading...' }}</text>
     </view>
 
@@ -75,7 +123,7 @@ const _type = computed(() => {
   }
 
   &__spinner {
-    border: 6rpx solid rgba(0,0,0,0.06);
+    border: 6rpx solid rgba(0, 0, 0, 0.06);
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
@@ -94,8 +142,12 @@ const _type = computed(() => {
       background: var(--_color);
       animation: lk-dots 0.9s ease-in-out infinite;
     }
-    .dot:nth-child(2){ animation-delay: .15s; }
-    .dot:nth-child(3){ animation-delay: .3s; }
+    .dot:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: 0.3s;
+    }
   }
 
   &__bar {
@@ -128,8 +180,12 @@ const _type = computed(() => {
       background: var(--_color);
       animation: lk-bounce 1.2s ease-in-out infinite;
     }
-    .bounce-ball:nth-child(2){ animation-delay: .1s; }
-    .bounce-ball:nth-child(3){ animation-delay: .2s; }
+    .bounce-ball:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    .bounce-ball:nth-child(3) {
+      animation-delay: 0.2s;
+    }
   }
 
   &__wave {
@@ -143,14 +199,22 @@ const _type = computed(() => {
       border-radius: 6rpx;
       animation: lk-wave 1.2s ease-in-out infinite;
     }
-    .wave-bar:nth-child(2){ animation-delay: .1s; }
-    .wave-bar:nth-child(3){ animation-delay: .2s; }
-    .wave-bar:nth-child(4){ animation-delay: .3s; }
-    .wave-bar:nth-child(5){ animation-delay: .4s; }
+    .wave-bar:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    .wave-bar:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+    .wave-bar:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+    .wave-bar:nth-child(5) {
+      animation-delay: 0.4s;
+    }
   }
 
   &__ring {
-    border: 4rpx solid rgba(0,0,0,0.06);
+    border: 4rpx solid rgba(0, 0, 0, 0.06);
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
@@ -169,8 +233,12 @@ const _type = computed(() => {
       background: var(--_color);
       animation: lk-ellipsis 1.4s ease-in-out infinite;
     }
-    .ellipsis-dot:nth-child(2){ animation-delay: .16s; }
-    .ellipsis-dot:nth-child(3){ animation-delay: .32s; }
+    .ellipsis-dot:nth-child(2) {
+      animation-delay: 0.16s;
+    }
+    .ellipsis-dot:nth-child(3) {
+      animation-delay: 0.32s;
+    }
   }
 
   &__text-shine {
@@ -195,28 +263,68 @@ const _type = computed(() => {
   }
 }
 
-@keyframes lk-spin { to { transform: rotate(360deg); } }
+@keyframes lk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @keyframes lk-dots {
-  0%, 80%, 100% { transform: scale(0.4); opacity: .4; }
-  40% { transform: scale(1); opacity: 1; }
+  0%,
+  80%,
+  100% {
+    transform: scale(0.4);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 @keyframes lk-bar {
-  0% { transform: translateX(-100%); }
-  50% { transform: translateX(40%); }
-  100% { transform: translateX(120%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(40%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
 }
 @keyframes lk-bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-30rpx); }
-  60% { transform: translateY(-15rpx); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30rpx);
+  }
+  60% {
+    transform: translateY(-15rpx);
+  }
 }
 @keyframes lk-wave {
-  0%, 60%, 100% { transform: scaleY(0.4); }
-  30% { transform: scaleY(1); }
+  0%,
+  60%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  30% {
+    transform: scaleY(1);
+  }
 }
 @keyframes lk-ellipsis {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 @keyframes shine {
   0% {

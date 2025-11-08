@@ -1,33 +1,19 @@
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
-      <lk-upload 
-        v-model="fileList1"
-        :max-count="3"
-        @change="handleChange"
-      />
+      <lk-upload v-model="fileList1" :max-count="3" @change="handleChange" />
     </demo-block>
 
     <demo-block title="文件预览">
-      <lk-upload 
-        v-model="fileList2"
-        :max-count="5"
-        preview
-      />
+      <lk-upload v-model="fileList2" :max-count="5" preview />
     </demo-block>
 
     <demo-block title="上传前校验">
-      <lk-upload 
-        v-model="fileList3"
-        :before-upload="beforeUpload"
-      />
+      <lk-upload v-model="fileList3" :before-upload="beforeUpload" />
     </demo-block>
 
     <demo-block title="禁用状态">
-      <lk-upload 
-        v-model="fileList4"
-        disabled
-      />
+      <lk-upload v-model="fileList4" disabled />
     </demo-block>
   </view>
 </template>
@@ -50,7 +36,7 @@ const beforeUpload = (file: any) => {
   if (file.size > 1024 * 1024 * 2) {
     uni.showToast({
       title: '文件大小不能超过2MB',
-      icon: 'none'
+      icon: 'none',
     });
     return false;
   }

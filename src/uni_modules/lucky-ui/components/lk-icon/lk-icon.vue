@@ -18,20 +18,20 @@ const iconStyle = computed(() => {
   if (props.color) styles.color = props.color;
   if (props.size) {
     styles.fontSize = /^\d+$/.test(String(props.size))
-        ? `${props.size}rpx`
-        : String(props.size);
+      ? `${props.size}rpx`
+      : String(props.size);
   }
   return styles;
 });
 
 watch(
-    () => props.name,
-    (n) => {
-      if (!iconChar.value) {
-        console.warn(`[lk-icon] 内置图标 "${n}" 未找到（不在当前字体集）。`);
-      }
-    },
-    { immediate: true }
+  () => props.name,
+  n => {
+    if (!iconChar.value) {
+      console.warn(`[lk-icon] 内置图标 "${n}" 未找到（不在当前字体集）。`);
+    }
+  },
+  { immediate: true }
 );
 
 function handleClick(e: Event) {
@@ -41,11 +41,11 @@ function handleClick(e: Event) {
 
 <template>
   <text
-      class="lk-icon"
-      :style="[iconStyle, props.customStyle]"
-      @click="handleClick"
-      v-text="iconChar"
-      aria-hidden="true"
+    class="lk-icon"
+    :style="[iconStyle, props.customStyle]"
+    @click="handleClick"
+    v-text="iconChar"
+    aria-hidden="true"
   />
 </template>
 

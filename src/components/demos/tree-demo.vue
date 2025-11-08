@@ -32,17 +32,17 @@ const treeData1 = [
     value: '1',
     children: [
       { label: '子节点1-1', value: '1-1' },
-      { label: '子节点1-2', value: '1-2' }
-    ]
+      { label: '子节点1-2', value: '1-2' },
+    ],
   },
   {
     label: '父节点2',
     value: '2',
     children: [
       { label: '子节点2-1', value: '2-1' },
-      { label: '子节点2-2', value: '2-2' }
-    ]
-  }
+      { label: '子节点2-2', value: '2-2' },
+    ],
+  },
 ];
 
 const treeData2 = [
@@ -51,17 +51,17 @@ const treeData2 = [
     value: '1',
     children: [
       { label: '项目文档.docx', value: '1-1' },
-      { label: '需求文档.docx', value: '1-2' }
-    ]
+      { label: '需求文档.docx', value: '1-2' },
+    ],
   },
   {
     label: '图片',
     value: '2',
     children: [
       { label: 'photo1.jpg', value: '2-1' },
-      { label: 'photo2.jpg', value: '2-2' }
-    ]
-  }
+      { label: 'photo2.jpg', value: '2-2' },
+    ],
+  },
 ];
 
 const treeData3 = [
@@ -70,17 +70,17 @@ const treeData3 = [
     value: '1',
     children: [
       { label: '子节点1', value: '1-1' },
-      { label: '子节点2', value: '1-2' }
-    ]
+      { label: '子节点2', value: '1-2' },
+    ],
   },
   {
     label: '也展开的节点',
     value: '2',
     children: [
       { label: '子节点1', value: '2-1' },
-      { label: '子节点2', value: '2-2' }
-    ]
-  }
+      { label: '子节点2', value: '2-2' },
+    ],
+  },
 ];
 
 const treeData4 = [
@@ -89,16 +89,14 @@ const treeData4 = [
     value: '1',
     children: [
       { label: '子节点1', value: '1-1' },
-      { label: '禁用节点', value: '1-2', disabled: true }
-    ]
+      { label: '禁用节点', value: '1-2', disabled: true },
+    ],
   },
   {
     label: '正常节点',
     value: '2',
-    children: [
-      { label: '子节点1', value: '2-1' }
-    ]
-  }
+    children: [{ label: '子节点1', value: '2-1' }],
+  },
 ];
 </script>
 

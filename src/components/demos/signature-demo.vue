@@ -21,13 +21,32 @@ import LkSignature from '@/uni_modules/lucky-ui/components/lk-signature/lk-signa
 const sign = ref<any>(null);
 const img = ref('');
 
-function onClear(){ sign.value?.clear?.(); }
-function onUndo(){ sign.value?.undo?.(); }
-function onExport(){ img.value = sign.value?.toDataURL?.() || ''; }
+function onClear() {
+  sign.value?.clear?.();
+}
+function onUndo() {
+  sign.value?.undo?.();
+}
+function onExport() {
+  img.value = sign.value?.toDataURL?.() || '';
+}
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.ops { display:flex; gap: 12rpx; margin-top: 12rpx; }
-.preview { width: 650rpx; height: 300rpx; border: 2rpx solid var(--lk-color-border); margin-top: 12rpx; }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.ops {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+.preview {
+  width: 650rpx;
+  height: 300rpx;
+  border: 2rpx solid var(--lk-color-border);
+  margin-top: 12rpx;
+}
 </style>

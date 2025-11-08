@@ -21,7 +21,19 @@ const letters = Array.from({ length: 10 }, (_, i) => String.fromCharCode(65 + i)
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.list { height: 800rpx; overflow-y: auto; border: 2rpx solid var(--lk-color-border); position: relative; }
-.row { padding: 20rpx 24rpx; border-bottom: 2rpx solid var(--lk-color-border); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.list {
+  height: 800rpx;
+  overflow-y: auto;
+  border: 2rpx solid var(--lk-color-border);
+  position: relative;
+}
+.row {
+  padding: 20rpx 24rpx;
+  border-bottom: 2rpx solid var(--lk-color-border);
+}
 </style>

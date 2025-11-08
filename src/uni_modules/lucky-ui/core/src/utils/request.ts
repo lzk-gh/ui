@@ -73,8 +73,7 @@ export interface RequestInterceptors {
 /**
  * 上传文件响应接口
  */
-export interface UploadResponse
-  extends UniApp.UploadFileSuccessCallbackResult {}
+export interface UploadResponse extends UniApp.UploadFileSuccessCallbackResult {}
 
 /**
  * 下载文件响应接口
@@ -97,10 +96,7 @@ class InterceptorManager<T> {
   /**
    * 添加拦截器
    */
-  use(
-    fulfilled: FulfilledInterceptor<T>,
-    rejected?: RejectedInterceptor
-  ): number {
+  use(fulfilled: FulfilledInterceptor<T>, rejected?: RejectedInterceptor): number {
     this.handlers.push({ fulfilled, rejected });
     return this.handlers.length - 1;
   }
@@ -392,9 +388,7 @@ export class Request {
     let promise: Promise<any> = Promise.resolve(mergedConfig);
 
     // 核心请求分发函数
-    const dispatchRequest = (
-      config: RequestConfig
-    ): Promise<RequestResponse<T>> => {
+    const dispatchRequest = (config: RequestConfig): Promise<RequestResponse<T>> => {
       finalConfig = config;
       if (finalConfig.loading) {
         this.showLoading(finalConfig.loadingText);
@@ -620,8 +614,7 @@ export const HTTP_STATUS = {
 /**
  * 状态码判断工具
  */
-export const isSuccessStatus = (status: number): boolean =>
-  status >= 200 && status < 300;
+export const isSuccessStatus = (status: number): boolean => status >= 200 && status < 300;
 export const isRedirectStatus = (status: number): boolean =>
   status >= 300 && status < 400;
 export const isClientErrorStatus = (status: number): boolean =>

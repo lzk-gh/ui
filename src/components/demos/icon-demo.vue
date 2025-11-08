@@ -2,8 +2,8 @@
   <view class="component-demo">
     <demo-block title="常用图标 (点击复制)">
       <view class="icon-grid">
-        <view 
-          v-for="icon in commonIcons" 
+        <view
+          v-for="icon in commonIcons"
           :key="icon"
           class="icon-item"
           @click="copyIcon(icon)"
@@ -15,7 +15,7 @@
     </demo-block>
 
     <demo-block title="图标尺寸">
-      <view class="demo-row" style="align-items: flex-end;">
+      <view class="demo-row" style="align-items: flex-end">
         <lk-icon name="star" size="24" color="var(--lk-color-warning)" />
         <lk-icon name="star" size="32" color="var(--lk-color-warning)" />
         <lk-icon name="star" size="40" color="var(--lk-color-warning)" />
@@ -36,9 +36,19 @@
 
     <demo-block title="图标动画">
       <view class="demo-row">
-        <lk-icon name="arrow-clockwise" size="40" class="icon-spin" color="var(--lk-color-primary)" />
+        <lk-icon
+          name="arrow-clockwise"
+          size="40"
+          class="icon-spin"
+          color="var(--lk-color-primary)"
+        />
         <lk-icon name="heart" size="40" class="icon-beat" color="#ff4757" />
-        <lk-icon name="star" size="40" class="icon-shake" color="var(--lk-color-warning)" />
+        <lk-icon
+          name="star"
+          size="40"
+          class="icon-shake"
+          color="var(--lk-color-warning)"
+        />
         <lk-icon name="bell" size="40" class="icon-swing" color="var(--lk-color-info)" />
       </view>
     </demo-block>
@@ -72,10 +82,22 @@ import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const commonIcons = ref([
-  'house', 'search', 'bell', 'heart',
-  'star', 'gear', 'person', 'chat-dots',
-  'envelope', 'calendar', 'camera', 'image',
-  'file-earmark', 'download', 'upload', 'trash'
+  'house',
+  'search',
+  'bell',
+  'heart',
+  'star',
+  'gear',
+  'person',
+  'chat-dots',
+  'envelope',
+  'calendar',
+  'camera',
+  'image',
+  'file-earmark',
+  'download',
+  'upload',
+  'trash',
 ]);
 
 const copyIcon = (name: string) => {
@@ -86,16 +108,16 @@ const copyIcon = (name: string) => {
     return;
   }
   // #endif
-  
+
   // #ifdef MP || APP-PLUS
   uni.setClipboardData({
     data: name,
     success: () => {
       uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
-    }
+    },
   });
   // #endif
-  
+
   uni.showToast({ title: name, icon: 'none' });
 };
 </script>
@@ -162,7 +184,7 @@ const copyIcon = (name: string) => {
   flex: 1;
   background: var(--lk-color-bg-surface);
   border-radius: var(--lk-radius-md);
-  
+
   text {
     font-size: 24rpx;
     color: var(--lk-color-text-secondary);
@@ -186,24 +208,47 @@ const copyIcon = (name: string) => {
 }
 
 @keyframes icon-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes icon-beat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 @keyframes icon-shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4rpx); }
-  75% { transform: translateX(4rpx); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4rpx);
+  }
+  75% {
+    transform: translateX(4rpx);
+  }
 }
 
 @keyframes icon-swing {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-10deg); }
-  75% { transform: rotate(10deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
 }
 </style>

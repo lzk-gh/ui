@@ -7,12 +7,12 @@ defineOptions({ name: 'LkAnchorLink' });
 const props = defineProps(lkAnchorLinkProps);
 const active = inject<any>('lk-anchor-active');
 
-const isActive = computed(()=> active?.value === props.href);
+const isActive = computed(() => active?.value === props.href);
 
 function onClick() {
   // #ifdef H5
   try {
-    const id = props.href.replace('#','');
+    const id = props.href.replace('#', '');
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (e) {}
@@ -28,6 +28,12 @@ function onClick() {
 </template>
 
 <style scoped lang="scss">
-.lk-anchor-link { padding: 8rpx 12rpx; color: var(--lk-color-text-tertiary); }
-.lk-anchor-link.is-active { color: var(--lk-color-primary); font-weight: 600; }
+.lk-anchor-link {
+  padding: 8rpx 12rpx;
+  color: var(--lk-color-text-tertiary);
+}
+.lk-anchor-link.is-active {
+  color: var(--lk-color-primary);
+  font-weight: 600;
+}
 </style>

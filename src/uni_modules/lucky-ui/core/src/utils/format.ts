@@ -79,12 +79,9 @@ export function formatRelativeTime(time: string | number | Date): string {
   if (absDiff < minute) return '刚刚';
   if (absDiff < hour)
     return `${Math.floor(absDiff / minute)}分钟${isInPast ? '前' : '后'}`;
-  if (absDiff < day)
-    return `${Math.floor(absDiff / hour)}小时${isInPast ? '前' : '后'}`;
-  if (absDiff < week)
-    return `${Math.floor(absDiff / day)}天${isInPast ? '前' : '后'}`;
-  if (absDiff < month)
-    return `${Math.floor(absDiff / week)}周${isInPast ? '前' : '后'}`;
+  if (absDiff < day) return `${Math.floor(absDiff / hour)}小时${isInPast ? '前' : '后'}`;
+  if (absDiff < week) return `${Math.floor(absDiff / day)}天${isInPast ? '前' : '后'}`;
+  if (absDiff < month) return `${Math.floor(absDiff / week)}周${isInPast ? '前' : '后'}`;
   if (absDiff < year)
     return `${Math.floor(absDiff / month)}个月${isInPast ? '前' : '后'}`;
   return `${Math.floor(absDiff / year)}年${isInPast ? '前' : '后'}`;

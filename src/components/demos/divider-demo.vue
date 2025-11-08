@@ -20,15 +20,20 @@
         <lk-icon name="star-fill" size="24" color="var(--lk-color-warning)" />
       </lk-divider>
       <lk-divider text-position="left">
-        <lk-icon name="heart-fill" size="24" color="var(--lk-color-danger)" class="mr-8" />
+        <lk-icon
+          name="heart-fill"
+          size="24"
+          color="var(--lk-color-danger)"
+          class="mr-8"
+        />
         热门推荐
       </lk-divider>
     </demo-block>
 
     <demo-block title="不同颜色">
-      <lk-divider text="主色调" style="--divider-color: var(--lk-color-primary);" />
-      <lk-divider text="成功" style="--divider-color: var(--lk-color-success);" />
-      <lk-divider text="警告" style="--divider-color: var(--lk-color-warning);" />
+      <lk-divider text="主色调" style="--divider-color: var(--lk-color-primary)" />
+      <lk-divider text="成功" style="--divider-color: var(--lk-color-success)" />
+      <lk-divider text="警告" style="--divider-color: var(--lk-color-warning)" />
     </demo-block>
 
     <demo-block title="内容分组">
@@ -68,7 +73,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   padding: 24rpx;
   background: var(--lk-color-bg-surface);
   border-radius: var(--lk-radius-md);
-  
+
   text {
     font-size: 26rpx;
     color: var(--lk-color-text-secondary);

@@ -2,26 +2,18 @@
   <view class="component-demo">
     <demo-block title="基础用法">
       <lk-button type="primary" @click="showActionSheet1">显示动作面板</lk-button>
-      <lk-action-sheet 
-        v-model="visible1" 
-        :actions="actions1"
-        @select="handleSelect"
-      />
+      <lk-action-sheet v-model="visible1" :actions="actions1" @select="handleSelect" />
     </demo-block>
 
     <demo-block title="带标题">
       <lk-button type="primary" @click="showActionSheet2">带标题</lk-button>
-      <lk-action-sheet 
-        v-model="visible2" 
-        title="请选择操作"
-        :actions="actions1"
-      />
+      <lk-action-sheet v-model="visible2" title="请选择操作" :actions="actions1" />
     </demo-block>
 
     <demo-block title="带描述">
       <lk-button type="primary" @click="showActionSheet3">带描述</lk-button>
-      <lk-action-sheet 
-        v-model="visible3" 
+      <lk-action-sheet
+        v-model="visible3"
         title="请选择"
         description="选择你要进行的操作"
         :actions="actions1"
@@ -30,10 +22,7 @@
 
     <demo-block title="禁用选项">
       <lk-button type="primary" @click="showActionSheet4">禁用选项</lk-button>
-      <lk-action-sheet 
-        v-model="visible4" 
-        :actions="actions2"
-      />
+      <lk-action-sheet v-model="visible4" :actions="actions2" />
     </demo-block>
   </view>
 </template>
@@ -52,13 +41,13 @@ const visible4 = ref(false);
 const actions1 = [
   { name: '选项一', value: 1 },
   { name: '选项二', value: 2 },
-  { name: '选项三', value: 3 }
+  { name: '选项三', value: 3 },
 ];
 
 const actions2 = [
   { name: '选项一', value: 1 },
   { name: '选项二', value: 2, disabled: true },
-  { name: '选项三', value: 3 }
+  { name: '选项三', value: 3 },
 ];
 
 const showActionSheet1 = () => {
@@ -80,7 +69,7 @@ const showActionSheet4 = () => {
 const handleSelect = (action: any) => {
   uni.showToast({
     title: `选择了: ${action.name}`,
-    icon: 'none'
+    icon: 'none',
   });
 };
 </script>

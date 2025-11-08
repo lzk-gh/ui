@@ -4,9 +4,15 @@
       <lk-dropdown>
         <lk-button>下拉菜单 <lk-icon name="chevron-down" /></lk-button>
         <template #menu>
-          <lk-dropdown-item name="1" @click="handleSelect('选项一')">选项一</lk-dropdown-item>
-          <lk-dropdown-item name="2" @click="handleSelect('选项二')">选项二</lk-dropdown-item>
-          <lk-dropdown-item name="3" @click="handleSelect('选项三')">选项三</lk-dropdown-item>
+          <lk-dropdown-item name="1" @click="handleSelect('选项一')"
+            >选项一</lk-dropdown-item
+          >
+          <lk-dropdown-item name="2" @click="handleSelect('选项二')"
+            >选项二</lk-dropdown-item
+          >
+          <lk-dropdown-item name="3" @click="handleSelect('选项三')"
+            >选项三</lk-dropdown-item
+          >
         </template>
       </lk-dropdown>
     </demo-block>
@@ -51,7 +57,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const handleSelect = (value: string) => {
   uni.showToast({
     title: `选择了: ${value}`,
-    icon: 'none'
+    icon: 'none',
   });
 };
 </script>

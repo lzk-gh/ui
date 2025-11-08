@@ -35,7 +35,10 @@ const emit = defineEmits<{
 }>();
 
 // 获取系统信息（用于安全区与占位高度）
-const sys = typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ safeArea: { bottom: 0 }, windowHeight: 0 } as any);
+const sys =
+  typeof uni !== 'undefined'
+    ? uni.getSystemInfoSync()
+    : ({ safeArea: { bottom: 0 }, windowHeight: 0 } as any);
 const safeAreaInfo = sys.safeArea || { bottom: 0 };
 
 // 维护子项注册顺序，用于默认选中第一个
@@ -43,7 +46,9 @@ const itemValues = ref<string[]>([]);
 
 // 计算激活索引与指示器位置（仅 TIC 使用）
 const activeValue = computed(() => props.modelValue ?? itemValues.value[0] ?? '');
-const activeIndex = computed(() => Math.max(0, itemValues.value.indexOf(activeValue.value)));
+const activeIndex = computed(() =>
+  Math.max(0, itemValues.value.indexOf(activeValue.value))
+);
 const itemCount = computed(() => Math.max(1, itemValues.value.length));
 const indicatorStyle = computed(() => {
   // TIC 类型：根据激活项移动
@@ -75,8 +80,10 @@ const rootStyle = computed(() => {
   if (props.zIndex != null) style.zIndex = props.zIndex;
   if (props.backgroundColor) style.backgroundColor = props.backgroundColor;
   if (props.activeColor) (style as any)['--lk-tabbar-active-color'] = props.activeColor;
-  if (props.inactiveColor) (style as any)['--lk-tabbar-inactive-color'] = props.inactiveColor;
-  if (props.backgroundColor) (style as any)['--lk-tabbar-background'] = props.backgroundColor;
+  if (props.inactiveColor)
+    (style as any)['--lk-tabbar-inactive-color'] = props.inactiveColor;
+  if (props.backgroundColor)
+    (style as any)['--lk-tabbar-background'] = props.backgroundColor;
   const tl = formatSize(props.topLeftRadius);
   const tr = formatSize(props.topRightRadius);
   if (tl) (style as any)['--lk-tabbar-top-left-radius'] = tl;
@@ -127,7 +134,10 @@ function getTabbarHeight() {
 
 // 如果外部未传 active，则在子项注册完成后默认选中第一项
 onMounted(() => {
-  if ((props.modelValue == null || props.modelValue === '') && itemValues.value.length > 0) {
+  if (
+    (props.modelValue == null || props.modelValue === '') &&
+    itemValues.value.length > 0
+  ) {
     emit('update:modelValue', itemValues.value[0]);
   }
 });
@@ -140,22 +150,20 @@ provide('lkTabbar', {
 });
 // 额外提供 type 给子项
 provide('lkTabbarType', props.type ?? 'TIC');
-
-
 </script>
 
 <template>
-  <view 
+  <view
     class="lk-tabbar"
     :class="[
       `lk-tabbar--type-${props.type ?? 'TIC'}`,
-      { 
-        'lk-tabbar--fixed': props.fixed, 
+      {
+        'lk-tabbar--fixed': props.fixed,
         'lk-tabbar--safe-area': props.safeArea,
         'lk-tabbar--top-border': props.topBorder,
         'lk-tabbar--top-shadow': props.topShadow,
-        'lk-tabbar--frosted': props.frosted
-      }
+        'lk-tabbar--frosted': props.frosted,
+      },
     ]"
     :style="rootStyle"
   >
@@ -193,7 +201,11 @@ provide('lkTabbarType', props.type ?? 'TIC');
     <view
       v-if="props.fixed"
       class="lk-tabbar__placeholder"
-      :style="props.safeArea ? 'height: calc(var(--lk-tabbar-placeholder-height,100rpx) + env(safe-area-inset-bottom));' : 'height: var(--lk-tabbar-placeholder-height,100rpx);'"
+      :style="
+        props.safeArea
+          ? 'height: calc(var(--lk-tabbar-placeholder-height,100rpx) + env(safe-area-inset-bottom));'
+          : 'height: var(--lk-tabbar-placeholder-height,100rpx);'
+      "
     />
   </view>
 </template>
@@ -248,11 +260,13 @@ provide('lkTabbarType', props.type ?? 'TIC');
       margin: 0 auto;
       background: var(--lk-tabbar-background, #fff);
       border-radius: 36rpx;
-      box-shadow: 0 12rpx 36rpx rgba(0,0,0,0.12);
+      box-shadow: 0 12rpx 36rpx rgba(0, 0, 0, 0.12);
       padding: 10rpx 24rpx;
       display: flex;
       justify-content: space-around;
-      transform: translateY(calc(-1 * var(--lk-tabbar-capsule-offset, 18rpx))); // 悬浮效果
+      transform: translateY(
+        calc(-1 * var(--lk-tabbar-capsule-offset, 18rpx))
+      ); // 悬浮效果
       position: relative;
       z-index: 2;
     }

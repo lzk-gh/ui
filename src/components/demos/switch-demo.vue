@@ -68,7 +68,7 @@ const value7 = ref(false);
   align-items: center;
   justify-content: space-between;
   padding: 16rpx 0;
-  
+
   text {
     font-size: 28rpx;
     color: var(--lk-color-text);

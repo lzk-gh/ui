@@ -1,9 +1,8 @@
 import { throttle } from '@/uni_modules/lucky-ui/core/src/utils/throttle';
 import type { PropType, ExtractPropTypes } from 'vue';
 
-
 export const baseProps = {
-  /** 
+  /**
    * 组件唯一id (表单联动、动画锚点、测试定位..)
    */
   id: {
@@ -65,28 +64,28 @@ export const baseProps = {
   zIndex: {
     type: Number,
     default: 99,
-  }
+  },
 } as const;
 
 export const LkProp = {
   /**
    * 字符串类型
    * @param def 默认值
-   * @returns 
+   * @returns
    */
   string: <D extends string>(def: D) => ({
     type: String as unknown as PropType<string>,
-    default: def
+    default: def,
   }),
 
   /**
    * 布尔类型
    * @param def 默认值
-   * @returns 
+   * @returns
    */
   boolean: <D extends boolean>(def: D) => ({
     type: Boolean as unknown as PropType<boolean>,
-    default: def ?? false
+    default: def ?? false,
   }),
 
   /**
@@ -105,12 +104,11 @@ export const LkProp = {
     default: def,
     validator: (v: any): v is T[number] => {
       const ok = values.includes(v);
-      if (!ok) console.warn(
-        `[LkUi] ${name} 无效值: "${v}"，可选值：${values.join(' | ')}`
-      )
+      if (!ok)
+        console.warn(`[LkUi] ${name} 无效值: "${v}"，可选值：${values.join(' | ')}`);
       return ok;
-    }
-  })
+    },
+  }),
 } as const;
 
 export type CommonProps = ExtractPropTypes<typeof baseProps>;

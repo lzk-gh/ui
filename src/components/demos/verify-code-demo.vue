@@ -13,10 +13,19 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
 
 const code = ref('');
-function onFinish(v: string) { uni.showToast({ title: '完成: ' + v, icon: 'none' }); }
+function onFinish(v: string) {
+  uni.showToast({ title: '完成: ' + v, icon: 'none' });
+}
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.value { margin-top: 12rpx; color: var(--lk-color-text-secondary); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.value {
+  margin-top: 12rpx;
+  color: var(--lk-color-text-secondary);
+}
 </style>

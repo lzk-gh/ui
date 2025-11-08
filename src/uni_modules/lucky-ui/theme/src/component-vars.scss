@@ -8,108 +8,108 @@
 page,
 .lk-theme-light,
 [data-theme='light'] {
-    /* 页面背景（与 body 一致，用于业务层引用） */
-    --lk-color-bg-page: #f5f6f7;
-    --lk-color-primary: #6965db;
-    --lk-color-primary-hover: #554fcf;
-    --lk-color-primary-active: #413f8a;
-    --lk-color-primary-bg-soft: #f0f0fa;
+  /* 页面背景（与 body 一致，用于业务层引用） */
+  --lk-color-bg-page: #f5f6f7;
+  --lk-color-primary: #6965db;
+  --lk-color-primary-hover: #554fcf;
+  --lk-color-primary-active: #413f8a;
+  --lk-color-primary-bg-soft: #f0f0fa;
 
-    --lk-color-text: #42526e;
-    --lk-color-text-secondary: #6b778c;
-    --lk-color-text-placeholder: #8993a4;
-    --lk-color-text-disabled: #a5adba;
-    --lk-color-text-inverse: #ffffff;
+  --lk-color-text: #42526e;
+  --lk-color-text-secondary: #6b778c;
+  --lk-color-text-placeholder: #8993a4;
+  --lk-color-text-disabled: #a5adba;
+  --lk-color-text-inverse: #ffffff;
 
-    --lk-color-border: #c1c7d0;
-    --lk-color-border-weak: #dfe1e5;
+  --lk-color-border: #c1c7d0;
+  --lk-color-border-weak: #dfe1e5;
 
-    --lk-color-bg-body: #f5f6f7;
-    --lk-color-bg-surface: #ffffff;
-    --lk-color-bg-surface-active: #e8eaed;
+  --lk-color-bg-body: #f5f6f7;
+  --lk-color-bg-surface: #ffffff;
+  --lk-color-bg-surface-active: #e8eaed;
 
-    --lk-shadow-sm: 0 4rpx 8rpx rgba(0,0,0,0.06);
-    --lk-shadow-base: 0 8rpx 24rpx rgba(0,0,0,0.1);
-    --lk-shadow-lg: 0 16rpx 48rpx rgba(0,0,0,0.15);
+  --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);
+  --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
 
-    --lk-control-height-sm: 72rpx;
-    --lk-control-height-md: 88rpx;
-    --lk-control-height-lg: 100rpx;
+  --lk-control-height-sm: 72rpx;
+  --lk-control-height-md: 88rpx;
+  --lk-control-height-lg: 100rpx;
 
-    --lk-control-font-size-sm: 26rpx;
-    --lk-control-font-size-md: 28rpx;
-    --lk-control-font-size-lg: 32rpx;
+  --lk-control-font-size-sm: 26rpx;
+  --lk-control-font-size-md: 28rpx;
+  --lk-control-font-size-lg: 32rpx;
 
-    --lk-control-padding-x-sm: 24rpx;
-    --lk-control-padding-x-md: 28rpx;
-    --lk-control-padding-x-lg: 32rpx;
+  --lk-control-padding-x-sm: 24rpx;
+  --lk-control-padding-x-md: 28rpx;
+  --lk-control-padding-x-lg: 32rpx;
 
-    --lk-radius-xs: 4rpx;
-    --lk-radius-sm: 8rpx;
-    --lk-radius-md: 16rpx;
-    --lk-radius-lg: 24rpx;
-    --lk-radius-pill: 9999px;
+  --lk-radius-xs: 4rpx;
+  --lk-radius-sm: 8rpx;
+  --lk-radius-md: 16rpx;
+  --lk-radius-lg: 24rpx;
+  --lk-radius-pill: 9999px;
 
-    --lk-transition-fast: 0.18s cubic-bezier(.4,0,.2,1);
-    --lk-transition-base: 0.28s cubic-bezier(.4,0,.2,1);
+  --lk-transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --lk-transition-base: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --lk-focus-ring-color: #f0f0fa;
-    --lk-focus-ring-width: 4rpx;
+  --lk-focus-ring-color: #f0f0fa;
+  --lk-focus-ring-width: 4rpx;
 
-    --lk-choice-border-size: 2rpx;
-    --lk-choice-size-sm: 36rpx;
-    --lk-choice-size-md: 40rpx;
-    --lk-choice-size-lg: 48rpx;
+  --lk-choice-border-size: 2rpx;
+  --lk-choice-size-sm: 36rpx;
+  --lk-choice-size-md: 40rpx;
+  --lk-choice-size-lg: 48rpx;
 
-    --lk-switch-height-sm: 40rpx;
-    --lk-switch-height-md: 48rpx;
-    --lk-switch-height-lg: 56rpx;
-    --lk-switch-knob-gap: 4rpx;
-    --lk-switch-transition: 0.3s cubic-bezier(.65,.05,.36,1);
+  --lk-switch-height-sm: 40rpx;
+  --lk-switch-height-md: 48rpx;
+  --lk-switch-height-lg: 56rpx;
+  --lk-switch-knob-gap: 4rpx;
+  --lk-switch-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
 
-    --lk-input-bg: #ffffff;
-    --lk-input-bg-disabled: #ffffff;
-    --lk-input-border-color: #c1c7d0;
-    --lk-input-border-color-hover: #554fcf;
-    --lk-input-border-color-active: #6965db;
-    --lk-input-border-color-error: #413f8a;
-    --lk-input-placeholder-color: #8993a4;
-    --lk-input-shadow-focus: 0 0 0 4rpx #f0f0fa;
+  --lk-input-bg: #ffffff;
+  --lk-input-bg-disabled: #ffffff;
+  --lk-input-border-color: #c1c7d0;
+  --lk-input-border-color-hover: #554fcf;
+  --lk-input-border-color-active: #6965db;
+  --lk-input-border-color-error: #413f8a;
+  --lk-input-placeholder-color: #8993a4;
+  --lk-input-shadow-focus: 0 0 0 4rpx #f0f0fa;
 }
 
 /* DARK */
 .lk-theme-dark,
 [data-theme='dark'] {
-    /* 页面背景（与 body 一致，用于业务层引用） */
-    --lk-color-bg-page: #141414;
-    --lk-color-primary: #7b75dd;
-    --lk-color-primary-hover: #938ee0;
-    --lk-color-primary-active: #c1bfe9;
-    --lk-color-primary-bg-soft: rgba(123,117,221,0.18);
+  /* 页面背景（与 body 一致，用于业务层引用） */
+  --lk-color-bg-page: #141414;
+  --lk-color-primary: #7b75dd;
+  --lk-color-primary-hover: #938ee0;
+  --lk-color-primary-active: #c1bfe9;
+  --lk-color-primary-bg-soft: rgba(123, 117, 221, 0.18);
 
-    --lk-color-text: rgba(255,255,255,0.88);
-    --lk-color-text-secondary: rgba(255,255,255,0.65);
-    --lk-color-text-placeholder: rgba(255,255,255,0.45);
-    --lk-color-text-disabled: rgba(255,255,255,0.35);
-    --lk-color-text-inverse: #172b4d;
+  --lk-color-text: rgba(255, 255, 255, 0.88);
+  --lk-color-text-secondary: rgba(255, 255, 255, 0.65);
+  --lk-color-text-placeholder: rgba(255, 255, 255, 0.45);
+  --lk-color-text-disabled: rgba(255, 255, 255, 0.35);
+  --lk-color-text-inverse: #172b4d;
 
-    --lk-color-border: rgba(255,255,255,0.25);
-    --lk-color-border-weak: rgba(255,255,255,0.15);
+  --lk-color-border: rgba(255, 255, 255, 0.25);
+  --lk-color-border-weak: rgba(255, 255, 255, 0.15);
 
-    --lk-color-bg-body: #141414;
-    --lk-color-bg-surface: #1d1d1f;
-    --lk-color-bg-surface-active: #26262a;
+  --lk-color-bg-body: #141414;
+  --lk-color-bg-surface: #1d1d1f;
+  --lk-color-bg-surface-active: #26262a;
 
-    --lk-shadow-sm: 0 4rpx 8rpx rgba(0,0,0,0.3);
-    --lk-shadow-base: 0 8rpx 24rpx rgba(0,0,0,0.4);
-    --lk-shadow-lg: 0 16rpx 48rpx rgba(0,0,0,0.5);
+  --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
+  --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
+  --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
 
-    --lk-input-bg: #1d1d1f;
-    --lk-input-bg-disabled: #1d1d1f;
-    --lk-input-border-color: rgba(255,255,255,0.25);
-    --lk-input-border-color-hover: #938ee0;
-    --lk-input-border-color-active: #7b75dd;
-    --lk-input-border-color-error: #c1bfe9;
-    --lk-input-placeholder-color: rgba(255,255,255,0.45);
-    --lk-input-shadow-focus: 0 0 0 4rpx rgba(123,117,221,0.25);
+  --lk-input-bg: #1d1d1f;
+  --lk-input-bg-disabled: #1d1d1f;
+  --lk-input-border-color: rgba(255, 255, 255, 0.25);
+  --lk-input-border-color-hover: #938ee0;
+  --lk-input-border-color-active: #7b75dd;
+  --lk-input-border-color-error: #c1bfe9;
+  --lk-input-placeholder-color: rgba(255, 255, 255, 0.45);
+  --lk-input-shadow-focus: 0 0 0 4rpx rgba(123, 117, 221, 0.25);
 }

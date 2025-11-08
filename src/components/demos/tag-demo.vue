@@ -13,9 +13,15 @@
     <demo-block title="可关闭标签">
       <view class="demo-row">
         <lk-tag v-if="tags.tag1" closable @close="tags.tag1 = false">可关闭</lk-tag>
-        <lk-tag v-if="tags.tag2" closable type="primary" @close="tags.tag2 = false">主要</lk-tag>
-        <lk-tag v-if="tags.tag3" closable type="success" @close="tags.tag3 = false">成功</lk-tag>
-        <lk-button v-if="!allTagsVisible" size="medium" @click="resetTags">恢复</lk-button>
+        <lk-tag v-if="tags.tag2" closable type="primary" @close="tags.tag2 = false"
+          >主要</lk-tag
+        >
+        <lk-tag v-if="tags.tag3" closable type="success" @close="tags.tag3 = false"
+          >成功</lk-tag
+        >
+        <lk-button v-if="!allTagsVisible" size="medium" @click="resetTags"
+          >恢复</lk-button
+        >
       </view>
     </demo-block>
 
@@ -37,7 +43,7 @@
 
     <demo-block title="可选择标签">
       <view class="demo-row">
-        <lk-tag 
+        <lk-tag
           v-for="tag in selectableTags"
           :key="tag.name"
           :type="tag.selected ? 'primary' : 'default'"
@@ -70,15 +76,17 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const tags = ref({
   tag1: true,
   tag2: true,
-  tag3: true
+  tag3: true,
 });
 
-const allTagsVisible = computed(() => tags.value.tag1 && tags.value.tag2 && tags.value.tag3);
+const allTagsVisible = computed(
+  () => tags.value.tag1 && tags.value.tag2 && tags.value.tag3
+);
 
 const selectableTags = ref([
   { name: 'vue', label: 'Vue', selected: false },
   { name: 'react', label: 'React', selected: false },
-  { name: 'uniapp', label: 'UniApp', selected: true }
+  { name: 'uniapp', label: 'UniApp', selected: true },
 ]);
 
 const skills = ref(['Vue3', 'TypeScript', 'UniApp', 'Sass', 'Vite']);

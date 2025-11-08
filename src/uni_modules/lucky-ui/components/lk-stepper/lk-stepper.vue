@@ -10,38 +10,57 @@ const props = defineProps({
   step: { type: Number, default: 1 },
   disabled: { type: Boolean, default: false },
   size: { type: String, default: 'md' },
-  prop: { type: String, default: '' }
+  prop: { type: String, default: '' },
 });
-const emit = defineEmits(['update:modelValue','change']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
 const form = inject(formContextKey, null);
 
 const val = ref(props.modelValue);
-watch(()=>props.modelValue, v=> val.value=v);
+watch(
+  () => props.modelValue,
+  v => (val.value = v)
+);
 
-function clamp(v:number){
+function clamp(v: number) {
   return Math.min(props.max, Math.max(props.min, v));
 }
-function update(next:number){
+function update(next: number) {
   next = clamp(next);
-  if(next === val.value) return;
+  if (next === val.value) return;
   val.value = next;
   emit('update:modelValue', next);
   emit('change', next);
-  if(props.prop) form?.emitFieldChange(props.prop, next);
+  if (props.prop) form?.emitFieldChange(props.prop, next);
 }
-function inc(){ if(props.disabled) return; update(val.value + props.step); }
-function dec(){ if(props.disabled) return; update(val.value - props.step); }
-function handleInput(e: any) { update(Number(e.detail.value || 0)); }
+function inc() {
+  if (props.disabled) return;
+  update(val.value + props.step);
+}
+function dec() {
+  if (props.disabled) return;
+  update(val.value - props.step);
+}
+function handleInput(e: any) {
+  update(Number(e.detail.value || 0));
+}
 
-const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-disabled': props.disabled }]);
+const classes = computed(() => [
+  'lk-stepper',
+  `lk-stepper--${props.size}`,
+  { 'is-disabled': props.disabled },
+]);
 </script>
 
 <template>
   <view :class="classes">
-    <view class="lk-stepper__btn" :class="{ 'is-disabled': val<=min }" @click="dec">-</view>
+    <view class="lk-stepper__btn" :class="{ 'is-disabled': val <= min }" @click="dec"
+      >-</view
+    >
     <input class="lk-stepper__input" type="number" :value="val" @input="handleInput" />
-    <view class="lk-stepper__btn" :class="{ 'is-disabled': val>=max }" @click="inc">+</view>
+    <view class="lk-stepper__btn" :class="{ 'is-disabled': val >= max }" @click="inc"
+      >+</view
+    >
   </view>
 </template>
 
@@ -57,10 +76,26 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
   border-radius: var(--_radius);
   overflow: hidden;
   background: var(--lk-input-bg);
-  &--sm { --_h: var(--lk-control-height-sm); --_fs: var(--lk-control-font-size-sm); --_radius: var(--lk-radius-md); }
-  &--lg { --_h: var(--lk-control-height-lg); --_fs: var(--lk-control-font-size-lg); --_radius: var(--lk-radius-pill); }
-  &--small { --_h: var(--lk-control-height-sm); --_fs: var(--lk-control-font-size-sm); --_radius: var(--lk-radius-md); }
-  &--large { --_h: var(--lk-control-height-lg); --_fs: var(--lk-control-font-size-lg); --_radius: var(--lk-radius-pill); }
+  &--sm {
+    --_h: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_radius: var(--lk-radius-md);
+  }
+  &--lg {
+    --_h: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_radius: var(--lk-radius-pill);
+  }
+  &--small {
+    --_h: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_radius: var(--lk-radius-md);
+  }
+  &--large {
+    --_h: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_radius: var(--lk-radius-pill);
+  }
   &__btn {
     width: var(--_h);
     display: flex;
@@ -76,7 +111,7 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
       color: var(--lk-color-text-inverse);
     }
     &.is-disabled {
-      opacity: .4;
+      opacity: 0.4;
     }
   }
   &__input {
@@ -92,7 +127,7 @@ const classes = computed(()=>['lk-stepper', `lk-stepper--${props.size}`, { 'is-d
     box-sizing: border-box;
   }
   &.is-disabled {
-    opacity: .6;
+    opacity: 0.6;
     pointer-events: none;
   }
 }

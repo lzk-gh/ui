@@ -1,5 +1,5 @@
-import type { ExtractPropTypes } from "vue";
-import { baseProps, LkProp } from "../common/props";
+import type { ExtractPropTypes } from 'vue';
+import { baseProps, LkProp } from '../common/props';
 
 /**
  * Tag 类型
@@ -19,9 +19,9 @@ export const TagSize = {
   Lg: 'lg',
 } as const;
 
-export type TagType = typeof TagType[keyof typeof TagType];
+export type TagType = (typeof TagType)[keyof typeof TagType];
 
-export type TagSize = typeof TagSize[keyof typeof TagSize];
+export type TagSize = (typeof TagSize)[keyof typeof TagSize];
 
 export const tagProps = {
   ...baseProps,
@@ -33,7 +33,7 @@ export const tagProps = {
    * @value light 浅色标签
    */
 
-  type: LkProp.enum(Object.values(TagType), TagType.Solid, 'Tag.type' ),
+  type: LkProp.enum(Object.values(TagType), TagType.Solid, 'Tag.type'),
 
   /**
    * 标签尺寸
@@ -41,7 +41,7 @@ export const tagProps = {
    * @value md 中号标签
    * @value lg 大号标签
    */
-  size: LkProp.enum(Object.values(TagSize), TagSize.Md, 'Tag.size' ),
+  size: LkProp.enum(Object.values(TagSize), TagSize.Md, 'Tag.size'),
 
   /** 是否可关闭 */
   closable: LkProp.boolean(false),

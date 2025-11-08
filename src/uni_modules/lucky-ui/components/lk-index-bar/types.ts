@@ -1,9 +1,14 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 
-export const defaultIndexList = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+export const defaultIndexList = Array.from({ length: 26 }, (_, i) =>
+  String.fromCharCode(65 + i)
+);
 
 export const lkIndexBarProps = {
-  indexList: { type: Array as unknown as PropType<string[]>, default: () => defaultIndexList },
+  indexList: {
+    type: Array as unknown as PropType<string[]>,
+    default: () => defaultIndexList,
+  },
   sticky: { type: Boolean, default: true },
   stickyOffsetTop: { type: Number, default: 0 },
   scrollTarget: { type: String, default: '' },

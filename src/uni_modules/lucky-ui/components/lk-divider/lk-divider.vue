@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-defineOptions({ name:'LkDivider' });
+defineOptions({ name: 'LkDivider' });
 
 const props = defineProps({
-  dashed: { type:Boolean, default:false },
-  vertical: { type:Boolean, default:false },
-  text: { type:String, default:'' },
-  hairline: { type:Boolean, default:true },
-  textPosition: { type: [String, Number], default: 'center' }
+  dashed: { type: Boolean, default: false },
+  vertical: { type: Boolean, default: false },
+  text: { type: String, default: '' },
+  hairline: { type: Boolean, default: true },
+  textPosition: { type: [String, Number], default: 'center' },
 });
 
-const textStyle = computed(()=> {
-  const base: Record<string,string> = {
+const textStyle = computed(() => {
+  const base: Record<string, string> = {
     position: 'absolute',
-    top: '50%'
+    top: '50%',
   };
 
   base.background = 'var(--lk-color-bg-body)';
@@ -49,13 +49,15 @@ const textStyle = computed(()=> {
 
 <template>
   <view
-      class="lk-divider"
-      :class="[{ 
-        'is-vertical': vertical, 
-        'is-dashed': dashed, 
-        'is-hairline': hairline, 
-        'has-text': text || $slots.default 
-      }]"
+    class="lk-divider"
+    :class="[
+      {
+        'is-vertical': vertical,
+        'is-dashed': dashed,
+        'is-hairline': hairline,
+        'has-text': text || $slots.default,
+      },
+    ]"
   >
     <text class="lk-divider__text" :style="textStyle">
       <slot>{{ text }}</slot>
@@ -69,10 +71,12 @@ const textStyle = computed(()=> {
   height: 2rpx;
   background: var(--lk-color-border-weak);
   margin: 40rpx 0;
-  &.is-hairline { height:1rpx; }
-  &.is-dashed { 
-    background: none; 
-    border-top: 2rpx dashed var(--lk-color-border-weak); 
+  &.is-hairline {
+    height: 1rpx;
+  }
+  &.is-dashed {
+    background: none;
+    border-top: 2rpx dashed var(--lk-color-border-weak);
   }
   &.has-text {
     .lk-divider__text {
@@ -87,11 +91,11 @@ const textStyle = computed(()=> {
     }
   }
   &.is-vertical {
-    width:2rpx;
-    height:100%;
+    width: 2rpx;
+    height: 100%;
     background: var(--lk-color-border-weak);
-    margin:0 24rpx;
-    display:inline-block;
+    margin: 0 24rpx;
+    display: inline-block;
   }
 }
 </style>

@@ -52,7 +52,7 @@ const sound = ref(false);
 const handleClick = () => {
   uni.showToast({
     title: '点击了单元格',
-    icon: 'none'
+    icon: 'none',
   });
 };
 </script>

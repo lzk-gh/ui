@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 
-export type ColorFormat = 'hex'|'rgb'|'hsv';
+export type ColorFormat = 'hex' | 'rgb' | 'hsv';
 
 export const lkColorPickerProps = {
   modelValue: { type: String, default: '' },

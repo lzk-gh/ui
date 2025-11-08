@@ -19,7 +19,7 @@
     <demo-block title="自定义右侧">
       <lk-navbar title="标题">
         <template #right>
-          <lk-icon name="search" size="36" style="margin-right: 16rpx;" />
+          <lk-icon name="search" size="36" style="margin-right: 16rpx" />
           <lk-icon name="three-dots-vertical" size="36" />
         </template>
       </lk-navbar>
@@ -39,7 +39,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const handleBack = () => {
   uni.showToast({
     title: '点击了返回',
-    icon: 'none'
+    icon: 'none',
   });
 };
 </script>

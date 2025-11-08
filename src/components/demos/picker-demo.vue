@@ -38,8 +38,8 @@ const columns = [
   { label: '绿色', value: 'green' },
   { label: '蓝色', value: 'blue' },
 ];
-const display = computed(()=> {
-  const m = new Map(columns.map(o=>[o.value,o.label]));
+const display = computed(() => {
+  const m = new Map(columns.map(o => [o.value, o.label]));
   return m.get(value.value);
 });
 
@@ -48,14 +48,28 @@ function onConfirm(v: any) {
 }
 
 const show2 = ref(false);
-const value2 = ref<any[]>(['tue','pm']);
+const value2 = ref<any[]>(['tue', 'pm']);
 const columns2 = [
-  [ { label: '周一', value: 'mon' }, { label: '周二', value: 'tue' }, { label: '周三', value: 'wed' } ],
-  [ { label: '上午', value: 'am' }, { label: '下午', value: 'pm' } ]
+  [
+    { label: '周一', value: 'mon' },
+    { label: '周二', value: 'tue' },
+    { label: '周三', value: 'wed' },
+  ],
+  [
+    { label: '上午', value: 'am' },
+    { label: '下午', value: 'pm' },
+  ],
 ];
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.result { margin-top: 12rpx; color: var(--lk-color-text-secondary); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.result {
+  margin-top: 12rpx;
+  color: var(--lk-color-text-secondary);
+}
 </style>

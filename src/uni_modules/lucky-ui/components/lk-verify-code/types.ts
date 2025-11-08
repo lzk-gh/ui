@@ -3,7 +3,7 @@ import type { ExtractPropTypes } from 'vue';
 export const lkVerifyCodeProps = {
   length: { type: Number, default: 6 },
   modelValue: { type: String, default: '' },
-  type: { type: String as () => 'text'|'number', default: 'number' },
+  type: { type: String as () => 'text' | 'number', default: 'number' },
   mask: { type: Boolean, default: false },
   autofocus: { type: Boolean, default: false },
 } as const;

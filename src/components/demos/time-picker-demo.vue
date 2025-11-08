@@ -3,18 +3,14 @@
     <demo-block title="基础用法">
       <lk-button type="primary" @click="showPicker1">选择时间</lk-button>
       <text class="result-text">选择的时间: {{ time1 }}</text>
-      <lk-time-picker 
-        v-model="visible1" 
-        :value="time1"
-        @confirm="handleConfirm1"
-      />
+      <lk-time-picker v-model="visible1" :value="time1" @confirm="handleConfirm1" />
     </demo-block>
 
     <demo-block title="时间范围">
       <lk-button type="primary" @click="showPicker2">选择时间范围</lk-button>
       <text class="result-text">{{ time2 }}</text>
-      <lk-time-picker 
-        v-model="visible2" 
+      <lk-time-picker
+        v-model="visible2"
         :value="time2"
         :min-time="'08:00'"
         :max-time="'18:00'"
@@ -25,8 +21,8 @@
     <demo-block title="分钟步长">
       <lk-button type="primary" @click="showPicker3">5分钟步长</lk-button>
       <text class="result-text">{{ time3 }}</text>
-      <lk-time-picker 
-        v-model="visible3" 
+      <lk-time-picker
+        v-model="visible3"
         :value="time3"
         :minute-step="5"
         @confirm="handleConfirm3"

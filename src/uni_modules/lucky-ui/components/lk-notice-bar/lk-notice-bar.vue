@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
-defineOptions({ name:'LkNoticeBar' });
+defineOptions({ name: 'LkNoticeBar' });
 
 const props = defineProps({
   text: { type: String, default: '' },
@@ -17,7 +17,7 @@ const props = defineProps({
   // 背景颜色
   background: { type: String, default: 'var(--lk-color-primary-bg-soft)' },
   // 竖向滚动时的消息列表
-  messages: { type: Array as () => string[], default: () => [] }
+  messages: { type: Array as () => string[], default: () => [] },
 });
 
 const emit = defineEmits(['close', 'click']);
@@ -139,7 +139,7 @@ function click() {
           ref="verticalListEl"
           :style="{
             transform: `translateY(-${verticalList.length ? (currentIndex * 100) / verticalList.length : 0}%)`,
-            transition: enableTransition ? 'transform 0.3s ease-in-out' : 'none'
+            transition: enableTransition ? 'transform 0.3s ease-in-out' : 'none',
           }"
         >
           <view

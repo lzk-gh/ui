@@ -24,7 +24,9 @@ type TabbarContext = {
 const tabbar = inject<TabbarContext>('lkTabbar');
 
 const currentValue = computed(() => props.value ?? props.name ?? '');
-const isActive = computed(() => (tabbar?.activeValue?.value ?? '') === currentValue.value);
+const isActive = computed(
+  () => (tabbar?.activeValue?.value ?? '') === currentValue.value
+);
 const showBadge = computed(() => props.dot || props.badge !== undefined);
 
 function handleClick() {
@@ -37,7 +39,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <view class="lk-tabbar-item" :class="{ 'lk-tabbar-item--active': isActive, 'lk-tabbar-item--tic': tabbarType === 'TIC' }" @click="handleClick">
+  <view
+    class="lk-tabbar-item"
+    :class="{
+      'lk-tabbar-item--active': isActive,
+      'lk-tabbar-item--tic': tabbarType === 'TIC',
+    }"
+    @click="handleClick"
+  >
     <view class="lk-tabbar-item__icon-wrap">
       <lk-badge v-if="showBadge" :content="badge" :dot="dot" :max="max">
         <lk-icon class="lk-tabbar-item__icon" :name="icon" size="32" />

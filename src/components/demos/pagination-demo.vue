@@ -1,35 +1,21 @@
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
-      <lk-pagination 
-        v-model="currentPage1" 
-        :total="100" 
-        :page-size="10"
-      />
+      <lk-pagination v-model="currentPage1" :total="100" :page-size="10" />
     </demo-block>
 
     <demo-block title="显示总数">
-      <lk-pagination 
-        v-model="currentPage2" 
-        :total="100" 
-        :page-size="10"
-        show-total
-      />
+      <lk-pagination v-model="currentPage2" :total="100" :page-size="10" show-total />
     </demo-block>
 
     <demo-block title="简洁模式">
-      <lk-pagination 
-        v-model="currentPage3" 
-        :total="100" 
-        :page-size="10"
-        simple
-      />
+      <lk-pagination v-model="currentPage3" :total="100" :page-size="10" simple />
     </demo-block>
 
     <demo-block title="每页数量">
-      <lk-pagination 
-        v-model="currentPage4" 
-        :total="100" 
+      <lk-pagination
+        v-model="currentPage4"
+        :total="100"
         :page-size="pageSize"
         show-size-changer
         @size-change="handleSizeChange"

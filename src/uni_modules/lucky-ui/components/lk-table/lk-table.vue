@@ -31,14 +31,14 @@ export interface TableColumn {
   title?: string;
   width?: string | number;
   align?: string;
-  sortable?: boolean;              // 启用排序
-  sortMethod?: (a:any, b:any, asc:boolean) => number;
-  formatter?: (row:any, col:TableColumn, rowIndex:number) => any;
-  summary?: 'sum' | 'avg' | ((values:any[], col:TableColumn)=>any);
-  fixed?: 'left' | 'right';        // 预留
+  sortable?: boolean; // 启用排序
+  sortMethod?: (a: any, b: any, asc: boolean) => number;
+  formatter?: (row: any, col: TableColumn, rowIndex: number) => any;
+  summary?: 'sum' | 'avg' | ((values: any[], col: TableColumn) => any);
+  fixed?: 'left' | 'right'; // 预留
   hidden?: boolean;
   className?: string;
-  headerSlot?: string;             // 自定义表头插槽名 (#header-xxx)
+  headerSlot?: string; // 自定义表头插槽名 (#header-xxx)
   minWidth?: string | number;
 }
 
@@ -50,39 +50,51 @@ const props = defineProps({
   bordered: { type: Boolean, default: false },
   compact: { type: Boolean, default: false },
   showIndex: { type: Boolean, default: false },
-  selectable: { type: Boolean, default: false },      // 多选
+  selectable: { type: Boolean, default: false }, // 多选
   stickyHeader: { type: Boolean, default: true },
   maxHeight: { type: [Number, String], default: '' },
   loading: { type: Boolean, default: false },
   emptyText: { type: String, default: '暂无数据' },
-  summary: { type: Boolean, default: false },          // 是否显示总结行
-  sortRemote: { type: Boolean, default: false },       // 是否外部处理排序
-  modelValue: { type: Array as () => any[], default: () => [] },  // 已选 keys
+  summary: { type: Boolean, default: false }, // 是否显示总结行
+  sortRemote: { type: Boolean, default: false }, // 是否外部处理排序
+  modelValue: { type: Array as () => any[], default: () => [] }, // 已选 keys
   // 默认排序 { key, order: 'asc'|'desc'|'' }
-  defaultSort: { type: Object as () => { key?:string; order?:string }, default: () => ({}) }
+  defaultSort: {
+    type: Object as () => { key?: string; order?: string },
+    default: () => ({}),
+  },
 });
 
 const emit = defineEmits<{
-  (e:'update:modelValue', v:any[]): void;
-  (e:'rowClick', row:any, index:number): void;
-  (e:'selectionChange', selection:any[]): void;
-  (e:'sortChange', payload:{ key:string; order:string }): void;
-  (e:'summaryComputed', row:any): void;
+  (e: 'update:modelValue', v: any[]): void;
+  (e: 'rowClick', row: any, index: number): void;
+  (e: 'selectionChange', selection: any[]): void;
+  (e: 'sortChange', payload: { key: string; order: string }): void;
+  (e: 'summaryComputed', row: any): void;
 }>();
 
 const internalSelection = ref<any[]>([]);
-const sortState = ref<{ key:string; order:''|'asc'|'desc' }>({ key:'', order:'' });
+const sortState = ref<{ key: string; order: '' | 'asc' | 'desc' }>({
+  key: '',
+  order: '',
+});
 
 /* 初始化排序 */
 if (props.defaultSort?.key) {
   sortState.value = {
     key: props.defaultSort.key,
-    order: (props.defaultSort.order === 'desc' ? 'desc' : 'asc') as any
+    order: (props.defaultSort.order === 'desc' ? 'desc' : 'asc') as any,
   };
 }
 
 /* 同步外部选择 */
-watch(() => props.modelValue, v => { internalSelection.value = [...v]; }, { immediate: true });
+watch(
+  () => props.modelValue,
+  v => {
+    internalSelection.value = [...v];
+  },
+  { immediate: true }
+);
 
 /* 可见列（过滤 hidden）*/
 const visibleColumns = computed(() => props.columns.filter(c => !c.hidden));
@@ -97,18 +109,20 @@ const sortedData = computed(() => {
   const arr = [...props.data];
   const asc = order === 'asc';
   const method = col.sortMethod || defaultSortMethod;
-  arr.sort((a,b) => method(a,b,asc));
+  arr.sort((a, b) => method(a, b, asc));
   return arr;
 });
 
-function defaultSortMethod(a:any,b:any,asc:boolean) {
+function defaultSortMethod(a: any, b: any, asc: boolean) {
   const va = a[sortState.value.key];
   const vb = b[sortState.value.key];
   if (va == null && vb == null) return 0;
   if (va == null) return asc ? -1 : 1;
   if (vb == null) return asc ? 1 : -1;
   if (typeof va === 'number' && typeof vb === 'number') return asc ? va - vb : vb - va;
-  return asc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  return asc
+    ? String(va).localeCompare(String(vb))
+    : String(vb).localeCompare(String(va));
 }
 
 function cycleSort(col: TableColumn) {
@@ -117,21 +131,25 @@ function cycleSort(col: TableColumn) {
     sortState.value = { key: col.key, order: 'asc' };
   } else {
     const current = sortState.value.order;
-    sortState.value.order = current === 'asc' ? 'desc' : (current === 'desc' ? '' : 'asc');
+    sortState.value.order = current === 'asc' ? 'desc' : current === 'desc' ? '' : 'asc';
     if (!sortState.value.order) sortState.value.key = '';
   }
-  emit('sortChange', { key: sortState.value.key, order: sortState.value.order });
+  emit('sortChange', {
+    key: sortState.value.key,
+    order: sortState.value.order,
+  });
 }
 
 /* 选择相关 */
-function isSelected(row:any) {
+function isSelected(row: any) {
   const k = row[props.rowKey];
   return internalSelection.value.includes(k);
 }
-function toggleRow(row:any) {
+function toggleRow(row: any) {
   const keyVal = row[props.rowKey];
   const idx = internalSelection.value.indexOf(keyVal);
-  if (idx >= 0) internalSelection.value.splice(idx,1); else internalSelection.value.push(keyVal);
+  if (idx >= 0) internalSelection.value.splice(idx, 1);
+  else internalSelection.value.push(keyVal);
   emit('update:modelValue', [...internalSelection.value]);
   emit('selectionChange', [...internalSelection.value]);
 }
@@ -154,7 +172,7 @@ function toggleAll() {
 }
 
 /* 单元格内容 */
-function cellContent(row:any, col:TableColumn, rowIndex:number) {
+function cellContent(row: any, col: TableColumn, rowIndex: number) {
   if (col.formatter) return col.formatter(row, col, rowIndex);
   return row[col.key];
 }
@@ -162,17 +180,21 @@ function cellContent(row:any, col:TableColumn, rowIndex:number) {
 /* 总结行计算 */
 const summaryRow = computed(() => {
   if (!props.summary || !visibleColumns.value.length) return null;
-  const row:Record<string, any> = {};
+  const row: Record<string, any> = {};
   visibleColumns.value.forEach(col => {
     if (!col.summary) return;
-    const values = sortedData.value.map(r => r[col.key]).filter(v => typeof v === 'number');
+    const values = sortedData.value
+      .map(r => r[col.key])
+      .filter(v => typeof v === 'number');
     if (!values.length) return;
     if (col.summary === 'sum') {
-      row[col.key] = values.reduce((s,v)=> s+v,0);
+      row[col.key] = values.reduce((s, v) => s + v, 0);
     } else if (col.summary === 'avg') {
-      row[col.key] = +(values.reduce((s,v)=> s+v,0) / values.length).toFixed(2);
+      row[col.key] = +(values.reduce((s, v) => s + v, 0) / values.length).toFixed(2);
     } else if (typeof col.summary === 'function') {
-      try { row[col.key] = col.summary(values, col); } catch {}
+      try {
+        row[col.key] = col.summary(values, col);
+      } catch {}
     }
   });
   emit('summaryComputed', row);
@@ -180,15 +202,16 @@ const summaryRow = computed(() => {
 });
 
 /* 行点击 */
-function onRowClick(row:any, idx:number) {
+function onRowClick(row: any, idx: number) {
   emit('rowClick', row, idx);
 }
 
 /* 宽高 style */
 const wrapStyle = computed(() => {
-  const st:any = {};
+  const st: any = {};
   if (props.maxHeight) {
-    st.maxHeight = typeof props.maxHeight === 'number' ? props.maxHeight + 'px' : props.maxHeight;
+    st.maxHeight =
+      typeof props.maxHeight === 'number' ? props.maxHeight + 'px' : props.maxHeight;
   }
   return st;
 });
@@ -196,9 +219,14 @@ const wrapStyle = computed(() => {
 
 <template>
   <view
-      class="lk-table"
-      :class="[
-      { 'is-striped': striped, 'is-bordered': bordered, 'is-compact': compact, 'has-sticky': stickyHeader }
+    class="lk-table"
+    :class="[
+      {
+        'is-striped': striped,
+        'is-bordered': bordered,
+        'is-compact': compact,
+        'has-sticky': stickyHeader,
+      },
     ]"
   >
     <view class="lk-table__wrapper" :style="wrapStyle">
@@ -208,28 +236,41 @@ const wrapStyle = computed(() => {
           <view class="lk-table__tr lk-table__tr--head">
             <view v-if="selectable" class="lk-table__th lk-table__th--checkbox">
               <lk-checkbox
-                  :model-value="allChecked"
-                  :indeterminate="indeterminate"
-                  @update:modelValue="toggleAll"
+                :model-value="allChecked"
+                :indeterminate="indeterminate"
+                @update:modelValue="toggleAll"
               />
             </view>
             <view v-if="showIndex" class="lk-table__th lk-table__th--index">#</view>
             <view
-                v-for="col in visibleColumns"
-                :key="col.key"
-                class="lk-table__th"
-                :class="[
+              v-for="col in visibleColumns"
+              :key="col.key"
+              class="lk-table__th"
+              :class="[
                 col.className,
-                { 'is-sortable': col.sortable,
-                  'is-sorted-asc': sortState.key===col.key && sortState.order==='asc',
-                  'is-sorted-desc': sortState.key===col.key && sortState.order==='desc' }
+                {
+                  'is-sortable': col.sortable,
+                  'is-sorted-asc': sortState.key === col.key && sortState.order === 'asc',
+                  'is-sorted-desc':
+                    sortState.key === col.key && sortState.order === 'desc',
+                },
               ]"
-                :style="{ width: col.width ? (typeof col.width==='number'? col.width+'px': col.width) : undefined,
-                        minWidth: col.minWidth ? (typeof col.minWidth==='number'? col.minWidth+'px': col.minWidth) : undefined,
-                        textAlign: col.align || undefined }"
-                @click="cycleSort(col)"
+              :style="{
+                width: col.width
+                  ? typeof col.width === 'number'
+                    ? col.width + 'px'
+                    : col.width
+                  : undefined,
+                minWidth: col.minWidth
+                  ? typeof col.minWidth === 'number'
+                    ? col.minWidth + 'px'
+                    : col.minWidth
+                  : undefined,
+                textAlign: col.align || undefined,
+              }"
+              @click="cycleSort(col)"
             >
-              <slot :name="col.headerSlot || ('header-'+col.key)" :column="col">
+              <slot :name="col.headerSlot || 'header-' + col.key" :column="col">
                 {{ col.title || col.key }}
               </slot>
               <view v-if="col.sortable" class="lk-table__sort-icons">
@@ -244,27 +285,52 @@ const wrapStyle = computed(() => {
         <view class="lk-table__body">
           <template v-if="!loading && sortedData.length">
             <view
-                v-for="(row,ri) in sortedData"
-                :key="row[rowKey] ?? ri"
-                class="lk-table__tr"
-                :class="{ 'is-selected': selectable && isSelected(row) }"
-                @click="onRowClick(row,ri)"
+              v-for="(row, ri) in sortedData"
+              :key="row[rowKey] ?? ri"
+              class="lk-table__tr"
+              :class="{ 'is-selected': selectable && isSelected(row) }"
+              @click="onRowClick(row, ri)"
             >
-              <view v-if="selectable" class="lk-table__td lk-table__td--checkbox" @click.stop="toggleRow(row)">
-                <lk-checkbox :model-value="isSelected(row)" @update:modelValue="toggleRow(row)" />
-              </view>
-              <view v-if="showIndex" class="lk-table__td lk-table__td--index">{{ ri + 1 }}</view>
               <view
-                  v-for="col in visibleColumns"
-                  :key="col.key + ri"
-                  class="lk-table__td"
-                  :class="col.className"
-                  :style="{ width: col.width ? (typeof col.width==='number'? col.width+'px': col.width) : undefined,
-                          minWidth: col.minWidth ? (typeof col.minWidth==='number'? col.minWidth+'px': col.minWidth) : undefined,
-                          textAlign: col.align || undefined }"
+                v-if="selectable"
+                class="lk-table__td lk-table__td--checkbox"
+                @click.stop="toggleRow(row)"
               >
-                <slot :name="'col-'+col.key" :row="row" :column="col" :value="row[col.key]" :row-index="ri">
-                  {{ cellContent(row,col,ri) }}
+                <lk-checkbox
+                  :model-value="isSelected(row)"
+                  @update:modelValue="toggleRow(row)"
+                />
+              </view>
+              <view v-if="showIndex" class="lk-table__td lk-table__td--index">{{
+                ri + 1
+              }}</view>
+              <view
+                v-for="col in visibleColumns"
+                :key="col.key + ri"
+                class="lk-table__td"
+                :class="col.className"
+                :style="{
+                  width: col.width
+                    ? typeof col.width === 'number'
+                      ? col.width + 'px'
+                      : col.width
+                    : undefined,
+                  minWidth: col.minWidth
+                    ? typeof col.minWidth === 'number'
+                      ? col.minWidth + 'px'
+                      : col.minWidth
+                    : undefined,
+                  textAlign: col.align || undefined,
+                }"
+              >
+                <slot
+                  :name="'col-' + col.key"
+                  :row="row"
+                  :column="col"
+                  :value="row[col.key]"
+                  :row-index="ri"
+                >
+                  {{ cellContent(row, col, ri) }}
                 </slot>
               </view>
             </view>
@@ -284,15 +350,32 @@ const wrapStyle = computed(() => {
         <!-- Summary -->
         <view v-if="summary && summaryRow" class="lk-table__footer">
           <view class="lk-table__tr lk-table__tr--summary">
-            <view v-if="selectable" class="lk-table__td lk-table__td--checkbox summary-cell"> </view>
-            <view v-if="showIndex" class="lk-table__td lk-table__td--index summary-cell">合计</view>
+            <view
+              v-if="selectable"
+              class="lk-table__td lk-table__td--checkbox summary-cell"
+            >
+            </view>
+            <view v-if="showIndex" class="lk-table__td lk-table__td--index summary-cell"
+              >合计</view
+            >
             <template v-for="col in visibleColumns" :key="col.key">
               <view
-                  class="lk-table__td summary-cell"
-                  :style="{ width: col.width ? (typeof col.width==='number'? col.width+'px': col.width) : undefined,
-                          textAlign: col.align || undefined }"
+                class="lk-table__td summary-cell"
+                :style="{
+                  width: col.width
+                    ? typeof col.width === 'number'
+                      ? col.width + 'px'
+                      : col.width
+                    : undefined,
+                  textAlign: col.align || undefined,
+                }"
               >
-                <slot name="summary" :column="col" :value="summaryRow[col.key]" :row="summaryRow">
+                <slot
+                  name="summary"
+                  :column="col"
+                  :value="summaryRow[col.key]"
+                  :row="summaryRow"
+                >
                   {{ summaryRow[col.key] !== undefined ? summaryRow[col.key] : '' }}
                 </slot>
               </view>
@@ -339,7 +422,7 @@ const wrapStyle = computed(() => {
       position: sticky;
       top: 0;
       z-index: 10;
-      box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.04);
+      box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.04);
     }
   }
 
@@ -364,7 +447,8 @@ const wrapStyle = computed(() => {
     }
   }
 
-  &__th, &__td {
+  &__th,
+  &__td {
     flex-shrink: 0;
     padding: 0 28rpx;
     display: flex;
@@ -375,8 +459,17 @@ const wrapStyle = computed(() => {
     font-size: 26rpx;
     min-width: 120rpx;
     box-sizing: border-box;
-    &--checkbox { width: 88rpx; min-width: 88rpx; justify-content: center; }
-    &--index { width: 72rpx; min-width: 72rpx; justify-content:center; font-variant-numeric: tabular-nums; }
+    &--checkbox {
+      width: 88rpx;
+      min-width: 88rpx;
+      justify-content: center;
+    }
+    &--index {
+      width: 72rpx;
+      min-width: 72rpx;
+      justify-content: center;
+      font-variant-numeric: tabular-nums;
+    }
   }
 
   &__th {
@@ -400,15 +493,20 @@ const wrapStyle = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 6rpx;
-    .asc, .desc {
+    .asc,
+    .desc {
       width: 0;
       height: 0;
       border-left: 10rpx solid transparent;
       border-right: 10rpx solid transparent;
-      opacity: .35;
+      opacity: 0.35;
     }
-    .asc { border-bottom: 14rpx solid var(--lk-color-text); }
-    .desc { border-top: 14rpx solid var(--lk-color-text); }
+    .asc {
+      border-bottom: 14rpx solid var(--lk-color-text);
+    }
+    .desc {
+      border-top: 14rpx solid var(--lk-color-text);
+    }
   }
   .is-sorted-asc .lk-table__sort-icons .asc,
   .is-sorted-desc .lk-table__sort-icons .desc {
@@ -433,20 +531,28 @@ const wrapStyle = computed(() => {
   &.is-striped .lk-table__body .lk-table__tr:nth-child(2n) {
     background: var(--_bg-stripe);
   }
-  .lk-table__body .lk-table__tr:not(.lk-table__tr--summary):not(.lk-table__tr--head):active {
+  .lk-table__body
+    .lk-table__tr:not(.lk-table__tr--summary):not(.lk-table__tr--head):active {
     background: var(--_bg-hover);
   }
   .lk-table__tr.is-selected {
     background: var(--lk-color-primary-bg-soft);
-    .lk-table__td, .lk-table__th {
+    .lk-table__td,
+    .lk-table__th {
       font-weight: 500;
       color: var(--lk-color-primary-active);
     }
   }
 
   &.is-compact {
-    .lk-table__th, .lk-table__td { padding: 0 20rpx; min-height: 72rpx; }
-    .lk-table__tr { min-height: 72rpx; }
+    .lk-table__th,
+    .lk-table__td {
+      padding: 0 20rpx;
+      min-height: 72rpx;
+    }
+    .lk-table__tr {
+      min-height: 72rpx;
+    }
   }
 
   &__empty {
@@ -458,13 +564,16 @@ const wrapStyle = computed(() => {
 
   &__loading {
     position: absolute;
-    left:0; top:0; right:0; bottom:0;
-    background: rgba(255,255,255,0.65);
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(4px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
   }
 
   &__footer {
@@ -478,11 +587,11 @@ const wrapStyle = computed(() => {
 :deep([data-theme='dark']) .lk-table {
   --_bg-head: var(--lk-color-bg-surface);
   --_bg-body: var(--lk-color-bg-surface);
-  --_bg-hover: rgba(255,255,255,0.06);
-  --_bg-stripe: rgba(255,255,255,0.04);
+  --_bg-hover: rgba(255, 255, 255, 0.06);
+  --_bg-stripe: rgba(255, 255, 255, 0.04);
   --_border: var(--lk-color-border-weak);
   &__loading {
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
   }
 }
 </style>

@@ -161,7 +161,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  
+
   text {
     font-size: 22rpx;
     color: var(--lk-color-text-secondary);
@@ -179,7 +179,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  
+
   text {
     font-size: 20rpx;
     color: var(--lk-color-text-tertiary);
@@ -197,7 +197,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   background: var(--lk-color-bg-surface);
   border-radius: var(--lk-radius-lg);
   overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.08);
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
 }
 
 .image-card-content {

@@ -22,13 +22,13 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const columns = ref([
   { key: 'name', prop: 'name', label: '姓名', width: '200' },
   { key: 'age', prop: 'age', label: '年龄', width: '150' },
-  { key: 'address', prop: 'address', label: '地址', width: '300' }
+  { key: 'address', prop: 'address', label: '地址', width: '300' },
 ]);
 
 const data = ref([
   { name: '张三', age: 25, address: '北京市朝阳区' },
   { name: '李四', age: 30, address: '上海市浦东新区' },
-  { name: '王五', age: 28, address: '广州市天河区' }
+  { name: '王五', age: 28, address: '广州市天河区' },
 ]);
 </script>
 

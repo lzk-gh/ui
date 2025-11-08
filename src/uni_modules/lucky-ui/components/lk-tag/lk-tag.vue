@@ -4,29 +4,29 @@ import { tagProps } from './tag.props';
 defineOptions({ name: 'LkTag' });
 
 const props = defineProps(tagProps);
-const emit = defineEmits(['close','click']);
+const emit = defineEmits(['close', 'click']);
 
-function onClose(e:any) {
-  if(props.disabled) return;
+function onClose(e: any) {
+  if (props.disabled) return;
   emit('close', e);
   e.stopPropagation();
 }
 
-function onClick(e:any){
-  if(props.disabled) return;
+function onClick(e: any) {
+  if (props.disabled) return;
   emit('click', e);
 }
 </script>
 
 <template>
   <view
-      class="lk-tag"
-      :class="[
+    class="lk-tag"
+    :class="[
       `lk-tag--${type}`,
       `lk-tag--${size}`,
-      { 'is-disabled': disabled, 'is-round': round, 'is-closable': closable }
+      { 'is-disabled': disabled, 'is-round': round, 'is-closable': closable },
     ]"
-      @click="onClick"
+    @click="onClick"
   >
     <slot />
     <view v-if="closable" class="lk-tag__close" @click="onClose">×</view>
@@ -48,9 +48,18 @@ function onClick(e:any){
   user-select: none;
   background: var(--lk-color-primary);
   color: var(--lk-color-text-inverse);
-  transition: background var(--lk-transition-fast), color var(--lk-transition-fast), opacity var(--lk-transition-fast);
-  &--sm { --_fs: 22rpx; --_px: 16rpx; }
-  &--lg { --_fs: 28rpx; --_px: 28rpx; }
+  transition:
+    background var(--lk-transition-fast),
+    color var(--lk-transition-fast),
+    opacity var(--lk-transition-fast);
+  &--sm {
+    --_fs: 22rpx;
+    --_px: 16rpx;
+  }
+  &--lg {
+    --_fs: 28rpx;
+    --_px: 28rpx;
+  }
   &--outline {
     background: transparent;
     color: var(--lk-color-primary);
@@ -61,10 +70,15 @@ function onClick(e:any){
     color: var(--lk-color-primary);
   }
   &:active:not(.is-disabled) {
-    filter: brightness(.93);
+    filter: brightness(0.93);
   }
-  &.is-disabled { opacity: .55; pointer-events: none; }
-  &.is-round { border-radius: var(--lk-radius-pill); }
+  &.is-disabled {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  &.is-round {
+    border-radius: var(--lk-radius-pill);
+  }
   &__close {
     font-size: 28rpx;
     line-height: 1;
@@ -77,4 +91,3 @@ function onClick(e:any){
   }
 }
 </style>
-

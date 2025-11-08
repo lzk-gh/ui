@@ -12,16 +12,16 @@ const props = defineProps({
   closeOnOverlay: { type: Boolean, default: true },
   zIndex: { type: Number, default: 1300 },
   showHeader: { type: Boolean, default: true },
-  showFooter: { type: Boolean, default: true }
+  showFooter: { type: Boolean, default: true },
 });
-const emit = defineEmits(['update:modelValue','open','close','confirm','cancel']);
+const emit = defineEmits(['update:modelValue', 'open', 'close', 'confirm', 'cancel']);
 
 function close() {
   emit('update:modelValue', false);
   emit('close');
 }
 function onOverlayClick() {
-  if(props.closeOnOverlay) close();
+  if (props.closeOnOverlay) close();
 }
 function onOpen() {
   emit('open');
@@ -33,16 +33,21 @@ function cancel() {
   emit('cancel');
   close();
 }
-const show = computed(()=> props.modelValue);
+const show = computed(() => props.modelValue);
 </script>
 
 <template>
-  <lk-overlay :show="show" :z-index="zIndex" @update:show="close" @click="onOverlayClick"/>
-  <view
-      class="lk-modal"
-      :style="{ zIndex: zIndex + 1, width }"
-  >
-    <view class="lk-modal__header" v-if="show && showHeader && (title || showClose || $slots.header)">
+  <lk-overlay
+    :show="show"
+    :z-index="zIndex"
+    @update:show="close"
+    @click="onOverlayClick"
+  />
+  <view class="lk-modal" :style="{ zIndex: zIndex + 1, width }">
+    <view
+      class="lk-modal__header"
+      v-if="show && showHeader && (title || showClose || $slots.header)"
+    >
       <slot name="header">
         <text class="lk-modal__title">{{ title }}</text>
       </slot>
@@ -65,7 +70,7 @@ const show = computed(()=> props.modelValue);
   position: fixed;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background: var(--lk-color-bg-surface);
   color: var(--lk-color-text);
   border-radius: var(--lk-radius-lg);
@@ -73,7 +78,7 @@ const show = computed(()=> props.modelValue);
   display: flex;
   flex-direction: column;
   max-width: 90%;
-  animation: lk-modal-in .25s var(--lk-transition-fast);
+  animation: lk-modal-in 0.25s var(--lk-transition-fast);
 
   &__header {
     padding: 32rpx 36rpx 24rpx;
@@ -81,7 +86,9 @@ const show = computed(()=> props.modelValue);
     font-weight: 600;
     position: relative;
   }
-  &__title { display: inline-block; }
+  &__title {
+    display: inline-block;
+  }
   &__close {
     position: absolute;
     right: 24rpx;
@@ -110,7 +117,13 @@ const show = computed(()=> props.modelValue);
 }
 
 @keyframes lk-modal-in {
-  from { opacity:0; transform: translate(-50%,-46%); }
-  to { opacity:1; transform: translate(-50%,-50%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 </style>

@@ -18,7 +18,7 @@
     </demo-block>
 
     <demo-block title="头像尺寸">
-      <view class="demo-row" style="align-items: flex-end;">
+      <view class="demo-row" style="align-items: flex-end">
         <lk-avatar text="S" size="48" />
         <lk-avatar text="M" size="64" />
         <lk-avatar text="L" size="88" />
@@ -99,11 +99,11 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 .avatar-group {
   display: flex;
   align-items: center;
-  
+
   :deep(.lk-avatar) {
     margin-left: -16rpx;
     border: 4rpx solid var(--lk-color-bg-surface);
-    
+
     &:first-child {
       margin-left: 0;
     }

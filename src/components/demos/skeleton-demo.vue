@@ -17,11 +17,16 @@
     </demo-block>
 
     <demo-block title="自定义行宽与圆角">
-      <lk-skeleton :rows="4" :row-width="['90%','80%','70%','60%']" :animated="true" :round="true" />
+      <lk-skeleton
+        :rows="4"
+        :row-width="['90%', '80%', '70%', '60%']"
+        :animated="true"
+        :round="true"
+      />
     </demo-block>
 
     <demo-block title="头像尺寸与圆形头像">
-      <view style="display:flex; gap: 24rpx; align-items:center; flex-wrap: wrap;">
+      <view style="display: flex; gap: 24rpx; align-items: center; flex-wrap: wrap">
         <lk-skeleton avatar :avatar-size="'56rpx'" :rows="2" />
         <lk-skeleton avatar round :avatar-size="'88rpx'" title :rows="2" />
       </view>
@@ -41,11 +46,7 @@
           这是一段加载完成后显示的文本内容。骨架屏可以在内容加载过程中提供良好的用户体验。
         </text>
       </view>
-      <lk-button 
-        type="primary" 
-        style="margin-top: 16rpx;"
-        @click="toggleLoading"
-      >
+      <lk-button type="primary" style="margin-top: 16rpx" @click="toggleLoading">
         {{ loading ? '加载完成' : '重新加载' }}
       </lk-button>
     </demo-block>

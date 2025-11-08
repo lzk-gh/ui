@@ -6,8 +6,18 @@
 
     <demo-block title="输入类型">
       <lk-input v-model="value2" type="text" placeholder="文本输入" />
-      <lk-input v-model="value3" type="number" placeholder="数字输入" style="margin-top: 16rpx;" />
-      <lk-input v-model="value4" type="password" placeholder="密码输入" style="margin-top: 16rpx;" />
+      <lk-input
+        v-model="value3"
+        type="number"
+        placeholder="数字输入"
+        style="margin-top: 16rpx"
+      />
+      <lk-input
+        v-model="value4"
+        type="password"
+        placeholder="密码输入"
+        style="margin-top: 16rpx"
+      />
     </demo-block>
 
     <demo-block title="清除按钮">
@@ -24,17 +34,32 @@
           <lk-icon name="search" size="32" />
         </template>
       </lk-input>
-      <lk-input v-model="value8" placeholder="用户名" style="margin-top: 16rpx;">
+      <lk-input v-model="value8" placeholder="用户名" style="margin-top: 16rpx">
         <template #prefix>
           <lk-icon name="person-fill" size="32" />
         </template>
       </lk-input>
-      <lk-input v-model="value10" prefix-icon="envelope-fill" placeholder="邮箱" style="margin-top: 16rpx;" />
-      <lk-input v-model="value11" suffix-icon="calendar-fill" placeholder="选择日期" style="margin-top: 16rpx;" />
+      <lk-input
+        v-model="value10"
+        prefix-icon="envelope-fill"
+        placeholder="邮箱"
+        style="margin-top: 16rpx"
+      />
+      <lk-input
+        v-model="value11"
+        suffix-icon="calendar-fill"
+        placeholder="选择日期"
+        style="margin-top: 16rpx"
+      />
     </demo-block>
 
     <demo-block title="字数统计">
-      <lk-input v-model="value9" :maxlength="20" show-word-limit placeholder="最多20个字" />
+      <lk-input
+        v-model="value9"
+        :maxlength="20"
+        show-word-limit
+        placeholder="最多20个字"
+      />
     </demo-block>
   </view>
 </template>

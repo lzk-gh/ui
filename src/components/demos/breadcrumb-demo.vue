@@ -47,7 +47,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const handleClick = (name: string) => {
   uni.showToast({
     title: `点击了: ${name}`,
-    icon: 'none'
+    icon: 'none',
   });
 };
 </script>

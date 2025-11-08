@@ -5,7 +5,14 @@
       <view class="preview" v-if="result">
         <image :src="result" class="avatar" />
       </view>
-      <lk-image-cropper v-if="show" :visible="show" :src="src" round @update:visible="v=>show=v" @confirm="onConfirm" />
+      <lk-image-cropper
+        v-if="show"
+        :visible="show"
+        :src="src"
+        round
+        @update:visible="v => (show = v)"
+        @confirm="onConfirm"
+      />
     </demo-block>
   </view>
 </template>
@@ -20,11 +27,24 @@ const show = ref(false);
 const src = 'https://picsum.photos/600/400';
 const result = ref('');
 
-function onConfirm(dataURL: string){ result.value = dataURL; }
+function onConfirm(dataURL: string) {
+  result.value = dataURL;
+}
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.preview { margin-top: 16rpx; }
-.avatar { width: 160rpx; height: 160rpx; border-radius: 50%; border: 2rpx solid var(--lk-color-border); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.preview {
+  margin-top: 16rpx;
+}
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--lk-color-border);
+}
 </style>

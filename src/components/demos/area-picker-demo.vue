@@ -19,6 +19,13 @@ const value = ref<string[]>([]);
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.value { margin-top: 12rpx; color: var(--lk-color-text-secondary); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.value {
+  margin-top: 12rpx;
+  color: var(--lk-color-text-secondary);
+}
 </style>

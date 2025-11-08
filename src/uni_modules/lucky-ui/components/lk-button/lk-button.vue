@@ -7,7 +7,7 @@ defineOptions({ name: 'LkButton' });
 const props = defineProps(lkButtonProps);
 const emit = defineEmits(lkButtonEmits);
 
-const cls = computed(()=>[
+const cls = computed(() => [
   'lk-button',
   `lk-button--${props.variant}`,
   `lk-button--${props.size}`,
@@ -15,8 +15,8 @@ const cls = computed(()=>[
   {
     'is-loading': props.loading,
     'is-disabled': props.disabled,
-    'is-block': props.block
-  }
+    'is-block': props.block,
+  },
 ]);
 
 function onClick(e: MouseEvent) {
@@ -26,12 +26,7 @@ function onClick(e: MouseEvent) {
 </script>
 
 <template>
-  <button
-      :class="cls"
-      :disabled="disabled || loading"
-      :type="nativeType"
-      @tap="onClick"
-  >
+  <button :class="cls" :disabled="disabled || loading" :type="nativeType" @tap="onClick">
     <text v-if="loading" class="lk-button__loader"></text>
     <slot />
   </button>
@@ -66,19 +61,37 @@ function onClick(e: MouseEvent) {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
-  &--sm { --_height: var(--lk-control-height-sm); --_fs: var(--lk-control-font-size-sm); --_px: var(--lk-control-padding-x-sm); }
-  &--md { --_height: var(--lk-control-height-md); --_fs: var(--lk-control-font-size-md); --_px: var(--lk-control-padding-x-md); }
-  &--lg { --_height: var(--lk-control-height-lg); --_fs: var(--lk-control-font-size-lg); --_px: var(--lk-control-padding-x-lg); }
+  &--sm {
+    --_height: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_px: var(--lk-control-padding-x-sm);
+  }
+  &--md {
+    --_height: var(--lk-control-height-md);
+    --_fs: var(--lk-control-font-size-md);
+    --_px: var(--lk-control-padding-x-md);
+  }
+  &--lg {
+    --_height: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_px: var(--lk-control-padding-x-lg);
+  }
 
-  &--shape-square { --_radius: var(--lk-radius-sm); }
-  &--shape-round { --_radius: var(--lk-radius-pill); }
+  &--shape-square {
+    --_radius: var(--lk-radius-sm);
+  }
+  &--shape-round {
+    --_radius: var(--lk-radius-pill);
+  }
   &--shape-circle {
     width: var(--_height);
     padding: 0;
     --_radius: 50%;
   }
 
-  &.is-block { width: 100%; }
+  &.is-block {
+    width: 100%;
+  }
 
   /* Variants */
   &--outline {
@@ -104,8 +117,12 @@ function onClick(e: MouseEvent) {
   /* Hover / Active */
   &:not(.is-disabled):not(.is-loading) {
     &.lk-button--solid,
-    &:not(.lk-button--outline):not(.lk-button--text):not(.lk-button--soft):not(.lk-button--danger) {
-      &:active { background: var(--_bg-active); }
+    &:not(.lk-button--outline):not(.lk-button--text):not(.lk-button--soft):not(
+        .lk-button--danger
+      ) {
+      &:active {
+        background: var(--_bg-active);
+      }
     }
     &.lk-button--outline {
       &:active {
@@ -118,10 +135,15 @@ function onClick(e: MouseEvent) {
       }
     }
     &.lk-button--soft {
-      &:active { background: var(--lk-color-primary-hover); color: var(--lk-color-text-inverse); }
+      &:active {
+        background: var(--lk-color-primary-hover);
+        color: var(--lk-color-text-inverse);
+      }
     }
     &.lk-button--danger {
-      &:active { filter: brightness(.92); }
+      &:active {
+        filter: brightness(0.92);
+      }
     }
   }
 
@@ -129,16 +151,16 @@ function onClick(e: MouseEvent) {
   &.is-loading,
   &.is-disabled {
     cursor: not-allowed;
-    opacity: .65;
+    opacity: 0.65;
   }
 
   &__loader {
     width: 32rpx;
     height: 32rpx;
     border-radius: 50%;
-    border: 4rpx solid rgba(255,255,255,0.35);
+    border: 4rpx solid rgba(255, 255, 255, 0.35);
     border-top-color: #fff;
-    animation: lk-btn-spin .8s linear infinite;
+    animation: lk-btn-spin 0.8s linear infinite;
   }
   &--outline &__loader {
     border: 4rpx solid var(--lk-color-primary-bg-soft);
@@ -171,5 +193,9 @@ function onClick(e: MouseEvent) {
   }
 }
 
-@keyframes lk-btn-spin { to { transform: rotate(360deg); } }
+@keyframes lk-btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>

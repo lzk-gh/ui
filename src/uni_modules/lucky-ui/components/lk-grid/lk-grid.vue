@@ -18,8 +18,10 @@ const props = defineProps<{
 
 const gridStyle = computed(() => {
   return {
-    gridTemplateColumns: props.columns ? `repeat(${props.columns}, 1fr)` : 'repeat(auto-fill, minmax(100px, 1fr))',
-    gap: props.gap ? `${props.gap}rpx` : '12rpx'
+    gridTemplateColumns: props.columns
+      ? `repeat(${props.columns}, 1fr)`
+      : 'repeat(auto-fill, minmax(100px, 1fr))',
+    gap: props.gap ? `${props.gap}rpx` : '12rpx',
   };
 });
 
@@ -29,7 +31,7 @@ const pages = computed(() => {
   const cols = props.columns || 1;
   const rows = props.rows || 1;
   const perPage = Math.max(1, cols * rows);
-  const res: typeof list[] = [];
+  const res: (typeof list)[] = [];
   for (let i = 0; i < list.length; i += perPage) {
     res.push(list.slice(i, i + perPage));
   }
@@ -77,14 +79,14 @@ const pages = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-  .lk-grid {
-    display: grid;
-    text-align: center;
-  }
+.lk-grid {
+  display: grid;
+  text-align: center;
+}
 
-  .lk-grid-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.lk-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>

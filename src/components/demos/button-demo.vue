@@ -32,7 +32,7 @@
         <lk-button size="md">中等按钮</lk-button>
         <lk-button size="lg">大型按钮</lk-button>
       </view>
-      <lk-button size="lg" block style="margin-top: 16rpx;">块级按钮</lk-button>
+      <lk-button size="lg" block style="margin-top: 16rpx">块级按钮</lk-button>
     </demo-block>
 
     <demo-block title="按钮形状">
@@ -45,15 +45,9 @@
 
     <demo-block title="图标按钮">
       <view class="demo-row">
-        <lk-button>
-          <lk-icon name="search" class="mr-8" />搜索
-        </lk-button>
-        <lk-button>
-          <lk-icon name="download" class="mr-8" />下载
-        </lk-button>
-        <lk-button>
-          <lk-icon name="upload" class="mr-8" />上传
-        </lk-button>
+        <lk-button> <lk-icon name="search" class="mr-8" />搜索 </lk-button>
+        <lk-button> <lk-icon name="download" class="mr-8" />下载 </lk-button>
+        <lk-button> <lk-icon name="upload" class="mr-8" />上传 </lk-button>
       </view>
     </demo-block>
 
@@ -88,7 +82,7 @@ const showToast = (message: string) => {
   uni.showToast({
     title: message,
     icon: 'none',
-    duration: 2000
+    duration: 2000,
   });
 };
 

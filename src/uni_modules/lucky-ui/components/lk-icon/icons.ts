@@ -3,7 +3,7 @@
 
 // 使用 as: 'raw'，动态导入时 Promise<string>
 const iconModules = import.meta.glob('./bootstrap-icons/icons/*.svg', {
-    as: 'raw',
+  as: 'raw',
 }) as Record<string, () => Promise<string>>;
 
 /**
@@ -12,18 +12,18 @@ const iconModules = import.meta.glob('./bootstrap-icons/icons/*.svg', {
  * @returns Promise<string | null>
  */
 export async function getBuiltInIcon(name: string): Promise<string | null> {
-    if (!name) return null;
+  if (!name) return null;
 
-    // 注意：key 必须与上面的 glob 前缀一致
-    const key = `bootstrap-icons/icons/${name}.svg`;
-    const loader = iconModules[key];
+  // 注意：key 必须与上面的 glob 前缀一致
+  const key = `bootstrap-icons/icons/${name}.svg`;
+  const loader = iconModules[key];
 
-    if (!loader) return null;
+  if (!loader) return null;
 
-    try {
-        const svg = await loader();
-        return typeof svg === 'string' ? svg : null;
-    } catch {
-        return null;
-    }
+  try {
+    const svg = await loader();
+    return typeof svg === 'string' ? svg : null;
+  } catch {
+    return null;
+  }
 }

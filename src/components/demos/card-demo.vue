@@ -2,9 +2,7 @@
   <view class="component-demo">
     <demo-block title="基础用法">
       <lk-card title="卡片标题">
-        <view class="card-content">
-          这是卡片内容
-        </view>
+        <view class="card-content"> 这是卡片内容 </view>
       </lk-card>
     </demo-block>
 
@@ -13,17 +11,13 @@
         <template #cover>
           <image src="https://picsum.photos/400/200" class="cover-image" />
         </template>
-        <view class="card-content">
-          优美的风景图片
-        </view>
+        <view class="card-content"> 优美的风景图片 </view>
       </lk-card>
     </demo-block>
 
     <demo-block title="带底部">
       <lk-card title="操作卡片">
-        <view class="card-content">
-          卡片内容区域
-        </view>
+        <view class="card-content"> 卡片内容区域 </view>
         <template #footer>
           <view class="card-footer">
             <lk-button type="text">取消</lk-button>
@@ -35,9 +29,7 @@
 
     <demo-block title="简约模式">
       <lk-card>
-        <view class="card-content">
-          无标题卡片
-        </view>
+        <view class="card-content"> 无标题卡片 </view>
       </lk-card>
     </demo-block>
   </view>

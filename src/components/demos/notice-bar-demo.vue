@@ -23,11 +23,7 @@
     </demo-block>
 
     <demo-block title="竖向滚动">
-      <lk-notice-bar
-        scrollable="vertical"
-        :messages="verticalMessages"
-        :speed="3"
-      />
+      <lk-notice-bar scrollable="vertical" :messages="verticalMessages" :speed="3" />
     </demo-block>
 
     <demo-block title="带右侧插槽">
@@ -39,12 +35,12 @@
           <view class="link-text" @click.stop="handleDetail">详情 ></view>
         </template>
       </lk-notice-bar>
-      
-      <lk-notice-bar 
+
+      <lk-notice-bar
         scrollable="vertical"
         :messages="verticalMessages"
         :speed="2"
-        style="margin-top: 16rpx;"
+        style="margin-top: 16rpx"
       >
         <template #left-icon>
           <lk-icon name="bell-fill" size="32" />
@@ -61,7 +57,7 @@
           <lk-icon name="megaphone-fill" size="32" />
         </template>
       </lk-notice-bar>
-      <lk-notice-bar text="重要活动通知" style="margin-top: 16rpx;">
+      <lk-notice-bar text="重要活动通知" style="margin-top: 16rpx">
         <template #left-icon>
           <lk-icon name="bell-fill" size="32" />
         </template>
@@ -69,16 +65,12 @@
     </demo-block>
 
     <demo-block title="自定义颜色">
-      <lk-notice-bar
-        text="自定义颜色的通知消息"
-        color="#ff6b6b"
-        background="#ffe0e0"
-      />
+      <lk-notice-bar text="自定义颜色的通知消息" color="#ff6b6b" background="#ffe0e0" />
       <lk-notice-bar
         text="深色主题通知"
         color="#ffffff"
         background="#333333"
-        style="margin-top: 16rpx;"
+        style="margin-top: 16rpx"
       />
     </demo-block>
 
@@ -88,7 +80,12 @@
           <lk-icon name="gift-fill" size="32" />
         </template>
       </lk-notice-bar>
-      <lk-notice-bar text="您有3条未读消息" closeable style="margin-top: 16rpx;" @click="handleClick">
+      <lk-notice-bar
+        text="您有3条未读消息"
+        closeable
+        style="margin-top: 16rpx"
+        @click="handleClick"
+      >
         <template #left-icon>
           <lk-icon name="envelope-fill" size="32" />
         </template>
@@ -96,7 +93,7 @@
       <lk-notice-bar
         scrollable="horizontal"
         text="🔥 双11大促销！全场5折起，满199减50，满399减100，更有神秘大礼等你来拿！"
-        style="margin-top: 16rpx;"
+        style="margin-top: 16rpx"
         :speed="12"
       >
         <template #left-icon>
@@ -120,7 +117,7 @@ const verticalMessages = [
   '📢 系统消息：您有新的订单待处理',
   '🎁 活动通知：双11狂欢节即将开始',
   '⚠️ 温馨提示：请及时更新个人信息',
-  '✨ 新功能：支持多种支付方式'
+  '✨ 新功能：支持多种支付方式',
 ];
 
 const handleClick = () => {

@@ -1,24 +1,24 @@
 {
-	"pages": [
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "Lucky UI",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/component-detail/index",
-			"style": {
-				"navigationBarTitleText": "组件详情",
-				"navigationStyle": "custom"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationStyle": "custom",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "Lucky UI",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/component-detail/index",
+      "style": {
+        "navigationBarTitleText": "组件详情",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
 }

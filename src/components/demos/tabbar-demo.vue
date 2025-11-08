@@ -12,7 +12,9 @@
     <demo-block title="带徽标">
       <lk-tabbar v-model="active2">
         <lk-tabbar-item name="home" icon="house-fill">首页</lk-tabbar-item>
-        <lk-tabbar-item name="message" icon="chat-dots-fill" :badge="5">消息</lk-tabbar-item>
+        <lk-tabbar-item name="message" icon="chat-dots-fill" :badge="5"
+          >消息</lk-tabbar-item
+        >
         <lk-tabbar-item name="notification" icon="bell-fill" dot>通知</lk-tabbar-item>
         <lk-tabbar-item name="profile" icon="person-fill">我的</lk-tabbar-item>
       </lk-tabbar>
@@ -30,7 +32,9 @@
       >
         <lk-tabbar-item name="home" icon="house-fill">首页</lk-tabbar-item>
         <lk-tabbar-item name="discover" icon="compass-fill">发现</lk-tabbar-item>
-        <lk-tabbar-item name="message" icon="chat-dots-fill" :badge="2">消息</lk-tabbar-item>
+        <lk-tabbar-item name="message" icon="chat-dots-fill" :badge="2"
+          >消息</lk-tabbar-item
+        >
         <lk-tabbar-item name="profile" icon="person-fill">我的</lk-tabbar-item>
         <!-- 不提供 slot="fab" 时，默认展示 plus 图标 -->
       </lk-tabbar>
@@ -48,11 +52,13 @@
       >
         <lk-tabbar-item name="home" icon="house-fill">首页</lk-tabbar-item>
         <lk-tabbar-item name="search" icon="search">搜索</lk-tabbar-item>
-        <lk-tabbar-item name="cart" icon="cart-fill" :badge="99" :max="99">购物车</lk-tabbar-item>
+        <lk-tabbar-item name="cart" icon="cart-fill" :badge="99" :max="99"
+          >购物车</lk-tabbar-item
+        >
         <lk-tabbar-item name="me" icon="person-fill">我的</lk-tabbar-item>
       </lk-tabbar>
     </demo-block>
-    
+
     <demo-block title="胶囊 Capsule（可配置宽度与上浮高度）">
       <lk-tabbar
         v-model="activeCapsule"

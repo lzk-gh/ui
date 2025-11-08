@@ -13,10 +13,26 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 import LkColorPicker from '@/uni_modules/lucky-ui/components/lk-color-picker/lk-color-picker.vue';
 
 const val = ref('#4FACFE');
-const presets = ['#4FACFE','#00F2FE','#667EEA','#764BA2','#F093FB','#F5576C','#34C759','#FFCC00'];
+const presets = [
+  '#4FACFE',
+  '#00F2FE',
+  '#667EEA',
+  '#764BA2',
+  '#F093FB',
+  '#F5576C',
+  '#34C759',
+  '#FFCC00',
+];
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.value { margin-top: 12rpx; color: var(--lk-color-text-secondary); }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.value {
+  margin-top: 12rpx;
+  color: var(--lk-color-text-secondary);
+}
 </style>

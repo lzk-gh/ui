@@ -15,7 +15,7 @@ function normalizeColumns(cols: any): PickerOption[][] {
   return [cols as PickerOption[]];
 }
 
-const columns = computed(()=> normalizeColumns(props.columns));
+const columns = computed(() => normalizeColumns(props.columns));
 
 const selectedIndex = ref<number[]>([]);
 
@@ -23,23 +23,29 @@ function initByModel() {
   const cols = columns.value;
   const mv = props.modelValue;
   const idx: number[] = [];
-  if (cols.length === 0) { selectedIndex.value = []; return; }
+  if (cols.length === 0) {
+    selectedIndex.value = [];
+    return;
+  }
   if (cols.length === 1) {
     const v = mv;
-    const i = cols[0].findIndex(o => (o?.value === v));
+    const i = cols[0].findIndex(o => o?.value === v);
     idx[0] = i >= 0 ? i : 0;
   } else {
     const arr = Array.isArray(mv) ? mv : [];
     cols.forEach((c, i) => {
       const v = arr[i];
-      const j = c.findIndex(o => (o?.value === v));
+      const j = c.findIndex(o => o?.value === v);
       idx[i] = j >= 0 ? j : 0;
     });
   }
   selectedIndex.value = idx;
 }
 
-watch(()=>[props.columns, props.modelValue], initByModel, { immediate: true, deep: true });
+watch(() => [props.columns, props.modelValue], initByModel, {
+  immediate: true,
+  deep: true,
+});
 
 function onChange(e: any) {
   // e.detail.value 是每列索引数组
@@ -60,13 +66,17 @@ function onChange(e: any) {
 <template>
   <picker-view :value="selectedIndex" @change="onChange" class="lk-picker-view">
     <picker-view-column v-for="(col, ci) in columns" :key="ci">
-      <view class="lk-picker-view__item" v-for="(opt, oi) in col" :key="oi">{{ opt.label }}</view>
+      <view class="lk-picker-view__item" v-for="(opt, oi) in col" :key="oi">{{
+        opt.label
+      }}</view>
     </picker-view-column>
   </picker-view>
 </template>
 
 <style scoped lang="scss">
-.lk-picker-view { height: 560rpx; }
+.lk-picker-view {
+  height: 560rpx;
+}
 .lk-picker-view__item {
   height: 88rpx;
   display: flex;

@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
+import {
+  ref,
+  provide,
+  watch,
+  onMounted,
+  nextTick,
+  computed,
+  getCurrentInstance,
+} from 'vue';
 
 defineOptions({ name: 'LkTabs' });
 
@@ -7,17 +15,20 @@ const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   lazy: { type: Boolean, default: true },
   type: { type: String, default: 'line' }, // line | card
-  stretch: { type: Boolean, default: true }
+  stretch: { type: Boolean, default: true },
 });
-const emit = defineEmits(['update:modelValue','change']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
 const current = ref(props.modelValue);
-watch(()=>props.modelValue, v => current.value = v);
+watch(
+  () => props.modelValue,
+  v => (current.value = v)
+);
 
 const panes = ref<any[]>([]);
 const instance = getCurrentInstance();
 
-function register(pane:any) {
+function register(pane: any) {
   // 以 name 作为唯一键，避免小程序端对象引用不一致导致判重失败
   const idx = panes.value.findIndex(p => p.name === pane.name);
   if (idx === -1) {
@@ -35,7 +46,7 @@ function register(pane:any) {
     updateLinePosition();
   });
 }
-function unregister(pane:any) {
+function unregister(pane: any) {
   const beforeLen = panes.value.length;
   panes.value = panes.value.filter(p => p.name !== pane.name);
   if (panes.value.length !== beforeLen) {
@@ -46,8 +57,8 @@ function unregister(pane:any) {
   }
 }
 
-function setActive(name:any) {
-  if(name === current.value) return;
+function setActive(name: any) {
+  if (name === current.value) return;
   current.value = name;
   emit('update:modelValue', name);
   emit('change', name);
@@ -57,7 +68,7 @@ provide('LkTabs', {
   register,
   unregister,
   active: current,
-  lazy: props.lazy
+  lazy: props.lazy,
 });
 
 const scrollIntoViewId = ref<string>('');
@@ -70,13 +81,13 @@ function updateScrollIntoView() {
 }
 
 function updateLinePosition() {
-  if(props.type !== 'line') return;
+  if (props.type !== 'line') return;
   const idx = activeIndex.value;
-  if(idx < 0) return;
-  
+  if (idx < 0) return;
+
   nextTick(() => {
     let query = (uni as any)?.createSelectorQuery?.();
-    if(!query) return;
+    if (!query) return;
     // 作用域限定到当前组件实例，兼容小程序端
     if (query.in && instance?.proxy) query = query.in(instance.proxy);
 
@@ -94,7 +105,7 @@ function updateLinePosition() {
       const hasOffset = res.length >= 3;
       const offsetObj = hasOffset ? res[1] : null;
       const itemRects = hasOffset ? res[2] : res[1];
-      if(!navRect || !itemRects || !itemRects[idx]) return;
+      if (!navRect || !itemRects || !itemRects[idx]) return;
 
       const activeItem = itemRects[idx];
       const navLeft = navRect.left || 0;
@@ -109,23 +120,26 @@ function updateLinePosition() {
 
       lineStyle.value = {
         transform: `translateX(${translateX}px)`,
-        width: `${lineWidth}px`
+        width: `${lineWidth}px`,
       };
     });
   });
 }
 
-watch(current, () => { 
+watch(current, () => {
   updateScrollIntoView();
   updateLinePosition();
 });
 // 面板数量变化时也更新一次
-watch(() => panes.value.length, () => {
-  updateScrollIntoView();
-  updateLinePosition();
-});
+watch(
+  () => panes.value.length,
+  () => {
+    updateScrollIntoView();
+    updateLinePosition();
+  }
+);
 
-onMounted(() => { 
+onMounted(() => {
   updateScrollIntoView();
   updateLinePosition();
 });
@@ -140,7 +154,7 @@ const SWIPE_THRESHOLD = 50; // px 阈值
 
 function onTouchStart(e: any) {
   const t = e?.changedTouches?.[0] || e?.touches?.[0];
-  if(!t) return;
+  if (!t) return;
   isTracking = true;
   startX = t.pageX;
   startY = t.pageY;
@@ -148,23 +162,23 @@ function onTouchStart(e: any) {
   deltaY = 0;
 }
 function onTouchMove(e: any) {
-  if(!isTracking) return;
+  if (!isTracking) return;
   const t = e?.changedTouches?.[0] || e?.touches?.[0];
-  if(!t) return;
+  if (!t) return;
   deltaX = t.pageX - startX;
   deltaY = t.pageY - startY;
 }
 function onTouchEnd() {
-  if(!isTracking) return;
+  if (!isTracking) return;
   isTracking = false;
   // 仅当横向意图明显时触发
-  if(Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
-  const idx = panes.value.findIndex(p=>p.name===current.value);
-  if(idx < 0) return;
-  if(deltaX < 0 && idx < panes.value.length - 1) {
+  if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
+  const idx = panes.value.findIndex(p => p.name === current.value);
+  if (idx < 0) return;
+  if (deltaX < 0 && idx < panes.value.length - 1) {
     // 向左滑 -> 下一页
     setActive(panes.value[idx + 1].name);
-  } else if(deltaX > 0 && idx > 0) {
+  } else if (deltaX > 0 && idx > 0) {
     // 向右滑 -> 上一页
     setActive(panes.value[idx - 1].name);
   }
@@ -187,16 +201,16 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
         enable-flex
       >
         <view
-            v-for="(pane, index) in panes"
-            :key="pane.name"
-            class="lk-tabs__nav-item"
-            :class="{ 'is-active': pane.name === current }"
-            :id="`lk-tab-${pane.name}`"
-            @click="setActive(pane.name)"
+          v-for="(pane, index) in panes"
+          :key="pane.name"
+          class="lk-tabs__nav-item"
+          :class="{ 'is-active': pane.name === current }"
+          :id="`lk-tab-${pane.name}`"
+          @click="setActive(pane.name)"
         >
           <text class="lk-tabs__label">{{ pane.label }}</text>
         </view>
-        <view v-if="type==='line'" class="lk-tabs__line" :style="lineStyle"></view>
+        <view v-if="type === 'line'" class="lk-tabs__line" :style="lineStyle"></view>
       </scroll-view>
       <slot name="right"></slot>
     </view>
@@ -236,9 +250,13 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
     /* 隐藏 H5 默认滚动条 */
     -ms-overflow-style: none; /* IE/Edge */
     scrollbar-width: none; /* Firefox */
-    &::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
   }
-  
+
   &__nav-item {
     position: relative;
     padding: 24rpx 36rpx;
@@ -250,15 +268,19 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
     justify-content: center;
     transition: color var(--lk-transition-fast);
     flex-shrink: 0;
-    &:first-child { margin-left: 8rpx; }
-    &:last-child { margin-right: 8rpx; }
-    
+    &:first-child {
+      margin-left: 8rpx;
+    }
+    &:last-child {
+      margin-right: 8rpx;
+    }
+
     &.is-active {
       color: var(--_active-color);
       font-weight: 600;
     }
   }
-  
+
   &__line {
     position: absolute;
     bottom: 0;
@@ -267,13 +289,13 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
     background: var(--lk-color-primary);
     border-radius: var(--_line-radius);
     /* 平滑过渡动画 */
-    transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), 
-                width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      width 320ms cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform, width;
     pointer-events: none;
   }
-  
-  
+
   &--card &__nav-item {
     margin: 12rpx 12rpx 0;
     background: var(--lk-color-primary-bg-soft);
@@ -284,15 +306,15 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
       color: var(--lk-color-text-inverse);
     }
   }
-  
+
   &--card &__line {
     display: none; /* card 类型不显示下划线 */
   }
-  
+
   &__content {
     padding: 24rpx 4rpx;
   }
-  
+
   &.is-stretch &__nav-item {
     flex: 1;
     justify-content: center;

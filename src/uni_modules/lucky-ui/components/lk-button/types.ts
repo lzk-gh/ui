@@ -66,7 +66,7 @@ export const lkButtonProps = {
     type: Boolean,
     default: false,
   },
-  /** 
+  /**
    * 是否为块级按钮
    */
   block: {

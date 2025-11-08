@@ -14,7 +14,7 @@
         <lk-checkbox label="2" disabled>禁用</lk-checkbox>
         <lk-checkbox label="3">正常</lk-checkbox>
       </lk-checkbox-group>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-checkbox-group v-model="value2_1" disabled>
           <lk-checkbox label="1">全部禁用</lk-checkbox>
           <lk-checkbox label="2">全部禁用</lk-checkbox>
@@ -45,7 +45,7 @@
         <lk-checkbox label="2">圆形勾选</lk-checkbox>
         <lk-checkbox label="3">圆形勾选</lk-checkbox>
       </lk-checkbox-group>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-checkbox-group v-model="value6_1" shape="circle" icon-type="dot">
           <lk-checkbox label="1">圆形圆点</lk-checkbox>
           <lk-checkbox label="2">圆形圆点</lk-checkbox>
@@ -75,9 +75,11 @@
           圆圈
         </lk-checkbox>
       </lk-checkbox-group>
-      
-      <view style="margin-top: 20rpx;">
-        <text style="font-size: 24rpx; color: #999; margin-bottom: 12rpx; display: block;">使用 Emoji</text>
+
+      <view style="margin-top: 20rpx">
+        <text style="font-size: 24rpx; color: #999; margin-bottom: 12rpx; display: block"
+          >使用 Emoji</text
+        >
         <lk-checkbox-group v-model="value7_1">
           <lk-checkbox label="1">
             <template #icon>
@@ -106,13 +108,13 @@
         <lk-checkbox label="1">小号</lk-checkbox>
         <lk-checkbox label="2">小号</lk-checkbox>
       </lk-checkbox-group>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-checkbox-group v-model="value8_1" size="md">
           <lk-checkbox label="1">中号</lk-checkbox>
           <lk-checkbox label="2">中号</lk-checkbox>
         </lk-checkbox-group>
       </view>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-checkbox-group v-model="value8_2" size="lg">
           <lk-checkbox label="1">大号</lk-checkbox>
           <lk-checkbox label="2">大号</lk-checkbox>
@@ -122,8 +124,8 @@
 
     <demo-block title="全选功能">
       <view class="checkbox-all">
-        <lk-checkbox 
-          :model-value="isAllSelected" 
+        <lk-checkbox
+          :model-value="isAllSelected"
           :indeterminate="isIndeterminate"
           @change="handleCheckAll"
         >
@@ -139,7 +141,12 @@
     </demo-block>
 
     <demo-block title="组合示例">
-      <lk-checkbox-group v-model="value9" direction="column" shape="circle" icon-type="dot">
+      <lk-checkbox-group
+        v-model="value9"
+        direction="column"
+        shape="circle"
+        icon-type="dot"
+      >
         <lk-checkbox label="1">纵向 + 圆形 + 圆点</lk-checkbox>
         <lk-checkbox label="2">纵向 + 圆形 + 圆点</lk-checkbox>
         <lk-checkbox label="3">纵向 + 圆形 + 圆点</lk-checkbox>
@@ -171,7 +178,9 @@ const value8_2 = ref(['1']);
 const value9 = ref(['1', '2']);
 
 const isAllSelected = computed(() => value3.value.length === 4);
-const isIndeterminate = computed(() => value3.value.length > 0 && value3.value.length < 4);
+const isIndeterminate = computed(
+  () => value3.value.length > 0 && value3.value.length < 4
+);
 
 const handleCheckAll = (checked: boolean) => {
   value3.value = checked ? ['1', '2', '3', '4'] : [];

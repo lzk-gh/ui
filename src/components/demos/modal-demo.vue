@@ -9,19 +9,15 @@
 
     <demo-block title="异步关闭">
       <lk-button type="primary" @click="showModal2">异步关闭</lk-button>
-      <lk-modal 
-        v-model="visible2" 
-        title="确认"
-        @confirm="handleConfirm"
-      >
+      <lk-modal v-model="visible2" title="确认" @confirm="handleConfirm">
         <text>确定要执行此操作吗?</text>
       </lk-modal>
     </demo-block>
 
     <demo-block title="自定义按钮">
       <lk-button type="primary" @click="showModal3">自定义按钮</lk-button>
-      <lk-modal 
-        v-model="visible3" 
+      <lk-modal
+        v-model="visible3"
         title="警告"
         confirm-text="知道了"
         :show-cancel="false"
@@ -67,11 +63,11 @@ const showModal4 = () => {
 };
 
 const handleConfirm = () => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       uni.showToast({
         title: '操作成功',
-        icon: 'success'
+        icon: 'success',
       });
       resolve(true);
     }, 1000);

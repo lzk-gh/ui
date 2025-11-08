@@ -22,14 +22,25 @@ const col1 = [
 ];
 
 const col2 = [
-  [ { label: '周一', value: 'mon' }, { label: '周二', value: 'tue' }, { label: '周三', value: 'wed' } ],
-  [ { label: '上午', value: 'am' }, { label: '下午', value: 'pm' } ]
+  [
+    { label: '周一', value: 'mon' },
+    { label: '周二', value: 'tue' },
+    { label: '周三', value: 'wed' },
+  ],
+  [
+    { label: '上午', value: 'am' },
+    { label: '下午', value: 'pm' },
+  ],
 ];
 
 const val1 = ref('green');
-const val2 = ref<any[]>(['tue','pm']);
+const val2 = ref<any[]>(['tue', 'pm']);
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
 </style>

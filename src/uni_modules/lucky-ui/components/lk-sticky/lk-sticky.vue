@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, computed, getCurrentInstance, nextTick } from 'vue';
+import {
+  ref,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  getCurrentInstance,
+  nextTick,
+} from 'vue';
 import { lkStickyProps } from './types';
 
 defineOptions({ name: 'LkSticky' });
 
 const props = defineProps(lkStickyProps);
-const emit = defineEmits<{(e:'change', value:boolean):void}>();
+const emit = defineEmits<{ (e: 'change', value: boolean): void }>();
 
-const root = ref<HTMLElement|null>(null);
+const root = ref<HTMLElement | null>(null);
 const isSticky = ref(false);
 let io: any = null;
 
@@ -29,14 +37,17 @@ function observe() {
       sentry.style.width = '1px';
       sentry.style.height = '1px';
       root.value.prepend(sentry);
-      io = new IntersectionObserver((entries)=>{
-        const entry = entries[0];
-        const nowSticky = entry.intersectionRatio === 0; // 到达顶部时不可见
-        if (nowSticky !== isSticky.value) {
-          isSticky.value = nowSticky;
-          emit('change', isSticky.value);
-        }
-      }, { rootMargin: `-${props.offsetTop}px 0px 0px 0px`, threshold: [0,1] });
+      io = new IntersectionObserver(
+        entries => {
+          const entry = entries[0];
+          const nowSticky = entry.intersectionRatio === 0; // 到达顶部时不可见
+          if (nowSticky !== isSticky.value) {
+            isSticky.value = nowSticky;
+            emit('change', isSticky.value);
+          }
+        },
+        { rootMargin: `-${props.offsetTop}px 0px 0px 0px`, threshold: [0, 1] }
+      );
       io.observe(sentry);
     }
     // #endif
@@ -44,7 +55,7 @@ function observe() {
     // #ifndef H5
     // 小程序端
     // @ts-ignore
-    const uniAny: any = (uni as any);
+    const uniAny: any = uni as any;
     if (uniAny && uniAny.createIntersectionObserver) {
       io = uniAny.createIntersectionObserver(getCurrentInstance());
       io.relativeToViewport({ top: props.offsetTop });
@@ -67,18 +78,25 @@ onMounted(async () => {
   observe();
 });
 
-onBeforeUnmount(()=>{
-  try { io && io.disconnect && io.disconnect(); } catch (e) {}
+onBeforeUnmount(() => {
+  try {
+    io && io.disconnect && io.disconnect();
+  } catch (e) {}
 });
 </script>
 
 <template>
   <view class="lk-sticky" :style="style" ref="root">
-    <view class="lk-sticky__sentry" style="position:absolute; top:0; left:0; width:1px; height:1px;" />
+    <view
+      class="lk-sticky__sentry"
+      style="position: absolute; top: 0; left: 0; width: 1px; height: 1px"
+    />
     <slot />
   </view>
 </template>
 
 <style scoped lang="scss">
-.lk-sticky { width: 100%; }
+.lk-sticky {
+  width: 100%;
+}
 </style>

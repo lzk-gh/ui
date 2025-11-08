@@ -56,7 +56,15 @@ const hasRAF = typeof requestAnimationFrame === 'function';
 const rAF = (cb: (t: number) => void): RAFHandle =>
   hasRAF
     ? (requestAnimationFrame as any)(cb)
-    : (setTimeout(() => cb((typeof performance !== 'undefined' && (performance as any).now ? (performance as any).now() : Date.now())), 16) as unknown as number);
+    : (setTimeout(
+        () =>
+          cb(
+            typeof performance !== 'undefined' && (performance as any).now
+              ? (performance as any).now()
+              : Date.now()
+          ),
+        16
+      ) as unknown as number);
 const cAF = (id: RAFHandle) => {
   if (hasRAF) (cancelAnimationFrame as any)(id);
   else clearTimeout(id as unknown as any);
@@ -77,18 +85,24 @@ const overscanCount = computed(() => overscanBase.value + overscanDynamic.value)
 
 const list = computed(() => props.items);
 const totalHeight = computed(() => list.value.length * itemPx.value);
-const baseVisibleCount = computed(() => Math.ceil(containerHeightPx.value / itemPx.value));
+const baseVisibleCount = computed(() =>
+  Math.ceil(containerHeightPx.value / itemPx.value)
+);
 const visibleCount = computed(() => baseVisibleCount.value + overscanCount.value * 2);
 
 const windowStart = ref(0);
 const startIndex = computed(() => windowStart.value);
-const endIndex = computed(() => Math.min(list.value.length, windowStart.value + visibleCount.value));
+const endIndex = computed(() =>
+  Math.min(list.value.length, windowStart.value + visibleCount.value)
+);
 const visibleItems = computed(() => list.value.slice(startIndex.value, endIndex.value));
 
 const offsetY = computed(() => windowStart.value * itemPx.value);
 const renderedHeight = computed(() => (endIndex.value - startIndex.value) * itemPx.value);
 const topPadding = computed(() => offsetY.value);
-const bottomPadding = computed(() => Math.max(0, totalHeight.value - topPadding.value - renderedHeight.value));
+const bottomPadding = computed(() =>
+  Math.max(0, totalHeight.value - topPadding.value - renderedHeight.value)
+);
 const reservePadding = computed(() => props.reserveRows * itemPx.value);
 const bottomPaddingTotal = computed(() => bottomPadding.value + reservePadding.value);
 const totalScrollable = computed(() => totalHeight.value + reservePadding.value);
@@ -102,28 +116,40 @@ const prevLength = ref(0);
 const localScrollAnchoring = ref(props.scrollAnchoring);
 const localScrollWithAnimation = ref(props.scrollWithAnimation);
 
-watch(() => props.scrollAnchoring, v => (localScrollAnchoring.value = v));
-watch(() => props.scrollWithAnimation, v => (localScrollWithAnimation.value = v));
+watch(
+  () => props.scrollAnchoring,
+  v => (localScrollAnchoring.value = v)
+);
+watch(
+  () => props.scrollWithAnimation,
+  v => (localScrollWithAnimation.value = v)
+);
 
-watch(() => list.value.length, (newLen) => {
-  nearBottomEmitted.value = false;
-  prefetchEmitted.value = false;
-  const maxStart = Math.max(0, newLen - visibleCount.value);
-  const derivedStart = Math.max(0, Math.floor(currentScrollTop.value / itemPx.value) - overscanCount.value);
-  windowStart.value = Math.min(derivedStart, maxStart);
-  if (newLen > prevLength.value) {
-    // Temporarily disable anchoring/animation on append for anti-jitter
-    const needRestoreAnchoring = localScrollAnchoring.value;
-    const needRestoreAnim = localScrollWithAnimation.value;
-    if (needRestoreAnchoring) localScrollAnchoring.value = false;
-    if (needRestoreAnim) localScrollWithAnimation.value = false;
-    setTimeout(() => {
-      localScrollAnchoring.value = needRestoreAnchoring;
-      localScrollWithAnimation.value = needRestoreAnim;
-    }, 50);
+watch(
+  () => list.value.length,
+  newLen => {
+    nearBottomEmitted.value = false;
+    prefetchEmitted.value = false;
+    const maxStart = Math.max(0, newLen - visibleCount.value);
+    const derivedStart = Math.max(
+      0,
+      Math.floor(currentScrollTop.value / itemPx.value) - overscanCount.value
+    );
+    windowStart.value = Math.min(derivedStart, maxStart);
+    if (newLen > prevLength.value) {
+      // Temporarily disable anchoring/animation on append for anti-jitter
+      const needRestoreAnchoring = localScrollAnchoring.value;
+      const needRestoreAnim = localScrollWithAnimation.value;
+      if (needRestoreAnchoring) localScrollAnchoring.value = false;
+      if (needRestoreAnim) localScrollWithAnimation.value = false;
+      setTimeout(() => {
+        localScrollAnchoring.value = needRestoreAnchoring;
+        localScrollWithAnimation.value = needRestoreAnim;
+      }, 50);
+    }
+    prevLength.value = newLen;
   }
-  prevLength.value = newLen;
-});
+);
 
 function flushScroll() {
   const top = latestScrollTop.value;
@@ -133,13 +159,20 @@ function flushScroll() {
 
   // 动态 overscan：根据本帧移动距离估算需要增加的行数
   const deltaRows = Math.abs(delta) / Math.max(1, itemPx.value);
-  currentOverscanBoost.value = Math.min(props.maxOverscanRows, Math.floor(deltaRows * props.overscanBoostFactor));
+  currentOverscanBoost.value = Math.min(
+    props.maxOverscanRows,
+    Math.floor(deltaRows * props.overscanBoostFactor)
+  );
 
   const anchorRow = Math.floor(top / Math.max(1, itemPx.value));
   const desiredStart = Math.max(0, anchorRow - overscanCount.value);
   if (desiredStart !== windowStart.value) windowStart.value = desiredStart;
 
-  emit('scroll', { scrollTop: top, start: startIndex.value, end: endIndex.value });
+  emit('scroll', {
+    scrollTop: top,
+    start: startIndex.value,
+    end: endIndex.value,
+  });
 
   // 到底与预取触发在 rAF 中合并，避免抖动
   const remain = totalHeight.value - (top + containerHeightPx.value);
@@ -228,13 +261,36 @@ defineExpose({ scrollToIndex, scrollToTop });
     @scrolltolower="onScrollToLower"
     ref="wrapperRef"
   >
-    <view v-if="positionStrategy === 'padding'" class="lk-virtual-list__inner" :style="{ paddingTop: topPadding + 'px', paddingBottom: bottomPaddingTotal + 'px' }">
-      <slot :items="visibleItems" :start="startIndex" :end="endIndex" :itemHeight="itemPx" />
+    <view
+      v-if="positionStrategy === 'padding'"
+      class="lk-virtual-list__inner"
+      :style="{
+        paddingTop: topPadding + 'px',
+        paddingBottom: bottomPaddingTotal + 'px',
+      }"
+    >
+      <slot
+        :items="visibleItems"
+        :start="startIndex"
+        :end="endIndex"
+        :itemHeight="itemPx"
+      />
     </view>
     <template v-else>
-      <view class="lk-virtual-list__phantom" :style="{ height: totalScrollable + 'px' }" />
-      <view class="lk-virtual-list__container" :style="{ transform: `translate3d(0, ${topPadding}px, 0)` }">
-        <slot :items="visibleItems" :start="startIndex" :end="endIndex" :itemHeight="itemPx" />
+      <view
+        class="lk-virtual-list__phantom"
+        :style="{ height: totalScrollable + 'px' }"
+      />
+      <view
+        class="lk-virtual-list__container"
+        :style="{ transform: `translate3d(0, ${topPadding}px, 0)` }"
+      >
+        <slot
+          :items="visibleItems"
+          :start="startIndex"
+          :end="endIndex"
+          :itemHeight="itemPx"
+        />
       </view>
     </template>
   </scroll-view>

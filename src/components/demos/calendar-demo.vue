@@ -31,7 +31,10 @@ const date1 = ref(new Date());
 const date2 = ref(new Date());
 const date3 = ref(new Date());
 const date4 = ref(new Date());
-const dateRange = ref<[Date, Date]>([new Date(), new Date(Date.now() + 7 * 24 * 3600 * 1000)]);
+const dateRange = ref<[Date, Date]>([
+  new Date(),
+  new Date(Date.now() + 7 * 24 * 3600 * 1000),
+]);
 
 const disabledDate = (date: Date) => {
   return date < new Date();

@@ -2,7 +2,7 @@
 defineOptions({ name: 'DemoBlock' });
 const props = defineProps({
   title: { type: String, default: '' },
-  padding: { type: Boolean, default: true }
+  padding: { type: Boolean, default: true },
 });
 </script>
 
@@ -20,8 +20,8 @@ const props = defineProps({
   padding: 40rpx 36rpx 44rpx;
   box-shadow: var(--lk-shadow-sm);
   border: 2rpx solid var(--lk-color-border-weak);
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   gap: 32rpx;
 
   &__title {
@@ -32,18 +32,26 @@ const props = defineProps({
     line-height: 1.2;
   }
   &__title::before {
-    content:'';
-    position:absolute;
-    left:0; top:8rpx; bottom:8rpx;
-    width:12rpx;
-    border-radius:6rpx;
-    background:linear-gradient(180deg,var(--lk-color-primary),var(--lk-color-primary-active));
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8rpx;
+    bottom: 8rpx;
+    width: 12rpx;
+    border-radius: 6rpx;
+    background: linear-gradient(
+      180deg,
+      var(--lk-color-primary),
+      var(--lk-color-primary-active)
+    );
   }
   &__body {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     gap: 28rpx;
   }
-  &__body.no-pad { padding: 0; }
+  &__body.no-pad {
+    padding: 0;
+  }
 }
 </style>

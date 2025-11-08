@@ -11,7 +11,10 @@ const emit = defineEmits(lkPickerEmits);
 
 const innerValue = ref<any>(props.modelValue);
 
-watch(()=>props.modelValue, v => innerValue.value = v);
+watch(
+  () => props.modelValue,
+  v => (innerValue.value = v)
+);
 
 function onChange(v: any) {
   innerValue.value = v;
@@ -30,14 +33,28 @@ function onConfirm() {
 </script>
 
 <template>
-  <lk-popup :model-value="props.visible" position="bottom" :round="props.round" :z-index="props.zIndex" @update:modelValue="v => emit('update:visible', v)">
+  <lk-popup
+    :model-value="props.visible"
+    position="bottom"
+    :round="props.round"
+    :z-index="props.zIndex"
+    @update:modelValue="v => emit('update:visible', v)"
+  >
     <view class="lk-picker">
       <view class="lk-picker__toolbar">
-        <button class="lk-picker__btn lk-picker__btn--cancel" @click="onCancel">{{ props.cancelText }}</button>
+        <button class="lk-picker__btn lk-picker__btn--cancel" @click="onCancel">
+          {{ props.cancelText }}
+        </button>
         <view class="lk-picker__title">{{ props.title }}</view>
-        <button class="lk-picker__btn lk-picker__btn--confirm" @click="onConfirm">{{ props.confirmText }}</button>
+        <button class="lk-picker__btn lk-picker__btn--confirm" @click="onConfirm">
+          {{ props.confirmText }}
+        </button>
       </view>
-      <lk-picker-view :columns="props.columns" v-model="innerValue" class="lk-picker__view" />
+      <lk-picker-view
+        :columns="props.columns"
+        v-model="innerValue"
+        class="lk-picker__view"
+      />
     </view>
   </lk-popup>
 </template>
@@ -59,6 +76,9 @@ function onConfirm() {
   font-weight: 600;
 }
 .lk-picker__btn {
-  background: transparent; border: none; color: var(--lk-color-primary); font-size: 28rpx;
+  background: transparent;
+  border: none;
+  color: var(--lk-color-primary);
+  font-size: 28rpx;
 }
 </style>

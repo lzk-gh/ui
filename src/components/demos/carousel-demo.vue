@@ -118,15 +118,15 @@
           <!-- 第一页：两行图标文字 -->
           <view v-if="index === 0" class="grid grid-2rows">
             <view class="row">
-              <view class="item" v-for="i in 4" :key="'r1-'+i">
+              <view class="item" v-for="i in 4" :key="'r1-' + i">
                 <view class="icon" />
                 <text class="label">功能 {{ i }}</text>
               </view>
             </view>
             <view class="row">
-              <view class="item" v-for="i in 4" :key="'r2-'+i">
+              <view class="item" v-for="i in 4" :key="'r2-' + i">
                 <view class="icon" />
-                <text class="label">功能 {{ i+4 }}</text>
+                <text class="label">功能 {{ i + 4 }}</text>
               </view>
             </view>
           </view>
@@ -134,7 +134,7 @@
           <!-- 第二页：一行图标文字 -->
           <view v-else class="grid grid-1row">
             <view class="row">
-              <view class="item" v-for="i in 5" :key="'r3-'+i">
+              <view class="item" v-for="i in 5" :key="'r3-' + i">
                 <view class="icon" />
                 <text class="label">快捷 {{ i }}</text>
               </view>
@@ -150,35 +150,35 @@
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const carouselList = ref([
   'https://picsum.photos/400/300?random=1',
   'https://picsum.photos/400/300?random=2',
-  'https://picsum.photos/400/300?random=3'
-])
+  'https://picsum.photos/400/300?random=3',
+]);
 
 // 自定义内容（两页）：用于 autoHeight 演示
-const autoContentSlides = ref([{}, {}])
+const autoContentSlides = ref([{}, {}]);
 
-const curBasic = ref(0)
-const curBars = ref(0)
-const curNumber = ref(0)
-const curTop = ref(0)
-const curVertical = ref(0)
-const curCard = ref(0)
-const curPeek = ref(0)
-const curAnimDot = ref(0)
-const curOverlay = ref(0)
-const curAutoHeight = ref(0)
+const curBasic = ref(0);
+const curBars = ref(0);
+const curNumber = ref(0);
+const curTop = ref(0);
+const curVertical = ref(0);
+const curCard = ref(0);
+const curPeek = ref(0);
+const curAnimDot = ref(0);
+const curOverlay = ref(0);
+const curAutoHeight = ref(0);
 
 const handleClick = (item: any, index: number) => {
-  console.log('点击了第', index, '项')
-}
+  console.log('点击了第', index, '项');
+};
 
 const onChange = (index: number) => {
-  console.log('切换到第', index, '项')
-}
+  console.log('切换到第', index, '项');
+};
 </script>
 
 <style scoped lang="scss">
@@ -198,7 +198,7 @@ const onChange = (index: number) => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06);
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.06);
   }
   .icon {
     width: 72rpx;
@@ -212,6 +212,10 @@ const onChange = (index: number) => {
     color: #333;
   }
 }
-.grid-2rows { padding-bottom: 24rpx; }
-.grid-1row { padding-bottom: 12rpx; }
+.grid-2rows {
+  padding-bottom: 24rpx;
+}
+.grid-1row {
+  padding-bottom: 12rpx;
+}
 </style>

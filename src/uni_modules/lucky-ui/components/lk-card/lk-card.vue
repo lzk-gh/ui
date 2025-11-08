@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOptions({ name:'LkCard' });
+defineOptions({ name: 'LkCard' });
 
 const props = defineProps({
   title: { type: String, default: '' },
@@ -7,15 +7,15 @@ const props = defineProps({
   shadow: { type: String, default: 'base' }, // none|sm|base|lg
   padding: { type: String, default: '32rpx' },
   border: { type: Boolean, default: false },
-  hoverable: { type: Boolean, default: false }
+  hoverable: { type: Boolean, default: false },
 });
 </script>
 
 <template>
   <view
-      class="lk-card"
-      :class="[`lk-card--shadow-${shadow}`, { 'is-border': border, 'is-hover': hoverable }]"
-      :style="{ padding }"
+    class="lk-card"
+    :class="[`lk-card--shadow-${shadow}`, { 'is-border': border, 'is-hover': hoverable }]"
+    :style="{ padding }"
   >
     <view v-if="title || $slots.header" class="lk-card__header">
       <view class="lk-card__title">
@@ -45,15 +45,25 @@ const props = defineProps({
   flex-direction: column;
   gap: 24rpx;
   position: relative;
-  transition: box-shadow var(--lk-transition-fast), transform var(--lk-transition-fast);
+  transition:
+    box-shadow var(--lk-transition-fast),
+    transform var(--lk-transition-fast);
   &.is-border {
     border: 2rpx solid var(--lk-color-border-weak);
   }
 
-  &--shadow-none { box-shadow: none; }
-  &--shadow-sm { box-shadow: var(--lk-shadow-sm); }
-  &--shadow-base { box-shadow: var(--lk-shadow-base); }
-  &--shadow-lg { box-shadow: var(--lk-shadow-lg); }
+  &--shadow-none {
+    box-shadow: none;
+  }
+  &--shadow-sm {
+    box-shadow: var(--lk-shadow-sm);
+  }
+  &--shadow-base {
+    box-shadow: var(--lk-shadow-base);
+  }
+  &--shadow-lg {
+    box-shadow: var(--lk-shadow-lg);
+  }
 
   &.is-hover:active {
     transform: translateY(2rpx);

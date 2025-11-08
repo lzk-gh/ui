@@ -123,7 +123,7 @@ const resetBadge = () => {
   align-items: center;
   flex-wrap: wrap;
   gap: 16rpx;
-  
+
   &.scene-row {
     gap: 32rpx;
   }
@@ -137,7 +137,7 @@ const resetBadge = () => {
   padding: 16rpx;
   background: var(--lk-color-bg-surface);
   border-radius: var(--lk-radius-md);
-  
+
   text {
     font-size: 22rpx;
     color: var(--lk-color-text-secondary);

@@ -30,9 +30,31 @@ function onChange(active: string) {
 </script>
 
 <style scoped lang="scss">
-.component-demo { display:flex; flex-direction:column; gap:24rpx; }
-.layout { display:flex; gap: 24rpx; }
-.nav { width: 200rpx; position: sticky; top: 0; align-self:flex-start; }
-.content { flex: 1; height: 800rpx; overflow-y: auto; border: 2rpx solid var(--lk-color-border); padding: 12rpx; }
-.section { height: 600rpx; border-bottom: 2rpx solid var(--lk-color-border); padding: 16rpx; }
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.layout {
+  display: flex;
+  gap: 24rpx;
+}
+.nav {
+  width: 200rpx;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+}
+.content {
+  flex: 1;
+  height: 800rpx;
+  overflow-y: auto;
+  border: 2rpx solid var(--lk-color-border);
+  padding: 12rpx;
+}
+.section {
+  height: 600rpx;
+  border-bottom: 2rpx solid var(--lk-color-border);
+  padding: 16rpx;
+}
 </style>

@@ -5,22 +5,26 @@
         <lk-form-item label="用户名" prop="username">
           <lk-input v-model="formData.username" placeholder="请输入用户名" />
         </lk-form-item>
-        
+
         <lk-form-item label="密码" prop="password">
-          <lk-input v-model="formData.password" type="password" placeholder="请输入密码" />
+          <lk-input
+            v-model="formData.password"
+            type="password"
+            placeholder="请输入密码"
+          />
         </lk-form-item>
-        
+
         <lk-form-item label="邮箱" prop="email">
           <lk-input v-model="formData.email" placeholder="请输入邮箱" />
         </lk-form-item>
-        
+
         <lk-form-item label="性别" prop="gender">
           <lk-radio-group v-model="formData.gender">
             <lk-radio label="male">男</lk-radio>
             <lk-radio label="female">女</lk-radio>
           </lk-radio-group>
         </lk-form-item>
-        
+
         <lk-form-item label="爱好" prop="hobbies">
           <lk-checkbox-group v-model="formData.hobbies">
             <lk-checkbox label="reading">阅读</lk-checkbox>
@@ -28,12 +32,12 @@
             <lk-checkbox label="sports">运动</lk-checkbox>
           </lk-checkbox-group>
         </lk-form-item>
-        
+
         <lk-form-item label="接收通知">
           <lk-switch v-model="formData.notification" />
         </lk-form-item>
       </lk-form>
-      
+
       <view class="form-actions">
         <lk-button @click="handleReset">重置</lk-button>
         <lk-button type="primary" @click="handleSubmit">提交</lk-button>
@@ -45,12 +49,12 @@
         <lk-form-item label="手机号" prop="phone">
           <lk-input v-model="validateData.phone" placeholder="请输入手机号" />
         </lk-form-item>
-        
+
         <lk-form-item label="验证码" prop="code">
           <lk-input v-model="validateData.code" placeholder="请输入验证码" />
         </lk-form-item>
       </lk-form>
-      
+
       <view class="form-actions">
         <lk-button type="primary" @click="handleValidate">验证表单</lk-button>
       </view>
@@ -80,23 +84,23 @@ const formData = reactive({
   email: '',
   gender: 'male',
   hobbies: ['reading'],
-  notification: true
+  notification: true,
 });
 
 const validateData = reactive({
   phone: '',
-  code: ''
+  code: '',
 });
 
 const rules = {
   username: [{ required: true, message: '请输入用户名' }],
   password: [{ required: true, message: '请输入密码' }],
-  email: [{ required: true, message: '请输入邮箱' }]
+  email: [{ required: true, message: '请输入邮箱' }],
 };
 
 const validateRules = {
   phone: [{ required: true, message: '请输入手机号' }],
-  code: [{ required: true, message: '请输入验证码' }]
+  code: [{ required: true, message: '请输入验证码' }],
 };
 
 const handleSubmit = () => {
@@ -111,7 +115,7 @@ const handleReset = () => {
     email: '',
     gender: 'male',
     hobbies: [],
-    notification: false
+    notification: false,
   });
   uni.showToast({ title: '已重置', icon: 'none' });
 };
@@ -136,7 +140,7 @@ const handleValidate = () => {
   display: flex;
   gap: 16rpx;
   margin-top: 32rpx;
-  
+
   :deep(.lk-button) {
     flex: 1;
   }

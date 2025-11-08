@@ -14,7 +14,7 @@
         <lk-radio label="2" disabled>禁用</lk-radio>
         <lk-radio label="3">正常</lk-radio>
       </lk-radio-group>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-radio-group v-model="value2_1" disabled>
           <lk-radio label="1">全部禁用</lk-radio>
           <lk-radio label="2">全部禁用</lk-radio>
@@ -45,7 +45,7 @@
         <lk-radio label="2">方形圆点</lk-radio>
         <lk-radio label="3">方形圆点</lk-radio>
       </lk-radio-group>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-radio-group v-model="value5_1" shape="square" icon-type="check">
           <lk-radio label="1">方形勾选</lk-radio>
           <lk-radio label="2">方形勾选</lk-radio>
@@ -82,13 +82,13 @@
         <lk-radio label="1">小号</lk-radio>
         <lk-radio label="2">小号</lk-radio>
       </lk-radio-group>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-radio-group v-model="value7_1" size="md">
           <lk-radio label="1">中号</lk-radio>
           <lk-radio label="2">中号</lk-radio>
         </lk-radio-group>
       </view>
-      <view style="margin-top: 20rpx;">
+      <view style="margin-top: 20rpx">
         <lk-radio-group v-model="value7_2" size="lg">
           <lk-radio label="1">大号</lk-radio>
           <lk-radio label="2">大号</lk-radio>
@@ -97,7 +97,12 @@
     </demo-block>
 
     <demo-block title="组合示例">
-      <lk-radio-group v-model="value8" direction="column" shape="square" icon-type="check">
+      <lk-radio-group
+        v-model="value8"
+        direction="column"
+        shape="square"
+        icon-type="check"
+      >
         <lk-radio label="option1">纵向 + 方形 + 勾选</lk-radio>
         <lk-radio label="option2">纵向 + 方形 + 勾选</lk-radio>
         <lk-radio label="option3">纵向 + 方形 + 勾选</lk-radio>
