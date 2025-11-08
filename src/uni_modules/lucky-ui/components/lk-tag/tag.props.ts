@@ -51,6 +51,12 @@ export const tagProps = {
 
   /** 是否圆角 */
   round: LkProp.boolean(true),
+
+  /** 文字颜色 */
+  textColor: LkProp.string(''),
+
+  /** 背景颜色 */
+  bgColor: LkProp.string(''),
 } as const;
 
 export type TagProps = ExtractPropTypes<typeof tagProps>;

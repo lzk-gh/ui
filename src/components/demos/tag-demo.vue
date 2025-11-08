@@ -2,20 +2,18 @@
   <view class="component-demo">
     <demo-block title="标签类型">
       <view class="demo-row">
-        <lk-tag>默认</lk-tag>
-        <lk-tag type="primary">主要</lk-tag>
-        <lk-tag type="success">成功</lk-tag>
-        <lk-tag type="warning">警告</lk-tag>
-        <lk-tag type="danger">危险</lk-tag>
+        <lk-tag type="light">浅色</lk-tag>
+        <lk-tag type="outline">轮廓</lk-tag>
+        <lk-tag type="solid">实心</lk-tag>
       </view>
     </demo-block>
 
     <demo-block title="可关闭标签">
       <view class="demo-row">
         <lk-tag v-if="tags.tag1" closable @close="tags.tag1 = false">可关闭</lk-tag>
-        <lk-tag v-if="tags.tag2" closable type="primary" @close="tags.tag2 = false">主要</lk-tag>
-        <lk-tag v-if="tags.tag3" closable type="success" @close="tags.tag3 = false">成功</lk-tag>
-        <lk-button v-if="!allTagsVisible" size="medium" @click="resetTags">恢复</lk-button>
+        <lk-tag v-if="tags.tag2" closable type="light" @close="tags.tag2 = false">浅色</lk-tag>
+        <lk-tag v-if="tags.tag3" closable type="outline" @close="tags.tag3 = false">轮廓</lk-tag>
+        <lk-button v-if="!allTagsVisible" size="md" @click="resetTags">恢复</lk-button>
       </view>
     </demo-block>
 
@@ -33,12 +31,19 @@
       </view>
     </demo-block>
 
+    <demo-block title="自定义颜色">
+      <view class="demo-row">
+        <lk-tag textColor="#ffffff" bgColor="#f56c6c">自定义背景</lk-tag>
+        <lk-tag type="outline" textColor="#f56c6c" bgColor="#f56c6c">自定义描边</lk-tag>
+        <lk-tag textColor="#ffffff" bgColor="#ffb400">白字橙底</lk-tag>
+      </view>
+    </demo-block>
+
     <demo-block title="可选择标签">
       <view class="demo-row">
         <lk-tag
           v-for="tag in selectableTags"
           :key="tag.name"
-          :type="tag.selected ? 'primary' : 'default'"
           @click="toggleTag(tag.name)"
           class="selectable-tag"
         >
@@ -50,7 +55,7 @@
 
     <demo-block title="标签组">
       <view class="tag-group">
-        <lk-tag v-for="skill in skills" :key="skill" size="small" type="primary">
+        <lk-tag v-for="skill in skills" :key="skill" size="sm" type="light">
           {{ skill }}
         </lk-tag>
       </view>
