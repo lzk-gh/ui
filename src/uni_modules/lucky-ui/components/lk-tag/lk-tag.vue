@@ -1,13 +1,9 @@
 <script setup lang="ts">
+import { tagProps } from './tag.props';
+
 defineOptions({ name: 'LkTag' });
 
-const props = defineProps({
-  type: { type: String, default: 'solid' }, // solid | outline | soft
-  size: { type: String, default: 'md' }, // sm|md|lg
-  closable: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  round: { type: Boolean, default: true }
-});
+const props = defineProps(tagProps);
 const emit = defineEmits(['close','click']);
 
 function onClose(e:any) {
@@ -15,6 +11,7 @@ function onClose(e:any) {
   emit('close', e);
   e.stopPropagation();
 }
+
 function onClick(e:any){
   if(props.disabled) return;
   emit('click', e);
@@ -80,3 +77,4 @@ function onClick(e:any){
   }
 }
 </style>
+
