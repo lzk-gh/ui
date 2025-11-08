@@ -28,10 +28,11 @@
 
     <demo-block title="按钮尺寸">
       <view class="demo-row">
-        <lk-button size="medium">中等按钮</lk-button>
-        <lk-button size="large">大型按钮</lk-button>
+        <lk-button size="sm">小按钮</lk-button>
+        <lk-button size="md">中等按钮</lk-button>
+        <lk-button size="lg">大型按钮</lk-button>
       </view>
-      <lk-button size="large" block style="margin-top: 16rpx;">块级按钮</lk-button>
+      <lk-button size="lg" block style="margin-top: 16rpx;">块级按钮</lk-button>
     </demo-block>
 
     <demo-block title="按钮形状">
@@ -59,35 +60,16 @@
     <demo-block title="圆形按钮">
       <view class="demo-row">
         <lk-button shape="circle">
-          <lk-icon name="heart-fill" />
+          <lk-icon name="heart" />
         </lk-button>
         <lk-button shape="circle">
-          <lk-icon name="star-fill" />
+          <lk-icon name="star" />
         </lk-button>
         <lk-button shape="circle">
-          <lk-icon name="bell-fill" />
+          <lk-icon name="bell" />
         </lk-button>
         <lk-button shape="circle">
-          <lk-icon name="gear-fill" />
-        </lk-button>
-      </view>
-    </demo-block>
-
-    <demo-block title="渐变按钮">
-      <view class="demo-row">
-        <lk-button class="gradient-btn gradient-purple">紫色</lk-button>
-        <lk-button class="gradient-btn gradient-pink">粉色</lk-button>
-        <lk-button class="gradient-btn gradient-blue">蓝色</lk-button>
-      </view>
-    </demo-block>
-
-    <demo-block title="触摸反馈">
-      <view class="demo-row">
-        <lk-button class="touch-feedback">
-          <lk-icon name="hand-index-thumb" class="mr-8" />长按试试
-        </lk-button>
-        <lk-button class="ripple-btn">
-          <lk-icon name="water" class="mr-8" />涟漪效果
+          <lk-icon name="gear" />
         </lk-button>
       </view>
     </demo-block>
@@ -135,79 +117,5 @@ const triggerLoading = () => {
 
 .mr-8 {
   margin-right: 8rpx;
-}
-
-.button-group {
-  display: flex;
-  gap: 0;
-  
-  :deep(.lk-button) {
-    border-radius: 0;
-    
-    &:first-child {
-      border-top-left-radius: var(--lk-radius-md);
-      border-bottom-left-radius: var(--lk-radius-md);
-    }
-    
-    &:last-child {
-      border-top-right-radius: var(--lk-radius-md);
-      border-bottom-right-radius: var(--lk-radius-md);
-    }
-  }
-}
-
-.gradient-btn {
-  border: none;
-  color: #fff;
-  
-  &.gradient-purple {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-  
-  &.gradient-pink {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  }
-  
-  &.gradient-blue {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  }
-  
-  &:active {
-    transform: scale(0.98);
-    opacity: 0.9;
-  }
-}
-
-.touch-feedback {
-  &:active {
-    transform: scale(0.95);
-    box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.15);
-  }
-}
-
-.ripple-btn {
-  position: relative;
-  overflow: hidden;
-  
-  &:active::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.5);
-    transform: translate(-50%, -50%);
-    animation: ripple 0.6s ease-out;
-  }
-}
-
-@keyframes ripple {
-  to {
-    width: 200%;
-    height: 200%;
-    opacity: 0;
-  }
 }
 </style>

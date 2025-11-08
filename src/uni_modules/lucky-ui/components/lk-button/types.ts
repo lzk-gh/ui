@@ -3,16 +3,20 @@ import type { ExtractPropTypes } from 'vue';
 /**
  * 按钮变体
  * - `solid`: 实体按钮 (默认)
+ * - `outline`: 轮廓按钮
  * - `text`: 文字按钮
+ * - `soft`: 柔和按钮
+ * - `danger`: 危险按钮
  */
-export type LkButtonVariant = 'solid' | 'text';
+export type LkButtonVariant = 'solid' | 'outline' | 'text' | 'soft' | 'danger';
 
 /**
  * 按钮尺寸
- * - `medium`: 默认尺寸，宽度由内容决定
- * - `large`: 块级尺寸，宽度撑满父容器
+ * - `sm`: 小尺寸
+ * - `md`: 中等尺寸 (默认)
+ * - `lg`: 大尺寸
  */
-export type LkButtonSize = 'medium' | 'large';
+export type LkButtonSize = 'sm' | 'md' | 'lg';
 
 /**
  * 按钮形状
@@ -59,6 +63,13 @@ export const lkButtonProps = {
    * 是否为禁用状态
    */
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  /** 
+   * 是否为块级按钮
+   */
+  block: {
     type: Boolean,
     default: false,
   },

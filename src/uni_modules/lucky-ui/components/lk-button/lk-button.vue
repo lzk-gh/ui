@@ -30,11 +30,10 @@ function onClick(e: MouseEvent) {
       :class="cls"
       :disabled="disabled || loading"
       :type="nativeType"
-      @click="onClick"
+      @tap="onClick"
   >
     <text v-if="loading" class="lk-button__loader"></text>
-    <i v-if="icon && !loading" :class="['lk-button__icon', icon]" />
-    <text class="lk-button__content"><slot /></text>
+    <slot />
   </button>
 </template>
 
@@ -66,12 +65,12 @@ function onClick(e: MouseEvent) {
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: background var(--lk-transition-fast), color var(--lk-transition-fast), box-shadow var(--lk-transition-fast), opacity var(--lk-transition-fast);
 
   &--sm { --_height: var(--lk-control-height-sm); --_fs: var(--lk-control-font-size-sm); --_px: var(--lk-control-padding-x-sm); }
+  &--md { --_height: var(--lk-control-height-md); --_fs: var(--lk-control-font-size-md); --_px: var(--lk-control-padding-x-md); }
   &--lg { --_height: var(--lk-control-height-lg); --_fs: var(--lk-control-font-size-lg); --_px: var(--lk-control-padding-x-lg); }
 
-  &--shape-square { --_radius: var(--lk-radius-xs); }
+  &--shape-square { --_radius: var(--lk-radius-sm); }
   &--shape-round { --_radius: var(--lk-radius-pill); }
   &--shape-circle {
     width: var(--_height);
