@@ -68,6 +68,8 @@ function onClick() {
   &.is-disabled {
     opacity: 0.5;
   }
+  padding: 28rpx var(--lk-control-padding-x-md);
+
   &__left {
     display: flex;
     align-items: flex-start;
