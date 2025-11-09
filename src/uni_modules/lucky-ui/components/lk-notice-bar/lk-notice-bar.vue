@@ -1,26 +1,32 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
+import { noticeBarProps, type NoticeBarProps } from './notice-bar.props';
+
 defineOptions({ name: 'LkNoticeBar' });
 
-const props = defineProps({
-  text: { type: String, default: '' },
-  // 滚动模式: 'horizontal' | 'vertical' | false
-  scrollable: { type: [Boolean, String], default: false },
-  // 滚动速度(秒)
-  speed: { type: Number, default: 10 },
-  // 是否可关闭
-  closeable: { type: Boolean, default: false },
-  // 左侧图标
-  icon: { type: String, default: '' },
-  // 文字颜色
-  color: { type: String, default: 'var(--lk-color-primary)' },
-  // 背景颜色
-  background: { type: String, default: 'var(--lk-color-primary-bg-soft)' },
-  // 竖向滚动时的消息列表
-  messages: { type: Array as () => string[], default: () => [] },
-});
+const props = defineProps(noticeBarProps);
 
 const emit = defineEmits(['close', 'click']);
+
+// 计算最终要绑定的样式：当用户希望无背景时，不设置 background 和 color
+const styleObj = computed(() => {
+  const noBg = props.noBackground;
+
+  // 当为无背景模式时：
+  // - 不注入 background 与 color（由父级继承）
+  // - 自动移除 padding 与圆角以获得更“扁平”的外观
+  if (noBg) {
+    return {
+      padding: '0',
+      borderRadius: '0',
+    } as Record<string, string>;
+  }
+
+  return {
+    background: props.background,
+    color: props.color,
+  } as Record<string, string>;
+});
 
 // 判断滚动方向
 const scrollMode = computed(() => {
@@ -114,7 +120,7 @@ function click() {
 </script>
 
 <template>
-  <view class="lk-notice-bar" :style="{ background, color }" @click="click">
+  <view class="lk-notice-bar" :style="styleObj" @click="click">
     <view v-if="icon || $slots['left-icon']" class="lk-notice-bar__icon">
       <slot name="left-icon">
         <lk-icon v-if="icon" :name="icon" size="32" />

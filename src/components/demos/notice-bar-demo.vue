@@ -11,7 +11,7 @@
         closeable
         @close="showNotice = false"
       />
-      <lk-button v-else size="medium" @click="showNotice = true">重新显示</lk-button>
+      <lk-button v-else size="md" @click="showNotice = true">重新显示</lk-button>
     </demo-block>
 
     <demo-block title="横向滚动">
@@ -72,6 +72,14 @@
         background="#333333"
         style="margin-top: 16rpx"
       />
+    </demo-block>
+
+    <demo-block title="无背景">
+      <lk-notice-bar scrollable="horizontal" noBackground text="无背景通知栏（继承父背景/文字色）">
+        <template #left-icon>
+          <lk-icon name="megaphone-fill" size="32" />
+        </template>
+      </lk-notice-bar>
     </demo-block>
 
     <demo-block title="实用场景">
