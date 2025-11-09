@@ -3,6 +3,14 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 
 defineOptions({ name: 'LkOverlay' });
 
+/**
+ * requestAnimationFrame 兼容处理
+ * 小程序环境中 requestAnimationFrame 不可用，使用 setTimeout 作为 fallback
+ */
+const hasRAF = typeof requestAnimationFrame === 'function';
+const rAF = (cb: () => void): number =>
+  hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
+
 const props = defineProps({
   // 是否显示（受控）
   show: { type: Boolean, default: false },
@@ -75,7 +83,7 @@ watch(
       if (!display.value) {
         display.value = true;
         // 下一帧触发进入动画
-        requestAnimationFrame(() => {
+        rAF(() => {
           anim.value = 'enter';
           emit('after-enter');
         });

@@ -24,7 +24,9 @@
     <demo-block title="异步确认">
       <view class="demo-row">
         <lk-button @click="visible4 = true">异步确认</lk-button>
-        <lk-modal v-model="visible4" animation="quick" @confirm="handleConfirm">确定删除吗？</lk-modal>
+        <lk-modal v-model="visible4" animation="quick" @confirm="handleConfirm"
+          >确定删除吗？</lk-modal
+        >
       </view>
     </demo-block>
 
@@ -59,7 +61,9 @@
         <lk-button @click="visibleLong = true">长内容滚动</lk-button>
         <lk-modal v-model="visibleLong" title="长内容" animation-type="fade-up" :duration="500">
           <view style="max-height: 400rpx; overflow-y: auto; padding-right: 12rpx">
-            <text v-for="i in 30" :key="i" style="display: block; margin-bottom: 12rpx">第 {{ i }} 行示例内容，滚动测试。</text>
+            <text v-for="i in 30" :key="i" style="display: block; margin-bottom: 12rpx"
+              >第 {{ i }} 行示例内容，滚动测试。</text
+            >
           </view>
         </lk-modal>
       </view>
@@ -76,7 +80,10 @@
           :easing="dynamicEasing"
         >
           <view style="display: flex; flex-direction: column; gap: 16rpx; padding: 16rpx">
-            <text>当前动画: {{ dynamicType }} 时长: {{ dynamicDuration }}ms 缓动: {{ dynamicEasing }}</text>
+            <text
+              >当前动画: {{ dynamicType }} 时长: {{ dynamicDuration }}ms 缓动:
+              {{ dynamicEasing }}</text
+            >
             <view style="display: flex; flex-wrap: wrap; gap: 12rpx">
               <lk-button size="small" @click="dynamicType = 'zoom-in'">zoom-in</lk-button>
               <lk-button size="small" @click="dynamicType = 'slide-up'">slide-up</lk-button>

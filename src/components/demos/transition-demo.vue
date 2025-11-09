@@ -1,24 +1,22 @@
 <template>
   <view class="transition-demo">
-          <!-- 控制面板 -->
-      <view class="control-panel">
-        <view class="control-row">
-          <text class="control-label">持续时间: {{ duration }}ms</text>
-          <lk-slider v-model="duration" :min="100" :max="2000" :step="100" />
-        </view>
-        <view class="control-row">
-          <text class="control-label">延迟时间: {{ delay }}ms</text>
-          <lk-slider v-model="delay" :min="0" :max="1000" :step="100" />
-        </view>
-        <view class="control-row">
-          <lk-button type="primary" block @click="toggleAll">
-            {{ showAll ? '隐藏所有' : '显示所有' }}
-          </lk-button>
-        </view>
+    <!-- 控制面板 -->
+    <view class="control-panel">
+      <view class="control-row">
+        <text class="control-label">持续时间: {{ duration }}ms</text>
+        <lk-slider v-model="duration" :min="100" :max="2000" :step="100" />
       </view>
+      <view class="control-row">
+        <text class="control-label">延迟时间: {{ delay }}ms</text>
+        <lk-slider v-model="delay" :min="0" :max="1000" :step="100" />
+      </view>
+      <view class="control-row">
+        <lk-button type="primary" block @click="toggleAll">
+          {{ showAll ? '隐藏所有' : '显示所有' }}
+        </lk-button>
+      </view>
+    </view>
     <scroll-view class="demo-scroll" scroll-y>
-
-
       <!-- 动画分类展示 -->
       <view
         v-for="category in ANIMATION_CATEGORIES"

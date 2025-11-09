@@ -2,6 +2,15 @@ import { ref, watch, computed, nextTick, isRef } from 'vue';
 import type { CSSProperties, Ref } from 'vue';
 
 /**
+ * requestAnimationFrame 兼容处理
+ * 小程序环境中 requestAnimationFrame 不可用，使用 setTimeout 作为 fallback
+ */
+const hasRAF = typeof requestAnimationFrame === 'function';
+const rAF = (cb: () => void): number =>
+  hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
+const cAF = (id: number): void => (hasRAF ? (cancelAnimationFrame as any)(id) : clearTimeout(id));
+
+/**
  * 动画配置类型
  */
 export type MaybeNumber = number | Ref<number> | (() => number);
@@ -150,6 +159,8 @@ export function useTransition(
   // 定时器与事件清理
   let enterTimer: number | undefined;
   let leaveTimer: number | undefined;
+  let rafEnter: number | undefined;
+  let rafLeave: number | undefined;
   let removeEndListeners: (() => void) | null = null;
 
   const clearTimersAndListeners = () => {
@@ -160,6 +171,14 @@ export function useTransition(
     if (leaveTimer) {
       clearTimeout(leaveTimer);
       leaveTimer = undefined;
+    }
+    if (rafEnter) {
+      cAF(rafEnter);
+      rafEnter = undefined;
+    }
+    if (rafLeave) {
+      cAF(rafLeave);
+      rafLeave = undefined;
     }
     if (removeEndListeners) {
       removeEndListeners();
@@ -301,8 +320,8 @@ export function useTransition(
 
     nextTick(() => {
       callbacks.onEnter?.();
-      // 使用 requestAnimationFrame 确保初始样式先应用
-      requestAnimationFrame(() => {
+      // 使用兼容的 rAF 确保初始样式先应用
+      rafEnter = rAF(() => {
         state.value.active = true;
         // 事件结束监听（若可用）+ 超时兜底
         attachEndListeners(finishEnter);
@@ -326,7 +345,7 @@ export function useTransition(
 
     nextTick(() => {
       callbacks.onLeave?.();
-      requestAnimationFrame(() => {
+      rafLeave = rAF(() => {
         state.value.active = false;
         attachEndListeners(finishLeave);
         leaveTimer = setTimeout(

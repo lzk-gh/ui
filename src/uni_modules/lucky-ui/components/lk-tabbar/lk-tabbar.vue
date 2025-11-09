@@ -334,16 +334,16 @@ provide('lkTabbarType', props.type ?? 'TIC');
     left: 50%;
     top: 0;
     transform: translate(-50%, -50%);
-  width: var(--lk-tabbar-fab-size, 110rpx);
-  height: var(--lk-tabbar-fab-size, 110rpx);
-  border-radius: 50%;
-  background-color: var(--lk-tabbar-fab-bg, var(--lk-color-primary));
-  border: 12rpx solid var(--lk-tabbar-fab-border, var(--lk-color-on-primary));
+    width: var(--lk-tabbar-fab-size, 110rpx);
+    height: var(--lk-tabbar-fab-size, 110rpx);
+    border-radius: 50%;
+    background-color: var(--lk-tabbar-fab-bg, var(--lk-color-primary));
+    border: 12rpx solid var(--lk-tabbar-fab-border, var(--lk-color-on-primary));
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-  color: var(--lk-tabbar-active-color, var(--lk-color-on-primary));
+    color: var(--lk-tabbar-active-color, var(--lk-color-on-primary));
     box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.18);
 
     // 左右弧形与 TIC 风格保持一致
