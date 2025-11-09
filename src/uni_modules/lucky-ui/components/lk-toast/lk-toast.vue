@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed, onUnmounted } from 'vue';
+import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkToast' });
 
@@ -15,7 +16,6 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'open', 'close', 'after-leave']);
 
 const show = computed(() => props.modelValue);
-const leaving = ref(false);
 let timer: any = null;
 
 function clearTimers() {
@@ -36,36 +36,45 @@ watch(
   () => props.modelValue,
   v => {
     if (v) {
-      leaving.value = false;
       emit('open');
       scheduleClose();
     } else {
-      if (!leaving.value) {
-        // 外部直接设 false
-        leaving.value = true;
-        setTimeout(() => emit('after-leave'), 260);
-        emit('close');
-      }
+      emit('close');
+      setTimeout(() => emit('after-leave'), 260);
     }
   }
 );
 
 function close() {
   if (!show.value) return;
-  leaving.value = true;
+  emit('update:modelValue', false);
   emit('close');
-  setTimeout(() => {
-    emit('update:modelValue', false);
-    emit('after-leave');
-  }, 260);
 }
+
+// 使用动画 composable
+const {
+  classes: transitionClasses,
+  styles: transitionStyles,
+  display,
+} = useTransition(
+  () => props.modelValue,
+  { name: 'zoom-in', duration: 260, easing: 'ease-out' },
+  {
+    onAfterLeave: () => emit('after-leave'),
+  }
+);
 
 onUnmounted(() => clearTimers());
 </script>
 
 <template>
   <view v-if="overlay && show" class="lk-toast__overlay" :class="{ 'is-lock': forbidClick }" />
-  <view v-if="show" class="lk-toast" :class="[`lk-toast--${position}`, { 'is-leave': leaving }]">
+  <view
+    v-if="display"
+    class="lk-toast"
+    :class="[`lk-toast--${position}`, transitionClasses]"
+    :style="transitionStyles"
+  >
     <view class="lk-toast__inner">
       <lk-icon v-if="icon" :name="icon" size="44" class="lk-toast__icon" />
       <text class="lk-toast__text"
@@ -114,10 +123,6 @@ onUnmounted(() => clearTimers());
     flex-direction: column;
     align-items: center;
     gap: 16rpx;
-    animation: toast-in 0.26s;
-  }
-  &.is-leave .lk-toast__inner {
-    animation: toast-out 0.26s forwards;
   }
   &__text {
     font-size: 26rpx;
@@ -126,26 +131,6 @@ onUnmounted(() => clearTimers());
   }
   &__icon {
     color: #fff;
-  }
-}
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes toast-out {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.85);
   }
 }
 </style>

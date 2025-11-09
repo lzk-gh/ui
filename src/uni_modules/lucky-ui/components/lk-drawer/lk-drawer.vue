@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { computed } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import {
+  useTransition,
+  ANIMATION_PRESETS,
+  type TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkDrawer' });
 
@@ -28,55 +33,70 @@ const props = defineProps({
   lockScroll: { type: Boolean, default: true },
   title: { type: String, default: '' },
   showClose: { type: Boolean, default: true },
+  // 动画配置
+  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
+  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
+  duration: { type: Number, default: undefined },
+  delay: { type: Number, default: undefined },
+  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
 });
 const emit = defineEmits(['update:modelValue', 'open', 'close', 'after-enter', 'after-leave']);
-
-const display = ref(false);
-const anim = ref<'enter' | 'leave' | ''>('');
 
 // 统一方向，position 优先，其次 side
 const pos = computed<'left' | 'right' | 'top' | 'bottom'>(
   () => (props.position || props.side || 'right') as any
 );
 
-watch(
-  () => props.modelValue,
-  v => {
-    v ? open() : close();
-  },
-  { immediate: true }
-);
+const defaultByPos: Record<string, NonNullable<TransitionConfig['name']>> = {
+  left: 'slide-right',
+  right: 'slide-left',
+  top: 'slide-down',
+  bottom: 'slide-up',
+};
 
-function open() {
-  if (display.value) return;
-  display.value = true;
-  anim.value = 'enter';
-  emit('open');
-  setTimeout(() => emit('after-enter'), 260);
-}
-function close() {
-  if (!display.value) return;
-  anim.value = 'leave';
-  emit('close');
-  setTimeout(() => {
-    display.value = false;
-    emit('after-leave');
-  }, 260);
-}
+const transitionConfig = computed<TransitionConfig>(() => {
+  if (props.animationType) {
+    return {
+      name: props.animationType,
+      duration: props.duration ?? 260,
+      delay: props.delay ?? 0,
+      easing: props.easing ?? 'ease-out',
+    };
+  }
+  if (props.animation && ANIMATION_PRESETS[props.animation]) {
+    const p = ANIMATION_PRESETS[props.animation];
+    return {
+      name: p.animation,
+      duration: props.duration ?? p.duration ?? 260,
+      delay: props.delay ?? p.delay ?? 0,
+      easing: props.easing ?? p.easing ?? 'ease-out',
+    };
+  }
+  const name = defaultByPos[pos.value] || 'slide-left';
+  return {
+    name,
+    duration: props.duration ?? 260,
+    delay: props.delay ?? 0,
+    easing: props.easing ?? 'ease-out',
+  };
+});
+
+const {
+  classes: transitionClasses,
+  styles: transitionStyles,
+  display,
+} = useTransition(() => props.modelValue, transitionConfig.value, {
+  onAfterEnter: () => emit('after-enter'),
+  onAfterLeave: () => emit('after-leave'),
+});
+
 function overlayClick() {
   if (props.closeOnOverlay) emit('update:modelValue', false);
 }
 
-const cls = computed(() => [
-  'lk-drawer',
-  `lk-drawer--${pos.value}`,
-  { 'is-enter': anim.value === 'enter', 'is-leave': anim.value === 'leave' },
-]);
-
+const cls = computed(() => ['lk-drawer', `lk-drawer--${pos.value}`]);
 const wrapperStyle = computed(() => {
-  const style: Record<string, string | number> = {
-    zIndex: (props.zIndex as number) + 1,
-  };
+  const style: Record<string, string | number> = { zIndex: (props.zIndex as number) + 1 };
   if (pos.value === 'left' || pos.value === 'right') {
     style.width = props.width;
   } else {
@@ -96,14 +116,16 @@ const wrapperStyle = computed(() => {
     @click="overlayClick"
   />
   <view v-if="display" :class="cls" :style="wrapperStyle" @touchmove.stop>
-    <view v-if="title || showClose" class="lk-drawer__header">
-      <text v-if="title" class="lk-drawer__title">{{ title }}</text>
-      <view v-if="showClose" class="lk-drawer__close" @click="emit('update:modelValue', false)"
-        >×</view
-      >
-    </view>
-    <view class="lk-drawer__body">
-      <slot />
+    <view class="lk-drawer__panel" :class="transitionClasses" :style="transitionStyles">
+      <view v-if="title || showClose" class="lk-drawer__header">
+        <text v-if="title" class="lk-drawer__title">{{ title }}</text>
+        <view v-if="showClose" class="lk-drawer__close" @click="emit('update:modelValue', false)"
+          >×</view
+        >
+      </view>
+      <view class="lk-drawer__body">
+        <slot />
+      </view>
     </view>
   </view>
 </template>
@@ -113,26 +135,13 @@ const wrapperStyle = computed(() => {
   position: fixed;
   top: 0;
   bottom: 0;
-  background: var(--lk-color-bg-surface);
-  color: var(--lk-color-text);
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--lk-shadow-lg);
   animation: none;
   // 左右方向
   &--right {
     right: 0;
-    animation: drawer-in-r 0.26s;
   }
   &--left {
     left: 0;
-    animation: drawer-in-l 0.26s;
-  }
-  &.is-leave.lk-drawer--right {
-    animation: drawer-out-r 0.26s forwards;
-  }
-  &.is-leave.lk-drawer--left {
-    animation: drawer-out-l 0.26s forwards;
   }
   // 上下方向
   &--top {
@@ -140,20 +149,21 @@ const wrapperStyle = computed(() => {
     right: 0;
     top: 0;
     bottom: auto;
-    animation: drawer-in-t 0.26s;
   }
   &--bottom {
     left: 0;
     right: 0;
     top: auto;
     bottom: 0;
-    animation: drawer-in-b 0.26s;
   }
-  &.is-leave.lk-drawer--top {
-    animation: drawer-out-t 0.26s forwards;
-  }
-  &.is-leave.lk-drawer--bottom {
-    animation: drawer-out-b 0.26s forwards;
+
+  &__panel {
+    background: var(--lk-color-bg-surface);
+    color: var(--lk-color-text);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--lk-shadow-lg);
+    height: 100%;
   }
 
   &__header {
@@ -181,70 +191,6 @@ const wrapperStyle = computed(() => {
     overflow-y: auto;
     font-size: 28rpx;
     line-height: 1.6;
-  }
-}
-@keyframes drawer-in-r {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes drawer-out-r {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
-@keyframes drawer-in-l {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes drawer-out-l {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-@keyframes drawer-in-t {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes drawer-out-t {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-100%);
-  }
-}
-@keyframes drawer-in-b {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes drawer-out-b {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100%);
   }
 }
 </style>

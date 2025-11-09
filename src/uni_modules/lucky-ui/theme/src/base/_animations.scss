@@ -1,0 +1,590 @@
+/**
+ * 动画样式 - 用于 useTransition composable
+ */
+
+.lk-transition {
+  transition-property: opacity, transform;
+
+  &:not(.lk-transition-active) {
+    opacity: 0;
+  }
+
+  &.lk-transition-active {
+    opacity: 1;
+  }
+
+  /* ========== Fade 淡入淡出 ========== */
+
+  &.lk-transition-fade {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+    }
+    &.lk-transition-active {
+      opacity: 1;
+    }
+  }
+
+  &.lk-transition-fade-up {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translateY(40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &.lk-transition-fade-down {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translateY(-40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &.lk-transition-fade-left {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translateX(-40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &.lk-transition-fade-right {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translateX(40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &.lk-transition-fade-up-left {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translate(-40rpx, -40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  &.lk-transition-fade-up-right {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translate(40rpx, -40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  &.lk-transition-fade-down-left {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translate(-40rpx, 40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  &.lk-transition-fade-down-right {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: translate(40rpx, 40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  /* ========== Slide 滑动 ========== */
+
+  &.lk-transition-slide-up {
+    &:not(.lk-transition-active) {
+      transform: translateY(100%);
+    }
+    &.lk-transition-active {
+      transform: translateY(0);
+    }
+  }
+
+  &.lk-transition-slide-down {
+    &:not(.lk-transition-active) {
+      transform: translateY(-100%);
+    }
+    &.lk-transition-active {
+      transform: translateY(0);
+    }
+  }
+
+  &.lk-transition-slide-left {
+    &:not(.lk-transition-active) {
+      transform: translateX(-100%);
+    }
+    &.lk-transition-active {
+      transform: translateX(0);
+    }
+  }
+
+  &.lk-transition-slide-right {
+    &:not(.lk-transition-active) {
+      transform: translateX(100%);
+    }
+    &.lk-transition-active {
+      transform: translateX(0);
+    }
+  }
+
+  /* ========== Zoom 缩放 ========== */
+
+  &.lk-transition-zoom-in {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &.lk-transition-zoom-in-up {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(0.8) translateY(40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  &.lk-transition-zoom-in-down {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(0.8) translateY(-40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  &.lk-transition-zoom-in-left {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(0.8) translateX(-40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  &.lk-transition-zoom-in-right {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(0.8) translateX(40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  &.lk-transition-zoom-out {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(1.2);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &.lk-transition-zoom-out-up {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(1.2) translateY(40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  &.lk-transition-zoom-out-down {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(1.2) translateY(-40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  &.lk-transition-zoom-out-left {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(1.2) translateX(-40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  &.lk-transition-zoom-out-right {
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: scale(1.2) translateX(40rpx);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  /* ========== Flip 翻转 ========== */
+
+  &.lk-transition-flip-left {
+    transform-style: preserve-3d;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: perspective(800rpx) rotateY(-90deg);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: perspective(800rpx) rotateY(0deg);
+    }
+  }
+
+  &.lk-transition-flip-right {
+    transform-style: preserve-3d;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: perspective(800rpx) rotateY(90deg);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: perspective(800rpx) rotateY(0deg);
+    }
+  }
+
+  &.lk-transition-flip-up {
+    transform-style: preserve-3d;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: perspective(800rpx) rotateX(-90deg);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: perspective(800rpx) rotateX(0deg);
+    }
+  }
+
+  &.lk-transition-flip-down {
+    transform-style: preserve-3d;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: perspective(800rpx) rotateX(90deg);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: perspective(800rpx) rotateX(0deg);
+    }
+  }
+
+  /* ========== Bounce 弹跳 ========== */
+
+  &.lk-transition-bounce-in {
+    &.lk-transition-entering {
+      animation: lk-bounce-in var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-out);
+    }
+    &.lk-transition-leaving {
+      animation: lk-bounce-out var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-in);
+    }
+  }
+
+  &.lk-transition-bounce-in-up {
+    &.lk-transition-entering {
+      animation: lk-bounce-in-up var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-out);
+    }
+    &.lk-transition-leaving {
+      animation: lk-bounce-out-down var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-in);
+    }
+  }
+
+  &.lk-transition-bounce-in-down {
+    &.lk-transition-entering {
+      animation: lk-bounce-in-down var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-out);
+    }
+    &.lk-transition-leaving {
+      animation: lk-bounce-out-up var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-in);
+    }
+  }
+
+  &.lk-transition-bounce-in-left {
+    &.lk-transition-entering {
+      animation: lk-bounce-in-left var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-out);
+    }
+    &.lk-transition-leaving {
+      animation: lk-bounce-out-right var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-in);
+    }
+  }
+
+  &.lk-transition-bounce-in-right {
+    &.lk-transition-entering {
+      animation: lk-bounce-in-right var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-out);
+    }
+    &.lk-transition-leaving {
+      animation: lk-bounce-out-left var(--lk-transition-duration, 0.3s)
+        var(--lk-transition-easing, ease-in);
+    }
+  }
+
+  /* ========== Rotate 旋转 ========== */
+
+  &.lk-transition-rotate-in {
+    transform-origin: center;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: rotate(-180deg) scale(0.8);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  &.lk-transition-rotate-in-up-left {
+    transform-origin: left top;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.8);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  &.lk-transition-rotate-in-up-right {
+    transform-origin: right top;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.8);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  &.lk-transition-rotate-in-down-left {
+    transform-origin: left bottom;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.8);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  &.lk-transition-rotate-in-down-right {
+    transform-origin: right bottom;
+    &:not(.lk-transition-active) {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.8);
+    }
+    &.lk-transition-active {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+}
+
+/* ========== Bounce 动画关键帧 ========== */
+
+@keyframes lk-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes lk-bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@keyframes lk-bounce-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(60rpx) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-10rpx) scale(1.05);
+  }
+  80% {
+    transform: translateY(5rpx) scale(0.95);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lk-bounce-out-down {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(5rpx) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(60rpx) scale(0.8);
+  }
+}
+
+@keyframes lk-bounce-in-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-60rpx) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10rpx) scale(1.05);
+  }
+  80% {
+    transform: translateY(-5rpx) scale(0.95);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lk-bounce-out-up {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-5rpx) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60rpx) scale(0.8);
+  }
+}
+
+@keyframes lk-bounce-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-60rpx) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(10rpx) scale(1.05);
+  }
+  80% {
+    transform: translateX(-5rpx) scale(0.95);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes lk-bounce-out-right {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-5rpx) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(60rpx) scale(0.8);
+  }
+}
+
+@keyframes lk-bounce-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(60rpx) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-10rpx) scale(1.05);
+  }
+  80% {
+    transform: translateX(5rpx) scale(0.95);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes lk-bounce-out-left {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(5rpx) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-60rpx) scale(0.8);
+  }
+}

@@ -7,7 +7,7 @@
       </lk-popup>
     </demo-block>
 
-    <demo-block title="不同位置">
+    <demo-block title="不同位置（带默认方向动画）">
       <view class="button-row">
         <lk-button @click="showTop">顶部</lk-button>
         <lk-button @click="showBottom">底部</lk-button>
@@ -25,6 +25,23 @@
       </lk-popup>
       <lk-popup v-model="visibleRight" position="right">
         <view class="popup-content">右侧弹出</view>
+      </lk-popup>
+    </demo-block>
+
+    <demo-block title="预设与自定义动画">
+      <view class="button-row">
+        <lk-button @click="visiblePreset1 = true">preset: scale</lk-button>
+        <lk-button @click="visiblePreset2 = true">preset: bounce</lk-button>
+        <lk-button @click="visibleCustom = true">type: fade-up</lk-button>
+      </view>
+      <lk-popup v-model="visiblePreset1" animation="scale">
+        <view class="popup-content">使用预设 scale 显示</view>
+      </lk-popup>
+      <lk-popup v-model="visiblePreset2" animation="bounce">
+        <view class="popup-content">使用预设 bounce 显示</view>
+      </lk-popup>
+      <lk-popup v-model="visibleCustom" animation-type="fade-up">
+        <view class="popup-content">使用自定义动画类型 fade-up</view>
       </lk-popup>
     </demo-block>
 
@@ -49,6 +66,9 @@ const visibleTop = ref(false);
 const visibleBottom = ref(false);
 const visibleLeft = ref(false);
 const visibleRight = ref(false);
+const visiblePreset1 = ref(false);
+const visiblePreset2 = ref(false);
+const visibleCustom = ref(false);
 
 const showPopup1 = () => {
   visible1.value = true;

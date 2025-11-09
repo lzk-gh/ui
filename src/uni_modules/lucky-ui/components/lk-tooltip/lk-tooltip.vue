@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
+import {
+  useTransition,
+  ANIMATION_PRESETS,
+  type TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkTooltip' });
 
@@ -31,6 +36,12 @@ const props = defineProps({
   // 延时（ms）
   showDelay: { type: Number, default: 80 },
   hideDelay: { type: Number, default: 80 },
+  // 动画配置（可选）
+  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
+  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
+  duration: { type: Number, default: 180 },
+  delay: { type: Number, default: 0 },
+  easing: { type: String as () => TransitionConfig['easing'], default: 'ease-out' },
 });
 const emit = defineEmits(['update:modelValue', 'show', 'hide']);
 
@@ -119,6 +130,45 @@ onMounted(() => {
     emit('show');
   }
 });
+
+// 动画：默认按 placement 给出轻微的方向感
+const defaultByPlacement: Record<string, NonNullable<TransitionConfig['name']>> = {
+  top: 'fade-down',
+  bottom: 'fade-up',
+  left: 'fade-right',
+  right: 'fade-left',
+};
+
+const transitionConfig = computed<TransitionConfig>(() => {
+  if (props.animationType)
+    return {
+      name: props.animationType,
+      duration: props.duration,
+      delay: props.delay,
+      easing: props.easing,
+    };
+  if (props.animation && ANIMATION_PRESETS[props.animation]) {
+    const p = ANIMATION_PRESETS[props.animation];
+    return {
+      name: p.animation,
+      duration: props.duration ?? p.duration ?? 180,
+      delay: props.delay ?? p.delay ?? 0,
+      easing: props.easing ?? p.easing ?? 'ease-out',
+    };
+  }
+  return {
+    name: defaultByPlacement[props.placement] || 'fade',
+    duration: props.duration,
+    delay: props.delay,
+    easing: props.easing,
+  };
+});
+
+const {
+  classes: tipClasses,
+  styles: tipStyles,
+  display,
+} = useTransition(() => open.value, transitionConfig.value);
 </script>
 
 <template>
@@ -134,14 +184,14 @@ onMounted(() => {
     </view>
 
     <view
-      v-if="open"
+      v-if="display"
       class="lk-tooltip__pop lk-elevated"
       :class="placementClass"
-      :style="popStyle"
+      :style="{ ...popStyle, ...tipStyles }"
       @mouseenter="onContentEnter"
       @mouseleave="onContentLeave"
     >
-      <view class="lk-tooltip__content">
+      <view class="lk-tooltip__content" :class="tipClasses">
         <slot name="content">
           <text>{{ content }}</text>
         </slot>
@@ -176,7 +226,7 @@ onMounted(() => {
     font-size: 24rpx;
     line-height: 1.4;
     box-shadow: var(--lk-shadow-base);
-    animation: lk-tooltip-in 0.12s ease-out;
+    /* 动画交给 useTransition 控制 */
 
     // 默认 top
     top: auto;
@@ -301,12 +351,5 @@ onMounted(() => {
   }
 }
 
-@keyframes lk-tooltip-in {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* 关键帧由 useTransition 的类与过渡控制，不再需要本地 keyframes */
 </style>

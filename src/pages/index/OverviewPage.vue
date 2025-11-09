@@ -249,6 +249,12 @@ const categories = [
         desc: '下拉菜单',
         icon: 'caret-down-square',
       },
+      {
+        name: 'transition',
+        label: 'Transition',
+        desc: '过渡动画',
+        icon: 'bezier2',
+      },
     ],
   },
   {

@@ -206,12 +206,12 @@ provide('lkTabbarType', props.type ?? 'TIC');
 <style scoped lang="scss">
 .lk-tabbar {
   display: flex;
-  background-color: #fefefe;
+  background-color: var(--lk-tabbar-background, var(--lk-color-bg-container));
   // 以 CSS 变量控制顶部圆角
   border-top-left-radius: var(--lk-tabbar-top-left-radius, 14rpx);
   border-top-right-radius: var(--lk-tabbar-top-right-radius, 14rpx);
   box-sizing: border-box;
-  color: var(--lk-tabbar-inactive-color, #666666);
+  color: var(--lk-tabbar-inactive-color, var(--lk-color-text-secondary));
 
   &--top-border {
     border-top: 1px solid rgba(0, 0, 0, 0.06);
@@ -292,10 +292,10 @@ provide('lkTabbarType', props.type ?? 'TIC');
     top: -50%;
     width: 110rpx;
     height: 110rpx;
-    background-color: #eae8ff;
+    background-color: var(--lk-tabbar-indicator-bg, var(--lk-color-primary));
     border-radius: 50%;
     margin-top: 6rpx;
-    border: 12rpx solid #141414;
+    border: 12rpx solid var(--lk-tabbar-indicator-border, var(--lk-color-on-primary));
     transform: translateX(-50%);
     pointer-events: none;
     z-index: 0;
@@ -311,7 +311,7 @@ provide('lkTabbarType', props.type ?? 'TIC');
       height: 40rpx;
       background: transparent;
       border-top-right-radius: 40rpx;
-      box-shadow: 2rpx -12rpx 0 0 #141414;
+      box-shadow: 2rpx -12rpx 0 0 rgba(0, 0, 0, 0.08);
     }
 
     // 右侧对称弧形
@@ -324,7 +324,7 @@ provide('lkTabbarType', props.type ?? 'TIC');
       height: 40rpx;
       background: transparent;
       border-top-left-radius: 40rpx;
-      box-shadow: -2rpx -12rpx 0 0 #141414;
+      box-shadow: -2rpx -12rpx 0 0 rgba(0, 0, 0, 0.08);
     }
   }
 
@@ -334,16 +334,16 @@ provide('lkTabbarType', props.type ?? 'TIC');
     left: 50%;
     top: 0;
     transform: translate(-50%, -50%);
-    width: var(--lk-tabbar-fab-size, 110rpx);
-    height: var(--lk-tabbar-fab-size, 110rpx);
-    border-radius: 50%;
-    background-color: #eae8ff;
-    border: 12rpx solid #141414;
+  width: var(--lk-tabbar-fab-size, 110rpx);
+  height: var(--lk-tabbar-fab-size, 110rpx);
+  border-radius: 50%;
+  background-color: var(--lk-tabbar-fab-bg, var(--lk-color-primary));
+  border: 12rpx solid var(--lk-tabbar-fab-border, var(--lk-color-on-primary));
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    color: var(--lk-tabbar-active-color, var(--lk-color-primary));
+  color: var(--lk-tabbar-active-color, var(--lk-color-on-primary));
     box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.18);
 
     // 左右弧形与 TIC 风格保持一致

@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ref, provide, watch } from 'vue';
+import { ref, provide, watch, computed } from 'vue';
+import {
+  useTransition,
+  ANIMATION_PRESETS,
+  type TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkDropdown' });
 
@@ -8,6 +13,12 @@ const props = defineProps({
   trigger: { type: String, default: 'click' }, // click | hover
   placement: { type: String, default: 'bottom' },
   closeOnSelect: { type: Boolean, default: true },
+  // 动画配置
+  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
+  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
+  duration: { type: Number, default: 180 },
+  delay: { type: Number, default: 0 },
+  easing: { type: String as () => TransitionConfig['easing'], default: 'ease-out' },
 });
 const emit = defineEmits(['update:modelValue', 'change', 'show', 'hide', 'select']);
 
@@ -47,6 +58,42 @@ provide('LkDropdown', {
   selectItem,
   closeOnSelect: props.closeOnSelect,
 });
+
+const defaultByPlacement: Record<string, NonNullable<TransitionConfig['name']>> = {
+  bottom: 'fade-up',
+  top: 'fade-down',
+  left: 'fade-right',
+  right: 'fade-left',
+};
+const transitionConfig = computed<TransitionConfig>(() => {
+  if (props.animationType)
+    return {
+      name: props.animationType,
+      duration: props.duration,
+      delay: props.delay,
+      easing: props.easing,
+    };
+  if (props.animation && ANIMATION_PRESETS[props.animation]) {
+    const p = ANIMATION_PRESETS[props.animation];
+    return {
+      name: p.animation,
+      duration: props.duration ?? p.duration ?? 180,
+      delay: props.delay ?? p.delay ?? 0,
+      easing: props.easing ?? p.easing ?? 'ease-out',
+    };
+  }
+  return {
+    name: defaultByPlacement[props.placement] || 'fade',
+    duration: props.duration,
+    delay: props.delay,
+    easing: props.easing,
+  };
+});
+const {
+  classes: menuClasses,
+  styles: menuStyles,
+  display,
+} = useTransition(() => open.value, transitionConfig.value);
 </script>
 
 <template>
@@ -54,7 +101,12 @@ provide('LkDropdown', {
     <view class="lk-dropdown__trigger" @click="onTriggerClick">
       <slot />
     </view>
-    <view v-if="open" class="lk-dropdown__menu lk-elevated">
+    <view
+      v-if="display"
+      class="lk-dropdown__menu lk-elevated"
+      :class="menuClasses"
+      :style="menuStyles"
+    >
       <slot name="menu" />
     </view>
   </view>
@@ -79,18 +131,9 @@ provide('LkDropdown', {
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-base);
     padding: 12rpx 0;
-    animation: lk-dd-in 0.18s;
+    /* 动画交由 useTransition 控制 */
     z-index: 2400;
   }
 }
-@keyframes lk-dd-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6rpx);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* keyframes 由通用过渡替代，不再需要本地声明 */
 </style>

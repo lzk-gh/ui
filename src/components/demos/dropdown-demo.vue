@@ -1,6 +1,6 @@
 <template>
   <view class="component-demo">
-    <demo-block title="基础用法">
+    <demo-block title="基础用法（带淡入动画）">
       <lk-dropdown>
         <lk-button>下拉菜单 <lk-icon name="chevron-down" /></lk-button>
         <template #menu>
@@ -22,8 +22,8 @@
       </lk-dropdown>
     </demo-block>
 
-    <demo-block title="带图标">
-      <lk-dropdown>
+    <demo-block title="带图标（自定义动画）">
+      <lk-dropdown animation-type="fade-up" :duration="220">
         <lk-button type="primary">操作 <lk-icon name="chevron-down" /></lk-button>
         <template #menu>
           <lk-dropdown-item name="edit"> <lk-icon name="pencil-square" /> 编辑 </lk-dropdown-item>

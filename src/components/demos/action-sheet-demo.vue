@@ -5,18 +5,26 @@
       <lk-action-sheet v-model="visible1" :actions="actions1" @select="handleSelect" />
     </demo-block>
 
-    <demo-block title="带标题">
+    <demo-block title="带标题（使用预设动画）">
       <lk-button type="primary" @click="showActionSheet2">带标题</lk-button>
-      <lk-action-sheet v-model="visible2" title="请选择操作" :actions="actions1" />
+      <lk-action-sheet
+        v-model="visible2"
+        title="请选择操作"
+        :actions="actions1"
+        animation="quick"
+      />
     </demo-block>
 
-    <demo-block title="带描述">
+    <demo-block title="带描述（自定义动画类型）">
       <lk-button type="primary" @click="showActionSheet3">带描述</lk-button>
       <lk-action-sheet
         v-model="visible3"
         title="请选择"
         description="选择你要进行的操作"
         :actions="actions1"
+        animation-type="fade-up"
+        :duration="320"
+        easing="ease-out"
       />
     </demo-block>
 

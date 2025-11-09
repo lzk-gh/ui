@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { watch, defineProps, defineEmits } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
+import {
+  ANIMATION_PRESETS,
+  type TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkActionSheet' });
 
@@ -20,6 +24,12 @@ const props = defineProps({
   cancelText: { type: String, default: '取消' },
   closeOnClickAction: { type: Boolean, default: true },
   safeArea: { type: Boolean, default: true },
+  // 透传动画到 Popup（默认使用 bottom 方向的 slide-up）
+  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
+  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
+  duration: { type: Number, default: undefined },
+  delay: { type: Number, default: undefined },
+  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
 });
 
 const emit = defineEmits<{
@@ -60,6 +70,11 @@ function onPopupModelChange(v: boolean) {
     :model-value="modelValue"
     position="bottom"
     :round="true"
+    :animation="animation"
+    :animation-type="animationType"
+    :duration="duration"
+    :delay="delay"
+    :easing="easing"
     @update:modelValue="onPopupModelChange"
   >
     <view class="lk-action-sheet">

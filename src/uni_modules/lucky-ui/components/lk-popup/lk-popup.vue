@@ -1,19 +1,32 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { computed } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import {
+  useTransition,
+  ANIMATION_PRESETS,
+  type TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkPopup' });
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
-  position: { type: String, default: 'center' }, // center|top|bottom|left|right
+  position: {
+    type: String as () => 'center' | 'top' | 'bottom' | 'left' | 'right',
+    default: 'center',
+  },
   round: { type: Boolean, default: true },
   overlay: { type: Boolean, default: true },
   closeOnOverlay: { type: Boolean, default: true },
   lockScroll: { type: Boolean, default: true },
   zIndex: { type: Number, default: 1300 },
-  duration: { type: Number, default: 260 },
   safeArea: { type: Boolean, default: true },
+  // 统一动画配置（与 Modal 保持一致）
+  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
+  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
+  duration: { type: Number, default: undefined },
+  delay: { type: Number, default: undefined },
+  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
 });
 const emit = defineEmits([
   'update:modelValue',
@@ -24,52 +37,66 @@ const emit = defineEmits([
   'after-leave',
 ]);
 
-const internalShow = ref(false); // 实际渲染
-const animState = ref<'enter' | 'leave' | ''>('');
-const display = computed(() => internalShow.value);
+// 根据 position 给出合理默认动画
+const defaultByPosition: Record<string, NonNullable<TransitionConfig['name']>> = {
+  center: 'zoom-in',
+  top: 'slide-down',
+  bottom: 'slide-up',
+  left: 'slide-right',
+  right: 'slide-left',
+};
 
-function open() {
-  if (internalShow.value) return;
-  internalShow.value = true;
-  animState.value = 'enter';
-  emit('open');
-  setTimeout(() => emit('after-enter'), props.duration);
-}
-function close() {
-  if (!internalShow.value) return;
-  animState.value = 'leave';
-  emit('close');
-  setTimeout(() => {
-    internalShow.value = false;
-    emit('after-leave');
-  }, props.duration);
-}
+const transitionConfig = computed<TransitionConfig>(() => {
+  // 优先使用 animationType
+  if (props.animationType) {
+    return {
+      name: props.animationType,
+      duration: props.duration ?? 260,
+      delay: props.delay,
+      easing: props.easing ?? 'ease-out',
+    };
+  }
+  // 其次使用预设 animation
+  if (props.animation && ANIMATION_PRESETS[props.animation]) {
+    const p = ANIMATION_PRESETS[props.animation];
+    return {
+      name: p.animation,
+      duration: props.duration ?? p.duration ?? 260,
+      delay: props.delay ?? p.delay,
+      easing: props.easing ?? p.easing ?? 'ease-out',
+    };
+  }
+  // 最后根据位置给默认
+  const name = defaultByPosition[props.position] || 'zoom-in';
+  return {
+    name,
+    duration: props.duration ?? 260,
+    delay: props.delay ?? 0,
+    easing: props.easing ?? 'ease-out',
+  };
+});
 
-watch(
-  () => props.modelValue,
-  v => (v ? open() : close()),
-  { immediate: true }
-);
+const {
+  classes: transitionClasses,
+  styles: transitionStyles,
+  display,
+} = useTransition(() => props.modelValue, transitionConfig.value, {
+  onAfterEnter: () => emit('after-enter'),
+  onAfterLeave: () => emit('after-leave'),
+});
 
 function onOverlayClick() {
   emit('click-overlay');
   if (props.closeOnOverlay) emit('update:modelValue', false);
 }
 
-const klass = computed(() => [
+const wrapperClass = computed(() => [
   'lk-popup',
   `lk-popup--${props.position}`,
-  {
-    'is-round': props.round,
-    'is-enter': animState.value === 'enter',
-    'is-leave': animState.value === 'leave',
-  },
+  { 'is-round': props.round },
 ]);
 
-const boxStyle = computed(() => ({
-  zIndex: props.zIndex + 1,
-  animationDuration: props.duration + 'ms',
-}));
+const wrapperStyle = computed(() => ({ zIndex: props.zIndex + 1 }));
 </script>
 
 <template>
@@ -78,178 +105,64 @@ const boxStyle = computed(() => ({
     :show="true"
     :z-index="zIndex"
     :lock-scroll="lockScroll"
-    :duration="duration"
     :close-on-click="closeOnOverlay"
     @click="onOverlayClick"
   />
-  <view v-if="display" :class="klass" :style="boxStyle" @touchmove.stop>
-    <slot />
-    <view v-if="safeArea && position === 'bottom'" class="lk-popup__safe" />
+  <view v-if="display" :class="wrapperClass" :style="wrapperStyle" @touchmove.stop>
+    <view class="lk-popup__panel" :class="transitionClasses" :style="transitionStyles">
+      <slot />
+      <view v-if="safeArea && position === 'bottom'" class="lk-popup__safe" />
+    </view>
   </view>
 </template>
 
 <style scoped lang="scss">
 .lk-popup {
   position: fixed;
-  background: var(--lk-color-bg-surface);
-  color: var(--lk-color-text);
-  box-shadow: var(--lk-shadow-base);
   max-width: 100%;
   max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  animation-fill-mode: forwards;
-
-  &.is-round {
-    border-radius: var(--lk-radius-lg);
-  }
 
   &--center {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    &.is-enter {
-      animation: lk-pop-in var(--dur) ease;
-    }
-    &.is-leave {
-      animation: lk-pop-out var(--dur) ease;
-    }
   }
   &--bottom {
     left: 0;
     right: 0;
     bottom: 0;
-    animation: lk-slide-up-in var(--dur) ease;
-    &.is-leave {
-      animation: lk-slide-up-out var(--dur) ease;
-    }
-    border-top-left-radius: var(--lk-radius-lg);
-    border-top-right-radius: var(--lk-radius-lg);
   }
   &--top {
     left: 0;
     right: 0;
     top: 0;
-    animation: lk-slide-down-in var(--dur) ease;
-    &.is-leave {
-      animation: lk-slide-down-out var(--dur) ease;
-    }
-    border-bottom-left-radius: var(--lk-radius-lg);
-    border-bottom-right-radius: var(--lk-radius-lg);
   }
   &--left {
     top: 0;
     bottom: 0;
     left: 0;
     width: 70%;
-    animation: lk-slide-right-in var(--dur) ease;
-    &.is-leave {
-      animation: lk-slide-right-out var(--dur) ease;
-    }
   }
   &--right {
     top: 0;
     bottom: 0;
     right: 0;
     width: 70%;
-    animation: lk-slide-left-in var(--dur) ease;
-    &.is-leave {
-      animation: lk-slide-left-out var(--dur) ease;
-    }
+  }
+
+  &__panel {
+    background: var(--lk-color-bg-surface);
+    color: var(--lk-color-text);
+    box-shadow: var(--lk-shadow-base);
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--lk-radius-lg);
   }
 
   &__safe {
     height: env(safe-area-inset-bottom);
-  }
-}
-
-/* 使用 CSS 变量接收 duration */
-.lk-popup {
-  --dur: inherit;
-}
-
-@keyframes lk-pop-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-@keyframes lk-pop-out {
-  from {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
-  }
-}
-@keyframes lk-slide-up-in {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes lk-slide-up-out {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100%);
-  }
-}
-@keyframes lk-slide-down-in {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes lk-slide-down-out {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-100%);
-  }
-}
-@keyframes lk-slide-left-in {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes lk-slide-left-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
-@keyframes lk-slide-right-in {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes lk-slide-right-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
   }
 }
 </style>

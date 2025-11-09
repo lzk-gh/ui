@@ -73,6 +73,7 @@
           <OverlayDemo v-else-if="componentName === 'overlay'" />
           <TooltipDemo v-else-if="componentName === 'tooltip'" />
           <DropdownDemo v-else-if="componentName === 'dropdown'" />
+          <TransitionDemo v-else-if="componentName === 'transition'" />
 
           <NavbarDemo v-else-if="componentName === 'navbar'" />
           <TabbarDemo v-else-if="componentName === 'tabbar'" />
@@ -426,6 +427,12 @@ const componentMap: Record<string, any> = {
     icon: 'menu-down',
     color: 'danger',
   },
+  transition: {
+    title: 'Transition 过渡动画',
+    desc: '丰富的过渡动画效果',
+    icon: 'bezier2',
+    color: 'primary',
+  },
 
   // 导航组件
   navbar: {
@@ -602,6 +609,7 @@ import DrawerDemo from '@/components/demos/drawer-demo.vue';
 import OverlayDemo from '@/components/demos/overlay-demo.vue';
 import TooltipDemo from '@/components/demos/tooltip-demo.vue';
 import DropdownDemo from '@/components/demos/dropdown-demo.vue';
+import TransitionDemo from '@/components/demos/transition-demo.vue';
 
 // 导航组件
 import NavbarDemo from '@/components/demos/navbar-demo.vue';
@@ -680,6 +688,7 @@ const demoComponentMap: Record<string, any> = {
   overlay: OverlayDemo,
   tooltip: TooltipDemo,
   dropdown: DropdownDemo,
+  transition: TransitionDemo,
 
   // 导航组件
   navbar: NavbarDemo,

@@ -41,12 +41,23 @@
       </view>
     </demo-block>
 
-    <demo-block title="位置（placement）">
+    <demo-block title="位置（placement + 动画方向）">
       <view class="demo-grid">
         <lk-tooltip content="Top" placement="top"><lk-button>Top</lk-button></lk-tooltip>
-        <lk-tooltip content="Right" placement="right"><lk-button>Right</lk-button></lk-tooltip>
-        <lk-tooltip content="Bottom" placement="bottom"><lk-button>Bottom</lk-button></lk-tooltip>
-        <lk-tooltip content="Left" placement="left"><lk-button>Left</lk-button></lk-tooltip>
+        <lk-tooltip content="Right" placement="right" animation-type="fade-left"
+          ><lk-button>Right</lk-button></lk-tooltip
+        >
+        <lk-tooltip
+          content="Bottom"
+          placement="bottom"
+          :duration="260"
+          easing="ease-out"
+          animation="quick"
+          ><lk-button>Bottom</lk-button></lk-tooltip
+        >
+        <lk-tooltip content="Left" placement="left" animation-type="fade-right"
+          ><lk-button>Left</lk-button></lk-tooltip
+        >
       </view>
     </demo-block>
 

@@ -10,23 +10,23 @@
       </lk-drawer>
     </demo-block>
 
-    <demo-block title="不同方向">
+    <demo-block title="不同方向（带默认动画，可覆盖）">
       <view class="button-row">
         <lk-button @click="showLeft">左侧</lk-button>
         <lk-button @click="showRight">右侧</lk-button>
         <lk-button @click="showTop">顶部</lk-button>
         <lk-button @click="showBottom">底部</lk-button>
       </view>
-      <lk-drawer v-model="visibleLeft" position="left">
+      <lk-drawer v-model="visibleLeft" position="left" animation-type="slide-right">
         <view class="drawer-content">左侧抽屉</view>
       </lk-drawer>
-      <lk-drawer v-model="visibleRight" position="right">
+      <lk-drawer v-model="visibleRight" position="right" animation="normal">
         <view class="drawer-content">右侧抽屉</view>
       </lk-drawer>
-      <lk-drawer v-model="visibleTop" position="top">
+      <lk-drawer v-model="visibleTop" position="top" :duration="300" easing="ease-out">
         <view class="drawer-content">顶部抽屉</view>
       </lk-drawer>
-      <lk-drawer v-model="visibleBottom" position="bottom">
+      <lk-drawer v-model="visibleBottom" position="bottom" animation-type="slide-up">
         <view class="drawer-content">底部抽屉</view>
       </lk-drawer>
     </demo-block>
