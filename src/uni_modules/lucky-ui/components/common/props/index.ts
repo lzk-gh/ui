@@ -79,6 +79,16 @@ export const LkProp = {
   }),
 
   /**
+   * 数字类型
+   * @param def 默认值
+   * @returns
+   */
+  number: <D extends number>(def: D) => ({
+    type: Number as unknown as PropType<number>,
+    default: def,
+  }),
+
+  /**
    * 布尔类型
    * @param def 默认值
    * @returns

@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { avatarProps } from './avatar.props';
+
 defineOptions({ name: 'LkAvatar' });
 
-const props = defineProps({
-  src: { type: String, default: '' },
-  text: { type: String, default: '' },
-  size: { type: String, default: '48' }, // rpx or px string
-  round: { type: Boolean, default: true },
-  shape: { type: String, default: 'circle' }, // circle | square | rounded
-  alt: { type: String, default: '' },
-  bg: { type: String, default: '' },
-});
+const props = defineProps(avatarProps);
 const hasError = ref(false);
+
 watch(
   () => props.src,
   () => (hasError.value = false)
@@ -30,6 +25,7 @@ function onError() {
       width: size + 'rpx',
       height: size + 'rpx',
       background: bg || 'var(--lk-color-primary-bg-soft)',
+      color: color || 'var(--lk-color-primary-active)',
     }"
   >
     <image
@@ -39,9 +35,7 @@ function onError() {
       mode="aspectFill"
       @error="onError"
     />
-    <text v-else class="lk-avatar__text">
-      <slot>{{ text.slice(0, 1).toUpperCase() }}</slot>
-    </text>
+    <slot v-else>{{ text.slice(0, 1).toUpperCase() }}</slot>
   </view>
 </template>
 
@@ -72,9 +66,6 @@ function onError() {
   &.is-fallback {
     font-weight: 600;
     letter-spacing: 1rpx;
-  }
-  &__text {
-    line-height: 1;
   }
 }
 </style>

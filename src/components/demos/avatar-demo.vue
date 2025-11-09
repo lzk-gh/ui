@@ -38,13 +38,13 @@
     <demo-block title="带图标">
       <view class="demo-row">
         <lk-avatar>
-          <lk-icon name="house-fill" size="32" />
+          <lk-icon name="house" size="32" />
         </lk-avatar>
         <lk-avatar>
           <lk-icon name="upload" size="32" />
         </lk-avatar>
         <lk-avatar shape="square">
-          <lk-icon name="building" size="32" />
+          <lk-icon name="house" size="32" />
         </lk-avatar>
       </view>
     </demo-block>
@@ -63,13 +63,12 @@
       </view>
     </demo-block>
 
-    <demo-block title="头像组">
-      <view class="avatar-group">
-        <lk-avatar text="A" size="56" />
-        <lk-avatar text="B" size="56" />
-        <lk-avatar text="C" size="56" />
-        <lk-avatar text="D" size="56" />
-        <lk-avatar text="+5" size="56" color="#999" />
+    <demo-block title="带图片">
+      <view class="demo-row">
+        <lk-avatar src="https://picsum.photos/800/600?random=12" size="64" />
+        <lk-avatar src="https://picsum.photos/800/600?random=13" size="64" />
+        <lk-avatar src="https://picsum.photos/800/600?random=14" size="64" />
+        <lk-avatar src="https://picsum.photos/800/600?random=15" size="64" />
       </view>
     </demo-block>
   </view>
@@ -94,19 +93,5 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   align-items: center;
   flex-wrap: wrap;
   gap: 16rpx;
-}
-
-.avatar-group {
-  display: flex;
-  align-items: center;
-
-  :deep(.lk-avatar) {
-    margin-left: -16rpx;
-    border: 4rpx solid var(--lk-color-bg-surface);
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
 }
 </style>
