@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
-import { lkFormItemProps } from './types';
+import { formItemProps } from './form.props';
 import {
   formContextKey,
   type FormContext,
@@ -10,7 +10,7 @@ import {
 } from './context';
 
 defineOptions({ name: 'LkFormItem' });
-const props = defineProps(lkFormItemProps);
+const props = defineProps(formItemProps);
 const form = inject(formContextKey, null as FormContext | null);
 
 const status = ref<'idle' | 'validating' | 'success' | 'error'>('idle');

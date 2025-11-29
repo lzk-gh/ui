@@ -1,38 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, provide } from 'vue';
+import { tabbarProps, tabbarEmits } from './tabbar.props';
+import type { TabbarType } from './tabbar.props';
 
 defineOptions({ name: 'LkTabbar' });
 
-type TabbarType = 'TIC' | 'FAB' | 'CONCISE' | 'CAPSULE';
+const props = defineProps(tabbarProps);
 
-const props = defineProps<{
-  modelValue?: string;
-  fixed?: boolean;
-  safeArea?: boolean;
-  zIndex?: number;
-  type?: TabbarType;
-  // 自定义样式能力
-  backgroundColor?: string; // 背景颜色
-  topBorder?: boolean; // 顶部边框
-  topLeftRadius?: number | string; // 左上角圆角
-  topRightRadius?: number | string; // 右上角圆角
-  topShadow?: boolean; // 顶部阴影
-  activeColor?: string; // 激活颜色（图标/文字）
-  inactiveColor?: string; // 未激活颜色（图标/文字）
-  // 全局磨砂效果（可在任何 type 上启用）
-  frosted?: boolean;
-  // FAB 相关
-  fabSize?: number | string; // FAB 直径
-  // 胶囊相关参数（用于 CAPSULE 类型）
-  capsuleWidth?: number | string; // 胶囊容器宽度（数字视为 rpx）
-  capsuleOffset?: number | string; // 胶囊距离底部/上浮位移（数字视为 rpx）
-}>();
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', val: string): void;
-  (e: 'change', val: string): void;
-  (e: 'fab-click'): void;
-}>();
+const emit = defineEmits(tabbarEmits);
 
 // 获取系统信息（用于安全区与占位高度）
 const sys =

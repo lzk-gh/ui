@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, provide, watch, computed } from 'vue';
+import { dropdownProps, dropdownEmits } from './dropdown.props';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -8,19 +9,8 @@ import {
 
 defineOptions({ name: 'LkDropdown' });
 
-const props = defineProps({
-  modelValue: { type: [String, Number], default: '' }, // active menu name
-  trigger: { type: String, default: 'click' }, // click | hover
-  placement: { type: String, default: 'bottom' },
-  closeOnSelect: { type: Boolean, default: true },
-  // 动画配置
-  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
-  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
-  duration: { type: Number, default: 180 },
-  delay: { type: Number, default: 0 },
-  easing: { type: String as () => TransitionConfig['easing'], default: 'ease-out' },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'show', 'hide', 'select']);
+const props = defineProps(dropdownProps);
+const emit = defineEmits(dropdownEmits);
 
 const open = ref(false);
 const active = ref(props.modelValue);

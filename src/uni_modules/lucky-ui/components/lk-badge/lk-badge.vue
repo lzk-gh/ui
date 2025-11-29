@@ -1,26 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { PropType } from 'vue';
+import { badgeProps } from './badge.props';
 defineOptions({ name: 'LkBadge' });
 
-const props = defineProps({
-  value: { type: [Number, String], default: '' },
-  max: { type: Number, default: 99 },
-  dot: { type: Boolean, default: false },
-  hidden: { type: Boolean, default: false },
-  offset: {
-    type: Array,
-    default: () => [0, 0],
-    validator: (value: any) =>
-      Array.isArray(value) &&
-      value.length === 2 &&
-      typeof value[0] === 'number' &&
-      typeof value[1] === 'number',
-  },
-  type: { type: String, default: 'primary' },
-  color: { type: String, default: '' },
-  bgColor: { type: String, default: '' },
-});
+const props = defineProps(badgeProps);
 
 const displayValue = computed(() => {
   if (props.dot) return '';

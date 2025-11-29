@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { dividerProps } from './divider.props';
 
 defineOptions({ name: 'LkDivider' });
 
-const props = defineProps({
-  dashed: { type: Boolean, default: false },
-  vertical: { type: Boolean, default: false },
-  text: { type: String, default: '' },
-  hairline: { type: Boolean, default: true },
-  textPosition: { type: [String, Number], default: 'center' },
-});
+const props = defineProps(dividerProps);
 
 const textStyle = computed(() => {
   const base: Record<string, string> = {

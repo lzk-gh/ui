@@ -1,25 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import { rateProps, rateEmits } from './rate.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
 
 defineOptions({ name: 'LkRate' });
 
-const props = defineProps({
-  modelValue: { type: Number, default: 0 },
-  count: { type: Number, default: 5 },
-  allowHalf: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  readonly: { type: Boolean, default: false },
-  // 支持数字或字符串，纯数字会自动拼接 rpx
-  size: { type: [String, Number], default: 40 },
-  // 选中部分颜色（前景色），为空时使用主题色
-  color: { type: String, default: '' },
-  // 使用自定义图标名（lk-icon），为空时使用内置 SVG 星形
-  icon: { type: String, default: '' },
-  prop: { type: String, default: '' },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'hover']);
+const props = defineProps(rateProps);
+const emit = defineEmits(rateEmits);
 
 const form = inject(formContextKey, null);
 

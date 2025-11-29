@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { lkPickerProps, lkPickerEmits } from './types';
+import { pickerProps, pickerEmits } from './picker.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkPickerView from '../lk-picker-view/lk-picker-view.vue';
 
 defineOptions({ name: 'LkPicker' });
 
-const props = defineProps(lkPickerProps);
-const emit = defineEmits(lkPickerEmits);
+const props = defineProps(pickerProps);
+const emit = defineEmits(pickerEmits);
 
 const innerValue = ref<any>(props.modelValue);
 

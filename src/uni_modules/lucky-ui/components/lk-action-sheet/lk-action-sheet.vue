@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { watch, defineProps, defineEmits } from 'vue';
+import { watch } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
+import { actionSheetProps, actionSheetEmits, type Action } from './action-sheet.props';
 import {
   ANIMATION_PRESETS,
   type TransitionConfig,
@@ -8,37 +9,9 @@ import {
 
 defineOptions({ name: 'LkActionSheet' });
 
-interface Action {
-  name: string;
-  sub?: string;
-  disabled?: boolean;
-  color?: string;
-  loading?: boolean;
-}
+const props = defineProps(actionSheetProps);
 
-const props = defineProps({
-  modelValue: { type: Boolean, default: false },
-  title: { type: String, default: '' },
-  description: { type: String, default: '' },
-  actions: { type: Array as () => Action[], default: () => [] },
-  cancelText: { type: String, default: '取消' },
-  closeOnClickAction: { type: Boolean, default: true },
-  safeArea: { type: Boolean, default: true },
-  // 透传动画到 Popup（默认使用 bottom 方向的 slide-up）
-  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
-  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
-  duration: { type: Number, default: undefined },
-  delay: { type: Number, default: undefined },
-  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
-});
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', v: boolean): void;
-  (e: 'select', payload: { action: Action; index: number }): void;
-  (e: 'cancel'): void;
-  (e: 'open'): void;
-  (e: 'close'): void;
-}>();
+const emit = defineEmits(actionSheetEmits);
 
 watch(
   () => props.modelValue,

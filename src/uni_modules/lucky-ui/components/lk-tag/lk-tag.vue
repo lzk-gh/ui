@@ -111,7 +111,7 @@ const customStyle = computed<CSSProperties>(() => {
   }
   &.is-round {
     border-radius: var(--lk-radius-pill);
-  }
+  } 
   &__close {
     font-size: 28rpx;
     line-height: 1;

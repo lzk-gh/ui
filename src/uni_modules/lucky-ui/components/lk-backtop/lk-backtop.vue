@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { onPageScroll } from '@dcloudio/uni-app';
+import { backtopProps, backtopEmits } from './backtop.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 /**
@@ -10,36 +11,9 @@ import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 defineOptions({ name: 'LkBacktop' });
 
-const props = defineProps({
-  // 在滚动高度超过多少（px）后显示
-  visibilityHeight: { type: Number, default: 200 },
-  // 右下角偏移（支持 rpx/px）
-  right: { type: [String, Number], default: '32rpx' },
-  bottom: { type: [String, Number], default: '80rpx' },
-  // 层级
-  zIndex: { type: Number, default: 1000 },
-  // 回到顶部动画时长（ms）
-  duration: { type: Number, default: 300 },
-  // 形状：circle | square | round
-  shape: {
-    type: String as () => 'circle' | 'square' | 'round',
-    default: 'circle',
-  },
-  // 尺寸：sm | md | lg
-  size: { type: String as () => 'sm' | 'md' | 'lg', default: 'md' },
-  // 默认图标名（使用内置 lk-icon）
-  icon: { type: String, default: 'arrow-up' },
-  // 文本（提供给无图标或自定义 slot 辅助）
-  text: { type: String, default: '' },
-  // 自定义类名
-  customClass: { type: String, default: '' },
-  // 是否使用页面滚动监听；为 false 时走受控模式，由 scrollTop 决定显隐
-  usePageScroll: { type: Boolean, default: true },
-  // 外部传入的滚动位置（与 usePageScroll=false 配合使用）
-  scrollTop: { type: Number, default: 0 },
-});
+const props = defineProps(backtopProps);
 
-const emit = defineEmits(['click', 'to-top', 'change:visible']);
+const emit = defineEmits(backtopEmits);
 
 const visible = ref(false);
 const computedVisible = computed(() => {

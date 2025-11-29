@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { overlayProps, overlayEmits } from './overlay.props';
 
 defineOptions({ name: 'LkOverlay' });
 
@@ -11,31 +12,8 @@ const hasRAF = typeof requestAnimationFrame === 'function';
 const rAF = (cb: () => void): number =>
   hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
 
-const props = defineProps({
-  // 是否显示（受控）
-  show: { type: Boolean, default: false },
-  // v-model 兼容：modelValue（优先于 show）
-  modelValue: { type: Boolean, default: undefined as unknown as boolean },
-  // 层级
-  zIndex: { type: Number, default: 1200 },
-  // 透明度（当未设置 background 时生效）
-  opacity: { type: Number, default: 0.55 },
-  // 覆盖背景色（优先级高于 opacity）
-  background: { type: String, default: '' },
-  // 点击是否自动关闭（发出 update:show=false）
-  closeOnClick: { type: Boolean, default: true },
-  // 锁定滚动（H5: body overflow hidden；小程序：阻止touchmove）
-  lockScroll: { type: Boolean, default: true },
-  // 动画时长（ms）
-  duration: { type: Number, default: 240 },
-});
-const emit = defineEmits([
-  'click',
-  'update:show',
-  'update:modelValue',
-  'after-enter',
-  'after-leave',
-]);
+const props = defineProps(overlayProps);
+const emit = defineEmits(overlayEmits);
 
 // 内部控制显示以支持离场动画
 const display = ref(false);

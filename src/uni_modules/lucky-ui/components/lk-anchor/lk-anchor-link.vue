@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { lkAnchorLinkProps } from './types';
+import { anchorLinkProps } from './anchor.props';
 
 defineOptions({ name: 'LkAnchorLink' });
 
-const props = defineProps(lkAnchorLinkProps);
+const props = defineProps(anchorLinkProps);
 const active = inject<any>('lk-anchor-active');
 
 const isActive = computed(() => active?.value === props.href);

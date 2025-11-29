@@ -1,28 +1,14 @@
 <script setup lang="ts">
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import { inputProps, inputEmits } from './input.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
 
 defineOptions({ name: 'LkInput' });
 
-const props = defineProps({
-  modelValue: { type: [String, Number], default: '' },
-  size: { type: String, default: 'md' },
-  type: { type: String, default: 'text' },
-  placeholder: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
-  readonly: { type: Boolean, default: false },
-  clearable: { type: Boolean, default: true },
-  maxlength: { type: Number, default: -1 },
-  showCount: { type: Boolean, default: false },
-  prop: { type: String, default: '' },
-  autofocus: { type: Boolean, default: false },
-  prefixIcon: { type: String, default: '' },
-  suffixIcon: { type: String, default: '' },
-  showWordLimit: { type: Boolean, default: false },
-});
+const props = defineProps(inputProps);
 
-const emit = defineEmits(['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear']);
+const emit = defineEmits(inputEmits);
 
 const form = inject(formContextKey, null);
 

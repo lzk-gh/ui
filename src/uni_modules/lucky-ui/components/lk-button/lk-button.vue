@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { lkButtonProps, lkButtonEmits } from './types';
+import { buttonProps, buttonEmits } from './button.props';
 
 defineOptions({ name: 'LkButton' });
 
-const props = defineProps(lkButtonProps);
-const emit = defineEmits(lkButtonEmits);
+const props = defineProps(buttonProps);
+const emit = defineEmits(buttonEmits);
 
 const cls = computed(() => [
   'lk-button',

@@ -1,20 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { uploadProps, uploadEmits } from './upload.props';
 defineOptions({ name: 'LkUpload' });
 
-const props = defineProps({
-  modelValue: { type: Array as () => string[], default: () => [] },
-  multiple: { type: Boolean, default: true },
-  max: { type: Number, default: 9 },
-  disabled: { type: Boolean, default: false },
-  accept: { type: String, default: 'image/*' },
-  selectable: { type: Boolean, default: true },
-  sizeType: { type: Array as () => string[], default: () => ['compressed'] },
-  capture: { type: Array as () => string[], default: () => [] },
-  deletable: { type: Boolean, default: true },
-  preview: { type: Boolean, default: true },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'remove', 'add', 'oversize']);
+const props = defineProps(uploadProps);
+const emit = defineEmits(uploadEmits);
 
 const files = ref<string[]>([...props.modelValue]);
 watch(

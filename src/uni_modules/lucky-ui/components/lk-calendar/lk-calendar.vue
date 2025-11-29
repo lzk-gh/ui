@@ -1,57 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, watch, toRef } from 'vue';
+import { calendarProps, calendarEmits } from './calendar.props';
 defineOptions({ name: 'LkCalendar' });
 
 type DateLike = Date | string | null | undefined;
 type RangeValue = [Date | null, Date | null];
 type MultipleValue = Date[];
 
-const props = defineProps({
-  // 支持 Date / [Date,Date] / Date[]，也兼容字符串输入（将被解析为 Date）
-  modelValue: {
-    type: [Date, Array, String] as unknown as () =>
-      | Date
-      | string
-      | [Date | string, Date | string]
-      | Array<Date | string>
-      | null,
-    default: null,
-  },
-  type: {
-    type: String as () => 'single' | 'range' | 'multiple',
-    default: 'single',
-  },
-  // 主题色：primary/success/warning/danger/info 或自定义 CSS 颜色值
-  color: { type: String, default: 'primary' },
-  // 禁用日期
-  disabledDate: {
-    type: Function as unknown as () => (d: Date) => boolean,
-    default: undefined,
-  },
-  // 最小/最大日期（兼容老的 min/max 字符串）
-  minDate: {
-    type: [Date, String] as unknown as () => Date | string | null,
-    default: null,
-  },
-  maxDate: {
-    type: [Date, String] as unknown as () => Date | string | null,
-    default: null,
-  },
-  min: { type: String, default: '' },
-  max: { type: String, default: '' },
-  // 周起始：0 周日，1 周一（兼容原 firstDay）
-  firstDay: { type: Number, default: 1 },
-  showHeader: { type: Boolean, default: true },
-  showShortcuts: { type: Boolean, default: false },
-  // 多选最大选择数量，0 表示不限制
-  maxCount: { type: Number, default: 0 },
-  // 输出类型：'date' 或 'string'
-  valueType: { type: String as () => 'date' | 'string', default: 'date' },
-  // 当 valueType 为 'string' 时的格式
-  valueFormat: { type: String, default: 'YYYY-MM-DD' },
-});
+const props = defineProps(calendarProps);
 
-const emit = defineEmits(['update:modelValue', 'change', 'month-change', 'confirm', 'clear']);
+const emit = defineEmits(calendarEmits);
 
 // 工具函数
 function pad(n: number) {

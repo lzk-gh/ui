@@ -1,18 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { loadingProps } from './loading.props';
+
 defineOptions({ name: 'LkLoading' });
 
-import { computed } from 'vue';
-
-const props = defineProps({
-  // 支持 number 或 string（rpx）以兼容现有用法
-  size: { type: [String, Number], default: '40' }, // rpx
-  color: { type: String, default: 'var(--lk-color-primary)' },
-  // 保留老的 `variant`，同时新增 `type`，以便逐步迁移
-  variant: { type: String, default: 'spinner' }, // spinner|dots|bar
-  type: { type: String, default: undefined }, // 优先级高于 variant
-  vertical: { type: Boolean, default: false },
-  text: { type: String, default: '' },
-});
+const props = defineProps(loadingProps);
 
 const _type = computed(() => {
   // type 优先，其次 variant（向后兼容）

@@ -1,81 +1,9 @@
 <script lang="ts" setup>
 import { ref, computed, watch, nextTick, getCurrentInstance, onMounted, useSlots } from 'vue';
+import { carouselProps } from './carousel.props';
 import lkCarouselItem from './lk-carousel-item.vue';
 
-interface Props {
-  carouselList?: any[];
-  current?: number; // v-model:current
-  autoPlay?: boolean; // 是否自动播放
-  interval?: number; // 自动播放间隔(ms)
-  // 兼容历史：effect 参数已不再生效，统一使用内置 swiper 的滑动效果
-  effect?: 'fade' | 'slide';
-  // 新增：是否垂直方向
-  vertical?: boolean;
-  // 新增：是否显示指示器
-  showIndicators?: boolean;
-  // 新增：指示器类型：点状/条状/数字
-  indicatorType?: 'dots' | 'bars' | 'number' | 'none';
-  // 新增：指示器位置；auto 会在 vertical=true 时放到 right，否则 bottom
-  indicatorPosition?: 'top' | 'bottom' | 'left' | 'right' | 'auto';
-  // 新增：指示器对齐：居中/开始/结束
-  indicatorAlign?: 'center' | 'start' | 'end';
-  // 新增：指示器是否可点击（数字类型无效）
-  indicatorClickable?: boolean;
-  // 新增：指示器颜色
-  indicatorColor?: string;
-  indicatorActiveColor?: string;
-  // 新增：卡片样式
-  card?: boolean;
-  cardPrevMargin?: string; // e.g. '40rpx'
-  cardNextMargin?: string; // e.g. '40rpx'
-  cardScale?: number; // 非激活卡片缩放
-  cardRadius?: string; // 卡片圆角
-  cardShadow?: string; // 卡片阴影
-  // 新增：预览下一张（只在一侧留白显示部分下一张）
-  peek?: boolean;
-  peekPrevMargin?: string; // e.g. '0'
-  peekNextMargin?: string; // e.g. '60rpx'
-  // 新增：指示器动画
-  indicatorAnimated?: boolean;
-  // 新增：自适应内容高度
-  autoHeight?: boolean;
-  // 新增：固定高度（autoHeight=false 时生效）
-  height?: string | number;
-  // 新增：指示器是否覆盖在内容上方（默认 true）。false 时指示器会渲染在轮播外部，不覆盖内容
-  indicatorOverlay?: boolean;
-  // 新增：是否启用循环（loop）。默认 true
-  loop?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  carouselList: () => [],
-  current: 0,
-  autoPlay: true,
-  interval: 3000,
-  effect: 'fade',
-  vertical: false,
-  showIndicators: true,
-  indicatorType: 'dots',
-  indicatorPosition: 'auto',
-  indicatorAlign: 'center',
-  indicatorClickable: true,
-  indicatorColor: 'rgba(255, 255, 255, 0.5)',
-  indicatorActiveColor: 'rgba(255, 255, 255, 1)',
-  card: false,
-  cardPrevMargin: '40rpx',
-  cardNextMargin: '40rpx',
-  cardScale: 0.92,
-  cardRadius: '16rpx',
-  cardShadow: '0 12rpx 32rpx rgba(0,0,0,0.18)',
-  peek: false,
-  peekPrevMargin: '0',
-  peekNextMargin: '60rpx',
-  indicatorAnimated: true,
-  autoHeight: false,
-  height: '400rpx',
-  indicatorOverlay: true,
-  loop: true,
-});
+const props = defineProps(carouselProps);
 
 const emit = defineEmits<{
   'update:current': [value: number];

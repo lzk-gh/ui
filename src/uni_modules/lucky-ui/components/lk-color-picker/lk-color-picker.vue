@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { lkColorPickerProps, lkColorPickerEmits } from './types';
+import { colorPickerProps, colorPickerEmits } from './color-picker.props';
 import { hsvToRgb, formatFromHSV, parseToHSV } from './utils';
 
 defineOptions({ name: 'LkColorPicker' });
 
-const props = defineProps(lkColorPickerProps);
-const emit = defineEmits(lkColorPickerEmits);
+const props = defineProps(colorPickerProps);
+const emit = defineEmits(colorPickerEmits);
 
 const hsv = ref({ h: 0, s: 1, v: 1, a: 1 });
 

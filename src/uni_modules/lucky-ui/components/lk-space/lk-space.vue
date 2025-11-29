@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, Fragment, h, useSlots } from 'vue';
-import { lkSpaceProps } from './types';
+import { spaceProps } from './space.props';
 
 defineOptions({ name: 'LkSpace' });
 
-const props = defineProps(lkSpaceProps);
+const props = defineProps(spaceProps);
 
 const sizeMap = { sm: 8, md: 16, lg: 24 } as const;
 

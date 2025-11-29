@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { lkAreaPickerProps, lkAreaPickerEmits } from './types';
+import { areaPickerProps, areaPickerEmits } from './area-picker.props';
 import { simpleChina, type RegionNode } from './data';
 import LkPicker from '../lk-picker/lk-picker.vue';
 
 defineOptions({ name: 'LkAreaPicker' });
 
-const props = defineProps(lkAreaPickerProps);
-const emit = defineEmits(lkAreaPickerEmits);
+const props = defineProps(areaPickerProps);
+const emit = defineEmits(areaPickerEmits);
 
 const inner = ref<string[]>(props.modelValue || []);
 

@@ -3,49 +3,15 @@ import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkCalendar from '../lk-calendar/lk-calendar.vue';
 import LkButton from '../lk-button/lk-button.vue';
+import { datePickerProps, datePickerEmits, type DatePickerType } from './date-picker.props';
 
 defineOptions({ name: 'LkDatePicker' });
 
-type PickerType = 'date' | 'range' | 'year-month' | 'multiple' | 'date-time' | 'range-date-time';
 type RangeValue = [Date | null, Date | null];
 
-const props = defineProps({
-  // v-model: 控制弹窗显隐
-  modelValue: { type: Boolean, default: false },
-  // 选中值（单选/范围/年月/多选/日期时间）
-  value: {
-    type: [Date, Array] as unknown as () => Date | [Date, Date] | Date[] | null,
-    default: null,
-  },
-  type: { type: String as () => PickerType, default: 'date' },
-  title: { type: String, default: '选择日期' },
-  color: { type: String, default: 'primary' },
-  firstDay: { type: Number, default: 1 },
-  showShortcuts: { type: Boolean, default: false },
-  disabledDate: {
-    type: Function as unknown as () => (d: Date) => boolean,
-    default: undefined,
-  },
-  minDate: {
-    type: [Date, String] as unknown as () => Date | string | null,
-    default: null,
-  },
-  maxDate: {
-    type: [Date, String] as unknown as () => Date | string | null,
-    default: null,
-  },
-  // 时间精度（仅 *date-time 模式下生效）
-  timePrecision: {
-    type: String as () => 'hour' | 'minute' | 'second',
-    default: 'minute',
-  },
-});
+const props = defineProps(datePickerProps);
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', v: boolean): void;
-  (e: 'confirm', v: Date | [Date, Date] | Date[] | null): void;
-  (e: 'cancel'): void;
-}>();
+const emit = defineEmits(datePickerEmits);
 
 const visible = ref<boolean>(props.modelValue);
 watch(

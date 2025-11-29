@@ -5,18 +5,12 @@ import LkButton from '../lk-button/lk-button.vue';
 import LkCalendar from '../lk-calendar/lk-calendar.vue';
 import LkTimePicker from '../lk-time-picker/lk-time-picker.vue';
 import { parseDate, formatDate } from '@/uni_modules/lucky-ui/utils/date-utils';
+import { dateTimePickerProps, dateTimePickerEmits } from './date-time-picker.props';
 
 defineOptions({ name: 'LkDateTimePicker' });
 
-const props = defineProps({
-  modelValue: { type: String, default: '' }, // YYYY-MM-DD HH:mm:ss
-  placeholder: { type: String, default: '选择日期时间' },
-  clearable: { type: Boolean, default: true },
-  disabled: { type: Boolean, default: false },
-  format: { type: String, default: 'YYYY-MM-DD HH:mm:ss' },
-  timeFormat: { type: String, default: 'HH:mm:ss' },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'open', 'close', 'clear']);
+const props = defineProps(dateTimePickerProps);
+const emit = defineEmits(dateTimePickerEmits);
 
 const show = ref(false);
 const dateValue = ref('');

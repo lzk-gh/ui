@@ -2,20 +2,12 @@
 import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkButton from '../lk-button/lk-button.vue';
+import { timePickerProps, timePickerEmits } from './time-picker.props';
 
 defineOptions({ name: 'LkTimePicker' });
 
-const props = defineProps({
-  modelValue: { type: String, default: '' }, // HH:mm:ss
-  format: { type: String, default: 'HH:mm:ss' }, // 支持裁剪秒
-  placeholder: { type: String, default: '选择时间' },
-  clearable: { type: Boolean, default: true },
-  disabled: { type: Boolean, default: false },
-  stepHour: { type: Number, default: 1 },
-  stepMinute: { type: Number, default: 1 },
-  stepSecond: { type: Number, default: 1 },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'open', 'close', 'clear']);
+const props = defineProps(timePickerProps);
+const emit = defineEmits(timePickerEmits);
 
 const show = ref(false);
 const timeParts = ref({ h: '', m: '', s: '' });

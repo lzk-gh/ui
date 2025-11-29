@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, computed, inject, onMounted, nextTick } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import { textareaProps, textareaEmits } from './textarea.props';
 
 defineOptions({ name: 'LkTextarea' });
 
-const props = defineProps({
-  modelValue: { type: String, default: '' },
-  rows: { type: Number, default: 3 },
-  autoSize: { type: [Boolean, Object], default: true }, // true | { minRows, maxRows }
-  maxlength: { type: Number, default: -1 },
-  showCount: { type: Boolean, default: false },
-  placeholder: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
-  readonly: { type: Boolean, default: false },
-  clearable: { type: Boolean, default: false },
-  size: { type: String, default: 'md' }, // sm|md|lg
-  prop: { type: String, default: '' },
-});
+const props = defineProps(textareaProps);
 
-const emit = defineEmits(['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear']);
+const emit = defineEmits(textareaEmits);
 
 const form = inject(formContextKey, null);
 const val = ref(props.modelValue);

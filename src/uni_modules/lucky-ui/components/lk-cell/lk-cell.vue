@@ -1,17 +1,10 @@
 <script setup lang="ts">
+import { cellProps, cellEmits } from './cell.props';
+
 defineOptions({ name: 'LkCell' });
 
-const props = defineProps({
-  title: { type: String, default: '' },
-  label: { type: String, default: '' },
-  value: { type: String, default: '' },
-  icon: { type: String, default: '' },
-  arrow: { type: Boolean, default: false },
-  clickable: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  center: { type: Boolean, default: false },
-});
-const emit = defineEmits(['click']);
+const props = defineProps(cellProps);
+const emit = defineEmits(cellEmits);
 
 function onClick() {
   if (props.disabled) return;

@@ -1,24 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { skeletonProps } from './skeleton.props';
 defineOptions({ name: 'LkSkeleton' });
 
-const props = defineProps({
-  loading: { type: Boolean, default: true },
-  avatar: { type: Boolean, default: false },
-  avatarSize: { type: String, default: '72rpx' },
-  // 是否展示标题骨架
-  title: { type: Boolean, default: false },
-  // 标题宽度与高度
-  titleWidth: { type: String, default: '40%' },
-  titleHeight: { type: String, default: '32rpx' },
-  rows: { type: Number, default: 3 },
-  rowWidth: { type: [String, Array], default: '100%' }, // 支持数组 ['80%','60%']
-  animated: { type: Boolean, default: true },
-  round: { type: Boolean, default: false },
-  // 动画时长与缓动：更丝滑（默认更慢）
-  duration: { type: [Number, String] as any, default: 2.4 }, // 秒，传 2.4 或 '2400ms'
-  easing: { type: String, default: 'ease-in-out' },
-});
+const props = defineProps(skeletonProps);
 
 function getRowWidth(i: number): string {
   if (Array.isArray(props.rowWidth)) {

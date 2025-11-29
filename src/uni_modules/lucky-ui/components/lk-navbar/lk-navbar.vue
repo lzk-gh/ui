@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
+import { navbarProps, navbarEmits } from './navbar.props';
 
 defineOptions({ name: 'LkNavbar' });
 
-const props = defineProps({
-  title: { type: String, default: '' },
-  fixed: { type: Boolean, default: true },
-  leftText: { type: String, default: '' },
-  rightText: { type: String, default: '' },
-  showBack: { type: Boolean, default: true },
-  placeholder: { type: Boolean, default: true },
-  safeArea: { type: Boolean, default: true },
-  zIndex: { type: Number, default: 110 },
-});
-const emit = defineEmits(['back', 'click-left', 'click-right']);
+const props = defineProps(navbarProps);
+const emit = defineEmits(navbarEmits);
 const slots = useSlots();
 
 // 获取系统信息

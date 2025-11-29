@@ -5,45 +5,12 @@ import {
   ANIMATION_PRESETS,
   type TransitionConfig,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
+import { tooltipProps, tooltipEmits } from './tooltip.props';
 
 defineOptions({ name: 'LkTooltip' });
 
-const props = defineProps({
-  // 内容文本，若未传则使用默认插槽 name="content"
-  content: { type: String, default: '' },
-  // 触发方式：hover | click | manual
-  trigger: {
-    type: String as () => 'hover' | 'click' | 'manual',
-    default: 'hover',
-  },
-  // 位置：top | bottom | left | right
-  placement: {
-    type: String as () => 'top' | 'bottom' | 'left' | 'right',
-    default: 'top',
-  },
-  // 是否显示（受控）
-  modelValue: { type: Boolean, default: undefined },
-  // 禁用
-  disabled: { type: Boolean, default: false },
-  // 常驻显示：为 true 时加载后始终显示，忽略触发与关闭逻辑
-  always: { type: Boolean, default: false },
-  // 初次挂载时打开一次，后续允许关闭（仅在非受控、且未禁用/常驻时生效）
-  defaultOpen: { type: Boolean, default: false },
-  // 与触发元素的间距（rpx）
-  offset: { type: Number, default: 8 },
-  // 浮层宽度：不设置则随内容自适应；可传 number(按 rpx) 或 string(如 '300rpx' | '50%')
-  width: { type: [Number, String] as any, default: undefined },
-  // 延时（ms）
-  showDelay: { type: Number, default: 80 },
-  hideDelay: { type: Number, default: 80 },
-  // 动画配置（可选）
-  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
-  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
-  duration: { type: Number, default: 180 },
-  delay: { type: Number, default: 0 },
-  easing: { type: String as () => TransitionConfig['easing'], default: 'ease-out' },
-});
-const emit = defineEmits(['update:modelValue', 'show', 'hide']);
+const props = defineProps(tooltipProps);
+const emit = defineEmits(tooltipEmits);
 
 const innerOpen = ref(false);
 const open = computed({

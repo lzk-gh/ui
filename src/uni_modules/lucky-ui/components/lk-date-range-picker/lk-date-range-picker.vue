@@ -4,18 +4,12 @@ import LkPopup from '../lk-popup/lk-popup.vue';
 import LkButton from '../lk-button/lk-button.vue';
 import LkCalendar from '../lk-calendar/lk-calendar.vue';
 import { dateRangeArray, parseDate, formatDate } from '@/uni_modules/lucky-ui/utils/date-utils';
+import { dateRangePickerProps, dateRangePickerEmits } from './date-range-picker.props';
 
 defineOptions({ name: 'LkDateRangePicker' });
 
-const props = defineProps({
-  modelValue: { type: Array as () => [string, string] | [], default: () => [] },
-  placeholder: { type: String, default: '选择日期范围' },
-  clearable: { type: Boolean, default: true },
-  disabled: { type: Boolean, default: false },
-  linked: { type: Boolean, default: true }, // 是否第二个日历跟随第一个月份
-  firstDay: { type: Number, default: 1 },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'open', 'close', 'clear']);
+const props = defineProps(dateRangePickerProps);
+const emit = defineEmits(dateRangePickerEmits);
 
 const show = ref(false);
 const start = ref('');

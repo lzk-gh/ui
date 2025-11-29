@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { lkSignatureProps } from './types';
+import { signatureProps } from './signature.props';
 
 defineOptions({ name: 'LkSignature' });
 
-const props = defineProps(lkSignatureProps);
+const props = defineProps(signatureProps);
 
 const root = ref<any>(null);
 const canvasRef = ref<any>(null);

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { reactive, provide } from 'vue';
-import { lkFormProps } from './types';
+import { formProps } from './form.props';
 import type { FormContext, FormItemContext, ValidateError } from './context';
 import { formContextKey } from './context';
 
 defineOptions({ name: 'LkForm' });
-const props = defineProps(lkFormProps);
+const props = defineProps(formProps);
 const emit = defineEmits(['validate']);
 
 const fields: FormItemContext[] = reactive([]);

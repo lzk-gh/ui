@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { segmentedProps, segmentedEmits } from './segmented.props';
 defineOptions({ name: 'LkSegmented' });
 
-const props = defineProps({
-  modelValue: { type: [String, Number], default: '' },
-  options: {
-    type: Array as () => { label: string; value: any }[],
-    default: () => [],
-  },
-  size: { type: String, default: 'md' }, // sm|md|lg
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(segmentedProps);
+const emit = defineEmits(segmentedEmits);
 
 const active = ref(props.modelValue);
 watch(

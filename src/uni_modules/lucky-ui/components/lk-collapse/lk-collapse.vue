@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, watch, provide } from 'vue';
+import { collapseProps, collapseEmits } from './collapse.props';
 
 defineOptions({ name: 'LkCollapse' });
 
-const props = defineProps({
-  modelValue: { type: [Array, String, Number], default: () => [] },
-  accordion: { type: Boolean, default: false },
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(collapseProps);
+const emit = defineEmits(collapseEmits);
 
 const active = ref<any[]>([]);
 watch(() => props.modelValue, sync, { immediate: true });

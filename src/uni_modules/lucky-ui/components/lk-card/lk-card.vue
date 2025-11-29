@@ -1,23 +1,36 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { cardProps } from './card.props';
+
 defineOptions({ name: 'LkCard' });
 
-const props = defineProps({
-  title: { type: String, default: '' },
-  subTitle: { type: String, default: '' },
-  shadow: { type: String, default: 'base' }, // none|sm|base|lg
-  padding: { type: String, default: '32rpx' },
-  border: { type: Boolean, default: false },
-  hoverable: { type: Boolean, default: false },
+const props = defineProps(cardProps);
+
+const cardClass = computed(() => {
+  return [
+    'lk-card',
+    `lk-card--shadow-${props.shadow}`,
+    {
+      'is-border': props.border,
+      'is-hover': props.hoverable,
+    },
+  ];
 });
 </script>
 
 <template>
-  <view
-    class="lk-card"
-    :class="[`lk-card--shadow-${shadow}`, { 'is-border': border, 'is-hover': hoverable }]"
-    :style="{ padding }"
-  >
-    <view v-if="title || $slots.header" class="lk-card__header">
+  <view :class="cardClass">
+    <!-- 封面图插槽：贴边显示 -->
+    <view v-if="$slots.cover" class="lk-card__cover">
+      <slot name="cover" />
+    </view>
+
+    <!-- 头部 -->
+    <view
+      v-if="title || $slots.header"
+      class="lk-card__header"
+      :style="{ padding: `${padding} ${padding} 0` }"
+    >
       <view class="lk-card__title">
         <slot name="header">
           <text class="lk-card__title-text">{{ title }}</text>
@@ -28,10 +41,18 @@ const props = defineProps({
         <slot name="header-extra" />
       </view>
     </view>
-    <view class="lk-card__body">
+
+    <!-- 内容主体 -->
+    <view class="lk-card__body" :style="{ padding }">
       <slot />
     </view>
-    <view v-if="$slots.footer" class="lk-card__footer">
+
+    <!-- 底部 -->
+    <view
+      v-if="$slots.footer"
+      class="lk-card__footer"
+      :style="{ padding: `0 ${padding} ${padding}` }"
+    >
       <slot name="footer" />
     </view>
   </view>
@@ -39,59 +60,89 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .lk-card {
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-lg);
+  background: var(--lk-color-bg-surface, #ffffff);
+  border-radius: var(--lk-radius-lg, 16rpx);
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
   position: relative;
+  overflow: hidden; // 确保封面图圆角
   transition:
-    box-shadow var(--lk-transition-fast),
-    transform var(--lk-transition-fast);
+    box-shadow var(--lk-transition-fast, 0.2s),
+    transform var(--lk-transition-fast, 0.2s);
+
   &.is-border {
-    border: 2rpx solid var(--lk-color-border-weak);
+    border: 2rpx solid var(--lk-color-border-weak, #ebedf0);
   }
 
   &--shadow-none {
     box-shadow: none;
   }
   &--shadow-sm {
-    box-shadow: var(--lk-shadow-sm);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
   }
   &--shadow-base {
-    box-shadow: var(--lk-shadow-base);
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
   }
   &--shadow-lg {
-    box-shadow: var(--lk-shadow-lg);
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
   }
 
   &.is-hover:active {
     transform: translateY(2rpx);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06); // 按下时阴影收缩
+  }
+
+  &__cover {
+    width: 100%;
+    // 封面图容器，图片通常设为 width: 100%
+    :deep(image),
+    :deep(img) {
+      display: block;
+      width: 100%;
+    }
   }
 
   &__header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 24rpx;
   }
+
+  &__title {
+    flex: 1;
+    display: flex;
+    align-items: baseline;
+  }
+
   &__title-text {
-    font-size: 32rpx;
+    font-size: 34rpx;
     font-weight: 600;
+    color: var(--lk-color-text, #323233);
+    line-height: 1.4;
   }
+
   &__subtitle {
-    margin-left: 12rpx;
+    margin-left: 16rpx;
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-color-text-secondary, #969799);
+    font-weight: normal;
   }
+
+  &__extra {
+    font-size: 26rpx;
+    color: var(--lk-color-text-secondary, #969799);
+  }
+
   &__body {
     font-size: 28rpx;
     line-height: 1.6;
-    color: var(--lk-color-text);
+    color: var(--lk-color-text-regular, #646566);
   }
+
   &__footer {
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-color-text-secondary, #969799);
   }
 }
 </style>

@@ -1,43 +1,11 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
+import { timelineProps } from './timeline.props';
+import type { TimelineDirection, TimelineMode, TimelineSize } from './timeline.props';
 
 defineOptions({ name: 'LkTimeline' });
 
-type Direction = 'vertical' | 'horizontal';
-type Mode = 'left' | 'right' | 'alternate';
-type Size = 'sm' | 'md' | 'lg';
-
-const props = withDefaults(
-  defineProps<{
-    direction?: Direction;
-    mode?: Mode;
-    reverse?: boolean;
-    pending?: boolean | string;
-    dashed?: boolean;
-    /** 线条端点：flush(两端0距离)，equal(均等间隔) */
-    lineCap?: 'flush' | 'equal';
-    lineColor?: string;
-    lineWidth?: number | string;
-    itemGap?: number | string;
-    size?: Size;
-    lastVisibleTail?: boolean;
-    wrap?: boolean;
-  }>(),
-  {
-    direction: 'vertical',
-    mode: 'left',
-    reverse: false,
-    pending: false,
-    dashed: false,
-    lineCap: 'equal',
-    lineColor: 'var(--lk-color-border-weak)',
-    lineWidth: '4rpx',
-    itemGap: '28rpx',
-    size: 'md',
-    lastVisibleTail: false,
-    wrap: true,
-  }
-);
+const props = defineProps(timelineProps);
 
 // 注入键（与 item 通信） - 保持为模块内常量，避免 <script setup> 导出
 const LkTimelineKey = Symbol('LkTimelineCtx');

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
-import { lkIconProps, lkIconEmits } from './types';
+import { iconProps, iconEmits } from './icon.props';
 import { iconCharOf } from './codepoints';
 
 // 由 svgtofont 生成的 CSS
@@ -8,8 +8,8 @@ import './fonts/lk-icons.css';
 
 defineOptions({ name: 'LkIcon' });
 
-const props = defineProps(lkIconProps);
-const emit = defineEmits(lkIconEmits);
+const props = defineProps(iconProps);
+const emit = defineEmits(iconEmits);
 
 const iconChar = computed(() => iconCharOf(props.name));
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue';
-
-type AnyItem = Record<string, any>;
+import { virtualListProps } from './virtual-list.props';
+import type { AnyItem } from './virtual-list.props';
 
 // Utility: Convert rpx/px/number to px
 function toPx(val: string | number | undefined, fallback = 0): number {
@@ -18,27 +18,7 @@ function toPx(val: string | number | undefined, fallback = 0): number {
   return isNaN(num) ? fallback : num;
 }
 
-const props = defineProps({
-  items: { type: Array as () => AnyItem[], default: () => [] },
-  itemHeight: { type: [Number, String], default: 100 },
-  height: { type: [Number, String], default: 600 },
-  buffer: { type: Number, default: 5 },
-  // 动态 overscan：根据滚动速度增加额外缓冲行数（减少快速滚动白屏）
-  dynamicOverscan: { type: Boolean, default: true },
-  maxOverscanRows: { type: Number, default: 30 },
-  // 单次 rAF 计算中的“行增益系数”，越大快速滚动时缓冲行数越多
-  overscanBoostFactor: { type: Number, default: 0.6 },
-  lowerThreshold: { type: [Number, String], default: '80rpx' },
-  prefetchRows: { type: Number, default: 0 },
-  reserveRows: { type: Number, default: 0 },
-  positionStrategy: { type: String, default: 'transform' }, // Default to transform for smoothness
-  initialScrollIndex: { type: Number, default: 0 },
-  scrollWithAnimation: { type: Boolean, default: false },
-  scrollAnchoring: { type: Boolean, default: true },
-  enablePassive: { type: Boolean, default: true },
-  enhanced: { type: Boolean, default: true },
-  bounces: { type: Boolean, default: false },
-});
+const props = defineProps(virtualListProps);
 
 const wrapperRef = ref<any>();
 const currentScrollTop = ref(0);

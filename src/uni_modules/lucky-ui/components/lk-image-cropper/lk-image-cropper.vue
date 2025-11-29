@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { lkImageCropperProps, lkImageCropperEmits } from './types';
+import { imageCropperProps, imageCropperEmits } from './image-cropper.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
 
 defineOptions({ name: 'LkImageCropper' });
 
-const props = defineProps(lkImageCropperProps);
-const emit = defineEmits(lkImageCropperEmits);
+const props = defineProps(imageCropperProps);
+const emit = defineEmits(imageCropperEmits);
 
 const box = ref<any>(null);
 const img = ref<any>(null);

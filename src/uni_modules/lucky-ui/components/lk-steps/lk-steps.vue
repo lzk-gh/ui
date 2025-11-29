@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref, provide, watch } from 'vue';
+import { stepsProps, stepsEmits } from './steps.props';
 defineOptions({ name: 'LkSteps' });
 
-const props = defineProps({
-  current: { type: Number, default: 0 },
-  direction: { type: String, default: 'horizontal' }, // horizontal|vertical
-  status: { type: String, default: '' }, // finish | error
-});
-const emit = defineEmits(['change']);
+const props = defineProps(stepsProps);
+const emit = defineEmits(stepsEmits);
 
 const items = ref<any[]>([]);
 function register(item: any) {

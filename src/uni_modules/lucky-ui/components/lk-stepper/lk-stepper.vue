@@ -1,18 +1,11 @@
 <script setup lang="ts">
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import { stepperProps, stepperEmits } from './stepper.props';
 defineOptions({ name: 'LkStepper' });
 
-const props = defineProps({
-  modelValue: { type: Number, default: 0 },
-  min: { type: Number, default: Number.NEGATIVE_INFINITY },
-  max: { type: Number, default: Number.POSITIVE_INFINITY },
-  step: { type: Number, default: 1 },
-  disabled: { type: Boolean, default: false },
-  size: { type: String, default: 'md' },
-  prop: { type: String, default: '' },
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(stepperProps);
+const emit = defineEmits(stepperEmits);
 
 const form = inject(formContextKey, null);
 

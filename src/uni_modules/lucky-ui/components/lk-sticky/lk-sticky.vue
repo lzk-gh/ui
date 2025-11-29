@@ -8,11 +8,11 @@ import {
   getCurrentInstance,
   nextTick,
 } from 'vue';
-import { lkStickyProps } from './types';
+import { stickyProps } from './sticky.props';
 
 defineOptions({ name: 'LkSticky' });
 
-const props = defineProps(lkStickyProps);
+const props = defineProps(stickyProps);
 const emit = defineEmits<{ (e: 'change', value: boolean): void }>();
 
 const root = ref<HTMLElement | null>(null);

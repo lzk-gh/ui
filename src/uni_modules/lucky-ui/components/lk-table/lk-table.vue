@@ -23,55 +23,13 @@
 import { ref, computed, watch } from 'vue';
 import LkCheckbox from '../lk-checkbox/lk-checkbox.vue';
 import LkLoading from '../lk-loading/lk-loading.vue';
+import { tableProps, tableEmits } from './table.props';
+import type { TableColumn } from './table.props';
 
 defineOptions({ name: 'LkTable' });
 
-export interface TableColumn {
-  key: string;
-  title?: string;
-  width?: string | number;
-  align?: string;
-  sortable?: boolean; // 启用排序
-  sortMethod?: (a: any, b: any, asc: boolean) => number;
-  formatter?: (row: any, col: TableColumn, rowIndex: number) => any;
-  summary?: 'sum' | 'avg' | ((values: any[], col: TableColumn) => any);
-  fixed?: 'left' | 'right'; // 预留
-  hidden?: boolean;
-  className?: string;
-  headerSlot?: string; // 自定义表头插槽名 (#header-xxx)
-  minWidth?: string | number;
-}
-
-const props = defineProps({
-  columns: { type: Array as () => TableColumn[], default: () => [] },
-  data: { type: Array as () => any[], default: () => [] },
-  rowKey: { type: String, default: 'id' },
-  striped: { type: Boolean, default: true },
-  bordered: { type: Boolean, default: false },
-  compact: { type: Boolean, default: false },
-  showIndex: { type: Boolean, default: false },
-  selectable: { type: Boolean, default: false }, // 多选
-  stickyHeader: { type: Boolean, default: true },
-  maxHeight: { type: [Number, String], default: '' },
-  loading: { type: Boolean, default: false },
-  emptyText: { type: String, default: '暂无数据' },
-  summary: { type: Boolean, default: false }, // 是否显示总结行
-  sortRemote: { type: Boolean, default: false }, // 是否外部处理排序
-  modelValue: { type: Array as () => any[], default: () => [] }, // 已选 keys
-  // 默认排序 { key, order: 'asc'|'desc'|'' }
-  defaultSort: {
-    type: Object as () => { key?: string; order?: string },
-    default: () => ({}),
-  },
-});
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', v: any[]): void;
-  (e: 'rowClick', row: any, index: number): void;
-  (e: 'selectionChange', selection: any[]): void;
-  (e: 'sortChange', payload: { key: string; order: string }): void;
-  (e: 'summaryComputed', row: any): void;
-}>();
+const props = defineProps(tableProps);
+const emit = defineEmits(tableEmits);
 
 const internalSelection = ref<any[]>([]);
 const sortState = ref<{ key: string; order: '' | 'asc' | 'desc' }>({
@@ -206,7 +164,7 @@ function onRowClick(row: any, idx: number) {
 const wrapStyle = computed(() => {
   const st: any = {};
   if (props.maxHeight) {
-    st.maxHeight = typeof props.maxHeight === 'number' ? props.maxHeight + 'px' : props.maxHeight;
+    st.maxHeight = typeof props.maxHeight === 'number' ? `${props.maxHeight  }px` : props.maxHeight;
   }
   return st;
 });
@@ -233,7 +191,7 @@ const wrapStyle = computed(() => {
               <lk-checkbox
                 :model-value="allChecked"
                 :indeterminate="indeterminate"
-                @update:modelValue="toggleAll"
+                @update:model-value="toggleAll"
               />
             </view>
             <view v-if="showIndex" class="lk-table__th lk-table__th--index">#</view>
@@ -290,7 +248,7 @@ const wrapStyle = computed(() => {
                 class="lk-table__td lk-table__td--checkbox"
                 @click.stop="toggleRow(row)"
               >
-                <lk-checkbox :model-value="isSelected(row)" @update:modelValue="toggleRow(row)" />
+                <lk-checkbox :model-value="isSelected(row)" @update:model-value="toggleRow(row)" />
               </view>
               <view v-if="showIndex" class="lk-table__td lk-table__td--index">{{ ri + 1 }}</view>
               <view

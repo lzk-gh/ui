@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import { drawerProps, drawerEmits } from './drawer.props';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -14,33 +15,8 @@ defineOptions({ name: 'LkDrawer' });
  * - position/side: 抽屉出现方向，支持 left | right | top | bottom
  *   为了向后兼容，保留 side；若同时传入，position 优先生效。
  */
-const props = defineProps({
-  modelValue: { type: Boolean, default: false },
-  position: {
-    type: String as () => 'left' | 'right' | 'top' | 'bottom',
-    default: undefined,
-  },
-  side: {
-    type: String as () => 'left' | 'right' | 'top' | 'bottom',
-    default: 'right',
-  },
-  // 尺寸：左右抽屉使用 width，顶部/底部抽屉使用 height
-  width: { type: String, default: '70%' },
-  height: { type: String, default: '70%' },
-  overlay: { type: Boolean, default: true },
-  closeOnOverlay: { type: Boolean, default: true },
-  zIndex: { type: Number, default: 1400 },
-  lockScroll: { type: Boolean, default: true },
-  title: { type: String, default: '' },
-  showClose: { type: Boolean, default: true },
-  // 动画配置
-  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
-  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
-  duration: { type: Number, default: undefined },
-  delay: { type: Number, default: undefined },
-  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
-});
-const emit = defineEmits(['update:modelValue', 'open', 'close', 'after-enter', 'after-leave']);
+const props = defineProps(drawerProps);
+const emit = defineEmits(drawerEmits);
 
 // 统一方向，position 优先，其次 side
 const pos = computed<'left' | 'right' | 'top' | 'bottom'>(

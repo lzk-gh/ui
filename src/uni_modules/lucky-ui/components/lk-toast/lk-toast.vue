@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, computed, onUnmounted } from 'vue';
 import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
+import { toastProps, toastEmits } from './toast.props';
 
 defineOptions({ name: 'LkToast' });
 
-const props = defineProps({
-  modelValue: { type: Boolean, default: false },
-  message: { type: String, default: '' },
-  duration: { type: Number, default: 2000 },
-  icon: { type: String, default: '' },
-  position: { type: String, default: 'center' }, // top|center|bottom
-  overlay: { type: Boolean, default: false },
-  forbidClick: { type: Boolean, default: false },
-});
-const emit = defineEmits(['update:modelValue', 'open', 'close', 'after-leave']);
+const props = defineProps(toastProps);
+const emit = defineEmits(toastEmits);
 
 const show = computed(() => props.modelValue);
 let timer: any = null;

@@ -1,18 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { switchProps, switchEmits } from './switch.props';
 
 defineOptions({ name: 'LkSwitch' });
 
-const props = defineProps({
-  modelValue: { type: [Boolean, String, Number], default: false },
-  activeValue: { type: [Boolean, String, Number], default: true },
-  inactiveValue: { type: [Boolean, String, Number], default: false },
-  size: { type: String, default: 'default' }, // small|default|large
-  disabled: { type: Boolean, default: false },
-  loading: { type: Boolean, default: false },
-  beforeChange: { type: Function, default: null },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'click']);
+const props = defineProps(switchProps);
+const emit = defineEmits(switchEmits);
 
 const checked = computed(() => props.modelValue === props.activeValue);
 let changing = false;

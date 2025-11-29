@@ -1,28 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, provide, watch, onMounted, onBeforeUnmount, nextTick, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import { selectProps, selectEmits } from './select.props';
 defineOptions({ name: 'LkSelect' });
 
-const props = defineProps({
-  modelValue: { type: [String, Number, Array], default: '' },
-  multiple: { type: Boolean, default: false },
-  placeholder: { type: String, default: '请选择' },
-  disabled: { type: Boolean, default: false },
-  clearable: { type: Boolean, default: true },
-  prop: { type: String, default: '' },
-  size: { type: String, default: 'md' },
-  maxTagCount: { type: Number, default: 3 },
-  closeOnSelect: { type: Boolean, default: true },
-});
-const emit = defineEmits([
-  'update:modelValue',
-  'change',
-  'focus',
-  'blur',
-  'clear',
-  'open',
-  'close',
-]);
+const props = defineProps(selectProps);
+const emit = defineEmits(selectEmits);
 
 const form = inject(formContextKey, null);
 const open = ref(false);

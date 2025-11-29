@@ -1,20 +1,11 @@
 <script setup lang="ts">
-import { reactive, defineProps, defineEmits } from 'vue';
+import { reactive } from 'vue';
+import { imageProps, imageEmits } from './image.props';
 
 defineOptions({ name: 'LkImage' });
 
-const props = defineProps({
-  src: { type: String, default: '' },
-  width: { type: String, default: '100%' },
-  height: { type: String, default: 'auto' },
-  radius: { type: String, default: 'var(--lk-radius-md)' },
-  fit: { type: String, default: 'cover' },
-  lazy: { type: Boolean, default: false },
-  showLoading: { type: Boolean, default: true },
-  showError: { type: Boolean, default: true },
-  preview: { type: Boolean, default: false },
-});
-const emit = defineEmits(['load', 'error', 'click']);
+const props = defineProps(imageProps);
+const emit = defineEmits(imageEmits);
 
 const state = reactive({
   loading: true,

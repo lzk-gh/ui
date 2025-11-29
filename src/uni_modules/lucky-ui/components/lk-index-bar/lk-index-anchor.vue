@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { lkIndexAnchorProps } from './types';
+import { indexAnchorProps } from './index-bar.props';
 
 defineOptions({ name: 'LkIndexAnchor' });
 
-const props = defineProps(lkIndexAnchorProps);
+const props = defineProps(indexAnchorProps);
 </script>
 
 <template>

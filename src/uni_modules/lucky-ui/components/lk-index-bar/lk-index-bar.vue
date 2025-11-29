@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { lkIndexBarProps, lkIndexBarEmits } from './types';
+import { indexBarProps, indexBarEmits } from './index-bar.props';
 
 defineOptions({ name: 'LkIndexBar' });
 
-const props = defineProps(lkIndexBarProps);
-const emit = defineEmits(lkIndexBarEmits);
+const props = defineProps(indexBarProps);
+const emit = defineEmits(indexBarEmits);
 
 const active = ref('');
 

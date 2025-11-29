@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import { inject, computed, useSlots } from 'vue';
+import { checkboxProps, checkboxEmits } from './checkbox.props';
 
 defineOptions({ name: 'LkCheckbox' });
 
-const props = defineProps({
-  modelValue: { type: [Boolean, String, Number], default: undefined },
-  label: { type: [String, Number, Boolean, Object], default: undefined },
-  trueValue: { type: [Boolean, String, Number], default: true },
-  falseValue: { type: [Boolean, String, Number], default: false },
-  size: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
-  indeterminate: { type: Boolean, default: false },
-  iconType: { type: String, default: '' }, // check | dot | icon (使用插槽)
-  shape: { type: String, default: '' }, // square | circle
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(checkboxProps);
+const emit = defineEmits(checkboxEmits);
 
 const slots = useSlots();
 const group = inject<any>('LkCheckboxGroup', null);

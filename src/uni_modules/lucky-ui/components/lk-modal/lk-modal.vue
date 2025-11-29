@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import { modalProps, modalEmits } from './modal.props';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -9,36 +10,9 @@ import {
 
 defineOptions({ name: 'LkModal' });
 
-const props = defineProps({
-  modelValue: { type: Boolean, default: false },
-  title: { type: String, default: '' },
-  width: { type: String, default: '600rpx' },
-  showClose: { type: Boolean, default: true },
-  closeOnOverlay: { type: Boolean, default: true },
-  zIndex: { type: Number, default: 1300 },
-  showHeader: { type: Boolean, default: true },
-  showFooter: { type: Boolean, default: true },
+const props = defineProps(modalProps);
 
-  // 新增动画相关 props
-  /** 预设名称：quick | normal | slow | bounce | scale */
-  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: 'scale' },
-  /** 自定义动画名称，优先级高于 animation 预设 */
-  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
-  /** 自定义时长（ms） */
-  duration: { type: Number, default: undefined },
-  /** 自定义延迟（ms） */
-  delay: { type: Number, default: undefined },
-  /** 自定义缓动函数 */
-  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
-});
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void;
-  (e: 'open'): void;
-  (e: 'close'): void;
-  (e: 'confirm'): Promise<any>;
-  (e: 'cancel'): void;
-}>();
+const emit = defineEmits(modalEmits);
 
 // ==================== 动画配置计算 ====================
 const transitionConfig = computed<TransitionConfig>(() => {

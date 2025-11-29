@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { progressProps } from './progress.props';
 defineOptions({ name: 'LkProgress' });
 
-const props = defineProps({
-  percentage: { type: Number, default: 0 },
-  striped: { type: Boolean, default: false },
-  animated: { type: Boolean, default: false },
-  textInside: { type: Boolean, default: false },
-  showText: { type: Boolean, default: true },
-  type: { type: String, default: 'linear' }, // linear | circle
-  size: { type: Number, default: 120 }, // circle size (rpx)
-  stroke: { type: Number, default: 10 },
-});
+const props = defineProps(progressProps);
 
 const pct = computed(() => Math.min(100, Math.max(0, props.percentage)));
 const circleProps = computed(() => {

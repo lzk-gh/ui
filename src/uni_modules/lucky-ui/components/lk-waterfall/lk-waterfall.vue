@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
 import LkVirtualList from '@/uni_modules/lucky-ui/components/lk-virtual-list/lk-virtual-list.vue';
-
-type AnyItem = Record<string, any> & { id?: string | number };
+import { waterfallProps, waterfallEmits } from './waterfall.props';
+import type { AnyItem } from './waterfall.props';
 
 // Convert rpx/px/number to px
 function toPx(val: string | number | undefined, fallback = 0): number {
@@ -19,43 +19,9 @@ function toPx(val: string | number | undefined, fallback = 0): number {
   return isNaN(num) ? fallback : num;
 }
 
-const props = defineProps({
-  // 原始数据项（可以包含 width/height 或 ratio 字段；若都没有，将使用 estimateHeight）
-  items: { type: Array as () => AnyItem[], default: () => [] },
-  // 视口高度（传给虚拟列表）
-  height: { type: [Number, String], default: 600 },
-  // 列数
-  column: { type: Number, default: 2 },
-  // 列间距/行间距
-  gap: { type: [Number, String], default: 8 },
-  // 容器左右内边距（用于计算列宽）
-  paddingX: { type: [Number, String], default: 0 },
-  // 行单元高度（像素粒度）；越小越平滑，但开销更大
-  rowUnit: { type: [Number, String], default: 50 },
-  // 当项未提供高度信息时的估算高度
-  estimateHeight: { type: Number, default: 200 },
-  // 为每个 item 计算像素高度的键名，默认读取 item.height；也可传 'ratio'（按宽度*ratio 计算）
-  heightKey: { type: String, default: 'height' },
-  // 触底/预取
-  lowerThreshold: { type: [Number, String], default: '80rpx' },
-  prefetchRows: { type: Number, default: 0 },
-  // 滚动行为透传
-  dynamicOverscan: { type: Boolean, default: true },
-  maxOverscanRows: { type: Number, default: 24 },
-  overscanBoostFactor: { type: Number, default: 0.6 },
-  buffer: { type: Number, default: 6 },
-  enablePassive: { type: Boolean, default: true },
-  enhanced: { type: Boolean, default: true },
-  bounces: { type: Boolean, default: false },
-  scrollAnchoring: { type: Boolean, default: true },
-  scrollWithAnimation: { type: Boolean, default: false },
-});
+const props = defineProps(waterfallProps);
 
-const emit = defineEmits<{
-  (e: 'prefetch'): void;
-  (e: 'reach-bottom'): void;
-  (e: 'scroll', payload: { scrollTop: number; start: number; end: number }): void;
-}>();
+const emit = defineEmits(waterfallEmits);
 
 const wrapperRef = ref();
 const uid = getCurrentInstance()?.uid ?? Math.floor(Math.random() * 1e6);

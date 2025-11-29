@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { inject, computed, useSlots } from 'vue';
+import { radioProps, radioEmits } from './radio.props';
 
 defineOptions({ name: 'LkRadio' });
-const props = defineProps({
-  modelValue: { type: [String, Number, Boolean], default: undefined },
-  label: { type: [String, Number, Boolean], required: true },
-  size: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
-  iconType: { type: String, default: '' }, // dot | check | icon (使用插槽)
-  shape: { type: String, default: '' }, // circle | square
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(radioProps);
+const emit = defineEmits(radioEmits);
 
 const slots = useSlots();
 const group = inject<any>('LkRadioGroup', null);

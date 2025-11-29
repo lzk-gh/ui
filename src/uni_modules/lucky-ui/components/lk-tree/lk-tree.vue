@@ -1,28 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
+import { treeProps, treeEmits } from './tree.props';
+import type { TreeNode } from './tree.props';
 
 defineOptions({ name: 'LkTree' });
 
-interface TreeNode {
-  label: string;
-  value: string | number;
-  children?: TreeNode[];
-  disabled?: boolean;
-  expand?: boolean;
-  checked?: boolean;
-  indeterminate?: boolean;
-}
-
-const props = defineProps({
-  modelValue: {
-    type: Array as () => Array<string | number>,
-    default: () => [],
-  }, // 选中值
-  data: { type: Array as () => TreeNode[], default: () => [] },
-  checkable: { type: Boolean, default: true },
-  accordion: { type: Boolean, default: false },
-});
-const emit = defineEmits(['update:modelValue', 'change', 'toggle']);
+const props = defineProps(treeProps);
+const emit = defineEmits(treeEmits);
 
 const selected = ref<Set<string | number>>(new Set(props.modelValue));
 watch(

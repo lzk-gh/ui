@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { provide } from 'vue';
+import { breadcrumbProps } from './breadcrumb.props';
 
 defineOptions({ name: 'LkBreadcrumb' });
-const props = defineProps({
-  separator: { type: String, default: '/' },
-});
+const props = defineProps(breadcrumbProps);
 provide('LkBreadcrumb', { separator: props.separator });
 </script>
 

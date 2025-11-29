@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import type { PickerOption } from './types';
-import { lkPickerViewProps, lkPickerViewEmits } from './types';
+import type { PickerOption } from './picker-view.props';
+import { pickerViewProps, pickerViewEmits } from './picker-view.props';
 
 defineOptions({ name: 'LkPickerView' });
 
-const props = defineProps(lkPickerViewProps);
-const emit = defineEmits(lkPickerViewEmits);
+const props = defineProps(pickerViewProps);
+const emit = defineEmits(pickerViewEmits);
 
 function normalizeColumns(cols: any): PickerOption[][] {
   if (!Array.isArray(cols)) return [];

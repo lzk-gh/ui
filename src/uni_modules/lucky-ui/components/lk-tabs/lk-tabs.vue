@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
+import { tabsProps, tabsEmits } from './tabs.props';
 
 defineOptions({ name: 'LkTabs' });
 
-const props = defineProps({
-  modelValue: { type: [String, Number], default: '' },
-  lazy: { type: Boolean, default: true },
-  type: { type: String, default: 'line' }, // line | card
-  stretch: { type: Boolean, default: true },
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(tabsProps);
+const emit = defineEmits(tabsEmits);
 
 const current = ref(props.modelValue);
 watch(

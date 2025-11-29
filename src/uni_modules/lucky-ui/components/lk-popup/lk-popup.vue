@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import { popupProps, popupEmits } from './popup.props';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -9,33 +10,8 @@ import {
 
 defineOptions({ name: 'LkPopup' });
 
-const props = defineProps({
-  modelValue: { type: Boolean, default: false },
-  position: {
-    type: String as () => 'center' | 'top' | 'bottom' | 'left' | 'right',
-    default: 'center',
-  },
-  round: { type: Boolean, default: true },
-  overlay: { type: Boolean, default: true },
-  closeOnOverlay: { type: Boolean, default: true },
-  lockScroll: { type: Boolean, default: true },
-  zIndex: { type: Number, default: 1300 },
-  safeArea: { type: Boolean, default: true },
-  // 统一动画配置（与 Modal 保持一致）
-  animation: { type: String as () => keyof typeof ANIMATION_PRESETS, default: undefined },
-  animationType: { type: String as () => TransitionConfig['name'], default: undefined },
-  duration: { type: Number, default: undefined },
-  delay: { type: Number, default: undefined },
-  easing: { type: String as () => TransitionConfig['easing'], default: undefined },
-});
-const emit = defineEmits([
-  'update:modelValue',
-  'open',
-  'close',
-  'click-overlay',
-  'after-enter',
-  'after-leave',
-]);
+const props = defineProps(popupProps);
+const emit = defineEmits(popupEmits);
 
 // 根据 position 给出合理默认动画
 const defaultByPosition: Record<string, NonNullable<TransitionConfig['name']>> = {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, provide, ref } from 'vue';
-import { lkAnchorProps, lkAnchorEmits } from './types';
+import { anchorProps, anchorEmits } from './anchor.props';
 
 defineOptions({ name: 'LkAnchor' });
 
-const props = defineProps(lkAnchorProps);
-const emit = defineEmits(lkAnchorEmits);
+const props = defineProps(anchorProps);
+const emit = defineEmits(anchorEmits);
 
 const active = ref('');
 provide('lk-anchor-active', active);

@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { paginationProps, paginationEmits } from './pagination.props';
 defineOptions({ name: 'LkPagination' });
 
-const props = defineProps({
-  total: { type: Number, required: true },
-  pageSize: { type: Number, default: 10 },
-  modelValue: { type: Number, default: 1 },
-  pagerCount: { type: Number, default: 5 },
-  size: { type: String, default: 'md' },
-});
-const emit = defineEmits(['update:modelValue', 'change']);
+const props = defineProps(paginationProps);
+const emit = defineEmits(paginationEmits);
 
 const pageCount = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)));
 const current = computed(() => Math.min(Math.max(1, props.modelValue), pageCount.value));

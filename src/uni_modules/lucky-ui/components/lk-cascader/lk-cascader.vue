@@ -2,32 +2,16 @@
 import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkButton from '../lk-button/lk-button.vue';
+import { cascaderProps, cascaderEmits, type CascaderNode } from './cascader.props';
 
 defineOptions({ name: 'LkCascader' });
 
-interface Node {
-  label: string;
-  value: string | number;
-  children?: Node[];
-  disabled?: boolean;
-}
-
-const props = defineProps({
-  modelValue: {
-    type: Array as () => Array<string | number>,
-    default: () => [],
-  },
-  options: { type: Array as () => Node[], default: () => [] },
-  placeholder: { type: String, default: '请选择' },
-  clearable: { type: Boolean, default: true },
-  disabled: { type: Boolean, default: false },
-  changeOnSelect: { type: Boolean, default: false }, // 是否在非末级也触发
-});
-const emit = defineEmits(['update:modelValue', 'change', 'open', 'close', 'clear']);
+const props = defineProps(cascaderProps);
+const emit = defineEmits(cascaderEmits);
 
 const show = ref(false);
 const pathValues = ref<(string | number)[]>([]);
-const columnOptions = ref<Node[][]>([]);
+const columnOptions = ref<CascaderNode[][]>([]);
 
 watch(
   () => props.modelValue,
@@ -56,8 +40,8 @@ function clear() {
 }
 
 function rebuild() {
-  const cols: Node[][] = [];
-  let curList: Node[] = props.options;
+  const cols: CascaderNode[][] = [];
+  let curList: CascaderNode[] = props.options;
   cols.push(curList);
   for (const val of pathValues.value) {
     const found = curList.find(n => n.value === val);

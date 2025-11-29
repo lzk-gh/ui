@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { lkNumberKeyboardProps, lkNumberKeyboardEmits } from './types';
+import { numberKeyboardProps, numberKeyboardEmits } from './number-keyboard.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
 
 defineOptions({ name: 'LkNumberKeyboard' });
 
-const props = defineProps(lkNumberKeyboardProps);
-const emit = defineEmits(lkNumberKeyboardEmits);
+const props = defineProps(numberKeyboardProps);
+const emit = defineEmits(numberKeyboardEmits);
 
 const baseKeys = Array.from({ length: 9 }, (_, i) => String(i + 1));
 

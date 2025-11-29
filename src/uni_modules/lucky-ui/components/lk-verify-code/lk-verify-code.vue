@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue';
-import { lkVerifyCodeProps, lkVerifyCodeEmits } from './types';
+import { verifyCodeProps, verifyCodeEmits } from './verify-code.props';
 
 defineOptions({ name: 'LkVerifyCode' });
 
-const props = defineProps(lkVerifyCodeProps);
-const emit = defineEmits(lkVerifyCodeEmits);
+const props = defineProps(verifyCodeProps);
+const emit = defineEmits(verifyCodeEmits);
 
 const val = ref(props.modelValue || '');
 const inputRef = ref<any>(null);

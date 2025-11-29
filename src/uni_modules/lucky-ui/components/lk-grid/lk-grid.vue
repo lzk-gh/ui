@@ -1,20 +1,12 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { gridProps } from './grid.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 
 defineOptions({ name: 'LkGrid' });
 
-const props = defineProps<{
-  columns?: number;
-  gap?: number;
-  itemGap?: number;
-  // 是否启用滑动分页（使用 lk-carousel）
-  carousel?: boolean;
-  // 每页行数（与 columns 一起决定每页 item 数量）
-  rows?: number;
-  items?: { icon?: string; text: string }[];
-}>();
+const props = defineProps(gridProps);
 
 const gridStyle = computed(() => {
   return {
