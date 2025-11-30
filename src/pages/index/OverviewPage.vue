@@ -19,6 +19,59 @@
         </view>
       </view>
 
+      <!-- 主题色配置 -->
+      <view class="theme-config-card">
+        <view class="config-header">
+          <lk-icon name="palette" size="36" color="primary" />
+          <text class="config-title">品牌主题色</text>
+        </view>
+        <view class="color-presets">
+          <view
+            v-for="color in presetColors"
+            :key="color.value"
+            class="color-preset-item"
+            :class="{ active: currentBrandColor === color.value }"
+            :style="{ '--preset-color': color.value }"
+            @click="changeBrandColor(color.value)"
+          >
+            <view class="color-dot"></view>
+            <text class="color-name">{{ color.name }}</text>
+          </view>
+        </view>
+        <view class="custom-color-row">
+          <text class="custom-label">自定义颜色</text>
+          <view class="color-input-wrapper">
+            <input
+              v-model="customColorInput"
+              class="color-input"
+              placeholder="#6965db"
+              maxlength="7"
+              @blur="applyCustomColor"
+              @confirm="applyCustomColor"
+            />
+            <view
+              class="color-preview"
+              :style="{ background: customColorInput || currentBrandColor }"
+              @click="showColorPicker = true"
+            ></view>
+          </view>
+        </view>
+        <!-- 色阶预览 -->
+        <view class="color-scale-preview">
+          <text class="scale-label">色阶预览</text>
+          <view class="scale-row">
+            <view
+              v-for="level in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]"
+              :key="level"
+              class="scale-item"
+              :style="{ background: `var(--color-brand-${level})` }"
+            >
+              <text class="scale-level">{{ level }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
       <!-- 搜索框 -->
       <view class="search-box">
         <lk-icon name="search" size="32" color="textSecondary" />
@@ -73,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 defineProps<{
@@ -81,6 +134,147 @@ defineProps<{
 }>();
 
 const searchKeyword = ref('');
+const updateThemeStyleVars = inject<(vars: string) => void>('updateThemeStyleVars');
+
+// ============ 主题色配置 ============
+const currentBrandColor = ref('#6965db');
+const customColorInput = ref('');
+const showColorPicker = ref(false);
+
+// 预设主题色
+const presetColors = [
+  { name: '幻紫', value: '#6965db' },
+  { name: '极光蓝', value: '#1890ff' },
+  { name: '翠绿', value: '#52c41a' },
+  { name: '活力橙', value: '#fa8c16' },
+  { name: '中国红', value: '#f5222d' },
+  { name: '玫瑰粉', value: '#eb2f96' },
+  { name: '极客青', value: '#13c2c2' },
+  { name: '高级灰', value: '#8c8c8c' },
+];
+
+// 根据主色生成色阶的函数
+const generateColorShade = (baseColor: string, level: number): string => {
+  // 将 hex 转为 rgb
+  const hex = baseColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  if (level === 600) {
+    return baseColor;
+  }
+
+  if (level < 600) {
+    // 与白色混合
+    const ratio = ((600 - level) / 500) * 0.85;
+    const newR = Math.round(r + (255 - r) * ratio);
+    const newG = Math.round(g + (255 - g) * ratio);
+    const newB = Math.round(b + (255 - b) * ratio);
+    return `rgb(${newR}, ${newG}, ${newB})`;
+  } else {
+    // 与黑色混合
+    const ratio = ((level - 600) / 400) * 0.7;
+    const newR = Math.round(r * (1 - ratio));
+    const newG = Math.round(g * (1 - ratio));
+    const newB = Math.round(b * (1 - ratio));
+    return `rgb(${newR}, ${newG}, ${newB})`;
+  }
+};
+
+const serializeCssVars = (vars: Record<string, string>) =>
+  Object.entries(vars)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join(' ');
+
+const buildThemeVars = (color: string) => {
+  const vars: Record<string, string> = {};
+  const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+  levels.forEach(level => {
+    vars[`--color-brand-${level}`] = generateColorShade(color, level);
+  });
+
+  const color100 = vars['--color-brand-100'];
+  const color300 = vars['--color-brand-300'];
+  const color400 = vars['--color-brand-400'];
+  const color500 = vars['--color-brand-500'];
+  const color600 = vars['--color-brand-600'];
+  const color700 = vars['--color-brand-700'];
+  const color800 = vars['--color-brand-800'];
+
+  const baseHex = color.replace('#', '');
+  const r = parseInt(baseHex.substring(0, 2), 16);
+  const g = parseInt(baseHex.substring(2, 4), 16);
+  const b = parseInt(baseHex.substring(4, 6), 16);
+  vars['--color-brand-rgb'] = `${r}, ${g}, ${b}`;
+
+  vars['--color-brand-primary'] = color600;
+  vars['--color-brand-primary-light'] = color100;
+  vars['--color-brand-primary-hover'] = color700;
+  vars['--color-brand-primary-active'] = color800;
+
+  vars['--lk-color-primary'] = color600;
+  vars['--lk-color-primary-hover'] = color700;
+  vars['--lk-color-primary-active'] = color800;
+  vars['--lk-color-primary-bg-soft'] = color100;
+  vars['--lk-focus-ring-color'] = color100;
+  vars['--lk-input-border-color-hover'] = color700;
+  vars['--lk-input-border-color-active'] = color600;
+  vars['--lk-input-border-color-error'] = color300;
+  vars['--lk-input-shadow-focus'] = `0 0 0 4rpx ${color100}`;
+
+  return vars;
+};
+
+// 应用品牌色
+const applyBrandColor = (color: string) => {
+  const vars = buildThemeVars(color);
+
+  if (typeof document !== 'undefined') {
+    const targets: (HTMLElement | null)[] = [
+      document.documentElement,
+      document.body,
+      document.querySelector('page'),
+    ];
+    const setVar = (name: string, value: string) => {
+      targets.forEach(el => el?.style.setProperty(name, value));
+    };
+
+    Object.entries(vars).forEach(([key, value]) => setVar(key, value));
+  }
+
+  const inlineStyle = serializeCssVars(vars);
+  updateThemeStyleVars?.(inlineStyle);
+
+  uni.setStorageSync('lucky-ui-brand-color', color);
+};
+
+// 切换预设颜色
+const changeBrandColor = (color: string) => {
+  currentBrandColor.value = color;
+  customColorInput.value = color;
+  applyBrandColor(color);
+};
+
+// 应用自定义颜色
+const applyCustomColor = () => {
+  const color = customColorInput.value.trim();
+  if (/^#[0-9A-Fa-f]{6}$/.test(color)) {
+    currentBrandColor.value = color;
+    applyBrandColor(color);
+  }
+};
+
+// 初始化时恢复保存的颜色
+onMounted(() => {
+  const savedColor = uni.getStorageSync('lucky-ui-brand-color');
+  if (savedColor) {
+    currentBrandColor.value = savedColor;
+    customColorInput.value = savedColor;
+    applyBrandColor(savedColor);
+  }
+});
 
 // 组件分类数据
 const categories = [
@@ -434,6 +628,150 @@ const navigateToDetail = (componentName: string) => {
   width: 2rpx;
   background: rgba(255, 255, 255, 0.3);
   margin: 0 24rpx;
+}
+
+// 主题色配置卡片
+.theme-config-card {
+  background: var(--lk-color-bg-surface);
+  border-radius: var(--lk-radius-xl);
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.config-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.config-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--lk-color-text);
+}
+
+.color-presets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.color-preset-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 8rpx;
+  border-radius: var(--lk-radius-md);
+  background: var(--lk-color-bg-page);
+  transition: all 0.2s;
+
+  &.active {
+    background: var(--preset-color);
+
+    .color-dot {
+      border-color: #fff;
+      transform: scale(1.1);
+    }
+
+    .color-name {
+      color: #fff;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.color-dot {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: var(--preset-color);
+  border: 4rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.color-name {
+  font-size: 22rpx;
+  color: var(--lk-color-text-secondary);
+  transition: color 0.2s;
+}
+
+.custom-color-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-top: 1rpx solid var(--lk-color-border);
+  margin-bottom: 24rpx;
+}
+
+.custom-label {
+  font-size: 26rpx;
+  color: var(--lk-color-text-secondary);
+}
+
+.color-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.color-input {
+  width: 180rpx;
+  height: 56rpx;
+  padding: 0 16rpx;
+  border: 1rpx solid var(--lk-color-border);
+  border-radius: var(--lk-radius-sm);
+  font-size: 26rpx;
+  font-family: monospace;
+  color: var(--lk-color-text);
+  background: var(--lk-color-bg-page);
+}
+
+.color-preview {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: var(--lk-radius-sm);
+  border: 2rpx solid var(--lk-color-border);
+  cursor: pointer;
+}
+
+.color-scale-preview {
+  padding-top: 16rpx;
+  border-top: 1rpx solid var(--lk-color-border);
+}
+
+.scale-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--lk-color-text-tertiary);
+  margin-bottom: 16rpx;
+}
+
+.scale-row {
+  display: flex;
+  border-radius: var(--lk-radius-md);
+  overflow: hidden;
+}
+
+.scale-item {
+  flex: 1;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scale-level {
+  font-size: 18rpx;
+  color: #fff;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
 }
 
 // 搜索框

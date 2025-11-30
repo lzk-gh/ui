@@ -1,5 +1,9 @@
 <template>
-  <view class="app-container" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
+  <view
+    class="app-container"
+    :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'"
+    :style="themeStyleVars"
+  >
     <!-- 顶部导航栏 -->
     <lk-navbar :title="pageTitle" :show-back="false">
       <template #right>
@@ -35,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, provide } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
 
 // 组件导入
@@ -52,6 +56,11 @@ import FeedbackPage from './FeedbackPage.vue';
 
 // 主题
 const { theme, toggleTheme } = useTheme();
+
+const themeStyleVars = ref('');
+provide('updateThemeStyleVars', (styleText: string) => {
+  themeStyleVars.value = styleText;
+});
 
 // 当前激活的标签页
 const activeTab = ref<string>('overview');

@@ -4,29 +4,33 @@
    - dark 主题：通过 .lk-theme-dark 或 [data-theme='dark'] 覆盖
 */
 
+@use './tokens/colors' as colors;
+
 /* LIGHT (默认) */
 page,
 .lk-theme-light,
 [data-theme='light'] {
+  /* 品牌色 - 引用 CSS 变量，方便运行时动态修改 */
+  --lk-color-primary: var(--color-brand-primary, #{colors.$color-brand-primary});
+  --lk-color-primary-hover: var(--color-brand-primary-hover, #{colors.$color-brand-primary-hover});
+  --lk-color-primary-active: var(--color-brand-primary-active, #{colors.$color-brand-primary-active});
+  --lk-color-primary-bg-soft: var(--color-brand-primary-light, #{colors.$color-brand-primary-light});
+
   /* 页面背景（与 body 一致，用于业务层引用） */
-  --lk-color-bg-page: #f5f6f7;
-  --lk-color-primary: #6965db;
-  --lk-color-primary-hover: #554fcf;
-  --lk-color-primary-active: #413f8a;
-  --lk-color-primary-bg-soft: #f0f0fa;
+  --lk-color-bg-page: #{colors.$color-bg-body};
 
-  --lk-color-text: #42526e;
-  --lk-color-text-secondary: #6b778c;
-  --lk-color-text-placeholder: #8993a4;
-  --lk-color-text-disabled: #a5adba;
-  --lk-color-text-inverse: #ffffff;
+  --lk-color-text: #{colors.$color-text-primary};
+  --lk-color-text-secondary: #{colors.$color-text-secondary};
+  --lk-color-text-placeholder: #{colors.$color-text-placeholder};
+  --lk-color-text-disabled: #{colors.$color-text-disabled};
+  --lk-color-text-inverse: #{colors.$color-text-inverse};
 
-  --lk-color-border: #c1c7d0;
-  --lk-color-border-weak: #dfe1e5;
+  --lk-color-border: #{colors.$color-border-primary};
+  --lk-color-border-weak: #{colors.$color-border-secondary};
 
-  --lk-color-bg-body: #f5f6f7;
-  --lk-color-bg-surface: #ffffff;
-  --lk-color-bg-surface-active: #e8eaed;
+  --lk-color-bg-body: #{colors.$color-bg-body};
+  --lk-color-bg-surface: #{colors.$color-bg-container};
+  --lk-color-bg-surface-active: #{colors.$color-bg-container-active};
 
   --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
@@ -53,7 +57,7 @@ page,
   --lk-transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
   --lk-transition-base: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-  --lk-focus-ring-color: #f0f0fa;
+  --lk-focus-ring-color: var(--color-brand-primary-light, #{colors.$color-brand-primary-light});
   --lk-focus-ring-width: 4rpx;
 
   --lk-choice-border-size: 2rpx;
@@ -67,31 +71,33 @@ page,
   --lk-switch-knob-gap: 4rpx;
   --lk-switch-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
 
-  --lk-input-bg: #ffffff;
-  --lk-input-bg-disabled: #ffffff;
-  --lk-input-border-color: #c1c7d0;
-  --lk-input-border-color-hover: #554fcf;
-  --lk-input-border-color-active: #6965db;
-  --lk-input-border-color-error: #413f8a;
-  --lk-input-placeholder-color: #8993a4;
-  --lk-input-shadow-focus: 0 0 0 4rpx #f0f0fa;
+  --lk-input-bg: #{colors.$color-bg-container};
+  --lk-input-bg-disabled: #{colors.$color-bg-container};
+  --lk-input-border-color: #{colors.$color-border-primary};
+  --lk-input-border-color-hover: var(--color-brand-primary-hover, #{colors.$color-brand-primary-hover});
+  --lk-input-border-color-active: var(--color-brand-primary, #{colors.$color-brand-primary});
+  --lk-input-border-color-error: var(--color-brand-primary-active, #{colors.$color-brand-primary-active});
+  --lk-input-placeholder-color: #{colors.$color-text-placeholder};
+  --lk-input-shadow-focus: 0 0 0 4rpx rgba(var(--color-brand-rgb, 105, 101, 219), 0.15);
 }
 
 /* DARK */
 .lk-theme-dark,
 [data-theme='dark'] {
+  /* 品牌色 - 暗色模式下适当调亮 */
+  --lk-color-primary: var(--color-brand-500, #{colors.$color-brand-500});
+  --lk-color-primary-hover: var(--color-brand-400, #{colors.$color-brand-400});
+  --lk-color-primary-active: var(--color-brand-300, #{colors.$color-brand-300});
+  --lk-color-primary-bg-soft: rgba(var(--color-brand-rgb, 105, 101, 219), 0.18);
+
   /* 页面背景（与 body 一致，用于业务层引用） */
   --lk-color-bg-page: #141414;
-  --lk-color-primary: #7b75dd;
-  --lk-color-primary-hover: #938ee0;
-  --lk-color-primary-active: #c1bfe9;
-  --lk-color-primary-bg-soft: rgba(123, 117, 221, 0.18);
 
   --lk-color-text: rgba(255, 255, 255, 0.88);
   --lk-color-text-secondary: rgba(255, 255, 255, 0.65);
   --lk-color-text-placeholder: rgba(255, 255, 255, 0.45);
   --lk-color-text-disabled: rgba(255, 255, 255, 0.35);
-  --lk-color-text-inverse: #172b4d;
+  --lk-color-text-inverse: #{colors.$color-gray-900};
 
   --lk-color-border: rgba(255, 255, 255, 0.25);
   --lk-color-border-weak: rgba(255, 255, 255, 0.15);
@@ -107,9 +113,9 @@ page,
   --lk-input-bg: #1d1d1f;
   --lk-input-bg-disabled: #1d1d1f;
   --lk-input-border-color: rgba(255, 255, 255, 0.25);
-  --lk-input-border-color-hover: #938ee0;
-  --lk-input-border-color-active: #7b75dd;
-  --lk-input-border-color-error: #c1bfe9;
+  --lk-input-border-color-hover: var(--color-brand-400, #{colors.$color-brand-400});
+  --lk-input-border-color-active: var(--color-brand-500, #{colors.$color-brand-500});
+  --lk-input-border-color-error: var(--color-brand-300, #{colors.$color-brand-300});
   --lk-input-placeholder-color: rgba(255, 255, 255, 0.45);
-  --lk-input-shadow-focus: 0 0 0 4rpx rgba(123, 117, 221, 0.25);
+  --lk-input-shadow-focus: 0 0 0 4rpx rgba(var(--color-brand-rgb, 105, 101, 219), 0.25);
 }

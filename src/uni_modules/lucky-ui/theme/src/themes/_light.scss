@@ -6,6 +6,18 @@
 :root,
 [data-theme='light'] {
   // --- 品牌色 ---
+  --color-brand-100: #{theme.$color-brand-100};
+  --color-brand-200: #{theme.$color-brand-200};
+  --color-brand-300: #{theme.$color-brand-300};
+  --color-brand-400: #{theme.$color-brand-400};
+  --color-brand-500: #{theme.$color-brand-500};
+  --color-brand-600: #{theme.$color-brand-600};
+  --color-brand-700: #{theme.$color-brand-700};
+  --color-brand-800: #{theme.$color-brand-800};
+  --color-brand-900: #{theme.$color-brand-900};
+  --color-brand-1000: #{theme.$color-brand-1000};
+  --color-brand-rgb: #{red(theme.$color-brand-600)}, #{green(theme.$color-brand-600)}, #{blue(theme.$color-brand-600)};
+
   --color-brand-primary: #{theme.$color-brand-primary};
   --color-brand-primary-light: #{theme.$color-brand-primary-light};
   --color-brand-primary-hover: #{theme.$color-brand-primary-hover};
@@ -18,7 +30,6 @@
   --color-text-disabled: #{theme.$color-text-disabled};
   --color-text-inverse: #{theme.$color-text-inverse};
   --color-text-link: #{theme.$color-text-link};
-  --color-text-error: #{theme.$color-text-error};
 
   // --- 背景颜色 ---
   --color-bg-body: #{theme.$color-bg-body};
@@ -29,12 +40,6 @@
   // --- 边框颜色 ---
   --color-border-primary: #{theme.$color-border-primary};
   --color-border-secondary: #{theme.$color-border-secondary};
-
-  // --- 功能色 ---
-  --color-functional-success: #{theme.$color-functional-success};
-  --color-functional-warning: #{theme.$color-functional-warning};
-  --color-functional-error: #{theme.$color-functional-error};
-  --color-functional-info: #{theme.$color-functional-info};
 
   // --- 阴影 ---
   --shadow-sm: #{theme.$shadow-sm};
