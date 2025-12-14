@@ -28,7 +28,9 @@ select?.register({ value: props.value, label: props.label || props.value });
     <text class="lk-option__label"
       ><slot>{{ label || value }}</slot></text
     >
-    <text v-if="selected" class="lk-option__check">✓</text>
+    <view class="lk-option__check">
+      <text v-if="selected">✓</text>
+    </view>
   </view>
 </template>
 
@@ -37,28 +39,46 @@ select?.register({ value: props.value, label: props.label || props.value });
   position: relative;
   display: flex;
   align-items: center;
-  padding: 22rpx 32rpx;
+  padding: 16rpx 24rpx;
   font-size: 28rpx;
   color: var(--lk-color-text);
-  transition:
-    background var(--lk-transition-fast),
-    color var(--lk-transition-fast);
-  &.is-selected {
-    background: var(--lk-color-primary-bg-soft);
-    color: var(--lk-color-primary);
-    font-weight: 600;
-  }
+  border-radius: var(--lk-radius-md);
+  transition: background-color 0.2s;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover:not(.is-disabled),
   &:active:not(.is-disabled) {
-    background: var(--lk-color-primary-bg-soft);
+    background-color: var(--lk-color-bg-hover, #f5f5f5);
   }
+
+  &.is-selected {
+    background-color: var(--lk-color-primary-bg-soft);
+    color: var(--lk-color-text);
+    font-weight: 500;
+  }
+
   &.is-disabled {
     opacity: 0.5;
     pointer-events: none;
   }
+
+  &__label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__check {
-    margin-left: auto;
-    font-size: 28rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32rpx;
+    height: 32rpx;
+    margin-left: 16rpx;
     color: var(--lk-color-primary);
+    font-size: 28rpx;
   }
 }
 </style>

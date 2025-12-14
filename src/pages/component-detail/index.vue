@@ -59,6 +59,7 @@
           <StepsDemo v-else-if="componentName === 'steps'" />
           <ProgressDemo v-else-if="componentName === 'progress'" />
           <LoadingDemo v-else-if="componentName === 'loading'" />
+          <NumberRollerDemo v-else-if="componentName === 'number-roller'" />
           <SkeletonDemo v-else-if="componentName === 'skeleton'" />
           <CarouselDemo v-else-if="componentName === 'carousel'" />
           <SegmentedDemo v-else-if="componentName === 'segmented'" />
@@ -377,6 +378,12 @@ const componentMap: Record<string, any> = {
     icon: 'three-dots',
     color: 'primary',
   },
+  'number-roller': {
+    title: 'NumberRoller 数字翻牌',
+    desc: '流畅的数值增长展示',
+    icon: 'speedometer',
+    color: 'info',
+  },
 
   // 反馈组件
   modal: {
@@ -594,6 +601,7 @@ import TimelineDemo from '@/components/demos/timeline-demo.vue';
 import StepsDemo from '@/components/demos/steps-demo.vue';
 import ProgressDemo from '@/components/demos/progress-demo.vue';
 import LoadingDemo from '@/components/demos/loading-demo.vue';
+import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
 import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
@@ -673,6 +681,7 @@ const demoComponentMap: Record<string, any> = {
   steps: StepsDemo,
   progress: ProgressDemo,
   loading: LoadingDemo,
+  'number-roller': NumberRollerDemo,
   skeleton: SkeletonDemo,
   carousel: CarouselDemo,
   segmented: SegmentedDemo,

@@ -47,6 +47,12 @@ export const selectProps = {
   /** 最多显示的标签数量 */
   maxTagCount: LkProp.number(3),
 
+  /** 选项列表 */
+  options: {
+    type: Array as PropType<Array<{ label: string; value: any; disabled?: boolean }>>,
+    default: () => [],
+  },
+
   /** 选择后是否关闭下拉框 */
   closeOnSelect: LkProp.boolean(true),
 } as const;

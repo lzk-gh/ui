@@ -4,10 +4,6 @@
       <lk-rate v-model="value1" />
     </demo-block>
 
-    <demo-block title="半星">
-      <lk-rate v-model="value2" allow-half />
-    </demo-block>
-
     <demo-block title="只读">
       <lk-rate v-model="value3" readonly />
     </demo-block>
@@ -29,7 +25,7 @@
     </demo-block>
 
     <demo-block title="自定义图标（lk-icon）">
-      <lk-rate v-model="value8" allow-half icon="star-fill" color="#f5a623" :size="48" />
+      <lk-rate v-model="value7" allow-half icon="star-fill" color="#f5a623" :size="48" />
     </demo-block>
   </view>
 </template>
@@ -40,13 +36,11 @@ import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const value1 = ref(3);
-const value2 = ref(3.5);
 const value3 = ref(4);
 const value4 = ref(2);
 const value5 = ref(5);
 const value6 = ref(4);
 const value7 = ref(3);
-const value8 = ref(2.5);
 </script>
 
 <style scoped lang="scss">

@@ -408,6 +408,12 @@ const categories = [
         desc: '分页',
         icon: 'three-dots',
       },
+      {
+        name: 'number-roller',
+        label: 'NumberRoller',
+        desc: '数字翻牌',
+        icon: 'speedometer',
+      },
     ],
   },
   {

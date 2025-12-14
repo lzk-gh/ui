@@ -109,3 +109,5 @@ export { default as LkAreaPicker } from './lk-area-picker/lk-area-picker.vue';
 export { default as LkSignature } from './lk-signature/lk-signature.vue';
 // New: ColorPicker
 export { default as LkColorPicker } from './lk-color-picker/lk-color-picker.vue';
+// New: NumberRoller
+export { default as LkNumberRoller } from './lk-number-roller/lk-number-roller.vue';
