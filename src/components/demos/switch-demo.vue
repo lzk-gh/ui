@@ -20,16 +20,27 @@
 
     <demo-block title="不同尺寸">
       <view class="switch-row">
-        <text>小号</text>
+        <text>小号 sm</text>
         <lk-switch v-model="value4" size="sm" />
       </view>
       <view class="switch-row">
-        <text>默认</text>
-        <lk-switch v-model="value5" />
+        <text>默认 md</text>
+        <lk-switch v-model="value5" size="md" />
       </view>
       <view class="switch-row">
-        <text>大号</text>
+        <text>大号 lg</text>
         <lk-switch v-model="value6" size="lg" />
+      </view>
+    </demo-block>
+
+    <demo-block title="自定义颜色">
+      <view class="switch-row">
+        <text>成功色</text>
+        <lk-switch v-model="value8" active-color="#07c160" />
+      </view>
+      <view class="switch-row">
+        <text>警告色</text>
+        <lk-switch v-model="value9" active-color="#ff976a" inactive-color="#ffe1d0" />
       </view>
     </demo-block>
 
@@ -39,13 +50,18 @@
         <lk-switch v-model="value7" loading />
       </view>
     </demo-block>
+
+    <demo-block title="异步切换">
+      <view class="switch-row">
+        <text>模拟请求</text>
+        <lk-switch v-model="asyncValue" :loading="asyncLoading" :before-change="handleAsyncChange" />
+      </view>
+    </demo-block>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const value1 = ref(true);
 const value2 = ref(true);
@@ -53,7 +69,23 @@ const value3 = ref(false);
 const value4 = ref(true);
 const value5 = ref(true);
 const value6 = ref(true);
-const value7 = ref(false);
+const value7 = ref(true);
+const value8 = ref(true);
+const value9 = ref(false);
+
+// 异步切换示例
+const asyncValue = ref(false);
+const asyncLoading = ref(false);
+
+const handleAsyncChange = (): Promise<boolean> => {
+  asyncLoading.value = true;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      asyncLoading.value = false;
+      resolve(true);
+    }, 1000);
+  });
+};
 </script>
 
 <style scoped lang="scss">

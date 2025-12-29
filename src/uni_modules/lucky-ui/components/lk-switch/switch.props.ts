@@ -1,9 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-/**
- * 开关尺寸
- */
 export const SwitchSize = {
   Sm: 'sm',
   Md: 'md',
@@ -33,13 +30,14 @@ export const switchProps = {
     default: false,
   },
 
-  /**
-   * 尺寸
-   * @value sm 小尺寸
-   * @value md 默认尺寸
-   * @value lg 大尺寸
-   */
+  /** 尺寸: sm | md | lg */
   size: LkProp.enum(Object.values(SwitchSize), SwitchSize.Md, 'Switch.size'),
+
+  /** 开启时的背景色 */
+  activeColor: String,
+
+  /** 关闭时的背景色 */
+  inactiveColor: String,
 
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
@@ -47,7 +45,7 @@ export const switchProps = {
   /** 是否加载中 */
   loading: LkProp.boolean(false),
 
-  /** 切换前的拦截函数 */
+  /** 切换前的拦截函数，返回 false 或 Promise<false> 阻止切换 */
   beforeChange: {
     type: Function as PropType<(val: any) => boolean | Promise<boolean>>,
     default: null,
@@ -56,4 +54,8 @@ export const switchProps = {
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;
 
-export const switchEmits = ['update:modelValue', 'change', 'click'];
+export const switchEmits = {
+  'update:modelValue': (_val: boolean | string | number) => true,
+  'change': (_val: boolean | string | number) => true,
+  'click': (_e: Event) => true,
+};

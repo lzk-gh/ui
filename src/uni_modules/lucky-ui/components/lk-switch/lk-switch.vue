@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { switchProps, switchEmits } from './switch.props';
 
 defineOptions({ name: 'LkSwitch' });
@@ -7,31 +7,49 @@ defineOptions({ name: 'LkSwitch' });
 const props = defineProps(switchProps);
 const emit = defineEmits(switchEmits);
 
-const checked = computed(() => props.modelValue === props.activeValue);
-let changing = false;
+// 是否选中
+const isChecked = computed(() => props.modelValue === props.activeValue);
 
+// 防重复触发标记
+const changing = ref(false);
+
+// 动态样式：支持自定义颜色
+const customStyle = computed(() => {
+  const style: Record<string, string> = {};
+  if (props.activeColor) {
+    style['--switch-active-color'] = props.activeColor;
+  }
+  if (props.inactiveColor) {
+    style['--switch-inactive-color'] = props.inactiveColor;
+  }
+  return style;
+});
+
+// 切换逻辑
 async function toggle() {
-  if (props.disabled || props.loading || changing) return;
-  const target = checked.value ? props.inactiveValue : props.activeValue;
+  if (props.disabled || props.loading || changing.value) return;
+
+  const nextValue = isChecked.value ? props.inactiveValue : props.activeValue;
+
+  // beforeChange 拦截
   if (props.beforeChange) {
-    changing = true;
+    changing.value = true;
     try {
-      const ok = await props.beforeChange(target);
-      if (!ok) {
-        changing = false;
-        return;
-      }
+      const allowed = await props.beforeChange(nextValue);
+      if (!allowed) return;
     } catch {
-      changing = false;
       return;
+    } finally {
+      changing.value = false;
     }
   }
-  emit('update:modelValue', target);
-  emit('change', target);
-  changing = false;
+
+  emit('update:modelValue', nextValue);
+  emit('change', nextValue);
 }
-function onClick() {
-  emit('click');
+
+function onClick(e: Event) {
+  emit('click', e);
   toggle();
 }
 </script>
@@ -41,8 +59,13 @@ function onClick() {
     class="lk-switch"
     :class="[
       `lk-switch--${size}`,
-      { 'is-checked': checked, 'is-disabled': disabled, 'is-loading': loading },
+      {
+        'is-checked': isChecked,
+        'is-disabled': disabled,
+        'is-loading': loading,
+      },
     ]"
+    :style="customStyle"
     @click="onClick"
   >
     <view class="lk-switch__knob">
