@@ -533,12 +533,6 @@ const categories = [
         desc: '瀑布流',
         icon: 'grid-3x2',
       },
-      {
-        name: 'image-cropper',
-        label: 'ImageCropper',
-        desc: '图片裁剪',
-        icon: 'crop',
-      },
     ],
   },
 ];

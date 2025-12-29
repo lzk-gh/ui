@@ -100,8 +100,6 @@ export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';
 export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue';
 // New: VerifyCode
 export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
-// New: ImageCropper
-export { default as LkImageCropper } from './lk-image-cropper/lk-image-cropper.vue';
 // New: AreaPicker
 export { default as LkAreaPicker } from './lk-area-picker/lk-area-picker.vue';
 // New: NumberRoller
