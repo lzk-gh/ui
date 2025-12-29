@@ -117,9 +117,4 @@
     border-radius: 50%;
     animation: lk-spin 1s linear infinite;
   }
-
-  @include e(icon) {
-    margin-right: var(--lk-spacing-xs);
-    font-size: 1.1em;
-  }
 }

@@ -4,7 +4,6 @@
     <demo-block title="基础按钮">
       <view class="demo-row">
         <lk-button @click="showToast('默认按钮')">默认按钮</lk-button>
-        <lk-button>常规按钮</lk-button>
       </view>
     </demo-block>
 
@@ -22,7 +21,6 @@
         <lk-button :loading="buttonLoading" @click="triggerLoading">
           {{ buttonLoading ? '加载中...' : '点击加载' }}
         </lk-button>
-        <lk-button :loading="true">持续加载</lk-button>
       </view>
     </demo-block>
 
@@ -32,7 +30,7 @@
         <lk-button size="md">中等按钮</lk-button>
         <lk-button size="lg">大型按钮</lk-button>
       </view>
-      <lk-button size="lg" block style="margin-top: 16rpx">块级按钮</lk-button>
+      <lk-button size="lg" block shape="round" style="margin-top: 16rpx">块级胶囊按钮</lk-button>
     </demo-block>
 
     <demo-block title="按钮形状">

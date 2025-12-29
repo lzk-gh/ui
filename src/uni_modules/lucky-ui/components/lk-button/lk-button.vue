@@ -33,13 +33,8 @@ function onClick(e: MouseEvent) {
     hover-class="none"
     @tap="onClick"
   >
-    <!-- Loading 状态 -->
     <view v-if="loading" class="lk-button__loader" />
 
-    <!-- Icon (如果不传 icon 属性，此处不渲染，通过 slot 传 icon 也可以) -->
-    <view v-if="icon" class="lk-button__icon" :class="icon" />
-
-    <!-- 内容 -->
     <slot />
   </button>
 </template>
