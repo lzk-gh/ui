@@ -104,8 +104,6 @@ export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
 export { default as LkImageCropper } from './lk-image-cropper/lk-image-cropper.vue';
 // New: AreaPicker
 export { default as LkAreaPicker } from './lk-area-picker/lk-area-picker.vue';
-// New: Signature
-export { default as LkSignature } from './lk-signature/lk-signature.vue';
 // New: ColorPicker
 export { default as LkColorPicker } from './lk-color-picker/lk-color-picker.vue';
 // New: NumberRoller

@@ -136,12 +136,6 @@ const components = [
     desc: '支持 HSV/RGB/HEX',
     icon: 'palette',
   },
-  {
-    name: 'signature',
-    title: 'Signature 手写签名',
-    desc: 'Canvas 手写与导出',
-    icon: 'pen',
-  },
 ];
 
 const navigateToDetail = (componentName: string) => {

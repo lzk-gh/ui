@@ -362,7 +362,6 @@ const categories = [
         desc: '取色器',
         icon: 'palette',
       },
-      { name: 'signature', label: 'Signature', desc: '手写签名', icon: 'pen' },
     ],
   },
   {
