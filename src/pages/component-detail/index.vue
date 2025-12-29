@@ -47,7 +47,6 @@
           <AreaPickerDemo v-else-if="componentName === 'area-picker'" />
           <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
-          <ColorPickerDemo v-else-if="componentName === 'color-picker'" />
 
           <CardDemo v-else-if="componentName === 'card'" />
           <CellDemo v-else-if="componentName === 'cell'" />
@@ -284,12 +283,6 @@ const componentMap: Record<string, any> = {
     desc: '短信/验证码输入',
     icon: 'shield-lock',
     color: 'warning',
-  },
-  'color-picker': {
-    title: 'ColorPicker 取色器',
-    desc: '支持 HSV/RGB/HEX',
-    icon: 'palette',
-    color: 'info',
   },
 
   // 数据展示组件
@@ -581,7 +574,6 @@ import PickerViewDemo from '@/components/demos/picker-view-demo.vue';
 import AreaPickerDemo from '@/components/demos/area-picker-demo.vue';
 import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
-import ColorPickerDemo from '@/components/demos/color-picker-demo.vue';
 
 // 数据展示组件
 import CardDemo from '@/components/demos/card-demo.vue';
@@ -660,7 +652,6 @@ const demoComponentMap: Record<string, any> = {
   'area-picker': AreaPickerDemo,
   'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,
-  'color-picker': ColorPickerDemo,
 
   // 数据展示组件
   card: CardDemo,

@@ -356,12 +356,6 @@ const categories = [
         desc: '验证码',
         icon: 'shield-lock',
       },
-      {
-        name: 'color-picker',
-        label: 'ColorPicker',
-        desc: '取色器',
-        icon: 'palette',
-      },
     ],
   },
   {

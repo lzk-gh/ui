@@ -130,12 +130,6 @@ const components = [
     desc: '短信/验证码输入',
     icon: 'shield-lock',
   },
-  {
-    name: 'color-picker',
-    title: 'ColorPicker 取色器',
-    desc: '支持 HSV/RGB/HEX',
-    icon: 'palette',
-  },
 ];
 
 const navigateToDetail = (componentName: string) => {
