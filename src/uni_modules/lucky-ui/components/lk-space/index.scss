@@ -3,9 +3,13 @@
 @include b(space) {
   display: inline-flex;
 
+  // gap 属性由 Vue 组件通过 style 动态注入，此处无需定义默认值
+  // 现代浏览器、微信小程序、UniApp App-NVUE(Yoga) 均支持 gap
+
   @include m(horizontal) {
     flex-direction: row;
   }
+
   @include m(vertical) {
     flex-direction: column;
   }
@@ -13,65 +17,20 @@
   @include m(align-start) {
     align-items: flex-start;
   }
+
   @include m(align-center) {
     align-items: center;
   }
+
   @include m(align-end) {
     align-items: flex-end;
   }
+
   @include m(align-baseline) {
     align-items: baseline;
   }
+
   @include m(wrap) {
     flex-wrap: wrap;
-  }
-
-  /* 使用 margin 模拟 gap，兼容性更好 */
-  /* #ifdef H5 */
-  > * {
-    margin-right: var(--gap-x);
-    margin-bottom: var(--gap-y);
-  }
-  @include m(vertical) {
-    > * {
-      margin-right: 0;
-    }
-  }
-  @include m(horizontal) {
-    > * {
-      margin-bottom: 0;
-    }
-  }
-  > *:last-child {
-    margin-right: 0;
-    margin-bottom: 0;
-  }
-  /* #endif */
-
-  /* #ifndef H5 */
-  > view {
-    margin-right: var(--gap-x);
-    margin-bottom: var(--gap-y);
-  }
-  @include m(vertical) {
-    > view {
-      margin-right: 0;
-    }
-  }
-  @include m(horizontal) {
-    > view {
-      margin-bottom: 0;
-    }
-  }
-  > view:last-child {
-    margin-right: 0;
-    margin-bottom: 0;
-  }
-  /* #endif */
-
-  @include e(split) {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 var(--gap-x);
   }
 }

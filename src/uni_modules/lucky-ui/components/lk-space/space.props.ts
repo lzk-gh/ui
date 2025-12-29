@@ -1,19 +1,14 @@
-import type { ExtractPropTypes, PropType, VNode } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-export type SpaceSize = number | [number, number] | 'sm' | 'md' | 'lg';
+// 预设间距类型
+export type SpaceGap = number | string | [number | string, number | string] | 'sm' | 'md' | 'lg';
 
-/**
- * 间距方向
- */
 export const SpaceDirection = {
   Horizontal: 'horizontal',
   Vertical: 'vertical',
 } as const;
 
-/**
- * 对齐方式
- */
 export const SpaceAlign = {
   Start: 'start',
   Center: 'center',
@@ -21,42 +16,29 @@ export const SpaceAlign = {
   Baseline: 'baseline',
 } as const;
 
-export type SpaceDirection = (typeof SpaceDirection)[keyof typeof SpaceDirection];
-export type SpaceAlign = (typeof SpaceAlign)[keyof typeof SpaceAlign];
-
 export const spaceProps = {
   ...baseProps,
 
-  /** 间距大小 */
-  size: {
-    type: [Number, Array, String] as unknown as PropType<SpaceSize>,
+  /**
+   * 间距大小 (替代原 size)
+   * @description
+   * - 传入数字: 默认为 rpx
+   * - 传入数组 [水平间距, 垂直间距]
+   * - 传入字符串: 'sm'|'md'|'lg' 或带单位的 '10px'
+   */
+  gap: {
+    type: [Number, Array, String] as PropType<SpaceGap>,
     default: 'md',
   },
 
-  /**
-   * 方向
-   * @value horizontal 水平
-   * @value vertical 垂直
-   */
+  /** 方向: horizontal 水平, vertical 垂直 */
   direction: LkProp.enum(Object.values(SpaceDirection), SpaceDirection.Horizontal, 'Space.direction'),
 
-  /**
-   * 对齐方式
-   * @value start 起始
-   * @value center 居中
-   * @value end 末尾
-   * @value baseline 基线
-   */
+  /** 对齐方式: start, center, end, baseline */
   align: LkProp.enum(Object.values(SpaceAlign), SpaceAlign.Center, 'Space.align'),
 
   /** 是否换行 */
   wrap: LkProp.boolean(false),
-
-  /** 分隔符 */
-  split: {
-    type: null as unknown as PropType<VNode | null>,
-    default: null,
-  },
 } as const;
 
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>;
