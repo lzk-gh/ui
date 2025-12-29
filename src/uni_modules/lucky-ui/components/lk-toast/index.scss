@@ -1,0 +1,110 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(toast) {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4000;
+
+  @include m(center) {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @include m(top) {
+    top: 12%;
+  }
+
+  @include m(bottom) {
+    bottom: 12%;
+  }
+
+  @include e(overlay) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.01);
+
+    @include when(lock) {
+      pointer-events: auto;
+    }
+  }
+
+  @include e(inner) {
+    max-width: 560rpx;
+    min-width: 220rpx;
+    padding: var(--lk-spacing-sm) var(--lk-spacing-md);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    color: var(--lk-color-text-inverse);
+    border-radius: var(--lk-radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--lk-spacing-xs);
+  }
+
+  @include e(text) {
+    font-size: var(--lk-font-size-sm);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  @include e(icon) {
+    color: var(--lk-color-text-inverse);
+  }
+}
+
+@include b(toast-manager) {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 4500;
+}
+
+@include b(toast-mgr) {
+  @include e(item) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    &.pos-top {
+      top: 12%;
+    }
+    &.pos-center {
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &.pos-bottom {
+      bottom: 12%;
+    }
+  }
+
+  @include e(inner) {
+    pointer-events: auto;
+    max-width: 560rpx;
+    min-width: 220rpx;
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--lk-color-text-inverse);
+    padding: var(--lk-spacing-md) var(--lk-spacing-lg);
+    border-radius: var(--lk-radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--lk-spacing-sm);
+    animation: lk-toast-mgr-in 0.25s;
+  }
+
+  @include e(text) {
+    font-size: var(--lk-font-size-sm);
+    text-align: center;
+  }
+
+  @include e(icon) {
+    color: var(--lk-color-text-inverse);
+  }
+}

@@ -104,7 +104,7 @@ $color-text-link: $color-brand-primary; // 链接文字
 $color-bg-body: $color-gray-100; // 页面整体背景
 $color-bg-container: $color-white; // 卡片、弹窗等容器背景
 $color-bg-container-active: $color-gray-200; // 容器按压态背景
-$color-bg-mask: rgba($color-black, 0.7); // 遮罩层背景
+$color-bg-mask: color.change($color-black, $alpha: 0.7); // 遮罩层背景
 
 // 边框 / 分割线颜色
 $color-border-primary: $color-gray-400; // 主要边框/分割线

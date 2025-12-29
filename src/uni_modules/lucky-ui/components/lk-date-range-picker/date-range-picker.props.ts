@@ -4,7 +4,10 @@ import { baseProps, LkProp } from '../common/props';
 export const dateRangePickerProps = {
   ...baseProps,
   /** 绑定值 */
-  modelValue: { type: Array as PropType<[string, string] | []>, default: () => [] },
+  modelValue: {
+    type: Array as unknown as PropType<[string, string] | []>,
+    default: () => [],
+  },
   /** 占位文本 */
   placeholder: LkProp.string('选择日期范围'),
   /** 是否可清除 */

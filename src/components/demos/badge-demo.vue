@@ -61,7 +61,7 @@
         <lk-badge :value="badgeCount">
           <lk-button @click="increaseBadge">点击增加</lk-button>
         </lk-badge>
-        <lk-button size="medium" @click="resetBadge">重置</lk-button>
+        <lk-button size="md" @click="resetBadge">重置</lk-button>
       </view>
     </demo-block>
 

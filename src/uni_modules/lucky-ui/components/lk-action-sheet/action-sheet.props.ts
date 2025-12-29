@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
-import { ANIMATION_PRESETS, type TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
+import type { ANIMATION_PRESETS, TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
 
 export interface Action {
   name: string;

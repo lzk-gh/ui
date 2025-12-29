@@ -143,58 +143,6 @@ const trackRef = ref<any>();
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-slider {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-  &__track {
-    position: relative;
-    flex: 1;
-    height: 12rpx;
-    background: var(--lk-color-primary-bg-soft);
-    border-radius: 12rpx;
-  }
-  &__bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    background: var(--lk-color-primary);
-    border-radius: inherit;
-  }
-  &__thumb {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 48rpx;
-    height: 48rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: var(--lk-color-primary);
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-    transition: transform var(--lk-transition-fast);
-    &:active {
-      transform: translate(-50%, -50%) scale(1.08);
-    }
-  }
-  &__thumb-dot {
-    width: 50%;
-    height: 50%;
-    background: var(--lk-color-text-inverse);
-    border-radius: 50%;
-    opacity: 0.8;
-  }
-  &__value {
-    min-width: 80rpx;
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-    text-align: right;
-  }
-  &.is-disabled {
-    opacity: 0.5;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

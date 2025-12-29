@@ -60,37 +60,6 @@ const textStyle = computed(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-divider {
-  position: relative;
-  height: 2rpx;
-  background: var(--lk-color-border-weak);
-  margin: 40rpx 0;
-  &.is-hairline {
-    height: 1rpx;
-  }
-  &.is-dashed {
-    background: none;
-    border-top: 2rpx dashed var(--lk-color-border-weak);
-  }
-  &.has-text {
-    .lk-divider__text {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--lk-color-bg-body);
-      padding: 0 20rpx;
-      font-size: 24rpx;
-      color: var(--lk-color-text-secondary);
-      white-space: nowrap;
-    }
-  }
-  &.is-vertical {
-    width: 2rpx;
-    height: 100%;
-    background: var(--lk-color-border-weak);
-    margin: 0 24rpx;
-    display: inline-block;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

@@ -1,0 +1,41 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(segmented) {
+  display: inline-flex;
+  background: var(--lk-color-primary-bg-soft);
+  padding: 4rpx;
+  border-radius: var(--lk-radius-pill);
+
+  @include m(sm) {
+    font-size: 22rpx;
+  }
+
+  @include m(md) {
+    font-size: 24rpx;
+  }
+
+  @include m(lg) {
+    font-size: 28rpx;
+  }
+
+  @include e(item) {
+    position: relative;
+    padding: var(--lk-spacing-xs) var(--lk-spacing-lg);
+    border-radius: var(--lk-radius-pill);
+    color: var(--lk-color-primary);
+    font-weight: 500;
+    transition:
+      background var(--lk-transition-fast),
+      color var(--lk-transition-fast);
+
+    @include when(active) {
+      background: var(--lk-color-primary);
+      color: var(--lk-color-text-inverse);
+    }
+
+    &:active:not(.is-active) {
+      background: var(--lk-color-primary-hover);
+      color: #fff;
+    }
+  }
+}

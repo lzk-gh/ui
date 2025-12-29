@@ -77,24 +77,6 @@ const activeColor = computed(() => props.color || 'var(--lk-color-warning)');
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-rate {
-  display: inline-flex;
-  align-items: center;
-  gap: 16rpx; /* 星之间的间距 */
-
-  &.is-disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
-  &.is-readonly {
-    pointer-events: none;
-  }
-
-  &__item {
-    cursor: pointer;
-    line-height: 1;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

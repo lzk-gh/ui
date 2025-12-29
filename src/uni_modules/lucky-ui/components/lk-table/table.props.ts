@@ -71,6 +71,12 @@ export const tableProps = {
   /** 是否远程排序 */
   sortRemote: LkProp.boolean(false),
 
+  /** 默认排序 */
+  defaultSort: {
+    type: Object as PropType<{ key: string; order: 'asc' | 'desc' }>,
+    default: undefined,
+  },
+
   /** 已选中的行 */
   modelValue: {
     type: Array as PropType<any[]>,
@@ -85,4 +91,5 @@ export const tableEmits = {
   'selection-change': (val: any[]) => true,
   'row-click': (row: any, index: number) => true,
   'sort-change': (params: { key: string; order: 'asc' | 'desc' | null }) => true,
+  'summary-computed': (row: any) => true,
 };

@@ -1,0 +1,161 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(tooltip) {
+  position: relative;
+  display: inline-block;
+
+  @include when(disabled) {
+    cursor: not-allowed;
+  }
+
+  @include e(trigger) {
+    display: inline-block;
+  }
+
+  @include e(pop) {
+    position: absolute;
+    z-index: 2000;
+    padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
+    background: var(--lk-color-bg-surface);
+    border: 1px solid var(--lk-color-border-weak);
+    border-radius: var(--lk-radius-md);
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-color-text);
+    white-space: nowrap;
+    pointer-events: auto;
+
+    /* 默认 top */
+    bottom: calc(100% + var(--lk-tooltip-offset, 8rpx));
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include when(bottom) {
+      top: calc(100% + var(--lk-tooltip-offset, 8rpx));
+      bottom: auto;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @include when(left) {
+      right: calc(100% + var(--lk-tooltip-offset, 8rpx));
+      left: auto;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+    }
+
+    @include when(right) {
+      left: calc(100% + var(--lk-tooltip-offset, 8rpx));
+      right: auto;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+    }
+  }
+
+  @include e(content) {
+    display: block;
+  }
+
+  @include e(arrow) {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  @include e(pop) {
+    @include when(top) {
+      @include e(arrow) {
+        left: 50%;
+        bottom: -8rpx;
+        transform: translateX(-50%);
+        border-width: 8rpx 8rpx 0 8rpx;
+        border-color: var(--lk-color-border-weak) transparent transparent transparent;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -6rpx;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6rpx 6rpx 0 6rpx;
+        border-color: var(--lk-color-bg-surface) transparent transparent transparent;
+      }
+    }
+
+    @include when(bottom) {
+      @include e(arrow) {
+        left: 50%;
+        top: -8rpx;
+        transform: translateX(-50%);
+        border-width: 0 8rpx 8rpx 8rpx;
+        border-color: transparent transparent var(--lk-color-border-weak) transparent;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: -6rpx;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 6rpx 6rpx 6rpx;
+        border-color: transparent transparent var(--lk-color-bg-surface) transparent;
+      }
+    }
+
+    @include when(left) {
+      @include e(arrow) {
+        top: 50%;
+        right: -8rpx;
+        transform: translateY(-50%);
+        border-width: 8rpx 0 8rpx 8rpx;
+        border-color: transparent transparent transparent var(--lk-color-border-weak);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -6rpx;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6rpx 0 6rpx 6rpx;
+        border-color: transparent transparent transparent var(--lk-color-bg-surface);
+      }
+    }
+
+    @include when(right) {
+      @include e(arrow) {
+        top: 50%;
+        left: -8rpx;
+        transform: translateY(-50%);
+        border-width: 8rpx 8rpx 8rpx 0;
+        border-color: transparent var(--lk-color-border-weak) transparent transparent;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: -6rpx;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6rpx 6rpx 6rpx 0;
+        border-color: transparent var(--lk-color-bg-surface) transparent transparent;
+      }
+    }
+  }
+}

@@ -2,7 +2,6 @@ export { default as LkButton } from './lk-button/lk-button.vue';
 export { default as LkForm } from './lk-form/lk-form.vue';
 export { default as LkFormItem } from './lk-form/lk-form-item.vue';
 export * from './lk-form/context';
-export * from './lk-form/types';
 
 export { default as LkInput } from './lk-input/lk-input.vue';
 export { default as LkTextarea } from './lk-textarea/lk-textarea.vue';

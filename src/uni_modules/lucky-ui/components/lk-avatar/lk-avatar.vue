@@ -22,10 +22,9 @@ function onError() {
     class="lk-avatar"
     :class="[`lk-avatar--${shape}`, { 'is-fallback': hasError || !src }]"
     :style="{
-      width: size + 'rpx',
-      height: size + 'rpx',
-      background: bg || 'var(--lk-color-primary-bg-soft)',
-      color: color || 'var(--lk-color-primary-active)',
+      '--_size': size + 'rpx',
+      '--_bg': bg || undefined,
+      '--_color': color || undefined,
     }"
   >
     <image
@@ -39,33 +38,6 @@ function onError() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-avatar {
-  position: relative;
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26rpx;
-  color: var(--lk-color-primary-active);
-  background: var(--lk-color-primary-bg-soft);
-  &--circle {
-    border-radius: 50%;
-  }
-  &--square {
-    border-radius: var(--lk-radius-xs);
-  }
-  &--rounded {
-    border-radius: var(--lk-radius-lg);
-  }
-  &__img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  &.is-fallback {
-    font-weight: 600;
-    letter-spacing: 1rpx;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

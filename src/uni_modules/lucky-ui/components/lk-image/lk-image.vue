@@ -26,7 +26,7 @@ function onClick() {
   if (props.preview && props.src) {
     // 微信小程序支持
     // #ifdef MP-WEIXIN
-    wx.previewImage({ current: props.src, urls: [props.src] });
+    uni.previewImage({ current: props.src, urls: [props.src] });
     // #endif
   }
 }
@@ -53,32 +53,6 @@ function onClick() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-image {
-  position: relative;
-  overflow: hidden;
-  background: var(--lk-color-primary-bg-soft);
-  .lk-image__inner {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  &__placeholder {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12rpx;
-    color: var(--lk-color-text-secondary);
-    font-size: 22rpx;
-  }
-  &__text {
-    font-size: 24rpx;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

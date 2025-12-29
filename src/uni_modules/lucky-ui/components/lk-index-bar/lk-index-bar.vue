@@ -69,29 +69,6 @@ function scrollTo(letter: string) {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-index-bar {
-  position: relative;
-}
-.lk-index-bar__sidebar {
-  position: absolute;
-  right: 8rpx;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
-  padding: 8rpx 0;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: var(--lk-radius-md);
-}
-.lk-index-bar__item {
-  padding: 4rpx 12rpx;
-  font-size: 22rpx;
-  color: var(--lk-color-text-tertiary);
-}
-.lk-index-bar__item.is-active {
-  color: var(--lk-color-primary);
-  font-weight: 600;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

@@ -44,58 +44,6 @@ function onClick() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-cell {
-  display: flex;
-  align-items: flex-start;
-  padding: 28rpx 0;
-  background: var(--lk-color-bg-surface);
-  font-size: 28rpx;
-  position: relative;
-  &.is-center {
-    align-items: center;
-  }
-  &.is-clickable:active {
-    background: var(--lk-color-primary-bg-soft);
-  }
-  &.is-disabled {
-    opacity: 0.5;
-  }
-  padding: 28rpx var(--lk-control-padding-x-md);
-
-  &__left {
-    display: flex;
-    align-items: flex-start;
-    flex: 1;
-    gap: 20rpx;
-  }
-  &__icon {
-    color: var(--lk-color-primary);
-  }
-  &__titles {
-    display: flex;
-    flex-direction: column;
-    gap: 6rpx;
-  }
-  &__title {
-    font-weight: 500;
-  }
-  &__label {
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &__right {
-    display: flex;
-    align-items: center;
-    gap: 12rpx;
-    font-size: 26rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &__value {
-    color: var(--lk-color-text-secondary);
-  }
-  &__arrow {
-    color: var(--lk-color-text-secondary);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

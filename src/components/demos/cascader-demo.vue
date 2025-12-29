@@ -4,11 +4,10 @@
       <lk-cascader v-model="value1" :options="options" placeholder="请选择地区" />
     </demo-block>
 
-    <demo-block title="自定义字段名">
+    <demo-block title="自定义选项">
       <lk-cascader
         v-model="value2"
         :options="customOptions"
-        :field-names="{ label: 'name', value: 'id', children: 'child' }"
         placeholder="请选择"
       />
     </demo-block>
@@ -18,8 +17,8 @@
         v-model="value3"
         :options="asyncOptions"
         lazy
-        @load="loadData"
         placeholder="动态加载"
+        @load="loadData"
       />
     </demo-block>
 
@@ -61,19 +60,19 @@ const options = [
 
 const customOptions = [
   {
-    name: '类目1',
-    id: 1,
-    child: [
-      { name: '子类1-1', id: 11 },
-      { name: '子类1-2', id: 12 },
+    label: '类目1',
+    value: 1,
+    children: [
+      { label: '子类1-1', value: 11 },
+      { label: '子类1-2', value: 12 },
     ],
   },
   {
-    name: '类目2',
-    id: 2,
-    child: [
-      { name: '子类2-1', id: 21 },
-      { name: '子类2-2', id: 22 },
+    label: '类目2',
+    value: 2,
+    children: [
+      { label: '子类2-1', value: 21 },
+      { label: '子类2-2', value: 22 },
     ],
   },
 ];

@@ -1,0 +1,51 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(divider) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_color: var(--lk-color-border-weak);
+  --_text-color: var(--lk-color-text-secondary);
+  --_text-bg: var(--lk-color-bg-body);
+  --_text-fs: var(--lk-font-size-sm);
+  --_margin: var(--lk-spacing-xl);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  position: relative;
+  height: 2rpx;
+  background: var(--_color);
+  margin: var(--_margin) 0;
+
+  @include when(hairline) {
+    height: 1rpx;
+  }
+
+  @include when(dashed) {
+    background: none;
+    border-top: 2rpx dashed var(--_color);
+  }
+
+  @include when(vertical) {
+    width: 2rpx;
+    height: 1em;
+    background: var(--_color);
+    margin: 0 var(--lk-spacing-md);
+    display: inline-block;
+    vertical-align: middle;
+    position: static;
+    transform: none;
+  }
+
+  @include e(text) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--_text-bg);
+    padding: 0 var(--lk-spacing-sm);
+    font-size: var(--_text-fs);
+    color: var(--_text-color);
+    white-space: nowrap;
+  }
+}

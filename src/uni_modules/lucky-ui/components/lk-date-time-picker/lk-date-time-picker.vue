@@ -68,17 +68,17 @@ function confirm() {
   </view>
   <lk-popup v-model="show" position="bottom">
     <view class="lk-date-time-picker__panel">
-      <view class="dtp-section">
-        <text class="dtp-section__title">日期</text>
+      <view class="lk-date-time-picker__section">
+        <text class="lk-date-time-picker__section-title">日期</text>
         <lk-calendar v-model="dateValue" />
       </view>
-      <view class="dtp-section">
-        <text class="dtp-section__title">时间</text>
+      <view class="lk-date-time-picker__section">
+        <text class="lk-date-time-picker__section-title">时间</text>
         <lk-time-picker v-model="timeValue" :format="timeFormat" />
       </view>
       <view class="lk-date-time-picker__actions">
-        <lk-button size="small" variant="outline" @click="close">取消</lk-button>
-        <lk-button size="small" :disabled="!dateValue || !timeValue" @click="confirm"
+        <lk-button size="sm" variant="outline" @click="close">取消</lk-button>
+        <lk-button size="sm" :disabled="!dateValue || !timeValue" @click="confirm"
           >确定</lk-button
         >
       </view>
@@ -86,52 +86,6 @@ function confirm() {
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-date-time-picker {
-  min-height: var(--lk-control-height-md);
-  padding: 0 32rpx;
-  display: flex;
-  align-items: center;
-  background: var(--lk-input-bg);
-  border: 2rpx solid var(--lk-input-border-color);
-  border-radius: var(--lk-radius-lg);
-  font-size: 28rpx;
-  &__placeholder {
-    color: var(--lk-color-text-placeholder);
-  }
-  &__clear {
-    margin-left: auto;
-    padding: 8rpx;
-    font-size: 36rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &:active:not(.is-disabled) {
-    border-color: var(--lk-input-border-color-active);
-  }
-  &.is-disabled {
-    opacity: 0.5;
-  }
-}
-.lk-date-time-picker__panel {
-  padding: 32rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 32rpx;
-}
-.dtp-section {
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-lg);
-  padding: 16rpx 16rpx 24rpx;
-  &__title {
-    font-size: 26rpx;
-    font-weight: 600;
-    margin-left: 4rpx;
-    color: var(--lk-color-text-secondary);
-  }
-}
-.lk-date-time-picker__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

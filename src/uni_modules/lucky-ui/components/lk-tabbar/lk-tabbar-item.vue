@@ -55,40 +55,6 @@ onMounted(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-tabbar-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 22rpx 0;
-  flex: 1;
-  color: var(--lk-tabbar-inactive-color, #666666);
-
-  &__icon-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__name {
-    margin-top: 8rpx;
-    font-size: 24rpx;
-    color: currentColor;
-  }
-
-  &--active {
-    color: var(--lk-tabbar-active-color, var(--lk-color-primary));
-  }
-
-  &__icon {
-    transition: transform 0.3s ease;
-  }
-
-  &--tic.lk-tabbar-item--active &__icon {
-    transform: translateY(-100%);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

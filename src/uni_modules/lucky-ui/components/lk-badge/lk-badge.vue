@@ -23,8 +23,8 @@ const displayValue = computed(() => {
       :style="{
         right: (offset as [number, number])[0] + 'rpx',
         top: (offset as [number, number])[1] + 'rpx',
-        color: color,
-        background: bgColor,
+        '--_color': color || undefined,
+        '--_bg': bgColor || undefined,
       }"
     >
       <text v-if="!dot">{{ displayValue }}</text>
@@ -32,33 +32,6 @@ const displayValue = computed(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-badge-wrapper {
-  position: relative;
-  display: inline-block;
-}
-.lk-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--lk-color-primary);
-  color: var(--lk-color-text-inverse);
-  font-size: 20rpx;
-  min-width: 36rpx;
-  height: 36rpx;
-  padding: 0 10rpx;
-  border-radius: var(--lk-radius-pill);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  box-shadow: var(--lk-shadow-sm);
-  transform: translate(50%, -50%);
-  &.is-dot {
-    width: 20rpx;
-    height: 20rpx;
-    min-width: 20rpx;
-    padding: 0;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

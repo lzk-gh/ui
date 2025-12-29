@@ -35,7 +35,7 @@
       <view class="content-group">
         <text>这是第一组内容</text>
       </view>
-      <lk-divider text="Section 1" text-position="40%" />
+      <lk-divider text="Section 1" text-position="left" />
       <view class="content-group">
         <text>这是第二组内容</text>
       </view>

@@ -134,60 +134,6 @@ onMounted(() => {});
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-cropper {
-  width: 100%;
-}
-.lk-cropper__stage {
-  position: relative;
-  width: 100%;
-  height: 720rpx;
-  overflow: hidden;
-  background: #000;
-}
-.lk-cropper__img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: center center;
-  will-change: transform;
-}
-.lk-cropper__mask {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-}
-.lk-cropper__crop {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 70%;
-  aspect-ratio: 1 / 1;
-  transform: translate(-50%, -50%);
-  border: 4rpx solid rgba(255, 255, 255, 0.9);
-  border-radius: var(--lk-radius-md);
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
-}
-.lk-cropper__crop.is-round {
-  border-radius: 50%;
-}
-.lk-cropper__toolbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 16rpx 24rpx;
-  border-top: 2rpx solid var(--lk-color-border);
-  background: var(--lk-color-bg-surface);
-}
-.lk-cropper__btn {
-  background: transparent;
-  border: none;
-  color: var(--lk-color-primary);
-  font-size: 28rpx;
-}
-.lk-cropper__btn.is-primary {
-  color: #fff;
-  background: var(--lk-color-primary);
-  padding: 12rpx 24rpx;
-  border-radius: var(--lk-radius-md);
-}
+<style lang="scss">
+@use './index.scss';
 </style>

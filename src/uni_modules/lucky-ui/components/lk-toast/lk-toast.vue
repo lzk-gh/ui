@@ -77,53 +77,6 @@ onUnmounted(() => clearTimers());
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-toast__overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.01);
-  &.is-lock {
-    pointer-events: auto;
-  }
-}
-.lk-toast {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4000;
-  &--center {
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  &--top {
-    top: 12%;
-  }
-  &--bottom {
-    bottom: 12%;
-  }
-  &__inner {
-    max-width: 560rpx;
-    min-width: 220rpx;
-    padding: 32rpx 40rpx;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    color: #fff;
-    border-radius: var(--lk-radius-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16rpx;
-  }
-  &__text {
-    font-size: 26rpx;
-    text-align: center;
-    line-height: 1.4;
-  }
-  &__icon {
-    color: #fff;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

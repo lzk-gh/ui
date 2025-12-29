@@ -55,26 +55,6 @@ function onConfirm() {
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-picker {
-  width: 100%;
-  background: var(--lk-color-bg-surface);
-}
-.lk-picker__toolbar {
-  height: 96rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24rpx;
-  border-bottom: 2rpx solid var(--lk-color-border);
-}
-.lk-picker__title {
-  font-weight: 600;
-}
-.lk-picker__btn {
-  background: transparent;
-  border: none;
-  color: var(--lk-color-primary);
-  font-size: 28rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

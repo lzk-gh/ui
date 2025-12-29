@@ -108,63 +108,6 @@ function back() {
   />
 </template>
 
-<style scoped lang="scss">
-.lk-navbar {
-  position: relative;
-  background: var(--lk-color-bg-surface);
-  color: var(--lk-color-text);
-  box-shadow: var(--lk-shadow-sm);
-
-  &.is-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  &__status-bar {
-    width: 100%;
-    background: var(--lk-color-bg-surface);
-  }
-
-  &__content {
-    display: flex;
-    align-items: center;
-    padding: 0 24rpx;
-    gap: 12rpx;
-  }
-
-  &__left,
-  &__right {
-    display: flex;
-    align-items: center;
-    gap: 8rpx;
-  }
-
-  &__center {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 0;
-  }
-
-  &__title {
-    font-size: 32rpx;
-    font-weight: 600;
-  }
-
-  &__back {
-    color: var(--lk-color-primary);
-  }
-
-  &__text {
-    font-size: 26rpx;
-    color: var(--lk-color-text-secondary);
-  }
-
-  &__placeholder {
-    width: 100%;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

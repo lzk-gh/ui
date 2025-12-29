@@ -71,14 +71,6 @@ function onChange(e: any) {
   </picker-view>
 </template>
 
-<style scoped lang="scss">
-.lk-picker-view {
-  height: 560rpx;
-}
-.lk-picker-view__item {
-  height: 88rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

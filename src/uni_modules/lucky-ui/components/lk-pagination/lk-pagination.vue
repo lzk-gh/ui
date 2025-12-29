@@ -53,55 +53,6 @@ function pages() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-pagination {
-  display: inline-flex;
-  align-items: center;
-  gap: 12rpx;
-  font-size: 26rpx;
-  &__btn,
-  &__page {
-    min-width: 56rpx;
-    height: 56rpx;
-    padding: 0 12rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--lk-radius-pill);
-    background: var(--lk-color-primary-bg-soft);
-    color: var(--lk-color-primary);
-    font-weight: 500;
-    transition:
-      background var(--lk-transition-fast),
-      color var(--lk-transition-fast),
-      filter var(--lk-transition-fast);
-    &:active:not(.is-disabled) {
-      background: var(--lk-color-primary);
-      color: var(--lk-color-text-inverse);
-    }
-  }
-  &__page.is-active {
-    background: var(--lk-color-primary);
-    color: var(--lk-color-text-inverse);
-  }
-  &__btn.is-disabled {
-    opacity: 0.35;
-  }
-  &--sm {
-    font-size: 22rpx;
-    .lk-pagination__btn,
-    .lk-pagination__page {
-      height: 48rpx;
-      min-width: 48rpx;
-    }
-  }
-  &--lg {
-    font-size: 30rpx;
-    .lk-pagination__btn,
-    .lk-pagination__page {
-      height: 64rpx;
-      min-width: 64rpx;
-    }
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

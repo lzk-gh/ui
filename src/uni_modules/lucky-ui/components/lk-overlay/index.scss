@@ -1,0 +1,21 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(overlay) {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--lk-overlay-bg, rgba(0, 0, 0, 0.55));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include when(enter) {
+    animation: lk-overlay-in var(--lk-overlay-duration, 0.24s) ease;
+  }
+
+  @include when(leave) {
+    animation: lk-overlay-out var(--lk-overlay-duration, 0.24s) ease forwards;
+  }
+}

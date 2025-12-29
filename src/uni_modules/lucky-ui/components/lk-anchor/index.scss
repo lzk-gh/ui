@@ -1,0 +1,21 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(anchor) {
+  position: relative;
+
+  @include m(affix) {
+    position: sticky;
+    z-index: var(--lk-z-index-sticky, 100);
+  }
+}
+
+@include b(anchor-link) {
+  padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
+  color: var(--lk-color-text-tertiary);
+  font-size: var(--lk-font-size-base);
+
+  @include when(active) {
+    color: var(--lk-color-primary);
+    font-weight: 600;
+  }
+}

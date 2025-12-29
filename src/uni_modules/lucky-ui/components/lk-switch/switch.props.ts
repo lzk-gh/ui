@@ -5,9 +5,9 @@ import { baseProps, LkProp } from '../common/props';
  * 开关尺寸
  */
 export const SwitchSize = {
-  Small: 'small',
-  Default: 'default',
-  Large: 'large',
+  Sm: 'sm',
+  Md: 'md',
+  Lg: 'lg',
 } as const;
 
 export type SwitchSize = (typeof SwitchSize)[keyof typeof SwitchSize];
@@ -35,11 +35,11 @@ export const switchProps = {
 
   /**
    * 尺寸
-   * @value small 小尺寸
-   * @value default 默认尺寸
-   * @value large 大尺寸
+   * @value sm 小尺寸
+   * @value md 默认尺寸
+   * @value lg 大尺寸
    */
-  size: LkProp.enum(Object.values(SwitchSize), SwitchSize.Default, 'Switch.size'),
+  size: LkProp.enum(Object.values(SwitchSize), SwitchSize.Md, 'Switch.size'),
 
   /** 是否禁用 */
   disabled: LkProp.boolean(false),

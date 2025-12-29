@@ -181,7 +181,7 @@ function confirm() {
     <view class="lk-date-picker__panel">
       <view class="lk-date-picker__header">
         <text class="lk-date-picker__title">{{ title }}</text>
-        <view class="spacer" />
+        <view class="lk-date-picker__spacer" />
         <lk-button variant="text" @click="close">取消</lk-button>
         <lk-button @click="confirm">确定</lk-button>
       </view>
@@ -213,34 +213,34 @@ function confirm() {
 
         <template v-if="isDateTime">
           <view class="lk-date-picker__time">
-            <view class="time-row" v-if="type === 'date-time' || type === 'range-date-time'">
-              <text class="time-label">开始时间</text>
-              <view class="time-cols">
-                <view class="col">
+            <view class="lk-date-picker__time-row" v-if="type === 'date-time' || type === 'range-date-time'">
+              <text class="lk-date-picker__time-label">开始时间</text>
+              <view class="lk-date-picker__time-cols">
+                <view class="lk-date-picker__col">
                   <view
                     v-for="n in 24"
                     :key="'h1-' + n"
-                    class="cell"
+                    class="lk-date-picker__cell"
                     :class="{ 'is-active': h1 === n - 1 }"
                     @click="h1 = n - 1"
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="col" v-if="timePrecision !== 'hour'">
+                <view class="lk-date-picker__col" v-if="timePrecision !== 'hour'">
                   <view
                     v-for="n in 60"
                     :key="'m1-' + n"
-                    class="cell"
+                    class="lk-date-picker__cell"
                     :class="{ 'is-active': m1 === n - 1 }"
                     @click="m1 = n - 1"
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="col" v-if="timePrecision === 'second'">
+                <view class="lk-date-picker__col" v-if="timePrecision === 'second'">
                   <view
                     v-for="n in 60"
                     :key="'s1-' + n"
-                    class="cell"
+                    class="lk-date-picker__cell"
                     :class="{ 'is-active': s1 === n - 1 }"
                     @click="s1 = n - 1"
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
@@ -248,34 +248,34 @@ function confirm() {
                 </view>
               </view>
             </view>
-            <view class="time-row" v-if="type === 'range-date-time'">
-              <text class="time-label">结束时间</text>
-              <view class="time-cols">
-                <view class="col">
+            <view class="lk-date-picker__time-row" v-if="type === 'range-date-time'">
+              <text class="lk-date-picker__time-label">结束时间</text>
+              <view class="lk-date-picker__time-cols">
+                <view class="lk-date-picker__col">
                   <view
                     v-for="n in 24"
                     :key="'h2-' + n"
-                    class="cell"
+                    class="lk-date-picker__cell"
                     :class="{ 'is-active': h2 === n - 1 }"
                     @click="h2 = n - 1"
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="col" v-if="timePrecision !== 'hour'">
+                <view class="lk-date-picker__col" v-if="timePrecision !== 'hour'">
                   <view
                     v-for="n in 60"
                     :key="'m2-' + n"
-                    class="cell"
+                    class="lk-date-picker__cell"
                     :class="{ 'is-active': m2 === n - 1 }"
                     @click="m2 = n - 1"
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="col" v-if="timePrecision === 'second'">
+                <view class="lk-date-picker__col" v-if="timePrecision === 'second'">
                   <view
                     v-for="n in 60"
                     :key="'s2-' + n"
-                    class="cell"
+                    class="lk-date-picker__cell"
                     :class="{ 'is-active': s2 === n - 1 }"
                     @click="s2 = n - 1"
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
@@ -290,15 +290,15 @@ function confirm() {
       <template v-else>
         <view class="lk-date-picker__ym">
           <view class="lk-date-picker__ym-head">
-            <view class="nav" @click="ymChangeYear(-1)">‹</view>
-            <text class="ym-text">{{ ymYear }} 年</text>
-            <view class="nav" @click="ymChangeYear(1)">›</view>
+            <view class="lk-date-picker__nav" @click="ymChangeYear(-1)">‹</view>
+            <text class="lk-date-picker__ym-text">{{ ymYear }} 年</text>
+            <view class="lk-date-picker__nav" @click="ymChangeYear(1)">›</view>
           </view>
           <view class="lk-date-picker__ym-grid">
             <view
               v-for="mm in months"
               :key="mm.m"
-              class="ym-cell"
+              class="lk-date-picker__ym-cell"
               :class="{
                 'is-active': ymMonth === mm.m,
                 'is-disabled': isMonthDisabled(ymYear, mm.m),
@@ -314,108 +314,6 @@ function confirm() {
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-date-picker__panel {
-  padding: 24rpx 24rpx 32rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 24rpx;
-}
-.lk-date-picker__header {
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  .spacer {
-    flex: 1;
-  }
-  .lk-date-picker__title {
-    font-weight: 700;
-    font-size: 30rpx;
-  }
-}
-
-.lk-date-picker__ym {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-  &-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .nav {
-    width: 64rpx;
-    height: 64rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--lk-color-primary-bg-soft);
-    color: var(--lk-color-primary);
-    border-radius: var(--lk-radius-pill);
-  }
-  .ym-text {
-    font-weight: 700;
-  }
-  &-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12rpx;
-  }
-  .ym-cell {
-    height: 96rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--lk-radius-md);
-    background: var(--lk-color-primary-bg-soft);
-    color: var(--lk-color-text);
-    &.is-active {
-      background: var(--lk-color-primary);
-      color: var(--lk-color-text-inverse);
-      font-weight: 600;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-    }
-  }
-}
-
-.lk-date-picker__time {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-  .time-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 16rpx;
-  }
-  .time-label {
-    width: 160rpx;
-    color: var(--lk-color-text-secondary);
-    font-size: 24rpx;
-    line-height: 1.6;
-  }
-  .time-cols {
-    display: flex;
-    gap: 12rpx;
-    flex: 1;
-  }
-  .col {
-    flex: 1;
-    max-height: 280rpx;
-    overflow: auto;
-    background: var(--lk-color-primary-bg-soft);
-    border-radius: var(--lk-radius-md);
-    .cell {
-      padding: 10rpx 16rpx;
-      text-align: center;
-      color: var(--lk-color-text);
-    }
-    .cell.is-active {
-      background: var(--lk-color-primary);
-      color: var(--lk-color-text-inverse);
-      font-weight: 600;
-    }
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

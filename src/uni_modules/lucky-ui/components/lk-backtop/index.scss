@@ -1,0 +1,68 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(backtop) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_size: 88rpx;
+  --_radius: 50%;
+  --_bg: var(--lk-color-primary);
+  --_bg-active: var(--lk-color-primary-active);
+  --_shadow: var(--lk-shadow-base);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  position: fixed;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lk-spacing-xs);
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: var(--_radius);
+  background: var(--_bg);
+  color: var(--lk-color-text-inverse);
+  box-shadow: var(--_shadow);
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  transform: translateY(12rpx);
+  transition:
+    opacity var(--lk-transition-fast),
+    transform var(--lk-transition-fast),
+    background var(--lk-transition-fast);
+
+  @include m(sm) {
+    --_size: var(--lk-control-height-sm);
+  }
+  @include m(md) {
+    --_size: var(--lk-control-height-md);
+  }
+  @include m(lg) {
+    --_size: var(--lk-control-height-lg);
+  }
+
+  @include m(shape-square) {
+    --_radius: var(--lk-radius-sm);
+  }
+  @include m(shape-round) {
+    --_radius: var(--lk-radius-pill);
+  }
+  @include m(shape-circle) {
+    --_radius: 50%;
+  }
+
+  @include when(visible) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:active {
+    background: var(--_bg-active);
+  }
+
+  @include e(text) {
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-color-text-inverse);
+  }
+}

@@ -6,6 +6,14 @@ import path from 'node:path';
 export default defineConfig({
   plugins: [uni()],
 
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler', // or "modern"
+      },
+    },
+  },
+
   resolve: {
     alias: {
       // 创建一个名为 @bootstrap-icons 的别名

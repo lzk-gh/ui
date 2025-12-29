@@ -9,7 +9,6 @@ export const ButtonVariant = {
   Outline: 'outline',
   Text: 'text',
   Soft: 'soft',
-  Danger: 'danger',
 } as const;
 
 /**
@@ -54,7 +53,6 @@ export const buttonProps = {
    * @value outline 轮廓按钮
    * @value text 文字按钮
    * @value soft 柔和按钮
-   * @value danger 危险按钮
    */
   variant: LkProp.enum(Object.values(ButtonVariant), ButtonVariant.Solid, 'Button.variant'),
 

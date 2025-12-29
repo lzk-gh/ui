@@ -47,7 +47,7 @@ export const numberRollerProps = {
 
   /** 自定义格式化函数，返回字符串或数字 */
   formatter: {
-    type: Function as PropType<NumberRollerFormatter | null>,
+    type: Function as unknown as PropType<NumberRollerFormatter | null>,
     default: null,
   },
 } as const;

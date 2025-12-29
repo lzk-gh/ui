@@ -22,23 +22,6 @@ function go() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-breadcrumb-item {
-  display: inline-flex;
-  align-items: center;
-  color: var(--lk-color-text-secondary);
-  &.is-link {
-    color: var(--lk-color-primary);
-  }
-  &:last-child {
-    .lk-breadcrumb-item__sep {
-      display: none;
-    }
-    color: var(--lk-color-text);
-    font-weight: 500;
-  }
-  &__sep {
-    margin: 0 4rpx;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

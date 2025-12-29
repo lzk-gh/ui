@@ -58,11 +58,6 @@ onBeforeUnmount(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-anchor {
-  position: relative;
-}
-.lk-anchor--affix {
-  position: sticky;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

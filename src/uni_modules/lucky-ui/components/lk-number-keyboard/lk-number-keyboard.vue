@@ -82,37 +82,6 @@ function onClose() {
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-nkb {
-  display: flex;
-}
-.lk-nkb__body {
-  flex: 1;
-  padding: 8rpx;
-}
-.lk-nkb__row {
-  display: flex;
-  gap: 8rpx;
-  margin-bottom: 8rpx;
-}
-.lk-nkb__key {
-  flex: 1;
-  height: 96rpx;
-  border-radius: var(--lk-radius-md);
-  background: var(--lk-color-bg-elevated);
-  border: none;
-  font-size: 32rpx;
-}
-.lk-nkb__key--del {
-  font-size: 28rpx;
-}
-.lk-nkb__confirm {
-  width: 200rpx;
-  margin: 8rpx 8rpx 8rpx 0;
-  background: var(--lk-color-primary);
-  color: #fff;
-  border: none;
-  border-radius: var(--lk-radius-md);
-  font-size: 28rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

@@ -17,9 +17,9 @@
     </demo-block>
 
     <demo-block title="不同尺寸">
-      <lk-stepper v-model="value5" size="small" />
+      <lk-stepper v-model="value5" size="sm" />
       <lk-stepper v-model="value6" style="margin-top: 16rpx" />
-      <lk-stepper v-model="value7" size="large" style="margin-top: 16rpx" />
+      <lk-stepper v-model="value7" size="lg" style="margin-top: 16rpx" />
     </demo-block>
   </view>
 </template>

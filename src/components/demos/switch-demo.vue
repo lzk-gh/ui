@@ -21,7 +21,7 @@
     <demo-block title="不同尺寸">
       <view class="switch-row">
         <text>小号</text>
-        <lk-switch v-model="value4" size="small" />
+        <lk-switch v-model="value4" size="sm" />
       </view>
       <view class="switch-row">
         <text>默认</text>
@@ -29,7 +29,7 @@
       </view>
       <view class="switch-row">
         <text>大号</text>
-        <lk-switch v-model="value6" size="large" />
+        <lk-switch v-model="value6" size="lg" />
       </view>
     </demo-block>
 

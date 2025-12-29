@@ -83,9 +83,7 @@ function onHover(val: string) {
   }
 }
 
-const leftMonthAnchor = ref<Date>(() => {
-  return start.value ? parseDate(start.value) : new Date();
-});
+const leftMonthAnchor = ref<Date>(start.value ? parseDate(start.value) : new Date());
 
 const rightMonthAnchor = computed(() => {
   if (!props.linked) {
@@ -109,7 +107,7 @@ const rightMonthAnchor = computed(() => {
   <lk-popup v-model="show" position="bottom">
     <view class="lk-date-range-picker__panel">
       <view class="lk-date-range-picker__cal-wrap">
-        <view class="range-cal">
+        <view class="lk-date-range-picker__range-cal">
           <lk-calendar
             :first-day="firstDay"
             :model-value="start"
@@ -117,7 +115,7 @@ const rightMonthAnchor = computed(() => {
             @change="onHover"
           />
         </view>
-        <view class="range-cal">
+        <view class="lk-date-range-picker__range-cal">
           <lk-calendar
             :first-day="firstDay"
             :model-value="end"
@@ -126,71 +124,20 @@ const rightMonthAnchor = computed(() => {
           />
         </view>
       </view>
-      <view v-if="start && !end" class="range-preview">
+      <view v-if="start && !end" class="lk-date-range-picker__range-preview">
         选择结束日期中：{{ start }} → (悬停显示预览)
       </view>
-      <view v-if="previewRange.length && end" class="range-preview">
+      <view v-if="previewRange.length && end" class="lk-date-range-picker__range-preview">
         范围天数：{{ previewRange.length }}
       </view>
       <view class="lk-date-range-picker__actions">
-        <lk-button size="small" variant="outline" @click="close">取消</lk-button>
-        <lk-button size="small" @click="confirm" :disabled="!start || !end">确定</lk-button>
+        <lk-button size="sm" variant="outline" @click="close">取消</lk-button>
+        <lk-button size="sm" @click="confirm" :disabled="!start || !end">确定</lk-button>
       </view>
     </view>
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-date-range-picker {
-  min-height: var(--lk-control-height-md);
-  padding: 0 32rpx;
-  display: flex;
-  align-items: center;
-  background: var(--lk-input-bg);
-  border: 2rpx solid var(--lk-input-border-color);
-  border-radius: var(--lk-radius-lg);
-  font-size: 28rpx;
-  &__placeholder {
-    color: var(--lk-color-text-placeholder);
-  }
-  &__clear {
-    margin-left: auto;
-    padding: 8rpx;
-    font-size: 36rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &:active:not(.is-disabled) {
-    border-color: var(--lk-input-border-color-active);
-  }
-  &.is-disabled {
-    opacity: 0.5;
-  }
-}
-.lk-date-range-picker__panel {
-  padding: 32rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 32rpx;
-}
-.lk-date-range-picker__cal-wrap {
-  display: flex;
-  gap: 32rpx;
-  flex-wrap: wrap;
-}
-.range-cal {
-  width: 560rpx;
-  max-width: 100%;
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-lg);
-  padding: 12rpx;
-}
-.range-preview {
-  font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
-}
-.lk-date-range-picker__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

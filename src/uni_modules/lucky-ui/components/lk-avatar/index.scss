@@ -1,0 +1,50 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(avatar) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_size: 80rpx;
+  --_bg: var(--lk-color-primary-bg-soft);
+  --_color: var(--lk-color-primary-active);
+  --_radius: var(--lk-radius-md);
+  --_fs: var(--lk-control-font-size-md);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_size);
+  height: var(--_size);
+  background: var(--_bg);
+  color: var(--_color);
+  font-size: var(--_fs);
+  border-radius: var(--_radius);
+
+  @include m(circle) {
+    --_radius: 50%;
+  }
+
+  @include m(square) {
+    --_radius: var(--lk-radius-xs);
+  }
+
+  @include m(rounded) {
+    --_radius: var(--lk-radius-lg);
+  }
+
+  @include e(img) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  @include when(fallback) {
+    font-weight: 600;
+    letter-spacing: 1rpx;
+  }
+}

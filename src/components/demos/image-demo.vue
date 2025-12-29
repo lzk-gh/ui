@@ -118,8 +118,8 @@
           <text class="image-card-title">美丽风景</text>
           <text class="image-card-desc">这是一张美丽的风景图片</text>
           <view class="image-card-footer">
-            <lk-tag size="small" type="primary">风景</lk-tag>
-            <lk-tag size="small">摄影</lk-tag>
+            <lk-tag size="sm" type="solid">风景</lk-tag>
+            <lk-tag size="sm">摄影</lk-tag>
             <text class="image-card-time">2小时前</text>
           </view>
         </view>

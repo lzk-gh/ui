@@ -14,7 +14,7 @@ export const colorPickerProps = {
   /** 绑定值 */
   modelValue: LkProp.string(''),
   /** 颜色格式 */
-  format: LkProp.enum<ColorFormat>(ColorFormat.Hex),
+  format: LkProp.enum(Object.values(ColorFormat), ColorFormat.Hex, 'ColorPicker.format'),
   /** 是否支持透明度 */
   alpha: LkProp.boolean(false),
   /** 预设颜色 */

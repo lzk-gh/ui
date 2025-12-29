@@ -1,0 +1,127 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(action-sheet) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_bg: var(--lk-color-bg-surface);
+  --_radius: var(--lk-radius-lg);
+  --_head-padding: var(--lk-spacing-lg) var(--lk-spacing-xl) var(--lk-spacing-sm);
+  --_item-padding: var(--lk-spacing-xl);
+  --_title-fs: var(--lk-control-font-size-lg);
+  --_desc-fs: var(--lk-font-size-sm);
+  --_item-fs: var(--lk-control-font-size-lg);
+  --_cancel-fs: var(--lk-control-font-size-lg);
+  --_cancel-margin: var(--lk-spacing-md);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  background: var(--_bg);
+
+  @include e(head) {
+    padding: var(--_head-padding);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk-spacing-xs);
+  }
+
+  @include e(title) {
+    font-size: var(--_title-fs);
+    font-weight: 600;
+    color: var(--lk-color-text);
+  }
+
+  @include e(desc) {
+    font-size: var(--_desc-fs);
+    color: var(--lk-color-text-secondary);
+    line-height: 1.4;
+  }
+
+  @include e(list) {
+    display: flex;
+    flex-direction: column;
+
+    @include when(no-head) {
+      @include e(item) {
+        &:first-child {
+          border-top: none;
+        }
+      }
+    }
+  }
+
+  @include e(item) {
+    padding: var(--_item-padding);
+    text-align: center;
+    font-size: var(--_item-fs);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk-spacing-xs);
+    background: var(--_bg);
+    transition: background-color 0.2s;
+
+    &:active:not(.is-disabled):not(.is-loading) {
+      background: var(--lk-color-bg-surface-active);
+    }
+
+    & + & {
+      border-top: 2rpx solid var(--lk-color-border-weak);
+    }
+
+    @include when(disabled) {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    @include when(loading) {
+      color: var(--lk-color-text-secondary);
+      cursor: wait;
+    }
+  }
+
+  @include e(name) {
+    line-height: 1.2;
+  }
+
+  @include e(sub) {
+    font-size: var(--_desc-fs);
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(cancel) {
+    margin-top: var(--_cancel-margin);
+    padding: var(--_item-padding);
+    background: var(--_bg);
+    text-align: center;
+    font-size: var(--_cancel-fs);
+    transition: background-color 0.2s;
+    border-top: 2rpx solid var(--lk-color-border-weak);
+
+    &:active {
+      background: var(--lk-color-bg-surface-active);
+    }
+  }
+
+  @include e(spinner) {
+    position: absolute;
+    right: var(--lk-spacing-xl);
+    top: 50%;
+    margin-top: -18rpx;
+    width: 36rpx;
+    height: 36rpx;
+    border: 4rpx solid var(--lk-color-primary-bg-soft);
+    border-top-color: var(--lk-color-primary);
+    border-radius: 50%;
+    animation: lk-spin 0.8s linear infinite;
+  }
+
+  @include e(safe) {
+    height: env(safe-area-inset-bottom);
+  }
+}

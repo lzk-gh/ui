@@ -62,29 +62,6 @@ onMounted(async () => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-vc {
-  position: relative;
-}
-.lk-vc__input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  width: 0;
-}
-.lk-vc__boxes {
-  display: flex;
-  gap: 12rpx;
-}
-.lk-vc__box {
-  width: 84rpx;
-  height: 84rpx;
-  border: 2rpx solid var(--lk-color-border);
-  border-radius: var(--lk-radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

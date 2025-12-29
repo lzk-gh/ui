@@ -198,7 +198,7 @@ onMounted(() => {
 <template>
   <view class="lk-carousel" :style="outerStyle">
     <swiper
-      class="lk-swiper"
+      class="lk-carousel__swiper"
       :style="swiperStyle"
       :current="innerCurrent"
       :autoplay="autoplayEnabled"
@@ -213,12 +213,12 @@ onMounted(() => {
     >
       <swiper-item v-for="(item, index) in carouselList" :key="index">
         <view
-          class="carousel-item-wrapper"
+          class="lk-carousel__item"
           :class="{
             'is-card': card,
             'is-active': index === innerCurrent,
             'is-inactive': index !== innerCurrent,
-            'auto-height': autoHeight,
+            'is-auto-height': autoHeight,
           }"
           :style="
             card
@@ -246,38 +246,37 @@ onMounted(() => {
       <!-- 指示器：数字类型 -->
       <view
         v-if="showIndicators && indicatorType === 'number'"
-        class="lk-indicators number"
+        class="lk-carousel__indicators is-number"
         :class="[
-          `pos-${resolvedIndicatorPosition}`,
-          `align-${indicatorAlign}`,
-          { vertical: indicatorVertical },
+          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
+          `is-align-${indicatorAlign}`,
+          { 'is-vertical': indicatorVertical },
         ]"
       >
-        <view class="lk-indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
+        <view class="lk-carousel__indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
       </view>
 
       <!-- 指示器：点状或条状 -->
       <view
         v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
-        class="lk-indicators"
+        class="lk-carousel__indicators"
         :class="[
-          `pos-${resolvedIndicatorPosition}`,
-          `align-${indicatorAlign}`,
+          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
+          `is-align-${indicatorAlign}`,
           {
-            vertical: indicatorVertical,
-            bars: indicatorType === 'bars',
-            animated: indicatorAnimated,
+            'is-vertical': indicatorVertical,
+            'is-bars': indicatorType === 'bars',
           },
         ]"
       >
         <view
           v-for="(_, index) in carouselList"
           :key="index"
-          class="lk-indicator"
+          class="lk-carousel__indicator"
           :class="{
-            active: index === innerCurrent,
-            dot: indicatorType === 'dots',
-            bar: indicatorType === 'bars',
+            'is-active': index === innerCurrent,
+            'is-dot': indicatorType === 'dots',
+            'is-bar': indicatorType === 'bars',
           }"
           :style="{
             backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
@@ -290,40 +289,39 @@ onMounted(() => {
       <!-- 指示器：数字类型 -->
       <view
         v-if="showIndicators && indicatorType === 'number'"
-        class="lk-indicators outside number"
+        class="lk-carousel__indicators is-outside is-number"
         id="lk-indicators-outside"
         :class="[
-          `pos-${resolvedIndicatorPosition}`,
-          `align-${indicatorAlign}`,
-          { vertical: indicatorVertical },
+          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
+          `is-align-${indicatorAlign}`,
+          { 'is-vertical': indicatorVertical },
         ]"
       >
-        <view class="lk-indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
+        <view class="lk-carousel__indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
       </view>
 
       <!-- 指示器：点状或条状 -->
       <view
         v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
-        class="lk-indicators outside"
+        class="lk-carousel__indicators is-outside"
         id="lk-indicators-outside"
         :class="[
-          `pos-${resolvedIndicatorPosition}`,
-          `align-${indicatorAlign}`,
+          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
+          `is-align-${indicatorAlign}`,
           {
-            vertical: indicatorVertical,
-            bars: indicatorType === 'bars',
-            animated: indicatorAnimated,
+            'is-vertical': indicatorVertical,
+            'is-bars': indicatorType === 'bars',
           },
         ]"
       >
         <view
           v-for="(_, index) in carouselList"
           :key="index"
-          class="lk-indicator"
+          class="lk-carousel__indicator"
           :class="{
-            active: index === innerCurrent,
-            dot: indicatorType === 'dots',
-            bar: indicatorType === 'bars',
+            'is-active': index === innerCurrent,
+            'is-dot': indicatorType === 'dots',
+            'is-bar': indicatorType === 'bars',
           }"
           :style="{
             backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
@@ -336,131 +334,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.lk-carousel {
-  position: relative;
-  width: 100%;
-  height: 400rpx;
-
-  .lk-swiper {
-    width: 100%;
-    height: 100%;
-  }
-
-  .carousel-item-wrapper {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.3s ease;
-    &.auto-height {
-      height: auto;
-    }
-    &.is-card {
-      border-radius: var(--lk-card-radius, 16rpx);
-      overflow: hidden;
-      position: relative;
-    }
-    &.is-card.is-inactive {
-      transform: scale(var(--lk-card-scale, 0.92));
-      opacity: 0.92;
-      z-index: 1;
-    }
-    &.is-card.is-active {
-      transform: scale(1);
-      box-shadow: var(--lk-card-shadow, 0 12rpx 32rpx rgba(0, 0, 0, 0.18));
-      z-index: 2;
-    }
-  }
-
-  /* 指示器通用容器 */
-  .lk-indicators {
-    position: absolute;
-    display: flex;
-    gap: 10rpx;
-    &.vertical {
-      flex-direction: column;
-    }
-    &.align-start {
-      justify-content: flex-start;
-    }
-    &.align-center {
-      justify-content: center;
-    }
-    &.align-end {
-      justify-content: flex-end;
-    }
-
-    /* 位置 */
-    &.pos-bottom {
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 20rpx;
-    }
-    &.pos-top {
-      left: 50%;
-      transform: translateX(-50%);
-      top: 20rpx;
-    }
-    &.pos-left {
-      left: 20rpx;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    &.pos-right {
-      right: 20rpx;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    /* 点/条 */
-    .lk-indicator {
-      transition:
-        background-color 0.28s ease,
-        width 0.28s ease,
-        height 0.28s ease,
-        transform 0.28s ease;
-      &.dot {
-        width: 12rpx;
-        height: 12rpx;
-        border-radius: 50%;
-      }
-      &.bar {
-        width: 24rpx;
-        height: 6rpx;
-        border-radius: 8rpx;
-      }
-      &.active {
-        transform: scale(1.25);
-      }
-    }
-
-    &.vertical.bars .lk-indicator {
-      width: 8rpx;
-      height: 28rpx;
-    }
-
-    /* 数字类型 */
-    &.number .lk-indicator-number {
-      padding: 6rpx 12rpx;
-      background: rgba(0, 0, 0, 0.35);
-      color: #fff;
-      border-radius: 20rpx;
-      font-size: 24rpx;
-      line-height: 1;
-    }
-  }
-
-  /* outside 模式（指示器不覆盖内容） */
-  .lk-indicators.outside {
-    position: static;
-    margin-top: 12rpx;
-    left: auto;
-    right: auto;
-    transform: none;
-    justify-content: center;
-  }
-  .lk-indicators.outside.pos-bottom,
-  .lk-indicators.outside.pos-top {
-    left: auto;
-    transform: none;
-  }
-}
+@use './index.scss';
 </style>

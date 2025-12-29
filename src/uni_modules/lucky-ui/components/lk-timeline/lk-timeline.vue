@@ -43,7 +43,7 @@ const classes = computed(() => [
   },
 ]);
 
-function dotSizeOf(size: Size) {
+function dotSizeOf(size: TimelineSize) {
   // 与子项统一的小一号圆点
   if (size === 'sm') return '16rpx';
   if (size === 'lg') return '26rpx';
@@ -74,28 +74,6 @@ const rootStyle = computed(() => ({
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0; // 由“连接器”承担相邻项间距
-}
-.lk-timeline.is-horizontal {
-  flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-.lk-timeline.is-horizontal.is-wrap {
-  flex-wrap: wrap;
-}
-.lk-timeline.is-horizontal:not(.is-wrap) {
-  flex-wrap: nowrap;
-  overflow: auto;
-}
-
-.lk-timeline__pending {
-  padding-left: 56rpx; /* 与 item 左侧对齐（点+间距的粗略对齐）*/
-  color: var(--lk-color-text-secondary);
-  font-size: 24rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

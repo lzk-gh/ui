@@ -47,12 +47,5 @@ provide('LkCheckboxGroup', {
 </template>
 
 <style lang="scss">
-.lk-checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20rpx 36rpx;
-  &.is-column {
-    flex-direction: column;
-  }
-}
+@use './index.scss';
 </style>

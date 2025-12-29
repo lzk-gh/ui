@@ -90,9 +90,9 @@ function cycleSort(col: TableColumn) {
     sortState.value.order = current === 'asc' ? 'desc' : current === 'desc' ? '' : 'asc';
     if (!sortState.value.order) sortState.value.key = '';
   }
-  emit('sortChange', {
+  emit('sort-change', {
     key: sortState.value.key,
-    order: sortState.value.order,
+    order: sortState.value.order || null,
   });
 }
 
@@ -107,7 +107,7 @@ function toggleRow(row: any) {
   if (idx >= 0) internalSelection.value.splice(idx, 1);
   else internalSelection.value.push(keyVal);
   emit('update:modelValue', [...internalSelection.value]);
-  emit('selectionChange', [...internalSelection.value]);
+  emit('selection-change', [...internalSelection.value]);
 }
 const allChecked = computed(() => {
   if (!props.data.length) return false;
@@ -124,7 +124,7 @@ function toggleAll() {
     internalSelection.value = props.data.map(r => r[props.rowKey]);
   }
   emit('update:modelValue', [...internalSelection.value]);
-  emit('selectionChange', [...internalSelection.value]);
+  emit('selection-change', [...internalSelection.value]);
 }
 
 /* 单元格内容 */
@@ -151,13 +151,13 @@ const summaryRow = computed(() => {
       } catch {}
     }
   });
-  emit('summaryComputed', row);
+  emit('summary-computed', row);
   return row;
 });
 
 /* 行点击 */
 function onRowClick(row: any, idx: number) {
-  emit('rowClick', row, idx);
+  emit('row-click', row, idx);
 }
 
 /* 宽高 style */
@@ -218,7 +218,7 @@ const wrapStyle = computed(() => {
                     ? col.minWidth + 'px'
                     : col.minWidth
                   : undefined,
-                textAlign: col.align || undefined,
+                textAlign: (col.align as any) || undefined,
               }"
               @click="cycleSort(col)"
             >
@@ -267,7 +267,7 @@ const wrapStyle = computed(() => {
                       ? col.minWidth + 'px'
                       : col.minWidth
                     : undefined,
-                  textAlign: col.align || undefined,
+                  textAlign: (col.align as any) || undefined,
                 }"
               >
                 <slot
@@ -309,7 +309,7 @@ const wrapStyle = computed(() => {
                       ? col.width + 'px'
                       : col.width
                     : undefined,
-                  textAlign: col.align || undefined,
+                  textAlign: (col.align as any) || undefined,
                 }"
               >
                 <slot name="summary" :column="col" :value="summaryRow[col.key]" :row="summaryRow">
@@ -324,210 +324,6 @@ const wrapStyle = computed(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-table {
-  --_bg-head: var(--lk-color-bg-surface);
-  --_bg-body: var(--lk-color-bg-surface);
-  --_bg-hover: var(--lk-color-primary-bg-soft);
-  --_bg-stripe: var(--lk-color-primary-bg-soft);
-  --_border: var(--lk-color-border-weak);
-  --_text: var(--lk-color-text);
-  --_radius: var(--lk-radius-lg);
-  position: relative;
-  width: 100%;
-  font-size: 26rpx;
-  color: var(--_text);
-  border-radius: var(--_radius);
-  overflow: hidden;
-  &.is-bordered {
-    border: 2rpx solid var(--_border);
-  }
-  &__wrapper {
-    width: 100%;
-    position: relative;
-  }
-  &__scroll {
-    width: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Header */
-  &__header {
-    background: var(--_bg-head);
-    &.is-sticky {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.04);
-    }
-  }
-
-  &__tr {
-    display: flex;
-    align-items: stretch;
-    min-height: 88rpx;
-    &--head {
-      font-weight: 600;
-      font-size: 26rpx;
-      .lk-table__th {
-        font-weight: 600;
-      }
-    }
-    &--summary {
-      font-weight: 600;
-      background: var(--lk-color-primary-bg-soft);
-      .summary-cell {
-        font-size: 24rpx;
-        color: var(--lk-color-primary-active);
-      }
-    }
-  }
-
-  &__th,
-  &__td {
-    flex-shrink: 0;
-    padding: 0 28rpx;
-    display: flex;
-    align-items: center;
-    position: relative;
-    line-height: 1.3;
-    background: transparent;
-    font-size: 26rpx;
-    min-width: 120rpx;
-    box-sizing: border-box;
-    &--checkbox {
-      width: 88rpx;
-      min-width: 88rpx;
-      justify-content: center;
-    }
-    &--index {
-      width: 72rpx;
-      min-width: 72rpx;
-      justify-content: center;
-      font-variant-numeric: tabular-nums;
-    }
-  }
-
-  &__th {
-    height: 90rpx;
-    background: var(--_bg-head);
-    border-bottom: 2rpx solid var(--_border);
-    font-weight: 500;
-    &.is-sortable {
-      cursor: pointer;
-      user-select: none;
-      padding-right: 56rpx;
-    }
-  }
-
-  &__sort-icons {
-    position: absolute;
-    right: 20rpx;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20rpx;
-    display: flex;
-    flex-direction: column;
-    gap: 6rpx;
-    .asc,
-    .desc {
-      width: 0;
-      height: 0;
-      border-left: 10rpx solid transparent;
-      border-right: 10rpx solid transparent;
-      opacity: 0.35;
-    }
-    .asc {
-      border-bottom: 14rpx solid var(--lk-color-text);
-    }
-    .desc {
-      border-top: 14rpx solid var(--lk-color-text);
-    }
-  }
-  .is-sorted-asc .lk-table__sort-icons .asc,
-  .is-sorted-desc .lk-table__sort-icons .desc {
-    opacity: 1;
-    filter: drop-shadow(0 0 4rpx var(--lk-color-primary-bg-soft));
-  }
-
-  &__body {
-    background: var(--_bg-body);
-  }
-
-  &__td {
-    border-bottom: 2rpx solid var(--_border);
-    font-size: 26rpx;
-    &.summary-cell {
-      border-top: 2rpx solid var(--_border);
-      border-bottom: none;
-    }
-  }
-
-  /* 条纹 & hover */
-  &.is-striped .lk-table__body .lk-table__tr:nth-child(2n) {
-    background: var(--_bg-stripe);
-  }
-  .lk-table__body .lk-table__tr:not(.lk-table__tr--summary):not(.lk-table__tr--head):active {
-    background: var(--_bg-hover);
-  }
-  .lk-table__tr.is-selected {
-    background: var(--lk-color-primary-bg-soft);
-    .lk-table__td,
-    .lk-table__th {
-      font-weight: 500;
-      color: var(--lk-color-primary-active);
-    }
-  }
-
-  &.is-compact {
-    .lk-table__th,
-    .lk-table__td {
-      padding: 0 20rpx;
-      min-height: 72rpx;
-    }
-    .lk-table__tr {
-      min-height: 72rpx;
-    }
-  }
-
-  &__empty {
-    padding: 60rpx 20rpx;
-    text-align: center;
-    font-size: 26rpx;
-    color: var(--lk-color-text-secondary);
-  }
-
-  &__loading {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
-  }
-
-  &__footer {
-    .lk-table__tr--summary {
-      border-top: 2rpx solid var(--_border);
-    }
-  }
-}
-
-/* 暗色适配（可针对 data-theme='dark' 做额外对比度增强） */
-:deep([data-theme='dark']) .lk-table {
-  --_bg-head: var(--lk-color-bg-surface);
-  --_bg-body: var(--lk-color-bg-surface);
-  --_bg-hover: rgba(255, 255, 255, 0.06);
-  --_bg-stripe: rgba(255, 255, 255, 0.04);
-  --_border: var(--lk-color-border-weak);
-  &__loading {
-    background: rgba(0, 0, 0, 0.45);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

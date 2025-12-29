@@ -20,29 +20,6 @@ const props = defineProps({
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-cell-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  &__title {
-    padding: 16rpx 8rpx 8rpx 12rpx;
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &__body {
-    background: var(--lk-color-bg-surface);
-    border-radius: var(--lk-radius-lg);
-    overflow: hidden;
-  }
-  &.is-inset {
-    padding: 0 24rpx;
-  }
-  &.is-card {
-    margin: 8rpx 0;
-  }
-  &.is-border .lk-cell + .lk-cell {
-    border-top: 2rpx solid var(--lk-color-border-weak);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

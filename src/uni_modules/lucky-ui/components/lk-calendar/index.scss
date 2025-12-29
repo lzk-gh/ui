@@ -1,0 +1,147 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(calendar) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_accent: var(--lk-color-primary);
+  --_accent-bg: var(--lk-color-primary-bg-soft);
+  --_text-inverse: var(--lk-color-text-inverse);
+  --_text-secondary: var(--lk-color-text-secondary);
+  --_radius: var(--lk-radius-md);
+  --_fs: var(--lk-control-font-size-sm);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-spacing-md);
+  font-size: var(--_fs);
+
+  @include e(header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+
+  @include e(nav) {
+    width: 64rpx;
+    height: 64rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--_accent-bg);
+    color: var(--_accent);
+    border-radius: var(--lk-radius-pill);
+    transition: all 0.2s;
+
+    &:active {
+      background: var(--_accent);
+      color: var(--_text-inverse);
+    }
+  }
+
+  @include e(ym) {
+    font-weight: 700;
+    color: var(--lk-color-text);
+  }
+
+  @include e(shortcuts) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lk-spacing-sm);
+  }
+
+  @include e(chip) {
+    padding: var(--lk-spacing-xxs) var(--lk-spacing-md);
+    border-radius: var(--lk-radius-pill);
+    background: var(--_accent-bg);
+    color: var(--_accent);
+    font-size: var(--lk-font-size-xs);
+    transition: all 0.2s;
+
+    @include when(plain) {
+      background: transparent;
+      color: var(--_text-secondary);
+      border: 2rpx solid var(--_accent-bg);
+    }
+
+    &:active {
+      filter: brightness(0.95);
+    }
+  }
+
+  @include e(week) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: var(--lk-font-size-xs);
+    color: var(--_text-secondary);
+  }
+
+  @include e(grid) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--lk-spacing-xs);
+  }
+
+  @include e(cell) {
+    position: relative;
+    height: 84rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--_radius);
+    background: var(--_accent-bg);
+    color: var(--lk-color-text);
+    transition: all 0.2s;
+
+    @include when(empty) {
+      background: transparent;
+    }
+
+    @include when(disabled) {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    @include when(today) {
+      box-shadow: 0 0 0 2rpx var(--_accent);
+    }
+
+    @include when(selected) {
+      background: var(--_accent);
+      color: var(--_text-inverse);
+      font-weight: 600;
+    }
+
+    @include when(multi-selected) {
+      background: var(--_accent);
+      color: var(--_text-inverse);
+      font-weight: 600;
+    }
+
+    @include when(in-range) {
+      background: var(--lk-color-bg-surface-active);
+    }
+
+    @include when(range-start) {
+      background: var(--_accent);
+      color: var(--_text-inverse);
+      font-weight: 600;
+    }
+
+    @include when(range-end) {
+      background: var(--_accent);
+      color: var(--_text-inverse);
+      font-weight: 600;
+    }
+
+    &:active:not(.is-empty):not(.is-disabled) {
+      filter: brightness(0.92);
+    }
+  }
+}

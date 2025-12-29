@@ -1,6 +1,7 @@
 // =============================================================================
 // 主题: 亮色模式 (Light Theme)
 // =============================================================================
+@use 'sass:color';
 @use '../tokens' as theme;
 
 :root,
@@ -16,7 +17,7 @@
   --color-brand-800: #{theme.$color-brand-800};
   --color-brand-900: #{theme.$color-brand-900};
   --color-brand-1000: #{theme.$color-brand-1000};
-  --color-brand-rgb: #{red(theme.$color-brand-600)}, #{green(theme.$color-brand-600)}, #{blue(theme.$color-brand-600)};
+  --color-brand-rgb: #{color.channel(theme.$color-brand-600, "red")}, #{color.channel(theme.$color-brand-600, "green")}, #{color.channel(theme.$color-brand-600, "blue")};
 
   --color-brand-primary: #{theme.$color-brand-primary};
   --color-brand-primary-light: #{theme.$color-brand-primary-light};

@@ -1,0 +1,71 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(dropdown) {
+  display: inline-block;
+  position: relative;
+
+  @include e(trigger) {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  @include e(menu) {
+    position: absolute;
+    min-width: 220rpx;
+    top: 100%;
+    left: 0;
+    margin-top: var(--lk-spacing-xs);
+    background: var(--lk-color-bg-surface);
+    border: 2rpx solid var(--lk-color-border-weak);
+    border-radius: var(--lk-radius-lg);
+    box-shadow: var(--lk-shadow-base);
+    padding: var(--lk-spacing-xs) 0;
+    z-index: 2400;
+  }
+}
+
+@include b(dropdown-item) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_py: var(--lk-spacing-md);
+  --_px: var(--lk-spacing-xl);
+  --_fs: var(--lk-font-size-md);
+  --_gap: var(--lk-spacing-sm);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  display: flex;
+  align-items: center;
+  gap: var(--_gap);
+  padding: var(--_py) var(--_px);
+  font-size: var(--_fs);
+  color: var(--lk-color-text);
+  transition:
+    background var(--lk-transition-fast),
+    color var(--lk-transition-fast);
+
+  &:active:not(.is-disabled) {
+    background: var(--lk-color-primary-bg-soft);
+  }
+
+  @include when(active) {
+    color: var(--lk-color-primary);
+    font-weight: 600;
+    background: var(--lk-color-primary-bg-soft);
+  }
+
+  @include when(disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @include e(icon) {
+    color: var(--lk-color-primary);
+  }
+
+  @include e(label) {
+    flex: 1;
+  }
+}

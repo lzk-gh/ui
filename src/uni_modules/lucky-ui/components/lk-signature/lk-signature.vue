@@ -119,16 +119,6 @@ onMounted(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-signature {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.lk-signature__canvas {
-  border: 2rpx dashed var(--lk-color-border);
-  border-radius: var(--lk-radius-sm);
-  touch-action: none;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

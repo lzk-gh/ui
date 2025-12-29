@@ -261,40 +261,6 @@ defineExpose({ scrollToIndex, scrollToTop });
   </scroll-view>
 </template>
 
-<style scoped lang="scss">
-.lk-virtual-list {
-  width: 100%;
-  position: relative;
-  contain: content;
-  // 隐藏各端滚动条（H5/Fx/IE系）
-  scrollbar-width: none; // Firefox
-  -ms-overflow-style: none; // IE/Edge legacy
-}
-
-.lk-virtual-list::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none; // WebKit
-}
-
-.lk-virtual-list__inner,
-.lk-virtual-list__container {
-  display: flex;
-  flex-direction: column;
-  contain: content;
-  backface-visibility: hidden;
-}
-
-.lk-virtual-list__phantom {
-  position: relative;
-  width: 100%;
-}
-
-.lk-virtual-list__container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  will-change: transform;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

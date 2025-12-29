@@ -142,43 +142,5 @@ const labelStyle = computed(() => {
 </template>
 
 <style lang="scss">
-.lk-form-item {
-  --_gap-x: 20rpx;
-  --_label-color: var(--lk-color-text-secondary);
-  --_error-color: var(--lk-color-primary-active);
-
-  display: flex;
-  align-items: flex-start;
-  gap: var(--_gap-x);
-
-  &__label {
-    flex-shrink: 0;
-    min-width: 140rpx;
-    font-size: 26rpx;
-    line-height: 1.4;
-    padding-top: 12rpx;
-    color: var(--_label-color);
-    display: flex;
-    align-items: flex-start;
-  }
-  &__star {
-    color: var(--lk-color-primary);
-    margin-right: 6rpx;
-  }
-  &__content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8rpx;
-  }
-  &__error {
-    font-size: 24rpx;
-    line-height: 1.3;
-    color: var(--_error-color);
-  }
-
-  &.is-error &__label {
-    color: var(--_error-color);
-  }
-}
+@use './index.scss';
 </style>

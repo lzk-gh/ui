@@ -20,8 +20,8 @@ function select() {
     count: props.max - files.value.length,
     sizeType: props.sizeType as any,
     sourceType: ['album', 'camera'],
-    success(res) {
-      const paths = res.tempFilePaths || res.tempFiles?.map((f: any) => f.path) || [];
+    success(res: any) {
+      const paths = res.tempFilePaths || (res.tempFiles as any[])?.map((f: any) => f.path) || [];
       add(paths);
     },
   });
@@ -47,9 +47,9 @@ function add(list: string[]) {
   emit('change', merged);
 }
 function remove(i: number) {
-  const removed = files.value.splice(i, 1);
+  files.value.splice(i, 1);
   emit('update:modelValue', [...files.value]);
-  emit('remove', removed[0]);
+  emit('remove', i);
   emit('change', [...files.value]);
 }
 function previewImage(i: number) {
@@ -76,54 +76,6 @@ function previewImage(i: number) {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-upload {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24rpx;
-  &.is-disabled {
-    opacity: 0.55;
-  }
-  &__item,
-  &__add {
-    width: 180rpx;
-    height: 180rpx;
-    background: var(--lk-color-primary-bg-soft);
-    border-radius: var(--lk-radius-md);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  &__img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  &__del {
-    position: absolute;
-    right: 8rpx;
-    top: 8rpx;
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
-    font-size: 30rpx;
-    line-height: 1;
-    padding: 4rpx 12rpx 8rpx;
-    border-radius: var(--lk-radius-pill);
-  }
-  &__add {
-    flex-direction: column;
-    gap: 8rpx;
-    color: var(--lk-color-primary);
-    font-size: 24rpx;
-    &:active {
-      background: var(--lk-color-primary);
-      color: var(--lk-color-text-inverse);
-    }
-  }
-  &__add-text {
-    font-size: 22rpx;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

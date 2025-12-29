@@ -30,7 +30,7 @@ export const datePickerProps = {
     default: null,
   },
   /** 选择器类型 */
-  type: LkProp.enum<DatePickerType>(DatePickerType.Date),
+  type: LkProp.enum(Object.values(DatePickerType), DatePickerType.Date, 'DatePicker.type'),
   /** 标题 */
   title: LkProp.string('选择日期'),
   /** 主题颜色 */
@@ -55,7 +55,7 @@ export const datePickerProps = {
     default: null,
   },
   /** 时间精度 */
-  timePrecision: LkProp.enum<TimePrecision>(TimePrecision.Minute),
+  timePrecision: LkProp.enum(Object.values(TimePrecision), TimePrecision.Minute, 'DatePicker.timePrecision'),
 } as const;
 
 export type DatePickerProps = ExtractPropTypes<typeof datePickerProps>;

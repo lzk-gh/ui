@@ -1,0 +1,32 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(image) {
+  position: relative;
+  overflow: hidden;
+  background: var(--lk-color-primary-bg-soft);
+
+  @include e(inner) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  @include e(placeholder) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--lk-spacing-xs);
+    color: var(--lk-color-text-secondary);
+    font-size: var(--lk-font-size-xs);
+  }
+
+  @include e(text) {
+    font-size: var(--lk-font-size-sm);
+  }
+}

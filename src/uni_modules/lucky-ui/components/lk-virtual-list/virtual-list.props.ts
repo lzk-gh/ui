@@ -7,6 +7,7 @@ export type AnyItem = Record<string, any>;
 const VirtualListPositionStrategy = {
   Transform: 'transform',
   Absolute: 'absolute',
+  Padding: 'padding',
 } as const;
 export type VirtualListPositionStrategy = (typeof VirtualListPositionStrategy)[keyof typeof VirtualListPositionStrategy];
 
@@ -27,13 +28,20 @@ export const virtualListProps = {
   /** 单次 rAF 计算中的"行增益系数"，越大快速滚动时缓冲行数越多 */
   overscanBoostFactor: LkProp.number(0.6),
   /** 触底阈值 */
-  lowerThreshold: LkProp.string('80rpx'),
+  lowerThreshold: {
+    type: [Number, String] as PropType<number | string>,
+    default: '80rpx',
+  },
   /** 预取行数 */
   prefetchRows: LkProp.number(0),
   /** 保留行数 */
   reserveRows: LkProp.number(0),
   /** 定位策略 */
-  positionStrategy: LkProp.enum<VirtualListPositionStrategy>(VirtualListPositionStrategy.Transform),
+  positionStrategy: LkProp.enum(
+    Object.values(VirtualListPositionStrategy),
+    VirtualListPositionStrategy.Transform,
+    'VirtualList.positionStrategy'
+  ),
   /** 初始滚动索引 */
   initialScrollIndex: LkProp.number(0),
   /** 滚动时是否启用动画 */

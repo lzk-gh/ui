@@ -1,0 +1,34 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(picker) {
+  width: 100%;
+  background: var(--lk-color-bg-surface);
+
+  @include e(toolbar) {
+    height: 96rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--lk-spacing-sm);
+    border-bottom: 2rpx solid var(--lk-color-border);
+  }
+
+  @include e(title) {
+    font-weight: 600;
+  }
+
+  @include e(btn) {
+    background: transparent;
+    border: none;
+    color: var(--lk-color-primary);
+    font-size: 28rpx;
+
+    @include m(cancel) {
+      color: var(--lk-color-text-secondary);
+    }
+
+    @include m(confirm) {
+      color: var(--lk-color-primary);
+    }
+  }
+}

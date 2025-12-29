@@ -61,10 +61,6 @@ const rootData = computed(() => props.data);
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-tree {
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

@@ -85,10 +85,10 @@
               {{ dynamicEasing }}</text
             >
             <view style="display: flex; flex-wrap: wrap; gap: 12rpx">
-              <lk-button size="small" @click="dynamicType = 'zoom-in'">zoom-in</lk-button>
-              <lk-button size="small" @click="dynamicType = 'slide-up'">slide-up</lk-button>
-              <lk-button size="small" @click="dynamicType = 'fade-up'">fade-up</lk-button>
-              <lk-button size="small" @click="dynamicType = 'bounce-in'">bounce-in</lk-button>
+              <lk-button size="sm" @click="dynamicType = 'zoom-in'">zoom-in</lk-button>
+              <lk-button size="sm" @click="dynamicType = 'slide-up'">slide-up</lk-button>
+              <lk-button size="sm" @click="dynamicType = 'fade-up'">fade-up</lk-button>
+              <lk-button size="sm" @click="dynamicType = 'bounce-in'">bounce-in</lk-button>
             </view>
             <lk-slider v-model="dynamicDuration" :min="100" :max="1000" :step="100" />
             <lk-segmented

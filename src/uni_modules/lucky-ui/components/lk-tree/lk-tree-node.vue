@@ -60,66 +60,6 @@ function onCheck() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-tree-node {
-  display: flex;
-  flex-direction: column;
-  &__main {
-    display: flex;
-    align-items: center;
-    gap: 12rpx;
-    min-height: 72rpx;
-    border-radius: var(--lk-radius-md);
-    padding-right: 12rpx;
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-    }
-  }
-  &__expander {
-    width: 48rpx;
-    height: 48rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.is-leaf {
-      opacity: 0;
-    }
-  }
-  &__checkbox {
-    width: 40rpx;
-    height: 40rpx;
-    border: 2rpx solid var(--lk-color-primary);
-    border-radius: var(--lk-radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--lk-color-bg-surface);
-    &.is-checked {
-      background: var(--lk-color-primary);
-      .lk-tree-node__inner {
-        width: 60%;
-        height: 60%;
-        background: var(--lk-color-text-inverse);
-        border-radius: 4rpx;
-      }
-    }
-  }
-  &__inner {
-    width: 0;
-    height: 0;
-  }
-  &__label {
-    font-size: 28rpx;
-    color: var(--lk-color-text);
-  }
-  &__children {
-    margin-left: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8rpx;
-  }
-  .is-disabled {
-    opacity: 0.5;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

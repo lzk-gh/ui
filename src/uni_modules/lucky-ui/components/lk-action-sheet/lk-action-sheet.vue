@@ -48,7 +48,7 @@ function onPopupModelChange(v: boolean) {
     :duration="duration"
     :delay="delay"
     :easing="easing"
-    @update:modelValue="onPopupModelChange"
+    @update:model-value="onPopupModelChange"
   >
     <view class="lk-action-sheet">
       <view v-if="title || description" class="lk-action-sheet__head">
@@ -56,14 +56,14 @@ function onPopupModelChange(v: boolean) {
         <text v-if="description" class="lk-action-sheet__desc">{{ description }}</text>
       </view>
 
-      <view class="lk-action-sheet__list" :class="{ 'no-head': !(title || description) }">
+      <view class="lk-action-sheet__list" :class="{ 'is-no-head': !(title || description) }">
         <view
           v-for="(a, i) in actions"
           :key="i"
           class="lk-action-sheet__item"
           :class="{ 'is-disabled': a.disabled, 'is-loading': a.loading }"
-          @click="onSelect(a, i)"
           :style="{ color: a.color || 'inherit' }"
+          @click="onSelect(a, i)"
         >
           <text class="lk-action-sheet__name">{{ a.name }}</text>
           <text v-if="a.sub" class="lk-action-sheet__sub">{{ a.sub }}</text>
@@ -79,95 +79,6 @@ function onPopupModelChange(v: boolean) {
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-action-sheet {
-  display: flex;
-  flex-direction: column;
-  max-height: 70vh;
-
-  &__head {
-    padding: 28rpx 32rpx 12rpx;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 10rpx;
-  }
-  &__title {
-    font-size: 30rpx;
-    font-weight: 600;
-  }
-  &__desc {
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-    line-height: 1.4;
-  }
-
-  &__list {
-    display: flex;
-    flex-direction: column;
-    &.no-head .lk-action-sheet__item:first-child {
-      border-top: none;
-    }
-  }
-
-  &__item {
-    padding: 32rpx;
-    text-align: center;
-    font-size: 30rpx;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 8rpx;
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-    }
-    & + & {
-      border-top: 2rpx solid var(--lk-color-border-weak);
-    }
-    &.is-disabled {
-      opacity: 0.4;
-    }
-    &.is-loading {
-      color: var(--lk-color-text-secondary);
-    }
-  }
-  &__name {
-    line-height: 1.2;
-  }
-  &__sub {
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &__cancel {
-    margin-top: 16rpx;
-    padding: 32rpx;
-    background: var(--lk-color-bg-surface);
-    text-align: center;
-    font-size: 32rpx;
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-    }
-    border-top: 2rpx solid var(--lk-color-border-weak);
-  }
-  &__spinner {
-    position: absolute;
-    right: 32rpx;
-    top: 50%;
-    margin-top: -18rpx;
-    width: 36rpx;
-    height: 36rpx;
-    border: 4rpx solid var(--lk-color-primary-bg-soft);
-    border-top-color: var(--lk-color-primary);
-    border-radius: 50%;
-    animation: ac-spin 0.8s linear infinite;
-  }
-  &__safe {
-    height: env(safe-area-inset-bottom);
-  }
-}
-@keyframes ac-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

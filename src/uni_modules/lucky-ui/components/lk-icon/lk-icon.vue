@@ -48,14 +48,5 @@ function handleClick(e: Event) {
 </template>
 
 <style lang="scss">
-.lk-icon {
-  font-family: 'lk-icons' !important;
-  font-style: normal;
-  font-weight: normal;
-  display: inline-block;
-  line-height: 1;
-  vertical-align: middle;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@use './index.scss';
 </style>

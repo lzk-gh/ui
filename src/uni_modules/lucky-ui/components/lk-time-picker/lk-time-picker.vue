@@ -112,73 +112,13 @@ const seconds = computed(() => gen(props.stepSecond, 60));
         </scroll-view>
       </view>
       <view class="lk-time-picker__actions">
-        <lk-button size="small" variant="outline" @click="close">取消</lk-button>
-        <lk-button size="small" @click="confirm">确定</lk-button>
+        <lk-button size="sm" variant="outline" @click="close">取消</lk-button>
+        <lk-button size="sm" @click="confirm">确定</lk-button>
       </view>
     </view>
   </lk-popup>
 </template>
 
-<style scoped lang="scss">
-.lk-time-picker {
-  min-height: var(--lk-control-height-md);
-  padding: 0 32rpx;
-  display: flex;
-  align-items: center;
-  background: var(--lk-input-bg);
-  border: 2rpx solid var(--lk-input-border-color);
-  border-radius: var(--lk-radius-lg);
-  font-size: 28rpx;
-  color: var(--lk-color-text);
-  &__placeholder {
-    color: var(--lk-color-text-placeholder);
-  }
-  &__clear {
-    margin-left: auto;
-    font-size: 36rpx;
-    padding: 8rpx;
-    color: var(--lk-color-text-secondary);
-  }
-  &.is-disabled {
-    opacity: 0.5;
-  }
-  &:active:not(.is-disabled) {
-    border-color: var(--lk-input-border-color-active);
-  }
-}
-.lk-time-picker__panel {
-  padding: 32rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 32rpx;
-}
-.lk-time-picker__columns {
-  display: flex;
-  gap: 24rpx;
-  height: 480rpx;
-}
-.lk-time-picker__col {
-  width: 160rpx;
-}
-.lk-time-picker__item {
-  height: 84rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--lk-radius-md);
-  margin-bottom: 8rpx;
-  background: var(--lk-color-primary-bg-soft);
-  font-size: 28rpx;
-  color: var(--lk-color-text);
-  &.is-active {
-    background: var(--lk-color-primary);
-    color: var(--lk-color-text-inverse);
-    font-weight: 600;
-  }
-}
-.lk-time-picker__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

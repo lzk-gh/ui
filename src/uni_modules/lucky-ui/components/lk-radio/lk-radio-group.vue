@@ -29,16 +29,9 @@ provide('LkRadioGroup', {
 </script>
 
 <template>
-  <view class="lk-radio-group" :class="[`is-${direction}`]"><slot /></view>
+  <view class="lk-radio-group" :class="[{ 'is-column': direction === 'column' }]"><slot /></view>
 </template>
 
 <style lang="scss">
-.lk-radio-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20rpx 36rpx;
-  &.is-column {
-    flex-direction: column;
-  }
-}
+@use './index.scss';
 </style>

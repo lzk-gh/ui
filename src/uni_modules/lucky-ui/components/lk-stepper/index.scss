@@ -1,0 +1,78 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(stepper) {
+  --_h: var(--lk-control-height-md);
+  --_fs: var(--lk-control-font-size-md);
+  --_radius: var(--lk-radius-lg);
+
+  width: fit-content;
+  display: inline-flex;
+  align-items: stretch;
+  border: 2rpx solid var(--lk-input-border-color);
+  border-radius: var(--_radius);
+  overflow: hidden;
+  background: var(--lk-input-bg);
+
+  @include m(sm) {
+    --_h: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_radius: var(--lk-radius-md);
+  }
+
+  @include m(lg) {
+    --_h: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_radius: var(--lk-radius-pill);
+  }
+
+  @include m(small) {
+    --_h: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_radius: var(--lk-radius-md);
+  }
+
+  @include m(large) {
+    --_h: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_radius: var(--lk-radius-pill);
+  }
+
+  @include when(disabled) {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  @include e(btn) {
+    width: var(--_h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--_fs) + 4rpx);
+    color: var(--lk-color-primary);
+    background: var(--lk-color-primary-bg-soft);
+    font-weight: 500;
+    user-select: none;
+
+    &:active:not(.is-disabled) {
+      background: var(--lk-color-primary);
+      color: var(--lk-color-text-inverse);
+    }
+
+    @include when(disabled) {
+      opacity: 0.4;
+    }
+  }
+
+  @include e(input) {
+    width: 140rpx;
+    height: var(--_h);
+    line-height: var(--_h);
+    text-align: center;
+    border: none;
+    outline: none;
+    font-size: var(--_fs);
+    color: var(--lk-color-text);
+    background: transparent;
+    box-sizing: border-box;
+  }
+}

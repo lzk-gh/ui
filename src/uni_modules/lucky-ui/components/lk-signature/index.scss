@@ -1,0 +1,14 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(signature) {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include e(canvas) {
+    border: 2rpx dashed var(--lk-color-border);
+    border-radius: var(--lk-radius-sm);
+    touch-action: none;
+  }
+}

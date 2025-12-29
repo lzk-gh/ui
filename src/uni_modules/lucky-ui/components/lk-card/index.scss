@@ -1,0 +1,102 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(card) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_bg: var(--lk-color-bg-surface);
+  --_radius: var(--lk-radius-lg);
+  --_title-fs: 34rpx;
+  --_subtitle-fs: var(--lk-font-size-sm);
+  --_body-fs: var(--lk-control-font-size-md);
+  --_footer-fs: var(--lk-font-size-sm);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  background: var(--_bg);
+  border-radius: var(--_radius);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition:
+    box-shadow var(--lk-transition-fast),
+    transform var(--lk-transition-fast);
+
+  @include when(border) {
+    border: 2rpx solid var(--lk-color-border-weak);
+  }
+
+  @include m(shadow-none) {
+    box-shadow: none;
+  }
+  @include m(shadow-sm) {
+    box-shadow: var(--lk-shadow-sm);
+  }
+  @include m(shadow-base) {
+    box-shadow: var(--lk-shadow-base);
+  }
+  @include m(shadow-lg) {
+    box-shadow: var(--lk-shadow-lg);
+  }
+
+  @include when(hover) {
+    &:active {
+      transform: translateY(2rpx);
+      box-shadow: var(--lk-shadow-sm);
+    }
+  }
+
+  @include e(cover) {
+    width: 100%;
+    :deep(image),
+    :deep(img) {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  @include e(header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--lk-spacing-lg);
+  }
+
+  @include e(title) {
+    flex: 1;
+    display: flex;
+    align-items: baseline;
+  }
+
+  @include e(title-text) {
+    font-size: var(--_title-fs);
+    font-weight: 600;
+    color: var(--lk-color-text);
+    line-height: 1.4;
+  }
+
+  @include e(subtitle) {
+    margin-left: var(--lk-spacing-md);
+    font-size: var(--_subtitle-fs);
+    color: var(--lk-color-text-secondary);
+    font-weight: normal;
+  }
+
+  @include e(extra) {
+    font-size: var(--lk-control-font-size-sm);
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(body) {
+    font-size: var(--_body-fs);
+    line-height: 1.6;
+    color: var(--lk-color-text);
+  }
+
+  @include e(footer) {
+    font-size: var(--_footer-fs);
+    color: var(--lk-color-text-secondary);
+  }
+}

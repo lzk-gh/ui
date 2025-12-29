@@ -74,9 +74,5 @@ provide(formContextKey, {
 </template>
 
 <style lang="scss">
-.lk-form {
-  display: flex;
-  flex-direction: column;
-  gap: 24rpx;
-}
+@use './index.scss';
 </style>

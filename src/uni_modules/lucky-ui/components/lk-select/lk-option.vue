@@ -34,51 +34,6 @@ select?.register({ value: props.value, label: props.label || props.value });
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-option {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 16rpx 24rpx;
-  font-size: 28rpx;
-  color: var(--lk-color-text);
-  border-radius: var(--lk-radius-md);
-  transition: background-color 0.2s;
-  user-select: none;
-  cursor: pointer;
-
-  &:hover:not(.is-disabled),
-  &:active:not(.is-disabled) {
-    background-color: var(--lk-color-bg-hover, #f5f5f5);
-  }
-
-  &.is-selected {
-    background-color: var(--lk-color-primary-bg-soft);
-    color: var(--lk-color-text);
-    font-weight: 500;
-  }
-
-  &.is-disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
-  &__label {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__check {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32rpx;
-    height: 32rpx;
-    margin-left: 16rpx;
-    color: var(--lk-color-primary);
-    font-size: 28rpx;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

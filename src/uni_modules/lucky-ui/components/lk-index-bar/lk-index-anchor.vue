@@ -13,13 +13,6 @@ const props = defineProps(indexAnchorProps);
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-index-anchor {
-  padding: 8rpx 0;
-}
-.lk-index-anchor__title {
-  padding: 8rpx 24rpx;
-  color: var(--lk-color-text-tertiary);
-  font-size: 24rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

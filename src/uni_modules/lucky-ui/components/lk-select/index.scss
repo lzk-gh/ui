@@ -1,0 +1,253 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(select) {
+  // 控件尺寸变量
+  --_h: var(--lk-control-height-md);
+  --_fs: var(--lk-control-font-size-md);
+  --_px: var(--lk-spacing-sm);
+  --_gap: var(--lk-spacing-xxs); // value 内部间距（xy一致）
+  --_radius: var(--lk-radius-lg);
+  --_value-radius: var(--lk-radius-md); // value 圆角
+
+  position: relative;
+  width: 100%;
+  font-size: var(--_fs);
+
+  @include m(sm) {
+    --_h: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_px: var(--lk-spacing-xs);
+    --_gap: 8rpx;
+    --_radius: var(--lk-radius-md);
+    --_value-radius: var(--lk-radius-sm);
+  }
+
+  @include m(lg) {
+    --_h: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_px: var(--lk-spacing-md);
+    --_gap: var(--lk-spacing-xs);
+    --_radius: var(--lk-radius-xl);
+    --_value-radius: var(--lk-radius-lg);
+  }
+
+  @include e(control) {
+    display: flex;
+    align-items: center;
+    min-height: var(--_h);
+    border: 2rpx solid var(--lk-input-border-color);
+    border-radius: var(--_radius);
+    font-size: var(--_fs);
+    padding: var(--lk-spacing-xxs) var(--_px);
+    gap: var(--lk-spacing-xs);
+    background: var(--lk-color-bg-surface);
+    transition:
+      border-color var(--lk-transition-fast),
+      box-shadow var(--lk-transition-fast);
+  }
+
+  @include when(open) {
+    @include e(control) {
+      border-color: var(--lk-input-border-color-active);
+      box-shadow: var(--lk-input-shadow-focus);
+    }
+  }
+
+  @include when(focused) {
+    @include e(control) {
+      border-color: var(--lk-input-border-color-active);
+      box-shadow: var(--lk-input-shadow-focus);
+    }
+  }
+
+  // 内容区域（占据剩余空间）
+  @include e(content) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--lk-spacing-xxs);
+  }
+
+  @include e(placeholder) {
+    color: var(--lk-color-text-placeholder);
+    line-height: 1.4;
+  }
+
+  // 统一的 value 样式（单选和多选共用）
+  @include e(value) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--_gap);
+    padding: var(--_gap);
+    background: var(--lk-color-primary-bg-soft);
+    border-radius: var(--_value-radius);
+    max-width: 100%;
+
+    @include m(more) {
+      background: var(--lk-color-fill-secondary);
+
+      @include e(value-text) {
+        color: var(--lk-color-text-secondary);
+      }
+    }
+  }
+
+  @include e(value-text) {
+    color: var(--lk-color-primary);
+    font-size: var(--_fs);
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include e(value-clear) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28rpx;
+    height: 28rpx;
+    color: var(--lk-color-primary);
+    opacity: 0.6;
+    border-radius: var(--lk-radius-full);
+    transition: all var(--lk-transition-fast);
+
+    &:active {
+      opacity: 1;
+      background: var(--lk-color-primary-bg-hover);
+    }
+  }
+
+  // 箭头（固定在右侧）
+  @include e(arrow) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--lk-color-text-tertiary);
+    transform: rotate(0deg);
+    transition: transform var(--lk-transition-fast);
+
+    @include when(up) {
+      transform: rotate(180deg);
+    }
+  }
+
+  @include e(dropdown) {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8rpx);
+    width: 100%;
+    background: var(--lk-color-bg-elevated);
+    border: 2rpx solid var(--lk-color-border-weak);
+    box-shadow: var(--lk-shadow-lg);
+    border-radius: var(--lk-radius-lg);
+    max-height: 480rpx;
+    overflow-y: auto;
+    z-index: 2000;
+    padding: var(--lk-spacing-xxs);
+    transform-origin: top center;
+  }
+
+  @include e(empty) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--lk-spacing-xl) var(--lk-spacing-sm);
+    font-size: 26rpx;
+    color: var(--lk-color-text-tertiary);
+  }
+
+  @include e(mask) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1999;
+    background: transparent;
+  }
+
+  @include when(disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+
+    @include e(control) {
+      background: var(--lk-color-fill-secondary);
+      cursor: not-allowed;
+    }
+  }
+
+  // 表单错误状态
+  :global(.lk-form-item.is-error) & {
+    @include e(control) {
+      border-color: var(--lk-color-danger);
+
+      &:focus {
+        box-shadow: 0 0 0 4rpx var(--lk-color-danger-bg-soft);
+      }
+    }
+
+    @include when(open) {
+      @include e(control) {
+        box-shadow: 0 0 0 4rpx var(--lk-color-danger-bg-soft);
+      }
+    }
+
+    @include when(focused) {
+      @include e(control) {
+        box-shadow: 0 0 0 4rpx var(--lk-color-danger-bg-soft);
+      }
+    }
+  }
+}
+
+@include b(option) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
+  font-size: 28rpx;
+  color: var(--lk-color-text);
+  border-radius: var(--lk-radius-md);
+  transition: background-color var(--lk-transition-fast);
+  user-select: none;
+  cursor: pointer;
+
+  &:hover:not(.is-disabled),
+  &:active:not(.is-disabled) {
+    background-color: var(--lk-color-bg-hover, #f5f5f5);
+  }
+
+  @include when(selected) {
+    background-color: var(--lk-color-primary-bg-soft);
+    color: var(--lk-color-text);
+    font-weight: 500;
+  }
+
+  @include when(disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @include e(label) {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include e(check) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32rpx;
+    height: 32rpx;
+    margin-left: var(--lk-spacing-xs);
+    color: var(--lk-color-primary);
+    font-size: 28rpx;
+  }
+}

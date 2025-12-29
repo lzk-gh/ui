@@ -108,39 +108,6 @@ function onTouchMove(e: TouchEvent) {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--lk-overlay-bg, rgba(0, 0, 0, 0.55));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  // 初始无动画，按状态类处理
-  &.is-enter {
-    animation: lk-overlay-in var(--lk-overlay-duration, 0.24s) ease;
-  }
-  &.is-leave {
-    animation: lk-overlay-out var(--lk-overlay-duration, 0.24s) ease forwards;
-  }
-}
-@keyframes lk-overlay-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes lk-overlay-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

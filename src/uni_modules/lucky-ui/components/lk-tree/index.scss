@@ -1,0 +1,68 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(tree) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-spacing-xs);
+}
+
+@include b(tree-node) {
+  display: flex;
+  flex-direction: column;
+
+  @include e(main) {
+    display: flex;
+    align-items: center;
+    gap: var(--lk-spacing-xs);
+    min-height: 72rpx;
+    border-radius: var(--lk-radius-md);
+    padding-right: var(--lk-spacing-xs);
+    &:active {
+      background: var(--lk-color-primary-bg-soft);
+    }
+  }
+
+  @include e(expander) {
+    width: 48rpx;
+    height: 48rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include when(leaf) {
+      opacity: 0;
+    }
+  }
+
+  @include e(checkbox) {
+    width: 40rpx;
+    height: 40rpx;
+    border: 2rpx solid var(--lk-color-primary);
+    border-radius: var(--lk-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lk-color-bg-surface);
+    @include when(checked) {
+      background: var(--lk-color-primary);
+      .lk-tree-node__inner {
+        width: 60%;
+        height: 60%;
+        background: var(--lk-color-text-inverse);
+        border-radius: 2rpx;
+      }
+    }
+  }
+
+  @include e(label) {
+    flex: 1;
+    font-size: var(--lk-font-size-base);
+    color: var(--lk-color-text);
+  }
+
+  @include e(children) {
+    padding-left: 48rpx;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk-spacing-xs);
+  }
+}

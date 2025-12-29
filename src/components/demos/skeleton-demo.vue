@@ -36,7 +36,7 @@
       <lk-skeleton v-if="loading" avatar title :rows="4" animated />
       <view v-else class="content-loaded">
         <view class="user-info">
-          <lk-avatar src="https://picsum.photos/100" size="large" />
+          <lk-avatar src="https://picsum.photos/100" size="lg" />
           <view class="user-text">
             <text class="user-name">张三</text>
             <text class="user-desc">前端开发工程师</text>

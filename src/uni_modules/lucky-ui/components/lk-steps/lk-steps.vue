@@ -24,16 +24,6 @@ watch(
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-steps {
-  display: flex;
-  &--vertical {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  &--horizontal {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

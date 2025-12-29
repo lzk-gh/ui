@@ -13,12 +13,6 @@ provide('LkBreadcrumb', { separator: props.separator });
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-breadcrumb {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8rpx;
-  font-size: 24rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

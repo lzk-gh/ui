@@ -1,0 +1,77 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(time-picker) {
+  min-height: var(--lk-control-height-md);
+  padding: 0 var(--lk-spacing-sm);
+  display: flex;
+  align-items: center;
+  background: var(--lk-input-bg);
+  border: 2rpx solid var(--lk-input-border-color);
+  border-radius: var(--lk-radius-lg);
+  font-size: var(--lk-font-size-base);
+  color: var(--lk-color-text);
+
+  @include e(value) {
+    // 默认样式
+  }
+
+  @include e(placeholder) {
+    color: var(--lk-color-text-placeholder);
+  }
+
+  @include e(clear) {
+    margin-left: auto;
+    font-size: 36rpx;
+    padding: 8rpx;
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include when(disabled) {
+    opacity: 0.5;
+  }
+
+  &:active:not(.is-disabled) {
+    border-color: var(--lk-input-border-color-active);
+  }
+
+  @include e(panel) {
+    padding: var(--lk-spacing-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk-spacing-sm);
+  }
+
+  @include e(columns) {
+    display: flex;
+    gap: var(--lk-spacing-xs);
+    height: 480rpx;
+  }
+
+  @include e(col) {
+    width: 160rpx;
+  }
+
+  @include e(item) {
+    height: 84rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--lk-radius-md);
+    margin-bottom: 8rpx;
+    background: var(--lk-color-primary-bg-soft);
+    font-size: var(--lk-font-size-base);
+    color: var(--lk-color-text);
+
+    @include when(active) {
+      background: var(--lk-color-primary);
+      color: var(--lk-color-text-inverse);
+      font-weight: 600;
+    }
+  }
+
+  @include e(actions) {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--lk-spacing-xs);
+  }
+}

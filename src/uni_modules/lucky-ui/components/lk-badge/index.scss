@@ -1,0 +1,45 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(badge-wrapper) {
+  position: relative;
+  display: inline-block;
+}
+
+@include b(badge) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_bg: var(--lk-color-primary);
+  --_color: var(--lk-color-text-inverse);
+  --_fs: var(--lk-font-size-xs);
+  --_h: 36rpx;
+  --_dot-size: 16rpx;
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--_bg);
+  color: var(--_color);
+  font-size: var(--_fs);
+  min-width: var(--_h);
+  height: var(--_h);
+  padding: 0 var(--lk-spacing-xs);
+  border-radius: var(--lk-radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: var(--lk-shadow-sm);
+  transform: translate(50%, -50%);
+  z-index: 10;
+
+  @include when(dot) {
+    width: var(--_dot-size);
+    height: var(--_dot-size);
+    min-width: var(--_dot-size);
+    padding: 0;
+  }
+}

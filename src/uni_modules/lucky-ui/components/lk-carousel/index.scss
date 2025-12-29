@@ -1,0 +1,129 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(carousel) {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  @include e(swiper) {
+    width: 100%;
+    height: 100%;
+  }
+
+  @include e(item) {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+
+    @include when(auto-height) {
+      height: auto;
+    }
+
+    @include when(card) {
+      border-radius: var(--lk-radius-lg);
+      overflow: hidden;
+      position: relative;
+
+      @include when(inactive) {
+        transform: scale(0.92);
+        opacity: 0.92;
+        z-index: 1;
+      }
+
+      @include when(active) {
+        transform: scale(1);
+        box-shadow: var(--lk-shadow-base);
+        z-index: 2;
+      }
+    }
+  }
+
+  @include e(indicators) {
+    position: absolute;
+    display: flex;
+    gap: var(--lk-spacing-xs);
+    z-index: 10;
+
+    @include when(vertical) {
+      flex-direction: column;
+    }
+
+    @include when(align-start) {
+      justify-content: flex-start;
+    }
+    @include when(align-center) {
+      justify-content: center;
+    }
+    @include when(align-end) {
+      justify-content: flex-end;
+    }
+
+    /* 位置 */
+    @include m(pos-bottom) {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: var(--lk-spacing-lg);
+    }
+    @include m(pos-top) {
+      left: 50%;
+      transform: translateX(-50%);
+      top: var(--lk-spacing-lg);
+    }
+    @include m(pos-left) {
+      left: var(--lk-spacing-lg);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    @include m(pos-right) {
+      right: var(--lk-spacing-lg);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    @include when(outside) {
+      position: static;
+      margin-top: var(--lk-spacing-sm);
+      left: auto;
+      right: auto;
+      transform: none;
+      justify-content: center;
+
+      @include m(pos-bottom);
+      @include m(pos-top) {
+        left: auto;
+        transform: none;
+      }
+    }
+
+    @include when(number) {
+      @include e(indicator-number) {
+        padding: 6rpx 12rpx;
+        background: rgba(0, 0, 0, 0.35);
+        color: #fff;
+        border-radius: 20rpx;
+        font-size: var(--lk-font-size-sm);
+        line-height: 1;
+      }
+    }
+  }
+
+  @include e(indicator) {
+    transition: all 0.28s ease;
+
+    @include when(dot) {
+      width: 12rpx;
+      height: 12rpx;
+      border-radius: 50%;
+    }
+
+    @include when(bar) {
+      width: 24rpx;
+      height: 6rpx;
+      border-radius: 8rpx;
+    }
+
+    @include when(active) {
+      transform: scale(1.25);
+    }
+  }
+}

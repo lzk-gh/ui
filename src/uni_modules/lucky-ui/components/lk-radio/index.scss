@@ -1,0 +1,115 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(radio) {
+  --_size: var(--lk-choice-size-md);
+  --_gap: var(--lk-spacing-xs);
+  display: inline-flex;
+  align-items: center;
+  font-size: 28rpx;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity var(--lk-transition-fast);
+
+  @include m(sm) {
+    --_size: var(--lk-choice-size-sm);
+    font-size: 26rpx;
+  }
+
+  @include m(lg) {
+    --_size: var(--lk-choice-size-lg);
+    font-size: 30rpx;
+  }
+
+  @include e(outer) {
+    width: var(--_size);
+    height: var(--_size);
+    border: 2rpx solid var(--lk-color-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lk-color-bg-surface);
+    transition:
+      border-color var(--lk-transition-fast),
+      background var(--lk-transition-fast),
+      transform var(--lk-transition-fast);
+  }
+
+  @include e(inner) {
+    transition:
+      transform var(--lk-transition-base),
+      opacity var(--lk-transition-fast);
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  @include e(dot) {
+    width: 48%;
+    height: 48%;
+    background: var(--lk-color-primary);
+    border-radius: 50%;
+  }
+
+  @include e(check) {
+    font-size: calc(var(--_size) * 0.65);
+    color: var(--lk-color-primary);
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  @include e(icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--lk-color-primary);
+    font-size: calc(var(--_size) * 0.7);
+  }
+
+  @include e(label) {
+    margin-left: var(--_gap);
+  }
+
+  @include m(square) {
+    @include e(outer) {
+      border-radius: var(--lk-radius-md);
+    }
+    @include e(dot) {
+      border-radius: var(--lk-radius-sm);
+    }
+  }
+
+  &:active:not(.is-disabled) {
+    @include e(outer) {
+      transform: scale(0.94);
+    }
+  }
+
+  @include when(checked) {
+    @include e(outer) {
+      border-color: var(--lk-color-primary);
+      background: var(--lk-color-primary-bg-soft);
+    }
+    @include e(inner) {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @include when(disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+@include b(radio-group) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lk-spacing-xs) var(--lk-spacing-lg);
+
+  @include when(column) {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,77 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(space) {
+  display: inline-flex;
+
+  @include m(horizontal) {
+    flex-direction: row;
+  }
+  @include m(vertical) {
+    flex-direction: column;
+  }
+
+  @include m(align-start) {
+    align-items: flex-start;
+  }
+  @include m(align-center) {
+    align-items: center;
+  }
+  @include m(align-end) {
+    align-items: flex-end;
+  }
+  @include m(align-baseline) {
+    align-items: baseline;
+  }
+  @include m(wrap) {
+    flex-wrap: wrap;
+  }
+
+  /* 使用 margin 模拟 gap，兼容性更好 */
+  /* #ifdef H5 */
+  > * {
+    margin-right: var(--gap-x);
+    margin-bottom: var(--gap-y);
+  }
+  @include m(vertical) {
+    > * {
+      margin-right: 0;
+    }
+  }
+  @include m(horizontal) {
+    > * {
+      margin-bottom: 0;
+    }
+  }
+  > *:last-child {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  /* #endif */
+
+  /* #ifndef H5 */
+  > view {
+    margin-right: var(--gap-x);
+    margin-bottom: var(--gap-y);
+  }
+  @include m(vertical) {
+    > view {
+      margin-right: 0;
+    }
+  }
+  @include m(horizontal) {
+    > view {
+      margin-bottom: 0;
+    }
+  }
+  > view:last-child {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  /* #endif */
+
+  @include e(split) {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 var(--gap-x);
+  }
+}

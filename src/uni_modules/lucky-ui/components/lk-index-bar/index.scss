@@ -1,0 +1,39 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(index-bar) {
+  position: relative;
+
+  @include e(sidebar) {
+    position: absolute;
+    right: var(--lk-spacing-xxs);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk-spacing-xxs);
+    padding: var(--lk-spacing-xxs) 0;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: var(--lk-radius-md);
+  }
+
+  @include e(item) {
+    padding: 4rpx var(--lk-spacing-xs);
+    font-size: 22rpx;
+    color: var(--lk-color-text-tertiary);
+
+    @include when(active) {
+      color: var(--lk-color-primary);
+      font-weight: 600;
+    }
+  }
+}
+
+@include b(index-anchor) {
+  padding: var(--lk-spacing-xxs) 0;
+
+  @include e(title) {
+    padding: var(--lk-spacing-xxs) var(--lk-spacing-sm);
+    color: var(--lk-color-text-tertiary);
+    font-size: 24rpx;
+  }
+}

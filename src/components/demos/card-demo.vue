@@ -37,21 +37,21 @@
         </view>
         <template #footer>
           <view class="card-footer">
-            <lk-button size="small" plain>查看物流</lk-button>
-            <lk-button size="small" type="primary">确认收货</lk-button>
+            <lk-button size="sm" plain>查看物流</lk-button>
+            <lk-button size="sm" type="primary">确认收货</lk-button>
           </view>
         </template>
       </lk-card>
     </demo-block>
 
     <demo-block title="交互效果">
-      <lk-card title="可悬停/点击" hoverable shadow="sm">
+      <lk-card title="可悬停/点击" hoverable shadow="base">
         <view class="card-content"> 点击或按住卡片查看阴影和位移变化 </view>
       </lk-card>
     </demo-block>
 
     <demo-block title="简约模式">
-      <lk-card shadow="none" border>
+      <lk-card shadow="never" border>
         <view class="card-content"> 无标题、无阴影、带边框 </view>
       </lk-card>
     </demo-block>

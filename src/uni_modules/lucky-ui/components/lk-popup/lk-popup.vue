@@ -92,53 +92,6 @@ const wrapperStyle = computed(() => ({ zIndex: props.zIndex + 1 }));
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-popup {
-  position: fixed;
-  max-width: 100%;
-  max-height: 100%;
-
-  &--center {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  &--bottom {
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  &--top {
-    left: 0;
-    right: 0;
-    top: 0;
-  }
-  &--left {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 70%;
-  }
-  &--right {
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 70%;
-  }
-
-  &__panel {
-    background: var(--lk-color-bg-surface);
-    color: var(--lk-color-text);
-    box-shadow: var(--lk-shadow-base);
-    max-width: 100%;
-    max-height: 100%;
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--lk-radius-lg);
-  }
-
-  &__safe {
-    height: env(safe-area-inset-bottom);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

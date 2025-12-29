@@ -500,7 +500,7 @@ export function canIUse(api: string): boolean {
  */
 export function getUniVersion(): string {
   // #ifdef uniVersion
-  return process.env.UNI_COMPILER_VERSION || 'unknown';
+  return (globalThis as any).process?.env?.UNI_COMPILER_VERSION || 'unknown';
   // #endif
   // #ifndef uniVersion
   return 'not-supported';

@@ -48,7 +48,8 @@ function toggle(openState?: boolean) {
   const target = openState !== undefined ? openState : !open.value;
   if (target === open.value) return;
   open.value = target;
-  emit(target ? 'open' : 'close');
+  if (target) emit('open');
+  else emit('close');
   if (target) focused.value = true;
   else focused.value = false;
 }
@@ -62,13 +63,14 @@ function onSelect(val: any, label: string) {
     internal.value = arr;
     emit('update:modelValue', arr);
     emit('change', arr);
+    if (props.prop) form?.emitFieldChange(props.prop, arr);
   } else {
     internal.value = [val];
     emit('update:modelValue', val);
     emit('change', val);
     if (props.closeOnSelect) toggle(false);
+    if (props.prop) form?.emitFieldChange(props.prop, val);
   }
-  if (props.prop) form?.emitFieldChange(props.prop);
 }
 
 function removeTag(val: any) {
@@ -76,16 +78,17 @@ function removeTag(val: any) {
   internal.value = arr;
   emit('update:modelValue', arr);
   emit('change', arr);
-  if (props.prop) form?.emitFieldChange(props.prop);
+  if (props.prop) form?.emitFieldChange(props.prop, arr);
 }
 
 function clear() {
   if (props.disabled) return;
   internal.value = [];
-  emit('update:modelValue', props.multiple ? [] : '');
+  const val = props.multiple ? [] : '';
+  emit('update:modelValue', val);
   emit('clear');
-  emit('change', props.multiple ? [] : '');
-  if (props.prop) form?.emitFieldChange(props.prop);
+  emit('change', val);
+  if (props.prop) form?.emitFieldChange(props.prop, val);
 }
 
 const displayText = computed(() => {
@@ -124,9 +127,9 @@ function onWrapperClick() {
   toggle();
 }
 
-function onBlur() {
+function onBlur(e?: any) {
   focused.value = false;
-  emit('blur');
+  emit('blur', e);
   if (props.prop) form?.emitFieldBlur(props.prop);
 }
 </script>
@@ -207,187 +210,6 @@ function onBlur() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-select {
-  // 控件尺寸变量
-  --_h: var(--lk-control-height-md);
-  --_fs: var(--lk-control-font-size-md);
-  --_px: 24rpx;
-  --_gap: 12rpx; // value 内部间距（xy一致）
-  --_radius: var(--lk-radius-lg);
-  --_value-radius: var(--lk-radius-md); // value 圆角
-
-  position: relative;
-  width: 100%;
-  font-size: var(--_fs);
-
-  &--sm {
-    --_h: var(--lk-control-height-sm);
-    --_fs: var(--lk-control-font-size-sm);
-    --_px: 20rpx;
-    --_gap: 8rpx;
-    --_radius: var(--lk-radius-md);
-    --_value-radius: var(--lk-radius-sm);
-  }
-
-  &--lg {
-    --_h: var(--lk-control-height-lg);
-    --_fs: var(--lk-control-font-size-lg);
-    --_px: 28rpx;
-    --_gap: 16rpx;
-    --_radius: var(--lk-radius-xl);
-    --_value-radius: var(--lk-radius-lg);
-  }
-
-  &__control {
-    display: flex;
-    align-items: center;
-    min-height: var(--_h);
-    border: 2rpx solid var(--lk-input-border-color);
-    border-radius: var(--_radius);
-    font-size: var(--_fs);
-    padding: 12rpx var(--_px);
-    gap: 16rpx;
-    background: var(--lk-color-bg-surface);
-    transition: border-color var(--lk-transition-fast), box-shadow var(--lk-transition-fast);
-  }
-
-  &.is-open &__control,
-  &.is-focused &__control {
-    border-color: var(--lk-input-border-color-active);
-    box-shadow: var(--lk-input-shadow-focus);
-  }
-
-  // 内容区域（占据剩余空间）
-  &__content {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8rpx;
-  }
-
-  &__placeholder {
-    color: var(--lk-color-text-placeholder);
-    line-height: 1.4;
-  }
-
-  // 统一的 value 样式（单选和多选共用）
-  &__value {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--_gap);
-    padding: var(--_gap);
-    background: var(--lk-color-primary-bg-soft);
-    border-radius: var(--_value-radius);
-    max-width: 100%;
-
-    &--more {
-      background: var(--lk-color-fill-secondary);
-
-      .lk-select__value-text {
-        color: var(--lk-color-text-secondary);
-      }
-    }
-  }
-
-  &__value-text {
-    color: var(--lk-color-primary);
-    font-size: var(--_fs);
-    line-height: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__value-clear {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 28rpx;
-    height: 28rpx;
-    color: var(--lk-color-primary);
-    opacity: 0.6;
-    border-radius: var(--lk-radius-full);
-    transition: all var(--lk-transition-fast);
-
-    &:active {
-      opacity: 1;
-      background: var(--lk-color-primary-bg-hover);
-    }
-  }
-
-  // 箭头（固定在右侧）
-  &__arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    color: var(--lk-color-text-tertiary);
-    transform: rotate(0deg);
-    transition: transform var(--lk-transition-fast);
-
-    &.is-up {
-      transform: rotate(180deg);
-    }
-  }
-
-  &__dropdown {
-    position: absolute;
-    left: 0;
-    top: calc(100% + 8rpx);
-    width: 100%;
-    background: var(--lk-color-bg-elevated);
-    border: 2rpx solid var(--lk-color-border-weak);
-    box-shadow: var(--lk-shadow-lg);
-    border-radius: var(--lk-radius-lg);
-    max-height: 480rpx;
-    overflow-y: auto;
-    z-index: 2000;
-    padding: 8rpx;
-    transform-origin: top center;
-  }
-
-  &__empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 48rpx 24rpx;
-    font-size: 26rpx;
-    color: var(--lk-color-text-tertiary);
-  }
-
-  &__mask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1999;
-    background: transparent;
-  }
-
-  &.is-disabled {
-    opacity: 0.5;
-    pointer-events: none;
-
-    .lk-select__control {
-      background: var(--lk-color-fill-secondary);
-      cursor: not-allowed;
-    }
-  }
-}
-
-// 表单错误状态
-.lk-form-item.is-error .lk-select .lk-select__control {
-  border-color: var(--lk-color-danger);
-
-  &:focus,
-  .lk-select.is-open &,
-  .lk-select.is-focused & {
-    box-shadow: 0 0 0 4rpx var(--lk-color-danger-bg-soft);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

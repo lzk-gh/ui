@@ -54,7 +54,7 @@ async function close() {
 
   // 如果 confirm 返回 Promise，会等待 Promise 完成后再关闭
   const result = emit('confirm');
-  if (result instanceof Promise) {
+  if ((result as any) instanceof Promise) {
     try {
       await result;
     } catch (err) {
@@ -111,7 +111,7 @@ watch(
       :style="{ ...transitionStyles, width }"
     >
       <!-- Header -->
-      <view class="lk-modal__header" v-if="showHeader && (title || showClose || $slots.header)">
+      <view v-if="showHeader && (title || showClose || $slots.header)" class="lk-modal__header">
         <slot name="header">
           <text class="lk-modal__title">{{ title }}</text>
         </slot>
@@ -124,7 +124,7 @@ watch(
       </view>
 
       <!-- Footer -->
-      <view class="lk-modal__footer" v-if="showFooter">
+      <view v-if="showFooter" class="lk-modal__footer">
         <slot name="footer">
           <lk-button size="small" variant="outline" @click="cancel">取消</lk-button>
           <lk-button size="small" @click="close">确定</lk-button>
@@ -134,66 +134,6 @@ watch(
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-modal {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 90%;
-  /* 外层仅负责定位与居中，不参与动画 transform，避免冲突 */
-
-  &__panel {
-    background: var(--lk-color-bg-surface);
-    color: var(--lk-color-text);
-    border-radius: var(--lk-radius-lg);
-    box-shadow: var(--lk-shadow-lg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  &__header {
-    padding: 32rpx 36rpx 24rpx;
-    font-size: 32rpx;
-    font-weight: 600;
-    position: relative;
-    border-bottom: 1rpx solid var(--lk-color-border);
-  }
-
-  &__title {
-    display: inline-block;
-  }
-
-  &__close {
-    position: absolute;
-    right: 24rpx;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 48rpx;
-    line-height: 1;
-    color: var(--lk-color-text-secondary);
-    padding: 8rpx;
-    border-radius: var(--lk-radius-sm);
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-      color: var(--lk-color-primary);
-    }
-  }
-
-  &__body {
-    padding: 32rpx 36rpx;
-    font-size: 28rpx;
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  &__footer {
-    padding: 24rpx 36rpx 36rpx;
-    display: flex;
-    gap: 24rpx;
-    justify-content: flex-end;
-    border-top: 1rpx solid var(--lk-color-border);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

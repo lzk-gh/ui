@@ -1,0 +1,19 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(grid) {
+  display: grid;
+  text-align: center;
+
+  @include e(item) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--lk-spacing-sm);
+    transition: background var(--lk-transition-fast);
+
+    &:active {
+      background: var(--lk-color-primary-bg-soft);
+    }
+  }
+}

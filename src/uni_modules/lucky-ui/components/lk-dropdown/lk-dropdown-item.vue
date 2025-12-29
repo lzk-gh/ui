@@ -29,31 +29,6 @@ function click() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  padding: 22rpx 32rpx;
-  font-size: 28rpx;
-  color: var(--lk-color-text);
-  transition:
-    background var(--lk-transition-fast),
-    color var(--lk-transition-fast);
-  &:active:not(.is-disabled) {
-    background: var(--lk-color-primary-bg-soft);
-  }
-  &.is-active {
-    color: var(--lk-color-primary);
-    font-weight: 600;
-    background: var(--lk-color-primary-bg-soft);
-  }
-  &.is-disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  &__icon {
-    color: var(--lk-color-primary);
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>

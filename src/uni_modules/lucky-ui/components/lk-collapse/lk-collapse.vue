@@ -41,10 +41,6 @@ provide('LkCollapse', { active, accordion: props.accordion, toggle });
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-collapse {
-  display: flex;
-  flex-direction: column;
-  gap: 12rpx;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

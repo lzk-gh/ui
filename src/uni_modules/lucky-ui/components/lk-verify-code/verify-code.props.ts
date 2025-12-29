@@ -15,7 +15,7 @@ export const verifyCodeProps = {
   /** 绑定值 */
   modelValue: LkProp.string(''),
   /** 输入类型 */
-  type: LkProp.enum<VerifyCodeType>(VerifyCodeType.Number),
+  type: LkProp.enum(Object.values(VerifyCodeType), VerifyCodeType.Number, 'VerifyCode.type'),
   /** 是否密码模式 */
   mask: LkProp.boolean(false),
   /** 是否自动聚焦 */

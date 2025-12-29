@@ -1,0 +1,38 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(breadcrumb) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lk-spacing-xs);
+  font-size: var(--lk-font-size-sm);
+}
+
+@include b(breadcrumb-item) {
+  display: inline-flex;
+  align-items: center;
+  color: var(--lk-color-text-secondary);
+  transition: color 0.2s;
+
+  @include when(link) {
+    color: var(--lk-color-primary);
+    cursor: pointer;
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+
+  &:last-child {
+    @include e(sep) {
+      display: none;
+    }
+    color: var(--lk-color-text);
+    font-weight: 600;
+  }
+
+  @include e(sep) {
+    margin: 0 var(--lk-spacing-xxs);
+    color: var(--lk-color-text-placeholder);
+  }
+}

@@ -1,0 +1,65 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(navbar) {
+  position: relative;
+  background: var(--lk-color-bg-surface);
+  color: var(--lk-color-text);
+  box-shadow: var(--lk-shadow-sm);
+
+  @include when(fixed) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  @include e(status-bar) {
+    width: 100%;
+    background: var(--lk-color-bg-surface);
+  }
+
+  @include e(content) {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--lk-spacing-sm);
+    gap: var(--lk-spacing-xs);
+  }
+
+  @include e(left) {
+    display: flex;
+    align-items: center;
+    gap: var(--lk-spacing-xxs);
+  }
+
+  @include e(right) {
+    display: flex;
+    align-items: center;
+    gap: var(--lk-spacing-xxs);
+  }
+
+  @include e(center) {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+  }
+
+  @include e(title) {
+    font-size: 32rpx;
+    font-weight: 600;
+  }
+
+  @include e(back) {
+    color: var(--lk-color-primary);
+  }
+
+  @include e(text) {
+    font-size: 26rpx;
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(placeholder) {
+    width: 100%;
+  }
+}

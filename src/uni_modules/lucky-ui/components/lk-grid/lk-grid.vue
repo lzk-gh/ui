@@ -49,7 +49,7 @@ const pages = computed(() => {
           :style="{ gap: (itemGap || 8) + 'rpx' }"
         >
           <lk-icon v-if="it.icon" :name="it.icon" />
-          {{ it.text }}
+          <text class="lk-grid-item__text">{{ it.text }}</text>
         </view>
       </view>
     </template>
@@ -64,21 +64,12 @@ const pages = computed(() => {
       :style="{ gap: (itemGap || 8) + 'rpx' }"
     >
       <lk-icon v-if="item.icon" :name="item.icon" />
-      {{ item.text }}
+      <text class="lk-grid-item__text">{{ item.text }}</text>
     </view>
     <slot v-else></slot>
   </view>
 </template>
 
-<style lang="scss" scoped>
-.lk-grid {
-  display: grid;
-  text-align: center;
-}
-
-.lk-grid-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

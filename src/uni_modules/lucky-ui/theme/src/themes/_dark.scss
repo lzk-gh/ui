@@ -1,6 +1,7 @@
 // =============================================================================
 // 主题: 暗色模式 (Dark Theme)
 // =============================================================================
+@use 'sass:color';
 @use '../tokens' as theme;
 
 [data-theme='dark'] {
@@ -15,18 +16,18 @@
   --color-brand-800: #{theme.$color-brand-800};
   --color-brand-900: #{theme.$color-brand-900};
   --color-brand-1000: #{theme.$color-brand-1000};
-  --color-brand-rgb: #{red(theme.$color-brand-600)}, #{green(theme.$color-brand-600)}, #{blue(theme.$color-brand-600)};
+  --color-brand-rgb: #{color.channel(theme.$color-brand-600, "red")}, #{color.channel(theme.$color-brand-600, "green")}, #{color.channel(theme.$color-brand-600, "blue")};
 
   --color-brand-primary: #{theme.$color-brand-500};
-  --color-brand-primary-light: #{rgba(theme.$color-brand-600, 0.15)}; // 使用半透明的品牌色作为浅色背景
+  --color-brand-primary-light: #{color.change(theme.$color-brand-600, $alpha: 0.15)}; // 使用半透明的品牌色作为浅色背景
   --color-brand-primary-hover: #{theme.$color-brand-400};
   --color-brand-primary-active: #{theme.$color-brand-300};
 
   // --- 文字颜色 ---
-  --color-text-primary: #{rgba(theme.$color-white, 0.9)};
-  --color-text-secondary: #{rgba(theme.$color-white, 0.65)};
-  --color-text-placeholder: #{rgba(theme.$color-white, 0.45)};
-  --color-text-disabled: #{rgba(theme.$color-white, 0.3)};
+  --color-text-primary: #{color.change(theme.$color-white, $alpha: 0.9)};
+  --color-text-secondary: #{color.change(theme.$color-white, $alpha: 0.65)};
+  --color-text-placeholder: #{color.change(theme.$color-white, $alpha: 0.45)};
+  --color-text-disabled: #{color.change(theme.$color-white, $alpha: 0.3)};
   --color-text-inverse: #{theme.$color-gray-900};
   --color-text-link: #{theme.$color-brand-500};
 
@@ -34,14 +35,14 @@
   --color-bg-body: #141414; // 纯黑的父级背景
   --color-bg-container: #1d1d1d; // 组件容器背景，比 body 亮一点
   --color-bg-container-active: #2b2b2b; // 按压态
-  --color-bg-mask: #{rgba(theme.$color-black, 0.8)}; // 遮罩可以更暗
+  --color-bg-mask: #{color.change(theme.$color-black, $alpha: 0.8)}; // 遮罩可以更暗
 
   // --- 边框颜色 ---
-  --color-border-primary: #{rgba(theme.$color-white, 0.2)};
-  --color-border-secondary: #{rgba(theme.$color-white, 0.1)};
+  --color-border-primary: #{color.change(theme.$color-white, $alpha: 0.2)};
+  --color-border-secondary: #{color.change(theme.$color-white, $alpha: 0.1)};
 
   // --- 阴影 ---
-  --shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
-  --shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 4rpx 8rpx rgb(0 0 0 / 30%);
+  --shadow-base: 0 8rpx 24rpx rgb(0 0 0 / 40%);
+  --shadow-lg: 0 16rpx 48rpx rgb(0 0 0 / 50%);
 }

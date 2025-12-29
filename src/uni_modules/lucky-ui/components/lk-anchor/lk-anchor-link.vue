@@ -27,13 +27,6 @@ function onClick() {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-anchor-link {
-  padding: 8rpx 12rpx;
-  color: var(--lk-color-text-tertiary);
-}
-.lk-anchor-link.is-active {
-  color: var(--lk-color-primary);
-  font-weight: 600;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

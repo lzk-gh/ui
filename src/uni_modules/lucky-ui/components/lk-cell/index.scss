@@ -1,0 +1,115 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(cell) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_bg: var(--lk-color-bg-surface);
+  --_fs: var(--lk-font-size-md);
+  --_title-fs: var(--lk-font-size-md);
+  --_label-fs: var(--lk-font-size-sm);
+  --_value-fs: var(--lk-font-size-sm);
+  --_py: var(--lk-spacing-lg);
+  --_px: var(--lk-control-padding-x-md);
+  --_gap: var(--lk-spacing-md);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  display: flex;
+  align-items: flex-start;
+  padding: var(--_py) var(--_px);
+  background: var(--_bg);
+  font-size: var(--_fs);
+  position: relative;
+
+  @include when(center) {
+    align-items: center;
+  }
+
+  @include when(clickable) {
+    &:active {
+      background: var(--lk-color-primary-bg-soft);
+    }
+  }
+
+  @include when(disabled) {
+    opacity: 0.5;
+  }
+
+  @include e(left) {
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    gap: var(--_gap);
+  }
+
+  @include e(icon) {
+    color: var(--lk-color-primary);
+  }
+
+  @include e(titles) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk-spacing-xxs);
+  }
+
+  @include e(title) {
+    font-weight: 500;
+    font-size: var(--_title-fs);
+    color: var(--lk-color-text);
+  }
+
+  @include e(label) {
+    font-size: var(--_label-fs);
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(right) {
+    display: flex;
+    align-items: center;
+    gap: var(--lk-spacing-xs);
+    font-size: var(--_value-fs);
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(value) {
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(arrow) {
+    color: var(--lk-color-text-secondary);
+  }
+}
+
+@include b(cell-group) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  @include e(title) {
+    padding: var(--lk-spacing-md) var(--lk-spacing-xs) var(--lk-spacing-xs) var(--lk-spacing-sm);
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(body) {
+    background: var(--lk-color-bg-surface);
+    border-radius: var(--lk-radius-lg);
+    overflow: hidden;
+  }
+
+  @include when(inset) {
+    padding: 0 var(--lk-spacing-lg);
+  }
+
+  @include when(card) {
+    margin: var(--lk-spacing-xs) 0;
+  }
+
+  @include when(border) {
+    .lk-cell + .lk-cell {
+      border-top: 2rpx solid var(--lk-color-border-weak);
+    }
+  }
+}

@@ -1,0 +1,110 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(tabs) {
+  display: flex;
+  flex-direction: column;
+
+  /* 内部样式变量 */
+  --_nav-bg: var(--lk-color-bg-surface);
+  --_active-color: var(--lk-color-primary);
+  --_line-height: 8rpx;
+  --_line-radius: var(--lk-radius-pill);
+
+  @include e(nav-wrapper) {
+    display: flex;
+    align-items: center;
+    background: var(--_nav-bg);
+    gap: 0;
+  }
+
+  @include e(nav) {
+    white-space: nowrap;
+    display: flex;
+    flex: 1;
+    padding: 0;
+    position: relative;
+
+    /* 隐藏 H5 默认滚动条 */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
+
+  @include e(nav-item) {
+    position: relative;
+    padding: 24rpx 36rpx;
+    font-size: var(--lk-font-size-base);
+    color: var(--lk-color-text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--lk-duration-base);
+    flex-shrink: 0;
+
+    &:first-child {
+      margin-left: var(--lk-spacing-xs);
+    }
+
+    &:last-child {
+      margin-right: var(--lk-spacing-xs);
+    }
+
+    @include when(active) {
+      color: var(--_active-color);
+      font-weight: 600;
+    }
+  }
+
+  @include e(line) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: var(--_line-height);
+    background: var(--lk-color-primary);
+    border-radius: var(--_line-radius);
+    transition:
+      transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, width;
+    pointer-events: none;
+  }
+
+  @include m(card) {
+    @include e(nav-item) {
+      margin: 12rpx 12rpx 0;
+      background: var(--lk-color-primary-bg-soft);
+      border-radius: var(--lk-radius-pill);
+      padding: 18rpx 32rpx;
+
+      @include when(active) {
+        background: var(--lk-color-primary);
+        color: var(--lk-color-text-inverse);
+      }
+    }
+
+    @include e(line) {
+      display: none;
+    }
+  }
+
+  @include e(content) {
+    padding: 24rpx 4rpx;
+  }
+
+  @include when(stretch) {
+    @include e(nav-item) {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+}
+
+@include b(tab-pane) {
+  width: 100%;
+  box-sizing: border-box;
+}

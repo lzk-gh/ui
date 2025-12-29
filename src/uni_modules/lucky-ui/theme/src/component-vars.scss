@@ -32,9 +32,9 @@ page,
   --lk-color-bg-surface: #{colors.$color-bg-container};
   --lk-color-bg-surface-active: #{colors.$color-bg-container-active};
 
-  --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);
-  --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
-  --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
+  --lk-shadow-sm: 0 4rpx 8rpx rgb(0 0 0 / 6%);
+  --lk-shadow-base: 0 8rpx 24rpx rgb(0 0 0 / 10%);
+  --lk-shadow-lg: 0 16rpx 48rpx rgb(0 0 0 / 15%);
 
   --lk-control-height-sm: 72rpx;
   --lk-control-height-md: 88rpx;
@@ -53,6 +53,13 @@ page,
   --lk-radius-md: 16rpx;
   --lk-radius-lg: 24rpx;
   --lk-radius-pill: 9999px;
+
+  --lk-spacing-xxs: 4rpx;
+  --lk-spacing-xs: 8rpx;
+  --lk-spacing-sm: 12rpx;
+  --lk-spacing-md: 16rpx;
+  --lk-spacing-lg: 24rpx;
+  --lk-spacing-xl: 32rpx;
 
   --lk-transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
   --lk-transition-base: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
@@ -78,7 +85,7 @@ page,
   --lk-input-border-color-active: var(--color-brand-primary, #{colors.$color-brand-primary});
   --lk-input-border-color-error: var(--color-brand-primary-active, #{colors.$color-brand-primary-active});
   --lk-input-placeholder-color: #{colors.$color-text-placeholder};
-  --lk-input-shadow-focus: 0 0 0 4rpx rgba(var(--color-brand-rgb, 105, 101, 219), 0.15);
+  --lk-input-shadow-focus: 0 0 0 4rpx rgb(var(--color-brand-rgb, 105, 101, 219) / 15%);
 }
 
 /* DARK */
@@ -88,34 +95,34 @@ page,
   --lk-color-primary: var(--color-brand-500, #{colors.$color-brand-500});
   --lk-color-primary-hover: var(--color-brand-400, #{colors.$color-brand-400});
   --lk-color-primary-active: var(--color-brand-300, #{colors.$color-brand-300});
-  --lk-color-primary-bg-soft: rgba(var(--color-brand-rgb, 105, 101, 219), 0.18);
+  --lk-color-primary-bg-soft: rgb(var(--color-brand-rgb, 105, 101, 219) / 18%);
 
   /* 页面背景（与 body 一致，用于业务层引用） */
   --lk-color-bg-page: #141414;
 
-  --lk-color-text: rgba(255, 255, 255, 0.88);
-  --lk-color-text-secondary: rgba(255, 255, 255, 0.65);
-  --lk-color-text-placeholder: rgba(255, 255, 255, 0.45);
-  --lk-color-text-disabled: rgba(255, 255, 255, 0.35);
+  --lk-color-text: rgb(255 255 255 / 88%);
+  --lk-color-text-secondary: rgb(255 255 255 / 65%);
+  --lk-color-text-placeholder: rgb(255 255 255 / 45%);
+  --lk-color-text-disabled: rgb(255 255 255 / 35%);
   --lk-color-text-inverse: #{colors.$color-gray-900};
 
-  --lk-color-border: rgba(255, 255, 255, 0.25);
-  --lk-color-border-weak: rgba(255, 255, 255, 0.15);
+  --lk-color-border: rgb(255 255 255 / 25%);
+  --lk-color-border-weak: rgb(255 255 255 / 15%);
 
   --lk-color-bg-body: #141414;
   --lk-color-bg-surface: #1d1d1f;
   --lk-color-bg-surface-active: #26262a;
 
-  --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
-  --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
-  --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
+  --lk-shadow-sm: 0 4rpx 8rpx rgb(0 0 0 / 30%);
+  --lk-shadow-base: 0 8rpx 24rpx rgb(0 0 0 / 40%);
+  --lk-shadow-lg: 0 16rpx 48rpx rgb(0 0 0 / 50%);
 
   --lk-input-bg: #1d1d1f;
   --lk-input-bg-disabled: #1d1d1f;
-  --lk-input-border-color: rgba(255, 255, 255, 0.25);
+  --lk-input-border-color: rgb(255 255 255 / 25%);
   --lk-input-border-color-hover: var(--color-brand-400, #{colors.$color-brand-400});
   --lk-input-border-color-active: var(--color-brand-500, #{colors.$color-brand-500});
   --lk-input-border-color-error: var(--color-brand-300, #{colors.$color-brand-300});
-  --lk-input-placeholder-color: rgba(255, 255, 255, 0.45);
-  --lk-input-shadow-focus: 0 0 0 4rpx rgba(var(--color-brand-rgb, 105, 101, 219), 0.25);
+  --lk-input-placeholder-color: rgb(255 255 255 / 45%);
+  --lk-input-shadow-focus: 0 0 0 4rpx rgb(var(--color-brand-rgb, 105, 101, 219) / 25%);
 }

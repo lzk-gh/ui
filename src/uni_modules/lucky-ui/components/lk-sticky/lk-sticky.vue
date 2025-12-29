@@ -95,8 +95,6 @@ onBeforeUnmount(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-sticky {
-  width: 100%;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

@@ -102,28 +102,6 @@ const {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-dropdown {
-  display: inline-block;
-  position: relative;
-  &__trigger {
-    display: inline-flex;
-    align-items: center;
-  }
-  &__menu {
-    position: absolute;
-    min-width: 220rpx;
-    top: 100%;
-    left: 0;
-    margin-top: 12rpx;
-    background: var(--lk-color-bg-surface);
-    border: 2rpx solid var(--lk-color-border-weak);
-    border-radius: var(--lk-radius-lg);
-    box-shadow: var(--lk-shadow-base);
-    padding: 12rpx 0;
-    /* 动画交由 useTransition 控制 */
-    z-index: 2400;
-  }
-}
-/* keyframes 由通用过渡替代，不再需要本地声明 */
+<style lang="scss">
+@use './index.scss';
 </style>

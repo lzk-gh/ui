@@ -1,0 +1,125 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(button) {
+  --_h: var(--lk-control-height-md);
+  --_px: var(--lk-control-padding-x-md);
+  --_fs: var(--lk-control-font-size-md);
+  --_radius: var(--lk-radius-md);
+
+  --_bg: var(--lk-color-primary);
+  --_color: var(--lk-color-text-inverse);
+  --_border: 0px solid transparent;
+  --_opacity-disabled: 0.6;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  height: var(--_h);
+  padding: 0 var(--_px);
+  font-size: var(--_fs);
+  border-radius: var(--_radius);
+  background: var(--_bg);
+  color: var(--_color);
+  border: var(--_border);
+
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s, background-color 0.2s, transform 0.1s;
+
+  &::after {
+    border: none;
+  }
+
+  &:active:not(.is-disabled):not(.is-loading) {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+
+  @include m(sm) {
+    --_h: var(--lk-control-height-sm);
+    --_fs: var(--lk-control-font-size-sm);
+    --_px: var(--lk-control-padding-x-sm);
+  }
+
+  @include m(lg) {
+    --_h: var(--lk-control-height-lg);
+    --_fs: var(--lk-control-font-size-lg);
+    --_px: var(--lk-control-padding-x-lg);
+  }
+
+  @include m(shape-square) {
+    --_radius: var(--lk-radius-md);
+  }
+
+  @include m(shape-round) {
+    --_radius: var(--lk-radius-pill);
+  }
+
+  @include m(shape-circle) {
+    --_radius: 50%;
+    width: var(--_h);
+    padding: 0;
+  }
+
+  @include m(outline) {
+    --_bg: transparent;
+    --_color: var(--lk-color-primary);
+    --_border: 2rpx solid var(--lk-color-primary);
+  }
+
+  @include m(soft) {
+    --_bg: var(--lk-color-primary-bg-soft);
+    --_color: var(--lk-color-primary);
+  }
+
+  @include m(text) {
+    --_bg: transparent;
+    --_color: var(--lk-color-primary);
+    height: auto;
+    padding: var(--lk-spacing-xxs) 0;
+  }
+
+  @include when(block) {
+    display: flex;
+    width: 100%;
+  }
+
+  @include when(disabled) {
+    opacity: var(--_opacity-disabled);
+    cursor: not-allowed;
+
+    &:active {
+      transform: none;
+    }
+  }
+
+  @include when(loading) {
+    opacity: 0.8;
+    cursor: wait;
+
+    &:active {
+      transform: none;
+    }
+  }
+
+  @include e(loader) {
+    margin-right: var(--lk-spacing-xs);
+    width: 1em;
+    height: 1em;
+    border: 2rpx solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: lk-spin 1s linear infinite;
+  }
+
+  @include e(icon) {
+    margin-right: var(--lk-spacing-xs);
+    font-size: 1.1em;
+  }
+}

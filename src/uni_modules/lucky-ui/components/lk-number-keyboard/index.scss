@@ -1,0 +1,56 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(nkb) {
+  display: flex;
+
+  @include e(body) {
+    flex: 1;
+    padding: var(--lk-spacing-xs);
+  }
+
+  @include e(row) {
+    display: flex;
+    gap: var(--lk-spacing-xs);
+    margin-bottom: var(--lk-spacing-xs);
+  }
+
+  @include e(key) {
+    flex: 1;
+    height: 96rpx;
+    border-radius: var(--lk-radius-md);
+    background: var(--lk-color-bg-elevated);
+    border: none;
+    font-size: var(--lk-font-size-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+
+    @include m(del) {
+      font-size: var(--lk-font-size-base);
+    }
+
+    &::after {
+      border: none;
+    }
+  }
+
+  @include e(confirm) {
+    width: 200rpx;
+    margin: var(--lk-spacing-xs) var(--lk-spacing-xs) var(--lk-spacing-xs) 0;
+    background: var(--lk-color-primary);
+    color: var(--lk-color-text-inverse);
+    border: none;
+    border-radius: var(--lk-radius-md);
+    font-size: var(--lk-font-size-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+    &::after {
+      border: none;
+    }
+  }
+}

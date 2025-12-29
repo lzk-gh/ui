@@ -224,36 +224,6 @@ const visibleCards = computed(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-waterfall {
-  width: 100%;
-}
-
-.lk-waterfall__inner {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.lk-waterfall__card-default {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-.lk-waterfall__card-default .ph {
-  flex: 1;
-  background: linear-gradient(135deg, #e9f0ff, #f5f7ff);
-}
-.lk-waterfall__card-default .meta {
-  padding: 8px 10px;
-  font-size: 12px;
-  color: #666;
-}
-.lk-waterfall__card-default .title {
-  color: #333;
-}
+<style lang="scss">
+@use './index.scss';
 </style>

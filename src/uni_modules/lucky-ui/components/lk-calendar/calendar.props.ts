@@ -24,7 +24,7 @@ export const calendarProps = {
     default: null,
   },
   /** 日历类型 */
-  type: LkProp.enum<CalendarType>(CalendarType.Single),
+  type: LkProp.enum(Object.values(CalendarType), CalendarType.Single, 'Calendar.type'),
   /** 主题颜色 */
   color: LkProp.string('primary'),
   /** 禁用日期函数 */
@@ -55,7 +55,7 @@ export const calendarProps = {
   /** 最大选择数量 */
   maxCount: LkProp.number(0),
   /** 值类型 */
-  valueType: LkProp.enum<CalendarValueType>(CalendarValueType.Date),
+  valueType: LkProp.enum(Object.values(CalendarValueType), CalendarValueType.Date, 'Calendar.valueType'),
   /** 值格式化 */
   valueFormat: LkProp.string('YYYY-MM-DD'),
 } as const;

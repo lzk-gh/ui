@@ -1,0 +1,81 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(switch) {
+  --_h: var(--lk-switch-height-md);
+  --_gap: var(--lk-switch-knob-gap);
+  --_bg-off: var(--lk-color-border-weak);
+  --_bg-on: var(--lk-color-primary);
+  --_knob-bg: var(--lk-color-bg-surface);
+  --_radius: var(--lk-switch-height-md);
+
+  position: relative;
+  width: calc(var(--_h) * 1.9);
+  height: var(--_h);
+  border-radius: var(--_radius);
+  background: var(--_bg-off);
+  padding: var(--_gap);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--lk-duration-base) ease;
+
+  @include m(sm) {
+    --_h: var(--lk-switch-height-sm);
+  }
+
+  @include m(md) {
+    --_h: var(--lk-switch-height-md);
+  }
+
+  @include m(lg) {
+    --_h: var(--lk-switch-height-lg);
+  }
+
+  @include e(knob) {
+    width: calc(var(--_h) - var(--_gap) * 2);
+    height: calc(var(--_h) - var(--_gap) * 2);
+    background: var(--_knob-bg);
+    border-radius: var(--lk-radius-circle);
+    box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.15);
+    transition: transform var(--lk-duration-base) ease;
+    position: relative;
+  }
+
+  @include when(checked) {
+    background: var(--_bg-on);
+
+    @include e(knob) {
+      transform: translateX(calc(100% + var(--_gap)));
+    }
+  }
+
+  @include e(spinner) {
+    width: 60%;
+    height: 60%;
+    border: 4rpx solid rgba(0, 0, 0, 0.15);
+    border-top-color: rgba(0, 0, 0, 0.45);
+    border-radius: var(--lk-radius-circle);
+    animation: lk-switch-spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @include when(disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  @include when(loading) {
+    cursor: progress;
+  }
+
+  &:active:not(.is-disabled):not(.is-loading) {
+    @include e(knob) {
+      transform: translateX(calc((var(--is-checked, 0) * 100%))) scale(0.95);
+    }
+  }
+}

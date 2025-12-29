@@ -1,0 +1,148 @@
+@use '../../theme/src/mixins' as *;
+
+@include b(checkbox) {
+  // =========================================
+  // 1. 定义组件级 CSS 变量
+  // =========================================
+  --_size: var(--lk-choice-size-md);
+  --_border-size: var(--lk-choice-border-size);
+  --_radius: var(--lk-radius-sm);
+  --_gap: var(--lk-spacing-sm);
+  --_fs: var(--lk-font-size-md);
+
+  // =========================================
+  // 2. 核心盒模型
+  // =========================================
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--_fs);
+  line-height: 1.2;
+  color: var(--lk-color-text);
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--lk-transition-fast),
+    opacity var(--lk-transition-fast);
+
+  @include m(sm) {
+    --_size: var(--lk-choice-size-sm);
+    --_fs: var(--lk-font-size-sm);
+  }
+
+  @include m(lg) {
+    --_size: var(--lk-choice-size-lg);
+    --_fs: var(--lk-font-size-lg);
+  }
+
+  @include m(circle) {
+    @include e(box) {
+      border-radius: 50%;
+    }
+  }
+
+  @include e(box) {
+    width: var(--_size);
+    height: var(--_size);
+    border: var(--_border-size) solid var(--lk-color-border);
+    border-radius: var(--_radius);
+    background: var(--lk-color-bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background var(--lk-transition-fast),
+      border-color var(--lk-transition-fast),
+      transform var(--lk-transition-fast);
+    box-sizing: border-box;
+  }
+
+  @include e(icon) {
+    opacity: 0;
+    transition:
+      transform var(--lk-transition-fast),
+      opacity var(--lk-transition-fast);
+  }
+
+  @include e(check) {
+    transform: scale(0) rotate(0);
+    color: var(--lk-color-text-inverse);
+    font-size: calc(var(--_size) * 0.9);
+  }
+
+  @include e(indeterminate) {
+    transform: scale(0) rotate(0);
+    color: var(--lk-color-text-inverse);
+    font-size: calc(var(--_size) * 0.7);
+  }
+
+  @include e(dot) {
+    width: 48%;
+    height: 48%;
+    background: var(--lk-color-text-inverse);
+    border-radius: 50%;
+    transform: scale(0.2);
+  }
+
+  @include e(custom) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--lk-color-text-inverse);
+    font-size: calc(var(--_size) * 0.7);
+  }
+
+  @include e(label) {
+    margin-left: var(--_gap);
+  }
+
+  &:active:not(.is-disabled) {
+    @include e(box) {
+      transform: scale(0.94);
+    }
+  }
+
+  @include when(checked) {
+    @include e(box) {
+      background: var(--lk-color-primary);
+      border-color: var(--lk-color-primary);
+    }
+    @include e(icon) {
+      opacity: 1;
+    }
+    @include e(check) {
+      transform: scale(1) rotate(0);
+    }
+    @include e(dot) {
+      transform: scale(1);
+    }
+  }
+
+  @include when(indeterminate) {
+    @include e(box) {
+      background: var(--lk-color-primary);
+      border-color: var(--lk-color-primary);
+    }
+    @include e(indeterminate) {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+  }
+
+  @include when(disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+@include b(checkbox-group) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lk-spacing-md) var(--lk-spacing-xl);
+
+  @include when(column) {
+    flex-direction: column;
+  }
+}

@@ -106,67 +106,6 @@ const wrapperStyle = computed(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
-.lk-drawer {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  animation: none;
-  // 左右方向
-  &--right {
-    right: 0;
-  }
-  &--left {
-    left: 0;
-  }
-  // 上下方向
-  &--top {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: auto;
-  }
-  &--bottom {
-    left: 0;
-    right: 0;
-    top: auto;
-    bottom: 0;
-  }
-
-  &__panel {
-    background: var(--lk-color-bg-surface);
-    color: var(--lk-color-text);
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--lk-shadow-lg);
-    height: 100%;
-  }
-
-  &__header {
-    padding: 32rpx 36rpx;
-    font-size: 32rpx;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  &__close {
-    font-size: 42rpx;
-    line-height: 1;
-    padding: 4rpx 12rpx;
-    border-radius: var(--lk-radius-sm);
-    color: var(--lk-color-text-secondary);
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-      color: var(--lk-color-primary);
-    }
-  }
-  &__body {
-    flex: 1;
-    padding: 0 36rpx 40rpx;
-    overflow-y: auto;
-    font-size: 28rpx;
-    line-height: 1.6;
-  }
-}
+<style lang="scss">
+@use './index.scss';
 </style>
