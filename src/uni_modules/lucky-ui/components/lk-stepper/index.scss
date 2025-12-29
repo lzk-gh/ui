@@ -1,78 +1,108 @@
 @use '../../theme/src/mixins/bem' as *;
 
 @include b(stepper) {
-  --_h: var(--lk-control-height-md);
-  --_fs: var(--lk-control-font-size-md);
-  --_radius: var(--lk-radius-lg);
+  // --- 基础变量 ---
+  --stepper-height: 56rpx;
+  --stepper-btn-size: 56rpx; // 按钮宽=高
+  --stepper-input-width: 64rpx;
+  --stepper-bg: var(--lk-color-bg-surface-variant, #f2f3f5);
+  --stepper-active-bg: var(--lk-color-bg-active, #e8e8e8);
+  --stepper-color: var(--lk-color-text, #323233);
+  --stepper-radius: 8rpx;
+  --stepper-gap: 4rpx;
 
-  width: fit-content;
   display: inline-flex;
-  align-items: stretch;
-  border: 2rpx solid var(--lk-input-border-color);
-  border-radius: var(--_radius);
-  overflow: hidden;
-  background: var(--lk-input-bg);
+  align-items: center;
+  gap: var(--stepper-gap); // 使用 gap 控制间隙
 
+  // --- 尺寸修饰符 ---
   @include m(sm) {
-    --_h: var(--lk-control-height-sm);
-    --_fs: var(--lk-control-font-size-sm);
-    --_radius: var(--lk-radius-md);
+    --stepper-height: 44rpx;
+    --stepper-btn-size: 44rpx;
+    --stepper-input-width: 56rpx;
   }
 
   @include m(lg) {
-    --_h: var(--lk-control-height-lg);
-    --_fs: var(--lk-control-font-size-lg);
-    --_radius: var(--lk-radius-pill);
+    --stepper-height: 68rpx;
+    --stepper-btn-size: 68rpx;
+    --stepper-input-width: 80rpx;
   }
 
-  @include m(small) {
-    --_h: var(--lk-control-height-sm);
-    --_fs: var(--lk-control-font-size-sm);
-    --_radius: var(--lk-radius-md);
-  }
-
-  @include m(large) {
-    --_h: var(--lk-control-height-lg);
-    --_fs: var(--lk-control-font-size-lg);
-    --_radius: var(--lk-radius-pill);
-  }
-
-  @include when(disabled) {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
+  // --- 按钮通用样式 ---
   @include e(btn) {
-    width: var(--_h);
+    position: relative;
+    box-sizing: border-box;
+    width: var(--stepper-btn-size);
+    height: var(--stepper-height);
+    background-color: var(--stepper-bg);
+    border-radius: var(--stepper-radius);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: calc(var(--_fs) + 4rpx);
-    color: var(--lk-color-primary);
-    background: var(--lk-color-primary-bg-soft);
-    font-weight: 500;
-    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.1s;
 
-    &:active:not(.is-disabled) {
-      background: var(--lk-color-primary);
-      color: var(--lk-color-text-inverse);
+    // 纯 CSS 绘制图标 (黑科技)
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      background-color: currentColor;
+      color: var(--stepper-color);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 2rpx;
     }
 
-    @include when(disabled) {
-      opacity: 0.4;
+    // 横线 (Minus & Plus 都有)
+    &::before {
+      width: 50%;
+      height: 4rpx;
+    }
+
+    // 竖线 (只有 Plus 有)
+    &.lk-stepper__plus::after {
+      width: 4rpx;
+      height: 50%;
+    }
+
+    &:active:not(.is-disabled) {
+      background-color: var(--stepper-active-bg);
+    }
+
+    &.is-disabled {
+      color: var(--lk-color-text-disabled, #c8c9cc);
+      background-color: var(--lk-color-bg-disabled, #f7f8fa);
+      cursor: not-allowed;
     }
   }
 
+  // --- 输入框样式 ---
   @include e(input) {
-    width: 140rpx;
-    height: var(--_h);
-    line-height: var(--_h);
-    text-align: center;
-    border: none;
-    outline: none;
-    font-size: var(--_fs);
-    color: var(--lk-color-text);
-    background: transparent;
     box-sizing: border-box;
+    width: var(--stepper-input-width);
+    height: var(--stepper-height);
+    margin: 0;
+    padding: 0;
+    color: var(--stepper-color);
+    font-size: 28rpx;
+    text-align: center;
+    vertical-align: middle;
+    background-color: var(--stepper-bg);
+    border: 0;
+    border-width: 0; // 消除某些平台默认边框
+    border-radius: var(--stepper-radius);
+    -webkit-appearance: none; // iOS 消除阴影
+
+    &.is-disabled {
+      color: var(--lk-color-text-disabled, #c8c9cc);
+      background-color: var(--lk-color-bg-disabled, #f7f8fa);
+    }
+  }
+
+  @include when(disabled) {
+    @include e(btn) {
+       // 整体禁用时的覆盖
+    }
   }
 }
