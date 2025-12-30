@@ -1,17 +1,11 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-/**
- * 轮播切换效果
- */
 export const CarouselEffect = {
   Fade: 'fade',
   Slide: 'slide',
 } as const;
 
-/**
- * 指示器类型
- */
 export const CarouselIndicatorType = {
   Dots: 'dots',
   Bars: 'bars',
@@ -21,18 +15,20 @@ export const CarouselIndicatorType = {
 
 /**
  * 指示器位置
+ * 增加了角落位置定义
  */
 export const CarouselIndicatorPosition = {
-  Top: 'top',
-  Bottom: 'bottom',
-  Left: 'left',
-  Right: 'right',
+  Bottom: 'bottom',       // 底部居中
+  Top: 'top',             // 顶部居中
+  Left: 'left',           // 左侧垂直居中
+  Right: 'right',         // 右侧垂直居中
+  TopLeft: 'top-left',    // 左上
+  TopRight: 'top-right',  // 右上
+  BottomLeft: 'bottom-left',   // 左下
+  BottomRight: 'bottom-right', // 右下
   Auto: 'auto',
 } as const;
 
-/**
- * 指示器对齐
- */
 export const CarouselIndicatorAlign = {
   Center: 'center',
   Start: 'start',
@@ -46,120 +42,36 @@ export type CarouselIndicatorAlign = (typeof CarouselIndicatorAlign)[keyof typeo
 
 export const carouselProps = {
   ...baseProps,
-
-  /** 轮播数据列表 */
-  carouselList: {
-    type: Array as PropType<any[]>,
-    default: () => [],
-  },
-
-  /** 当前索引 */
+  carouselList: { type: Array as PropType<any[]>, default: () => [] },
   current: LkProp.number(0),
-
-  /** 是否自动播放 */
   autoPlay: LkProp.boolean(true),
-
-  /** 播放间隔（毫秒） */
   interval: LkProp.number(3000),
-
-  /**
-   * 切换效果
-   * @value fade 淡入淡出
-   * @value slide 滑动
-   */
   effect: LkProp.enum(Object.values(CarouselEffect), CarouselEffect.Fade, 'Carousel.effect'),
-
-  /** 是否垂直 */
   vertical: LkProp.boolean(false),
-
-  /** 是否显示指示器 */
   showIndicators: LkProp.boolean(true),
-
-  /**
-   * 指示器类型
-   * @value dots 圆点
-   * @value bars 条形
-   * @value number 数字
-   * @value none 无
-   */
   indicatorType: LkProp.enum(Object.values(CarouselIndicatorType), CarouselIndicatorType.Dots, 'Carousel.indicatorType'),
-
-  /** 指示器位置 */
   indicatorPosition: LkProp.enum(Object.values(CarouselIndicatorPosition), CarouselIndicatorPosition.Auto, 'Carousel.indicatorPosition'),
 
-  /** 指示器对齐 */
   indicatorAlign: LkProp.enum(Object.values(CarouselIndicatorAlign), CarouselIndicatorAlign.Center, 'Carousel.indicatorAlign'),
-
-  /** 指示器是否可点击 */
-  indicatorClickable: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** 指示器颜色 */
+  indicatorClickable: { type: Boolean, default: undefined },
   indicatorColor: LkProp.string(''),
-
-  /** 指示器激活颜色 */
   indicatorActiveColor: LkProp.string(''),
-
-  /** 是否卡片模式 */
-  card: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** 卡片模式前边距 */
+  card: { type: Boolean, default: undefined },
   cardPrevMargin: LkProp.string(''),
-
-  /** 卡片模式后边距 */
   cardNextMargin: LkProp.string(''),
-
-  /** 卡片模式缩放比例 */
-  cardScale: {
-    type: Number,
-    default: undefined,
-  },
-
-  /** 卡片模式圆角 */
+  cardScale: { type: Number, default: undefined },
   cardRadius: LkProp.string(''),
-
-  /** 卡片模式阴影 */
   cardShadow: LkProp.string(''),
-
-  /** 是否露出模式 */
-  peek: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** 露出模式前边距 */
+  peek: { type: Boolean, default: undefined },
   peekPrevMargin: LkProp.string(''),
-
-  /** 露出模式后边距 */
   peekNextMargin: LkProp.string(''),
+  indicatorAnimated: { type: Boolean, default: undefined },
+  autoHeight: { type: Boolean, default: undefined },
 
-  /** 指示器是否动画 */
-  indicatorAnimated: {
-    type: Boolean,
-    default: undefined,
-  },
+  // 保持默认高度，防止坍塌
+  height: { type: [String, Number] as PropType<string | number>, default: '320rpx' },
 
-  /** 是否自动高度 */
-  autoHeight: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** 高度 */
-  height: {
-    type: [String, Number] as PropType<string | number>,
-    default: undefined,
-  },
-
-  /** 指示器是否覆盖在轮播上 */
   indicatorOverlay: LkProp.boolean(true),
-
-  /** 是否循环播放 */
   loop: LkProp.boolean(true),
 } as const;
 

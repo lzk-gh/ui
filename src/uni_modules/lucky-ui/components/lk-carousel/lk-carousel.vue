@@ -11,15 +11,14 @@ const emit = defineEmits<{
   click: [item: any, index: number];
 }>();
 
-// swiper 绑定的内部 current
 const innerCurrent = ref(props.current);
-
 const length = computed(() => props.carouselList?.length || 0);
 const slots = useSlots();
 const hasDefaultSlot = computed(() => !!slots.default);
 const autoplayEnabled = computed(() => props.autoPlay && length.value > 1);
-// 是否启用循环：受用户配置 loop 控制，同时必须有多张图片
 const circular = computed(() => !!props.loop && length.value > 1);
+
+// 指示器位置
 const resolvedIndicatorPosition = computed(() => {
   if (props.indicatorPosition && props.indicatorPosition !== 'auto') return props.indicatorPosition;
   return props.vertical ? 'right' : 'bottom';
@@ -27,48 +26,49 @@ const resolvedIndicatorPosition = computed(() => {
 const indicatorVertical = computed(() =>
   ['left', 'right'].includes(resolvedIndicatorPosition.value)
 );
-// 是否展示指示器：支持 indicatorType='none' 直接不展示
 const showIndicators = computed(
   () => props.showIndicators && props.indicatorType !== 'none' && length.value > 1
 );
-// 是否为非覆盖（外部）指示器
 const indicatorOutside = computed(() => !props.indicatorOverlay && showIndicators.value);
 
-// 统一处理 previous/next margin：卡片优先，其次 peek
+// Margin 处理
 const previousMargin = computed(() => {
-  if (props.card) return props.cardPrevMargin;
+  if (props.card) return props.cardPrevMargin || '60rpx';
   if (props.peek) return props.peekPrevMargin;
   return '0';
 });
 const nextMargin = computed(() => {
-  if (props.card) return props.cardNextMargin;
+  if (props.card) return props.cardNextMargin || '60rpx';
   if (props.peek) return props.peekNextMargin;
   return '0';
 });
 
-// 自适应高度支持
+// 高度处理
 const currentHeight = ref<number>(0);
-// 外部指示器实际像素高度（仅在 indicatorOverlay=false 时生效）
 const indicatorHeightPx = ref<number>(0);
 const instance = getCurrentInstance();
-const heightProp = computed(() =>
-  typeof props.height === 'number' ? `${props.height}px` : props.height
-);
 
-// 不同类型指示器的预估占位（rpx，用于固定高时 CSS calc）
+const heightProp = computed(() => {
+  if (!props.height) return '320rpx';
+  return typeof props.height === 'number' ? `${props.height}px` : props.height;
+});
+
+// 指示器占位
 const indicatorSpaceRpx = computed(() => {
   if (!indicatorOutside.value) return '0rpx';
   const type = props.indicatorType;
-  if (type === 'number') return '40rpx';
-  if (type === 'bars') return '28rpx';
-  return '32rpx'; // dots 默认
+  if (type === 'number') return '50rpx';
+  return '40rpx';
 });
 
-// 外层容器样式：autoHeight 时包含内容高度 + 指示器像素高度；固定高保持传入高度
+// 外层容器样式
 const outerStyle = computed(() => {
   if (props.autoHeight) {
     const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
-    return { height: `${Math.max(0, total)}px` };
+    return {
+      height: total > 0 ? `${total}px` : '200rpx',
+      transition: 'height 0.3s ease'
+    };
   }
   return {
     height: heightProp.value,
@@ -76,10 +76,10 @@ const outerStyle = computed(() => {
   } as any;
 });
 
-// swiper 样式：autoHeight 使用内容像素高；固定高用 calc(100% - 指示器占位)
+// Swiper 样式
 const swiperStyle = computed(() => {
   if (props.autoHeight) {
-    return { height: `${Math.max(0, currentHeight.value)}px` };
+    return { height: currentHeight.value > 0 ? `${currentHeight.value}px` : '100%' };
   }
   if (indicatorOutside.value) {
     return { height: 'calc(100% - var(--lk-indicator-space))' } as any;
@@ -87,10 +87,22 @@ const swiperStyle = computed(() => {
   return { height: '100%' };
 });
 
+// 卡片样式变量
+const cardStyleVars = computed(() => {
+  if (!props.card) return {};
+  return {
+    '--lk-card-scale': props.cardScale ? String(props.cardScale) : '0.9',
+    '--lk-card-radius': props.cardRadius || '16rpx',
+    '--lk-card-shadow': props.cardShadow || '0 8rpx 24rpx rgba(0,0,0,0.12)',
+  };
+});
+
+// 测量内容高度
 function measureActiveHeight() {
   if (!props.autoHeight) return;
   const idx = innerCurrent.value;
-  nextTick(() => {
+
+  const query = () => {
     const q = uni.createSelectorQuery().in(instance as any);
     q.select(`#lk-slide-${idx}`)
       .boundingClientRect(rect => {
@@ -99,20 +111,16 @@ function measureActiveHeight() {
         if (h) currentHeight.value = h;
       })
       .exec();
-    // 再次测量以适配图片延迟加载
-    setTimeout(() => {
-      const q2 = uni.createSelectorQuery().in(instance as any);
-      q2.select(`#lk-slide-${idx}`)
-        .boundingClientRect(rect => {
-          const r: any = rect as any;
-          const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
-          if (h) currentHeight.value = h;
-        })
-        .exec();
-    }, 200);
+  };
+
+  nextTick(() => {
+    query();
+    setTimeout(query, 150);
+    setTimeout(query, 300);
   });
 }
 
+// 测量外部指示器高度
 function measureIndicatorHeight() {
   if (!props.autoHeight || !indicatorOutside.value) {
     indicatorHeightPx.value = 0;
@@ -130,36 +138,26 @@ function measureIndicatorHeight() {
   });
 }
 
-// v-model 同步（外 -> 内）
-watch(
-  () => props.current,
-  val => {
-    const n = length.value;
-    if (typeof val !== 'number' || n === 0) return;
-    const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
-    innerCurrent.value = clamped;
-    measureActiveHeight();
-    measureIndicatorHeight();
-  }
-);
+// 监听
+watch(() => props.current, val => {
+  const n = length.value;
+  if (typeof val !== 'number' || n === 0) return;
+  const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
+  if (innerCurrent.value !== clamped) innerCurrent.value = clamped;
+});
 
-// 数据源长度变化时，校正 current
-watch(
-  () => length.value,
-  n => {
-    if (n <= 0) {
-      innerCurrent.value = 0;
-      currentHeight.value = 0;
-      indicatorHeightPx.value = 0;
-      return;
-    }
-    if (innerCurrent.value > n - 1) {
-      innerCurrent.value = n - 1;
-    }
-    measureActiveHeight();
-    measureIndicatorHeight();
+watch(() => innerCurrent.value, () => measureActiveHeight());
+
+watch(() => length.value, n => {
+  if (n <= 0) {
+    innerCurrent.value = 0;
+    currentHeight.value = 0;
+    return;
   }
-);
+  if (innerCurrent.value > n - 1) innerCurrent.value = n - 1;
+  measureActiveHeight();
+  measureIndicatorHeight();
+});
 
 function updateActive(index: number) {
   innerCurrent.value = index;
@@ -170,23 +168,19 @@ function updateActive(index: number) {
 function onSwiperChange(e: any) {
   const idx = e?.detail?.current ?? 0;
   updateActive(idx);
-  measureActiveHeight();
-  measureIndicatorHeight();
 }
 
 function onItemClick(index: number) {
   const list = props.carouselList || [];
-  if (!list.length) return;
-  emit('click', list[index], index);
+  if (list.length) emit('click', list[index], index);
 }
 
 function setActive(index: number) {
   const n = length.value;
   if (n === 0) return;
   const clamped = Math.max(0, Math.min(index, n - 1));
-  updateActive(clamped);
-  measureActiveHeight();
-  measureIndicatorHeight();
+  innerCurrent.value = clamped;
+  emit('update:current', clamped);
 }
 
 onMounted(() => {
@@ -213,22 +207,14 @@ onMounted(() => {
     >
       <swiper-item v-for="(item, index) in carouselList" :key="index">
         <view
-          class="lk-carousel__item"
+          class="lk-carousel__item-wrap"
           :class="{
             'is-card': card,
             'is-active': index === innerCurrent,
             'is-inactive': index !== innerCurrent,
             'is-auto-height': autoHeight,
           }"
-          :style="
-            card
-              ? {
-                  '--lk-card-scale': String(cardScale),
-                  '--lk-card-radius': cardRadius,
-                  '--lk-card-shadow': cardShadow,
-                }
-              : undefined
-          "
+          :style="card ? cardStyleVars : undefined"
           :id="`lk-slide-${index}`"
           @click="onItemClick(index)"
         >
@@ -242,34 +228,24 @@ onMounted(() => {
       </swiper-item>
     </swiper>
 
-    <template v-if="props.indicatorOverlay">
-      <!-- 指示器：数字类型 -->
+    <!-- 内部指示器 (Overlay) -->
+    <template v-if="props.indicatorOverlay && showIndicators">
       <view
-        v-if="showIndicators && indicatorType === 'number'"
-        class="lk-carousel__indicators is-number"
-        :class="[
-          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
-          `is-align-${indicatorAlign}`,
-          { 'is-vertical': indicatorVertical },
-        ]"
-      >
-        <view class="lk-carousel__indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
-      </view>
-
-      <!-- 指示器：点状或条状 -->
-      <view
-        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
         class="lk-carousel__indicators"
         :class="[
           `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
           `is-align-${indicatorAlign}`,
           {
             'is-vertical': indicatorVertical,
-            'is-bars': indicatorType === 'bars',
+            'is-animated': indicatorAnimated
           },
         ]"
       >
+        <view v-if="indicatorType === 'number'" class="lk-carousel__indicator-number">
+            {{ innerCurrent + 1 }}/{{ length }}
+        </view>
         <view
+          v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           v-for="(_, index) in carouselList"
           :key="index"
           class="lk-carousel__indicator"
@@ -279,42 +255,34 @@ onMounted(() => {
             'is-bar': indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
+            backgroundColor: index === innerCurrent
+              ? (indicatorActiveColor || undefined)
+              : (indicatorColor || undefined),
           }"
-          @click="indicatorClickable ? setActive(index) : undefined"
+          @click.stop="indicatorClickable ? setActive(index) : undefined"
         ></view>
       </view>
     </template>
-    <template v-if="!props.indicatorOverlay">
-      <!-- 指示器：数字类型 -->
-      <view
-        v-if="showIndicators && indicatorType === 'number'"
-        class="lk-carousel__indicators is-outside is-number"
-        id="lk-indicators-outside"
-        :class="[
-          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
-          `is-align-${indicatorAlign}`,
-          { 'is-vertical': indicatorVertical },
-        ]"
-      >
-        <view class="lk-carousel__indicator-number">{{ innerCurrent + 1 }}/{{ length }}</view>
-      </view>
 
-      <!-- 指示器：点状或条状 -->
+    <!-- 外部指示器 (Outside) -->
+    <template v-if="!props.indicatorOverlay && showIndicators">
       <view
-        v-else-if="showIndicators && (indicatorType === 'dots' || indicatorType === 'bars')"
         class="lk-carousel__indicators is-outside"
         id="lk-indicators-outside"
         :class="[
           `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
           `is-align-${indicatorAlign}`,
           {
-            'is-vertical': indicatorVertical,
-            'is-bars': indicatorType === 'bars',
+             'is-vertical': indicatorVertical,
+             'is-animated': indicatorAnimated
           },
         ]"
       >
+        <view v-if="indicatorType === 'number'" class="lk-carousel__indicator-number">
+             {{ innerCurrent + 1 }}/{{ length }}
+        </view>
         <view
+          v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           v-for="(_, index) in carouselList"
           :key="index"
           class="lk-carousel__indicator"
@@ -324,9 +292,11 @@ onMounted(() => {
             'is-bar': indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor: index === innerCurrent ? indicatorActiveColor : indicatorColor,
+            backgroundColor: index === innerCurrent
+              ? (indicatorActiveColor || undefined)
+              : (indicatorColor || undefined),
           }"
-          @click="indicatorClickable ? setActive(index) : undefined"
+          @click.stop="indicatorClickable ? setActive(index) : undefined"
         ></view>
       </view>
     </template>

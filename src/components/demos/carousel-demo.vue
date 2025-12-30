@@ -1,221 +1,184 @@
 <template>
   <view class="component-demo">
-    <demo-block title="基础用法（水平，点状指示器）">
+
+    <!-- 1. 基础用法 -->
+    <demo-block title="基础用法（默认底部居中，点状）">
       <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curBasic"
+        v-model:current="current1"
+        :carousel-list="imageList"
         indicator-type="dots"
+        :circular="true"
         @click="handleClick"
-        @change="onChange"
       />
     </demo-block>
 
-    <demo-block title="指示器样式：条状（bars）">
+    <!-- 2. 指示器样式升级 -->
+    <demo-block title="指示器样式：圆润条形（Bars）">
       <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curBars"
+        v-model:current="current2"
+        :carousel-list="imageList"
         indicator-type="bars"
-        @click="handleClick"
-        @change="onChange"
+        indicator-active-color="#fff"
+        indicator-color="rgba(255,255,255,0.4)"
       />
     </demo-block>
 
-    <demo-block title="指示器样式：数字（number）">
+    <!-- 3. 新增位置：角落定位 -->
+    <demo-block title="位置：左下角 (Bottom Left)">
       <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curNumber"
+        v-model:current="current3"
+        :carousel-list="imageList"
+        indicator-position="bottom-left"
+        indicator-type="dots"
+      />
+    </demo-block>
+
+    <demo-block title="位置：右上角 (Top Right) + 数字">
+      <lk-carousel
+        v-model:current="current4"
+        :carousel-list="imageList"
+        indicator-position="top-right"
         indicator-type="number"
-        @click="handleClick"
-        @change="onChange"
       />
     </demo-block>
 
-    <demo-block title="指示器位置：顶部（点状）">
+    <!-- 4. 新增位置：侧边垂直居中 -->
+    <demo-block title="位置：左侧居中 (Left) + 垂直排列">
       <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curTop"
-        indicator-type="dots"
-        indicator-position="top"
-        @click="handleClick"
-        @change="onChange"
+        v-model:current="current5"
+        :carousel-list="imageList"
+        indicator-position="left"
+        indicator-type="bars"
       />
     </demo-block>
 
-    <demo-block title="竖向轮播（vertical），右侧条状指示器">
+    <!-- 5. 竖向轮播 + 右侧指示器 -->
+    <demo-block title="竖向轮播 + 右侧居中 (Right)">
       <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curVertical"
+        v-model:current="current6"
+        :carousel-list="imageList"
         :vertical="true"
-        indicator-type="bars"
-        @click="handleClick"
-        @change="onChange"
-      />
-    </demo-block>
-
-    <demo-block title="右侧预览下一张（peek）">
-      <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curPeek"
-        :peek="true"
-        peek-prev-margin="0"
-        peek-next-margin="80rpx"
+        indicator-position="right"
         indicator-type="dots"
-        @click="handleClick"
-        @change="onChange"
+        height="360rpx"
       />
     </demo-block>
 
-    <demo-block title="卡片样式（更强层次：圆角/阴影/缩放）">
-      <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curCard"
-        :card="true"
-        card-prev-margin="40rpx"
-        card-next-margin="40rpx"
-        :card-scale="0.88"
-        card-radius="18rpx"
-        card-shadow="0 16rpx 40rpx rgba(0,0,0,0.22)"
-        indicator-type="bars"
-        indicator-color="rgba(255,255,255,.35)"
-        indicator-active-color="#ffffff"
-        @click="handleClick"
-        @change="onChange"
-      />
+    <!-- 6. 卡片模式增强 -->
+    <demo-block title="卡片模式（圆润/阴影/缩放）">
+      <view class="card-demo-bg">
+        <lk-carousel
+          v-model:current="current7"
+          :carousel-list="imageList"
+          :card="true"
+          height="380rpx"
+          card-prev-margin="50rpx"
+          card-next-margin="50rpx"
+          :card-scale="0.9"
+          card-radius="24rpx"
+          card-shadow="0 8rpx 24rpx rgba(0,0,0,0.15)"
+          indicator-type="bars"
+          indicator-position="bottom"
+        />
+      </view>
     </demo-block>
 
-    <demo-block title="指示器（更小并带动画）">
+    <!-- 7. 自适应高度 -->
+    <demo-block title="自适应高度 (AutoHeight)">
       <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curAnimDot"
+        v-model:current="current8"
+        :carousel-list="[1, 2]"
+        :auto-height="true"
         indicator-type="dots"
-        :indicator-animated="true"
-        @click="handleClick"
-        @change="onChange"
-      />
-    </demo-block>
-
-    <demo-block title="指示器外部显示（不覆盖内容）">
-      <lk-carousel
-        :carouselList="carouselList"
-        v-model:current="curOverlay"
-        indicator-type="dots"
-        :indicator-overlay="false"
-        @click="handleClick"
-        @change="onChange"
-      />
-    </demo-block>
-
-    <demo-block title="自适应内容高度（autoHeight，自定义内容）">
-      <lk-carousel
-        :carouselList="autoContentSlides"
-        v-model:current="curAutoHeight"
-        :autoHeight="true"
-        indicator-type="dots"
-        @click="handleClick"
-        @change="onChange"
+        indicator-active-color="#1989fa"
+        indicator-color="#ebedf0"
       >
         <template #default="{ index }">
-          <!-- 第一页：两行图标文字 -->
-          <view v-if="index === 0" class="grid grid-2rows">
-            <view class="row">
-              <view class="item" v-for="i in 4" :key="'r1-' + i">
-                <view class="icon" />
-                <text class="label">功能 {{ i }}</text>
-              </view>
-            </view>
-            <view class="row">
-              <view class="item" v-for="i in 4" :key="'r2-' + i">
-                <view class="icon" />
-                <text class="label">功能 {{ i + 4 }}</text>
-              </view>
-            </view>
-          </view>
-
-          <!-- 第二页：一行图标文字 -->
-          <view v-else class="grid grid-1row">
-            <view class="row">
-              <view class="item" v-for="i in 5" :key="'r3-' + i">
-                <view class="icon" />
-                <text class="label">快捷 {{ i }}</text>
-              </view>
+          <view class="custom-content" :class="`bg-${index}`">
+            <view class="content-text">
+              <text class="title">第 {{ index + 1 }} 页内容</text>
+              <text class="desc">高度由内容撑开，不固定。</text>
+              <view v-if="index === 0" style="height: 100rpx; background: rgba(0,0,0,0.05); margin-top: 20rpx;"></view>
+              <view v-if="index === 1" style="height: 240rpx; background: rgba(0,0,0,0.05); margin-top: 20rpx;"></view>
             </view>
           </view>
         </template>
       </lk-carousel>
     </demo-block>
+
   </view>
 </template>
 
 <script setup lang="ts">
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
-
 import { ref } from 'vue';
 
-const carouselList = ref([
-  'https://picsum.photos/400/300?random=1',
-  'https://picsum.photos/400/300?random=2',
-  'https://picsum.photos/400/300?random=3',
+// 模拟图片数据
+const imageList = ref([
+  // 网络图片
+  'https://img01.yzcdn.cn/vant/cat.jpeg',
+  'https://img01.yzcdn.cn/vant/cat.jpeg',
+  'https://img01.yzcdn.cn/vant/cat.jpeg',
+  'https://img01.yzcdn.cn/vant/cat.jpeg',
+  'https://img01.yzcdn.cn/vant/cat.jpeg',
+
 ]);
 
-// 自定义内容（两页）：用于 autoHeight 演示
-const autoContentSlides = ref([{}, {}]);
-
-const curBasic = ref(0);
-const curBars = ref(0);
-const curNumber = ref(0);
-const curTop = ref(0);
-const curVertical = ref(0);
-const curCard = ref(0);
-const curPeek = ref(0);
-const curAnimDot = ref(0);
-const curOverlay = ref(0);
-const curAutoHeight = ref(0);
+const current1 = ref(0);
+const current2 = ref(0);
+const current3 = ref(0);
+const current4 = ref(0);
+const current5 = ref(0);
+const current6 = ref(0);
+const current7 = ref(0);
+const current8 = ref(0);
 
 const handleClick = (item: any, index: number) => {
-  console.log('点击了第', index, '项');
-};
-
-const onChange = (index: number) => {
-  console.log('切换到第', index, '项');
+  console.log('点击了:', index, item);
+  uni.showToast({ title: `点击第 ${index + 1} 张`, icon: 'none' });
 };
 </script>
 
 <style scoped lang="scss">
-.grid {
-  padding: 24rpx;
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 16rpx;
-  }
-  .item {
-    width: 22%;
-    background: #fff;
-    border-radius: 16rpx;
-    padding: 20rpx 10rpx;
+.component-demo {
+  padding-bottom: 60rpx;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+}
+
+.card-demo-bg {
+  /* 给卡片模式加个背景，凸显阴影效果 */
+  padding: 20rpx 0;
+  // background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.custom-content {
+  width: 100%;
+  padding: 40rpx;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.bg-0 { background-color: #ffffff; }
+  &.bg-1 { background-color: #ffffff; }
+
+  .content-text {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.06);
+
+    .title {
+      font-size: 32rpx;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 12rpx;
+    }
+    .desc {
+      font-size: 26rpx;
+      color: #666;
+    }
   }
-  .icon {
-    width: 72rpx;
-    height: 72rpx;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
-    margin-bottom: 12rpx;
-  }
-  .label {
-    font-size: 26rpx;
-    color: #333;
-  }
-}
-.grid-2rows {
-  padding-bottom: 24rpx;
-}
-.grid-1row {
-  padding-bottom: 12rpx;
 }
 </style>
