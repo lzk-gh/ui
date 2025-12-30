@@ -1,25 +1,63 @@
 <template>
   <view class="component-demo">
-    <demo-block title="基础用法">
-      <lk-textarea v-model="value1" placeholder="请输入多行文本" />
+
+    <demo-block title="风格变体 (Variant)">
+      <view class="demo-col">
+        <!-- 1. 默认描边 -->
+        <lk-textarea
+          v-model="v1"
+          placeholder="Outline (默认): 经典描边风格"
+          clearable
+        />
+
+        <!-- 2. 填充风格 (非常适合现代APP) -->
+        <lk-textarea
+          v-model="v2"
+          variant="filled"
+          placeholder="Filled: 填充风格，聚焦变白"
+          clearable
+        />
+
+        <!-- 3. 无边框 (适合作为列表项) -->
+        <lk-textarea
+          v-model="v3"
+          variant="flush"
+          placeholder="Flush: 无边框，适合List"
+          auto-height
+        />
+      </view>
     </demo-block>
 
-    <demo-block title="字数限制">
-      <lk-textarea v-model="value2" :maxlength="200" show-count placeholder="最多200字" />
+    <demo-block title="清空与统计">
+      <view class="tips">输入内容后，点击右侧 × 震动清空</view>
+      <lk-textarea
+        v-model="v4"
+        variant="filled"
+        placeholder="限制 50 字，带清空"
+        :maxlength="50"
+        show-count
+        clearable
+      />
     </demo-block>
 
-    <demo-block title="字数统计">
-      <lk-textarea v-model="value5" show-count placeholder="显示字数统计" />
+    <demo-block title="高级插槽 (Footer Slot)">
+      <lk-textarea
+        v-model="v5"
+        placeholder="写评论..."
+        auto-height
+      >
+        <!-- 利用插槽放置一个发送按钮 -->
+        <template #footer>
+          <view class="quick-tags">
+            <view class="tag">#好评</view>
+            <view class="tag">#推荐</view>
+          </view>
+        </template>
+      </lk-textarea>
     </demo-block>
 
-    <demo-block title="自动高度">
-      <lk-textarea v-model="value3" autosize placeholder="自动调整高度" />
-    </demo-block>
-
-    <demo-block title="禁用状态">
-      <lk-textarea v-model="value4" disabled placeholder="禁用输入" />
-    </demo-block>
   </view>
+
 </template>
 
 <script setup lang="ts">
@@ -27,17 +65,44 @@ import { ref } from 'vue';
 import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
-const value1 = ref('');
-const value2 = ref('');
-const value3 = ref('');
-const value4 = ref('禁用状态');
-const value5 = ref('');
+const v1 = ref('');
+const v2 = ref('');
+const v3 = ref('');
+const v4 = ref('初始内容'); // 演示清空
+const v5 = ref('');
 </script>
 
 <style scoped lang="scss">
 .component-demo {
   display: flex;
   flex-direction: column;
+  gap: 32rpx;
+  padding: 30rpx;
+  background-color: #f9f9f9; // 模拟页面背景
+}
+
+.demo-col {
+  display: flex;
+  flex-direction: column;
   gap: 24rpx;
+}
+
+.tips {
+  font-size: 24rpx;
+  color: #909399;
+  margin-bottom: 12rpx;
+}
+
+// 演示 footer 插槽样式
+.quick-tags {
+  display: flex;
+  gap: 16rpx;
+  .tag {
+    font-size: 22rpx;
+    color: var(--lk-color-primary, #2979ff);
+    background: rgba(41, 121, 255, 0.1);
+    padding: 4rpx 12rpx;
+    border-radius: 8rpx;
+  }
 }
 </style>

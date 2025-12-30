@@ -1,69 +1,56 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-/**
- * 文本域尺寸
- */
-export const TextareaSize = {
-  Sm: 'sm',
-  Md: 'md',
-  Lg: 'lg',
+export const TextareaVariant = {
+  Outline: 'outline', // 描边型（传统）
+  Filled: 'filled',   // 填充型（现代，带灰色背景）
+  Flush: 'flush',     // 无边框型（适合列表）
 } as const;
 
-export type TextareaSize = (typeof TextareaSize)[keyof typeof TextareaSize];
+export type TextareaVariant = (typeof TextareaVariant)[keyof typeof TextareaVariant];
 
 export const textareaProps = {
   ...baseProps,
-
-  /** 绑定值 */
   modelValue: LkProp.string(''),
+  label: LkProp.string(''),
+  placeholder: LkProp.string('请输入内容'),
+  placeholderClass: LkProp.string('lk-textarea__placeholder'),
 
-  /** 行数 */
-  rows: LkProp.number(3),
+  /**
+   * 风格变体
+   * @default outline
+   */
+  variant: LkProp.enum(Object.values(TextareaVariant), TextareaVariant.Outline, 'Textarea.variant'),
 
-  /** 自适应高度 */
-  autoSize: {
-    type: [Boolean, Object] as PropType<boolean | { minRows?: number; maxRows?: number }>,
-    default: true,
-  },
-
-  /** 最大输入长度，-1 表示不限制 */
-  maxlength: LkProp.number(-1),
-
-  /** 是否显示字数统计 */
-  showCount: LkProp.boolean(false),
-
-  /** 占位符 */
-  placeholder: LkProp.string(''),
-
-  /** 是否禁用 */
   disabled: LkProp.boolean(false),
-
-  /** 是否只读 */
-  readonly: LkProp.boolean(false),
+  maxlength: LkProp.number(140),
+  autoHeight: LkProp.boolean(false),
+  showCount: LkProp.boolean(false),
 
   /** 是否可清空 */
   clearable: LkProp.boolean(false),
 
   /**
-   * 尺寸
-   * @value sm 小尺寸
-   * @value md 中尺寸
-   * @value lg 大尺寸
+   * 原生属性：键盘右下角按钮的文字
+   * send, search, next, go, done
    */
-  size: LkProp.enum(Object.values(TextareaSize), TextareaSize.Md, 'Textarea.size'),
+  confirmType: LkProp.string('return'),
 
-  /** 表单字段名 */
-  prop: LkProp.string(''),
+  /** 原生属性：键盘弹起时，是否自动上推页面 */
+  adjustPosition: LkProp.boolean(true),
+
+  cursorSpacing: LkProp.number(0),
+  fixed: LkProp.boolean(false),
 } as const;
-
-export type TextareaProps = ExtractPropTypes<typeof textareaProps>;
 
 export const textareaEmits = {
   'update:modelValue': (val: string) => true,
-  input: (val: string) => true,
-  change: (val: string) => true,
   focus: (e: any) => true,
   blur: (e: any) => true,
+  confirm: (e: any) => true,
+  input: (val: string) => true,
   clear: () => true,
+  linechange: (e: any) => true,
 };
+
+export type TextareaProps = ExtractPropTypes<typeof textareaProps>;

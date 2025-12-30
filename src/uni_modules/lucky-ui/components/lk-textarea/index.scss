@@ -1,100 +1,175 @@
-@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(textarea) {
-  --_fs: var(--lk-control-font-size-md);
-  --_radius: var(--lk-radius-lg);
-  --_border: var(--lk-input-border-color);
-  --_border-hover: var(--lk-input-border-color-hover);
-  --_border-active: var(--lk-input-border-color-active);
-  --_placeholder: var(--lk-input-placeholder-color);
-  --_bg: var(--lk-input-bg);
+  // --- CSS Token 映射 (连接你的主题系统) ---
+  // 1. 颜色
+  --lk-ta-color-primary: var(--lk-color-primary, #2979ff);
+  --lk-ta-color-error: var(--lk-color-danger, #ef4444);
+  --lk-ta-text-color: var(--lk-color-text, #333);
+  --lk-ta-text-color-secondary: var(--lk-color-text-secondary, #909399);
+  --lk-ta-text-color-disabled: var(--lk-color-text-disabled, #c0c4cc);
+
+  // 2. 背景 (关键改进：支持透明和填充)
+  --lk-ta-bg: var(--lk-bg-container, #ffffff);
+  --lk-ta-bg-filled: var(--lk-bg-fill, #f5f7fa); // 填充模式背景
+  --lk-ta-bg-disabled: var(--lk-bg-disabled, #f5f7fa);
+
+  // 3. 边框
+  --lk-ta-border-color: var(--lk-border-color, #dcdfe6);
+  --lk-ta-border-radius: var(--lk-radius-md, 12rpx);
+
+  // 4. 尺寸
+  --lk-ta-fs: var(--lk-control-font-size-md, 28rpx);
+  --lk-ta-padding: 24rpx;
 
   position: relative;
-  width: 100%;
-  background: var(--_bg);
-  border: 2rpx solid var(--_border);
-  border-radius: var(--_radius);
-  padding: 12rpx var(--lk-control-padding-x-md) 20rpx;
   display: flex;
   flex-direction: column;
-  transition:
-    border-color var(--lk-duration-base),
-    box-shadow var(--lk-duration-base);
+  width: 100%;
+  box-sizing: border-box;
+  font-size: var(--lk-ta-fs);
+  color: var(--lk-ta-text-color);
+  transition: all 0.2s;
 
-  @include m(sm) {
-    --_fs: var(--lk-control-font-size-sm);
-    --_radius: var(--lk-radius-md);
-    padding: 8rpx var(--lk-control-padding-x-sm) 16rpx;
+  // --- 变体 Variant 实现 ---
+
+  // 1. Outline (默认描边)
+  @include m(outline) {
+    background-color: var(--lk-ta-bg);
+    border: 2rpx solid var(--lk-ta-border-color);
+    border-radius: var(--lk-ta-border-radius);
+
+    @include when(focused) {
+      border-color: var(--lk-ta-color-primary);
+      // 可选：添加光晕
+      box-shadow: 0 0 0 4rpx rgba(41, 121, 255, 0.1);
+    }
   }
 
-  @include m(lg) {
-    --_fs: var(--lk-control-font-size-lg);
-    --_radius: var(--lk-radius-pill);
-    padding: 16rpx var(--lk-control-padding-x-lg) 24rpx;
+  // 2. Filled (填充风格 - 现代感强，无边框)
+  @include m(filled) {
+    background-color: var(--lk-ta-bg-filled);
+    border: 2rpx solid transparent; // 预留边框位防抖动
+    border-radius: var(--lk-ta-border-radius);
+
+    @include when(focused) {
+      background-color: var(--lk-ta-bg); // 聚焦变白
+      border-color: var(--lk-ta-color-primary);
+    }
+  }
+
+  // 3. Flush (无边框 - 极简)
+  @include m(flush) {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2rpx solid var(--lk-ta-border-color);
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+    @include when(focused) {
+      border-bottom-color: var(--lk-ta-color-primary);
+    }
+  }
+
+  // --- 状态 ---
+
+  @include when(disabled) {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: var(--lk-ta-bg-disabled);
+    color: var(--lk-ta-text-color-disabled);
+  }
+
+  // --- 内部元素 ---
+
+  @include e(label) {
+    margin-bottom: 12rpx;
+    font-size: 26rpx;
+    font-weight: 500;
+    color: var(--lk-ta-text-color);
+    padding: 0 8rpx; // 对齐视觉
+  }
+
+  @include e(wrapper) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: var(--lk-ta-padding);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   @include e(inner) {
+    flex: 1;
     width: 100%;
-    font-size: var(--_fs);
-    line-height: 1.5;
     background: transparent;
-    border: none;
-    resize: none;
-    outline: none;
-    color: var(--lk-color-text);
-    min-height: 120rpx;
+    font-size: inherit;
+    line-height: 1.5;
+    color: inherit;
+    min-height: 48rpx;
+    padding: 0;
+  }
 
-    &::placeholder {
-      color: var(--_placeholder);
-    }
+  @include e(placeholder) {
+    color: var(--lk-ta-text-color-secondary);
+  }
+
+  // --- 右侧区域 (清空按钮) ---
+  @include e(suffix) {
+    display: flex;
+    align-items: flex-start; // 靠上对齐
+    margin-left: 16rpx;
   }
 
   @include e(clear) {
-    position: absolute;
-    right: 16rpx;
-    top: 12rpx;
-    font-size: 32rpx;
-    color: var(--lk-color-text-secondary);
-    padding: 8rpx;
-    line-height: 1;
-    border-radius: var(--lk-radius-sm);
+    width: 40rpx;
+    height: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.05); // 浅灰底
+    transition: background-color 0.2s;
+    cursor: pointer;
 
     &:active {
-      background: var(--lk-color-primary-bg-soft);
-      color: var(--lk-color-primary-active);
+      background-color: rgba(0,0,0,0.15); // 点击深色反馈
+    }
+
+    // 纯CSS绘制关闭图标 (建议替换为 <lk-icon>)
+    .lk-icon-close {
+      position: relative;
+      width: 16rpx;
+      height: 16rpx;
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 2rpx;
+        background-color: #999;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
     }
   }
 
+  // --- 底部 Footer ---
+  @include e(footer) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--lk-ta-padding) 16rpx;
+    margin-top: -8rpx; // 拉近一点距离
+  }
+
   @include e(count) {
-    align-self: flex-end;
-    margin-top: 8rpx;
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
-  }
-
-  &:hover:not(.is-disabled):not(.is-readonly) {
-    border-color: var(--_border-hover);
-  }
-
-  &:active:not(.is-disabled):not(.is-readonly) {
-    border-color: var(--_border-active);
-  }
-
-  &:focus-within:not(.is-disabled):not(.is-readonly) {
-    border-color: var(--_border-active);
-    box-shadow: var(--lk-input-shadow-focus);
-  }
-
-  @include when(disabled) {
-    opacity: 0.6;
-  }
-
-  @include when(readonly) {
-    background: var(--lk-color-primary-bg-soft);
-  }
-
-  :global(.lk-form-item.is-error) & {
-    border-color: var(--lk-input-border-color-error);
-    box-shadow: 0 0 0 4rpx var(--lk-color-primary-bg-soft);
+    color: var(--lk-ta-text-color-secondary);
+    margin-left: auto; // 挤到最右边
   }
 }
