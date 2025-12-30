@@ -1,20 +1,17 @@
 <template>
   <view class="component-demo">
+    <lk-toast-manager />
     <demo-block title="基础用法">
       <lk-button type="primary" @click="showToast1">显示提示</lk-button>
     </demo-block>
 
-    <demo-block title="不同类型">
+    <demo-block title="动画效果">
       <view class="button-row">
-        <lk-button @click="showSuccess">成功</lk-button>
-        <lk-button @click="showError">失败</lk-button>
-        <lk-button @click="showWarning">警告</lk-button>
-        <lk-button @click="showInfo">提示</lk-button>
+        <lk-button @click="showSlideUp">向上滑动</lk-button>
+        <lk-button @click="showSlideDown">向下滑动</lk-button>
+        <lk-button @click="showFade">淡入淡出</lk-button>
+        <lk-button @click="showZoom">缩放</lk-button>
       </view>
-    </demo-block>
-
-    <demo-block title="加载状态">
-      <lk-button type="primary" @click="showLoading">加载中</lk-button>
     </demo-block>
 
     <demo-block title="自定义位置">
@@ -30,70 +27,61 @@
 <script setup lang="ts">
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkToastManager from '@/uni_modules/lucky-ui/components/lk-toast/lk-toast-manager.vue';
+import { useToast } from '@/uni_modules/lucky-ui/components/lk-toast/toast-manager';
+
+const toast = useToast();
 
 const showToast1 = () => {
-  uni.showToast({
-    title: '这是一条提示',
-    icon: 'none',
+  toast.show('这是一条提示');
+};
+
+const showSlideUp = () => {
+  toast.show({
+    message: '向上滑动',
+    transition: 'slide-up',
   });
 };
 
-const showSuccess = () => {
-  uni.showToast({
-    title: '操作成功',
-    icon: 'success',
+const showSlideDown = () => {
+  toast.show({
+    message: '向下滑动',
+    transition: 'slide-down',
   });
 };
 
-const showError = () => {
-  uni.showToast({
-    title: '操作失败',
-    icon: 'error',
+const showFade = () => {
+  toast.show({
+    message: '淡入淡出',
+    transition: 'fade',
   });
 };
 
-const showWarning = () => {
-  uni.showToast({
-    title: '警告提示',
-    icon: 'none',
+const showZoom = () => {
+  toast.show({
+    message: '缩放动画',
+    transition: 'zoom-in',
   });
-};
-
-const showInfo = () => {
-  uni.showToast({
-    title: '提示信息',
-    icon: 'none',
-  });
-};
-
-const showLoading = () => {
-  uni.showLoading({
-    title: '加载中...',
-  });
-
-  setTimeout(() => {
-    uni.hideLoading();
-  }, 2000);
 };
 
 const showTop = () => {
-  uni.showToast({
-    title: '顶部提示',
-    icon: 'none',
+  toast.show({
+    message: '顶部提示',
+    position: 'top',
   });
 };
 
 const showCenter = () => {
-  uni.showToast({
-    title: '中间提示',
-    icon: 'none',
+  toast.show({
+    message: '中间提示',
+    position: 'center',
   });
 };
 
 const showBottom = () => {
-  uni.showToast({
-    title: '底部提示',
-    icon: 'none',
+  toast.show({
+    message: '底部提示',
+    position: 'bottom',
   });
 };
 </script>

@@ -27,6 +27,8 @@ export { default as LkRate } from './lk-rate/lk-rate.vue';
 
 export { default as LkPopup } from './lk-popup/lk-popup.vue';
 export { default as LkToast } from './lk-toast/lk-toast.vue';
+export { default as LkToastManager } from './lk-toast/lk-toast-manager.vue';
+export { useToast } from './lk-toast/toast-manager';
 export { default as LkActionSheet } from './lk-action-sheet/lk-action-sheet.vue';
 export { default as LkSkeleton } from './lk-skeleton/lk-skeleton.vue';
 export { default as LkImage } from './lk-image/lk-image.vue';

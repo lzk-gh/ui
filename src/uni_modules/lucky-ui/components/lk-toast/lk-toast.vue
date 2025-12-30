@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onUnmounted } from 'vue';
+import { watch, computed, onUnmounted } from 'vue';
 import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import { toastProps, toastEmits } from './toast.props';
 
@@ -9,7 +9,7 @@ const props = defineProps(toastProps);
 const emit = defineEmits(toastEmits);
 
 const show = computed(() => props.modelValue);
-let timer: any = null;
+let timer: ReturnType<typeof setTimeout> | null = null;
 
 function clearTimers() {
   if (timer) {
@@ -51,7 +51,7 @@ const {
   display,
 } = useTransition(
   () => props.modelValue,
-  { name: 'zoom-in', duration: 260, easing: 'ease-out' },
+  { name: props.transition, duration: 260, easing: 'ease-out' },
   {
     onAfterLeave: () => emit('after-leave'),
   }
@@ -65,11 +65,9 @@ onUnmounted(() => clearTimers());
   <view
     v-if="display"
     class="lk-toast"
-    :class="[`lk-toast--${position}`, transitionClasses]"
-    :style="transitionStyles"
+    :class="[`lk-toast--${position}`]"
   >
-    <view class="lk-toast__inner">
-      <lk-icon v-if="icon" :name="icon" size="44" class="lk-toast__icon" />
+    <view class="lk-toast__inner" :class="transitionClasses" :style="transitionStyles">
       <text class="lk-toast__text"
         ><slot>{{ message }}</slot></text
       >

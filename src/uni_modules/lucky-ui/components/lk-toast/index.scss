@@ -5,6 +5,7 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 4000;
+  pointer-events: none;
 
   @include m(center) {
     top: 50%;
@@ -12,11 +13,11 @@
   }
 
   @include m(top) {
-    top: 12%;
+    top: 8%;
   }
 
   @include m(bottom) {
-    bottom: 12%;
+    bottom: 8%;
   }
 
   @include e(overlay) {
@@ -26,6 +27,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.01);
+    pointer-events: auto;
 
     @include when(lock) {
       pointer-events: auto;
@@ -33,27 +35,36 @@
   }
 
   @include e(inner) {
-    max-width: 560rpx;
-    min-width: 220rpx;
-    padding: var(--lk-spacing-sm) var(--lk-spacing-md);
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    color: var(--lk-color-text-inverse);
-    border-radius: var(--lk-radius-lg);
-    display: flex;
-    flex-direction: column;
+    pointer-events: auto;
+    display: inline-flex;
     align-items: center;
-    gap: var(--lk-spacing-xs);
+    justify-content: center;
+    gap: var(--lk-spacing-sm);
+    min-width: 200rpx;
+    max-width: 80vw;
+    padding: 24rpx 40rpx;
+    border-radius: var(--lk-border-radius-base); // Medium radius
+    background: #ffffff;
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12), 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+
+    // Dark mode support (if needed, can be added via media query or class)
+    // @media (prefers-color-scheme: dark) {
+    //   background: #1f1f1f;
+    //   border-color: rgba(255, 255, 255, 0.1);
+    // }
   }
 
   @include e(text) {
-    font-size: var(--lk-font-size-sm);
+    font-size: var(--lk-font-size-md);
+    color: #333;
+    font-weight: 500;
+    line-height: 1.5;
     text-align: center;
-    line-height: 1.4;
-  }
 
-  @include e(icon) {
-    color: var(--lk-color-text-inverse);
+    // @media (prefers-color-scheme: dark) {
+    //   color: #fff;
+    // }
   }
 }
 
@@ -72,39 +83,72 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    // transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1); // 移除这个，由 useTransition 接管
+
     &.pos-top {
-      top: 12%;
+      top: 8%;
     }
     &.pos-center {
       top: 50%;
       transform: translate(-50%, -50%);
     }
     &.pos-bottom {
-      bottom: 12%;
+      bottom: 8%;
     }
   }
 
   @include e(inner) {
     pointer-events: auto;
-    max-width: 560rpx;
-    min-width: 220rpx;
-    background: rgba(0, 0, 0, 0.85);
-    color: var(--lk-color-text-inverse);
-    padding: var(--lk-spacing-md) var(--lk-spacing-lg);
-    border-radius: var(--lk-radius-lg);
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: var(--lk-spacing-sm);
-    animation: lk-toast-mgr-in 0.25s;
-  }
+    min-width: 180rpx;
+    max-width: 80vw;
+    padding: 20rpx 32rpx;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12), 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 
-  @include e(text) {
-    font-size: var(--lk-font-size-sm);
-    text-align: center;
-  }
 
-  @include e(icon) {
-    color: var(--lk-color-text-inverse);
+  }
+}
+
+@keyframes lk-slide-up-fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes lk-slide-down-fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes lk-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes lk-zoom-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }

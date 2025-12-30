@@ -12,6 +12,13 @@ export const ToastPosition = {
 
 export type ToastPosition = (typeof ToastPosition)[keyof typeof ToastPosition];
 
+/**
+ * Toast 动画名称（对齐 useTransition 内置动画）
+ */
+export const ToastTransitionNames = ['fade', 'slide-up', 'slide-down', 'zoom-in'] as const;
+
+export type ToastTransitionName = (typeof ToastTransitionNames)[number];
+
 export const toastProps = {
   ...baseProps,
 
@@ -24,8 +31,14 @@ export const toastProps = {
   /** 展示时长（毫秒） */
   duration: LkProp.number(2000),
 
-  /** 图标名称 */
-  icon: LkProp.string(''),
+  /**
+   * 动画名称
+   * @value fade 淡入淡出
+   * @value slide-up 向上滑动
+   * @value slide-down 向下滑动
+    * @value zoom-in 缩放
+   */
+    transition: LkProp.enum(ToastTransitionNames, 'slide-up', 'Toast.transition'),
 
   /**
    * 位置
