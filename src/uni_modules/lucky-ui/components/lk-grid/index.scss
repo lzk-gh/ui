@@ -5,15 +5,17 @@
   text-align: center;
 
   @include e(item) {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
+    overflow: hidden;
 
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-    }
+    // &:active {
+    //   background: var(--lk-color-primary-bg-soft);
+    // }
   }
 }

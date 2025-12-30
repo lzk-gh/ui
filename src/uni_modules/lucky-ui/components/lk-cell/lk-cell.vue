@@ -1,28 +1,35 @@
 <script setup lang="ts">
 import { cellProps, cellEmits } from './cell.props';
+import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
 defineOptions({ name: 'LkCell' });
 
 const props = defineProps(cellProps);
 const emit = defineEmits(cellEmits);
 
-function onClick() {
+const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 600 });
+
+function onTap(e: unknown) {
   if (props.disabled) return;
+  if (props.clickable) {
+    triggerRipple(e);
+  }
   emit('click');
 }
 </script>
 
 <template>
   <view
-    class="lk-cell"
+    class="lk-cell lk-ripple"
     :class="[
       {
         'is-clickable': clickable,
         'is-disabled': disabled,
         'is-center': center,
+        'lk-ripple--active': rippleActive,
       },
     ]"
-    @click="onClick"
+    @tap="onTap"
   >
     <view class="lk-cell__left">
       <lk-icon v-if="icon" :name="icon" size="36" class="lk-cell__icon" />
@@ -41,6 +48,7 @@ function onClick() {
       </text>
       <lk-icon v-if="arrow" name="arrow-right" size="30" class="lk-cell__arrow" />
     </view>
+    <view class="lk-ripple__wave" :style="rippleWaveStyle" />
   </view>
 </template>
 

@@ -28,7 +28,6 @@ export { default as LkRate } from './lk-rate/lk-rate.vue';
 export { default as LkPopup } from './lk-popup/lk-popup.vue';
 export { default as LkToast } from './lk-toast/lk-toast.vue';
 export { default as LkToastManager } from './lk-toast/lk-toast-manager.vue';
-export { useToast } from './lk-toast/toast-manager';
 export { default as LkActionSheet } from './lk-action-sheet/lk-action-sheet.vue';
 export { default as LkSkeleton } from './lk-skeleton/lk-skeleton.vue';
 export { default as LkImage } from './lk-image/lk-image.vue';
@@ -60,7 +59,6 @@ export { default as LkPagination } from './lk-pagination/lk-pagination.vue';
 export { default as LkCalendar } from './lk-calendar/lk-calendar.vue';
 export { default as LkDatePicker } from './lk-date-picker/lk-date-picker.vue';
 export { default as LkUpload } from './lk-upload/lk-upload.vue';
-export { default as LkToastManager } from './lk-toast/lk-toast-manager.vue';
 export * from './lk-toast/toast-manager';
 
 export { default as LkTimePicker } from './lk-time-picker/lk-time-picker.vue';

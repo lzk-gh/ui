@@ -1,0 +1,44 @@
+// =============================================================================
+// Ripple 基础交互（全局）
+// - 通过 uni-app 的 hover-class 触发（需设置 hover-stay-time >= 动画时长）
+// - 不依赖 DOM 查询，跨端更稳
+// =============================================================================
+
+.lk-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.lk-ripple__content {
+  position: relative;
+  z-index: 1;
+}
+
+.lk-ripple__wave {
+  position: absolute;
+  left: var(--lk-ripple-x, 50%);
+  top: var(--lk-ripple-y, 50%);
+  width: var(--lk-ripple-size, 10rpx);
+  height: var(--lk-ripple-size, 10rpx);
+  border-radius: 999px;
+  background: var(--lk-ripple-color, var(--lk-color-primary-bg-soft));
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lk-ripple--active .lk-ripple__wave {
+  animation: lk-ripple 800ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes lk-ripple {
+  0% {
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

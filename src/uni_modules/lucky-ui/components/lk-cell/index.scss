@@ -27,11 +27,11 @@
     align-items: center;
   }
 
-  @include when(clickable) {
-    &:active {
-      background: var(--lk-color-primary-bg-soft);
-    }
-  }
+  // @include when(clickable) {
+  //   &:active {
+  //     background: var(--lk-color-primary-bg-soft);
+  //   }
+  // }
 
   @include when(disabled) {
     opacity: 0.5;
@@ -42,6 +42,8 @@
     align-items: flex-start;
     flex: 1;
     gap: var(--_gap);
+    position: relative;
+    z-index: 1;
   }
 
   @include e(icon) {
@@ -71,6 +73,8 @@
     gap: var(--lk-spacing-xs);
     font-size: var(--_value-fs);
     color: var(--lk-color-text-secondary);
+    position: relative;
+    z-index: 1;
   }
 
   @include e(value) {

@@ -66,9 +66,9 @@
     background: var(--_bg);
     transition: background-color 0.2s;
 
-    &:active:not(.is-disabled):not(.is-loading) {
-      background: var(--lk-color-bg-surface-active);
-    }
+    // &:active:not(.is-disabled):not(.is-loading) {
+    //   background: var(--lk-color-bg-surface-active);
+    // }
 
     & + & {
       border-top: 2rpx solid var(--lk-color-border-weak);

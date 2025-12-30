@@ -1,12 +1,25 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
 import { navbarProps, navbarEmits } from './navbar.props';
+import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
 defineOptions({ name: 'LkNavbar' });
 
 const props = defineProps(navbarProps);
 const emit = defineEmits(navbarEmits);
 const slots = useSlots();
+
+const {
+  rippleActive: leftActive,
+  rippleWaveStyle: leftRippleStyle,
+  triggerRipple: triggerLeft
+} = useRipple();
+
+const {
+  rippleActive: rightActive,
+  rippleWaveStyle: rightRippleStyle,
+  triggerRipple: triggerRight
+} = useRipple();
 
 // 获取系统信息
 const sys = typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ statusBarHeight: 0 } as any);
@@ -51,11 +64,22 @@ const contentPaddingRight = computed(() => {
   return 12; // H5 默认右侧内边距 12px
 });
 
-function back() {
+function back(event: any) {
+  // triggerLeft(event); // Handled by parent click
   emit('back');
   // #ifdef MP
   uni.navigateBack({ delta: 1 });
   // #endif
+}
+
+function onLeftClick(event: any) {
+  triggerLeft(event);
+  emit('click-left');
+}
+
+function onRightClick(event: any) {
+  triggerRight(event);
+  emit('click-right');
 }
 </script>
 
@@ -76,7 +100,11 @@ function back() {
         paddingRight: contentPaddingRight + 'px',
       }"
     >
-      <view class="lk-navbar__left" @click="$emit('click-left')">
+      <view
+        class="lk-navbar__left lk-ripple"
+        :class="{ 'lk-ripple--active': leftActive }"
+        @tap="onLeftClick"
+      >
         <lk-icon
           v-if="showBack"
           name="arrow-left"
@@ -86,14 +114,20 @@ function back() {
         />
         <text v-if="leftText" class="lk-navbar__text">{{ leftText }}</text>
         <slot name="left" />
+        <view class="lk-ripple__wave" :style="leftRippleStyle" />
       </view>
       <view class="lk-navbar__center">
         <text v-if="title" class="lk-navbar__title">{{ title }}</text>
         <slot />
       </view>
-      <view class="lk-navbar__right" @click="$emit('click-right')">
+      <view
+        class="lk-navbar__right lk-ripple"
+        :class="{ 'lk-ripple--active': rightActive }"
+        @tap="onRightClick"
+      >
         <text v-if="rightText" class="lk-navbar__text">{{ rightText }}</text>
         <slot name="right" />
+        <view class="lk-ripple__wave" :style="rightRippleStyle" />
       </view>
     </view>
   </view>

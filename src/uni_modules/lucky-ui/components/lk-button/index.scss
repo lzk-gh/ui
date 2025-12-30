@@ -36,10 +36,10 @@
     border: none;
   }
 
-  &:active:not(.is-disabled):not(.is-loading) {
-    transform: scale(0.97);
-    opacity: 0.9;
-  }
+  // &:active:not(.is-disabled):not(.is-loading) {
+  //   transform: scale(0.97);
+  //   opacity: 0.9;
+  // }
 
   @include m(sm) {
     --_h: var(--lk-control-height-sm);
