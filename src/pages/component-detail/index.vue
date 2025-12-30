@@ -34,7 +34,6 @@
           <FormDemo v-else-if="componentName === 'form'" />
           <InputDemo v-else-if="componentName === 'input'" />
           <TextareaDemo v-else-if="componentName === 'textarea'" />
-          <SelectDemo v-else-if="componentName === 'select'" />
           <RadioDemo v-else-if="componentName === 'radio'" />
           <CheckboxDemo v-else-if="componentName === 'checkbox'" />
           <SwitchDemo v-else-if="componentName === 'switch'" />
@@ -204,12 +203,6 @@ const componentMap: Record<string, any> = {
     desc: '多行文本输入',
     icon: 'textarea-t',
     color: 'primary',
-  },
-  select: {
-    title: 'Select 选择器',
-    desc: '下拉选择组件',
-    icon: 'menu-button-wide-fill',
-    color: 'success',
   },
   radio: {
     title: 'Radio 单选框',
@@ -554,7 +547,6 @@ import SpaceDemo from '@/components/demos/space-demo.vue';
 import FormDemo from '@/components/demos/form-demo.vue';
 import InputDemo from '@/components/demos/input-demo.vue';
 import TextareaDemo from '@/components/demos/textarea-demo.vue';
-import SelectDemo from '@/components/demos/select-demo.vue';
 import RadioDemo from '@/components/demos/radio-demo.vue';
 import CheckboxDemo from '@/components/demos/checkbox-demo.vue';
 import SwitchDemo from '@/components/demos/switch-demo.vue';
@@ -631,7 +623,6 @@ const demoComponentMap: Record<string, any> = {
   form: FormDemo,
   input: InputDemo,
   textarea: TextareaDemo,
-  select: SelectDemo,
   radio: RadioDemo,
   checkbox: CheckboxDemo,
   switch: SwitchDemo,

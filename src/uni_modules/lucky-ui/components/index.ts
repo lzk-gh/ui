@@ -21,8 +21,6 @@ export { default as LkTabs } from './lk-tabs/lk-tabs.vue';
 export { default as LkTabPane } from './lk-tabs/lk-tab-pane.vue';
 export { default as LkOverlay } from './lk-overlay/lk-overlay.vue';
 export { default as LkModal } from './lk-modal/lk-modal.vue';
-export { default as LkSelect } from './lk-select/lk-select.vue';
-export { default as LkOption } from './lk-select/lk-option.vue';
 export { default as LkStepper } from './lk-stepper/lk-stepper.vue';
 export { default as LkSlider } from './lk-slider/lk-slider.vue';
 export { default as LkRate } from './lk-rate/lk-rate.vue';

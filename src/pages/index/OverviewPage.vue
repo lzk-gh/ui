@@ -308,7 +308,6 @@ const categories = [
       { name: 'form', label: 'Form', desc: '表单', icon: 'house' },
       { name: 'input', label: 'Input', desc: '输入框', icon: 'house' },
       { name: 'textarea', label: 'Textarea', desc: '文本域', icon: 'house' },
-      { name: 'select', label: 'Select', desc: '选择器', icon: 'house' },
       { name: 'radio', label: 'Radio', desc: '单选框', icon: 'record-circle' },
       {
         name: 'checkbox',

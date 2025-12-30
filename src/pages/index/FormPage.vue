@@ -58,12 +58,6 @@ const components = [
     icon: 'textarea-t',
   },
   {
-    name: 'select',
-    title: 'Select 选择器',
-    desc: '下拉选择组件',
-    icon: 'menu-button-wide-fill',
-  },
-  {
     name: 'radio',
     title: 'Radio 单选框',
     desc: '用于单项选择',
