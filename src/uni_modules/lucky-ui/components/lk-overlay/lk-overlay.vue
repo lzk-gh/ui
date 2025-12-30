@@ -18,15 +18,16 @@ const emit = defineEmits(overlayEmits);
 // 内部控制显示以支持离场动画
 const display = ref(false);
 const anim = ref<'enter' | 'leave' | ''>('');
+const timer = ref<number | null>(null);
 
 const styleVar = computed(
   () =>
     ({
       zIndex: props.zIndex,
-      '--lk-overlay-duration': props.duration + 'ms',
+      '--lk-overlay-duration': `${props.duration  }ms`,
       '--lk-overlay-bg': props.background || `rgba(0,0,0,${props.opacity})`,
       // 兼容不支持 CSS 变量的平台
-      animationDuration: props.duration + 'ms',
+      transitionDuration: `${props.duration  }ms`,
     }) as Record<string, string | number>
 );
 
@@ -57,15 +58,25 @@ function unlock() {
 watch(
   externalShow,
   v => {
+    if (timer.value) {
+      clearTimeout(timer.value);
+      timer.value = null;
+    }
+
     if (v) {
       if (!display.value) {
         display.value = true;
-        // 下一帧触发进入动画
+        anim.value = '';
+        // 双重 rAF 确保渲染一帧后再应用动画类名，避免闪烁和无动画
         rAF(() => {
-          anim.value = 'enter';
-          emit('after-enter');
+          rAF(() => {
+            anim.value = 'enter';
+            emit('after-enter');
+          });
         });
       } else {
+        // 已经在显示中（可能是正在离开时被打断），直接转为进入
+        // 需要强制重绘吗？transition 会自动处理从当前 opacity -> 1
         anim.value = 'enter';
         emit('after-enter');
       }
@@ -73,10 +84,11 @@ watch(
     } else {
       if (display.value) {
         anim.value = 'leave';
-        setTimeout(() => {
+        timer.value = setTimeout(() => {
           display.value = false;
           emit('after-leave');
-        }, props.duration);
+          timer.value = null;
+        }, props.duration) as unknown as number;
       }
       unlock();
     }

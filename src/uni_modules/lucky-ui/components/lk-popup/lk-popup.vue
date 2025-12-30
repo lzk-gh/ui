@@ -78,7 +78,7 @@ const wrapperStyle = computed(() => ({ zIndex: props.zIndex + 1 }));
 <template>
   <lk-overlay
     v-if="overlay && display"
-    :show="true"
+    :show="modelValue ?? show"
     :z-index="zIndex"
     :lock-scroll="lockScroll"
     :close-on-click="closeOnOverlay"

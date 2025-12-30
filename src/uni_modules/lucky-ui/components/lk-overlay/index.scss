@@ -10,12 +10,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity var(--lk-overlay-duration, 0.24s) ease;
 
   @include when(enter) {
-    animation: lk-overlay-in var(--lk-overlay-duration, 0.24s) ease;
+    opacity: 1;
   }
 
   @include when(leave) {
-    animation: lk-overlay-out var(--lk-overlay-duration, 0.24s) ease forwards;
+    opacity: 0;
   }
 }
