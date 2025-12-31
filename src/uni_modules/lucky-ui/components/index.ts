@@ -45,7 +45,6 @@ export { default as DemoBlock } from './demo-block/demo-block.vue';
 export { default as LkTooltip } from './lk-tooltip/lk-tooltip.vue';
 export { default as LkDropdown } from './lk-dropdown/lk-dropdown.vue';
 export { default as LkDropdownItem } from './lk-dropdown/lk-dropdown-item.vue';
-export { default as LkDrawer } from './lk-drawer/lk-drawer.vue';
 export { default as LkNoticeBar } from './lk-notice-bar/lk-notice-bar.vue';
 export { default as LkSteps } from './lk-steps/lk-steps.vue';
 export { default as LkStep } from './lk-steps/lk-step.vue';

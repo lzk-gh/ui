@@ -18,8 +18,15 @@
 
     @include when(round) {
       @include e(panel) {
+        border-radius: var(--lk-popup-radius, 24rpx) var(--lk-popup-radius, 24rpx) 0 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
+      }
+    }
+
+    @include when(draggable) {
+      @include e(panel) {
+        border-radius: var(--lk-popup-radius, 24rpx) var(--lk-popup-radius, 24rpx) 0 0 !important;
       }
     }
   }
@@ -43,6 +50,10 @@
     left: 0;
     width: 70%;
 
+    @include e(panel) {
+      height: 100%;
+    }
+
     @include when(round) {
       @include e(panel) {
         border-top-left-radius: 0;
@@ -56,6 +67,10 @@
     bottom: 0;
     right: 0;
     width: 70%;
+
+    @include e(panel) {
+      height: 100%;
+    }
 
     @include when(round) {
       @include e(panel) {
@@ -73,11 +88,74 @@
     max-height: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: 0; // 默认不圆角，由 is-round 控制
+    border-radius: 0;
 
     :global(.lk-popup.is-round) & {
-      border-radius: var(--lk-radius-lg);
+      border-radius: var(--lk-popup-radius, var(--lk-radius-lg));
     }
+  }
+
+  @include e(drag-handle) {
+    width: 100%;
+    height: 48rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    touch-action: none;
+    flex-shrink: 0;
+  }
+
+  @include e(drag-bar) {
+    width: 72rpx;
+    height: 8rpx;
+    background: var(--lk-color-border);
+    border-radius: 4rpx;
+  }
+
+  @include e(header) {
+    position: relative;
+    padding: 32rpx 48rpx;
+    flex-shrink: 0;
+    border-bottom: 1rpx solid var(--lk-color-border-light);
+  }
+
+  @include e(title) {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: var(--lk-color-text);
+    text-align: center;
+  }
+
+  @include e(close) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64rpx;
+    height: 64rpx;
+    cursor: pointer;
+    color: var(--lk-color-text-secondary);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--lk-color-text);
+    }
+
+    @include m(top-right) {
+      right: 16rpx;
+    }
+
+    @include m(top-left) {
+      left: 16rpx;
+    }
+  }
+
+  @include e(content) {
+    flex: 1;
+    overflow: auto;
   }
 
   @include e(safe) {

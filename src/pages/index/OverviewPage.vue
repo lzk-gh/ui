@@ -427,7 +427,6 @@ const categories = [
         desc: '动作面板',
         icon: 'list-task',
       },
-      { name: 'drawer', label: 'Drawer', desc: '抽屉', icon: 'layout-sidebar' },
       { name: 'overlay', label: 'Overlay', desc: '遮罩', icon: 'house' },
       {
         name: 'tooltip',

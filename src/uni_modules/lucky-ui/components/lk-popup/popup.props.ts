@@ -34,6 +34,24 @@ export const popupProps = {
   /** 是否圆角 */
   round: LkProp.boolean(true),
 
+  /** 圆角大小 */
+  radius: LkProp.string('24rpx'),
+
+  /** 是否开启拖拽（仅 bottom 模式有效） */
+  draggable: LkProp.boolean(false),
+
+  /** 标题 */
+  title: LkProp.string(''),
+
+  /** 是否显示关闭图标 */
+  closable: LkProp.boolean(false),
+
+  /** 关闭图标名称 */
+  closeIcon: LkProp.string('x-lg'),
+
+  /** 关闭图标位置 */
+  closeIconPosition: LkProp.enum(['top-right', 'top-left'], 'top-right', 'Popup.closeIconPosition'),
+
   /** 是否显示遮罩 */
   overlay: LkProp.boolean(true),
 
@@ -84,6 +102,7 @@ export const popupEmits = [
   'open',
   'close',
   'click-overlay',
+  'click-close',
   'after-enter',
   'after-leave',
 ];

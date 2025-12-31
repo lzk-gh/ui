@@ -67,7 +67,6 @@
           <PopupDemo v-else-if="componentName === 'popup'" />
           <ToastDemo v-else-if="componentName === 'toast'" />
           <ActionSheetDemo v-else-if="componentName === 'action-sheet'" />
-          <DrawerDemo v-else-if="componentName === 'drawer'" />
           <OverlayDemo v-else-if="componentName === 'overlay'" />
           <TooltipDemo v-else-if="componentName === 'tooltip'" />
           <DropdownDemo v-else-if="componentName === 'dropdown'" />
@@ -388,12 +387,6 @@ const componentMap: Record<string, any> = {
     icon: 'menu-app-fill',
     color: 'success',
   },
-  drawer: {
-    title: 'Drawer 抽屉',
-    desc: '侧边抽屉组件',
-    icon: 'layout-sidebar-inset',
-    color: 'warning',
-  },
   overlay: {
     title: 'Overlay 遮罩层',
     desc: '页面遮罩组件',
@@ -582,7 +575,6 @@ import ModalDemo from '@/components/demos/modal-demo.vue';
 import PopupDemo from '@/components/demos/popup-demo.vue';
 import ToastDemo from '@/components/demos/toast-demo.vue';
 import ActionSheetDemo from '@/components/demos/action-sheet-demo.vue';
-import DrawerDemo from '@/components/demos/drawer-demo.vue';
 import OverlayDemo from '@/components/demos/overlay-demo.vue';
 import TooltipDemo from '@/components/demos/tooltip-demo.vue';
 import DropdownDemo from '@/components/demos/dropdown-demo.vue';
@@ -658,7 +650,6 @@ const demoComponentMap: Record<string, any> = {
   popup: PopupDemo,
   toast: ToastDemo,
   'action-sheet': ActionSheetDemo,
-  drawer: DrawerDemo,
   overlay: OverlayDemo,
   tooltip: TooltipDemo,
   dropdown: DropdownDemo,

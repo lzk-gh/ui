@@ -64,12 +64,6 @@ const components = [
     icon: 'list-task',
   },
   {
-    name: 'drawer',
-    title: 'Drawer 抽屉',
-    desc: '侧边滑出的面板',
-    icon: 'layout-sidebar',
-  },
-  {
     name: 'overlay',
     title: 'Overlay 遮罩',
     desc: '创建一层遮罩',
