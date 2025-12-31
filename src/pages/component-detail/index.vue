@@ -87,6 +87,10 @@
           <CurtainDemo v-else-if="componentName === 'curtain'" />
           <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
 
+          <ChartBarDemo v-else-if="componentName === 'chart-bar'" />
+          <ChartLineDemo v-else-if="componentName === 'chart-line'" />
+          <ChartPieDemo v-else-if="componentName === 'chart-pie'" />
+
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
             <lk-icon name="code-square" size="100" color="textTertiary" />
@@ -119,6 +123,10 @@ import { onLoad } from '@dcloudio/uni-app';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
+
+import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
+import ChartLineDemo from '@/components/demos/chart-line-demo.vue';
+import ChartPieDemo from '@/components/demos/chart-pie-demo.vue';
 
 // 组件信息映射
 const componentMap: Record<string, any> = {
@@ -498,6 +506,25 @@ const componentMap: Record<string, any> = {
     desc: '横向滚动列表容器',
     icon: 'distribute-horizontal',
     color: 'success',
+  },
+
+  'chart-bar': {
+    title: 'ChartBar 柱状图',
+    desc: '高性能 Canvas 柱状图组件',
+    icon: 'bar-chart-fill',
+    color: 'primary',
+  },
+  'chart-line': {
+    title: 'ChartLine 折线图',
+    desc: '高性能 Canvas 折线图组件',
+    icon: 'graph-up',
+    color: 'primary',
+  },
+  'chart-pie': {
+    title: 'ChartPie 饼/环图',
+    desc: '高性能 Canvas 饼/环图组件',
+    icon: 'pie-chart-fill',
+    color: 'primary',
   },
 };
 

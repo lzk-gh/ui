@@ -70,6 +70,11 @@ export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
 export { default as LkTable } from './lk-table/lk-table.vue';
 export { default as LkBacktop } from './lk-backtop/lk-backtop.vue';
 
+// Charts
+export { default as LkChartBar } from './lk-chart-bar/lk-chart-bar.vue';
+export { default as LkChartLine } from './lk-chart-line/lk-chart-line.vue';
+export { default as LkChartPie } from './lk-chart-pie/lk-chart-pie.vue';
+
 // New: Grid
 export { default as LkRow } from './lk-grid/lk-row.vue';
 export { default as LkCol } from './lk-grid/lk-col.vue';

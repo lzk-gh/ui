@@ -412,6 +412,24 @@ const categories = [
         desc: '横向滚动',
         icon: 'distribute-horizontal',
       },
+      {
+        name: 'chart-bar',
+        label: 'ChartBar',
+        desc: '柱状图',
+        icon: 'bar-chart',
+      },
+      {
+        name: 'chart-line',
+        label: 'ChartLine',
+        desc: '折线图',
+        icon: 'graph-up',
+      },
+      {
+        name: 'chart-pie',
+        label: 'ChartPie',
+        desc: '饼/环图',
+        icon: 'pie-chart',
+      },
     ],
   },
   {
