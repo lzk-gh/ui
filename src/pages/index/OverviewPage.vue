@@ -511,26 +511,7 @@ const categories = [
         desc: '日期选择',
         icon: 'calendar-event',
       },
-      {
-        name: 'time-picker',
-        label: 'TimePicker',
-        desc: '时间选择',
-        icon: 'clock',
-      },
-      {
-        name: 'date-range-picker',
-        label: 'DateRangePicker',
-        desc: '日期范围',
-        icon: 'calendar-range',
-      },
-      {
-        name: 'date-time-picker',
-        label: 'DateTimePicker',
-        desc: '日期时间',
-        icon: 'calendar-check',
-      },
       { name: 'cascader', label: 'Cascader', desc: '级联选择', icon: 'house' },
-      { name: 'tree', label: 'Tree', desc: '树形控件', icon: 'house' },
       {
         name: 'virtual-list',
         label: 'VirtualList',

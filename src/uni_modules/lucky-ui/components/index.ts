@@ -60,14 +60,7 @@ export { default as LkDatePicker } from './lk-date-picker/lk-date-picker.vue';
 export { default as LkUpload } from './lk-upload/lk-upload.vue';
 export * from './lk-toast/toast-manager';
 
-export { default as LkTimePicker } from './lk-time-picker/lk-time-picker.vue';
-export { default as LkDateRangePicker } from './lk-date-range-picker/lk-date-range-picker.vue';
-export { default as LkDateTimePicker } from './lk-date-time-picker/lk-date-time-picker.vue';
-
 export { default as LkCascader } from './lk-cascader/lk-cascader.vue';
-
-export { default as LkTree } from './lk-tree/lk-tree.vue';
-export { default as LkTreeNode } from './lk-tree/lk-tree-node.vue';
 
 export { default as LkVirtualList } from './lk-virtual-list/lk-virtual-list.vue';
 export { default as LkWaterfall } from './lk-waterfall/lk-waterfall.vue';

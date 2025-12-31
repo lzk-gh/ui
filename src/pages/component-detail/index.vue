@@ -81,9 +81,7 @@
 
           <CalendarDemo v-else-if="componentName === 'calendar'" />
           <DatePickerDemo v-else-if="componentName === 'date-picker'" />
-          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
           <CascaderDemo v-else-if="componentName === 'cascader'" />
-          <TreeDemo v-else-if="componentName === 'tree'" />
           <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />
           <CurtainDemo v-else-if="componentName === 'curtain'" />
@@ -471,23 +469,11 @@ const componentMap: Record<string, any> = {
     icon: 'calendar-date-fill',
     color: 'success',
   },
-  'time-picker': {
-    title: 'TimePicker 时间选择',
-    desc: '时间选择器',
-    icon: 'clock-fill',
-    color: 'warning',
-  },
   cascader: {
     title: 'Cascader 级联选择',
     desc: '级联选择器',
     icon: 'diagram-2-fill',
     color: 'info',
-  },
-  tree: {
-    title: 'Tree 树形控件',
-    desc: '树形结构组件',
-    icon: 'diagram-3-fill',
-    color: 'success',
   },
   'virtual-list': {
     title: 'VirtualList 虚拟列表',
@@ -605,9 +591,7 @@ import StickyDemo from '@/components/demos/sticky-demo.vue';
 // 高级组件
 import CalendarDemo from '@/components/demos/calendar-demo.vue';
 import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
-import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import CascaderDemo from '@/components/demos/cascader-demo.vue';
-import TreeDemo from '@/components/demos/tree-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
@@ -682,9 +666,7 @@ const demoComponentMap: Record<string, any> = {
   // 高级组件
   calendar: CalendarDemo,
   'date-picker': DatePickerDemo,
-  'time-picker': TimePickerDemo,
   cascader: CascaderDemo,
-  tree: TreeDemo,
   'virtual-list': VirtualListDemo,
   waterfall: WaterfallDemo,
   curtain: CurtainDemo,
