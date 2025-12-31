@@ -13,24 +13,46 @@ const {
   rippleActive: leftActive,
   rippleWaveStyle: leftRippleStyle,
   triggerRipple: triggerLeft
-} = useRipple();
+} = useRipple({ selector: '.lk-navbar__left' });
 
 const {
   rippleActive: rightActive,
   rippleWaveStyle: rightRippleStyle,
   triggerRipple: triggerRight
-} = useRipple();
+} = useRipple({ selector: '.lk-navbar__right' });
+
+type SysInfoLike = {
+  statusBarHeight?: number;
+  windowWidth?: number;
+};
 
 // 获取系统信息
-const sys = typeof uni !== 'undefined' ? uni.getSystemInfoSync() : ({ statusBarHeight: 0 } as any);
-const statusBarHeight = sys.statusBarHeight || 0;
-const windowWidth: number = sys && typeof sys.windowWidth === 'number' ? sys.windowWidth : 0;
+const sys: SysInfoLike = typeof uni !== 'undefined' ? (uni.getSystemInfoSync() as SysInfoLike) : {};
+const statusBarHeight = sys.statusBarHeight ?? 0;
+const windowWidth: number = typeof sys.windowWidth === 'number' ? sys.windowWidth : 0;
+
+const showBackComputed = computed(() => {
+  // leftArrow 为兼容属性：若用户显式传入，以它为准
+  return typeof props.leftArrow === 'boolean' ? props.leftArrow : props.showBack;
+});
+
+const rootStyle = computed(() => {
+  const style: Record<string, string | number> = { zIndex: props.zIndex };
+  if (props.background) style.background = props.background;
+  return style;
+});
+
+type MenuButtonInfoLike = {
+  height?: number;
+  top?: number;
+  left?: number;
+};
 
 // 获取胶囊按钮信息（仅小程序）
-let menuButtonInfo: any = { height: 0, top: 0 };
+let menuButtonInfo: MenuButtonInfoLike = { height: 0, top: 0 };
 // #ifdef MP
 if (typeof uni !== 'undefined' && uni.getMenuButtonBoundingClientRect) {
-  menuButtonInfo = uni.getMenuButtonBoundingClientRect();
+  menuButtonInfo = uni.getMenuButtonBoundingClientRect() as MenuButtonInfoLike;
 }
 // #endif
 
@@ -38,9 +60,11 @@ if (typeof uni !== 'undefined' && uni.getMenuButtonBoundingClientRect) {
 // 在小程序中，导航栏高度应该与胶囊按钮对齐
 const navbarContentHeight = computed(() => {
   // #ifdef MP
-  if (menuButtonInfo.height > 0) {
+  const capsuleHeight = menuButtonInfo.height ?? 0;
+  const capsuleTop = menuButtonInfo.top ?? 0;
+  if (capsuleHeight > 0) {
     // 胶囊按钮的高度 + 上下间距（胶囊距离状态栏的距离 * 2）
-    return menuButtonInfo.height + (menuButtonInfo.top - statusBarHeight) * 2;
+    return capsuleHeight + (capsuleTop - statusBarHeight) * 2;
   }
   // #endif
   // H5 或无胶囊信息时使用默认高度 44px (约 88rpx)
@@ -64,32 +88,48 @@ const contentPaddingRight = computed(() => {
   return 12; // H5 默认右侧内边距 12px
 });
 
-function back(event: any) {
-  // triggerLeft(event); // Handled by parent click
-  emit('back');
-  // #ifdef MP
-  uni.navigateBack({ delta: 1 });
-  // #endif
+function tryNavigateBack() {
+  try {
+    const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : [];
+    if (Array.isArray(pages) && pages.length > 1) {
+      uni.navigateBack({ delta: 1 });
+    }
+  } catch {
+    // ignore
+  }
 }
 
-function onLeftClick(event: any) {
+function onBackTap(event: unknown) {
+  // 点击返回图标：行为更符合直觉
+  triggerLeft(event);
+  emit('click-left');
+  emit('back');
+  tryNavigateBack();
+}
+
+function onLeftClick(event: unknown) {
   triggerLeft(event);
   emit('click-left');
 }
 
-function onRightClick(event: any) {
+function onRightClick(event: unknown) {
   triggerRight(event);
   emit('click-right');
 }
 </script>
 
 <template>
-  <view class="lk-navbar" :class="{ 'is-fixed': fixed }" :style="{ zIndex: zIndex }">
+  <view
+    :id="id"
+    class="lk-navbar"
+    :class="[customClass, { 'is-fixed': fixed }]"
+    :style="[rootStyle, customStyle]"
+  >
     <!-- 状态栏占位 -->
     <view
       v-if="safeArea"
       class="lk-navbar__status-bar"
-      :style="{ height: statusBarHeight + 'px' }"
+      :style="[{ height: statusBarHeight + 'px' }, background ? { background } : {}]"
     />
 
     <!-- 导航栏内容 -->
@@ -106,11 +146,11 @@ function onRightClick(event: any) {
         @tap="onLeftClick"
       >
         <lk-icon
-          v-if="showBack"
+          v-if="showBackComputed"
           name="arrow-left"
           size="36"
           class="lk-navbar__back"
-          @click.stop="back"
+          @tap.stop="onBackTap"
         />
         <text v-if="leftText" class="lk-navbar__text">{{ leftText }}</text>
         <slot name="left" />

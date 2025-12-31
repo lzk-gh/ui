@@ -2,6 +2,11 @@ import { computed, nextTick, onUnmounted, ref, getCurrentInstance } from 'vue';
 
 export interface RippleOptions {
   duration?: number;
+  /**
+   * Selector used for MP/App boundingClientRect query.
+   * Defaults to '.lk-ripple'.
+   */
+  selector?: string;
 }
 
 type AnyRecord = Record<string, unknown>;
@@ -17,6 +22,7 @@ function isRecord(v: unknown): v is AnyRecord {
  */
 export function useRipple(options: RippleOptions = {}) {
   const duration = options.duration ?? 800;
+  const selector = options.selector ?? '.lk-ripple';
   const instance = getCurrentInstance();
 
   const active = ref(false);
@@ -107,7 +113,7 @@ export function useRipple(options: RippleOptions = {}) {
     if (coords && instance) {
       uni.createSelectorQuery()
         .in(instance)
-        .select('.lk-ripple')
+        .select(selector)
         .boundingClientRect((rect) => {
           if (
             rect &&

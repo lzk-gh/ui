@@ -19,6 +19,15 @@ export const navbarProps = {
   /** 是否显示返回按钮 */
   showBack: LkProp.boolean(true),
 
+  /** 兼容属性：是否显示左侧返回箭头（同 showBack） */
+  leftArrow: {
+    type: Boolean,
+    default: undefined,
+  },
+
+  /** 自定义背景（支持颜色/渐变），优先级高于样式文件 */
+  background: LkProp.string(''),
+
   /** 是否占位 */
   placeholder: LkProp.boolean(true),
 
