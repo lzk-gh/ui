@@ -228,7 +228,7 @@ const panelStyle = computed(() => {
 <template>
   <lk-overlay
     v-if="overlay && display"
-    :show="modelValue ?? show"
+    :show="modelValue"
     :z-index="zIndex"
     :lock-scroll="lockScroll"
     :close-on-click="closeOnOverlay"

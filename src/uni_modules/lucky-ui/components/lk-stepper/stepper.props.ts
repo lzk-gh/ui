@@ -18,13 +18,13 @@ export const stepperProps = {
   },
 
   /** 最小值 */
-  min: { type: [Number, String], default: 1 },
+  min: { type: [Number, String] as unknown as PropType<number | string>, default: 1 },
 
   /** 最大值 */
-  max: { type: [Number, String], default: Infinity },
+  max: { type: [Number, String] as unknown as PropType<number | string>, default: Infinity },
 
   /** 步长 */
-  step: { type: [Number, String], default: 1 },
+  step: { type: [Number, String] as unknown as PropType<number | string>, default: 1 },
 
   /** 是否只允许整数 */
   integer: LkProp.boolean(false),
@@ -42,10 +42,10 @@ export const stepperProps = {
   size: LkProp.enum(Object.values(StepperSize), StepperSize.Md, 'Stepper.size'),
 
   /** 输入框宽度 (rpx) */
-  inputWidth: { type: [Number, String], default: '' },
+  inputWidth: { type: [Number, String] as unknown as PropType<number | string>, default: '' },
 
   /** 按钮宽度 (rpx) */
-  buttonSize: { type: [Number, String], default: '' },
+  buttonSize: { type: [Number, String] as unknown as PropType<number | string>, default: '' },
 
   /** 变更前拦截: return false 或 Promise<false> 阻止 */
   beforeChange: {

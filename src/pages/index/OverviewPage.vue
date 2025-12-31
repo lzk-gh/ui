@@ -406,6 +406,12 @@ const categories = [
         desc: '数字翻牌',
         icon: 'speedometer',
       },
+      {
+        name: 'horizontal-scroll',
+        label: 'HorizontalScroll',
+        desc: '横向滚动',
+        icon: 'distribute-horizontal',
+      },
     ],
   },
   {
@@ -445,6 +451,12 @@ const categories = [
         label: 'Transition',
         desc: '过渡动画',
         icon: 'bezier2',
+      },
+      {
+        name: 'curtain',
+        label: 'Curtain',
+        desc: '幕帘',
+        icon: 'aspect-ratio',
       },
     ],
   },

@@ -86,6 +86,8 @@
           <TreeDemo v-else-if="componentName === 'tree'" />
           <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />
+          <CurtainDemo v-else-if="componentName === 'curtain'" />
+          <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
 
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
@@ -499,6 +501,18 @@ const componentMap: Record<string, any> = {
     icon: 'grid-3x2-gap',
     color: 'primary',
   },
+  curtain: {
+    title: 'Curtain 幕帘',
+    desc: '全屏广告或公告幕帘',
+    icon: 'aspect-ratio',
+    color: 'warning',
+  },
+  'horizontal-scroll': {
+    title: 'HorizontalScroll 横向滚动',
+    desc: '横向滚动列表容器',
+    icon: 'distribute-horizontal',
+    color: 'success',
+  },
 };
 
 // 当前组件名称
@@ -596,6 +610,8 @@ import CascaderDemo from '@/components/demos/cascader-demo.vue';
 import TreeDemo from '@/components/demos/tree-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
+import CurtainDemo from '@/components/demos/curtain-demo.vue';
+import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
 
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
@@ -671,6 +687,8 @@ const demoComponentMap: Record<string, any> = {
   tree: TreeDemo,
   'virtual-list': VirtualListDemo,
   waterfall: WaterfallDemo,
+  curtain: CurtainDemo,
+  'horizontal-scroll': HorizontalScrollDemo,
 };
 
 // 加载对应的演示组件

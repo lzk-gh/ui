@@ -1,4 +1,3 @@
-import { throttle } from '@/uni_modules/lucky-ui/core/src/utils/throttle';
 import type { PropType, ExtractPropTypes } from 'vue';
 
 export const baseProps = {
@@ -67,14 +66,33 @@ export const baseProps = {
   },
 } as const;
 
-export const LkProp = {
+type LkPropHelper = {
+  string: <T extends string = string>(def: T) => { type: PropType<T>; default: T };
+  number: <T extends number = number>(def: T) => { type: PropType<T>; default: T };
+  boolean: (def: boolean) => { type: PropType<boolean>; default: boolean };
+  /**
+   * 字符串或数字（常用于尺寸类 props）
+   */
+  stringNumber: (def: string | number) => { type: PropType<string | number>; default: string | number };
+  enum: <T extends readonly string[], D extends T[number]>(
+    values: T,
+    def: D,
+    name?: string
+  ) => {
+    type: PropType<T[number]>;
+    default: D;
+    validator: (v: any) => v is T[number];
+  };
+};
+
+export const LkProp: LkPropHelper = {
   /**
    * 字符串类型
    * @param def 默认值
    * @returns
    */
-  string: <D extends string>(def: D) => ({
-    type: String as unknown as PropType<string>,
+  string: <T extends string = string>(def: T) => ({
+    type: String as unknown as PropType<T>,
     default: def,
   }),
 
@@ -83,8 +101,8 @@ export const LkProp = {
    * @param def 默认值
    * @returns
    */
-  number: <D extends number>(def: D) => ({
-    type: Number as unknown as PropType<number>,
+  number: <T extends number = number>(def: T) => ({
+    type: Number as unknown as PropType<T>,
     default: def,
   }),
 
@@ -93,9 +111,14 @@ export const LkProp = {
    * @param def 默认值
    * @returns
    */
-  boolean: <D extends boolean>(def: D) => ({
+  boolean: (def: boolean) => ({
     type: Boolean as unknown as PropType<boolean>,
     default: def ?? false,
+  }),
+
+  stringNumber: (def: string | number) => ({
+    type: [String, Number] as unknown as PropType<string | number>,
+    default: def,
   }),
 
   /**
@@ -114,6 +137,6 @@ export const LkProp = {
       return ok;
     },
   }),
-} as const;
+};
 
 export type CommonProps = ExtractPropTypes<typeof baseProps>;
