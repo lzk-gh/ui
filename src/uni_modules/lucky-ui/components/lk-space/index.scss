@@ -6,6 +6,11 @@
   // gap 属性由 Vue 组件通过 style 动态注入，此处无需定义默认值
   // 现代浏览器、微信小程序、UniApp App-NVUE(Yoga) 均支持 gap
 
+  @include m(fill) {
+    display: flex;
+    width: 100%;
+  }
+
   @include m(horizontal) {
     flex-direction: row;
   }
@@ -28,6 +33,10 @@
 
   @include m(align-baseline) {
     align-items: baseline;
+  }
+
+  @include m(align-stretch) {
+    align-items: stretch;
   }
 
   @include m(wrap) {

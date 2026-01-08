@@ -13,6 +13,20 @@
         "navigationBarTitleText": "组件详情",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/order-detail/index",
+      "style": {
+        "navigationBarTitleText": "订单详情",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/todo/index",
+      "style": {
+        "navigationBarTitleText": "待办事项",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "globalStyle": {

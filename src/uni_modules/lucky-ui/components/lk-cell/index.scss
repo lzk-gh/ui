@@ -17,7 +17,7 @@
   // 2. 核心盒模型
   // =========================================
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: var(--_py) var(--_px);
   background: var(--_bg);
   font-size: var(--_fs);
@@ -39,7 +39,7 @@
 
   @include e(left) {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex: 1;
     gap: var(--_gap);
     position: relative;

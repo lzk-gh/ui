@@ -15,15 +15,11 @@
           :key="comp.name"
           :title="comp.title"
           :label="comp.desc"
-          is-link
+          :icon="comp.icon"
+          clickable
+          arrow
           @click="navigateToDetail(comp.name)"
-        >
-          <template #icon>
-            <view class="cell-icon">
-              <lk-icon :name="comp.icon" size="40" color="primary" />
-            </view>
-          </template>
-        </lk-cell>
+        />
       </lk-cell-group>
     </view>
   </scroll-view>
@@ -138,14 +134,4 @@ const navigateToDetail = (componentName: string) => {
   padding: 0 24rpx 24rpx;
 }
 
-.cell-icon {
-  width: 80rpx;
-  height: 80rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--lk-color-primary-bg-soft);
-  border-radius: var(--lk-radius-md);
-  margin-right: 24rpx;
-}
 </style>

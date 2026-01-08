@@ -32,21 +32,29 @@ function onTap(e: unknown) {
     @tap="onTap"
   >
     <view class="lk-cell__left">
-      <lk-icon v-if="icon" :name="icon" size="36" class="lk-cell__icon" />
-      <view class="lk-cell__titles">
-        <text v-if="$slots.title || title" class="lk-cell__title">
-          <slot name="title">{{ title }}</slot>
-        </text>
-        <text v-if="$slots.label || label" class="lk-cell__label">
-          <slot name="label">{{ label }}</slot>
-        </text>
-      </view>
+      <slot name="left">
+        <lk-icon v-if="icon" :name="icon" size="36" class="lk-cell__icon" />
+        <view class="lk-cell__titles">
+          <view v-if="$slots.title" class="lk-cell__title">
+            <slot name="title" />
+          </view>
+          <text v-else-if="title" class="lk-cell__title">{{ title }}</text>
+
+          <view v-if="$slots.label" class="lk-cell__label">
+            <slot name="label" />
+          </view>
+          <text v-else-if="label" class="lk-cell__label">{{ label }}</text>
+        </view>
+      </slot>
     </view>
     <view class="lk-cell__right">
-      <text v-if="$slots.value || value" class="lk-cell__value">
-        <slot name="value">{{ value }}</slot>
-      </text>
-      <lk-icon v-if="arrow" name="arrow-right" size="30" class="lk-cell__arrow" />
+      <slot name="right">
+        <view v-if="$slots.value" class="lk-cell__value">
+          <slot name="value" />
+        </view>
+        <text v-else-if="value" class="lk-cell__value">{{ value }}</text>
+        <lk-icon v-if="arrow" name="arrow-right" size="30" class="lk-cell__arrow" />
+      </slot>
     </view>
     <view class="lk-ripple__wave" :style="rippleWaveStyle" />
   </view>

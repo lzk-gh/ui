@@ -14,6 +14,7 @@ export const SpaceAlign = {
   Center: 'center',
   End: 'end',
   Baseline: 'baseline',
+  Stretch: 'stretch',
 } as const;
 
 export const spaceProps = {
@@ -34,11 +35,18 @@ export const spaceProps = {
   /** 方向: horizontal 水平, vertical 垂直 */
   direction: LkProp.enum(Object.values(SpaceDirection), SpaceDirection.Horizontal, 'Space.direction'),
 
-  /** 对齐方式: start, center, end, baseline */
-  align: LkProp.enum(Object.values(SpaceAlign), SpaceAlign.Center, 'Space.align'),
+  /** 对齐方式: start, center, end, baseline, stretch */
+  align: {
+    type: String as PropType<(typeof SpaceAlign)[keyof typeof SpaceAlign]>,
+    required: false,
+    validator: (v: any) => !v || (Object.values(SpaceAlign) as string[]).includes(v),
+  },
 
   /** 是否换行 */
   wrap: LkProp.boolean(false),
+
+  /** 是否填满父容器宽度 */
+  fill: LkProp.boolean(false),
 } as const;
 
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>;

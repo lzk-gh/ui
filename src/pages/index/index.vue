@@ -15,25 +15,29 @@
 
     <!-- 子页面容器 -->
     <view class="pages-container">
-      <!-- 组件总览 -->
-      <home-page v-show="activeTab === 'overview'" :content-height="contentHeight" />
+      <!-- 组件预览（保留之前第一页面） -->
+      <overview-page v-if="activeTab === 'overview'" :content-height="contentHeight" />
 
-      <!-- 基础组件 -->
-      <basic-page v-show="activeTab === 'basic'" :content-height="contentHeight" />
+      <!-- 发现 -->
+      <discover-page v-else-if="activeTab === 'discover'" :content-height="contentHeight" />
 
-      <!-- 表单组件 -->
-      <form-page v-show="activeTab === 'form'" :content-height="contentHeight" />
+      <!-- 统计 -->
+      <statistics-page v-else-if="activeTab === 'statistics'" :content-height="contentHeight" />
 
-      <!-- 反馈组件 -->
-      <feedback-page v-show="activeTab === 'feedback'" :content-height="contentHeight" />
+      <!-- 我的 -->
+      <mine-page v-else-if="activeTab === 'mine'" :content-height="contentHeight" />
+
+      <!-- 工作台 -->
+      <showcase-page v-else-if="activeTab === 'showcase'" :content-height="contentHeight" />
     </view>
 
     <!-- 底部 Tabbar -->
     <lk-tabbar v-model="activeTab" type="CONCISE">
-      <lk-tabbar-item name="组件总览" icon="grid" value="overview" />
-      <lk-tabbar-item name="基础组件" icon="box" value="basic" />
-      <lk-tabbar-item name="表单组件" icon="box" value="form" />
-      <lk-tabbar-item name="反馈组件" icon="chat" value="feedback" />
+      <lk-tabbar-item name="组件" icon="box" value="overview" />
+      <lk-tabbar-item name="发现" icon="grid" value="discover" />
+      <lk-tabbar-item name="统计" icon="box" value="statistics" />
+      <lk-tabbar-item name="工作台" icon="box" value="showcase" />
+      <lk-tabbar-item name="我的" icon="box" value="mine" />
     </lk-tabbar>
   </view>
 </template>
@@ -49,10 +53,11 @@ import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 // 子页面组件
-import HomePage from './OverviewPage.vue';
-import BasicPage from './BasicPage.vue';
-import FormPage from './FormPage.vue';
-import FeedbackPage from './FeedbackPage.vue';
+import OverviewPage from './OverviewPage.vue';
+import DiscoverPage from './DiscoverPage.vue';
+import StatisticsPage from './StatisticsPage.vue';
+import MinePage from './MinePage.vue';
+import ShowcasePage from './ShowcasePage.vue';
 
 // 主题
 const { theme, toggleTheme } = useTheme();
@@ -68,19 +73,20 @@ const activeTab = ref<string>('overview');
 // 计算页面标题
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
-    overview: 'Lucky UI - 组件总览',
-    basic: '基础组件',
-    form: '表单组件',
-    feedback: '反馈组件',
+    overview: '组件预览',
+    discover: '发现',
+    statistics: '统计',
+      showcase: '工作台',
+    mine: '我的',
   };
   return titles[activeTab.value] || 'Lucky UI';
 });
 
 // 计算内容区域高度
 const contentHeight = computed(() => {
-  // navbar 高度约 88rpx + 状态栏, tabbar 高度约 100rpx + 安全区
-  // 这里简化处理,实际可通过 uni.getSystemInfo 获取精确值
-  return 'calc(100vh - 188rpx)';
+  // 子页面容器 pages-container 已通过 flex 自动扣除 navbar/tabbar，
+  // 这里直接让各页 scroll-view 填满容器，避免小程序被底部遮挡。
+  return '100%';
 });
 
 // FAB 按钮点击事件 - 组件搜索
@@ -105,6 +111,7 @@ watch(activeTab, newTab => {
   display: flex;
   flex-direction: column;
   background: var(--lk-color-bg-page);
+  padding: 20rpx 20rpx 0;
 }
 
 .pages-container {

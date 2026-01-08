@@ -42,11 +42,20 @@ const style = computed(() => {
   };
 });
 
+const mergedAlign = computed(() => {
+  if (props.align) return props.align;
+  // 默认对齐逻辑：水平方向居中，垂直方向拉伸（更符合布局直觉）
+  return props.direction === 'horizontal' ? 'center' : 'stretch';
+});
+
 const klass = computed(() => [
   'lk-space',
   `lk-space--${props.direction}`,
-  `lk-space--align-${props.align}`,
-  { 'lk-space--wrap': props.wrap },
+  `lk-space--align-${mergedAlign.value}`,
+  {
+    'lk-space--wrap': props.wrap,
+    'lk-space--fill': props.fill || props.direction === 'vertical',
+  },
 ]);
 </script>
 

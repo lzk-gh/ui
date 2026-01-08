@@ -5,7 +5,7 @@
   align-items: flex-end;
   gap: 4rpx;
   font-weight: 600;
-  font-size: 56rpx;
+  font-size: var(--lk-number-roller-digit-height);
   line-height: 1;
   color: var(--lk-color-text);
   --lk-number-roller-digit-height: 56rpx;
@@ -45,7 +45,7 @@
   @include e(symbol) {
     display: inline-flex;
     align-items: flex-end;
-    font-size: 40rpx;
+    font-size: 0.72em;
     color: var(--lk-color-text-secondary);
     padding: 0 4rpx;
   }

@@ -67,8 +67,8 @@ export const baseProps = {
 } as const;
 
 type LkPropHelper = {
-  string: <T extends string = string>(def: T) => { type: PropType<T>; default: T };
-  number: <T extends number = number>(def: T) => { type: PropType<T>; default: T };
+  string: (def: string) => { type: PropType<string>; default: string };
+  number: (def: number) => { type: PropType<number>; default: number };
   boolean: (def: boolean) => { type: PropType<boolean>; default: boolean };
   /**
    * 字符串或数字（常用于尺寸类 props）
@@ -91,8 +91,8 @@ export const LkProp: LkPropHelper = {
    * @param def 默认值
    * @returns
    */
-  string: <T extends string = string>(def: T) => ({
-    type: String as unknown as PropType<T>,
+  string: (def: string) => ({
+    type: String as PropType<string>,
     default: def,
   }),
 
@@ -101,8 +101,8 @@ export const LkProp: LkPropHelper = {
    * @param def 默认值
    * @returns
    */
-  number: <T extends number = number>(def: T) => ({
-    type: Number as unknown as PropType<T>,
+  number: (def: number) => ({
+    type: Number as PropType<number>,
     default: def,
   }),
 

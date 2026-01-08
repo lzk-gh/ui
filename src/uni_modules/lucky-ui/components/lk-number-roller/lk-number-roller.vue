@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { numberRollerProps } from './number-roller.props';
 
 defineOptions({ name: 'LkNumberRoller' });
@@ -43,6 +43,56 @@ const rollerStyle = computed(() => ({
 const formattedText = computed(() => normalizeValue(props.value));
 
 const segments = computed<Segment[]>(() => buildSegments(formattedText.value));
+
+const animatedDigitByKey = ref<Record<string, number>>({});
+
+const renderSegments = computed<Segment[]>(() => {
+  // 仅对数字段做“从 0 滚到目标值”的动画
+  if (!props.autoplay) return segments.value;
+  return segments.value.map((seg) => {
+    if (seg.type !== 'digit') return seg;
+    const current = animatedDigitByKey.value[seg.key];
+    return {
+      ...seg,
+      digit: typeof current === 'number' ? current : seg.digit,
+    } as Segment;
+  });
+});
+
+function primeAndAnimateDigits() {
+  if (!props.autoplay) return;
+  const next: Record<string, number> = { ...animatedDigitByKey.value };
+  let hasNewKey = false;
+  for (const seg of segments.value) {
+    if (seg.type !== 'digit') continue;
+    if (!(seg.key in next)) {
+      next[seg.key] = 0;
+      hasNewKey = true;
+    }
+  }
+  if (hasNewKey) animatedDigitByKey.value = next;
+  // 下一帧再写入目标 digit，触发 transition
+  nextTick(() => {
+    const updated: Record<string, number> = { ...animatedDigitByKey.value };
+    for (const seg of segments.value) {
+      if (seg.type !== 'digit') continue;
+      updated[seg.key] = seg.digit;
+    }
+    animatedDigitByKey.value = updated;
+  });
+}
+
+onMounted(() => {
+  // 初次挂载也触发一次 intro 动画
+  primeAndAnimateDigits();
+});
+
+watch(
+  () => segments.value,
+  () => {
+    primeAndAnimateDigits();
+  }
+);
 
 function normalizeValue(value: number | string): string {
   const formatted = props.formatter?.(value);
@@ -113,7 +163,7 @@ function trackTransform(digit: number) {
 
 <template>
   <view :class="classes" :style="[rollerStyle, props.customStyle]">
-    <template v-for="segment in segments" :key="segment.key">
+    <template v-for="segment in renderSegments" :key="segment.key">
       <view v-if="segment.type === 'digit'" class="lk-number-roller__segment">
         <view class="lk-number-roller__window">
           <view class="lk-number-roller__track" :style="{ transform: trackTransform(segment.digit) }">

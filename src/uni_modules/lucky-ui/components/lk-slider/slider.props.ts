@@ -2,6 +2,7 @@ import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
 export type SliderSize = 'small' | 'default' | 'large';
+const sliderSizeValues = ['small', 'default', 'large'] as const;
 
 export const sliderProps = {
   ...baseProps,
@@ -34,7 +35,7 @@ export const sliderProps = {
   showValue: LkProp.boolean(false),
 
   /** 尺寸 */
-  size: LkProp.string<SliderSize>('default'),
+  size: LkProp.enum(sliderSizeValues, 'default', 'Slider.size'),
 
   /** 激活条颜色 */
   activeColor: LkProp.string(''),

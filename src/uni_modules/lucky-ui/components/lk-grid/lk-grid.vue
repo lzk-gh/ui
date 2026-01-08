@@ -47,8 +47,8 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
 <template>
   <lk-carousel
     v-if="props.carousel && props.items && props.items.length"
-    :carouselList="pages"
-    :autoHeight="true"
+    :carousel-list="pages"
+    :auto-height="true"
     :auto-play="false"
     :loop="false"
     :indicator-overlay="false"
@@ -58,13 +58,13 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
         <view
           v-for="(it, idx) in page"
           :key="idx"
-          class="lk-grid-item lk-ripple"
+          class="lk-grid__item lk-ripple"
           :class="{ 'lk-ripple--active': rippleActive && activeIndex === `${pageIndex}-${idx}` }"
           :style="{ gap: (itemGap || 8) + 'rpx' }"
-          @tap="onItemClick(it, idx, pageIndex, $event)"
+          @tap="onItemClick(it, Number(idx), Number(pageIndex), $event)"
         >
-          <lk-icon v-if="it.icon" :name="it.icon" />
-          <text class="lk-grid-item__text">{{ it.text }}</text>
+          <lk-icon v-if="it.icon" :name="it.icon" size="36" />
+          <text class="lk-grid__item-text">{{ it.text }}</text>
           <view class="lk-ripple__wave" :style="rippleWaveStyle" />
         </view>
       </view>
@@ -72,19 +72,20 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
   </lk-carousel>
 
   <view v-else class="lk-grid" :style="gridStyle">
-    <view
-      v-if="items"
-      v-for="(item, index) in items"
-      :key="index"
-      class="lk-grid-item lk-ripple"
-      :class="{ 'lk-ripple--active': rippleActive && activeIndex === `0-${index}` }"
-      :style="{ gap: (itemGap || 8) + 'rpx' }"
-      @tap="onItemClick(item, index, 0, $event)"
-    >
-      <lk-icon v-if="item.icon" :name="item.icon" />
-      <text class="lk-grid-item__text">{{ item.text }}</text>
-      <view class="lk-ripple__wave" :style="rippleWaveStyle" />
-    </view>
+    <template v-if="items && items.length">
+      <view
+        v-for="(item, index) in items"
+        :key="index"
+        class="lk-grid__item lk-ripple"
+        :class="{ 'lk-ripple--active': rippleActive && activeIndex === `0-${index}` }"
+        :style="{ gap: (itemGap || 8) + 'rpx' }"
+        @tap="onItemClick(item, index, 0, $event)"
+      >
+        <lk-icon v-if="item.icon" :name="item.icon" size="36" />
+        <text class="lk-grid__item-text">{{ item.text }}</text>
+        <view class="lk-ripple__wave" :style="rippleWaveStyle" />
+      </view>
+    </template>
     <slot v-else></slot>
   </view>
 </template>

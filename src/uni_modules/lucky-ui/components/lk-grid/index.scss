@@ -2,20 +2,24 @@
 
 @include b(grid) {
   display: grid;
-  text-align: center;
+  width: 100%;
+  grid-auto-rows: 1fr;
+  // text-align: center;
 
   @include e(item) {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: juctify;
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
     overflow: hidden;
+  }
 
-    // &:active {
-    //   background: var(--lk-color-primary-bg-soft);
-    // }
+  @include e(item-text) {
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-color-text-main);
+    line-height: 1.5;
   }
 }

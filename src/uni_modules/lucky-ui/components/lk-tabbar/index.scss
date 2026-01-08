@@ -2,11 +2,16 @@
 
 @include b(tabbar) {
   display: flex;
+  flex-direction: column;
   background-color: var(--lk-tabbar-background, var(--lk-color-bg-container));
   border-top-left-radius: var(--lk-tabbar-top-left-radius, var(--lk-radius-md));
   border-top-right-radius: var(--lk-tabbar-top-right-radius, var(--lk-radius-md));
   box-sizing: border-box;
   color: var(--lk-tabbar-inactive-color, var(--lk-color-text-secondary));
+
+  @include m(safe-area) {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 
   @include m(top-border) {
     border-top: 1px solid var(--lk-color-border-weak);
@@ -65,6 +70,7 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+    flex: 0 0 auto;
 
     @include m(concise) {
       // concise 类型样式占位
@@ -171,7 +177,8 @@
   align-items: center;
   justify-content: center;
   padding: 22rpx 0;
-  flex: 1;
+  flex: 1 1 0%;
+  min-width: 0;
   color: var(--lk-tabbar-inactive-color, var(--lk-color-text-secondary));
 
   @include e(icon-wrap) {

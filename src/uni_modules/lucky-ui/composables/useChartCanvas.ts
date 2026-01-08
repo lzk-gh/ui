@@ -48,6 +48,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
 
   let rafId: number | undefined;
   let animRafId: number | undefined;
+  let retryTimer: any;
 
   function px(rpx: number) {
     // rpx -> px
@@ -167,6 +168,31 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
     size.value = { width: targetSize.width, height: targetSize.height };
   }
 
+  function clearRetryTimer() {
+    if (retryTimer) {
+      clearTimeout(retryTimer);
+      retryTimer = null;
+    }
+  }
+
+  async function ensureMeasuredVisible(attempts = 10) {
+    // 典型场景：组件挂载在 v-show 隐藏的 tab 内，初次测量得到 0x0
+    // 这里做一个短时间重试，等到可见后自动 resize + render。
+    const delays = [50, 100, 150, 250, 400, 650, 1000, 1500, 2000, 3000];
+    for (let i = 0; i < Math.min(attempts, delays.length); i += 1) {
+      const s = await measure();
+      if (s.width > 0 && s.height > 0) {
+        resizeCanvas(s);
+        if (ready.value) scheduleRender(1);
+        return;
+      }
+      await new Promise<void>((resolve) => {
+        clearRetryTimer();
+        retryTimer = setTimeout(() => resolve(), delays[i]);
+      });
+    }
+  }
+
   function clear() {
     if (!ctx.value) return;
     ctx.value.clearRect(0, 0, size.value.width, size.value.height);
@@ -252,6 +278,13 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
     const measured = await measure();
     resizeCanvas(measured);
     ready.value = !!ctx.value;
+    if (measured.width <= 0 || measured.height <= 0) {
+      // 若初次测量失败（常见于隐藏挂载），尝试等待可见后再测
+      ensureMeasuredVisible();
+    } else {
+      // 初次可用，直接渲染一次
+      scheduleRender(1);
+    }
   }
 
   onMounted(() => {
@@ -261,6 +294,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
   onUnmounted(() => {
     if (rafId) cAF(rafId);
     if (animRafId) cAF(animRafId);
+    clearRetryTimer();
   });
 
   return {

@@ -587,10 +587,6 @@ const navigateToDetail = (componentName: string) => {
   background: var(--lk-color-bg-page);
 }
 
-.page-content {
-  padding: 24rpx;
-}
-
 // 统计卡片
 .stats-card {
   display: flex;
