@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(textarea) {
   // --- CSS Token 映射 (连接你的主题系统) ---
@@ -10,12 +10,12 @@
   --lk-ta-text-color-disabled: var(--lk-color-text-disabled, #c0c4cc);
 
   // 2. 背景 (关键改进：支持透明和填充)
-  --lk-ta-bg: var(--lk-bg-container, #ffffff);
-  --lk-ta-bg-filled: var(--lk-bg-fill, #f5f7fa); // 填充模式背景
-  --lk-ta-bg-disabled: var(--lk-bg-disabled, #f5f7fa);
+  --lk-ta-bg: var(--lk-bg-container, var(--lk-color-bg-container, #ffffff));
+  --lk-ta-bg-filled: var(--lk-bg-fill, var(--lk-color-bg-hover, #f5f7fa)); // 填充模式背景
+  --lk-ta-bg-disabled: var(--lk-bg-disabled, var(--lk-color-bg-disabled, #f5f7fa));
 
   // 3. 边框
-  --lk-ta-border-color: var(--lk-border-color, #dcdfe6);
+  --lk-ta-border-color: var(--lk-border-color, var(--lk-color-border, #dcdfe6));
   --lk-ta-border-radius: var(--lk-radius-md, 12rpx);
 
   // 4. 尺寸
@@ -42,7 +42,7 @@
     @include when(focused) {
       border-color: var(--lk-ta-color-primary);
       // 可选：添加光晕
-      box-shadow: 0 0 0 4rpx rgba(41, 121, 255, 0.1);
+      box-shadow: 0 0 0 4rpx rgb(var(--color-brand-rgb, 41, 121, 255) / 15%);
     }
   }
 

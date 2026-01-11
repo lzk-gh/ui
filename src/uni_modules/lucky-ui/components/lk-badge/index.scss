@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(badge-wrapper) {
   position: relative;
@@ -27,7 +27,7 @@
   min-width: var(--_h);
   height: var(--_h);
   padding: 0 var(--lk-spacing-xs);
-  border-radius: var(--lk-radius-pill);
+  border-radius: var(--lk-radius-full);
   display: inline-flex;
   align-items: center;
   justify-content: center;

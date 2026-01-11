@@ -1,6 +1,9 @@
 <template>
   <scroll-view class="overview-page" :style="{ height: contentHeight }" scroll-y>
     <view class="page-content">
+      <!-- 主题调试工具 -->
+      <theme-debugger />
+
       <!-- 统计卡片 -->
       <view class="stats-card">
         <view class="stats-item">
@@ -52,7 +55,6 @@
             <view
               class="color-preview"
               :style="{ background: customColorInput || currentBrandColor }"
-              @click="showColorPicker = true"
             ></view>
           </view>
         </view>
@@ -128,126 +130,32 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, inject } from 'vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import ThemeDebugger from '@/components/theme-debugger.vue';
+import {
+  applyBrandColor as applyBrand,
+  loadBrandColor,
+  DEFAULT_BRAND_COLOR,
+  PRESET_COLORS,
+} from '@/uni_modules/lucky-ui/theme';
 
 defineProps<{
   contentHeight: string;
 }>();
 
 const searchKeyword = ref('');
-const updateThemeStyleVars = inject<(vars: string) => void>('updateThemeStyleVars');
+const updateBrandColor = inject<(color: string) => void>('updateBrandColor');
 
 // ============ 主题色配置 ============
-const currentBrandColor = ref('#6965db');
+const currentBrandColor = ref(DEFAULT_BRAND_COLOR);
 const customColorInput = ref('');
-const showColorPicker = ref(false);
 
 // 预设主题色
-const presetColors = [
-  { name: '幻紫', value: '#6965db' },
-  { name: '极光蓝', value: '#1890ff' },
-  { name: '翠绿', value: '#52c41a' },
-  { name: '活力橙', value: '#fa8c16' },
-  { name: '中国红', value: '#f5222d' },
-  { name: '玫瑰粉', value: '#eb2f96' },
-  { name: '极客青', value: '#13c2c2' },
-  { name: '高级灰', value: '#8c8c8c' },
-];
-
-// 根据主色生成色阶的函数
-const generateColorShade = (baseColor: string, level: number): string => {
-  // 将 hex 转为 rgb
-  const hex = baseColor.replace('#', '');
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-
-  if (level === 600) {
-    return baseColor;
-  }
-
-  if (level < 600) {
-    // 与白色混合
-    const ratio = ((600 - level) / 500) * 0.85;
-    const newR = Math.round(r + (255 - r) * ratio);
-    const newG = Math.round(g + (255 - g) * ratio);
-    const newB = Math.round(b + (255 - b) * ratio);
-    return `rgb(${newR}, ${newG}, ${newB})`;
-  } else {
-    // 与黑色混合
-    const ratio = ((level - 600) / 400) * 0.7;
-    const newR = Math.round(r * (1 - ratio));
-    const newG = Math.round(g * (1 - ratio));
-    const newB = Math.round(b * (1 - ratio));
-    return `rgb(${newR}, ${newG}, ${newB})`;
-  }
-};
-
-const serializeCssVars = (vars: Record<string, string>) =>
-  Object.entries(vars)
-    .map(([key, value]) => `${key}: ${value};`)
-    .join(' ');
-
-const buildThemeVars = (color: string) => {
-  const vars: Record<string, string> = {};
-  const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-
-  levels.forEach(level => {
-    vars[`--color-brand-${level}`] = generateColorShade(color, level);
-  });
-
-  const color100 = vars['--color-brand-100'];
-  const color300 = vars['--color-brand-300'];
-  const color400 = vars['--color-brand-400'];
-  const color500 = vars['--color-brand-500'];
-  const color600 = vars['--color-brand-600'];
-  const color700 = vars['--color-brand-700'];
-  const color800 = vars['--color-brand-800'];
-
-  const baseHex = color.replace('#', '');
-  const r = parseInt(baseHex.substring(0, 2), 16);
-  const g = parseInt(baseHex.substring(2, 4), 16);
-  const b = parseInt(baseHex.substring(4, 6), 16);
-  vars['--color-brand-rgb'] = `${r}, ${g}, ${b}`;
-
-  vars['--color-brand-primary'] = color600;
-  vars['--color-brand-primary-light'] = color100;
-  vars['--color-brand-primary-hover'] = color700;
-  vars['--color-brand-primary-active'] = color800;
-
-  vars['--lk-color-primary'] = color600;
-  vars['--lk-color-primary-hover'] = color700;
-  vars['--lk-color-primary-active'] = color800;
-  vars['--lk-color-primary-bg-soft'] = color100;
-  vars['--lk-focus-ring-color'] = color100;
-  vars['--lk-input-border-color-hover'] = color700;
-  vars['--lk-input-border-color-active'] = color600;
-  vars['--lk-input-border-color-error'] = color300;
-  vars['--lk-input-shadow-focus'] = `0 0 0 4rpx ${color100}`;
-
-  return vars;
-};
+const presetColors = PRESET_COLORS;
 
 // 应用品牌色
 const applyBrandColor = (color: string) => {
-  const vars = buildThemeVars(color);
-
-  if (typeof document !== 'undefined') {
-    const targets: (HTMLElement | null)[] = [
-      document.documentElement,
-      document.body,
-      document.querySelector('page'),
-    ];
-    const setVar = (name: string, value: string) => {
-      targets.forEach(el => el?.style.setProperty(name, value));
-    };
-
-    Object.entries(vars).forEach(([key, value]) => setVar(key, value));
-  }
-
-  const inlineStyle = serializeCssVars(vars);
-  updateThemeStyleVars?.(inlineStyle);
-
-  uni.setStorageSync('lucky-ui-brand-color', color);
+  applyBrand(color);
+  updateBrandColor?.(color);
 };
 
 // 切换预设颜色
@@ -268,7 +176,7 @@ const applyCustomColor = () => {
 
 // 初始化时恢复保存的颜色
 onMounted(() => {
-  const savedColor = uni.getStorageSync('lucky-ui-brand-color');
+  const savedColor = loadBrandColor();
   if (savedColor) {
     currentBrandColor.value = savedColor;
     customColorInput.value = savedColor;

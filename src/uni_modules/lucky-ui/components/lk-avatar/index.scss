@@ -1,12 +1,12 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(avatar) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
   --_size: 80rpx;
-  --_bg: var(--lk-color-primary-bg-soft);
-  --_color: var(--lk-color-primary-active);
+  --_bg: var(--lk-color-fill-tertiary);
+  --_color: var(--lk-color-text-secondary);
   --_radius: var(--lk-radius-md);
   --_fs: var(--lk-control-font-size-md);
 

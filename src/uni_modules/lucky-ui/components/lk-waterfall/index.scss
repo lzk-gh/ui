@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(waterfall) {
   width: 100%;
@@ -13,7 +13,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     border-radius: var(--lk-radius-md);
     overflow: hidden;
     box-shadow: var(--lk-shadow-base);

@@ -1,67 +1,37 @@
 <script setup lang="ts">
-import { defineProps, inject, onMounted, computed } from 'vue';
-import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { computed, inject } from 'vue';
+import { tabbarContextKey } from './context';
+import { tabbarItemProps } from './tabbar-item.props';
 
-const props = defineProps<{
-  name?: string;
-  icon?: string;
-  value?: string;
-  // 徽标支持
-  badge?: number | string;
-  dot?: boolean;
-  max?: number;
-}>();
+defineOptions({ name: 'LkTabbarItem' });
 
-// 获取 tabbar type
-import { inject as injectType } from 'vue';
-const tabbarType = injectType('lkTabbarType', 'TIC');
+const props = defineProps(tabbarItemProps);
+const tabbar = inject(tabbarContextKey, null);
 
-type TabbarContext = {
-  activeValue: { value: string };
-  select: (val?: string) => void;
-  registerItem: (val?: string) => void;
-};
+const isActive = computed(() => tabbar?.active.value === props.name);
 
-const tabbar = inject<TabbarContext>('lkTabbar');
-
-const currentValue = computed(() => props.value ?? props.name ?? '');
-const isActive = computed(() => (tabbar?.activeValue?.value ?? '') === currentValue.value);
-const showBadge = computed(() => props.dot || props.badge !== undefined);
-
-const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 600 });
-
-function handleClick() {
-  tabbar?.select(currentValue.value);
-}
-
-function onTap(e: unknown) {
-  triggerRipple(e);
-  handleClick();
-}
-
-onMounted(() => {
-  tabbar?.registerItem(currentValue.value);
+const showBadge = computed(() => {
+  if (props.dot) return false;
+  return props.badge !== '' && props.badge !== null && typeof props.badge !== 'undefined';
 });
+
+const badgeText = computed(() => String(props.badge));
+
+function onTap() {
+  tabbar?.setActive(props.name);
+}
 </script>
 
 <template>
-  <view
-    class="lk-tabbar-item lk-ripple"
-    :class="{
-      'lk-tabbar-item--active': isActive,
-      'lk-tabbar-item--tic': tabbarType === 'TIC',
-      'lk-ripple--active': rippleActive,
-    }"
-    @tap="onTap"
-  >
-    <view class="lk-tabbar-item__icon-wrap">
-      <lk-badge v-if="showBadge" :content="badge" :dot="dot" :max="max">
-        <lk-icon class="lk-tabbar-item__icon" :name="icon" size="32" />
-      </lk-badge>
-      <lk-icon v-else class="lk-tabbar-item__icon" :name="icon" size="32" />
+  <view class="lk-tabbar-item" :class="{ 'is-active': isActive }" @tap="onTap">
+    <view class="lk-tabbar-item__icon">
+      <lk-icon v-if="icon" :name="icon" size="44" />
+      <view v-if="dot" class="lk-tabbar-item__dot" />
+      <view v-else-if="showBadge" class="lk-tabbar-item__badge">
+        <text>{{ badgeText }}</text>
+      </view>
     </view>
-    <view class="lk-tabbar-item__name">{{ name }}</view>
-    <view class="lk-ripple__wave" :style="rippleWaveStyle" />
+    <view v-if="label" class="lk-tabbar-item__label">{{ label }}</view>
   </view>
 </template>
 

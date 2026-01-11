@@ -1,9 +1,9 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(image) {
   position: relative;
   overflow: hidden;
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-fill-tertiary);
 
   @include e(inner) {
     width: 100%;

@@ -1,16 +1,16 @@
-/* F:\luckyone\ui\src\uni_modules\lucky-ui\components\lk-segmented\index.scss */
+﻿/* F:\luckyone\ui\src\uni_modules\lucky-ui\components\lk-segmented\index.scss */
 @use '../../theme/src/mixins/bem' as *;
 
 @include b(segmented) {
   /* 变量 */
   --lk-seg-height   : auto;
-  --lk-seg-radius   : var(--lk-radius-pill);
+  --lk-seg-radius   : var(--lk-radius-full);
   --lk-seg-duration : var(--lk-transition-fast,260ms);
   --lk-seg-easing   : cubic-bezier(0.22,1,0.36,1);
   --lk-seg-inset    : 4rpx;
   --lk-seg-gutter   : 0rpx;
 
-  --lk-seg-track-bg      : var(--lk-color-primary-bg-soft);
+  --lk-seg-track-bg      : var(--lk-color-fill-tertiary);
   --lk-seg-slider-bg     : var(--lk-color-primary);
   --lk-seg-text          : var(--lk-color-primary);
   --lk-seg-text-active   : var(--lk-color-text-inverse);

@@ -68,7 +68,7 @@ const dotStyle = computed(() => ({
   borderWidth: dotBox.value.border,
   borderStyle: 'solid',
   borderColor: dotColor.value,
-  background: props.hollow ? '#fff' : dotColor.value,
+  background: props.hollow ? 'var(--lk-color-bg-surface, #fff)' : dotColor.value,
 }));
 
 const haloStyle = computed(() => {

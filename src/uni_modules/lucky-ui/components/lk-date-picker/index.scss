@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(date-picker) {
   @include e(panel) {
@@ -41,13 +41,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--lk-color-primary-bg-soft);
-      color: var(--lk-color-primary);
-      border-radius: var(--lk-radius-pill);
+      background: var(--lk-color-fill-tertiary);
+      color: var(--lk-color-text-secondary);
+      border-radius: var(--lk-radius-full);
       transition: opacity var(--lk-transition-fast);
 
       &:active {
-        opacity: 0.7;
+        background: var(--lk-color-bg-active);
       }
     }
 
@@ -68,7 +68,7 @@
       align-items: center;
       justify-content: center;
       border-radius: var(--lk-radius-md);
-      background: var(--lk-color-primary-bg-soft);
+      background: var(--lk-color-fill-tertiary);
       color: var(--lk-color-text);
       transition: all var(--lk-transition-fast);
 
@@ -112,7 +112,7 @@
       flex: 1;
       max-height: 280rpx;
       overflow: auto;
-      background: var(--lk-color-primary-bg-soft);
+      background: var(--lk-color-fill-tertiary);
       border-radius: var(--lk-radius-md);
 
       @include e(cell) {

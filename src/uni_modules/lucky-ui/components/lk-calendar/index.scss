@@ -1,11 +1,11 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(calendar) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
   --_accent: var(--lk-color-primary);
-  --_accent-bg: var(--lk-color-primary-bg-soft);
+  --_accent-bg: var(--lk-color-fill-tertiary);
   --_text-inverse: var(--lk-color-text-inverse);
   --_text-secondary: var(--lk-color-text-secondary);
   --_radius: var(--lk-radius-md);
@@ -35,7 +35,7 @@
     justify-content: center;
     background: var(--_accent-bg);
     color: var(--_accent);
-    border-radius: var(--lk-radius-pill);
+    border-radius: var(--lk-radius-full);
     transition: all 0.2s;
 
     &:active {
@@ -57,7 +57,7 @@
 
   @include e(chip) {
     padding: var(--lk-spacing-xxs) var(--lk-spacing-md);
-    border-radius: var(--lk-radius-pill);
+    border-radius: var(--lk-radius-full);
     background: var(--_accent-bg);
     color: var(--_accent);
     font-size: var(--lk-font-size-xs);
@@ -95,7 +95,7 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--_radius);
-    background: var(--_accent-bg);
+    background: transparent;
     color: var(--lk-color-text);
     transition: all 0.2s;
 
@@ -125,7 +125,7 @@
     }
 
     @include when(in-range) {
-      background: var(--lk-color-bg-surface-active);
+      background: var(--lk-color-bg-active);
     }
 
     @include when(range-start) {

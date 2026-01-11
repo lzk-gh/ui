@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(collapse) {
   display: flex;
@@ -10,9 +10,9 @@
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-surface);
+  --_bg: var(--lk-color-bg-container);
   --_radius: var(--lk-radius-lg);
-  --_border-color: var(--lk-color-border-weak);
+  --_border-color: var(--lk-color-border-light);
   --_header-py: var(--lk-spacing-lg);
   --_header-px: var(--lk-spacing-xl);
   --_header-fs: var(--lk-font-size-lg);
@@ -39,7 +39,7 @@
     transition: background var(--lk-transition-fast);
 
     &:active {
-      background: var(--lk-color-primary-bg-soft);
+      background: var(--lk-color-bg-active);
     }
   }
 

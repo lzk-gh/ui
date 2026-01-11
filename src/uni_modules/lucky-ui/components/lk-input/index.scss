@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(input) {
   --_height: var(--lk-control-height-md);
@@ -35,7 +35,7 @@
     --_height: var(--lk-control-height-lg);
     --_fs: var(--lk-control-font-size-lg);
     --_px: var(--lk-control-padding-x-lg);
-    --_radius: var(--lk-radius-pill);
+    --_radius: var(--lk-radius-full);
   }
 
   @include e(inner) {
@@ -81,8 +81,7 @@
       color var(--lk-transition-fast);
 
     &:active {
-      background: var(--lk-color-primary-bg-soft);
-      color: var(--lk-color-primary-active);
+      background: var(--lk-color-bg-active);
     }
   }
 
@@ -110,12 +109,12 @@
   }
 
   @include when(readonly) {
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-bg-disabled);
   }
 
   /* 表单错误态（父 .lk-form-item.is-error 加的类） */
   :global(.lk-form-item.is-error) & {
-    border-color: var(--lk-input-border-color-error);
-    box-shadow: 0 0 0 4rpx var(--lk-color-primary-bg-soft);
+    border-color: var(--lk-color-danger);
+    box-shadow: 0 0 0 4rpx var(--lk-color-danger-soft);
   }
 }

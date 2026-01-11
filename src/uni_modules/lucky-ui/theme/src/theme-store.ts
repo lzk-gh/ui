@@ -1,86 +1,127 @@
-// 主题状态（响应式）统一管理
-// 加一个无实际意义的导出常量，防止某些情况下极端 tree-shaking 误删
-export const __LK_THEME_VERSION__ = '0.0.1';
+/**
+ * Lucky UI 主题管理
+ * 支持 H5 和小程序端的亮色/暗色切换
+ */
+import { ref, computed, readonly } from 'vue';
 
-import { ref, computed } from 'vue';
+export type Theme = 'light' | 'dark';
 
-type Theme = 'light' | 'dark';
+// 全局主题状态
+const _theme = ref<Theme>('light');
 
-function readPersistedTheme(): Theme | null {
+/**
+ * 读取持久化的主题
+ */
+function loadTheme(): Theme | null {
   try {
-    // 优先使用 uni 存储（小程序/H5 均可）
-    // @ts-ignore - 全局 uni 可能不存在于类型环境
-    if (typeof uni !== 'undefined' && typeof uni.getStorageSync === 'function') {
-      // @ts-ignore
-      const v = uni.getStorageSync('lk_theme');
-      if (v === 'light' || v === 'dark') return v;
-    }
-    if (typeof localStorage !== 'undefined') {
-      const v = localStorage.getItem('lk_theme');
-      if (v === 'light' || v === 'dark') return v;
-    }
-  } catch {}
+    const value = uni.getStorageSync('lk-theme');
+    if (value === 'light' || value === 'dark') return value;
+  } catch {
+    // 存储不可用时静默失败
+  }
   return null;
 }
 
-function persistTheme(t: Theme) {
+/**
+ * 持久化主题
+ */
+function saveTheme(theme: Theme): void {
   try {
-    // @ts-ignore
-    if (typeof uni !== 'undefined' && typeof uni.setStorageSync === 'function') {
-      // @ts-ignore
-      uni.setStorageSync('lk_theme', t);
-    }
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('lk_theme', t);
-    }
-  } catch {}
-}
-
-function detectSystemPrefersDark(): Theme | null {
-  try {
-    if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-  } catch {}
-  return null;
-}
-
-const initialTheme: Theme = readPersistedTheme() ?? detectSystemPrefersDark() ?? 'light';
-const _theme = ref<Theme>(initialTheme);
-
-function applyDomTheme(t: Theme) {
-  if (typeof document !== 'undefined') {
-    document.documentElement.setAttribute('data-theme', t);
+    uni.setStorageSync('lk-theme', theme);
+  } catch {
+    // 存储不可用时静默失败
   }
 }
 
-/** 在 setup 中使用 */
+/**
+ * 检测系统主题偏好（仅 H5）
+ */
+function getSystemTheme(): Theme {
+  // #ifdef H5
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  // #endif
+  return 'light';
+}
+
+/**
+ * 应用主题到 DOM（H5 端）
+ */
+function applyThemeToDOM(theme: Theme): void {
+  // #ifdef H5
+  if (typeof document !== 'undefined') {
+    const root = document.documentElement;
+    root.classList.remove('lk-theme-light', 'lk-theme-dark');
+    root.classList.add(`lk-theme-${theme}`);
+    root.setAttribute('data-theme', theme);
+  }
+  // #endif
+}
+
+/**
+ * 初始化主题
+ */
+function initTheme(): Theme {
+  const saved = loadTheme();
+  const initial = saved ?? getSystemTheme();
+  _theme.value = initial;
+  applyThemeToDOM(initial);
+  return initial;
+}
+
+// 自动初始化
+initTheme();
+
+/**
+ * 主题 composable
+ */
 export function useTheme() {
   const theme = computed(() => _theme.value);
+  const isDark = computed(() => _theme.value === 'dark');
+
+  // 返回给页面根元素使用的 class
+  const themeClass = computed(() => `lk-theme-${_theme.value}`);
+
   function setTheme(t: Theme) {
     if (_theme.value === t) return;
     _theme.value = t;
-    applyDomTheme(t);
-    persistTheme(t);
+    applyThemeToDOM(t);
+    saveTheme(t);
   }
+
   function toggleTheme() {
     setTheme(_theme.value === 'light' ? 'dark' : 'light');
   }
-  // 初始化（H5 首次加载）
-  if (typeof document !== 'undefined' && !document.documentElement.getAttribute('data-theme')) {
-    applyDomTheme(_theme.value);
-  }
-  return { theme, setTheme, toggleTheme };
+
+  return {
+    theme: readonly(theme),
+    isDark: readonly(isDark),
+    themeClass,
+    setTheme,
+    toggleTheme,
+  };
 }
 
-/** 在非 setup / 任意模块快速读 */
+/**
+ * 直接访问主题状态（非 setup 环境）
+ */
 export const themeStore = {
-  get value() {
+  get theme() {
     return _theme.value;
   },
-  set value(v: Theme) {
-    _theme.value = v;
-    applyDomTheme(v);
-    persistTheme(v);
+  get isDark() {
+    return _theme.value === 'dark';
+  },
+  get themeClass() {
+    return `lk-theme-${_theme.value}`;
+  },
+  setTheme(t: Theme) {
+    _theme.value = t;
+    applyThemeToDOM(t);
+    saveTheme(t);
+  },
+  toggleTheme() {
+    this.setTheme(_theme.value === 'light' ? 'dark' : 'light');
   },
 };

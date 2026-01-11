@@ -1,8 +1,8 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(navbar) {
   position: relative;
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-color-bg-container);
   color: var(--lk-color-text);
   box-shadow: var(--lk-shadow-sm);
 
@@ -15,7 +15,7 @@
 
   @include e(status-bar) {
     width: 100%;
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
   }
 
   @include e(content) {

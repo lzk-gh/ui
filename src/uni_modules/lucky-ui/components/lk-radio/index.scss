@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(radio) {
   --_size: var(--lk-choice-size-md);
@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     transition:
       border-color var(--lk-transition-fast),
       background var(--lk-transition-fast),
@@ -90,7 +90,7 @@
   @include when(checked) {
     @include e(outer) {
       border-color: var(--lk-color-primary);
-      background: var(--lk-color-primary-bg-soft);
+      background: var(--lk-color-primary-soft);
     }
     @include e(inner) {
       opacity: 1;

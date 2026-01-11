@@ -1,14 +1,14 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(tabs) {
   display: flex;
   flex-direction: column;
 
   /* 内部样式变量 */
-  --_nav-bg: var(--lk-color-bg-surface);
+  --_nav-bg: var(--lk-color-bg-container);
   --_active-color: var(--lk-color-primary);
   --_line-height: 8rpx;
-  --_line-radius: var(--lk-radius-pill);
+  --_line-radius: var(--lk-radius-full);
 
   @include e(nav-wrapper) {
     display: flex;
@@ -77,8 +77,8 @@
   @include m(card) {
     @include e(nav-item) {
       margin: 12rpx 12rpx 0;
-      background: var(--lk-color-primary-bg-soft);
-      border-radius: var(--lk-radius-pill);
+      background: var(--lk-color-fill-tertiary);
+      border-radius: var(--lk-radius-full);
       padding: 18rpx 32rpx;
 
       @include when(active) {

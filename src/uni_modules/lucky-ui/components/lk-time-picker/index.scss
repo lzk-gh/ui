@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(time-picker) {
   min-height: var(--lk-control-height-md);
@@ -58,7 +58,7 @@
     justify-content: center;
     border-radius: var(--lk-radius-md);
     margin-bottom: 8rpx;
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-fill-tertiary);
     font-size: var(--lk-font-size-base);
     color: var(--lk-color-text);
 

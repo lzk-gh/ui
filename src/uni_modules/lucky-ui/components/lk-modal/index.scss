@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(modal) {
   position: fixed;
@@ -9,7 +9,7 @@
   /* 外层仅负责定位与居中，不参与动画 transform，避免冲突 */
 
   @include e(panel) {
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     color: var(--lk-color-text);
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-lg);
@@ -42,8 +42,7 @@
     border-radius: var(--lk-radius-sm);
 
     &:active {
-      background: var(--lk-color-primary-bg-soft);
-      color: var(--lk-color-primary);
+      background: var(--lk-color-bg-active);
     }
   }
 

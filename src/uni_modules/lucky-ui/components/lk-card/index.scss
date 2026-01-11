@@ -1,10 +1,10 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(card) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-surface);
+  --_bg: var(--lk-color-bg-container);
   --_radius: var(--lk-radius-lg);
   --_title-fs: 34rpx;
   --_subtitle-fs: var(--lk-font-size-sm);
@@ -25,7 +25,7 @@
     transform var(--lk-transition-fast);
 
   @include when(border) {
-    border: 2rpx solid var(--lk-color-border-weak);
+    border: 2rpx solid var(--lk-color-border-light);
   }
 
   @include m(shadow-none) {

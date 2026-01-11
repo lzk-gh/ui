@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(dropdown) {
   display: inline-block;
@@ -15,8 +15,8 @@
     top: 100%;
     left: 0;
     margin-top: var(--lk-spacing-xs);
-    background: var(--lk-color-bg-surface);
-    border: 2rpx solid var(--lk-color-border-weak);
+    background: var(--lk-color-bg-container);
+    border: 2rpx solid var(--lk-color-border-light);
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-base);
     padding: var(--lk-spacing-xs) 0;
@@ -47,13 +47,13 @@
     color var(--lk-transition-fast);
 
   &:active:not(.is-disabled) {
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-bg-active);
   }
 
   @include when(active) {
     color: var(--lk-color-primary);
     font-weight: 600;
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-bg-hover);
   }
 
   @include when(disabled) {

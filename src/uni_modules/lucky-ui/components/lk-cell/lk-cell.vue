@@ -11,7 +11,7 @@ const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 6
 
 function onTap(e: unknown) {
   if (props.disabled) return;
-  if (props.clickable) {
+  if (props.clickable && props.ripple) {
     triggerRipple(e);
   }
   emit('click');
@@ -20,9 +20,10 @@ function onTap(e: unknown) {
 
 <template>
   <view
-    class="lk-cell lk-ripple"
+    class="lk-cell"
     :class="[
       {
+        'lk-ripple': clickable && ripple,
         'is-clickable': clickable,
         'is-disabled': disabled,
         'is-center': center,
@@ -56,7 +57,7 @@ function onTap(e: unknown) {
         <lk-icon v-if="arrow" name="arrow-right" size="30" class="lk-cell__arrow" />
       </slot>
     </view>
-    <view class="lk-ripple__wave" :style="rippleWaveStyle" />
+    <view v-if="clickable && ripple" class="lk-ripple__wave" :style="rippleWaveStyle" />
   </view>
 </template>
 

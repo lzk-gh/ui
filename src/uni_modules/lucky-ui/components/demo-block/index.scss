@@ -1,11 +1,11 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(demo-block) {
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-color-bg-container);
   border-radius: var(--lk-radius-lg);
   padding: 40rpx 36rpx 44rpx;
   box-shadow: var(--lk-shadow-sm);
-  border: 2rpx solid var(--lk-color-border-weak);
+  border: 2rpx solid var(--lk-color-border-light);
   display: flex;
   flex-direction: column;
   gap: 32rpx;

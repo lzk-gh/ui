@@ -14,7 +14,7 @@
         :class="['lk-curtain__close--' + closePosition]"
         @click="onClose"
       >
-        <lk-icon name="x-lg" size="32" color="#fff" />
+        <lk-icon name="x-lg" size="32" color="var(--lk-color-text-inverse)" />
       </view>
     </view>
   </view>
@@ -113,7 +113,7 @@ const onClick = () => {
     justify-content: center;
     width: 64rpx;
     height: 64rpx;
-    border: 2rpx solid #fff;
+    border: 2rpx solid var(--lk-color-text-inverse);
     border-radius: 50%;
     z-index: 1;
 

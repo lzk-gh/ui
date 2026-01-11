@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(loading) {
   display: inline-flex;
@@ -45,7 +45,7 @@
   @include e(bar) {
     position: relative;
     height: 12rpx;
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-fill-tertiary);
     border-radius: 12rpx;
     overflow: hidden;
     width: 160rpx;

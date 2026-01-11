@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(slider) {
   position: relative;
@@ -13,7 +13,7 @@
   --lk-slider-thumb-size: 32rpx;
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
   --lk-slider-active-bg: var(--lk-color-primary);
-  --lk-slider-inactive-bg: var(--lk-color-primary-bg-soft);
+  --lk-slider-inactive-bg: var(--lk-color-fill-tertiary);
 
   // 小号
   @include m(small) {
@@ -49,7 +49,7 @@
     height: var(--lk-slider-track-height);
     width: var(--lk-slider-track-height); // 正方形点，或者是 height 的 100%
     border-radius: 50%;
-    background-color: #fff; // 通常是白色，或者半透明色
+    background-color: var(--lk-color-text-inverse, #fff);
     opacity: 0.6;
     transform: translateX(-50%); // 居中
     pointer-events: none; // 不影响点击
@@ -83,7 +83,7 @@
     width: var(--lk-slider-thumb-size);
     height: var(--lk-slider-thumb-size);
     border-radius: 50%;
-    background: #fff;
+    background: var(--lk-color-text-inverse, #fff);
     box-shadow: var(--lk-slider-thumb-shadow);
     transition: transform 0.2s;
   }

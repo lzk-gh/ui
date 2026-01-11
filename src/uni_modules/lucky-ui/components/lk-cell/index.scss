@@ -1,10 +1,10 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(cell) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-surface);
+  --_bg: var(--lk-color-bg-container);
   --_fs: var(--lk-font-size-md);
   --_title-fs: var(--lk-font-size-md);
   --_label-fs: var(--lk-font-size-sm);
@@ -29,7 +29,7 @@
 
   // @include when(clickable) {
   //   &:active {
-  //     background: var(--lk-color-primary-bg-soft);
+  //     background: var(--lk-color-primary-soft);
   //   }
   // }
 
@@ -98,7 +98,7 @@
   }
 
   @include e(body) {
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     border-radius: var(--lk-radius-lg);
     overflow: hidden;
   }
@@ -113,7 +113,7 @@
 
   @include when(border) {
     .lk-cell + .lk-cell {
-      border-top: 2rpx solid var(--lk-color-border-weak);
+      border-top: 2rpx solid var(--lk-color-border-light);
     }
   }
 }

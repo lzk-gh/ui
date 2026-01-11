@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(progress) {
   display: flex;
@@ -9,7 +9,7 @@
     position: relative;
     flex: 1;
     height: 20rpx;
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-fill-tertiary);
     border-radius: 12rpx;
     overflow: hidden;
   }
@@ -69,7 +69,7 @@
 
   @include e(text-in) {
     font-size: 20rpx;
-    color: #fff;
+    color: var(--lk-color-text-inverse);
     padding: 0 var(--lk-spacing-xxs);
   }
 }
@@ -85,7 +85,7 @@
   }
 
   @include e(track) {
-    stroke: var(--lk-color-primary-bg-soft);
+    stroke: var(--lk-color-fill-tertiary);
   }
 
   @include e(bar) {

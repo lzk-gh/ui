@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(notice-bar) {
   display: flex;
@@ -8,7 +8,7 @@
   font-size: 24rpx;
   line-height: 1.5;
   overflow: hidden;
-  border-radius: var(--lk-radius-pill);
+  border-radius: var(--lk-radius-full);
 
   @include e(icon) {
     display: flex;

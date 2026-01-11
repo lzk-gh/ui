@@ -1,128 +1,258 @@
-/* 小程序 + H5 统一主题变量入口
-   - light 主题：默认直接作用于 page（保证初始不加类也可用）
-   - 也支持 .lk-theme-light / [data-theme='light'] 以便手动切换
-   - dark 主题：通过 .lk-theme-dark 或 [data-theme='dark'] 覆盖
-*/
+/* =============================================================================
+   Lucky UI 统一主题变量
+   =============================================================================
+   设计原则：
+   1. 所有变量统一使用 --lk-* 前缀
+   2. 通过 .lk-theme-light / .lk-theme-dark 类切换主题（兼容小程序）
+   3. 品牌色支持运行时动态修改
+   ============================================================================= */
 
 @use './tokens/colors' as colors;
+@use './tokens/typography' as typo;
+@use './tokens/spacing' as spacing;
 
-/* LIGHT (默认) */
-page,
-.lk-theme-light,
-[data-theme='light'] {
-  /* 品牌色 - 引用 CSS 变量，方便运行时动态修改 */
-  --lk-color-primary: var(--color-brand-primary, #{colors.$color-brand-primary});
-  --lk-color-primary-hover: var(--color-brand-primary-hover, #{colors.$color-brand-primary-hover});
-  --lk-color-primary-active: var(--color-brand-primary-active, #{colors.$color-brand-primary-active});
-  --lk-color-primary-bg-soft: var(--color-brand-primary-light, #{colors.$color-brand-primary-light});
+/* =============================================================================
+   基础变量（不随主题变化）
+   ============================================================================= */
+:root,
+page {
+  /* === 字体 === */
+  --lk-font-family: #{typo.$font-family-base};
+  --lk-font-family-code: #{typo.$font-family-code};
 
-  /* 页面背景（与 body 一致，用于业务层引用） */
-  --lk-color-bg-page: #{colors.$color-bg-body};
+  /* === 字号 === */
+  --lk-font-size-xs: #{typo.$font-size-xs};
+  --lk-font-size-sm: #{typo.$font-size-sm};
+  --lk-font-size-base: #{typo.$font-size-base};
+  --lk-font-size-md: #{typo.$font-size-base};
+  --lk-font-size-lg: #{typo.$font-size-lg};
+  --lk-font-size-xl: #{typo.$font-size-xl};
+  --lk-font-size-xxl: #{typo.$font-size-xxl};
 
-  --lk-color-text: #{colors.$color-text-primary};
-  --lk-color-text-secondary: #{colors.$color-text-secondary};
-  --lk-color-text-placeholder: #{colors.$color-text-placeholder};
-  --lk-color-text-disabled: #{colors.$color-text-disabled};
-  --lk-color-text-inverse: #{colors.$color-text-inverse};
+  /* === 字重 === */
+  --lk-font-weight-light: #{typo.$font-weight-light};
+  --lk-font-weight-regular: #{typo.$font-weight-regular};
+  --lk-font-weight-medium: #{typo.$font-weight-medium};
+  --lk-font-weight-bold: #{typo.$font-weight-bold};
 
-  --lk-color-border: #{colors.$color-border-primary};
-  --lk-color-border-weak: #{colors.$color-border-secondary};
+  /* === 行高 === */
+  --lk-line-height-base: #{typo.$line-height-base};
+  --lk-line-height-tight: #{typo.$line-height-tight};
+  --lk-line-height-loose: #{typo.$line-height-loose};
 
-  --lk-color-bg-body: #{colors.$color-bg-body};
-  --lk-color-bg-surface: #{colors.$color-bg-container};
-  --lk-color-bg-surface-active: #{colors.$color-bg-container-active};
-
-  --lk-shadow-sm: 0 4rpx 8rpx rgb(0 0 0 / 6%);
-  --lk-shadow-base: 0 8rpx 24rpx rgb(0 0 0 / 10%);
-  --lk-shadow-lg: 0 16rpx 48rpx rgb(0 0 0 / 15%);
-
-  --lk-control-height-sm: 64rpx;
-  --lk-control-height-md: 80rpx;
-  --lk-control-height-lg: 96rpx;
-
-  --lk-control-font-size-sm: 26rpx;
-  --lk-control-font-size-md: 28rpx;
-  --lk-control-font-size-lg: 32rpx;
-
-  --lk-control-padding-x-sm: 28rpx;
-  --lk-control-padding-x-md: 36rpx;
-  --lk-control-padding-x-lg: 44rpx;
-
-  --lk-radius-xs: 4rpx;
-  --lk-radius-sm: 8rpx;
-  --lk-radius-md: 16rpx;
-  --lk-radius-lg: 24rpx;
-  --lk-radius-pill: 9999px;
-
+  /* === 间距 === */
   --lk-spacing-xxs: 4rpx;
   --lk-spacing-xs: 8rpx;
   --lk-spacing-sm: 12rpx;
   --lk-spacing-md: 16rpx;
   --lk-spacing-lg: 24rpx;
   --lk-spacing-xl: 32rpx;
+  --lk-spacing-xxl: 48rpx;
 
-  --lk-transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-  --lk-transition-base: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  /* === 圆角 === */
+  --lk-radius-none: 0;
+  --lk-radius-xs: 4rpx;
+  --lk-radius-sm: 8rpx;
+  --lk-radius-md: 16rpx;
+  --lk-radius-lg: 24rpx;
+  --lk-radius-xl: 32rpx;
+  --lk-radius-full: 9999px;
 
-  --lk-focus-ring-color: var(--color-brand-primary-light, #{colors.$color-brand-primary-light});
-  --lk-focus-ring-width: 4rpx;
+  /* === 控件高度 === */
+  --lk-control-height-xs: 48rpx;
+  --lk-control-height-sm: 64rpx;
+  --lk-control-height-md: 80rpx;
+  --lk-control-height-lg: 96rpx;
 
-  --lk-choice-border-size: 2rpx;
-  --lk-choice-size-sm: 36rpx;
-  --lk-choice-size-md: 40rpx;
-  --lk-choice-size-lg: 48rpx;
+  /* === 控件内边距 === */
+  --lk-control-padding-x-xs: 12rpx;
+  --lk-control-padding-x-sm: 16rpx;
+  --lk-control-padding-x-md: 24rpx;
+  --lk-control-padding-x-lg: 32rpx;
 
-  --lk-switch-height-sm: 40rpx;
-  --lk-switch-height-md: 48rpx;
-  --lk-switch-height-lg: 56rpx;
-  --lk-switch-knob-gap: 4rpx;
-  --lk-switch-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+  /* === 过渡动画 === */
+  --lk-transition-fast: 0.15s ease;
+  --lk-transition-base: 0.25s ease;
+  --lk-transition-slow: 0.35s ease;
 
-  --lk-input-bg: #{colors.$color-bg-container};
-  --lk-input-bg-disabled: #{colors.$color-bg-container};
-  --lk-input-border-color: #{colors.$color-border-primary};
-  --lk-input-border-color-hover: var(--color-brand-primary-hover, #{colors.$color-brand-primary-hover});
-  --lk-input-border-color-active: var(--color-brand-primary, #{colors.$color-brand-primary});
-  --lk-input-border-color-error: var(--color-brand-primary-active, #{colors.$color-brand-primary-active});
-  --lk-input-placeholder-color: #{colors.$color-text-placeholder};
-  --lk-input-shadow-focus: 0 0 0 4rpx rgb(var(--color-brand-rgb, 105, 101, 219) / 15%);
+  /* === 层级 === */
+  --lk-z-index-dropdown: 1000;
+  --lk-z-index-sticky: 1020;
+  --lk-z-index-fixed: 1030;
+  --lk-z-index-modal-backdrop: 1040;
+  --lk-z-index-modal: 1050;
+  --lk-z-index-popover: 1060;
+  --lk-z-index-tooltip: 1070;
+  --lk-z-index-toast: 1080;
 }
 
-/* DARK */
-.lk-theme-dark,
-[data-theme='dark'] {
-  /* 品牌色 - 暗色模式下适当调亮 */
-  --lk-color-primary: var(--color-brand-500, #{colors.$color-brand-500});
-  --lk-color-primary-hover: var(--color-brand-400, #{colors.$color-brand-400});
-  --lk-color-primary-active: var(--color-brand-300, #{colors.$color-brand-300});
-  --lk-color-primary-bg-soft: rgb(var(--color-brand-rgb, 105, 101, 219) / 18%);
+/* =============================================================================
+   亮色主题（默认）
+   ============================================================================= */
+:root,
+page,
+.lk-theme-light {
+  /* === 品牌色（支持运行时覆盖）=== */
+  --lk-brand-100: #{colors.$color-brand-100};
+  --lk-brand-200: #{colors.$color-brand-200};
+  --lk-brand-300: #{colors.$color-brand-300};
+  --lk-brand-400: #{colors.$color-brand-400};
+  --lk-brand-500: #{colors.$color-brand-500};
+  --lk-brand-600: #{colors.$color-brand-600};
+  --lk-brand-700: #{colors.$color-brand-700};
+  --lk-brand-800: #{colors.$color-brand-800};
+  --lk-brand-900: #{colors.$color-brand-900};
 
-  /* 页面背景（与 body 一致，用于业务层引用） */
+  /* === 主色 === */
+  --lk-color-primary: var(--lk-brand-600);
+  --lk-color-primary-hover: var(--lk-brand-700);
+  --lk-color-primary-active: var(--lk-brand-800);
+  --lk-color-primary-soft: var(--lk-brand-100);
+
+  /* === 语义色 === */
+  --lk-color-success: #52c41a;
+  --lk-color-success-soft: #f6ffed;
+  --lk-color-warning: #faad14;
+  --lk-color-warning-soft: #fffbe6;
+  --lk-color-danger: #ff4d4f;
+  --lk-color-danger-soft: #fff2f0;
+  --lk-color-info: #1890ff;
+  --lk-color-info-soft: #e6f7ff;
+
+  /* === 文字 === */
+  --lk-color-text: #{colors.$color-text-primary};
+  --lk-color-text-secondary: #{colors.$color-text-secondary};
+  --lk-color-text-tertiary: #{colors.$color-gray-600};
+  --lk-color-text-placeholder: #{colors.$color-text-placeholder};
+  --lk-color-text-disabled: #{colors.$color-text-disabled};
+  --lk-color-text-inverse: #ffffff;
+
+  /* === 背景 === */
+  --lk-color-bg: #{colors.$color-bg-body};
+  --lk-color-bg-page: #{colors.$color-bg-body};
+  --lk-color-bg-container: #{colors.$color-bg-container};
+  --lk-color-bg-elevated: #{colors.$color-bg-container};
+  --lk-color-bg-hover: #f5f7fa;
+  --lk-color-bg-active: #ebeef5;
+  --lk-color-bg-disabled: #f5f7fa;
+
+  /* === 填充色 === */
+  --lk-color-fill-quaternary: #f9f9f9;
+  --lk-color-fill-tertiary: #f5f5f5;
+  --lk-color-fill-secondary: #f0f0f0;
+  --lk-color-fill-primary: #e8e8e8;
+
+  /* === 边框 === */
+  --lk-color-border: #{colors.$color-border-primary};
+  --lk-color-border-light: #{colors.$color-border-secondary};
+
+  /* === 阴影 === */
+  --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);
+  --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
+
+  /* === 交互效果 === */
+  --lk-color-ripple: rgba(0, 0, 0, 0.08);
+  --lk-color-highlight: rgba(0, 0, 0, 0.04);
+
+  /* === 图标 === */
+  --lk-icon-color: var(--lk-color-text);
+
+  /* === 输入框 === */
+  --lk-input-bg: var(--lk-color-bg-container);
+  --lk-input-border: var(--lk-color-border);
+  --lk-input-border-hover: var(--lk-brand-600);
+  --lk-input-border-focus: var(--lk-brand-600);
+  --lk-input-shadow-focus: 0 0 0 4rpx var(--lk-brand-100);
+}
+
+/* =============================================================================
+   暗色主题
+   ============================================================================= */
+.lk-theme-dark {
+  /* === 主色（暗色下调亮）=== */
+  --lk-color-primary: var(--lk-brand-500);
+  --lk-color-primary-hover: var(--lk-brand-400);
+  --lk-color-primary-active: var(--lk-brand-300);
+  --lk-color-primary-soft: rgba(105, 101, 219, 0.15);
+
+  /* === 语义色（暗色适配）=== */
+  --lk-color-success: #73d13d;
+  --lk-color-success-soft: rgba(82, 196, 26, 0.15);
+  --lk-color-warning: #ffc53d;
+  --lk-color-warning-soft: rgba(250, 173, 20, 0.15);
+  --lk-color-danger: #ff7875;
+  --lk-color-danger-soft: rgba(255, 77, 79, 0.15);
+  --lk-color-info: #40a9ff;
+  --lk-color-info-soft: rgba(24, 144, 255, 0.15);
+
+  /* === 文字 === */
+  --lk-color-text: rgba(255, 255, 255, 0.88);
+  --lk-color-text-secondary: rgba(255, 255, 255, 0.65);
+  --lk-color-text-tertiary: rgba(255, 255, 255, 0.45);
+  --lk-color-text-placeholder: rgba(255, 255, 255, 0.35);
+  --lk-color-text-disabled: rgba(255, 255, 255, 0.25);
+  --lk-color-text-inverse: #141414;
+
+  /* === 背景 === */
+  --lk-color-bg: #141414;
   --lk-color-bg-page: #141414;
+  --lk-color-bg-container: #1f1f1f;
+  --lk-color-bg-elevated: #262626;
+  --lk-color-bg-hover: #2a2a2a;
+  --lk-color-bg-active: #333333;
+  --lk-color-bg-disabled: rgba(255, 255, 255, 0.08);
 
-  --lk-color-text: rgb(255 255 255 / 88%);
-  --lk-color-text-secondary: rgb(255 255 255 / 65%);
-  --lk-color-text-placeholder: rgb(255 255 255 / 45%);
-  --lk-color-text-disabled: rgb(255 255 255 / 35%);
-  --lk-color-text-inverse: #{colors.$color-gray-900};
+  /* === 填充色 === */
+  --lk-color-fill-quaternary: rgba(255, 255, 255, 0.04);
+  --lk-color-fill-tertiary: rgba(255, 255, 255, 0.08);
+  --lk-color-fill-secondary: rgba(255, 255, 255, 0.12);
+  --lk-color-fill-primary: rgba(255, 255, 255, 0.16);
 
-  --lk-color-border: rgb(255 255 255 / 25%);
-  --lk-color-border-weak: rgb(255 255 255 / 15%);
+  /* === 边框 === */
+  --lk-color-border: rgba(255, 255, 255, 0.2);
+  --lk-color-border-light: rgba(255, 255, 255, 0.1);
 
-  --lk-color-bg-body: #141414;
-  --lk-color-bg-surface: #1d1d1f;
-  --lk-color-bg-surface-active: #26262a;
+  /* === 阴影 === */
+  --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
+  --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
+  --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
 
-  --lk-shadow-sm: 0 4rpx 8rpx rgb(0 0 0 / 30%);
-  --lk-shadow-base: 0 8rpx 24rpx rgb(0 0 0 / 40%);
-  --lk-shadow-lg: 0 16rpx 48rpx rgb(0 0 0 / 50%);
+  /* === 交互效果 === */
+  --lk-color-ripple: rgba(255, 255, 255, 0.15);
+  --lk-color-highlight: rgba(255, 255, 255, 0.08);
 
-  --lk-input-bg: #1d1d1f;
-  --lk-input-bg-disabled: #1d1d1f;
-  --lk-input-border-color: rgb(255 255 255 / 25%);
-  --lk-input-border-color-hover: var(--color-brand-400, #{colors.$color-brand-400});
-  --lk-input-border-color-active: var(--color-brand-500, #{colors.$color-brand-500});
-  --lk-input-border-color-error: var(--color-brand-300, #{colors.$color-brand-300});
-  --lk-input-placeholder-color: rgb(255 255 255 / 45%);
-  --lk-input-shadow-focus: 0 0 0 4rpx rgb(var(--color-brand-rgb, 105, 101, 219) / 25%);
+  /* === 输入框 === */
+  --lk-input-bg: var(--lk-color-bg-container);
+  --lk-input-border: var(--lk-color-border);
+  --lk-input-border-hover: var(--lk-brand-500);
+  --lk-input-border-focus: var(--lk-brand-500);
+  --lk-input-shadow-focus: 0 0 0 4rpx rgba(105, 101, 219, 0.25);
+}
+
+/* =============================================================================
+   兼容旧变量名（逐步废弃，后续版本移除）
+   ============================================================================= */
+:root,
+page,
+.lk-theme-light,
+.lk-theme-dark {
+  /* 背景 */
+  --lk-color-bg-surface: var(--lk-color-bg-container);
+  --lk-color-bg-surface-active: var(--lk-color-bg-active);
+  --lk-color-bg-surface-variant: var(--lk-color-bg-hover);
+  --lk-color-bg-body: var(--lk-color-bg);
+  --lk-bg-container: var(--lk-color-bg-container);
+  --lk-bg-fill: var(--lk-color-bg-hover);
+  --lk-bg-disabled: var(--lk-color-bg-disabled);
+
+  /* 边框 */
+  --lk-color-border-weak: var(--lk-color-border-light);
+  --lk-border-color: var(--lk-color-border);
+
+  /* 主色 */
+  --lk-color-primary-bg-soft: var(--lk-color-primary-soft);
+
+  /* 圆角 */
+  --lk-radius-pill: var(--lk-radius-full);
 }

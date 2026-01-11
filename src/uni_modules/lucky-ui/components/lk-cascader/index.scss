@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(cascader) {
   // =========================================
@@ -64,7 +64,7 @@
 
   @include e(col) {
     width: 260rpx;
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     border-radius: var(--lk-radius-lg);
     padding: var(--lk-spacing-xs);
   }
@@ -77,7 +77,7 @@
     font-size: var(--lk-font-size-sm);
     border-radius: var(--lk-radius-md);
     margin-bottom: var(--lk-spacing-xs);
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-fill-tertiary);
     color: var(--lk-color-text);
     transition: all 0.2s;
 

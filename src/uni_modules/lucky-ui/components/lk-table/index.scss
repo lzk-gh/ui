@@ -1,11 +1,11 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(table) {
-  --_bg-head: var(--lk-color-bg-surface);
-  --_bg-body: var(--lk-color-bg-surface);
-  --_bg-hover: var(--lk-color-primary-bg-soft);
-  --_bg-stripe: var(--lk-color-primary-bg-soft);
-  --_border: var(--lk-color-border-weak);
+  --_bg-head: var(--lk-color-bg-container);
+  --_bg-body: var(--lk-color-bg-container);
+  --_bg-hover: var(--lk-color-bg-hover);
+  --_bg-stripe: var(--lk-color-fill-quaternary);
+  --_border: var(--lk-color-border-light);
   --_text: var(--lk-color-text);
   --_radius: var(--lk-radius-lg);
 
@@ -58,7 +58,7 @@
 
     @include m(summary) {
       font-weight: 600;
-      background: var(--lk-color-primary-bg-soft);
+      background: var(--lk-color-primary-soft);
 
       .summary-cell {
         font-size: var(--lk-font-size-xs);
@@ -67,7 +67,7 @@
     }
 
     @include when(selected) {
-      background: var(--lk-color-primary-bg-soft);
+      background: var(--lk-color-primary-soft);
 
       @include e((td, th)) {
         font-weight: 500;
@@ -150,7 +150,7 @@
   .is-sorted-asc .lk-table__sort-icons .asc,
   .is-sorted-desc .lk-table__sort-icons .desc {
     opacity: 1;
-    filter: drop-shadow(0 0 4rpx var(--lk-color-primary-bg-soft));
+    filter: drop-shadow(0 0 4rpx var(--lk-color-primary-soft));
   }
 
   @include e(body) {
@@ -225,11 +225,11 @@
 /* 暗色适配 */
 :global([data-theme='dark']) {
   @include b(table) {
-    --_bg-head: var(--lk-color-bg-surface);
-    --_bg-body: var(--lk-color-bg-surface);
+    --_bg-head: var(--lk-color-bg-container);
+    --_bg-body: var(--lk-color-bg-container);
     --_bg-hover: rgba(255, 255, 255, 0.06);
     --_bg-stripe: rgba(255, 255, 255, 0.04);
-    --_border: var(--lk-color-border-weak);
+    --_border: var(--lk-color-border-light);
 
     @include e(loading) {
       background: rgba(0, 0, 0, 0.45);

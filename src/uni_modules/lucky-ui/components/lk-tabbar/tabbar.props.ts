@@ -1,98 +1,38 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
 /**
- * Tabbar 类型
+ * LkTabbar 底部导航栏 Props
+ * 设计参考 iOS TabBar，简洁优雅
  */
-export const TabbarType = {
-  TIC: 'TIC',
-  FAB: 'FAB',
-  CONCISE: 'CONCISE',
-  CAPSULE: 'CAPSULE',
-} as const;
-
-export type TabbarType = (typeof TabbarType)[keyof typeof TabbarType];
-
 export const tabbarProps = {
   ...baseProps,
 
-  /** 当前选中值 */
-  modelValue: LkProp.string(''),
+  /** 当前选中项的 name 值 */
+  modelValue: LkProp.stringNumber(''),
 
   /** 是否固定在底部 */
-  fixed: LkProp.boolean(false),
+  fixed: LkProp.boolean(true),
 
-  /** 是否开启安全区域适配 */
-  safeArea: LkProp.boolean(false),
+  /** 是否适配底部安全区域（iPhone X 等机型） */
+  safeArea: LkProp.boolean(true),
 
-  /** Tabbar 类型 */
-  type: {
-    type: String as PropType<TabbarType>,
-    default: undefined,
-  },
+  /** 是否显示顶部边框线 */
+  border: LkProp.boolean(true),
+
+  /** 激活项的颜色 */
+  activeColor: LkProp.string(''),
+
+  /** 未激活项的颜色 */
+  inactiveColor: LkProp.string(''),
 
   /** 背景颜色 */
   backgroundColor: LkProp.string(''),
-
-  /** 是否显示顶部边框 */
-  topBorder: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** 左上角圆角 */
-  topLeftRadius: {
-    type: [Number, String] as PropType<number | string>,
-    default: undefined,
-  },
-
-  /** 右上角圆角 */
-  topRightRadius: {
-    type: [Number, String] as PropType<number | string>,
-    default: undefined,
-  },
-
-  /** 是否显示顶部阴影 */
-  topShadow: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** 激活颜色 */
-  activeColor: LkProp.string(''),
-
-  /** 未激活颜色 */
-  inactiveColor: LkProp.string(''),
-
-  /** 是否开启磨砂效果 */
-  frosted: {
-    type: Boolean,
-    default: undefined,
-  },
-
-  /** FAB 直径 */
-  fabSize: {
-    type: [Number, String] as PropType<number | string>,
-    default: undefined,
-  },
-
-  /** 胶囊容器宽度 */
-  capsuleWidth: {
-    type: [Number, String] as PropType<number | string>,
-    default: undefined,
-  },
-
-  /** 胶囊距离底部偏移 */
-  capsuleOffset: {
-    type: [Number, String] as PropType<number | string>,
-    default: undefined,
-  },
 } as const;
 
 export type TabbarProps = ExtractPropTypes<typeof tabbarProps>;
 
 export const tabbarEmits = {
-  'update:modelValue': (val: string) => true,
-  change: (val: string) => true,
-  'fab-click': () => true,
+  'update:modelValue': (val: string | number) => true,
+  change: (val: string | number) => true,
 };

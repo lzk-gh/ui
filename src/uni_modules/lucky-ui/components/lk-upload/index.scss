@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(upload) {
   display: flex;
@@ -12,7 +12,7 @@
   @include e(item) {
     width: 180rpx;
     height: 180rpx;
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-fill-tertiary);
     border-radius: var(--lk-radius-md);
     position: relative;
     overflow: hidden;
@@ -24,7 +24,7 @@
   @include e(add) {
     width: 180rpx;
     height: 180rpx;
-    background: var(--lk-color-primary-bg-soft);
+    background: var(--lk-color-fill-tertiary);
     border-radius: var(--lk-radius-md);
     position: relative;
     overflow: hidden;
@@ -33,7 +33,7 @@
     justify-content: center;
     flex-direction: column;
     gap: var(--lk-spacing-xs);
-    color: var(--lk-color-primary);
+    color: var(--lk-color-text-secondary);
     font-size: var(--lk-font-size-sm);
 
     &:active {
@@ -53,11 +53,11 @@
     right: var(--lk-spacing-xs);
     top: var(--lk-spacing-xs);
     background: rgba(0, 0, 0, 0.55);
-    color: #fff;
+    color: var(--lk-color-text-inverse);
     font-size: 30rpx;
     line-height: 1;
     padding: 4rpx 12rpx 8rpx;
-    border-radius: var(--lk-radius-pill);
+    border-radius: var(--lk-radius-full);
   }
 
   @include e(add-text) {

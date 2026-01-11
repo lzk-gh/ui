@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(tooltip) {
   position: relative;
@@ -16,8 +16,8 @@
     position: absolute;
     z-index: 2000;
     padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
-    background: var(--lk-color-bg-surface);
-    border: 1px solid var(--lk-color-border-weak);
+    background: var(--lk-color-bg-container);
+    border: 1px solid var(--lk-color-border-light);
     border-radius: var(--lk-radius-md);
     box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
     font-size: var(--lk-font-size-sm);
@@ -72,7 +72,7 @@
         bottom: -8rpx;
         transform: translateX(-50%);
         border-width: 8rpx 8rpx 0 8rpx;
-        border-color: var(--lk-color-border-weak) transparent transparent transparent;
+        border-color: var(--lk-color-border-light) transparent transparent transparent;
       }
 
       &::after {
@@ -85,7 +85,7 @@
         height: 0;
         border-style: solid;
         border-width: 6rpx 6rpx 0 6rpx;
-        border-color: var(--lk-color-bg-surface) transparent transparent transparent;
+        border-color: var(--lk-color-bg-container) transparent transparent transparent;
       }
     }
 
@@ -95,7 +95,7 @@
         top: -8rpx;
         transform: translateX(-50%);
         border-width: 0 8rpx 8rpx 8rpx;
-        border-color: transparent transparent var(--lk-color-border-weak) transparent;
+        border-color: transparent transparent var(--lk-color-border-light) transparent;
       }
 
       &::after {
@@ -108,7 +108,7 @@
         height: 0;
         border-style: solid;
         border-width: 0 6rpx 6rpx 6rpx;
-        border-color: transparent transparent var(--lk-color-bg-surface) transparent;
+        border-color: transparent transparent var(--lk-color-bg-container) transparent;
       }
     }
 
@@ -118,7 +118,7 @@
         right: -8rpx;
         transform: translateY(-50%);
         border-width: 8rpx 0 8rpx 8rpx;
-        border-color: transparent transparent transparent var(--lk-color-border-weak);
+        border-color: transparent transparent transparent var(--lk-color-border-light);
       }
 
       &::after {
@@ -131,7 +131,7 @@
         height: 0;
         border-style: solid;
         border-width: 6rpx 0 6rpx 6rpx;
-        border-color: transparent transparent transparent var(--lk-color-bg-surface);
+        border-color: transparent transparent transparent var(--lk-color-bg-container);
       }
     }
 
@@ -141,7 +141,7 @@
         left: -8rpx;
         transform: translateY(-50%);
         border-width: 8rpx 8rpx 8rpx 0;
-        border-color: transparent var(--lk-color-border-weak) transparent transparent;
+        border-color: transparent var(--lk-color-border-light) transparent transparent;
       }
 
       &::after {
@@ -154,7 +154,7 @@
         height: 0;
         border-style: solid;
         border-width: 6rpx 6rpx 6rpx 0;
-        border-color: transparent var(--lk-color-bg-surface) transparent transparent;
+        border-color: transparent var(--lk-color-bg-container) transparent transparent;
       }
     }
   }

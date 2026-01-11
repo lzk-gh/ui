@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(popup) {
   position: fixed;
@@ -81,7 +81,7 @@
   }
 
   @include e(panel) {
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     color: var(--lk-color-text);
     box-shadow: var(--lk-shadow-base);
     max-width: 100%;

@@ -1,11 +1,11 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(stepper) {
   // --- 基础变量 ---
   --stepper-height: 56rpx;
   --stepper-btn-size: 56rpx; // 按钮宽=高
   --stepper-input-width: 64rpx;
-  --stepper-bg: var(--lk-color-bg-surface-variant, #f2f3f5);
+  --stepper-bg: var(--lk-color-bg-hover, #f2f3f5);
   --stepper-active-bg: var(--lk-color-bg-active, #e8e8e8);
   --stepper-color: var(--lk-color-text, #323233);
   --stepper-radius: 8rpx;

@@ -27,6 +27,9 @@ export const cellProps = {
 
   /** 是否垂直居中 */
   center: LkProp.boolean(false),
+
+  /** 是否启用波纹点击效果（默认开启，clickable 为 true 时生效） */
+  ripple: LkProp.boolean(true),
 } as const;
 
 export type CellProps = ExtractPropTypes<typeof cellProps>;

@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(checkbox) {
   // =========================================
@@ -46,7 +46,7 @@
     height: var(--_size);
     border: var(--_border-size) solid var(--lk-color-border);
     border-radius: var(--_radius);
-    background: var(--lk-color-bg-surface);
+    background: var(--lk-color-bg-container);
     display: flex;
     align-items: center;
     justify-content: center;

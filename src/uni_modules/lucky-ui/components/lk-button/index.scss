@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(button) {
   --_h: var(--lk-control-height-md);
@@ -58,7 +58,7 @@
   }
 
   @include m(shape-round) {
-    --_radius: var(--lk-radius-pill);
+    --_radius: var(--lk-radius-full);
   }
 
   @include m(shape-circle) {
@@ -74,7 +74,7 @@
   }
 
   @include m(soft) {
-    --_bg: var(--lk-color-primary-bg-soft);
+    --_bg: var(--lk-color-primary-soft);
     --_color: var(--lk-color-primary);
   }
 

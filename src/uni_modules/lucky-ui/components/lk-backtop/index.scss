@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(backtop) {
   // =========================================
@@ -46,7 +46,7 @@
     --_radius: var(--lk-radius-sm);
   }
   @include m(shape-round) {
-    --_radius: var(--lk-radius-pill);
+    --_radius: var(--lk-radius-full);
   }
   @include m(shape-circle) {
     --_radius: 50%;

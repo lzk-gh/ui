@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(carousel) {
   position: relative;
@@ -121,7 +121,7 @@
       padding: 6rpx 18rpx;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
-      color: #fff;
+      color: var(--lk-color-text-inverse);
       border-radius: 100rpx;
       font-size: 24rpx;
       font-weight: 500;
@@ -132,7 +132,7 @@
   /* --- 指示器单点 (样式优化：更圆润饱满) --- */
   @include e(indicator) {
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    background-color: #ebedf0;
+    background-color: var(--lk-color-border-light);
     opacity: 0.4;
 
     /* 圆点：稍微大一点 */
@@ -151,7 +151,7 @@
 
     @include when(active) {
       opacity: 1;
-      background-color: #fff;
+      background-color: var(--lk-color-text-inverse);
 
       @include when(dot) {
         transform: scale(1.2);
@@ -160,7 +160,7 @@
       @include when(bar) {
         width: 44rpx; /* 激活时变长，更有张力 */
         height: 8rpx;
-        background-color: #fff;
+        background-color: var(--lk-color-text-inverse);
       }
     }
   }

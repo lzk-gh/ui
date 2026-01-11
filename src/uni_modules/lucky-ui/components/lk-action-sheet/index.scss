@@ -1,10 +1,10 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(action-sheet) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-surface);
+  --_bg: var(--lk-color-bg-container);
   --_radius: var(--lk-radius-lg);
   --_head-padding: var(--lk-spacing-lg) var(--lk-spacing-xl) var(--lk-spacing-sm);
   --_item-padding: var(--lk-spacing-xl);
@@ -67,11 +67,11 @@
     transition: background-color 0.2s;
 
     // &:active:not(.is-disabled):not(.is-loading) {
-    //   background: var(--lk-color-bg-surface-active);
+    //   background: var(--lk-color-bg-active);
     // }
 
     & + & {
-      border-top: 2rpx solid var(--lk-color-border-weak);
+      border-top: 2rpx solid var(--lk-color-border-light);
     }
 
     @include when(disabled) {
@@ -101,10 +101,10 @@
     text-align: center;
     font-size: var(--_cancel-fs);
     transition: background-color 0.2s;
-    border-top: 2rpx solid var(--lk-color-border-weak);
+    border-top: 2rpx solid var(--lk-color-border-light);
 
     &:active {
-      background: var(--lk-color-bg-surface-active);
+      background: var(--lk-color-bg-active);
     }
   }
 
@@ -115,7 +115,7 @@
     margin-top: -18rpx;
     width: 36rpx;
     height: 36rpx;
-    border: 4rpx solid var(--lk-color-primary-bg-soft);
+    border: 4rpx solid var(--lk-color-border-light);
     border-top-color: var(--lk-color-primary);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;

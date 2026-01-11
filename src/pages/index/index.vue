@@ -1,8 +1,8 @@
 <template>
   <view
     class="app-container"
-    :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'"
-    :style="themeStyleVars"
+    :class="themeClass"
+    :style="brandStyleVars"
   >
     <!-- 顶部导航栏 -->
     <lk-navbar :title="pageTitle" :show-back="false">
@@ -32,19 +32,24 @@
     </view>
 
     <!-- 底部 Tabbar -->
-    <lk-tabbar v-model="activeTab" type="CONCISE">
-      <lk-tabbar-item name="组件" icon="box" value="overview" />
-      <lk-tabbar-item name="发现" icon="grid" value="discover" />
-      <lk-tabbar-item name="统计" icon="box" value="statistics" />
-      <lk-tabbar-item name="工作台" icon="box" value="showcase" />
-      <lk-tabbar-item name="我的" icon="box" value="mine" />
+    <lk-tabbar v-model="activeTab">
+      <lk-tabbar-item name="overview" icon="box" label="组件" />
+      <lk-tabbar-item name="discover" icon="grid" label="发现" />
+      <lk-tabbar-item name="statistics" icon="box" label="统计" />
+      <lk-tabbar-item name="showcase" icon="box" label="工作台" />
+      <lk-tabbar-item name="mine" icon="box" label="我的" />
     </lk-tabbar>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, provide } from 'vue';
-import { useTheme } from '@/uni_modules/lucky-ui/theme';
+import { ref, computed, watch, provide, onMounted } from 'vue';
+import {
+  useTheme,
+  loadBrandColor,
+  generateBrandVars,
+  applyBrandColor,
+} from '@/uni_modules/lucky-ui/theme';
 
 // 组件导入
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
@@ -59,12 +64,29 @@ import StatisticsPage from './StatisticsPage.vue';
 import MinePage from './MinePage.vue';
 import ShowcasePage from './ShowcasePage.vue';
 
-// 主题
-const { theme, toggleTheme } = useTheme();
+// 主题（themeClass 用于小程序端切换主题）
+const { theme, themeClass, toggleTheme } = useTheme();
 
-const themeStyleVars = ref('');
-provide('updateThemeStyleVars', (styleText: string) => {
-  themeStyleVars.value = styleText;
+// 品牌色样式变量
+const brandStyleVars = ref('');
+
+// 序列化 CSS 变量为内联样式
+const serializeVars = (vars: Record<string, string>) =>
+  Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join('; ');
+
+// 提供给子组件更新品牌色的方法
+provide('updateBrandColor', (color: string) => {
+  applyBrandColor(color);
+  brandStyleVars.value = serializeVars(generateBrandVars(color));
+});
+
+// 初始化时恢复保存的品牌色
+onMounted(() => {
+  const savedColor = loadBrandColor();
+  if (savedColor) {
+    applyBrandColor(savedColor);
+    brandStyleVars.value = serializeVars(generateBrandVars(savedColor));
+  }
 });
 
 // 当前激活的标签页
