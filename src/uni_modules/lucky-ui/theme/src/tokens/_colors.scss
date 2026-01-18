@@ -96,9 +96,9 @@ $color-brand-primary-active: $color-brand-800;
 // 中性文字颜色（与品牌色解耦，支持亮色/暗色主题）
 // =============================================================================
 // 亮色主题下的中性文字颜色
-$color-text-primary-light: #303133; // 主要文字，如标题、正文
-$color-text-regular-light: #606266; // 常规内容文字
-$color-text-secondary-light: #909399; // 次要文字，如元数据、说明
+$color-text-primary-light: #090909; // 主要文字，如标题、正文（默认改为 #090909）
+$color-text-regular-light: #090909; // 常规内容文字（默认与主要文字一致）
+$color-text-secondary-light: #909399; // 次要文字，如元数据、说明（保留较浅色以保持层次）
 $color-text-placeholder-light: #A8ABB2; // 占位符文字
 $color-text-inverse-light: #ffffff; // 反色文字（用于深色背景）
 
@@ -124,16 +124,16 @@ $color-text-link: $color-brand-primary; // 链接文字（使用品牌色，这�
 // 中性背景颜色（与品牌色解耦，支持亮色/暗色主题）
 // =============================================================================
 // 亮色主题下的中性背景颜色
-$color-bg-page-light: #f5f7fa; // 应用页面背景
-$color-bg-container-light: #ffffff; // 卡片、弹窗等容器背景
-$color-fill-1-light: #f0f2f5; // 搜索框、输入框、通用标签背景
-$color-fill-2-light: #e6e8eb; // 悬停状态或更深的填充背景
+$color-bg-page-light: #f7f7f7; // 应用页面背景（定制为 #f7f7f7）
+$color-bg-container-light: #ffffff; // 卡片、弹窗等容器背景（卡片保持白色）
+$color-fill-1-light: #f7f7f7; // 搜索框、输入框、通用标签背景（默认使用 #f7f7f7）
+$color-fill-2-light: #e6e8eb; // 悬停状态或更深的填充背景（保留原值以保持层次）
 
 // =============================================================================
 // 表单控件填充颜色（Apple 风格 - 统一的输入类控件背景）
 // =============================================================================
 // 亮色主题下的控件填充颜色
-$color-bg-input-light: #EFEFF0; // iOS 标准输入框/搜索框背景（Apple 风格）
+$color-bg-input-light: #f7f7f7; // iOS 标准输入框/搜索框背景（改为 #f7f7f7）
 
 // 暗色主题下的控件填充颜色
 $color-bg-input-dark: #1C1C1E; // iOS 暗色模式输入框背景

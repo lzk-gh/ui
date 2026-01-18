@@ -14,11 +14,14 @@
         <template #header>
           <lk-space align="center" justify="between" fill>
             <text style="font-weight: bold; font-size: 30rpx;">核心指标</text>
-            <lk-segmented v-model="statType" :options="statOptions" size="sm" />
           </lk-space>
         </template>
 
-        <lk-grid :columns="3" :border="false">
+        <template #header-extra>
+          <lk-segmented v-model="statType" :options="statOptions" size="sm" />
+        </template>
+
+        <lk-grid :columns="2" :border="false">
           <lk-space direction="vertical" align="center" :gap="8">
             <lk-number-roller :value="kpi.totalVisit" :digit-height="40" color="var(--lk-color-primary)" />
             <text style="font-size: 24rpx; color: var(--lk-color-text-secondary);">总访问量</text>
@@ -26,13 +29,6 @@
           <lk-space direction="vertical" align="center" :gap="8">
             <lk-number-roller :value="kpi.activeUser" :digit-height="40" color="var(--lk-color-primary)" />
             <text style="font-size: 24rpx; color: var(--lk-color-text-secondary);">活跃用户</text>
-          </lk-space>
-          <lk-space direction="vertical" align="center" :gap="8">
-            <lk-space align="baseline" :gap="2">
-              <lk-number-roller :value="kpi.conversion" :digit-height="40" :decimals="1" color="var(--lk-color-primary)" />
-              <text style="font-size: 24rpx; color: var(--lk-color-primary);">%</text>
-            </lk-space>
-            <text style="font-size: 24rpx; color: var(--lk-color-text-secondary);">转化率</text>
           </lk-space>
         </lk-grid>
       </lk-card>

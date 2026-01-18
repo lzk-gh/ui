@@ -13,8 +13,8 @@
     color: var(--lk-color-text);
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-lg);
-    /* subtle border to enhance separation from page background */
-    border: 1rpx solid var(--lk-color-border-light);
+    /* 去掉外层细边框，内部无边框设计 */
+    border: none;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -25,7 +25,8 @@
     font-size: 32rpx;
     font-weight: 600;
     position: relative;
-    border-bottom: 1rpx solid var(--lk-color-border);
+    /* 去掉分割线 */
+    border-bottom: none;
   }
 
   @include e(title) {
@@ -34,14 +35,20 @@
 
   @include e(close) {
     position: absolute;
-    right: var(--lk-spacing-md);
+    right: var(--lk-spacing-sm);
     top: 50%;
     transform: translateY(-50%);
-    font-size: 48rpx;
-    line-height: 1;
     color: var(--lk-color-text-secondary);
     padding: var(--lk-spacing-xxs);
-    border-radius: var(--lk-radius-sm);
+    border-radius: var(--lk-radius-full);
+    cursor: pointer;
+
+    /* 更合适的触控区域和居中 */
+    width: 44rpx;
+    height: 44rpx;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:active {
       background: var(--lk-color-bg-active);
@@ -58,8 +65,23 @@
   @include e(footer) {
     padding: var(--lk-spacing-md) var(--lk-spacing-lg) var(--lk-spacing-lg);
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* 去掉分割线 */
+    border-top: none;
+
+    /* 两个按钮左右占比并圆角样式 */
+    & > .lk-modal__footer-btn {
+      flex: 1;
+      min-width: 0;
+      display: flex; /* ensure consistent vertical centering */
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border-radius: var(--lk-radius-lg);
+    }
+
+    /* 恢复使用 gap，简洁且适配现代浏览器 */
     gap: var(--lk-spacing-md);
-    justify-content: flex-end;
-    border-top: 1rpx solid var(--lk-color-border);
   }
 }

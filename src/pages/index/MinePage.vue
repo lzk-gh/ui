@@ -71,12 +71,6 @@
       <lk-space direction="vertical" :gap="12" fill>
         <text>确定要退出登录吗？</text>
       </lk-space>
-      <template #footer>
-        <lk-space justify="end" :gap="12" fill>
-          <lk-button size="sm" variant="outline" @click="showLogoutModal = false">取消</lk-button>
-          <lk-button size="sm" variant="solid" @click="handleLogoutConfirm">退出</lk-button>
-        </lk-space>
-      </template>
     </lk-modal>
 
     <lk-action-sheet

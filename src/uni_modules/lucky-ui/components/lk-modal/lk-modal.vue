@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import LkIcon from '../lk-icon/lk-icon.vue';
+import LkButton from '../lk-button/lk-button.vue';
 import { modalProps, modalEmits } from './modal.props';
 import {
   useTransition,
@@ -115,7 +117,7 @@ watch(
         <slot name="header">
           <text class="lk-modal__title">{{ title }}</text>
         </slot>
-        <view v-if="showClose" class="lk-modal__close" @click="close">×</view>
+        <lk-icon v-if="showClose" name="x" size="40" class="lk-modal__close" @click="close" />
       </view>
 
       <!-- Body -->
@@ -126,8 +128,8 @@ watch(
       <!-- Footer -->
       <view v-if="showFooter" class="lk-modal__footer">
         <slot name="footer">
-          <lk-button size="small" variant="outline" @click="cancel">取消</lk-button>
-          <lk-button size="small" @click="close">确定</lk-button>
+          <lk-button class="lk-modal__footer-btn" block size="md" variant="soft" @click="cancel">取消</lk-button>
+          <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="close">确定</lk-button>
         </slot>
       </view>
     </view>

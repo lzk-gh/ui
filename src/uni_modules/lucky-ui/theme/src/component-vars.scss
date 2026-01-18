@@ -142,6 +142,9 @@ page,
   --lk-fill-1: #{colors.$color-fill-1-light};
   --lk-fill-2: #{colors.$color-fill-2-light};
 
+  /* 页面级布局背景（用于组件预览/演示界面，亮色默认使用 page 背景 #f7f7f7） */
+  --lk-color-bg-layout: var(--lk-bg-page);
+
   /* 向后兼容的旧变量名（映射到新的中性色变量） */
   --lk-color-bg: var(--lk-bg-page);
   --lk-color-bg-page: var(--lk-bg-page);
@@ -155,8 +158,8 @@ page,
 
   /* === 填充色（中性色，与品牌色解耦）=== */
   /* 主要填充颜色变量 */
-  --lk-fill-quaternary: #f9f9f9;
-  --lk-fill-tertiary: #f5f5f5;
+  --lk-fill-quaternary: #f7f7f7; /* 调整为 #f7f7f7，匹配亮色默认控件背景 */
+  --lk-fill-tertiary: #f7f7f7; /* 调整为 #f7f7f7，使滑块/标签等默认背景一致 */
   --lk-fill-secondary: var(--lk-fill-1);
   --lk-fill-primary: var(--lk-fill-2);
 
