@@ -12,8 +12,9 @@
   line-height: 1;
   border-radius: var(--_radius);
   user-select: none;
-  background: var(--lk-color-primary);
-  color: var(--lk-color-text-inverse);
+  // 默认使用中性填充色背景，而不是品牌色
+  background: var(--lk-fill-1);
+  color: var(--lk-text-regular);
   transition:
     background var(--lk-transition-fast),
     color var(--lk-transition-fast),
@@ -33,17 +34,25 @@
   }
 
   @include m(light) {
-    background: rgba(var(--lk-color-primary), 0.8);
-    color: var(--lk-color-primary);
+    // 使用中性填充色背景，而不是品牌淡色
+    background: var(--lk-fill-1);
+    color: var(--lk-text-regular);
   }
   @include m(outline) {
     background: transparent;
-    color: var(--lk-color-primary);
-    box-shadow: inset 0 0 0 2rpx var(--lk-color-primary);
+    color: var(--lk-text-regular);
+    box-shadow: inset 0 0 0 2rpx var(--lk-color-border);
   }
   @include m(soft) {
-    background: var(--lk-color-primary-soft);
-    color: var(--lk-color-primary);
+    // 使用中性填充色背景，而不是品牌淡色
+    background: var(--lk-fill-1);
+    color: var(--lk-text-regular);
+  }
+  
+  // 只有明确指定 primary 时才使用品牌色
+  @include m(primary) {
+    background: var(--lk-color-primary);
+    color: var(--lk-text-inverse);
   }
 
   &:active:not(.is-disabled) {
@@ -65,8 +74,9 @@
     padding: 4rpx;
     border-radius: var(--lk-radius-sm);
     &:active {
-      background: var(--lk-color-primary-soft);
-      color: var(--lk-color-primary-active);
+      // 使用中性填充色背景，而不是品牌淡色
+      background: var(--lk-fill-2);
+      color: var(--lk-text-primary);
     }
   }
 }

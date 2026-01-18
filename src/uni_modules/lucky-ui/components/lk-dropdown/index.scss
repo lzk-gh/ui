@@ -15,7 +15,7 @@
     top: 100%;
     left: 0;
     margin-top: var(--lk-spacing-xs);
-    background: var(--lk-color-bg-container);
+    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     border: 2rpx solid var(--lk-color-border-light);
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-base);

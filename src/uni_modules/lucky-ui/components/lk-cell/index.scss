@@ -27,11 +27,12 @@
     align-items: center;
   }
 
-  // @include when(clickable) {
-  //   &:active {
-  //     background: var(--lk-color-primary-soft);
-  //   }
-  // }
+  @include when(clickable) {
+    &:active {
+      // 使用中性点击叠加色，而不是品牌淡色
+      background: var(--lk-bg-active);
+    }
+  }
 
   @include when(disabled) {
     opacity: 0.5;
@@ -59,12 +60,14 @@
   @include e(title) {
     font-weight: 500;
     font-size: var(--_title-fs);
-    color: var(--lk-color-text);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-primary);
   }
 
   @include e(label) {
     font-size: var(--_label-fs);
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-regular);
   }
 
   @include e(right) {
@@ -72,13 +75,15 @@
     align-items: center;
     gap: var(--lk-spacing-xs);
     font-size: var(--_value-fs);
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-regular);
     position: relative;
     z-index: 1;
   }
 
   @include e(value) {
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-regular);
   }
 
   @include e(arrow) {
@@ -94,7 +99,8 @@
   @include e(title) {
     padding: var(--lk-spacing-md) var(--lk-spacing-xs) var(--lk-spacing-xs) var(--lk-spacing-sm);
     font-size: var(--lk-font-size-sm);
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
   }
 
   @include e(body) {

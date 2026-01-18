@@ -2,7 +2,7 @@
 
 @include b(picker) {
   width: 100%;
-  background: var(--lk-color-bg-container);
+  background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
 
   @include e(toolbar) {
     height: 96rpx;

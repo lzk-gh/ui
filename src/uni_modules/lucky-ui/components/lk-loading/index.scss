@@ -5,7 +5,8 @@
   align-items: center;
   gap: var(--lk-spacing-xs);
   color: var(--lk-color-text-secondary);
-  --_color: var(--lk-color-primary);
+  // 默认使用中性灰色，而不是品牌色
+  --_color: var(--lk-loading-spinner);
 
   @include e(text) {
     font-size: 24rpx;

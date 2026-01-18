@@ -9,5 +9,7 @@
   vertical-align: middle;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--lk-icon-color);
+  /* 默认跟随文字颜色，自动适配暗黑模式 */
+  /* 如果用户传了 color prop，会通过内联样式覆盖 */
+  color: var(--lk-text-primary);
 }

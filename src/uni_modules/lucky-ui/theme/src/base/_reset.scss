@@ -21,6 +21,12 @@ swiper-item {
   box-sizing: border-box;
 }
 
+// 基础标签默认使用中性文字颜色（与品牌色解耦）
+view,
+text {
+  color: var(--lk-text-primary);
+}
+
 // 移除列表的默认样式
 ul,
 ol {

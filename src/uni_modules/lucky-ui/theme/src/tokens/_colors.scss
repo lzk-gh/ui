@@ -92,17 +92,64 @@ $color-brand-primary-light: $color-brand-100;
 $color-brand-primary-hover: $color-brand-700;
 $color-brand-primary-active: $color-brand-800;
 
-// 文字颜色
-$color-text-primary: $color-gray-800; // 主要文字，如标题、正文
-$color-text-secondary: $color-gray-700; // 次要文字，如辅助信息
-$color-text-placeholder: $color-gray-600; // 输入框占位符文字
-$color-text-disabled: $color-gray-500; // 禁用状态文字
-$color-text-inverse: $color-white; // 反色文字，用于深色背景
-$color-text-link: $color-brand-primary; // 链接文字
+// =============================================================================
+// 中性文字颜色（与品牌色解耦，支持亮色/暗色主题）
+// =============================================================================
+// 亮色主题下的中性文字颜色
+$color-text-primary-light: #303133; // 主要文字，如标题、正文
+$color-text-regular-light: #606266; // 常规内容文字
+$color-text-secondary-light: #909399; // 次要文字，如元数据、说明
+$color-text-placeholder-light: #A8ABB2; // 占位符文字
+$color-text-inverse-light: #ffffff; // 反色文字（用于深色背景）
 
-// 背景颜色
-$color-bg-body: $color-gray-100; // 页面整体背景
-$color-bg-container: $color-white; // 卡片、弹窗等容器背景
+// 暗色主题下的中性文字颜色
+$color-text-primary-dark: #E1E1E1; // 主要文字
+$color-text-regular-dark: #B0B0B0; // 常规内容文字
+$color-text-secondary-dark: #808080; // 次要文字
+$color-text-placeholder-dark: #606266; // 占位符文字
+$color-text-inverse-dark: #000000; // 反色文字（用于浅色背景）
+
+// =============================================================================
+// 语义化文字颜色（向后兼容，保留旧变量名）
+// =============================================================================
+// 注意：这些变量在 component-vars.scss 中会根据主题动态映射到对应的中性色
+$color-text-primary: $color-text-primary-light; // 默认使用亮色主题值（向后兼容）
+$color-text-secondary: $color-text-secondary-light;
+$color-text-placeholder: $color-text-placeholder-light;
+$color-text-disabled: $color-gray-500; // 禁用状态文字（保持原值）
+$color-text-inverse: $color-text-inverse-light;
+$color-text-link: $color-brand-primary; // 链接文字（使用品牌色，这是合理的）
+
+// =============================================================================
+// 中性背景颜色（与品牌色解耦，支持亮色/暗色主题）
+// =============================================================================
+// 亮色主题下的中性背景颜色
+$color-bg-page-light: #f5f7fa; // 应用页面背景
+$color-bg-container-light: #ffffff; // 卡片、弹窗等容器背景
+$color-fill-1-light: #f0f2f5; // 搜索框、输入框、通用标签背景
+$color-fill-2-light: #e6e8eb; // 悬停状态或更深的填充背景
+
+// =============================================================================
+// 表单控件填充颜色（Apple 风格 - 统一的输入类控件背景）
+// =============================================================================
+// 亮色主题下的控件填充颜色
+$color-bg-input-light: #EFEFF0; // iOS 标准输入框/搜索框背景（Apple 风格）
+
+// 暗色主题下的控件填充颜色
+$color-bg-input-dark: #1C1C1E; // iOS 暗色模式输入框背景
+
+// 暗色主题下的中性背景颜色
+$color-bg-page-dark: #000000; // 应用页面背景
+$color-bg-container-dark: #1a1a1a; // 卡片、弹窗等容器背景
+$color-fill-1-dark: #2c2c2c; // 搜索框、输入框、通用标签背景
+$color-fill-2-dark: #3d3d3d; // 悬停状态或更深的填充背景
+
+// =============================================================================
+// 语义化背景颜色（向后兼容，保留旧变量名）
+// =============================================================================
+// 注意：这些变量在 component-vars.scss 中会根据主题动态映射到对应的中性色
+$color-bg-body: $color-bg-page-light; // 页面整体背景（向后兼容）
+$color-bg-container: $color-bg-container-light; // 卡片、弹窗等容器背景（向后兼容）
 $color-bg-container-active: $color-gray-200; // 容器按压态背景
 $color-bg-mask: color.change($color-black, $alpha: 0.7); // 遮罩层背景
 

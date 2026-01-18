@@ -81,9 +81,11 @@
   }
 
   @include e(panel) {
-    background: var(--lk-color-bg-container);
+    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     color: var(--lk-color-text);
     box-shadow: var(--lk-shadow-base);
+    /* subtle border for clearer separation */
+    border: 1rpx solid var(--lk-color-border-light);
     max-width: 100%;
     max-height: 100%;
     display: flex;

@@ -8,7 +8,8 @@
   --_border: var(--lk-input-border-color);
   --_border-hover: var(--lk-input-border-color-hover);
   --_border-active: var(--lk-input-border-color-active);
-  --_placeholder: var(--lk-input-placeholder-color);
+  // 使用新的占位符颜色变量
+  --_placeholder: var(--lk-text-placeholder);
   --_bg: var(--lk-input-bg);
 
   position: relative;
@@ -46,18 +47,21 @@
     border: none;
     outline: none;
     padding: 0;
-    color: var(--lk-color-text);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-primary);
     line-height: calc(var(--_height) - 4rpx);
 
     &::placeholder {
-      color: var(--_placeholder);
+      // 使用新的占位符颜色变量
+      color: var(--lk-text-placeholder);
     }
   }
 
   @include e(prefix) {
     display: flex;
     align-items: center;
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
     flex-shrink: 0;
     margin-right: var(--lk-spacing-xxs);
   }
@@ -65,7 +69,8 @@
   @include e(suffix) {
     display: flex;
     align-items: center;
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
     flex-shrink: 0;
     margin-left: var(--lk-spacing-xxs);
   }
@@ -74,7 +79,8 @@
     margin-left: var(--lk-spacing-xxs);
     font-size: 32rpx;
     padding: var(--lk-spacing-xxs);
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
     border-radius: var(--lk-radius-sm);
     transition:
       background var(--lk-transition-fast),
@@ -88,7 +94,8 @@
   @include e(count) {
     margin-left: var(--lk-spacing-xs);
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
   }
 
   &:hover:not(.is-disabled):not(.is-readonly) {

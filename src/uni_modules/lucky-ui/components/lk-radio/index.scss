@@ -70,6 +70,8 @@
 
   @include e(label) {
     margin-left: var(--_gap);
+    // 使用新的中性文字颜色变量，确保文字不继承品牌色
+    color: var(--lk-text-primary);
   }
 
   @include m(square) {

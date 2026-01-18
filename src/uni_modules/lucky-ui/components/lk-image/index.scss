@@ -3,7 +3,8 @@
 @include b(image) {
   position: relative;
   overflow: hidden;
-  background: var(--lk-color-fill-tertiary);
+  // 使用中性填充色或骨架屏起始色
+  background: var(--lk-fill-1, var(--lk-skeleton-start));
 
   @include e(inner) {
     width: 100%;
@@ -22,8 +23,11 @@
     align-items: center;
     justify-content: center;
     gap: var(--lk-spacing-xs);
-    color: var(--lk-color-text-secondary);
+    // 使用中性文字颜色，而不是品牌色
+    color: var(--lk-text-secondary);
     font-size: var(--lk-font-size-xs);
+    // 使用中性填充色背景
+    background: var(--lk-fill-1, var(--lk-skeleton-start));
   }
 
   @include e(text) {

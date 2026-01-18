@@ -9,10 +9,12 @@
   /* 外层仅负责定位与居中，不参与动画 transform，避免冲突 */
 
   @include e(panel) {
-    background: var(--lk-color-bg-container);
+    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     color: var(--lk-color-text);
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-lg);
+    /* subtle border to enhance separation from page background */
+    border: 1rpx solid var(--lk-color-border-light);
     display: flex;
     flex-direction: column;
     overflow: hidden;

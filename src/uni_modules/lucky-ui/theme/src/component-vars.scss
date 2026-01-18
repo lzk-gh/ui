@@ -119,28 +119,57 @@ page,
   --lk-color-info: #1890ff;
   --lk-color-info-soft: #e6f7ff;
 
-  /* === 文字 === */
-  --lk-color-text: #{colors.$color-text-primary};
-  --lk-color-text-secondary: #{colors.$color-text-secondary};
+  /* === 文字（中性色，与品牌色解耦）=== */
+  /* 主要文字颜色变量 */
+  --lk-text-primary: #{colors.$color-text-primary-light};
+  --lk-text-regular: #{colors.$color-text-regular-light};
+  --lk-text-secondary: #{colors.$color-text-secondary-light};
+  --lk-text-placeholder: #{colors.$color-text-placeholder-light};
+  --lk-text-inverse: #{colors.$color-text-inverse-light};
+
+  /* 向后兼容的旧变量名（映射到新的中性色变量） */
+  --lk-color-text: var(--lk-text-primary);
+  --lk-color-text-secondary: var(--lk-text-secondary);
   --lk-color-text-tertiary: #{colors.$color-gray-600};
-  --lk-color-text-placeholder: #{colors.$color-text-placeholder};
+  --lk-color-text-placeholder: var(--lk-text-placeholder);
   --lk-color-text-disabled: #{colors.$color-text-disabled};
-  --lk-color-text-inverse: #ffffff;
+  --lk-color-text-inverse: var(--lk-text-inverse);
 
-  /* === 背景 === */
-  --lk-color-bg: #{colors.$color-bg-body};
-  --lk-color-bg-page: #{colors.$color-bg-body};
-  --lk-color-bg-container: #{colors.$color-bg-container};
-  --lk-color-bg-elevated: #{colors.$color-bg-container};
-  --lk-color-bg-hover: #f5f7fa;
-  --lk-color-bg-active: #ebeef5;
-  --lk-color-bg-disabled: #f5f7fa;
+  /* === 背景（中性色，与品牌色解耦）=== */
+  /* 主要背景颜色变量 */
+  --lk-bg-page: #{colors.$color-bg-page-light};
+  --lk-bg-container: #{colors.$color-bg-container-light};
+  --lk-fill-1: #{colors.$color-fill-1-light};
+  --lk-fill-2: #{colors.$color-fill-2-light};
 
-  /* === 填充色 === */
-  --lk-color-fill-quaternary: #f9f9f9;
-  --lk-color-fill-tertiary: #f5f5f5;
-  --lk-color-fill-secondary: #f0f0f0;
-  --lk-color-fill-primary: #e8e8e8;
+  /* 向后兼容的旧变量名（映射到新的中性色变量） */
+  --lk-color-bg: var(--lk-bg-page);
+  --lk-color-bg-page: var(--lk-bg-page);
+  --lk-color-bg-container: var(--lk-bg-container);
+  /* 提升层背景：在亮色主题下使用比容器略深的填充色以增强卡片与页面的对比 */
+  --lk-color-bg-elevated: var(--lk-fill-1);
+  --lk-color-bg-hover: var(--lk-fill-1);
+  // 使用新的中性点击叠加色，而不是填充色
+  --lk-color-bg-active: var(--lk-bg-active);
+  --lk-color-bg-disabled: var(--lk-fill-1);
+
+  /* === 填充色（中性色，与品牌色解耦）=== */
+  /* 主要填充颜色变量 */
+  --lk-fill-quaternary: #f9f9f9;
+  --lk-fill-tertiary: #f5f5f5;
+  --lk-fill-secondary: var(--lk-fill-1);
+  --lk-fill-primary: var(--lk-fill-2);
+
+  /* === 表单控件填充（Apple 风格 - 统一的输入类控件背景）=== */
+  /* 用于 Input、Stepper、Search 等输入类控件的统一背景色 */
+  --lk-bg-input: #{colors.$color-bg-input-light};
+  --lk-bg-fill-secondary: var(--lk-bg-input); // 别名，向后兼容
+
+  /* 向后兼容的旧变量名（映射到新的中性色变量） */
+  --lk-color-fill-quaternary: var(--lk-fill-quaternary);
+  --lk-color-fill-tertiary: var(--lk-fill-tertiary);
+  --lk-color-fill-secondary: var(--lk-bg-input); // 映射到新的控件填充色
+  --lk-color-fill-primary: var(--lk-fill-primary);
 
   /* === 边框 === */
   --lk-color-border: #{colors.$color-border-primary};
@@ -151,15 +180,23 @@ page,
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
   --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
 
-  /* === 交互效果 === */
+  /* === 交互效果（中性色，与品牌色解耦）=== */
+  /* 点击叠加色（使用透明度，适用于任何背景） */
+  --lk-bg-active: rgba(0, 0, 0, 0.05);
   --lk-color-ripple: rgba(0, 0, 0, 0.08);
   --lk-color-highlight: rgba(0, 0, 0, 0.04);
 
+  /* === 骨架屏与加载（纯灰色，无色调）=== */
+  --lk-skeleton-start: #F0F2F5;
+  --lk-skeleton-end: #E1E4E8;
+  --lk-loading-spinner: #C8C9CC;
+
   /* === 图标 === */
-  --lk-icon-color: var(--lk-color-text);
+  --lk-icon-color: var(--lk-text-primary);
 
   /* === 输入框 === */
-  --lk-input-bg: var(--lk-color-bg-container);
+  // 使用统一的控件填充色（Apple 风格）
+  --lk-input-bg: var(--lk-bg-input);
   --lk-input-border: var(--lk-color-border);
   --lk-input-border-hover: var(--lk-brand-600);
   --lk-input-border-focus: var(--lk-brand-600);
@@ -186,28 +223,56 @@ page,
   --lk-color-info: #40a9ff;
   --lk-color-info-soft: rgba(24, 144, 255, 0.15);
 
-  /* === 文字 === */
-  --lk-color-text: rgba(255, 255, 255, 0.88);
-  --lk-color-text-secondary: rgba(255, 255, 255, 0.65);
-  --lk-color-text-tertiary: rgba(255, 255, 255, 0.45);
-  --lk-color-text-placeholder: rgba(255, 255, 255, 0.35);
-  --lk-color-text-disabled: rgba(255, 255, 255, 0.25);
-  --lk-color-text-inverse: #141414;
+  /* === 文字（中性色，与品牌色解耦）=== */
+  /* 主要文字颜色变量 */
+  --lk-text-primary: #{colors.$color-text-primary-dark};
+  --lk-text-regular: #{colors.$color-text-regular-dark};
+  --lk-text-secondary: #{colors.$color-text-secondary-dark};
+  --lk-text-placeholder: #{colors.$color-text-placeholder-dark};
+  --lk-text-inverse: #{colors.$color-text-inverse-dark};
 
-  /* === 背景 === */
-  --lk-color-bg: #141414;
-  --lk-color-bg-page: #141414;
-  --lk-color-bg-container: #1f1f1f;
+  /* 向后兼容的旧变量名（映射到新的中性色变量） */
+  --lk-color-text: var(--lk-text-primary);
+  --lk-color-text-secondary: var(--lk-text-secondary);
+  --lk-color-text-tertiary: rgba(255, 255, 255, 0.45);
+  --lk-color-text-placeholder: var(--lk-text-placeholder);
+  --lk-color-text-disabled: rgba(255, 255, 255, 0.25);
+  --lk-color-text-inverse: var(--lk-text-inverse);
+
+  /* === 背景（中性色，与品牌色解耦）=== */
+  /* 主要背景颜色变量 */
+  --lk-bg-page: #{colors.$color-bg-page-dark};
+  --lk-bg-container: #{colors.$color-bg-container-dark};
+  --lk-fill-1: #{colors.$color-fill-1-dark};
+  --lk-fill-2: #{colors.$color-fill-2-dark};
+
+  /* 向后兼容的旧变量名（映射到新的中性色变量） */
+  --lk-color-bg: var(--lk-bg-page);
+  --lk-color-bg-page: var(--lk-bg-page);
+  --lk-color-bg-container: var(--lk-bg-container);
   --lk-color-bg-elevated: #262626;
-  --lk-color-bg-hover: #2a2a2a;
-  --lk-color-bg-active: #333333;
+  --lk-color-bg-hover: var(--lk-fill-1);
+  // 使用新的中性点击叠加色，而不是填充色
+  --lk-color-bg-active: var(--lk-bg-active);
   --lk-color-bg-disabled: rgba(255, 255, 255, 0.08);
 
-  /* === 填充色 === */
-  --lk-color-fill-quaternary: rgba(255, 255, 255, 0.04);
-  --lk-color-fill-tertiary: rgba(255, 255, 255, 0.08);
-  --lk-color-fill-secondary: rgba(255, 255, 255, 0.12);
-  --lk-color-fill-primary: rgba(255, 255, 255, 0.16);
+  /* === 填充色（中性色，与品牌色解耦）=== */
+  /* 主要填充颜色变量 */
+  --lk-fill-quaternary: rgba(255, 255, 255, 0.04);
+  --lk-fill-tertiary: rgba(255, 255, 255, 0.08);
+  --lk-fill-secondary: var(--lk-fill-1);
+  --lk-fill-primary: var(--lk-fill-2);
+
+  /* === 表单控件填充（Apple 风格 - 统一的输入类控件背景）=== */
+  /* 用于 Input、Stepper、Search 等输入类控件的统一背景色 */
+  --lk-bg-input: #{colors.$color-bg-input-dark};
+  --lk-bg-fill-secondary: var(--lk-bg-input); // 别名，向后兼容
+
+  /* 向后兼容的旧变量名（映射到新的中性色变量） */
+  --lk-color-fill-quaternary: var(--lk-fill-quaternary);
+  --lk-color-fill-tertiary: var(--lk-fill-tertiary);
+  --lk-color-fill-secondary: var(--lk-bg-input); // 映射到新的控件填充色
+  --lk-color-fill-primary: var(--lk-fill-primary);
 
   /* === 边框 === */
   --lk-color-border: rgba(255, 255, 255, 0.2);
@@ -218,12 +283,24 @@ page,
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
   --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
 
-  /* === 交互效果 === */
+  /* === 交互效果（中性色，与品牌色解耦）=== */
+  /* 点击叠加色（使用透明度，适用于任何背景） */
+  --lk-bg-active: rgba(255, 255, 255, 0.08);
   --lk-color-ripple: rgba(255, 255, 255, 0.15);
   --lk-color-highlight: rgba(255, 255, 255, 0.08);
 
+  /* === 骨架屏与加载（纯灰色，无色调）=== */
+  --lk-skeleton-start: #2C2C2C;
+  --lk-skeleton-end: #3D3D3D;
+  --lk-loading-spinner: #5D5D5D;
+
+  /* === 图标 === */
+  /* 图标默认跟随文字颜色，自动适配暗黑模式 */
+  --lk-icon-color: var(--lk-text-primary);
+
   /* === 输入框 === */
-  --lk-input-bg: var(--lk-color-bg-container);
+  // 使用统一的控件填充色（Apple 风格）
+  --lk-input-bg: var(--lk-bg-input);
   --lk-input-border: var(--lk-color-border);
   --lk-input-border-hover: var(--lk-brand-500);
   --lk-input-border-focus: var(--lk-brand-500);

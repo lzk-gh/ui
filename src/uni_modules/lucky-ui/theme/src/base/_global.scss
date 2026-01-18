@@ -10,7 +10,8 @@ page {
   font-family: theme.$font-family-base;
   font-size: theme.$font-size-base;
   line-height: theme.$line-height-base;
-  color: theme.$color-text-primary;
+  // 使用 CSS 变量，支持主题切换
+  color: var(--lk-text-primary);
 
   // --- 背景 ---
   background-color: theme.$color-bg-body;

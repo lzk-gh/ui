@@ -1,7 +1,7 @@
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
-      <lk-progress :percentage="50" />
+      <lk-progress :striped="false" :percentage="50" />
     </demo-block>
 
     <demo-block title="线条粗细">
@@ -17,8 +17,18 @@
       <lk-progress :percentage="100" status="error" style="margin-top: 16rpx" />
     </demo-block>
 
-    <demo-block title="显示文字">
-      <lk-progress :percentage="percentage1" show-text />
+    <demo-block title="条纹效果 (已优化密度)">
+      <lk-progress :percentage="50" striped />
+      <lk-progress :percentage="70" striped animated style="margin-top: 16rpx" />
+    </demo-block>
+
+    <demo-block title="自定义颜色">
+      <lk-progress :percentage="40" color="#f56c6c" />
+      <lk-progress :percentage="60" color="linear-gradient(to right, #f83600 0%, #f9d423 100%)" style="margin-top: 16rpx" />
+    </demo-block>
+
+    <demo-block title="文字内显">
+      <lk-progress :percentage="80" :stroke-width="32" text-inside />
     </demo-block>
 
     <demo-block title="动态进度">
@@ -26,14 +36,6 @@
       <view class="button-group">
         <lk-button @click="decrease">-10</lk-button>
         <lk-button type="primary" @click="increase">+10</lk-button>
-      </view>
-    </demo-block>
-
-    <demo-block title="圆形进度条">
-      <view class="circle-progress-group">
-        <lk-progress :percentage="60" type="circle" />
-        <lk-progress :percentage="80" type="circle" status="success" />
-        <lk-progress :percentage="100" type="circle" status="warning" />
       </view>
     </demo-block>
   </view>
@@ -72,11 +74,5 @@ const decrease = () => {
   display: flex;
   gap: 16rpx;
   margin-top: 24rpx;
-}
-
-.circle-progress-group {
-  display: flex;
-  gap: 32rpx;
-  justify-content: space-around;
 }
 </style>

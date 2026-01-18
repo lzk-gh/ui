@@ -4,14 +4,18 @@
   display: flex;
   align-items: center;
   gap: var(--lk-spacing-sm);
+  width: 100%;
 
   @include e(track) {
     position: relative;
     flex: 1;
-    height: 20rpx;
+    height: 12rpx;
     background: var(--lk-color-fill-tertiary);
-    border-radius: 12rpx;
+    border-radius: 100rpx;
     overflow: hidden;
+    /* #ifdef H5 */
+    transform: translateZ(0);
+    /* #endif */
   }
 
   @include e(bar) {
@@ -27,27 +31,52 @@
     color: var(--lk-color-text-inverse);
     font-size: 20rpx;
     transition: width var(--lk-transition-base);
+    backface-visibility: hidden;
 
     &::after {
       content: '';
-      display: block;
-      width: 100%;
-      height: 100%;
-      background-image: repeating-linear-gradient(
-        -45deg,
-        rgba(255, 255, 255, 0.15) 0 20rpx,
-        transparent 20rpx 40rpx
-      );
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: none;
+      background-size: 0 0;
       opacity: 0;
       transition: opacity var(--lk-transition-base);
       pointer-events: none;
+      /* #ifdef H5 */
+      transform: translateZ(0);
+      /* #endif */
+    }
+  }
+
+  /* 确保默认情况下（非 striped）不会显示条纹，使用更高优先级覆盖可能的意外规则 */
+  &:not(.is-striped) {
+    .lk-progress__bar::after {
+      background-image: none !important;
+      background-size: 0 0 !important;
+      opacity: 0 !important;
+      display: none !important;
     }
   }
 
   @include when(striped) {
     @include e(bar) {
       &::after {
+        background-image: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.15) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.15) 50%,
+          rgba(255, 255, 255, 0.15) 75%,
+          transparent 75%,
+          transparent
+        );
+        background-size: 80rpx 80rpx;
         opacity: 1;
+        display: block;
       }
     }
   }
@@ -65,39 +94,23 @@
   @include e(text) {
     font-size: 24rpx;
     color: var(--lk-color-text-secondary);
+    min-width: 80rpx;
+    text-align: right;
   }
 
   @include e(text-in) {
     font-size: 20rpx;
     color: var(--lk-color-text-inverse);
     padding: 0 var(--lk-spacing-xxs);
+    white-space: nowrap;
   }
 }
 
-@include b(progress-circle) {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    transform: rotate(-90deg);
+@keyframes lk-progress-move {
+  0% {
+    background-position: 80rpx 0;
   }
-
-  @include e(track) {
-    stroke: var(--lk-color-fill-tertiary);
-  }
-
-  @include e(bar) {
-    stroke: var(--lk-color-primary);
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.4s ease;
-  }
-
-  @include e(text) {
-    position: absolute;
-    font-size: 24rpx;
-    font-weight: 600;
-    color: var(--lk-color-primary-active);
+  100% {
+    background-position: 0 0;
   }
 }

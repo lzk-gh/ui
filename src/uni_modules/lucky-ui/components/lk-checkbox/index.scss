@@ -19,7 +19,8 @@
   user-select: none;
   font-size: var(--_fs);
   line-height: 1.2;
-  color: var(--lk-color-text);
+  // 使用新的中性文字颜色变量，确保文字不继承品牌色
+  color: var(--lk-text-primary);
   -webkit-tap-highlight-color: transparent;
   transition:
     color var(--lk-transition-fast),

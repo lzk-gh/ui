@@ -44,13 +44,14 @@
   &__wrapper {
     display: flex;
     align-items: stretch;
-    height: 98rpx;
+    justify-content: space-around;
+    height: 120rpx;
     width: 100%;
   }
 
   // 占位元素
   &__placeholder {
-    height: 98rpx;
+    height: 120rpx;
     width: 100%;
 
     .lk-tabbar--safe-area + & {
@@ -69,8 +70,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 4rpx;
   height: 100%;
-  min-width: 0;
+  width: 100%;
   color: var(--lk-tabbar-inactive-color, var(--lk-color-text-tertiary));
   font-size: 20rpx;
   line-height: 1;

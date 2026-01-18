@@ -74,11 +74,14 @@
 
   @include e(title) {
     font-size: var(--lk-font-size-xs);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-primary);
   }
 
   @include e(sub) {
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
   }
 
   @include e(line) {

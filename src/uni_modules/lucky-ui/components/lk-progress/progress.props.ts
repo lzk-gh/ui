@@ -1,16 +1,6 @@
 import type { ExtractPropTypes } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-/**
- * 进度条类型
- */
-export const ProgressType = {
-  Linear: 'linear',
-  Circle: 'circle',
-} as const;
-
-export type ProgressType = (typeof ProgressType)[keyof typeof ProgressType];
-
 export const progressProps = {
   ...baseProps,
 
@@ -29,18 +19,22 @@ export const progressProps = {
   /** 是否显示文字 */
   showText: LkProp.boolean(true),
 
+  /** 进度条高度（rpx） */
+  strokeWidth: LkProp.number(12),
+
+  /** 颜色 */
+  color: LkProp.string(''),
+
+  /** 轨道颜色 */
+  trackColor: LkProp.string(''),
+
   /**
-   * 类型
-   * @value linear 线性
-   * @value circle 环形
+   * 状态
+   * @value success 成功
+   * @value warning 警告
+   * @value error 错误
    */
-  type: LkProp.enum(Object.values(ProgressType), ProgressType.Linear, 'Progress.type'),
-
-  /** 环形进度条尺寸（rpx） */
-  size: LkProp.number(120),
-
-  /** 进度条线条宽度 */
-  stroke: LkProp.number(10),
+  status: LkProp.string(''),
 } as const;
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>;

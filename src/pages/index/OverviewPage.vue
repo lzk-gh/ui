@@ -685,7 +685,8 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  background: var(--lk-color-bg-surface);
+  // 使用统一的控件填充色（Apple 风格），与 Input、Stepper 保持一致
+  background: var(--lk-bg-input);
   border-radius: var(--lk-radius-lg);
   padding: 24rpx 32rpx;
   margin-bottom: 32rpx;

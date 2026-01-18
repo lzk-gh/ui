@@ -1,9 +1,9 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(skeleton) {
-  /* Skeleton 主题变量：基础色与高光色，提供回退值以增强可见度 */
-  --lk-skel-base: var(--lk-color-fill-tertiary, #f2f3f5);
-  --lk-skel-highlight: rgba(255, 255, 255, 0.4);
+  /* Skeleton 主题变量：使用纯灰色，无色调 */
+  --lk-skel-base: var(--lk-skeleton-start);
+  --lk-skel-highlight: var(--lk-skeleton-end);
 
   display: flex;
   align-items: flex-start;

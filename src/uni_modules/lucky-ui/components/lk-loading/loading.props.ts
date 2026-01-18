@@ -22,7 +22,8 @@ export const loadingProps = {
   },
 
   /** 图标颜色 */
-  color: LkProp.string('var(--lk-color-primary)'),
+  // 默认使用中性灰色，而不是品牌色
+  color: LkProp.string('var(--lk-loading-spinner)'),
 
   /**
    * 动画类型

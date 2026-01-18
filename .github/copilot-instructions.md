@@ -1,63 +1,74 @@
 <!-- .github/copilot-instructions.md -->
 
-# AI Assistant Instructions for Lucky UI (uni-app + lucky-ui)
+# AI Assistant Instructions for Lucky UI
 
-Keep guidance short and actionable — this file is read by automated coding agents (Copilot-style). Focus on project-specific patterns, commands, and examples an AI needs to be immediately productive.
+Act as a **Senior Uni-app & Vue 3 Component Library Architect**. Your goal is to write robust, cross-platform compatible code following the specific conventions of `lucky-ui`.
 
-## Quick project overview
+## 1. Tech Stack & Core Constraints
 
-- Monorepo-like layout: a **demo app** (root `src/`) that ships a local component library at `src/uni_modules/lucky-ui/`.
-- The demo app is a Uni-app (Vue 3) project that runs with the `uni` CLI and uses Vite for H5 (`vite` is a dev dependency).
-- Component source lives under `src/uni_modules/lucky-ui/components/<component>/` (props in `*.props.ts`, SFC in `*.vue`).
-- Documentation lives in `docs/` (component docs under `docs/components/`) and demo blocks live in `src/components/demos/`.
+- **Framework**: Uni-app (Vue 3) + Vite + TypeScript.
+- **Component Style**: Vue 3 Composition API (`<script setup lang="ts">`) is **mandatory**.
+- **Styling**: SCSS/CSS with BEM naming conventions. Use `rpx` for responsive sizing.
+- **Target Platforms**: H5 (Mobile Web) and WeChat Mini Program (Weapp) are the primary targets. Always consider cross-platform compatibility (avoid DOM APIs like `document` or `window` unless wrapped in `#ifdef H5`).
 
-## Important commands (use `pnpm`)
+## 2. Project Structure (Monorepo-like)
 
-- Start H5 dev server: `pnpm run dev:h5` (local app; H5 served via `uni` CLI)
-- Build H5: `pnpm run build:h5`
-- Type-check: `pnpm run type-check` (uses `vue-tsc`)
-- Lint & format: `pnpm run lint`, `pnpm run format` (eslint + stylelint + prettier)
-- Docs: `pnpm run docs:dev` (vitepress dev on port 4173), `pnpm run docs:build`
-- Icon tooling (important when adding icons): `pnpm run icons:prepare && pnpm run icons:build` and `pnpm run icons:base64`
+- **Library Source**: `src/uni_modules/lucky-ui/` (This is the source of truth).
+  - Components: `src/uni_modules/lucky-ui/components/lk-<name>/`
+  - Theme/Tokens: `src/uni_modules/lucky-ui/theme/`
+  - Core Utils: `src/uni_modules/lucky-ui/core/`
+- **Demo App**: `src/` (The root is a Uni-app project consuming the local library).
+  - Demos: `src/components/demos/<name>-demo.vue`
+- **Documentation**: `docs/` (VitePress).
 
-## Key repository patterns and conventions
+## 3. Coding Standards & Patterns (CRITICAL)
 
-- Component layout: put Vue SFC in `lk-<name>/lk-<name>.vue` and props in `lk-<name>/<name>.props.ts`.
-  - Props follow the `LkProp` / `baseProps` helpers from `components/common/props/index.ts`.
-  - Example: `src/uni_modules/lucky-ui/components/lk-button/button.props.ts` shows usage of `LkProp.enum`, `LkProp.string`, `buttonEmits`, and documented `@value` comments.
-- Library exports: central barrel at `src/uni_modules/lucky-ui/components/index.ts` — prefer adding new component exports there.
-- Theme & tokens: global theme tokens and utilities are under `src/uni_modules/lucky-ui/theme/` and `src/uni_modules/lucky-ui/theme/src/tokens/`.
-- Utilities & core code: shared helpers live in `src/uni_modules/lucky-ui/core/src/` (platform, request, validate, throttle, debounce, etc.).
-- Units & sizing: code often uses `rpx` units and helpers to append `rpx` when numbers are passed (see `lk-icon`, `lk-rate`, etc.). Be mindful of platform-specific CSS/units when changing styles.
-- Icons: icon font assets and generated code live under `components/lk-icon/fonts/` and are generated with scripts in `src/uni_modules/lucky-ui/scripts/`.
+### Component Development (`lk-<name>`)
+1.  **File Structure**:
+    - SFC: `lk-<name>/lk-<name>.vue`
+    - Props/Types: `lk-<name>/<name>.props.ts`
+2.  **Props Definition**:
+    - **NEVER** use standard TypeScript interfaces for props.
+    - **ALWAYS** use the `LkProp` helper from `components/common/props/index.ts`.
+    - Example: `export const fooProps = { size: LkProp.string.def('medium') }`.
+3.  **Class Naming**: Use BEM (e.g., `.lk-button`, `.lk-button--primary`, `.lk-button__icon`).
+4.  **Units**: Use `rpx` for dimensions. Use utils to handle unit conversion if a user passes a number (e.g., `addUnit` helper).
+5.  **Exports**: Every new component must be exported in the central barrel file: `src/uni_modules/lucky-ui/components/index.ts`.
 
-## Development notes & gotchas for automated edits
+### Uni-app Specifics
+- **Lifecycle**: Prefer `onLoad`, `onShow` over `onMounted` for page-level logic. Use `onMounted` for component-level DOM access.
+- **Conditional Compilation**: Use `<!-- #ifdef H5 -->` or `// #ifdef MP-WEIXIN` for platform-specific code.
+- **View Container**: Use `<view>` instead of `<div>`, `<text>` instead of `<span>`, `<image>` instead of `<img>`.
 
-- There are no automated unit tests in the repo — changes should be verified by running the demo app (`pnpm run dev:h5`) and the docs (`pnpm run docs:dev`).
-- When adding a component, update:
-  1. `src/uni_modules/lucky-ui/components/<component>/` (SFC + props + styles)
-  2. Export it in `components/index.ts`
-  3. Add a demo under `src/components/demos/<component>-demo.vue`
-  4. Add a docs file under `docs/components/<component>.md`
-- Linting / formatting: run `pnpm run lint` and `pnpm run format` before committing. ESLint and Stylelint configs exist at repo root.
+## 4. Workflow & Commands (Use `pnpm`)
 
-## Where to look for examples & references
+- **Dev (H5)**: `pnpm run dev:h5` (Verify changes here first).
+- **Docs**: `pnpm run docs:dev` (Verify documentation changes).
+- **Linting**: `pnpm run lint` & `pnpm run format` (Run before finishing task).
+- **Icons**: `pnpm run icons:prepare && pnpm run icons:build` (Only when modifying SVG assets).
 
-- Component example: `src/uni_modules/lucky-ui/components/lk-button/` (props pattern, emits, documentation style)
-- Demo example: `src/components/demos/button-demo.vue` and other `*-demo.vue` files
-- Docs example: `docs/components/rate.md` (component docs style and sections)
-- Icon tooling: `src/uni_modules/lucky-ui/scripts/*` and `components/lk-icon/fonts/*`
+## 5. "Definition of Done" for New Components
 
-## Good brief prompts for the repo
+When asked to "Add component X", you must:
+1.  Create `src/uni_modules/lucky-ui/components/lk-X/` (SFC + Props).
+2.  Export in `src/uni_modules/lucky-ui/components/index.ts`.
+3.  Create a demo in `src/components/demos/X-demo.vue`.
+4.  Create documentation in `docs/components/X.md`.
+5.  Ensure strict typing and `rpx` styling.
 
-- "Add a new `LkFoo` component: create SFC, props via `LkProp`, export in `components/index.ts`, add demo and doc entry."
-- "Refactor `lk-button` to support a new `variant='ghost'` while preserving `LkProp.enum` validation and docs." (Include tests by running docs/demo and lint)
+## 6. Development Gotchas
 
-## What NOT to assume
+- **No Unit Tests**: There are no Jest/Vitest tests. Verification is manual via `dev:h5`.
+- **Icon Font**: Do not manually edit `lk-icon.css`. It is generated by scripts.
+- **Z-Index**: Use theme variables for z-index management to avoid layering issues.
 
-- Do not assume automated tests exist — validate in the running dev environment.
-- Do not change icon assets without running the icon build scripts and verifying font files (they are committed to `components/lk-icon/fonts`).
+## 7. Context Retrieval Hints
+
+If you need to understand how to implement something, check these files first:
+- **Props Pattern**: `src/uni_modules/lucky-ui/components/lk-button/button.props.ts`
+- **Component Logic**: `src/uni_modules/lucky-ui/components/lk-button/lk-button.vue`
+- **Global Utils**: `src/uni_modules/lucky-ui/core/src/`
 
 ---
 
-If anything in this file is unclear or you'd like more examples (e.g., a component skeleton template, or a checklist for PRs), tell me which part to expand. ✅
+**Prompting Tip**: When asking me to code, be specific about the platform (e.g., "Fix this style for WeChat Mini Program").

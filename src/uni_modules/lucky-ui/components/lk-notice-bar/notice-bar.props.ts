@@ -35,10 +35,12 @@ export const noticeBarProps = {
   icon: LkProp.string(''),
 
   /** 文字颜色 */
-  color: LkProp.string('var(--lk-color-primary)'),
+  // 默认使用警告色（橙色/黄色），而不是品牌色
+  color: LkProp.string('var(--lk-color-warning)'),
 
   /** 背景颜色 */
-  background: LkProp.string('var(--lk-color-primary-bg-soft)'),
+  // 默认使用中性填充色，而不是品牌淡色
+  background: LkProp.string('var(--lk-fill-1)'),
 
   /** 是否不要背景（包括不注入 background 与 color） */
   noBackground: LkProp.boolean(false),

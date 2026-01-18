@@ -69,20 +69,49 @@
 
   @include m(outline) {
     --_bg: transparent;
-    --_color: var(--lk-color-primary);
+    // 使用中性文字颜色，而非品牌色
+    --_color: var(--lk-text-primary);
     --_border: 2rpx solid var(--lk-color-primary);
   }
 
   @include m(soft) {
-    --_bg: var(--lk-color-primary-soft);
-    --_color: var(--lk-color-primary);
+    // 使用中性填充色背景，而不是品牌淡色
+    --_bg: var(--lk-fill-1);
+    // 使用中性文字颜色，而非品牌色
+    --_color: var(--lk-text-primary);
   }
 
   @include m(text) {
     --_bg: transparent;
-    --_color: var(--lk-color-primary);
+    // 使用中性文字颜色，而非品牌色
+    --_color: var(--lk-text-primary);
     height: auto;
     padding: var(--lk-spacing-xxs) 0;
+    
+    // 使用中性点击叠加色
+    &:active:not(.is-disabled):not(.is-loading) {
+      background: var(--lk-bg-active);
+    }
+  }
+
+  // 对于非 primary 按钮（outline, soft），使用中性点击叠加色
+  @include m(outline) {
+    &:active:not(.is-disabled):not(.is-loading) {
+      background: var(--lk-bg-active);
+    }
+  }
+
+  @include m(soft) {
+    &:active:not(.is-disabled):not(.is-loading) {
+      background: var(--lk-bg-active);
+    }
+  }
+
+  // 对于 primary 按钮（solid，默认），使用品牌色变暗效果
+  &:not(.lk-button--outline):not(.lk-button--soft):not(.lk-button--text) {
+    &:active:not(.is-disabled):not(.is-loading) {
+      background: var(--lk-color-primary-active);
+    }
   }
 
   @include when(block) {

@@ -15,6 +15,11 @@
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
     overflow: hidden;
+    
+    // 使用中性点击叠加色
+    &:active {
+      background: var(--lk-bg-active);
+    }
   }
 
   @include e(item-text) {

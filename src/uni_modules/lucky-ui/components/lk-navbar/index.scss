@@ -3,7 +3,8 @@
 @include b(navbar) {
   position: relative;
   background: var(--lk-color-bg-container);
-  color: var(--lk-color-text);
+  // 使用新的中性文字颜色变量
+  color: var(--lk-text-primary);
   box-shadow: var(--lk-shadow-sm);
 
   @include when(fixed) {
@@ -48,15 +49,19 @@
   @include e(title) {
     font-size: 32rpx;
     font-weight: 600;
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-primary);
   }
 
   @include e(back) {
+    // 返回图标可以使用品牌色（交互元素）
     color: var(--lk-color-primary);
   }
 
   @include e(text) {
     font-size: 26rpx;
-    color: var(--lk-color-text-secondary);
+    // 使用新的中性文字颜色变量
+    color: var(--lk-text-secondary);
   }
 
   @include e(placeholder) {
