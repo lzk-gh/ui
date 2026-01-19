@@ -1,33 +1,59 @@
+import { LkProp } from '../common/props';
 import type { ExtractPropTypes } from 'vue';
-import { baseProps, LkProp } from '../common/props';
 
 export const anchorProps = {
-  ...baseProps,
+  /**
+   * 侧边栏背景颜色（可选；不传则走主题变量）
+   */
+  bgColor: LkProp.string(''),
 
-  /** 距离顶部偏移量 */
-  offsetTop: LkProp.number(0),
+  /**
+   * 激活项的背景颜色（可选；不传则走主题变量）
+   */
+  activeBgColor: LkProp.string(''),
 
-  /** 是否固定 */
-  affix: LkProp.boolean(false),
-} as const;
+  /**
+   * 普通项文本颜色（可选；不传则走主题变量）
+   */
+  textColor: LkProp.string(''),
+  /**
+   * 激活项的文本颜色（可选；不传则走主题变量）
+   */
+  activeColor: LkProp.string(''),
+  /**
+   * 是否显示左侧装饰竖线
+   */
+  showLine: LkProp.boolean(true),
 
-export type AnchorProps = ExtractPropTypes<typeof anchorProps>;
-
-export const anchorEmits = {
-  change: (_: string) => true,
+  /**
+   * 目标内容滚动容器选择器（例如："#anchor-content"）。
+   * 传入后会按该容器计算锚点位置，解决 scroll-view 场景下的小程序端联动问题。
+   */
+  targetContainer: LkProp.string(''),
+  /**
+   * 滚动容器的选择器 (如果指定，将尝试监听该元素的滚动 - H5友好，小程序建议手动传入 scrollTop)
+   */
+  container: LkProp.string(''),
+  /**
+   * 顶部偏移量 (px/rpx) - 判断吸顶/激活的阈值
+   */
+  headerOffset: LkProp.stringNumber(0),
 };
 
 export const anchorLinkProps = {
-  ...baseProps,
-
-  /** 锚点链接 */
-  href: {
-    type: String,
-    required: true as const,
-  },
-
-  /** 链接标题 */
+  /**
+   * 标题
+   */
   title: LkProp.string(''),
-} as const;
+  /**
+   * 锚点对应的内容 ID (不带 #)
+   */
+  href: LkProp.string(''),
+  /**
+   * 是否禁用
+   */
+  disabled: LkProp.boolean(false),
+};
 
+export type AnchorProps = ExtractPropTypes<typeof anchorProps>;
 export type AnchorLinkProps = ExtractPropTypes<typeof anchorLinkProps>;

@@ -1,32 +1,57 @@
-<script setup lang="ts">
-import { computed, inject } from 'vue';
-import { anchorLinkProps } from './anchor.props';
-
-defineOptions({ name: 'LkAnchorLink' });
-
-const props = defineProps(anchorLinkProps);
-const active = inject<any>('lk-anchor-active');
-
-const isActive = computed(() => active?.value === props.href);
-
-function onClick() {
-  // #ifdef H5
-  try {
-    const id = props.href.replace('#', '');
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } catch (e) {}
-  // #endif
-  // 其他端降级为跳转 hash 或不处理
-}
-</script>
-
 <template>
-  <view :class="['lk-anchor-link', { 'is-active': isActive }]" @click="onClick">
-    <slot>{{ props.title }}</slot>
+  <view
+    :id="'anchor-link-' + props.href"
+    class="lk-anchor-link"
+    :class="[
+      isActive ? 'lk-anchor-link--active' : '',
+      props.disabled ? 'lk-anchor-link--disabled' : ''
+    ]"
+    @click="onClick"
+  >
+    <view v-if="showLine && isActive" class="lk-anchor-link__indicator"></view>
+    <view class="lk-anchor-link__title">
+      <slot>{{ props.title }}</slot>
+    </view>
   </view>
 </template>
 
-<style lang="scss">
-@use './index.scss';
+<script setup lang="ts">
+import { computed, inject, getCurrentInstance, onMounted, onUnmounted } from 'vue';
+import type { ComponentInternalInstance } from 'vue';
+import { anchorLinkProps } from './anchor.props';
+
+defineOptions({ name: 'LkAnchorLink' });
+const props = defineProps(anchorLinkProps);
+type AnchorContext = {
+  activeHref: { value: string };
+  register: (child: ComponentInternalInstance) => void;
+  unregister: (child: ComponentInternalInstance) => void;
+  handleClick: (href: string) => void;
+  props: {
+    showLine?: boolean;
+  };
+};
+
+const parent = inject<AnchorContext | null>('lkAnchor', null);
+const instance = getCurrentInstance();
+
+const isActive = computed(() => parent?.activeHref.value === props.href);
+const showLine = computed(() => parent?.props?.showLine);
+
+const onClick = () => {
+  if (props.disabled) return;
+  parent?.handleClick(props.href);
+};
+
+onMounted(() => {
+  if (parent && instance) parent.register(instance);
+});
+
+onUnmounted(() => {
+  if (parent && instance) parent.unregister(instance);
+});
+</script>
+
+<style lang="scss" scoped>
+@use "./index.scss";
 </style>

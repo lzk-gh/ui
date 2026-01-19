@@ -1,21 +1,121 @@
 @use '../../theme/src/mixins' as *;
 
-@include b(anchor) {
-  position: relative;
+// 圆角大小，控制凹角的弯曲程度
+$anchor-radius-size: 32rpx;
 
-  @include m(affix) {
-    position: sticky;
-    z-index: var(--lk-z-index-sticky, 100);
+@include b(anchor) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: var(
+    --lk-anchor-bg-sidebar,
+    var(--lk-color-bg-surface-variant, var(--lk-color-bg-hover, #f5f7fa))
+  );
+
+  @include e(scroll) {
+    height: 100%;
+    width: 100%;
   }
 }
 
 @include b(anchor-link) {
-  padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
-  color: var(--lk-color-text-tertiary);
-  font-size: var(--lk-font-size-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 32rpx 16rpx;
+  background-color: var(
+    --lk-anchor-bg-sidebar,
+    var(--lk-color-bg-surface-variant, var(--lk-color-bg-hover, #f5f7fa))
+  );
+  cursor: pointer;
+  user-select: none;
+  // 增加点击反馈
+  &:active {
+    background-color: var(--lk-anchor-bg-sidebar-pressed, var(--lk-color-bg-active));
+  }
 
-  @include when(active) {
-    color: var(--lk-color-primary);
-    font-weight: 600;
+  @include e(title) {
+    font-size: 26rpx;
+    color: var(--lk-anchor-text-color, var(--lk-text-regular, #606266));
+    line-height: 1.4;
+    text-align: center;
+    word-break: break-all;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 5;
+    max-width: 100%;
+  }
+
+  // 侧边指示条 (可选，现在的流行风格通常不需要这个条，或者做得很细)
+  @include e(indicator) {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6rpx;
+    height: 24rpx;
+    border-radius: 0 4rpx 4rpx 0;
+    background-color: var(--lk-anchor-active-color, var(--lk-color-primary, #2979ff));
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 6;
+  }
+
+  // --- 激活状态 ---
+  @include m(active) {
+    background-color: var(--lk-anchor-bg-active, var(--lk-color-bg-surface, var(--lk-color-bg-container, #ffffff)));
+    // 移除点击反馈颜色，保持白色
+    &:active {
+      background-color: var(--lk-anchor-bg-active, var(--lk-color-bg-surface, var(--lk-color-bg-container, #ffffff)));
+    }
+
+    @include e(title) {
+      font-weight: 600;
+      color: var(--lk-anchor-active-color, var(--lk-color-primary, #2979ff));
+      font-size: 28rpx;
+    }
+
+    @include e(indicator) {
+      opacity: 1;
+    }
+
+    // --- 核心：丝滑内凹圆角 (Concave Corners) ---
+    // 原理：在白色块的右上和右下放置透明方块，
+    // 利用 box-shadow 向内投射白色，配合 border-radius 形成切角
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      width: $anchor-radius-size;
+      height: $anchor-radius-size;
+      background-color: transparent; // 自身透明
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    // 上方的凹角
+    &::before {
+      top: -$anchor-radius-size;
+      // 这里的圆角是给“透明盒子”的右下角设的，配合 shadow 形成反向视觉
+      border-bottom-right-radius: $anchor-radius-size;
+      box-shadow: 10rpx 10rpx 0 0 var(--lk-anchor-bg-active, var(--lk-color-bg-surface, var(--lk-color-bg-container, #ffffff)));
+    }
+
+    // 下方的凹角
+    &::after {
+      bottom: -$anchor-radius-size;
+      border-top-right-radius: $anchor-radius-size;
+      box-shadow: 10rpx -10rpx 0 0 var(--lk-anchor-bg-active, var(--lk-color-bg-surface, var(--lk-color-bg-container, #ffffff)));
+    }
+  }
+
+  @include m(disabled) {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 }

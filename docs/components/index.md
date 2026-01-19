@@ -7,6 +7,7 @@ title: 组件总览
 选择一个组件查看文档（按字母序）：
 
 - [Action Sheet 动作面板](/components/action-sheet)
+- [Anchor 锚点导航](/components/anchor)
 - [Avatar 头像](/components/basic/avatar)
 - [Backtop 返回顶部](/components/backtop)
 - [Badge 徽标](/components/basic/badge)
