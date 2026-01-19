@@ -1,35 +1,35 @@
 <script setup lang="ts">
-import { provide } from 'vue';
+import { provide, computed } from 'vue';
+import { radioGroupProps, radioGroupEmits } from './radio.props';
 
 defineOptions({ name: 'LkRadioGroup' });
-const props = defineProps({
-  modelValue: { type: [String, Number, Boolean], default: null },
-  size: { type: String, default: 'md' },
-  disabled: { type: Boolean, default: false },
-  direction: { type: String, default: 'row' }, // row | column
-  iconType: { type: String, default: 'dot' }, // dot | check | custom
-  shape: { type: String, default: 'circle' }, // circle | square
+
+const props = defineProps(radioGroupProps);
+const emit = defineEmits(radioGroupEmits);
+
+const updateValue = (value: any) => {
+  emit('update:modelValue', value);
+  emit('change', value);
+};
+
+provide('lkRadioGroup', {
+  props,
+  updateValue,
 });
-const emit = defineEmits(['update:modelValue', 'change']);
 
-function update(v: any) {
-  emit('update:modelValue', v);
-  emit('change', v);
-}
-
-provide('LkRadioGroup', {
-  isGroup: true,
-  value: () => props.modelValue,
-  update,
-  size: props.size,
-  disabled: props.disabled,
-  iconType: props.iconType,
-  shape: props.shape,
+const groupClass = computed(() => {
+  return [
+    'lk-radio-group',
+    `lk-radio-group--${props.direction}`,
+    props.customClass,
+  ];
 });
 </script>
 
 <template>
-  <view class="lk-radio-group" :class="[{ 'is-column': direction === 'column' }]"><slot /></view>
+  <view :class="groupClass" :style="customStyle">
+    <slot />
+  </view>
 </template>
 
 <style lang="scss">

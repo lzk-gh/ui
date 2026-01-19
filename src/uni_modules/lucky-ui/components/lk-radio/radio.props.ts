@@ -1,54 +1,52 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-/**
- * 单选框尺寸
- */
-export const RadioSize = {
-  Sm: 'sm',
-  Md: 'md',
-  Lg: 'lg',
+export const radioGroupProps = {
+  ...baseProps,
+  /** 绑定值 */
+  modelValue: {
+    type: [String, Number, Boolean] as PropType<any>,
+    default: '',
+  },
+  /** 尺寸 sm | md | lg */
+  size: LkProp.string('md'),
+  /** 是否禁用 */
+  disabled: LkProp.boolean(false),
+  /** 排列方向 row | column */
+  direction: LkProp.string('row'),
+  /** 图标颜色 */
+  activeColor: LkProp.string(''),
+  /** 形状 circle | square */
+  shape: LkProp.string('circle'),
+  /** 图标类型 dot | check */
+  iconType: LkProp.string('dot'),
 } as const;
-
-/**
- * 单选框形状
- */
-export const RadioShape = {
-  Square: 'square',
-  Round: 'round',
-} as const;
-
-export type RadioSize = (typeof RadioSize)[keyof typeof RadioSize];
-export type RadioShape = (typeof RadioShape)[keyof typeof RadioShape];
 
 export const radioProps = {
   ...baseProps,
-
-  /** 绑定值 */
-  modelValue: {
-    type: [String, Number, Boolean] as PropType<string | number | boolean>,
-    default: undefined,
+  /** 标识符 */
+  name: {
+    type: [String, Number, Boolean] as PropType<any>,
+    default: '',
   },
-
-  /** 选项值 */
-  label: {
-    type: [String, Number, Boolean] as PropType<string | number | boolean>,
-    required: true as const,
-  },
-
-  /** 尺寸 */
-  size: LkProp.string(''),
-
+  /** 形状 circle | square */
+  shape: LkProp.string(''),
+  /** 图标类型 dot | check */
+  iconType: LkProp.string(''),
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
-
-  /** 图标类型 */
-  iconType: LkProp.string(''),
-
-  /** 形状 */
-  shape: LkProp.string(''),
+  /** 选中颜色 */
+  activeColor: LkProp.string(''),
+  /** 大小，支持设置数字 */
+  iconSize: LkProp.stringNumber(''),
+  /** 标签对应的内容 */
+  label: LkProp.string(''),
+  /** 标签是否禁用点击 */
+  labelDisabled: LkProp.boolean(false),
 } as const;
 
+export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>;
 export type RadioProps = ExtractPropTypes<typeof radioProps>;
 
+export const radioGroupEmits = ['update:modelValue', 'change'];
 export const radioEmits = ['update:modelValue', 'change'];

@@ -1,107 +1,135 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(radio) {
-  --_size: var(--lk-choice-size-md);
-  --_gap: var(--lk-spacing-xs);
   display: inline-flex;
   align-items: center;
-  font-size: 28rpx;
+  margin-right: var(--lk-spacing-md);
+  font-size: var(--lk-font-size-md);
+  line-height: 1.2;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity var(--lk-transition-fast);
 
   @include m(sm) {
-    --_size: var(--lk-choice-size-sm);
-    font-size: 26rpx;
+    font-size: var(--lk-font-size-sm);
+    .lk-radio__icon {
+      width: 28rpx;
+      height: 28rpx;
+    }
+  }
+
+  @include m(md) {
+    font-size: var(--lk-font-size-md);
+    .lk-radio__icon {
+      width: 36rpx;
+      height: 36rpx;
+    }
   }
 
   @include m(lg) {
-    --_size: var(--lk-choice-size-lg);
-    font-size: 30rpx;
+    font-size: var(--lk-font-size-lg);
+    .lk-radio__icon {
+      width: 44rpx;
+      height: 44rpx;
+    }
   }
 
-  @include e(outer) {
-    width: var(--_size);
-    height: var(--_size);
-    border: 2rpx solid var(--lk-color-border);
-    border-radius: 50%;
+  @include e(icon-wrap) {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--lk-color-bg-container);
-    transition:
-      border-color var(--lk-transition-fast),
-      background var(--lk-transition-fast),
-      transform var(--lk-transition-fast);
-  }
-
-  @include e(inner) {
-    transition:
-      transform var(--lk-transition-base),
-      opacity var(--lk-transition-fast);
-    opacity: 0;
-    transform: scale(0.2);
-  }
-
-  @include e(dot) {
-    width: 48%;
-    height: 48%;
-    background: var(--lk-color-primary);
-    border-radius: 50%;
-  }
-
-  @include e(check) {
-    font-size: calc(var(--_size) * 0.65);
-    color: var(--lk-color-primary);
-    font-weight: bold;
-    line-height: 1;
   }
 
   @include e(icon) {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2rpx solid var(--lk-color-border);
+    background-color: var(--lk-color-bg-container);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+    box-sizing: border-box;
+    flex-shrink: 0;
+
+    @include m(circle) {
+      border-radius: 50%;
+    }
+
+    @include m(square) {
+      border-radius: 6rpx;
+    }
+  }
+
+  @include e(dot) {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    color: var(--lk-color-primary);
-    font-size: calc(var(--_size) * 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 0.18s ease,
+      transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    &::after {
+      content: '';
+      width: 50%;
+      height: 50%;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+  }
+
+  @include e(check) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 0.18s ease,
+      transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   @include e(label) {
-    margin-left: var(--_gap);
-    // 使用新的中性文字颜色变量，确保文字不继承品牌色
+    padding-left: var(--lk-spacing-xs);
     color: var(--lk-text-primary);
   }
 
-  @include m(square) {
-    @include e(outer) {
-      border-radius: var(--lk-radius-md);
-    }
-    @include e(dot) {
-      border-radius: var(--lk-radius-sm);
-    }
-  }
-
-  &:active:not(.is-disabled) {
-    @include e(outer) {
-      transform: scale(0.94);
-    }
-  }
-
-  @include when(checked) {
-    @include e(outer) {
+  @include m(checked) {
+    .lk-radio__icon {
       border-color: var(--lk-color-primary);
-      background: var(--lk-color-primary-soft);
+      background-color: var(--lk-color-primary);
     }
-    @include e(inner) {
+  }
+
+  &.lk-radio--checked.lk-radio--icon-dot {
+    .lk-radio__dot {
       opacity: 1;
       transform: scale(1);
     }
   }
 
-  @include when(disabled) {
-    opacity: 0.45;
+  &.lk-radio--checked.lk-radio--icon-check {
+    .lk-radio__check {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @include m(disabled) {
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }
@@ -109,9 +137,16 @@
 @include b(radio-group) {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--lk-spacing-xs) var(--lk-spacing-lg);
 
-  @include when(column) {
+  @include m(row) {
+    flex-direction: row;
+  }
+
+  @include m(column) {
     flex-direction: column;
+    .lk-radio {
+      margin-right: 0;
+      margin-bottom: var(--lk-spacing-sm);
+    }
   }
 }

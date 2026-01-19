@@ -1,47 +1,46 @@
 <script setup lang="ts">
 import { provide, computed } from 'vue';
+import { checkboxGroupProps, checkboxGroupEmits } from './checkbox.props';
 
 defineOptions({ name: 'LkCheckboxGroup' });
-const props = defineProps({
-  modelValue: { type: Array as () => any[], default: () => [] },
-  max: { type: Number, default: Infinity },
-  min: { type: Number, default: 0 },
-  size: { type: String, default: 'md' }, // sm|md|lg
-  disabled: { type: Boolean, default: false },
-  direction: { type: String, default: 'row' }, // row|column
-  iconType: { type: String, default: 'check' }, // check | dot | icon
-  shape: { type: String, default: 'square' }, // square | circle
-});
-const emit = defineEmits(['update:modelValue', 'change']);
 
-const set = computed(() => new Set(props.modelValue));
-function toggle(val: any, wantChecked: boolean) {
-  const cur = new Set(props.modelValue);
-  if (wantChecked) {
-    if (cur.has(val) || cur.size >= props.max) return;
-    cur.add(val);
+const props = defineProps(checkboxGroupProps);
+const emit = defineEmits(checkboxGroupEmits);
+
+const updateValue = (value: any[]) => {
+  emit('update:modelValue', value);
+  emit('change', value);
+};
+
+const toggleValue = (name: any) => {
+  const value = [...props.modelValue];
+  const index = value.indexOf(name);
+  if (index !== -1) {
+    value.splice(index, 1);
   } else {
-    if (!cur.has(val) || cur.size <= props.min) return;
-    cur.delete(val);
+    if (value.length < props.max) {
+      value.push(name);
+    }
   }
-  const arr = Array.from(cur);
-  emit('update:modelValue', arr);
-  emit('change', arr);
-}
+  updateValue(value);
+};
 
-provide('LkCheckboxGroup', {
-  isGroup: true,
-  checkedSet: set,
-  toggle,
-  size: props.size,
-  disabled: props.disabled,
-  iconType: props.iconType,
-  shape: props.shape,
+provide('lkCheckboxGroup', {
+  props,
+  toggleValue,
+});
+
+const groupClass = computed(() => {
+  return [
+    'lk-checkbox-group',
+    `lk-checkbox-group--${props.direction}`,
+    props.customClass,
+  ];
 });
 </script>
 
 <template>
-  <view class="lk-checkbox-group" :class="[`is-${direction}`]">
+  <view :class="groupClass" :style="customStyle">
     <slot />
   </view>
 </template>

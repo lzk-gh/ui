@@ -1,57 +1,105 @@
 <script setup lang="ts">
-import { inject, computed, useSlots } from 'vue';
+import { inject, computed } from 'vue';
 import { radioProps, radioEmits } from './radio.props';
+import { addUnit } from '../../core/src/utils/unit';
 
 defineOptions({ name: 'LkRadio' });
+
 const props = defineProps(radioProps);
 const emit = defineEmits(radioEmits);
 
-const slots = useSlots();
-const group = inject<any>('LkRadioGroup', null);
-const isGroup = computed(() => !!group?.isGroup);
-const mergedSize = computed(() => props.size || group?.size || 'md');
-const mergedIconType = computed(() => props.iconType || group?.iconType || 'dot');
-const mergedShape = computed(() => props.shape || group?.shape || 'circle');
-const checked = computed(() =>
-  isGroup.value ? group.value() === props.label : props.modelValue === props.label
-);
-const isDisabled = computed(() => (isGroup.value ? group.disabled : props.disabled));
-const hasIconSlot = computed(() => !!slots.icon);
+const group = inject<any>('lkRadioGroup', null);
 
-function select() {
-  if (isDisabled.value || checked.value) return;
-  if (isGroup.value) group.update(props.label);
-  else {
-    emit('update:modelValue', props.label);
-    emit('change', props.label);
+const radioValue = computed(() => (props.name !== '' ? props.name : props.label));
+
+const isChecked = computed(() => {
+  if (group) {
+    return group.props.modelValue === radioValue.value;
   }
-}
+  return false;
+});
+
+const isDisabled = computed(() => {
+  return props.disabled || (group && group.props.disabled);
+});
+
+const mergedShape = computed(() => {
+  return props.shape || (group && group.props.shape) || 'circle';
+});
+
+const mergedIconType = computed(() => {
+  return props.iconType || (group && group.props.iconType) || 'dot';
+});
+
+const mergedSize = computed(() => {
+  return group ? group.props.size : 'md';
+});
+
+const mergedIconSize = computed(() => {
+  if (props.iconSize) return props.iconSize;
+  return mergedSize.value === 'sm' ? 18 : mergedSize.value === 'lg' ? 26 : 22;
+});
+
+const radioClass = computed(() => {
+  return [
+    'lk-radio',
+    `lk-radio--${mergedSize.value}`,
+    `lk-radio--${mergedShape.value}`,
+    `lk-radio--icon-${mergedIconType.value}`,
+    {
+      'lk-radio--checked': isChecked.value,
+      'lk-radio--disabled': isDisabled.value,
+    },
+    props.customClass,
+  ];
+});
+
+const iconStyle = computed(() => {
+  const style: any = {};
+  const activeColor = props.activeColor || (group && group.props.activeColor);
+  
+  if (isChecked.value && activeColor) {
+    style.borderColor = activeColor;
+    style.backgroundColor = activeColor;
+  }
+  
+  if (props.iconSize) {
+    style.width = addUnit(props.iconSize);
+    style.height = addUnit(props.iconSize);
+  }
+  
+  return style;
+});
+
+const handleToggle = () => {
+  if (isDisabled.value) return;
+  if (group) {
+    group.updateValue(radioValue.value);
+  } else {
+    emit('update:modelValue', radioValue.value);
+    emit('change', radioValue.value);
+  }
+};
+
+const handleLabelClick = () => {
+  if (props.labelDisabled) return;
+  handleToggle();
+};
 </script>
 
 <template>
-  <view
-    class="lk-radio"
-    :class="[
-      `lk-radio--${mergedSize}`,
-      `lk-radio--${mergedShape}`,
-      `lk-radio--${mergedIconType}`,
-      { 'is-checked': checked, 'is-disabled': isDisabled },
-    ]"
-    @click="select"
-  >
-    <view class="lk-radio__outer">
-      <view v-if="mergedIconType === 'dot'" class="lk-radio__inner lk-radio__dot" />
-      <view v-else-if="mergedIconType === 'check'" class="lk-radio__inner lk-radio__check">✓</view>
-      <view
-        v-else-if="mergedIconType === 'icon' || hasIconSlot"
-        class="lk-radio__inner lk-radio__icon"
-      >
-        <slot name="icon" :checked="checked" :disabled="isDisabled" />
-      </view>
+  <view :class="radioClass" :style="customStyle" @tap="handleToggle">
+    <view class="lk-radio__icon-wrap">
+      <slot name="icon" :checked="isChecked" :disabled="isDisabled">
+        <view class="lk-radio__icon" :class="[`lk-radio__icon--${mergedShape}`]" :style="iconStyle">
+          <lk-icon class="lk-radio__check" name="check" :size="mergedIconSize" color="#fff" />
+          <view class="lk-radio__dot" />
+        </view>
+      </slot>
     </view>
-    <view class="lk-radio__label"
-      ><slot>{{ label }}</slot></view
-    >
+    <view v-if="label || $slots.default" class="lk-radio__label" @tap.stop="handleLabelClick">
+      <slot>{{ label }}</slot>
+    </view>
   </view>
 </template>
 

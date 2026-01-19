@@ -1,83 +1,113 @@
 <script setup lang="ts">
-import { inject, computed, useSlots } from 'vue';
+import { inject, computed } from 'vue';
 import { checkboxProps, checkboxEmits } from './checkbox.props';
+import { addUnit } from '../../core/src/utils/unit';
+import LkIcon from '../lk-icon/lk-icon.vue';
 
 defineOptions({ name: 'LkCheckbox' });
 
 const props = defineProps(checkboxProps);
 const emit = defineEmits(checkboxEmits);
 
-const slots = useSlots();
-const group = inject<any>('LkCheckboxGroup', null);
-const isGroup = computed(() => !!group?.isGroup);
-const mergedSize = computed(() => props.size || group?.size || 'md');
-const mergedIconType = computed(() => props.iconType || group?.iconType || 'check');
-const mergedShape = computed(() => props.shape || group?.shape || 'square');
-const hasIconSlot = computed(() => !!slots.icon);
+const group = inject<any>('lkCheckboxGroup', null);
 
-const checked = computed(() => {
-  if (isGroup.value) return group.checkedSet.value.has(props.label);
-  return props.modelValue === props.trueValue;
-});
-const isDisabled = computed(() => (isGroup.value ? group.disabled : props.disabled));
+const checkboxValue = computed(() => (props.name !== '' ? props.name : props.label));
 
-function toggle() {
-  if (isDisabled.value) return;
-  if (isGroup.value) group.toggle(props.label, !checked.value);
-  else {
-    const target = checked.value ? props.falseValue : props.trueValue;
-    emit('update:modelValue', target);
-    emit('change', target);
+const isChecked = computed(() => {
+  if (group) {
+    return group.props.modelValue.includes(checkboxValue.value);
   }
-}
+  return !!props.modelValue;
+});
+
+const isDisabled = computed(() => {
+  return props.disabled || (group && group.props.disabled);
+});
+
+const mergedShape = computed(() => {
+  return props.shape || (group && group.props.shape) || 'square';
+});
+
+const mergedIconType = computed(() => {
+  return props.iconType || (group && group.props.iconType) || 'check';
+});
+
+const mergedSize = computed(() => {
+  return group ? group.props.size : 'md';
+});
+
+const mergedIconSize = computed(() => {
+  if (props.iconSize) return props.iconSize;
+  return mergedSize.value === 'sm' ? 18 : mergedSize.value === 'lg' ? 26 : 22;
+});
+
+const checkboxClass = computed(() => {
+  return [
+    'lk-checkbox',
+    `lk-checkbox--${mergedSize.value}`,
+    `lk-checkbox--${mergedShape.value}`,
+    `lk-checkbox--icon-${mergedIconType.value}`,
+    {
+      'lk-checkbox--checked': isChecked.value,
+      'lk-checkbox--disabled': isDisabled.value,
+      'lk-checkbox--indeterminate': props.indeterminate,
+    },
+    props.customClass,
+  ];
+});
+
+const iconStyle = computed(() => {
+  const style: any = {};
+  const activeColor = props.activeColor || (group && group.props.activeColor);
+  
+  if ((isChecked.value || props.indeterminate) && activeColor) {
+    style.borderColor = activeColor;
+    style.backgroundColor = activeColor;
+  }
+  
+  if (props.iconSize) {
+    style.width = addUnit(props.iconSize);
+    style.height = addUnit(props.iconSize);
+  }
+  
+  return style;
+});
+
+const handleToggle = () => {
+  if (isDisabled.value) return;
+  if (group) {
+    group.toggleValue(checkboxValue.value);
+  } else {
+    const nextValue = !props.modelValue;
+    emit('update:modelValue', nextValue);
+    emit('change', nextValue);
+  }
+};
+
+const handleLabelClick = () => {
+  if (props.labelDisabled) return;
+  handleToggle();
+};
 </script>
 
 <template>
-  <view
-    class="lk-checkbox"
-    :class="[
-      `lk-checkbox--${mergedSize}`,
-      `lk-checkbox--${mergedShape}`,
-      `lk-checkbox--${mergedIconType}`,
-      {
-        'is-checked': checked,
-        'is-disabled': isDisabled,
-        'is-indeterminate': indeterminate,
-      },
-    ]"
-    @click="toggle"
-  >
-    <view class="lk-checkbox__box">
-      <!-- 默认勾选图标 -->
-      <lk-icon
-        v-if="mergedIconType === 'check' && !hasIconSlot && !indeterminate"
-        name="check"
-        class="lk-checkbox__icon lk-checkbox__check"
-      />
-      <!-- 不确定状态图标 -->
-      <lk-icon
-        v-else-if="indeterminate"
-        name="minus"
-        class="lk-checkbox__icon lk-checkbox__indeterminate"
-      />
-      <!-- 圆点图标 -->
-      <view v-else-if="mergedIconType === 'dot'" class="lk-checkbox__icon lk-checkbox__dot" />
-      <!-- 自定义插槽图标 -->
-      <view
-        v-else-if="mergedIconType === 'icon' || hasIconSlot"
-        class="lk-checkbox__icon lk-checkbox__custom"
-      >
-        <slot
-          name="icon"
-          :checked="checked"
-          :disabled="isDisabled"
-          :indeterminate="indeterminate"
-        />
-      </view>
+  <view :class="checkboxClass" :style="customStyle" @tap="handleToggle">
+    <view class="lk-checkbox__icon-wrap">
+      <slot name="icon" :checked="isChecked" :disabled="isDisabled" :indeterminate="props.indeterminate">
+        <view
+          class="lk-checkbox__icon"
+          :class="[`lk-checkbox__icon--${mergedShape}`]"
+          :style="iconStyle"
+        >
+          <lk-icon class="lk-checkbox__check" name="check" :size="mergedIconSize" color="#fff" />
+          <lk-icon class="lk-checkbox__dash" name="dash" :size="mergedIconSize" color="#fff" />
+          <view class="lk-checkbox__dot" />
+        </view>
+      </slot>
     </view>
-    <view class="lk-checkbox__label"
-      ><slot>{{ label }}</slot></view
-    >
+    <view v-if="label || $slots.default" class="lk-checkbox__label" @tap.stop="handleLabelClick">
+      <slot>{{ label }}</slot>
+    </view>
   </view>
 </template>
 
