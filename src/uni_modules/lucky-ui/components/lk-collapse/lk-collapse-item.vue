@@ -38,7 +38,7 @@ function onHeaderTap(e: unknown) {
           <slot name="title">{{ title }}</slot>
         </text>
         <lk-icon
-          name="arrow-down"
+          name="chevron-down"
           size="28"
           class="lk-collapse-item__arrow"
           :class="{ 'is-open': open }"
@@ -46,7 +46,7 @@ function onHeaderTap(e: unknown) {
       </view>
       <view class="lk-ripple__wave" :style="rippleWaveStyle" />
     </view>
-    <view class="lk-collapse-item__body" v-show="open">
+    <view v-show="open" class="lk-collapse-item__body">
       <slot />
     </view>
   </view>

@@ -41,6 +41,13 @@
     &:active {
       background: var(--lk-color-bg-active);
     }
+
+    .lk-ripple__content {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: var(--lk-spacing-sm);
+    }
   }
 
   @include e(title) {
@@ -51,6 +58,7 @@
   @include e(arrow) {
     transition: transform var(--lk-transition-fast);
     color: var(--lk-color-text-secondary);
+    flex: none;
 
     @include when(open) {
       transform: rotate(180deg);
