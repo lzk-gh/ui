@@ -1,7 +1,7 @@
 <template>
-  <scroll-view class="statistics-page" :style="{ height: contentHeight }" scroll-y>
+  <scroll-view class="statistics-page" :class="themeClass" :style="{ height: contentHeight }" scroll-y>
     <lk-sticky :offset-top="0">
-      <lk-tabs v-model="activeTab" background="#fff">
+      <lk-tabs v-model="activeTab">
         <lk-tab-pane name="day" label="日报" />
         <lk-tab-pane name="week" label="周报" />
         <lk-tab-pane name="month" label="月报" />
@@ -86,6 +86,7 @@
 
 <script setup lang="ts">
 import { ref, onUnmounted, watch } from 'vue';
+import { useTheme } from '@/uni_modules/lucky-ui/theme';
 
 // 组件导入
 import LkTabs from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tabs.vue';
@@ -105,6 +106,8 @@ import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 
 defineProps<{ contentHeight: string }>();
+
+const { themeClass } = useTheme();
 
 const activeTab = ref<string | number>('day');
 const statType = ref('visit');
@@ -177,6 +180,6 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .statistics-page {
-  background-color: var(--lk-color-bg-layout);
+  background: var(--lk-color-bg-page);
 }
 </style>
