@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
 import { timelineProps } from './timeline.props';
-import type { TimelineDirection, TimelineMode, TimelineSize } from './timeline.props';
+import type { TimelineSize } from './timeline.props';
 
 defineOptions({ name: 'LkTimeline' });
 
@@ -18,30 +18,17 @@ function toUnit(val: number | string | undefined, fallback: string) {
 
 const ctx = computed(() => ({
   direction: props.direction,
-  mode: props.mode,
-  dashed: props.dashed,
-  lineCap: props.lineCap,
   lineColor: props.lineColor,
   lineWidth: toUnit(props.lineWidth, '4rpx'),
   itemGap: toUnit(props.itemGap, '28rpx'),
   size: props.size,
-  lastVisibleTail: props.lastVisibleTail,
 }));
 
 provide(LkTimelineKey, ctx);
 // 兼容以字符串注入，避免跨文件导入键的限制
 provide('LkTimelineCtx', ctx);
 
-const classes = computed(() => [
-  'lk-timeline',
-  `is-${props.direction}`,
-  `mode-${props.mode}`,
-  {
-    'is-dashed': props.dashed,
-    'is-wrap': props.wrap,
-    'is-last-tail-visible': props.lastVisibleTail,
-  },
-]);
+const classes = computed(() => ['lk-timeline', `is-${props.direction}`]);
 
 function dotSizeOf(size: TimelineSize) {
   // 与子项统一的小一号圆点
@@ -53,6 +40,7 @@ function dotSizeOf(size: TimelineSize) {
 const rootStyle = computed(() => ({
   '--lk-timeline-gap': toUnit(props.itemGap, '28rpx'),
   '--lk-timeline-line-width': toUnit(props.lineWidth, '4rpx'),
+  '--lk-timeline-line-color': props.lineColor,
   '--lk-timeline-dot-size': dotSizeOf(props.size),
 }));
 </script>
