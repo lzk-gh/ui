@@ -9,7 +9,6 @@ const props = defineProps(cardProps);
 const cardClass = computed(() => {
   return [
     'lk-card',
-    `lk-card--shadow-${props.shadow}`,
     {
       'is-border': props.border,
       'is-hover': props.hoverable,

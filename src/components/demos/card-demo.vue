@@ -45,14 +45,14 @@
     </demo-block>
 
     <demo-block title="交互效果">
-      <lk-card title="可悬停/点击" hoverable shadow="base">
+      <lk-card title="可悬停/点击" hoverable>
         <view class="card-content"> 点击或按住卡片查看阴影和位移变化 </view>
       </lk-card>
     </demo-block>
 
     <demo-block title="简约模式">
-      <lk-card shadow="never" border>
-        <view class="card-content"> 无标题、无阴影、带边框 </view>
+      <lk-card border>
+        <view class="card-content"> 无标题、固定阴影、带边框 </view>
       </lk-card>
     </demo-block>
   </view>

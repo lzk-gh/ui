@@ -490,24 +490,22 @@ const navigateToDetail = (componentName: string) => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/test-page.scss';
+
 .overview-page {
   width: 100%;
-  background: var(--lk-color-bg-page);
+  background: $test-bg-page;
 }
 
-// 统计卡片
+// 统计卡片（使用测试页面专用渐变）
 .stats-card {
   display: flex;
   align-items: stretch;
-  background: linear-gradient(
-    135deg,
-    var(--lk-color-primary) 0%,
-    var(--lk-color-primary-hover) 100%
-  );
-  border-radius: var(--lk-radius-xl);
+  background: $test-gradient-primary;
+  border-radius: $test-border-radius;
   padding: 48rpx 32rpx;
   margin-bottom: 32rpx;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  box-shadow: $test-shadow-lg;
 }
 
 .stats-item {
@@ -536,13 +534,14 @@ const navigateToDetail = (componentName: string) => {
   margin: 0 24rpx;
 }
 
-// 主题色配置卡片
+// 主题色配置卡片（测试页面样式）
 .theme-config-card {
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-xl);
+  background: $test-theme-card-bg;
+  border: 1rpx solid $test-theme-card-border;
+  border-radius: $test-border-radius;
   padding: 32rpx;
   margin-bottom: 32rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: $test-shadow-md;
 }
 
 .config-header {
@@ -555,7 +554,7 @@ const navigateToDetail = (componentName: string) => {
 .config-title {
   font-size: 30rpx;
   font-weight: 600;
-  color: var(--lk-color-text);
+  color: $test-text-primary;
 }
 
 .color-presets {
@@ -571,12 +570,13 @@ const navigateToDetail = (componentName: string) => {
   align-items: center;
   gap: 8rpx;
   padding: 16rpx 8rpx;
-  border-radius: var(--lk-radius-md);
-  background: var(--lk-color-bg-page);
+  border-radius: $test-border-radius;
+  background: $test-gray-50;
   transition: all 0.2s;
 
   &.active {
     background: var(--preset-color);
+    box-shadow: $test-preset-active-shadow;
 
     .color-dot {
       border-color: #fff;
@@ -604,7 +604,7 @@ const navigateToDetail = (componentName: string) => {
 
 .color-name {
   font-size: 22rpx;
-  color: var(--lk-color-text-secondary);
+  color: $test-text-secondary;
   transition: color 0.2s;
 }
 
@@ -613,13 +613,13 @@ const navigateToDetail = (componentName: string) => {
   align-items: center;
   justify-content: space-between;
   padding: 16rpx 0;
-  border-top: 1rpx solid var(--lk-color-border);
+  border-top: 1rpx solid $test-border-color;
   margin-bottom: 24rpx;
 }
 
 .custom-label {
   font-size: 26rpx;
-  color: var(--lk-color-text-secondary);
+  color: $test-text-secondary;
 }
 
 .color-input-wrapper {
@@ -632,37 +632,37 @@ const navigateToDetail = (componentName: string) => {
   width: 180rpx;
   height: 56rpx;
   padding: 0 16rpx;
-  border: 1rpx solid var(--lk-color-border);
-  border-radius: var(--lk-radius-sm);
+  border: 1rpx solid $test-border-color;
+  border-radius: $test-border-radius;
   font-size: 26rpx;
   font-family: monospace;
-  color: var(--lk-color-text);
-  background: var(--lk-color-bg-page);
+  color: $test-text-primary;
+  background: $test-bg-card;
 }
 
 .color-preview {
   width: 56rpx;
   height: 56rpx;
-  border-radius: var(--lk-radius-sm);
-  border: 2rpx solid var(--lk-color-border);
+  border-radius: $test-border-radius;
+  border: 2rpx solid $test-border-color;
   cursor: pointer;
 }
 
 .color-scale-preview {
   padding-top: 16rpx;
-  border-top: 1rpx solid var(--lk-color-border);
+  border-top: 1rpx solid $test-border-color;
 }
 
 .scale-label {
   display: block;
   font-size: 24rpx;
-  color: var(--lk-color-text-tertiary);
+  color: $test-text-tertiary;
   margin-bottom: 16rpx;
 }
 
 .scale-row {
   display: flex;
-  border-radius: var(--lk-radius-md);
+  border-radius: $test-border-radius;
   overflow: hidden;
 }
 
@@ -680,32 +680,32 @@ const navigateToDetail = (componentName: string) => {
   text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
 }
 
-// 搜索框
+// 搜索框（测试页面样式）
 .search-box {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  // 使用统一的控件填充色（Apple 风格），与 Input、Stepper 保持一致
-  background: var(--lk-bg-input);
-  border-radius: var(--lk-radius-lg);
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: $test-border-radius;
   padding: 24rpx 32rpx;
   margin-bottom: 32rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: $test-shadow-sm;
 }
 
 .search-input {
   flex: 1;
   font-size: 28rpx;
-  color: var(--lk-color-text);
+  color: $test-text-primary;
   height: 40rpx;
   line-height: 40rpx;
 }
 
 .search-placeholder {
-  color: var(--lk-color-text-tertiary);
+  color: $test-text-tertiary;
 }
 
-// 分类区域
+// 分类区域（测试页面样式）
 .category-section {
   margin-bottom: 48rpx;
 }
@@ -721,18 +721,18 @@ const navigateToDetail = (componentName: string) => {
   flex: 1;
   font-size: 32rpx;
   font-weight: 600;
-  color: var(--lk-color-text);
+  color: $test-text-primary;
 }
 
 .category-count {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
-  background: var(--lk-color);
+  color: $test-text-inverse;
+  background: $test-primary;
   padding: 4rpx 16rpx;
   border-radius: 999rpx;
 }
 
-// 组件网格
+// 组件网格（测试页面样式）
 .component-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -740,19 +740,21 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .component-card {
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-lg);
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: $test-border-radius;
   padding: 24rpx 16rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: $test-shadow-sm;
   transition: all 0.3s;
 
   &:active {
     transform: scale(0.95);
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+    background: $test-bg-hover;
+    box-shadow: $test-shadow-md;
   }
 }
 
@@ -762,24 +764,24 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--lk-radius-md);
+  border-radius: $test-border-radius;
   margin-bottom: 8rpx;
 }
 
 .card-name {
   font-size: 26rpx;
   font-weight: 500;
-  color: var(--lk-color-text);
+  color: $test-text-primary;
   text-align: center;
 }
 
 .card-desc {
   font-size: 22rpx;
-  color: var(--lk-color-text-secondary);
+  color: $test-text-secondary;
   text-align: center;
 }
 
-// 空状态
+// 空状态（测试页面样式）
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -791,11 +793,11 @@ const navigateToDetail = (componentName: string) => {
 .empty-text {
   font-size: 32rpx;
   font-weight: 500;
-  color: var(--lk-color-text-secondary);
+  color: $test-text-secondary;
 }
 
 .empty-desc {
   font-size: 26rpx;
-  color: var(--lk-color-text-tertiary);
+  color: $test-text-tertiary;
 }
 </style>

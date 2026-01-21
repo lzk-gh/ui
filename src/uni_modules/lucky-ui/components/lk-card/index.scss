@@ -10,12 +10,14 @@
   --_subtitle-fs: var(--lk-font-size-sm);
   --_body-fs: var(--lk-control-font-size-md);
   --_footer-fs: var(--lk-font-size-sm);
+  --_shadow: 0 2rpx 4rpx 0 rgba(216, 224, 236, 0.3), 0 4rpx 12rpx 0 rgba(216, 224, 236, 0.2);
 
   // =========================================
   // 2. 核心盒模型
   // =========================================
   background: var(--_bg);
   border-radius: var(--_radius);
+  box-shadow: var(--_shadow);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -28,24 +30,17 @@
     border: 2rpx solid var(--lk-color-border-light);
   }
 
-  @include m(shadow-none) {
-    box-shadow: none;
-  }
-  @include m(shadow-sm) {
-    box-shadow: var(--lk-shadow-sm);
-  }
-  @include m(shadow-base) {
-    box-shadow: var(--lk-shadow-base);
-  }
-  @include m(shadow-lg) {
-    box-shadow: var(--lk-shadow-lg);
-  }
-
   @include when(hover) {
     &:active {
       transform: translateY(2rpx);
-      box-shadow: var(--lk-shadow-sm);
+      box-shadow: 0 1rpx 2rpx 0 rgba(216, 224, 236, 0.3);
     }
+  }
+
+  // 暗黑模式适配
+  :host-context(.lk-theme-dark) &,
+  .lk-theme-dark & {
+    --_shadow: 0 4rpx 16rpx 0 rgba(0, 0, 0, 0.5), 0 2rpx 4rpx 0 rgba(0, 0, 0, 0.4);
   }
 
   @include e(cover) {

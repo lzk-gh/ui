@@ -712,12 +712,14 @@ const loadDemoComponent = async (name: string) => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/test-page.scss';
+
 .detail-page {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--lk-color-bg-page);
+  background: $test-bg-page;
 }
 
 .page-content {
@@ -729,16 +731,13 @@ const loadDemoComponent = async (name: string) => {
   padding: 24rpx;
 }
 
-// 信息卡片
+// 信息卡片（测试页面样式）
 .info-card {
-  background: linear-gradient(
-    135deg,
-    var(--lk-color-primary-bg-soft) 0%,
-    var(--lk-color-bg-surface) 100%
-  );
-  border-radius: var(--lk-radius-xl);
+  background: $test-gradient-primary;
+  border-radius: $test-border-radius;
   padding: 40rpx;
   margin-bottom: 24rpx;
+  box-shadow: $test-shadow-lg;
 }
 
 .info-header {
@@ -757,12 +756,12 @@ const loadDemoComponent = async (name: string) => {
 .info-title {
   font-size: 40rpx;
   font-weight: 700;
-  color: var(--lk-color-text);
+  color: $test-text-inverse;
 }
 
 .info-desc {
   font-size: 26rpx;
-  color: var(--lk-color-text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.5;
 }
 
@@ -772,36 +771,38 @@ const loadDemoComponent = async (name: string) => {
   margin-bottom: 24rpx;
 }
 
-// 开发中提示
+// 开发中提示（测试页面样式）
 .developing-tip {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 120rpx 48rpx;
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-xl);
-  border: 2rpx dashed var(--lk-color-border);
+  background: $test-bg-card;
+  border-radius: $test-border-radius;
+  border: 2rpx dashed $test-border-color;
 }
 
 .tip-text {
   font-size: 28rpx;
   font-weight: 600;
-  color: var(--lk-color-text-secondary);
+  color: $test-text-secondary;
   margin-top: 24rpx;
 }
 
 .tip-desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-tertiary);
+  color: $test-text-tertiary;
   margin-top: 12rpx;
 }
 
-// API 区域
+// API 区域（测试页面样式）
 .api-section {
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-xl);
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: $test-border-radius;
   overflow: hidden;
+  box-shadow: $test-shadow-sm;
 }
 
 .section-title {
@@ -811,6 +812,6 @@ const loadDemoComponent = async (name: string) => {
   padding: 32rpx 32rpx 24rpx;
   font-size: 32rpx;
   font-weight: 700;
-  color: var(--lk-color-text);
+  color: $test-text-primary;
 }
 </style>

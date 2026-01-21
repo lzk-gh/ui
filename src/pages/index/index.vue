@@ -127,12 +127,14 @@ watch(activeTab, newTab => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/test-page.scss';
+
 .app-container {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--lk-color-bg-page);
+  background: $test-bg-page;
   padding: 20rpx 20rpx 0;
 }
 
@@ -148,14 +150,14 @@ watch(activeTab, newTab => {
   justify-content: center;
   width: 64rpx;
   height: 64rpx;
-  background: var(--lk-color-primary-bg-soft);
-  color: var(--lk-color-primary);
+  background: rgba($test-primary, 0.1);
+  color: $test-primary;
   border-radius: 50%;
   transition: all 0.3s;
 
   &:active {
-    background: var(--lk-color-primary);
-    color: #fff;
+    background: $test-primary;
+    color: $test-text-inverse;
     transform: scale(0.9);
   }
 }

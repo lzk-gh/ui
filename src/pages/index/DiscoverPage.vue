@@ -22,7 +22,7 @@
 
       <!-- 金刚区/功能入口 -->
       <view class="section-grid">
-        <lk-card title="功能入口" shadow="base">
+        <lk-card title="功能入口" shadow="small">
           <lk-grid :carousel="true" :columns="4" :gap="16"  :item-gap="12" :rows="2" :items="gridItems" />
         </lk-card>
       </view>
