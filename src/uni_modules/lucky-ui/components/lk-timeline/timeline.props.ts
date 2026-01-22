@@ -39,6 +39,12 @@ export const timelineProps = {
     default: false,
   },
 
+  /** 是否显示时间轴 */
+  showLine: LkProp.boolean(true),
+
+  /** 是否显示时间区域 */
+  showTime: LkProp.boolean(true),
+
   /** 线条颜色 */
   lineColor: LkProp.string('var(--lk-color-border-weak)'),
 
@@ -53,6 +59,9 @@ export const timelineProps = {
     type: [Number, String] as PropType<number | string>,
     default: '28rpx',
   },
+
+  /** 激活的索引（从 0 开始），仅在子项未传 active 时生效 */
+  activeIndex: LkProp.number(-1),
 
   /**
    * 尺寸

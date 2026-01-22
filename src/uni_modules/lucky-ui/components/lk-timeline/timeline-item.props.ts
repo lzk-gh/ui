@@ -7,6 +7,8 @@ export const timelineItemProps = {
   title: LkProp.string(''),
   subtitle: LkProp.string(''),
   desc: LkProp.string(''),
+  index: LkProp.number(-1),
+  active: LkProp.boolean(false),
   tag: LkProp.string(''),
   accent: LkProp.string('var(--lk-color-primary)'),
   cardBg: LkProp.string('var(--lk-color-bg-surface)'),

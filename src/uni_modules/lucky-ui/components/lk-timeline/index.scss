@@ -22,6 +22,18 @@
   gap: 20rpx;
   position: relative;
 
+  @include when(no-line) {
+    gap: 12rpx;
+  }
+
+  @include when(no-time) {
+    gap: 12rpx;
+
+    @include e(time) {
+      display: none;
+    }
+  }
+
   @include e(time) {
     width: 120rpx;
     flex-shrink: 0;
@@ -85,6 +97,24 @@
     display: flex;
     flex-direction: column;
     gap: 10rpx;
+  }
+
+  @include when(active) {
+    @include e(dot) {
+      box-shadow:
+        0 0 0 10rpx rgb(0 0 0 / 6%),
+        0 10rpx 24rpx rgb(0 0 0 / 14%);
+      transform: scale(1.1);
+    }
+
+    @include e(card) {
+      border-color: var(--lk-timeline-accent, var(--lk-color-primary));
+      box-shadow: 0 12rpx 32rpx rgb(0 0 0 / 12%);
+    }
+
+    @include e(title) {
+      color: var(--lk-timeline-accent, var(--lk-color-primary));
+    }
   }
 
   @include e(header) {

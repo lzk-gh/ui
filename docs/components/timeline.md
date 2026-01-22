@@ -8,11 +8,7 @@ title: Timeline 时间轴
 
 ## 基础用法
 
-# Timeline 时间轴
-
 以卡片式呈现时间节点，视觉更接近 iOS 风格。
-
-## 基础用法
 
 ```vue
 <lk-timeline>
@@ -38,30 +34,35 @@ title: Timeline 时间轴
 
 ### Timeline Props
 
-| 参数       | 说明                       | 类型          | 默认值                        |
-| ---------- | -------------------------- | ------------- | ----------------------------- |
-| direction  | 方向（当前仅实现纵向布局） | string        | `vertical`                    |
-| line-color | 连接线颜色                 | string        | `var(--lk-color-border-weak)` |
-| line-width | 连接线宽度                 | number/string | `4rpx`                        |
-| item-gap   | 项目间距                   | number/string | `28rpx`                       |
-| size       | 节点尺寸 `sm/md/lg`        | string        | `md`                          |
+| 参数         | 说明                       | 类型          | 默认值                        |
+| ------------ | -------------------------- | ------------- | ----------------------------- |
+| direction    | 方向（当前仅实现纵向布局） | string        | `vertical`                    |
+| show-line    | 是否显示时间轴             | boolean       | `true`                        |
+| show-time    | 是否显示时间区域           | boolean       | `true`                        |
+| line-color   | 连接线颜色                 | string        | `var(--lk-color-border-weak)` |
+| line-width   | 连接线宽度                 | number/string | `4rpx`                        |
+| item-gap     | 项目间距                   | number/string | `28rpx`                       |
+| size         | 节点尺寸 `sm/md/lg`        | string        | `md`                          |
+| active-index | 激活索引（从 0 开始）      | number        | `-1`                          |
 
 ### Timeline Item Props
 
-| 参数       | 说明       | 类型   | 默认值                        |
-| ---------- | ---------- | ------ | ----------------------------- |
-| time       | 起始时间   | string | -                             |
-| endTime    | 结束时间   | string | -                             |
-| title      | 标题       | string | -                             |
-| subtitle   | 副标题     | string | -                             |
-| desc       | 描述       | string | -                             |
-| tag        | 标签       | string | -                             |
-| accent     | 节点强调色 | string | `var(--lk-color-primary)`     |
-| cardBg     | 卡片背景色 | string | `var(--lk-color-bg-surface)`  |
-| cardBorder | 卡片边框色 | string | `var(--lk-color-border-weak)` |
-| location   | 地点       | string | -                             |
-| person     | 人员       | string | -                             |
-| avatar     | 头像       | string | -                             |
+| 参数       | 说明       | 类型    | 默认值                        |
+| ---------- | ---------- | ------- | ----------------------------- |
+| time       | 起始时间   | string  | -                             |
+| endTime    | 结束时间   | string  | -                             |
+| title      | 标题       | string  | -                             |
+| subtitle   | 副标题     | string  | -                             |
+| desc       | 描述       | string  | -                             |
+| tag        | 标签       | string  | -                             |
+| index      | 项目索引   | number  | `-1`                          |
+| active     | 激活态     | boolean | `false`                       |
+| accent     | 节点强调色 | string  | `var(--lk-color-primary)`     |
+| cardBg     | 卡片背景色 | string  | `var(--lk-color-bg-surface)`  |
+| cardBorder | 卡片边框色 | string  | `var(--lk-color-border-weak)` |
+| location   | 地点       | string  | -                             |
+| person     | 人员       | string  | -                             |
+| avatar     | 头像       | string  | -                             |
 
 ### Timeline Item Slots
 

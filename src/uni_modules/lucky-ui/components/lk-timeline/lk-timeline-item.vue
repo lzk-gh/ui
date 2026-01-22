@@ -13,10 +13,13 @@ const injected = computed(
   () =>
     injectedRaw?.value ?? {
       direction: 'vertical',
+      showLine: true,
+      showTime: true,
       lineColor: 'var(--lk-color-border-weak)',
       lineWidth: '4rpx',
       itemGap: '28rpx',
       size: 'md',
+      activeIndex: -1,
     }
 );
 
@@ -26,7 +29,15 @@ const dotSize = computed(() => {
   return '20rpx';
 });
 
-const hasTime = computed(() => !!(props.time || props.endTime || slots.time));
+const showTime = computed(() => injected.value.showTime !== false);
+const hasTime = computed(() => showTime.value && !!(props.time || props.endTime || slots.time));
+const showLine = computed(() => injected.value.showLine !== false);
+const isActive = computed(() => {
+  if (props.active) return true;
+  if (typeof injected.value.activeIndex !== 'number') return false;
+  if (props.index < 0) return false;
+  return props.index === injected.value.activeIndex;
+});
 
 const itemStyle = computed(() => ({
   '--lk-timeline-accent': props.accent,
@@ -41,7 +52,13 @@ function onClick(ev: Event) {
 </script>
 
 <template>
-  <view class="lk-timeline-item" :style="itemStyle" role="listitem" @click="onClick">
+  <view
+    class="lk-timeline-item"
+    :class="{ 'is-active': isActive, 'is-no-line': !showLine, 'is-no-time': !showTime }"
+    :style="itemStyle"
+    role="listitem"
+    @click="onClick"
+  >
     <view v-if="hasTime" class="lk-timeline-item__time">
       <slot name="time">
         <text class="lk-timeline-item__time-start">{{ time }}</text>
@@ -49,7 +66,7 @@ function onClick(ev: Event) {
       </slot>
     </view>
 
-    <view class="lk-timeline-item__rail">
+    <view v-if="showLine" class="lk-timeline-item__rail">
       <view class="lk-timeline-item__dot" />
       <view class="lk-timeline-item__line" />
     </view>

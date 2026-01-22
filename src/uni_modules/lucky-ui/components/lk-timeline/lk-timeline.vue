@@ -18,10 +18,13 @@ function toUnit(val: number | string | undefined, fallback: string) {
 
 const ctx = computed(() => ({
   direction: props.direction,
+  showLine: props.showLine,
+  showTime: props.showTime,
   lineColor: props.lineColor,
   lineWidth: toUnit(props.lineWidth, '4rpx'),
   itemGap: toUnit(props.itemGap, '28rpx'),
   size: props.size,
+  activeIndex: props.activeIndex,
 }));
 
 provide(LkTimelineKey, ctx);
