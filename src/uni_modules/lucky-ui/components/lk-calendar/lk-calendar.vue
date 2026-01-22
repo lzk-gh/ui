@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, toRef } from 'vue';
+import { ref, computed, watch, toRef, nextTick, onMounted, getCurrentInstance } from 'vue';
 import { calendarProps, calendarEmits } from './calendar.props';
 defineOptions({ name: 'LkCalendar' });
 
@@ -13,7 +13,7 @@ const emit = defineEmits(calendarEmits);
 
 // 工具函数
 function pad(n: number) {
-  return n < 10 ? '0' + n : '' + n;
+  return n < 10 ? `0${  n}` : `${  n}`;
 }
 function makeDate(y: number, m: number, d: number) {
   return new Date(y, m - 1, d, 0, 0, 0, 0);
@@ -168,6 +168,23 @@ const days = computed(() => {
   return arr;
 });
 
+const totalRows = computed(() => Math.ceil(days.value.length / 7));
+
+function getFocusDate() {
+  if (isInRangeMode()) return internalRange.value[0] || today;
+  if (isInMultipleMode()) return internalMultiple.value[0] || today;
+  return internalSingle.value || today;
+}
+
+function getFocusWeekIndex() {
+  const focus = getFocusDate();
+  const { y, m } = cur.value;
+  const first = new Date(y, m - 1, 1);
+  const startWeek = (first.getDay() - props.firstDay + 7) % 7;
+  const dayNum = focus.getDate();
+  return Math.floor((startWeek + dayNum - 1) / 7);
+}
+
 function changeMonth(delta: number) {
   let { y, m } = cur.value;
   m += delta;
@@ -180,6 +197,161 @@ function changeMonth(delta: number) {
   }
   cur.value = { y, m };
   emit('month-change', { year: y, month: m });
+}
+
+// --- 拖拽折叠/展开（周视图） ---
+const gridHeightPx = ref(0);
+const gridHeightCurrent = ref(0);
+const isGridDragging = ref(false);
+let dragStartY = 0;
+let dragStartHeight = 0;
+let dragLastY = 0;
+let dragLastTime = 0;
+let dragVelocity = 0;
+
+const instance = getCurrentInstance();
+
+function measureGridHeight() {
+  nextTick(() => {
+    const query = uni.createSelectorQuery().in(instance?.proxy as any);
+    query
+      .select('.lk-calendar__grid')
+      .boundingClientRect((rect: any) => {
+        if (rect && rect.height) {
+          gridHeightPx.value = rect.height;
+          if (!gridHeightCurrent.value) gridHeightCurrent.value = rect.height;
+        }
+      })
+      .exec();
+  });
+}
+
+onMounted(() => {
+  measureGridHeight();
+});
+
+watch(
+  () => [cur.value.y, cur.value.m, days.value.length],
+  () => {
+    measureGridHeight();
+    if (gridHeightPx.value) gridHeightCurrent.value = gridHeightPx.value;
+  }
+);
+
+const rowHeightPx = computed(() => {
+  if (gridHeightPx.value && totalRows.value > 0) {
+    return gridHeightPx.value / totalRows.value;
+  }
+  return uni.upx2px(92);
+});
+
+const isCollapsed = computed(() => gridHeightCurrent.value <= rowHeightPx.value + 1);
+const gridOffsetPx = computed(() => (isCollapsed.value ? getFocusWeekIndex() * rowHeightPx.value : 0));
+
+const gridWrapperStyle = computed(() => {
+  const height = gridHeightCurrent.value || rowHeightPx.value * totalRows.value;
+  return {
+    height: `${height}px`,
+    transition: isGridDragging.value ? 'none' : 'height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+  } as any;
+});
+
+const gridStyle = computed(() => {
+  if (!isCollapsed.value) return {};
+  return {
+    transform: `translateY(-${gridOffsetPx.value}px)`,
+    transition: isGridDragging.value ? 'none' : 'transform 0.25s ease',
+  } as any;
+});
+
+function onGridDragStart(e: any) {
+  isGridDragging.value = true;
+  dragStartY = e.touches[0].clientY;
+  dragStartHeight = gridHeightCurrent.value || gridHeightPx.value;
+  dragLastY = dragStartY;
+  dragLastTime = Date.now();
+  dragVelocity = 0;
+}
+
+function onGridDragMove(e: any) {
+  if (!isGridDragging.value) return;
+  const currentY = e.touches[0].clientY;
+  const currentTime = Date.now();
+  const timeDelta = currentTime - dragLastTime;
+  if (timeDelta > 0) {
+    dragVelocity = (currentY - dragLastY) / timeDelta;
+  }
+  dragLastY = currentY;
+  dragLastTime = currentTime;
+
+  const delta = currentY - dragStartY;
+  const minH = rowHeightPx.value;
+  const maxH = gridHeightPx.value || rowHeightPx.value * totalRows.value;
+  let nextH = dragStartHeight + delta;
+
+  // 阻尼效果：超出边界时增加阻力
+  if (nextH < minH) {
+    nextH = minH - (minH - nextH) * 0.3;
+  } else if (nextH > maxH) {
+    nextH = maxH + (nextH - maxH) * 0.3;
+  }
+  gridHeightCurrent.value = nextH;
+}
+
+// --- 左右滑动切月 ---
+let swipeStartX = 0;
+let swipeStartY = 0;
+let swipeLastX = 0;
+let swipeLastY = 0;
+
+function onSwipeStart(e: any) {
+  swipeStartX = e.touches[0].clientX;
+  swipeStartY = e.touches[0].clientY;
+  swipeLastX = swipeStartX;
+  swipeLastY = swipeStartY;
+}
+
+function onSwipeMove(e: any) {
+  swipeLastX = e.touches[0].clientX;
+  swipeLastY = e.touches[0].clientY;
+}
+
+function onSwipeEnd() {
+  const dx = swipeLastX - swipeStartX;
+  const dy = swipeLastY - swipeStartY;
+  const absX = Math.abs(dx);
+  const absY = Math.abs(dy);
+  if (absX >= 40 && absX > absY * 1.2) {
+    changeMonth(dx < 0 ? 1 : -1);
+  }
+}
+
+function onGridDragEnd() {
+  if (!isGridDragging.value) return;
+  isGridDragging.value = false;
+  const minH = rowHeightPx.value;
+  const maxH = gridHeightPx.value || rowHeightPx.value * totalRows.value;
+  const velocityThreshold = 0.3; // px/ms
+
+  // 先修正超出边界的情况
+  if (gridHeightCurrent.value < minH) {
+    gridHeightCurrent.value = minH;
+    return;
+  }
+  if (gridHeightCurrent.value > maxH) {
+    gridHeightCurrent.value = maxH;
+    return;
+  }
+
+  // 根据速度判断方向
+  if (Math.abs(dragVelocity) > velocityThreshold) {
+    gridHeightCurrent.value = dragVelocity > 0 ? maxH : minH;
+    return;
+  }
+
+  // 根据位置吸附
+  const mid = (minH + maxH) / 2;
+  gridHeightCurrent.value = gridHeightCurrent.value < mid ? minH : maxH;
 }
 
 function outputValue() {
@@ -354,27 +526,44 @@ const accentStyle = computed(() => {
       <text v-for="w in 7" :key="w">{{ weekNames[(w - 1 + firstDay) % 7] }}</text>
     </view>
 
-    <view class="lk-calendar__grid">
-      <view
-        v-for="(d, i) in days"
-        :key="i"
-        class="lk-calendar__cell"
-        :class="{
-          'is-empty': !d,
-          'is-today': d?.isToday,
-          'is-disabled': d?.disabled,
-          'is-selected': d?.singleSelected,
-          'is-in-range': d?.inRange,
-          'is-range-start': d?.rangeStart,
-          'is-range-end': d?.rangeEnd,
-          'is-multi-selected': d?.multiSelected,
-        }"
-        @click="select(d)"
-      >
-        <template v-if="d">
-          <text class="lk-calendar__day-text">{{ d.d }}</text>
-        </template>
+    <view
+      class="lk-calendar__grid-wrapper"
+      :style="gridWrapperStyle"
+      @touchstart.stop="onSwipeStart"
+      @touchmove.stop="onSwipeMove"
+      @touchend.stop="onSwipeEnd"
+    >
+      <view class="lk-calendar__grid" :style="gridStyle">
+        <view
+          v-for="(d, i) in days"
+          :key="i"
+          class="lk-calendar__cell"
+          :class="{
+            'is-empty': !d,
+            'is-today': d?.isToday,
+            'is-disabled': d?.disabled,
+            'is-selected': d?.singleSelected,
+            'is-in-range': d?.inRange,
+            'is-range-start': d?.rangeStart,
+            'is-range-end': d?.rangeEnd,
+            'is-multi-selected': d?.multiSelected,
+          }"
+          @click="select(d)"
+        >
+          <template v-if="d">
+            <text class="lk-calendar__day-text">{{ d.d }}</text>
+          </template>
+        </view>
       </view>
+    </view>
+
+    <view
+      class="lk-calendar__drag-handle"
+      @touchstart.stop.prevent="onGridDragStart"
+      @touchmove.stop.prevent="onGridDragMove"
+      @touchend.stop.prevent="onGridDragEnd"
+    >
+      <view class="lk-calendar__drag-bar" />
     </view>
   </view>
 </template>

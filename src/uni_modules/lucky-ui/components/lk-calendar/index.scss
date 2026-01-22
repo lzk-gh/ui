@@ -86,6 +86,13 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: var(--lk-spacing-xs);
+    transition: transform 0.25s ease;
+  }
+
+  @include e(grid-wrapper) {
+    overflow: hidden;
+    border-radius: var(--_radius);
+    transition: height 0.25s ease;
   }
 
   @include e(cell) {
@@ -143,5 +150,19 @@
     &:active:not(.is-empty):not(.is-disabled) {
       filter: brightness(0.92);
     }
+  }
+
+  @include e(drag-handle) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--lk-spacing-md) 0 var(--lk-spacing-sm);
+  }
+
+  @include e(drag-bar) {
+    width: 96rpx;
+    height: 8rpx;
+    border-radius: var(--lk-radius-full);
+    background: var(--lk-color-fill-tertiary);
   }
 }
