@@ -62,6 +62,7 @@
           <SegmentedDemo v-else-if="componentName === 'segmented'" />
           <PaginationDemo v-else-if="componentName === 'pagination'" />
           <BacktopDemo v-else-if="componentName === 'backtop'" />
+          <FabDemo v-else-if="componentName === 'fab'" />
 
           <ModalDemo v-else-if="componentName === 'modal'" />
           <PopupDemo v-else-if="componentName === 'popup'" />
@@ -445,6 +446,12 @@ const componentMap: Record<string, any> = {
     icon: 'arrow-up-circle',
     color: 'primary',
   },
+  fab: {
+    title: 'Fab 悬浮按钮',
+    desc: '可拖拽的悬浮操作按钮',
+    icon: 'plus-circle-fill',
+    color: 'primary',
+  },
   'index-bar': {
     title: 'IndexBar 索引栏',
     desc: '字母索引快速定位',
@@ -596,6 +603,7 @@ import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
 import PaginationDemo from '@/components/demos/pagination-demo.vue';
 import BacktopDemo from '@/components/demos/backtop-demo.vue';
+import FabDemo from '@/components/demos/fab-demo.vue';
 
 // 反馈组件
 import ModalDemo from '@/components/demos/modal-demo.vue';
@@ -671,6 +679,7 @@ const demoComponentMap: Record<string, any> = {
   segmented: SegmentedDemo,
   pagination: PaginationDemo,
   backtop: BacktopDemo,
+  fab: FabDemo,
 
   // 反馈组件
   modal: ModalDemo,

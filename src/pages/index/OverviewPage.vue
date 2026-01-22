@@ -416,6 +416,12 @@ const categories = [
         icon: 'arrow-up-circle',
       },
       {
+        name: 'fab',
+        label: 'Fab',
+        desc: '悬浮按钮',
+        icon: 'plus-circle-fill',
+      },
+      {
         name: 'index-bar',
         label: 'IndexBar',
         desc: '字母索引',

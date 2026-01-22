@@ -102,3 +102,5 @@ export { default as LkNumberRoller } from './lk-number-roller/lk-number-roller.v
 
 export { default as LkCurtain } from './lk-curtain/lk-curtain.vue';
 export { default as LkHorizontalScroll } from './lk-horizontal-scroll/lk-horizontal-scroll.vue';
+// New: FAB (Floating Action Button)
+export { default as LkFab } from './lk-fab/lk-fab.vue';
