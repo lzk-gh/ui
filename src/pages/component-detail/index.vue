@@ -44,6 +44,7 @@
           <PickerDemo v-else-if="componentName === 'picker'" />
           <PickerViewDemo v-else-if="componentName === 'picker-view'" />
           <AreaPickerDemo v-else-if="componentName === 'area-picker'" />
+          <KeyboardDemo v-else-if="componentName === 'keyboard'" />
           <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
 
@@ -272,9 +273,15 @@ const componentMap: Record<string, any> = {
     icon: 'geo-alt',
     color: 'success',
   },
+  keyboard: {
+    title: 'Keyboard 虚拟键盘',
+    desc: '多功能虚拟键盘，支持数字/身份证/车牌',
+    icon: 'keyboard',
+    color: 'primary',
+  },
   'number-keyboard': {
     title: 'NumberKeyboard 数字键盘',
-    desc: '用于数字输入的虚拟键盘',
+    desc: '用于数字输入的虚拟键盘（旧版）',
     icon: '123',
     color: 'warning',
   },
@@ -584,6 +591,7 @@ import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
 import PickerViewDemo from '@/components/demos/picker-view-demo.vue';
 import AreaPickerDemo from '@/components/demos/area-picker-demo.vue';
+import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
 import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
 
@@ -660,6 +668,7 @@ const demoComponentMap: Record<string, any> = {
   picker: PickerDemo,
   'picker-view': PickerViewDemo,
   'area-picker': AreaPickerDemo,
+  keyboard: KeyboardDemo,
   'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,
 

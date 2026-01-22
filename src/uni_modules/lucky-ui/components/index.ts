@@ -91,8 +91,10 @@ export { default as LkIndexAnchor } from './lk-index-bar/lk-index-anchor.vue';
 // New: Anchor
 export { default as LkAnchor } from './lk-anchor/lk-anchor.vue';
 export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';
-// New: NumberKeyboard
+// New: NumberKeyboard (Legacy)
 export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue';
+// New: Keyboard (Refactored)
+export { default as LkKeyboard } from './lk-keyboard/lk-keyboard.vue';
 // New: VerifyCode
 export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
 // New: AreaPicker

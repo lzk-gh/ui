@@ -1,0 +1,254 @@
+@use '../../theme/src/mixins' as *;
+
+// ============================================
+// LkKeyboard - Apple Style Keyboard
+// ============================================
+
+@include b(keyboard) {
+  // CSS Variables
+  --kb-bg: rgba(209, 213, 219, 0.95);
+  --kb-key-bg: #fff;
+  --kb-key-bg-active: #c5c8cc;
+  --kb-key-text: #1c1c1e;
+  --kb-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.25);
+  --kb-special-bg: #adb3bc;
+  --kb-accent: var(--lk-color-primary);
+  --kb-radius: 10rpx;
+  --kb-key-height: 84rpx;
+  --kb-gap: 12rpx;
+  --kb-padding: 12rpx;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+
+  @include when(visible) {
+    transform: translateY(0);
+  }
+
+  @include when(blur) {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  // 深色主题
+  @include m(dark) {
+    --kb-bg: rgba(44, 44, 46, 0.95);
+    --kb-key-bg: #636366;
+    --kb-key-bg-active: #48484a;
+    --kb-key-text: #fff;
+    --kb-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.5);
+    --kb-special-bg: #48484a;
+  }
+
+  // 遮罩
+  @include e(overlay) {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 999;
+
+    @include when(visible) {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  // 标题栏
+  @include e(header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 88rpx;
+    padding: 0 var(--lk-spacing-md);
+    background: var(--kb-bg);
+    border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+  }
+
+  @include e(header-left) {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  @include e(header-right) {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @include e(title) {
+    flex: 2;
+    text-align: center;
+    font-size: var(--lk-font-size-base);
+    font-weight: 500;
+    color: var(--kb-key-text);
+  }
+
+  @include e(close) {
+    padding: 8rpx 16rpx;
+  }
+
+  @include e(close-text) {
+    font-size: var(--lk-font-size-base);
+    color: var(--kb-key-text);
+    opacity: 0.6;
+  }
+
+  @include e(done) {
+    padding: 8rpx 16rpx;
+  }
+
+  @include e(done-text) {
+    font-size: var(--lk-font-size-base);
+    color: var(--kb-accent);
+    font-weight: 600;
+  }
+
+  // 拖拽指示条
+  @include e(indicator) {
+    display: flex;
+    justify-content: center;
+    padding: 12rpx 0 8rpx;
+    background: var(--kb-bg);
+  }
+
+  @include e(indicator-bar) {
+    width: 72rpx;
+    height: 8rpx;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4rpx;
+  }
+
+  // 键盘主体
+  @include e(body) {
+    background: var(--kb-bg);
+    padding: var(--kb-padding);
+    padding-top: 0;
+  }
+
+  // 键盘行
+  @include e(row) {
+    display: flex;
+    gap: var(--kb-gap);
+    margin-bottom: var(--kb-gap);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // 按键
+  @include e(key) {
+    flex: 1;
+    height: var(--kb-key-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--kb-key-bg);
+    border-radius: var(--kb-radius);
+    box-shadow: var(--kb-key-shadow);
+    transition:
+      background 0.1s ease,
+      transform 0.1s ease;
+
+    &:active {
+      background: var(--kb-key-bg-active);
+      transform: scale(0.95);
+    }
+
+    // 删除键
+    @include m(delete) {
+      background: var(--kb-special-bg);
+      color: var(--kb-key-text);
+
+      &:active {
+        background: var(--kb-key-bg-active);
+      }
+    }
+
+    // 确认键
+    @include m(confirm) {
+      background: var(--kb-accent);
+      color: #fff;
+
+      &:active {
+        filter: brightness(0.9);
+      }
+    }
+
+    // 额外按键
+    @include m(extra) {
+      background: var(--kb-special-bg);
+      font-size: var(--lk-font-size-sm);
+
+      &:active {
+        background: var(--kb-key-bg-active);
+      }
+    }
+
+    // 空按键
+    @include m(empty) {
+      background: transparent;
+      box-shadow: none;
+      pointer-events: none;
+    }
+
+    // 禁用
+    @include m(disabled) {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    // 宽按键
+    @include m(wide) {
+      flex: 1.5;
+    }
+  }
+
+  // 按键文字
+  @include e(key-text) {
+    font-size: 44rpx;
+    font-weight: 400;
+    color: var(--kb-key-text);
+    line-height: 1;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  }
+
+  // ============================================
+  // 车牌键盘特殊样式
+  // ============================================
+  @include m(plate) {
+    .lk-keyboard__key {
+      --kb-key-height: 72rpx;
+      --kb-radius: 8rpx;
+    }
+
+    .lk-keyboard__key-text {
+      font-size: 32rpx;
+    }
+
+    .lk-keyboard__row {
+      justify-content: center;
+    }
+
+    .lk-keyboard__key {
+      flex: 0 0 auto;
+      width: calc((100% - var(--kb-gap) * 9) / 10);
+      min-width: 56rpx;
+    }
+
+    .lk-keyboard__key--extra,
+    .lk-keyboard__key--delete {
+      width: calc((100% - var(--kb-gap)) / 2);
+      flex: 1;
+    }
+  }
+}

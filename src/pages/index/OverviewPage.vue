@@ -252,10 +252,10 @@ const categories = [
         icon: 'geo-alt',
       },
       {
-        name: 'number-keyboard',
-        label: 'NumberKeyboard',
-        desc: '数字键盘',
-        icon: '123',
+        name: 'keyboard',
+        label: 'Keyboard',
+        desc: '虚拟键盘',
+        icon: 'keyboard',
       },
       {
         name: 'verify-code',
