@@ -1,29 +1,266 @@
 @use '../../theme/src/mixins/bem' as *;
 
-@include b(vc) {
-  position: relative;
+// =============================================
+// 验证码输入框 - Apple 风格
+// =============================================
 
+@include b(verify-code) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // 隐藏的真实输入框
   @include e(input) {
     position: absolute;
+    left: -9999rpx;
     opacity: 0;
     pointer-events: none;
-    height: 0;
     width: 0;
+    height: 0;
   }
 
-  @include e(boxes) {
+  // 单元格容器
+  @include e(cells) {
     display: flex;
-    gap: var(--lk-spacing-xs);
+    justify-content: center;
+    align-items: center;
   }
 
-  @include e(box) {
-    width: 84rpx;
-    height: 84rpx;
-    border: 2rpx solid var(--lk-color-border);
-    border-radius: var(--lk-radius-md);
+  // 单个单元格
+  @include e(cell) {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36rpx;
+    background: var(--lk-color-bg-container);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  // 输入值
+  @include e(value) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    color: var(--lk-color-text);
+    animation: verifyCodePopIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // 密码圆点
+  @include e(dot) {
+    font-size: 48rpx;
+    color: var(--lk-color-text);
+    line-height: 1;
+  }
+
+  // 光标
+  @include e(cursor) {
+    width: 4rpx;
+    height: 40%;
+    background: var(--lk-color-primary);
+    border-radius: 2rpx;
+    animation: verifyCodeBlink 1s ease-in-out infinite;
+  }
+
+  // 提示信息容器
+  @include e(message) {
+    margin-top: 16rpx;
+    text-align: center;
+    font-size: 24rpx;
+    line-height: 1.4;
+  }
+
+  // 错误文字
+  @include e(error) {
+    color: #ff3b30;
+  }
+
+  // 提示文字
+  @include e(tips) {
+    color: var(--lk-color-text-secondary);
+  }
+
+  // 倒计时容器
+  @include e(countdown) {
+    margin-top: 32rpx;
+    text-align: center;
+  }
+
+  // 倒计时按钮
+  @include e(countdown-btn) {
+    display: inline-flex;
+    padding: 16rpx 32rpx;
+    font-size: 28rpx;
+    color: var(--lk-color-primary);
+    background: transparent;
+    border-radius: var(--lk-radius-lg);
+    transition: all 0.2s ease;
+
+    &:active {
+      opacity: 0.7;
+      transform: scale(0.98);
+    }
+
+    &.is-disabled {
+      color: var(--lk-color-text-placeholder);
+      pointer-events: none;
+    }
+  }
+
+  // =============================================
+  // 变体：方框样式 (默认)
+  // =============================================
+  @include m(box) {
+    .lk-verify-code__cell {
+      border: 2rpx solid var(--lk-color-border);
+      border-radius: var(--lk-radius-lg);
+
+      &.is-active {
+        border-color: var(--lk-color-primary);
+        box-shadow: 0 0 0 4rpx rgba(var(--lk-color-primary-rgb, 0, 122, 255), 0.12);
+      }
+
+      &.is-filled {
+        background: var(--lk-color-fill-tertiary);
+        border-color: var(--lk-color-border);
+      }
+    }
+  }
+
+  // =============================================
+  // 变体：下划线样式
+  // =============================================
+  @include m(underline) {
+    .lk-verify-code__cell {
+      border: none;
+      border-bottom: 4rpx solid var(--lk-color-border);
+      border-radius: 0;
+      background: transparent;
+
+      &.is-active {
+        border-bottom-color: var(--lk-color-primary);
+      }
+
+      &.is-filled {
+        border-bottom-color: var(--lk-color-text-secondary);
+      }
+    }
+  }
+
+  // =============================================
+  // 变体：圆角样式
+  // =============================================
+  @include m(rounded) {
+    .lk-verify-code__cell {
+      border: 2rpx solid var(--lk-color-border);
+      border-radius: 50%;
+      background: var(--lk-color-fill-quaternary);
+
+      &.is-active {
+        border-color: var(--lk-color-primary);
+        background: var(--lk-color-bg-container);
+        box-shadow: 0 0 0 4rpx rgba(var(--lk-color-primary-rgb, 0, 122, 255), 0.12);
+      }
+
+      &.is-filled {
+        background: var(--lk-color-fill-tertiary);
+        border-color: transparent;
+      }
+    }
+  }
+
+  // =============================================
+  // 状态样式
+  // =============================================
+
+  // 聚焦状态
+  &.is-focus {
+    .lk-verify-code__cell.is-active {
+      border-color: var(--lk-color-primary);
+    }
+  }
+
+  // 错误状态
+  &.is-error {
+    .lk-verify-code__cell {
+      border-color: #ff3b30 !important;
+      animation: verifyCodeShake 0.4s ease;
+
+      &.is-active {
+        box-shadow: 0 0 0 4rpx rgba(255, 59, 48, 0.12);
+      }
+    }
+  }
+
+  // 成功状态
+  &.is-success {
+    .lk-verify-code__cell {
+      border-color: #34c759 !important;
+      background: rgba(52, 199, 89, 0.08);
+
+      &.is-filled {
+        .lk-verify-code__value {
+          color: #34c759;
+        }
+      }
+    }
+  }
+
+  // 禁用状态
+  &.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+
+    .lk-verify-code__cell {
+      background: var(--lk-color-fill-quaternary);
+    }
+  }
+}
+
+// =============================================
+// 动画
+// =============================================
+
+// 光标闪烁
+@keyframes verifyCodeBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+// 值弹入
+@keyframes verifyCodePopIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// 错误抖动
+@keyframes verifyCodeShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8rpx);
+  }
+  40%,
+  80% {
+    transform: translateX(8rpx);
   }
 }
