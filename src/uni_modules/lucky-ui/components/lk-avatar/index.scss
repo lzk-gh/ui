@@ -5,8 +5,9 @@
   // 1. 定义组件级 CSS 变量
   // =========================================
   --_size: 80rpx;
-  --_bg: var(--lk-color-fill-tertiary);
-  --_color: var(--lk-color-text-secondary);
+  // 使用更柔和的填充色，亮暗主题下自动适配
+  --_bg: var(--lk-bg-input);
+  --_color: var(--lk-text-secondary);
   --_radius: var(--lk-radius-md);
   --_fs: var(--lk-control-font-size-md);
 

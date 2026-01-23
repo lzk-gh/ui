@@ -1,108 +1,361 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
+// ================================
+// Steps 步骤条容器
+// ================================
 @include b(steps) {
+  --_icon-size: 56rpx;
+  --_dot-size: 16rpx;
+  --_line-width: 4rpx;
+  --_spacing: var(--lk-spacing-lg);
+  --_color-active: var(--lk-color-primary);
+  --_color-finished: var(--lk-color-primary);
+  --_color-pending: var(--lk-fill-2);
+  --_color-line: var(--lk-color-border-light);
+  --_transition-timing: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  position: relative;
   display: flex;
 
-  @include m(vertical) {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
+  // ==================== 水平模式 ====================
   @include m(horizontal) {
     flex-direction: row;
     align-items: flex-start;
+    justify-content: space-between;
+
+    .lk-step {
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      &__line {
+        position: absolute;
+        top: calc(var(--_icon-size) / 2);
+        left: calc(50% + var(--_icon-size) / 2 + 8rpx);
+        right: calc(-50% + var(--_icon-size) / 2 + 8rpx);
+        height: var(--_line-width);
+        background: var(--_color-line);
+        transform: translateY(-50%);
+        overflow: hidden;
+
+        &-fill {
+          width: 0%;
+          height: 100%;
+          background: var(--_color-finished);
+          transition: width 0.6s var(--_transition-timing);
+        }
+      }
+
+      &__content {
+        margin-top: var(--lk-spacing-sm);
+      }
+
+      &:last-child .lk-step__line {
+        display: none;
+      }
+
+      &.is-finished .lk-step__line-fill {
+        width: 100%;
+      }
+    }
+  }
+
+  // ==================== 垂直模式 ====================
+  @include m(vertical) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .lk-step {
+      flex-direction: row;
+      align-items: flex-start;
+      padding-bottom: var(--_spacing);
+
+      &__icon {
+        flex-shrink: 0;
+      }
+
+      &__line {
+        position: absolute;
+        left: calc(var(--_icon-size) / 2);
+        top: calc(var(--_icon-size) + 8rpx);
+        bottom: 8rpx;
+        width: var(--_line-width);
+        transform: translateX(-50%);
+        background: var(--_color-line);
+        overflow: hidden;
+
+        &-fill {
+          width: 100%;
+          height: 0%;
+          background: var(--_color-finished);
+          transition: height 0.6s var(--_transition-timing);
+        }
+      }
+
+      &__content {
+        margin-left: var(--lk-spacing-md);
+        padding-top: 6rpx;
+        text-align: left;
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+
+        .lk-step__line {
+          display: none;
+        }
+      }
+
+      &.is-finished .lk-step__line-fill {
+        height: 100%;
+      }
+    }
+  }
+
+  // ==================== 进度条模式 ====================
+  @include m(progress) {
+    .lk-step__line {
+      display: none;
+    }
+  }
+
+  // 进度条轨道
+  @include e(track) {
+    position: absolute;
+    top: calc(var(--_icon-size) / 2);
+    left: calc(var(--_icon-size) / 2);
+    right: calc(var(--_icon-size) / 2);
+    height: var(--_line-width);
+    background: var(--_color-line);
+    border-radius: var(--lk-radius-pill);
+    transform: translateY(-50%);
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  @include e(progress) {
+    height: 100%;
+    width: var(--steps-progress);
+    background: linear-gradient(90deg, var(--_color-finished), var(--_color-active));
+    border-radius: var(--lk-radius-pill);
+    transition: width 0.6s var(--_transition-timing);
+  }
+
+  // ==================== Dot 简洁模式 ====================
+  @include m(dot) {
+    --_icon-size: 32rpx;
+    --_dot-size: 12rpx;
+
+    .lk-step__circle {
+      width: var(--_icon-size);
+      height: var(--_icon-size);
+    }
+
+    .lk-step__number {
+      display: none;
+    }
+
+    .lk-step__dot {
+      display: block;
+    }
   }
 }
 
+// ================================
+// Step 单个步骤
+// ================================
 @include b(step) {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  min-width: 140rpx;
+  z-index: 1;
 
+  // ==================== 图标区域 ====================
   @include e(icon) {
-    width: 52rpx;
-    height: 52rpx;
-    border-radius: var(--lk-radius-circle);
-    background: var(--lk-color-fill-tertiary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
+    width: var(--_icon-size);
+    height: var(--_icon-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
+  // 涟漪动画
+  @include e(ripple) {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--lk-radius-circle);
+    background: var(--_color-active);
+    opacity: 0.25;
+    animation: lk-step-ripple 1.5s ease-out infinite;
+  }
+
+  // 圆圈主体
+  @include e(circle) {
+    width: var(--_icon-size);
+    height: var(--_icon-size);
+    border-radius: var(--lk-radius-circle);
+    background: var(--_color-pending);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform 0.4s var(--_transition-timing),
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  // 内部圆点
   @include e(dot) {
-    width: 18rpx;
-    height: 18rpx;
-    background: var(--lk-color-primary);
+    width: var(--_dot-size);
+    height: var(--_dot-size);
+    background: var(--lk-text-tertiary);
     border-radius: var(--lk-radius-circle);
+    transition:
+      transform 0.4s var(--_transition-timing),
+      background 0.3s ease;
   }
 
-  @include e(done) {
-    position: absolute;
-    color: var(--lk-color-text-inverse);
-    background: var(--lk-color-primary);
-    width: 100%;
-    height: 100%;
-    border-radius: var(--lk-radius-circle);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  // 步骤序号
+  @include e(number) {
+    font-size: var(--lk-font-size-sm);
+    font-weight: 600;
+    color: var(--lk-text-tertiary);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s ease;
   }
 
-  @include e(err) {
-    position: absolute;
-    color: var(--lk-color-text-inverse);
-    background: var(--lk-color-primary-active);
-    width: 100%;
-    height: 100%;
-    border-radius: var(--lk-radius-circle);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  // 完成勾选图标
+  @include e(check) {
+    color: #fff;
+    animation: lk-step-check 0.4s var(--_transition-timing);
   }
 
+  // 错误图标
+  @include e(error-icon) {
+    color: #fff;
+  }
+
+  // 自定义图标
+  @include e(custom-icon) {
+    color: var(--lk-text-tertiary);
+    transition: color 0.3s ease;
+  }
+
+  // ==================== 内容区域 ====================
   @include e(content) {
-    margin-top: var(--lk-spacing-xs);
-    text-align: center;
     display: flex;
     flex-direction: column;
     gap: 4rpx;
   }
 
   @include e(title) {
-    font-size: var(--lk-font-size-xs);
-    // 使用新的中性文字颜色变量
-    color: var(--lk-text-primary);
+    font-size: var(--lk-font-size-sm);
+    font-weight: 500;
+    color: var(--lk-text-tertiary);
+    transition: color 0.3s ease;
+    line-height: 1.4;
   }
 
   @include e(sub) {
-    font-size: 22rpx;
-    // 使用新的中性文字颜色变量
-    color: var(--lk-text-secondary);
+    font-size: var(--lk-font-size-xs);
+    color: var(--lk-text-placeholder);
+    line-height: 1.4;
   }
 
-  @include e(line) {
-    position: absolute;
-    top: 26rpx;
-    left: calc(50% + 26rpx);
-    right: -50%;
-    height: 4rpx;
-    background: var(--lk-color-border-light);
-    z-index: -1;
-  }
+  // ==================== 激活态 ====================
+  @include when(active) {
+    @include e(circle) {
+      background: var(--_color-active);
+      transform: scale(1.1);
+      box-shadow:
+        0 4rpx 16rpx rgba(var(--lk-color-primary-rgb), 0.35),
+        0 0 0 6rpx rgba(var(--lk-color-primary-rgb), 0.12);
+    }
 
-  &:last-child {
-    @include e(line) {
-      display: none;
+    @include e(dot) {
+      background: #fff;
+      transform: scale(1.2);
+    }
+
+    @include e(number) {
+      color: #fff;
+    }
+
+    @include e(custom-icon) {
+      color: #fff;
+    }
+
+    @include e(title) {
+      color: var(--lk-text-primary);
+      font-weight: 600;
     }
   }
 
+  // ==================== 完成态 ====================
   @include when(finished) {
-    @include e(line) {
-      background: var(--lk-color-primary);
+    @include e(circle) {
+      background: var(--_color-finished);
     }
+
+    @include e(dot) {
+      background: #fff;
+    }
+
+    @include e(number) {
+      color: #fff;
+    }
+
+    @include e(custom-icon) {
+      color: #fff;
+    }
+
+    @include e(title) {
+      color: var(--lk-text-primary);
+    }
+  }
+
+  // ==================== 错误态 ====================
+  @include when(error) {
+    @include e(circle) {
+      background: var(--lk-color-danger);
+      box-shadow:
+        0 4rpx 16rpx rgba(var(--lk-color-danger-rgb), 0.35),
+        0 0 0 6rpx rgba(var(--lk-color-danger-rgb), 0.12);
+    }
+
+    @include e(title) {
+      color: var(--lk-color-danger);
+    }
+  }
+}
+
+// ==================== 动画关键帧 ====================
+@keyframes lk-step-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes lk-step-check {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(0);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
   }
 }

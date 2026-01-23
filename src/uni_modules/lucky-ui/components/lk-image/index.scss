@@ -22,15 +22,33 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--lk-spacing-xs);
-    // 使用中性文字颜色，而不是品牌色
+    gap: var(--lk-spacing-sm);
+    // 使用中性文字颜色
     color: var(--lk-text-secondary);
     font-size: var(--lk-font-size-xs);
     // 使用中性填充色背景
     background: var(--lk-fill-1, var(--lk-skeleton-start));
   }
 
+  // 加载状态使用 lk-loading 组件
+  @include e(loading) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 失败状态样式
+  @include e(error) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--lk-spacing-xs);
+    color: var(--lk-text-placeholder);
+  }
+
   @include e(text) {
-    font-size: var(--lk-font-size-sm);
+    font-size: var(--lk-font-size-xs);
+    color: var(--lk-text-placeholder);
   }
 }

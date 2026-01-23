@@ -5,8 +5,9 @@
   // 1. 定义组件级 CSS 变量
   // =========================================
   --_color: var(--lk-color-border-light);
-  --_text-color: var(--lk-color-text-secondary);
-  --_text-bg: var(--lk-color-bg-body);
+  --_text-color: var(--lk-text-secondary);
+  // 使用正确的背景变量，自动适配亮暗主题
+  --_text-bg: var(--lk-bg-container);
   --_text-fs: var(--lk-font-size-sm);
   --_margin: var(--lk-spacing-xl);
 

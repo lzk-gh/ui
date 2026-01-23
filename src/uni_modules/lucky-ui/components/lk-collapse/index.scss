@@ -70,7 +70,8 @@
     font-size: var(--_body-fs);
     line-height: 1.6;
     color: var(--lk-color-text-secondary);
-    animation: lk-collapse-expand var(--lk-transition-base) ease;
+    // 更平滑的展开动画
+    animation: lk-collapse-expand 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @include when(disabled) {
@@ -81,10 +82,12 @@
 @keyframes lk-collapse-expand {
   from {
     opacity: 0;
-    transform: translateY(-6rpx);
+    transform: translateY(-12rpx);
+    max-height: 0;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    max-height: 2000rpx;
   }
 }

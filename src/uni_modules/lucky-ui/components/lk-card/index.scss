@@ -10,7 +10,8 @@
   --_subtitle-fs: var(--lk-font-size-sm);
   --_body-fs: var(--lk-control-font-size-md);
   --_footer-fs: var(--lk-font-size-sm);
-  --_shadow: 0 2rpx 4rpx 0 rgba(216, 224, 236, 0.3), 0 4rpx 12rpx 0 rgba(216, 224, 236, 0.2);
+  // 使用主题变量自动适配亮暗模式
+  --_shadow: var(--lk-shadow-sm);
 
   // =========================================
   // 2. 核心盒模型
@@ -33,14 +34,8 @@
   @include when(hover) {
     &:active {
       transform: translateY(2rpx);
-      box-shadow: 0 1rpx 2rpx 0 rgba(216, 224, 236, 0.3);
+      box-shadow: var(--lk-shadow-sm);
     }
-  }
-
-  // 暗黑模式适配
-  :host-context(.lk-theme-dark) &,
-  .lk-theme-dark & {
-    --_shadow: 0 4rpx 16rpx 0 rgba(0, 0, 0, 0.5), 0 2rpx 4rpx 0 rgba(0, 0, 0, 0.4);
   }
 
   @include e(cover) {

@@ -3,12 +3,14 @@
 @include b(notice-bar) {
   display: flex;
   align-items: center;
-  gap: var(--lk-spacing-xs);
-  padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
-  font-size: 24rpx;
+  gap: var(--lk-spacing-sm);
+  // 调整内边距使通知栏高度更适当
+  padding: var(--lk-spacing-sm) var(--lk-spacing-md);
+  min-height: 72rpx;
+  font-size: 26rpx;
   line-height: 1.5;
   overflow: hidden;
-  border-radius: var(--lk-radius-full);
+  border-radius: var(--lk-radius-lg);
 
   @include e(icon) {
     display: flex;

@@ -17,8 +17,18 @@ export const StepsStatus = {
   Error: 'error',
 } as const;
 
+/**
+ * 步骤条样式类型
+ */
+export const StepsType = {
+  Default: 'default',
+  Dot: 'dot',
+  Progress: 'progress',
+} as const;
+
 export type StepsDirection = (typeof StepsDirection)[keyof typeof StepsDirection];
 export type StepsStatus = (typeof StepsStatus)[keyof typeof StepsStatus];
+export type StepsType = (typeof StepsType)[keyof typeof StepsType];
 
 export const stepsProps = {
   ...baseProps,
@@ -33,8 +43,19 @@ export const stepsProps = {
    */
   direction: LkProp.enum(Object.values(StepsDirection), StepsDirection.Horizontal, 'Steps.direction'),
 
+  /**
+   * 样式类型
+   * @value default 默认带图标
+   * @value dot 简洁圆点模式
+   * @value progress 进度条模式
+   */
+  type: LkProp.enum(Object.values(StepsType), StepsType.Default, 'Steps.type'),
+
   /** 状态 */
   status: LkProp.string(''),
+
+  /** 是否显示序号 */
+  showNumber: LkProp.boolean(false),
 } as const;
 
 export type StepsProps = ExtractPropTypes<typeof stepsProps>;

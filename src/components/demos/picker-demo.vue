@@ -36,30 +36,6 @@
         :columns="cascadeData"
       />
     </demo-block>
-
-    <demo-block title="地区选择器">
-      <lk-button @click="show4 = true">选择地区</lk-button>
-      <view class="result">当前：{{ value4.join(' - ') || '未选择' }}</view>
-      <lk-picker
-        v-model:visible="show4"
-        v-model="value4"
-        mode="region"
-        title="选择地区"
-        :region-level="3"
-      />
-    </demo-block>
-
-    <demo-block title="内联选择器">
-      <view class="inline-picker-box">
-        <lk-picker
-          v-model="inlineValue"
-          mode="single"
-          inline
-          :columns="columns"
-        />
-      </view>
-      <view class="result">内联值：{{ inlineDisplay }}</view>
-    </demo-block>
   </view>
 </template>
 
@@ -160,17 +136,6 @@ const cascadeDisplay = computed(() => {
   if (!value3.value.length) return '未选择'
   return value3.value.join(' > ')
 })
-
-// 地区选择器
-const show4 = ref(false)
-const value4 = ref<(string | number)[]>([])
-
-// 内联选择器
-const inlineValue = ref('red')
-const inlineDisplay = computed(() => {
-  const m = new Map(columns.map((o) => [o.value, o.label]))
-  return m.get(inlineValue.value as string) || ''
-})
 </script>
 
 <style scoped lang="scss">
@@ -184,11 +149,5 @@ const inlineDisplay = computed(() => {
   margin-top: 16rpx;
   font-size: 28rpx;
   color: var(--lk-color-text-secondary);
-}
-
-.inline-picker-box {
-  background: var(--lk-color-bg-container);
-  border-radius: var(--lk-radius-lg);
-  overflow: hidden;
 }
 </style>

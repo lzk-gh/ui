@@ -86,11 +86,16 @@
     // 使用中性文字颜色，而非品牌色
     --_color: var(--lk-text-primary);
     height: auto;
-    padding: var(--lk-spacing-xxs) 0;
-    
-    // 使用中性点击叠加色
+    min-height: 0;
+    padding: 0;
+    line-height: 1.5;
+    font-weight: 400;
+
+    // 点击时高亮文字为主题色，无背景色
     &:active:not(.is-disabled):not(.is-loading) {
-      background: var(--lk-bg-active);
+      --_color: var(--lk-color-primary);
+      background: transparent;
+      opacity: 0.8;
     }
   }
 

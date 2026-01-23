@@ -9,8 +9,9 @@
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-primary);
-  --_color: var(--lk-color-text-inverse);
+  // 使用危险色作为默认徽标颜色，符合常规设计规范
+  --_bg: var(--lk-color-danger);
+  --_color: #ffffff;
   --_fs: var(--lk-font-size-xs);
   --_h: 36rpx;
   --_dot-size: 16rpx;

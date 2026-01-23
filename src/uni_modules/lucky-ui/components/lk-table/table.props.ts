@@ -4,7 +4,9 @@ import { baseProps, LkProp } from '../common/props'
 export interface TableColumn {
   key: string
   title?: string
+  /** 列宽度，支持 px、rpx、百分比，不设置则均匀分配 */
   width?: string | number
+  /** 最小宽度 */
   minWidth?: string | number
   align?: 'left' | 'center' | 'right'
   sortable?: boolean
@@ -19,12 +21,11 @@ export interface TableColumn {
     rowIndex: number
   ) => unknown
   summary?: 'sum' | 'avg' | ((values: number[], col: TableColumn) => unknown)
+  /** 列固定位置 */
   fixed?: 'left' | 'right'
   hidden?: boolean
   className?: string
   headerSlot?: string
-  /** 卡片模式下是否作为主要字段显示 */
-  primary?: boolean
 }
 
 export interface TableAction {
@@ -40,9 +41,6 @@ export interface DefaultSort {
 
 export const tableProps = {
   ...baseProps,
-
-  /** 展示模式: card=卡片模式(移动端友好), table=传统表格 */
-  mode: LkProp.enum(['card', 'table'] as const, 'card', 'mode'),
 
   /** 表格列配置 */
   columns: {
@@ -68,13 +66,13 @@ export const tableProps = {
   /** 是否紧凑模式 */
   compact: LkProp.boolean(false),
 
-  /** 是否显示索引列 (仅table模式) */
+  /** 是否显示索引列 */
   showIndex: LkProp.boolean(false),
 
   /** 是否可选择 */
   selectable: LkProp.boolean(false),
 
-  /** 表头是否吸顶 (仅table模式) */
+  /** 表头是否吸顶 */
   stickyHeader: LkProp.boolean(true),
 
   /** 最大高度 */
@@ -107,14 +105,20 @@ export const tableProps = {
     default: (): (string | number)[] => [],
   },
 
-  /** 是否可展开详情 (仅card模式) */
-  expandable: LkProp.boolean(false),
-
-  /** 滑动操作按钮 (仅card模式) */
+  /** 操作列配置 */
   actions: {
     type: Array as PropType<TableAction[]>,
     default: (): TableAction[] => [],
   },
+
+  /** 操作列宽度 */
+  actionWidth: {
+    type: [Number, String] as PropType<number | string>,
+    default: 160,
+  },
+
+  /** 操作列是否固定在右侧 */
+  actionFixed: LkProp.boolean(true),
 } as const
 
 export type TableProps = ExtractPropTypes<typeof tableProps>

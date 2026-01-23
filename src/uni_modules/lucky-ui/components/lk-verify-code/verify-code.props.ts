@@ -41,8 +41,8 @@ export const verifyCodeProps = {
   ),
   /** 是否密码模式（显示圆点） */
   mask: LkProp.boolean(false),
-  /** 是否自动聚焦 */
-  autofocus: LkProp.boolean(true),
+  /** 是否自动聚焦（默认不自动拉起输入框） */
+  autofocus: LkProp.boolean(false),
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
   /** 状态 */

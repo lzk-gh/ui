@@ -74,10 +74,14 @@
 
   @include e(line) {
     position: absolute;
-    top: calc(var(--lk-timeline-dot-size, 20rpx) + 12rpx);
-    bottom: calc(var(--lk-timeline-gap, 28rpx) * -1);
+    // 修复线条位置，确保显示
+    top: calc(var(--lk-timeline-dot-size, 20rpx) + 16rpx);
+    bottom: calc(var(--lk-timeline-gap, 28rpx) * -1 + 10rpx);
+    left: 50%;
+    transform: translateX(-50%);
     width: var(--lk-timeline-line-width, 4rpx);
-    background: var(--lk-timeline-line-color, var(--lk-color-border-weak));
+    // 使用更明显的边框色
+    background: var(--lk-color-border-light);
     border-radius: 999rpx;
   }
 
@@ -89,8 +93,8 @@
 
   @include e(card) {
     flex: 1;
-    background: var(--lk-timeline-card-bg, var(--lk-color-bg-surface));
-    border: 1rpx solid var(--lk-timeline-card-border, var(--lk-color-border-weak));
+    background: var(--lk-bg-container);
+    border: 2rpx solid var(--lk-color-border-light);
     border-radius: 28rpx;
     padding: 28rpx;
     box-shadow: var(--lk-shadow-sm);
@@ -99,21 +103,33 @@
     gap: 10rpx;
   }
 
+  // 激活态样式优化
   @include when(active) {
     @include e(dot) {
       box-shadow:
-        0 0 0 10rpx rgb(0 0 0 / 6%),
-        0 10rpx 24rpx rgb(0 0 0 / 14%);
-      transform: scale(1.1);
+        0 0 0 10rpx rgba(var(--lk-color-primary-rgb, 105, 101, 219), 0.15),
+        0 10rpx 24rpx rgba(0, 0, 0, 0.14);
+      transform: scale(1.2);
     }
 
     @include e(card) {
-      border-color: var(--lk-timeline-accent, var(--lk-color-primary));
-      box-shadow: 0 12rpx 32rpx rgb(0 0 0 / 12%);
+      border-color: var(--lk-color-primary);
+      box-shadow: 0 12rpx 32rpx rgba(var(--lk-color-primary-rgb, 105, 101, 219), 0.15);
     }
 
     @include e(title) {
-      color: var(--lk-timeline-accent, var(--lk-color-primary));
+      color: var(--lk-color-primary);
+    }
+
+    @include e(line) {
+      background: var(--lk-color-primary);
+    }
+  }
+
+  // 已完成状态
+  @include when(finished) {
+    @include e(line) {
+      background: var(--lk-color-primary);
     }
   }
 

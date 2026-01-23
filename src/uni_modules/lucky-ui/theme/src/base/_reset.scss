@@ -46,7 +46,30 @@ input,
 textarea,
 select {
   font: inherit;
-  -webkit-tap-highlight-color: transparent; // 移除移动端点击时的默认高亮效果
+}
+
+// =====================================================
+// 全局去除 uniapp 默认点击态
+// =====================================================
+page,
+view,
+text,
+image,
+button,
+input,
+textarea,
+navigator,
+swiper,
+swiper-item,
+scroll-view,
+form,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+// 去除 button 的 after 伪元素边框（uni-app 默认会添加）
+button::after {
+  display: none;
 }
 
 

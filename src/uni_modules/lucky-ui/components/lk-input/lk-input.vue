@@ -53,6 +53,11 @@ function clear() {
   emit('clear');
 }
 
+// 假输入框点击事件
+function onFakeClick() {
+  emit('click');
+}
+
 const count = computed(() => {
   if (!props.showCount && !props.showWordLimit) return '';
   const len = String(inner.value ?? '').length;
@@ -65,9 +70,15 @@ const classes = computed(() => [
   {
     'is-disabled': props.disabled,
     'is-readonly': props.readonly,
+    'is-fake': props.fake,
     'has-count': !!count.value,
   },
 ]);
+
+// 假输入框显示的文本
+const fakeDisplayText = computed(() => {
+  return props.fakeText || props.placeholder || '';
+});
 
 watch(
   () => props.modelValue,
@@ -76,14 +87,21 @@ watch(
 </script>
 
 <template>
-  <view :class="classes">
+  <view :class="classes" @click="fake ? onFakeClick() : undefined">
     <view v-if="$slots.prefix || prefixIcon" class="lk-input__prefix">
       <slot name="prefix">
-        <lk-icon v-if="prefixIcon" :name="prefixIcon" size="32" />
+        <lk-icon v-if="prefixIcon" :name="prefixIcon" size="36" />
       </slot>
     </view>
 
+    <!-- 假输入框模式 -->
+    <view v-if="fake" class="lk-input__fake">
+      <text class="lk-input__fake-text">{{ fakeDisplayText }}</text>
+    </view>
+
+    <!-- 真实输入框 -->
     <input
+      v-else
       class="lk-input__inner"
       :value="inner"
       :type="type"
@@ -98,16 +116,20 @@ watch(
       @compositionstart="onCompositionStart"
       @compositionend="onCompositionEnd"
     />
+
+    <!-- 内嵌通知栏插槽 -->
+    <slot name="notice"></slot>
+
     <view v-if="$slots.suffix || suffixIcon" class="lk-input__suffix">
       <slot name="suffix">
-        <lk-icon v-if="suffixIcon" :name="suffixIcon" size="32" />
+        <lk-icon v-if="suffixIcon" :name="suffixIcon" size="36" />
       </slot>
     </view>
 
-    <view v-if="clearable && !disabled && !readonly && inner" class="lk-input__clear" @click="clear"
+    <view v-if="clearable && !disabled && !readonly && inner && !fake" class="lk-input__clear" @click="clear"
       >×</view
     >
-    <view v-if="count" class="lk-input__count">{{ count }}</view>
+    <view v-if="count && !fake" class="lk-input__count">{{ count }}</view>
   </view>
 </template>
 

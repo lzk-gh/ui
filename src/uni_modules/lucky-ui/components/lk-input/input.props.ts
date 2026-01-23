@@ -83,8 +83,20 @@ export const inputProps = {
 
   /** 是否显示输入字数限制 */
   showWordLimit: LkProp.boolean(false),
+
+  /**
+   * 是否为假输入框模式
+   * 用于搜索跳转场景，点击会触发 click 事件而非聚焦
+   */
+  fake: LkProp.boolean(false),
+
+  /**
+   * 假输入框的显示文本
+   * 当 fake=true 时使用，不设置则显示 placeholder
+   */
+  fakeText: LkProp.string(''),
 } as const;
 
 export type InputProps = ExtractPropTypes<typeof inputProps>;
 
-export const inputEmits = ['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear'];
+export const inputEmits = ['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear', 'click'];

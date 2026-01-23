@@ -9,7 +9,8 @@
   // 颜色（可通过 style 覆盖）
   --switch-active-color: var(--lk-color-primary, #409eff);
   --switch-inactive-color: var(--lk-color-border, #dcdfe6);
-  --switch-knob-color: var(--lk-color-text-inverse, #fff);
+  // 滑块颜色默认白色，支持自定义
+  --switch-knob-color: #ffffff;
 
   // 计算属性
   --switch-width: calc(var(--switch-height) * 1.8);

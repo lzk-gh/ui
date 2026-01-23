@@ -7,7 +7,7 @@
   /* 内部样式变量 */
   --_nav-bg: var(--lk-color-bg-container);
   --_active-color: var(--lk-color-primary);
-  --_line-height: 8rpx;
+  --_line-height: 6rpx;
   --_line-radius: var(--lk-radius-full);
 
   @include e(nav-wrapper) {
@@ -38,12 +38,12 @@
     position: relative;
     padding: 24rpx 36rpx;
     font-size: var(--lk-font-size-base);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: color var(--lk-duration-base);
+    transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
 
     &:first-child {
@@ -60,6 +60,7 @@
     }
   }
 
+  // Gooey Effect 指示条 - 使用 CSS 实现粘滞效果
   @include e(line) {
     position: absolute;
     bottom: 0;
@@ -67,23 +68,60 @@
     height: var(--_line-height);
     background: var(--lk-color-primary);
     border-radius: var(--_line-radius);
+    // 核心：使用弹性缓动函数实现粘滞感
     transition:
-      transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
-      width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+      width 300ms cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform, width;
     pointer-events: none;
+
+    // 添加伪元素实现拖尾效果
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background: inherit;
+      border-radius: inherit;
+      opacity: 0.3;
+      transition:
+        width 350ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 200ms ease;
+    }
+
+    &::before {
+      left: -8rpx;
+      width: 16rpx;
+    }
+
+    &::after {
+      right: -8rpx;
+      width: 16rpx;
+    }
   }
 
   @include m(card) {
     @include e(nav-item) {
       margin: 12rpx 12rpx 0;
-      background: var(--lk-color-fill-tertiary);
+      background: var(--lk-fill-1);
       border-radius: var(--lk-radius-full);
       padding: 18rpx 32rpx;
+      // Gooey effect 过渡
+      transition:
+        background 300ms cubic-bezier(0.4, 0, 0.2, 1),
+        color 250ms ease,
+        transform 200ms ease;
 
       @include when(active) {
         background: var(--lk-color-primary);
-        color: var(--lk-color-text-inverse);
+        color: #ffffff;
+        // 轻微放大强调选中态
+        transform: scale(1.02);
+      }
+
+      &:active {
+        transform: scale(0.98);
       }
     }
 
