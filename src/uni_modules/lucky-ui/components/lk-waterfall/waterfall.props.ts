@@ -1,91 +1,172 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-export type AnyItem = Record<string, any> & { id?: string | number };
+/**
+ * 瀑布流项目类型
+ */
+export interface WaterfallItem {
+  /** 唯一标识 */
+  id: string | number;
+  /** 图片地址 (用于预加载计算高度) */
+  image?: string;
+  /** 图片宽度 (可选，加速计算) */
+  imageWidth?: number;
+  /** 图片高度 (可选，加速计算) */
+  imageHeight?: number;
+  /** 宽高比 (可选，优先级高于 imageWidth/imageHeight) */
+  ratio?: number;
+  /** 额外高度 (如卡片标题区域) */
+  extraHeight?: number;
+  /** 任意扩展字段 */
+  [key: string]: any;
+}
+
+/**
+ * 加载状态枚举
+ */
+export type WaterfallLoadingState = 'idle' | 'loading' | 'loaded' | 'error';
+
+/**
+ * 布局后的卡片位置信息
+ */
+export interface PlacedCard {
+  /** 原始数据索引 */
+  index: number;
+  /** 唯一标识 */
+  id: string | number;
+  /** 所在列 (0=左, 1=右) */
+  column: 0 | 1;
+  /** 顶部偏移 (px) */
+  top: number;
+  /** 左侧偏移 (px) - 绝对定位使用 */
+  left?: number;
+  /** 卡片宽度 (px) */
+  width: number;
+  /** 卡片高度 (px) */
+  height: number;
+  /** 加载状态 */
+  loadingState: WaterfallLoadingState;
+  /** 原始数据 */
+  item: WaterfallItem;
+}
 
 export const waterfallProps = {
   ...baseProps,
 
-  /** 数据项列表 */
+  /**
+   * 数据列表
+   */
   items: {
-    type: Array as PropType<AnyItem[]>,
+    type: Array as PropType<WaterfallItem[]>,
     default: () => [],
   },
 
-  /** 视口高度 */
-  height: {
-    type: [Number, String] as PropType<number | string>,
-    default: 600,
-  },
+  /**
+   * 容器高度 (支持 rpx/px/number)
+   */
+  height: LkProp.stringNumber('100vh'),
 
-  /** 列数 */
-  column: LkProp.number(2),
+  /**
+   * 列间距 (支持 rpx/px/number)
+   */
+  gutter: LkProp.stringNumber(16),
 
-  /** 间距 */
-  gap: {
-    type: [Number, String] as PropType<number | string>,
-    default: 8,
-  },
+  /**
+   * 行间距 (支持 rpx/px/number)
+   */
+  rowGap: LkProp.stringNumber(16),
 
-  /** 左右内边距 */
-  paddingX: {
-    type: [Number, String] as PropType<number | string>,
-    default: 0,
-  },
+  /**
+   * 左右内边距 (支持 rpx/px/number)
+   */
+  paddingX: LkProp.stringNumber(16),
 
-  /** 行单元高度 */
-  rowUnit: {
-    type: [Number, String] as PropType<number | string>,
-    default: 50,
-  },
+  /**
+   * 上下内边距 (支持 rpx/px/number)
+   */
+  paddingY: LkProp.stringNumber(16),
 
-  /** 估算高度 */
+  /**
+   * 默认卡片额外高度 (图片下方区域，如标题)
+   */
+  defaultExtraHeight: LkProp.number(60),
+
+  /**
+   * 预估高度 (当无法计算时使用)
+   */
   estimateHeight: LkProp.number(200),
 
-  /** 高度字段名 */
-  heightKey: LkProp.string('height'),
+  /**
+   * 图片加载超时时间 (ms)
+   */
+  imageLoadTimeout: LkProp.number(5000),
 
-  /** 触底阈值 */
-  lowerThreshold: {
-    type: [Number, String] as PropType<number | string>,
-    default: '80rpx',
-  },
+  /**
+   * 触底阈值 (px)
+   */
+  lowerThreshold: LkProp.number(200),
 
-  /** 预取行数 */
-  prefetchRows: LkProp.number(0),
+  /**
+   * 预加载屏数 (提前加载N屏数据)
+   */
+  preloadScreens: LkProp.number(2),
 
-  /** 是否动态 overscan */
-  dynamicOverscan: LkProp.boolean(true),
+  /**
+   * 是否显示骨架屏占位
+   */
+  showSkeleton: LkProp.boolean(true),
 
-  /** 最大 overscan 行数 */
-  maxOverscanRows: LkProp.number(24),
+  /**
+   * 是否启用图片高度预计算
+   */
+  preloadImage: LkProp.boolean(true),
 
-  /** overscan 加速因子 */
-  overscanBoostFactor: LkProp.number(0.6),
+  /**
+   * 图片加载失败时的占位图
+   */
+  errorPlaceholder: LkProp.string(''),
 
-  /** 缓冲行数 */
-  buffer: LkProp.number(6),
+  /**
+   * 卡片圆角 (支持 rpx/px/number)
+   */
+  cardRadius: LkProp.stringNumber(16),
 
-  /** 是否启用 passive */
-  enablePassive: LkProp.boolean(true),
+  /**
+   * 是否启用滚动动画
+   */
+  scrollWithAnimation: LkProp.boolean(false),
 
-  /** 是否增强模式 */
+  /**
+   * 是否启用回弹效果 (iOS)
+   */
+  bounces: LkProp.boolean(true),
+
+  /**
+   * 是否增强模式 (小程序)
+   */
   enhanced: LkProp.boolean(true),
 
-  /** 是否开启回弹 */
-  bounces: LkProp.boolean(false),
-
-  /** 是否开启滚动锚定 */
-  scrollAnchoring: LkProp.boolean(true),
-
-  /** 是否开启滚动动画 */
-  scrollWithAnimation: LkProp.boolean(false),
+  /**
+   * 是否显示滚动条
+   */
+  showScrollbar: LkProp.boolean(false),
 } as const;
 
 export type WaterfallProps = ExtractPropTypes<typeof waterfallProps>;
 
 export const waterfallEmits = {
-  prefetch: () => true,
+  /** 滚动事件 */
+  scroll: (payload: { scrollTop: number; scrollHeight: number }) => true,
+  /** 触底事件 */
   'reach-bottom': () => true,
-  scroll: (payload: { scrollTop: number; start: number; end: number }) => true,
+  /** 需要加载更多 */
+  'load-more': () => true,
+  /** 卡片点击 */
+  'card-click': (item: WaterfallItem, index: number) => true,
+  /** 图片加载完成 */
+  'image-loaded': (item: WaterfallItem, index: number) => true,
+  /** 图片加载失败 */
+  'image-error': (item: WaterfallItem, index: number) => true,
 };
+
+export type WaterfallEmits = typeof waterfallEmits;
