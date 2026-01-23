@@ -144,7 +144,13 @@
       @confirm="handleDateConfirm"
     />
 
-    <lk-area-picker v-model="areaValue" v-model:visible="showAreaPicker" @confirm="handleAreaConfirm" />
+    <lk-picker
+      v-model="areaValue"
+      v-model:visible="showAreaPicker"
+      mode="region"
+      title="选择地区"
+      @confirm="handleAreaConfirm"
+    />
 
     <lk-curtain
       v-model:show="showCurtain"
@@ -191,7 +197,7 @@ import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
 import LkDatePicker from '@/uni_modules/lucky-ui/components/lk-date-picker/lk-date-picker.vue';
-import LkAreaPicker from '@/uni_modules/lucky-ui/components/lk-area-picker/lk-area-picker.vue';
+import LkPicker from '@/uni_modules/lucky-ui/components/lk-picker/lk-picker.vue';
 
 defineProps<{ contentHeight: string }>();
 

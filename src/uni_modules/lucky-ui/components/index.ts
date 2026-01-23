@@ -77,32 +77,29 @@ export { default as LkChartPie } from './lk-chart-pie/lk-chart-pie.vue';
 
 // New: Grid
 export { default as LkRow } from './lk-grid/lk-row.vue';
-export { default as LkCol } from './lk-grid/lk-col.vue';
+export { default as LkCol } from './lk-grid/lk-col.vue'
 // New: Sticky
-export { default as LkSticky } from './lk-sticky/lk-sticky.vue';
-// New: Picker & PickerView
-export { default as LkPicker } from './lk-picker/lk-picker.vue';
-export { default as LkPickerView } from './lk-picker-view/lk-picker-view.vue';
+export { default as LkSticky } from './lk-sticky/lk-sticky.vue'
+// New: Picker (支持 single/multi/cascade/region 四种模式)
+export { default as LkPicker } from './lk-picker/lk-picker.vue'
 // New: Space
-export { default as LkSpace } from './lk-space/lk-space.vue';
+export { default as LkSpace } from './lk-space/lk-space.vue'
 // New: IndexBar
-export { default as LkIndexBar } from './lk-index-bar/lk-index-bar.vue';
-export { default as LkIndexAnchor } from './lk-index-bar/lk-index-anchor.vue';
+export { default as LkIndexBar } from './lk-index-bar/lk-index-bar.vue'
+export { default as LkIndexAnchor } from './lk-index-bar/lk-index-anchor.vue'
 // New: Anchor
-export { default as LkAnchor } from './lk-anchor/lk-anchor.vue';
-export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';
+export { default as LkAnchor } from './lk-anchor/lk-anchor.vue'
+export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue'
 // New: NumberKeyboard (Legacy)
-export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue';
+export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue'
 // New: Keyboard (Refactored)
-export { default as LkKeyboard } from './lk-keyboard/lk-keyboard.vue';
+export { default as LkKeyboard } from './lk-keyboard/lk-keyboard.vue'
 // New: VerifyCode
-export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
-// New: AreaPicker
-export { default as LkAreaPicker } from './lk-area-picker/lk-area-picker.vue';
+export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue'
 // New: NumberRoller
-export { default as LkNumberRoller } from './lk-number-roller/lk-number-roller.vue';
+export { default as LkNumberRoller } from './lk-number-roller/lk-number-roller.vue'
 
-export { default as LkCurtain } from './lk-curtain/lk-curtain.vue';
-export { default as LkHorizontalScroll } from './lk-horizontal-scroll/lk-horizontal-scroll.vue';
+export { default as LkCurtain } from './lk-curtain/lk-curtain.vue'
+export { default as LkHorizontalScroll } from './lk-horizontal-scroll/lk-horizontal-scroll.vue'
 // New: FAB (Floating Action Button)
-export { default as LkFab } from './lk-fab/lk-fab.vue';
+export { default as LkFab } from './lk-fab/lk-fab.vue'

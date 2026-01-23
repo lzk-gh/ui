@@ -589,8 +589,6 @@ import SliderDemo from '@/components/demos/slider-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
-import PickerViewDemo from '@/components/demos/picker-view-demo.vue';
-import AreaPickerDemo from '@/components/demos/area-picker-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
 import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
@@ -666,8 +664,6 @@ const demoComponentMap: Record<string, any> = {
   rate: RateDemo,
   upload: UploadDemo,
   picker: PickerDemo,
-  'picker-view': PickerViewDemo,
-  'area-picker': AreaPickerDemo,
   keyboard: KeyboardDemo,
   'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,

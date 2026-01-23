@@ -1,35 +1,59 @@
-import type { ExtractPropTypes, PropType } from 'vue';
-import { baseProps, LkProp } from '../common/props';
+import type { ExtractPropTypes, PropType } from 'vue'
+import { baseProps, LkProp } from '../common/props'
 
 export interface TableColumn {
-  key: string;
-  title?: string;
-  width?: string | number;
-  align?: string;
-  sortable?: boolean;
-  sortMethod?: (a: any, b: any, asc: boolean) => number;
-  formatter?: (row: any, col: TableColumn, rowIndex: number) => any;
-  summary?: 'sum' | 'avg' | ((values: any[], col: TableColumn) => any);
-  fixed?: 'left' | 'right';
-  hidden?: boolean;
-  className?: string;
-  headerSlot?: string;
-  minWidth?: string | number;
+  key: string
+  title?: string
+  width?: string | number
+  minWidth?: string | number
+  align?: 'left' | 'center' | 'right'
+  sortable?: boolean
+  sortMethod?: (
+    a: Record<string, unknown>,
+    b: Record<string, unknown>,
+    asc: boolean
+  ) => number
+  formatter?: (
+    row: Record<string, unknown>,
+    col: TableColumn,
+    rowIndex: number
+  ) => unknown
+  summary?: 'sum' | 'avg' | ((values: number[], col: TableColumn) => unknown)
+  fixed?: 'left' | 'right'
+  hidden?: boolean
+  className?: string
+  headerSlot?: string
+  /** 卡片模式下是否作为主要字段显示 */
+  primary?: boolean
+}
+
+export interface TableAction {
+  key: string
+  text: string
+  type?: 'default' | 'primary' | 'danger' | 'warning'
+}
+
+export interface DefaultSort {
+  key: string
+  order: 'asc' | 'desc'
 }
 
 export const tableProps = {
   ...baseProps,
 
+  /** 展示模式: card=卡片模式(移动端友好), table=传统表格 */
+  mode: LkProp.enum(['card', 'table'] as const, 'card', 'mode'),
+
   /** 表格列配置 */
   columns: {
     type: Array as PropType<TableColumn[]>,
-    default: () => [],
+    default: (): TableColumn[] => [],
   },
 
   /** 表格数据 */
   data: {
-    type: Array as PropType<any[]>,
-    default: () => [],
+    type: Array as PropType<Record<string, unknown>[]>,
+    default: (): Record<string, unknown>[] => [],
   },
 
   /** 行数据唯一标识 */
@@ -44,19 +68,19 @@ export const tableProps = {
   /** 是否紧凑模式 */
   compact: LkProp.boolean(false),
 
-  /** 是否显示索引列 */
+  /** 是否显示索引列 (仅table模式) */
   showIndex: LkProp.boolean(false),
 
   /** 是否可选择 */
   selectable: LkProp.boolean(false),
 
-  /** 表头是否吸顶 */
+  /** 表头是否吸顶 (仅table模式) */
   stickyHeader: LkProp.boolean(true),
 
   /** 最大高度 */
   maxHeight: {
     type: [Number, String] as PropType<number | string>,
-    default: '',
+    default: undefined,
   },
 
   /** 是否加载中 */
@@ -73,23 +97,33 @@ export const tableProps = {
 
   /** 默认排序 */
   defaultSort: {
-    type: Object as PropType<{ key: string; order: 'asc' | 'desc' }>,
+    type: Object as PropType<DefaultSort>,
     default: undefined,
   },
 
   /** 已选中的行 */
   modelValue: {
-    type: Array as PropType<any[]>,
-    default: () => [],
+    type: Array as PropType<(string | number)[]>,
+    default: (): (string | number)[] => [],
   },
-} as const;
 
-export type TableProps = ExtractPropTypes<typeof tableProps>;
+  /** 是否可展开详情 (仅card模式) */
+  expandable: LkProp.boolean(false),
+
+  /** 滑动操作按钮 (仅card模式) */
+  actions: {
+    type: Array as PropType<TableAction[]>,
+    default: (): TableAction[] => [],
+  },
+} as const
+
+export type TableProps = ExtractPropTypes<typeof tableProps>
 
 export const tableEmits = {
-  'update:modelValue': (val: any[]) => true,
-  'selection-change': (val: any[]) => true,
-  'row-click': (row: any, index: number) => true,
-  'sort-change': (params: { key: string; order: 'asc' | 'desc' | null }) => true,
-  'summary-computed': (row: any) => true,
-};
+  'update:modelValue': (_val: (string | number)[]) => true,
+  'selection-change': (_val: (string | number)[]) => true,
+  'row-click': (_row: Record<string, unknown>, _index: number) => true,
+  'sort-change': (_params: { key: string; order: 'asc' | 'desc' | null }) => true,
+  'summary-computed': (_row: Record<string, unknown>) => true,
+  action: (_action: string, _row: Record<string, unknown>, _index: number) => true,
+}
