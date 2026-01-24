@@ -3,7 +3,7 @@
     <!-- 自定义导航栏 -->
     <lk-navbar title="订单详情" left-arrow @click-left="handleBack" />
 
-    <scroll-view class="order-detail-page__scroll" scroll-y>
+    <scroll-view class="order-detail-page__scroll" scroll-y show-scrollbar="false">
       <lk-space direction="vertical" :gap="24" fill style="padding: 24rpx; padding-bottom: calc(140rpx + env(safe-area-inset-bottom));">
 
         <!-- 加载骨架屏 -->

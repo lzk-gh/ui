@@ -14,30 +14,51 @@
     </lk-navbar>
 
     <!-- 子页面容器 -->
-    <view class="pages-container">
-      <!-- 组件预览（保留之前第一页面） -->
-      <overview-page v-if="activeTab === 'overview'" :content-height="contentHeight" />
+    <lk-skeleton :loading="isTabSwitching" title :rows="10" animated :duration="1.6">
+      <view class="pages-container">
+        <!-- 组件预览（保留之前第一页面） -->
+        <overview-page v-if="activeTab === 'overview'" :content-height="contentHeight" />
 
-      <!-- 发现 -->
-      <discover-page v-else-if="activeTab === 'discover'" :content-height="contentHeight" />
+        <!-- 发现/首页 -->
+        <home-page v-else-if="activeTab === 'home'" :content-height="contentHeight" />
 
-      <!-- 统计 -->
-      <statistics-page v-else-if="activeTab === 'statistics'" :content-height="contentHeight" />
+        <!-- 购物车/结算 -->
+        <cart-page v-else-if="activeTab === 'cart'" :content-height="contentHeight" />
 
-      <!-- 我的 -->
-      <mine-page v-else-if="activeTab === 'mine'" :content-height="contentHeight" />
+        <!-- 详情 -->
+        <detail-page v-else-if="activeTab === 'detail'" :content-height="contentHeight" />
 
-      <!-- 工作台 -->
-      <showcase-page v-else-if="activeTab === 'showcase'" :content-height="contentHeight" />
-    </view>
+        <!-- 搜索页 -->
+        <search-page v-else-if="activeTab === 'search'" :content-height="contentHeight" />
+
+        <!-- 我的 -->
+        <mine-page v-else-if="activeTab === 'mine'" :content-height="contentHeight" />
+
+        <!-- 认证页 (登录/注册) -->
+        <auth-page v-else-if="activeTab === 'auth'" :content-height="contentHeight" />
+
+        <!-- 编辑个人信息 -->
+        <edit-profile-page v-else-if="activeTab === 'edit-profile'" :content-height="contentHeight" />
+
+        <!-- 数据分析 -->
+        <analytics-page v-else-if="activeTab === 'analytics'" :content-height="contentHeight" />
+
+        <!-- 福利打卡 -->
+        <check-in-page v-else-if="activeTab === 'check-in'" :content-height="contentHeight" />
+      </view>
+    </lk-skeleton>
 
     <!-- 底部 Tabbar -->
-    <lk-tabbar v-model="activeTab">
-      <lk-tabbar-item name="overview" icon="box" label="组件" />
-      <lk-tabbar-item name="discover" icon="grid" label="发现" />
-      <lk-tabbar-item name="statistics" icon="box" label="统计" />
-      <lk-tabbar-item name="showcase" icon="box" label="工作台" />
-      <lk-tabbar-item name="mine" icon="box" label="我的" />
+    <lk-tabbar
+      v-model="activeTab"
+      background-color="var(--test-bg-card)"
+      active-color="var(--test-text-primary)"
+      inactive-color="var(--test-text-tertiary)"
+    >
+      <lk-tabbar-item name="home" icon="house" label="首页" />
+      <lk-tabbar-item name="cart" icon="cart" label="购物车" />
+      <lk-tabbar-item name="detail" icon="list" label="详情" />
+      <lk-tabbar-item name="mine" icon="gear" label="我的" />
     </lk-tabbar>
   </view>
 </template>
@@ -56,13 +77,19 @@ import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue'
 import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue';
 import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
 
 // 子页面组件
 import OverviewPage from './OverviewPage.vue';
-import DiscoverPage from './DiscoverPage.vue';
-import StatisticsPage from './StatisticsPage.vue';
+import HomePage from './HomePage.vue';
+import CartPage from './CartPage.vue';
 import MinePage from './MinePage.vue';
-import ShowcasePage from './ShowcasePage.vue';
+import DetailPage from './DetailPage.vue';
+import SearchPage from './SearchPage.vue';
+import AuthPage from './AuthPage.vue';
+import EditProfilePage from './EditProfilePage.vue';
+import AnalyticsPage from './AnalyticsPage.vue';
+import CheckInPage from './CheckInPage.vue';
 
 // 主题（themeClass 用于小程序端切换主题）
 const { theme, themeClass, toggleTheme } = useTheme();
@@ -90,16 +117,20 @@ onMounted(() => {
 });
 
 // 当前激活的标签页
-const activeTab = ref<string>('overview');
+const activeTab = ref<string>('home');
+provide('activeTab', activeTab);
+
+const tabbarTabs = ['home', 'cart', 'detail', 'mine'];
+const isTabSwitching = ref(false);
+let tabSwitchTimer: number | undefined;
 
 // 计算页面标题
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
     overview: '组件预览',
-    discover: '发现',
-    statistics: '统计',
-      showcase: '工作台',
-    mine: '我的',
+    home: '发现',
+    cart: '购物车',
+    detail: '详情',
   };
   return titles[activeTab.value] || 'Lucky UI';
 });
@@ -124,6 +155,19 @@ const handleFabClick = () => {
 watch(activeTab, newTab => {
   console.log('切换到标签页:', newTab);
 });
+
+watch(activeTab, (newTab, oldTab) => {
+  const shouldSkeleton = tabbarTabs.includes(newTab) && tabbarTabs.includes(oldTab || '');
+  if (!shouldSkeleton) {
+    isTabSwitching.value = false;
+    return;
+  }
+  isTabSwitching.value = true;
+  if (tabSwitchTimer) clearTimeout(tabSwitchTimer);
+  tabSwitchTimer = setTimeout(() => {
+    isTabSwitching.value = false;
+  }, 1600);
+});
 </script>
 
 <style scoped lang="scss">
@@ -135,13 +179,16 @@ watch(activeTab, newTab => {
   display: flex;
   flex-direction: column;
   background: $test-bg-page;
-  padding: 20rpx 20rpx 0;
+  padding: 0;
+  --tabbar-height: 120rpx;
 }
 
 .pages-container {
   flex: 1;
   position: relative;
   overflow: hidden;
+  padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+  box-sizing: border-box;
 }
 
 .theme-toggle {

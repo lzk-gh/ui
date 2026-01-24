@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="overview-page" :style="{ height: contentHeight }" scroll-y>
+  <scroll-view class="overview-page" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
     <view class="page-content">
       <!-- 主题调试工具 -->
       <theme-debugger />

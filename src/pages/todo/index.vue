@@ -25,7 +25,7 @@
       </view>
     </lk-sticky>
 
-    <scroll-view class="todo-page__scroll" scroll-y>
+    <scroll-view class="todo-page__scroll" scroll-y show-scrollbar="false">
       <lk-space direction="vertical" :gap="20" fill style="padding: 24rpx; padding-bottom: calc(24rpx + env(safe-area-inset-bottom));">
 
         <!-- 统计概览 -->

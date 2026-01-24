@@ -31,6 +31,14 @@ function toPx(val: string | number | undefined, fallback = 0): number {
     const sys = uni.getSystemInfoSync?.();
     return sys?.windowHeight || 600;
   }
+  if (v.endsWith('%')) {
+    const percent = parseFloat(v);
+    if (!isNaN(percent)) {
+      const sys = uni.getSystemInfoSync?.();
+      const base = containerHeight.value || sys?.windowHeight || 600;
+      return (base * percent) / 100;
+    }
+  }
   if (v.endsWith('rpx') || v.endsWith('upx')) {
     const n = parseFloat(v);
     return typeof uni !== 'undefined' && uni.upx2px ? uni.upx2px(n) : n / 2;
@@ -60,6 +68,8 @@ const rootId = `lk-waterfall-${uid}`;
 
 /** 容器宽度 */
 const containerWidth = ref<number>(0);
+/** 容器高度 */
+const containerHeight = ref<number>(0);
 /** 滚动位置 */
 const scrollTop = ref(0);
 /** 所有卡片数据 (绝对定位) */
@@ -221,12 +231,18 @@ async function measureContainer() {
       .select(`#${rootId}`)
       .boundingClientRect((rect) => {
         const info = Array.isArray(rect) ? rect[0] : rect;
+        const sys = uni.getSystemInfoSync?.();
         if (info && info.width && info.width > 0) {
           containerWidth.value = info.width;
         } else {
           // 降级使用屏幕宽度
-          const sys = uni.getSystemInfoSync?.();
           containerWidth.value = sys?.windowWidth || 375;
+        }
+        if (info && info.height && info.height > 0) {
+          containerHeight.value = info.height;
+        } else {
+          // 降级使用屏幕高度
+          containerHeight.value = sys?.windowHeight || 600;
         }
         resolve();
       })
@@ -306,6 +322,9 @@ function getCardStyle(card: PlacedCard): CSSProperties {
       @scroll="onScroll"
       @scrolltolower="onScrollToLower"
     >
+      <!-- 头部插槽 -->
+      <slot name="header" />
+
       <!-- 初始加载骨架屏 -->
       <view v-if="showSkeleton && !isReady" class="lk-waterfall__init-skeleton" :style="{ padding: `${addUnit(paddingYPx)} ${addUnit(paddingXPx)}` }">
         <view class="lk-waterfall__columns">

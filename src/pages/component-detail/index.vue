@@ -4,7 +4,7 @@
     <lk-navbar :title="componentTitle" />
 
     <!-- 内容区域 -->
-    <scroll-view class="page-content" scroll-y>
+    <scroll-view class="page-content" scroll-y show-scrollbar="false">
       <view class="content-wrapper">
         <!-- 组件信息卡片 -->
         <view class="info-card">

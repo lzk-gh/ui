@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="basic-page" :style="{ height: contentHeight }" scroll-y>
+  <scroll-view class="basic-page" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
     <!-- 渐变头部 -->
     <view class="page-header">
       <lk-icon name="box-seam-fill" size="80" color="#fff" />

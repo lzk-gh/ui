@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="form-page" :style="{ height: contentHeight }" scroll-y>
+  <scroll-view class="form-page" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
     <!-- 渐变头部 -->
     <view class="page-header">
       <lk-icon name="ui-checks-grid" size="80" color="#fff" />
