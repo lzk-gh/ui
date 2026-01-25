@@ -7,7 +7,7 @@
       <lk-space direction="vertical" :gap="24" fill style="padding: 24rpx; padding-bottom: calc(140rpx + env(safe-area-inset-bottom));">
 
         <!-- 加载骨架屏 -->
-        <lk-card v-if="loading" shadow="base">
+        <lk-card v-if="true" shadow="base">
           <lk-space direction="vertical" :gap="24" fill>
             <lk-skeleton :rows="1" :title="false" avatar avatar-size="80" />
             <lk-skeleton :rows="3" />

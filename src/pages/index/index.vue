@@ -14,7 +14,7 @@
     </lk-navbar>
 
     <!-- 子页面容器 -->
-    <lk-skeleton :loading="isTabSwitching" title :rows="10" animated :duration="1.6">
+    <lk-skeleton :loading="isTabSwitching" title :rows="10" animated :duration="3">
       <view class="pages-container">
         <!-- 组件预览（保留之前第一页面） -->
         <overview-page v-if="activeTab === 'overview'" :content-height="contentHeight" />

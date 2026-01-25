@@ -38,9 +38,9 @@
                 />
               </view>
             </view>
-            <view class="filter-btn" @click="showFilter = true">
-              <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" />
-            </view>
+            <lk-button>
+              <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" @click="showFilter = true" />
+            </lk-button>
           </view>
 
           <!-- 分类标签 -->
@@ -298,6 +298,7 @@ const goToDetail = (_item: WaterfallItem) => {
 
 .search-section {
   display: flex;
+  align-items: center;
   gap: 20rpx;
   margin-bottom: 40rpx;
   flex-shrink: 0;
