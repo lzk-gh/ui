@@ -65,10 +65,25 @@
         </view>
       </template>
 
-      <template #item="{ item, height }">
+      <template #item="{ item, height, loading, onImageLoad, onImageError }">
         <view class="product-card" @click="goToDetail(item)">
           <view class="image-wrapper" :style="{ height: (height - (item.extraHeight || 90)) + 'px' }">
-            <image :src="item.image" mode="aspectFill" class="product-image" />
+            <lk-skeleton
+              class="product-image-skeleton"
+              :loading="loading"
+              :rows="1"
+              row-width="100%"
+              :row-height="`${height - (item.extraHeight || 90)}px`"
+              animated
+            />
+            <image
+              :src="item.image"
+              mode="aspectFill"
+              class="product-image"
+              :style="{ opacity: loading ? 0 : 1 }"
+              @load="onImageLoad"
+              @error="onImageError"
+            />
             <view class="favorite-icon">
               <lk-icon name="heart" size="24" color="#fff" />
             </view>
@@ -158,6 +173,7 @@ import LkWaterfall from '@/uni_modules/lucky-ui/components/lk-waterfall/lk-water
 import LkNoticeBar from '@/uni_modules/lucky-ui/components/lk-notice-bar/lk-notice-bar.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
 
 defineProps<{
   contentHeight: string;
@@ -392,10 +408,23 @@ const goToDetail = (_item: WaterfallItem) => {
     overflow: hidden;
     background-color: $test-gray-100;
 
+    .product-image-skeleton {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
     .product-image {
       width: 100%;
       height: 100%;
       display: block;
+      transition: opacity 0.3s ease;
+      position: relative;
+      z-index: 2;
     }
 
     .favorite-icon {

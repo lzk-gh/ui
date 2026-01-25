@@ -13,7 +13,7 @@
  */
 import { computed, getCurrentInstance, nextTick, onMounted, ref, watch, type CSSProperties } from 'vue';
 import { waterfallProps, waterfallEmits } from './waterfall.props';
-import type { WaterfallItem, PlacedCard } from './waterfall.props';
+import type { WaterfallItem, PlacedCard, WaterfallLoadingState } from './waterfall.props';
 
 const props = defineProps(waterfallProps);
 const emit = defineEmits(waterfallEmits);
@@ -163,7 +163,7 @@ function processNewItems() {
       left: isLeft ? paddingXPx.value : rightColumnLeft.value,
       width: columnWidth.value,
       height,
-      loadingState: 'loaded',
+      loadingState: item.image ? 'loading' : 'loaded',
       item,
     };
 
@@ -218,6 +218,21 @@ function onScrollToLower() {
 
 function onCardClick(card: PlacedCard) {
   emit('card-click', card.item, card.index);
+}
+
+function setCardLoadingState(card: PlacedCard, state: WaterfallLoadingState) {
+  if (card.loadingState === state) return;
+  card.loadingState = state;
+}
+
+function onImageLoaded(card: PlacedCard) {
+  setCardLoadingState(card, 'loaded');
+  emit('image-loaded', card.item, card.index);
+}
+
+function onImageError(card: PlacedCard) {
+  setCardLoadingState(card, 'error');
+  emit('image-error', card.item, card.index);
 }
 
 // ======================== 容器测量 ========================
@@ -376,7 +391,10 @@ function getCardStyle(card: PlacedCard): CSSProperties {
             :index="card.index"
             :width="card.width"
             :height="card.height"
-            :loading="false"
+            :loading="card.loadingState === 'loading'"
+            :image-state="card.loadingState"
+            :on-image-load="() => onImageLoaded(card)"
+            :on-image-error="() => onImageError(card)"
           >
             <!-- 默认卡片 -->
             <view class="lk-waterfall__default-card">
@@ -386,6 +404,8 @@ function getCardStyle(card: PlacedCard): CSSProperties {
                 :src="card.item.image"
                 mode="widthFix"
                 :lazy-load="true"
+                @load="onImageLoaded(card)"
+                @error="onImageError(card)"
               />
               <view class="lk-waterfall__default-content">
                 <text class="lk-waterfall__default-title">{{ card.item.title || `#${card.index + 1}` }}</text>
