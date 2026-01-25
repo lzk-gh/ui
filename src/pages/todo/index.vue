@@ -1,8 +1,11 @@
 <template>
-  <view class="todo-page">
+  <view class="todo-page" :class="themeClass">
     <lk-navbar title="待办清单" left-arrow @click-left="handleBack">
       <template #right>
-        <lk-icon name="plus" size="40" color="var(--lk-color-primary)" @click="showAddPopup = true" />
+        <view style="display: flex; align-items: center; gap: 20rpx;">
+          <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="32" color="var(--lk-color-text-secondary)" @click="toggleTheme" />
+          <lk-icon name="plus" size="40" color="var(--lk-color-primary)" @click="showAddPopup = true" />
+        </view>
       </template>
     </lk-navbar>
 
@@ -187,6 +190,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
@@ -217,6 +221,7 @@ import LkTooltip from '@/uni_modules/lucky-ui/components/lk-tooltip/lk-tooltip.v
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
 import LkCurtain from '@/uni_modules/lucky-ui/components/lk-curtain/lk-curtain.vue';
 
+const { theme, themeClass, toggleTheme } = useTheme();
 const searchQuery = ref('');
 const filterStatus = ref('all');
 const showAddPopup = ref(false);

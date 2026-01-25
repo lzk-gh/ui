@@ -92,6 +92,11 @@ import CheckInPage from './CheckInPage.vue';
 // 主题（themeClass 用于小程序端切换主题）
 const { theme, themeClass, toggleTheme } = useTheme();
 
+// 提供给子组件主题状态
+provide('theme', theme);
+provide('themeClass', themeClass);
+provide('toggleTheme', toggleTheme);
+
 // 品牌色样式变量
 const brandStyleVars = ref('');
 

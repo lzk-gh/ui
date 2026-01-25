@@ -116,6 +116,7 @@
 
 <script setup lang="ts">
 import { ref, inject } from 'vue';
+import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
@@ -133,9 +134,8 @@ defineProps<{
   contentHeight: string;
 }>();
 
+const { theme, themeClass, setTheme } = useTheme();
 const activeTab = inject('activeTab', ref('mine'));
-const themeClass = inject('themeClass', ref('lk-theme-light'));
-const toggleTheme = inject('toggleTheme', () => {});
 
 const stats = [
   { value: '12', label: 'Wishlist' },
@@ -152,17 +152,12 @@ const orderStatuses = [
 
 const showThemeSheet = ref(false);
 const themeActions = [
-  { name: 'Light Mode', color: '#1f2937' },
-  { name: 'Dark Mode', color: '#1f2937' }
+  { name: 'Light Mode', value: 'light', icon: 'sun' },
+  { name: 'Dark Mode', value: 'dark', icon: 'moon' }
 ];
 
-const handleThemeSelect = (payload: { action: { name: string }; index: number }) => {
-  const { action } = payload;
-  if (action.name === 'Dark Mode') {
-    if (themeClass.value === 'lk-theme-light') toggleTheme();
-  } else {
-    if (themeClass.value === 'lk-theme-dark') toggleTheme();
-  }
+const handleThemeSelect = (payload: { action: { value: 'light' | 'dark' }; index: number }) => {
+  setTheme(payload.action.value);
 };
 
 const showLogoutModal = ref(false);

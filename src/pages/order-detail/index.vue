@@ -1,7 +1,13 @@
 <template>
-  <view class="order-detail-page">
+  <view class="order-detail-page" :class="themeClass">
     <!-- 自定义导航栏 -->
-    <lk-navbar title="订单详情" left-arrow @click-left="handleBack" />
+    <lk-navbar title="订单详情" left-arrow @click-left="handleBack">
+      <template #right>
+        <view class="theme-toggle" @click="toggleTheme">
+          <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="28" />
+        </view>
+      </template>
+    </lk-navbar>
 
     <scroll-view class="order-detail-page__scroll" scroll-y show-scrollbar="false">
       <lk-space direction="vertical" :gap="24" fill style="padding: 24rpx; padding-bottom: calc(140rpx + env(safe-area-inset-bottom));">
@@ -131,6 +137,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
@@ -150,6 +157,7 @@ import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkTimeline from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline.vue';
 import LkTimelineItem from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline-item.vue';
 
+const { theme, themeClass, toggleTheme } = useTheme();
 const loading = ref(true);
 const activeCollapse = ref(['fee']);
 const showConfirmModal = ref(false);

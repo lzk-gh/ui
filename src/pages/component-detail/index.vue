@@ -1,7 +1,13 @@
 <template>
   <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
     <!-- 导航栏 -->
-    <lk-navbar :title="componentTitle" />
+    <lk-navbar :title="componentTitle">
+      <template #right>
+        <view class="theme-toggle" @click="toggleTheme">
+          <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="28" />
+        </view>
+      </template>
+    </lk-navbar>
 
     <!-- 内容区域 -->
     <scroll-view class="page-content" scroll-y show-scrollbar="false">
@@ -554,7 +560,7 @@ const componentColor = computed(() => componentMap[componentName.value]?.color |
 const demoComponent = ref<any>(null);
 
 // 主题
-const { theme } = useTheme();
+const { theme, toggleTheme } = useTheme();
 
 // 页面加载
 onLoad(options => {
