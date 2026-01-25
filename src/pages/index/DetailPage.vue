@@ -37,22 +37,22 @@
       </view>
 
       <!-- 商品描述 -->
-      <view class="description-section">
-        <text class="desc-text">
-          Its simple and elegant shape makes it perfect for those of you who like you who want minimalist clothes
-          <text class="read-more" @click="showDescModal = true">Read More. . .</text>
-        </text>
-      </view>
+      <text class="desc-text">
+        Its simple and elegant shape makes it perfect for those of you who like you who want minimalist clothes
+        <text class="read-more" @click="showDescModal = true">Read More. . .</text>
+      </text>
 
       <!-- 评价预览 -->
-      <view class="review-preview" @click="showReviewPopup = true">
-        <view class="review-header">
+      <lk-card class="review-preview" padding="30rpx" shadow="none" @click="showReviewPopup = true">
+        <template #header>
           <text class="review-title">Customer Reviews</text>
+        </template>
+        <template #header-extra>
           <view class="view-all-reviews">
             <text>Show All</text>
             <lk-icon name="chevron-right" size="24" color="var(--test-primary)" />
           </view>
-        </view>
+        </template>
         <view class="review-item">
           <lk-avatar src="https://picsum.photos/50/50?random=11" size="64" round />
           <view class="review-content">
@@ -63,12 +63,11 @@
             <text class="review-text">The fabric is so soft and the fit is perfect! I love it so much!</text>
           </view>
         </view>
-      </view>
+      </lk-card>
 
       <!-- 规格选择 -->
       <view class="options-row">
-        <view class="option-group">
-          <text class="option-title">Choose Size</text>
+        <lk-card class="option-group" title="Choose Size" padding="24rpx" shadow="none" transparent>
           <view class="size-list">
             <view
               v-for="s in sizes"
@@ -79,10 +78,9 @@
               {{ s }}
             </view>
           </view>
-        </view>
+        </lk-card>
 
-        <view class="option-group">
-          <text class="option-title">Color</text>
+        <lk-card class="option-group" title="Color" padding="24rpx" shadow="none" transparent>
           <view class="color-list">
             <view
               v-for="(c, i) in colors"
@@ -92,19 +90,19 @@
               @click="activeColor = i"
             />
           </view>
-        </view>
+        </lk-card>
       </view>
     </view>
 
     <!-- 底部按钮 -->
     <view class="footer-bar">
-      <view class="add-cart-btn" @click="addToCart">
+      <lk-button class="add-cart-btn" type="primary" block radius="60" height="120" @click="addToCart">
         <lk-icon name="cart-plus" size="40" color="var(--test-text-inverse)" />
         <view class="btn-text-content">
           <text class="main-text">Add to Cart | $100.99</text>
           <text class="original-price">$190.99</text>
         </view>
-      </view>
+      </lk-button>
     </view>
 
     <view class="safe-area-bottom"></view>
@@ -134,7 +132,16 @@
             <lk-rate :model-value="5 - (i % 2)" size="24" readonly />
             <text class="u-text">Amazing quality! Definitely worth the price. I will buy another color soon!</text>
             <view class="u-imgs">
-              <image v-for="j in 3" :key="j" :src="`https://picsum.photos/150/150?random=${i*10+j}`" mode="aspectFill" class="u-img" />
+              <lk-image
+                v-for="j in 3"
+                :key="j"
+                :src="`https://picsum.photos/150/150?random=${i*10+j}`"
+                width="140rpx"
+                height="140rpx"
+                radius="16rpx"
+                fit="cover"
+                class="u-img"
+              />
             </view>
           </view>
         </view>
@@ -161,6 +168,9 @@ import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 
 defineProps<{
   contentHeight: string;
@@ -274,48 +284,34 @@ const addToCart = () => {
   }
 }
 
-.description-section {
-  margin-bottom: 40rpx;
+.desc-text {
+  font-size: 26rpx;
+  line-height: 40rpx;
+  color: $test-text-secondary;
 
-  .desc-text {
-    font-size: 26rpx;
-    line-height: 40rpx;
-    color: $test-text-secondary;
-
-    .read-more {
-      font-weight: bold;
-      color: $test-text-primary;
-      margin-left: 10rpx;
-      text-decoration: underline;
-    }
+  .read-more {
+    font-weight: bold;
+    color: $test-text-primary;
+    margin-left: 10rpx;
+    text-decoration: underline;
   }
 }
 
 .review-preview {
-  background: $test-bg-card;
-  border-radius: 32rpx;
-  padding: 30rpx;
-  margin-bottom: 40rpx;
+  margin: 40rpx 0;
 
-  .review-header {
+  .review-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: $test-text-primary;
+  }
+
+  .view-all-reviews {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 24rpx;
-
-    .review-title {
-      font-size: 32rpx;
-      font-weight: bold;
-      color: $test-text-primary;
-    }
-
-    .view-all-reviews {
-      display: flex;
-      align-items: center;
-      gap: 4rpx;
-      font-size: 24rpx;
-      color: $test-primary;
-    }
+    gap: 4rpx;
+    font-size: 24rpx;
+    color: $test-primary;
   }
 
   .review-item {
@@ -351,14 +347,6 @@ const addToCart = () => {
   display: flex;
   gap: 80rpx;
   margin-bottom: 40rpx;
-
-  .option-title {
-    font-size: 28rpx;
-    font-weight: bold;
-    color: $test-text-primary;
-    display: block;
-    margin-bottom: 20rpx;
-  }
 }
 
 /* Popup Styles */
@@ -420,9 +408,7 @@ const addToCart = () => {
       gap: 12rpx;
 
       .u-img {
-        width: 140rpx;
-        height: 140rpx;
-        border-radius: 16rpx;
+        display: block;
       }
     }
   }
@@ -482,9 +468,6 @@ const addToCart = () => {
   margin-top: 20rpx;
 
   .add-cart-btn {
-    height: 120rpx;
-    background: $test-text-primary;
-    border-radius: 60rpx;
     display: flex;
     align-items: center;
     justify-content: center;

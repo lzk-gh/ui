@@ -4,14 +4,14 @@
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-container);
+  --_bg: var(--test-bg-card, var(--lk-color-bg-container));
   --_radius: var(--lk-radius-lg);
   --_title-fs: 34rpx;
   --_subtitle-fs: var(--lk-font-size-sm);
   --_body-fs: var(--lk-control-font-size-md);
   --_footer-fs: var(--lk-font-size-sm);
   // 使用主题变量自动适配亮暗模式
-  --_shadow: var(--lk-shadow-sm);
+  --_shadow: var(--test-shadow-sm, var(--lk-shadow-sm));
 
   // =========================================
   // 2. 核心盒模型
@@ -28,7 +28,7 @@
     transform var(--lk-transition-fast);
 
   @include when(border) {
-    border: 2rpx solid var(--lk-color-border-light);
+    border: 2rpx solid var(--test-border-color, var(--lk-color-border-light));
   }
 
   @include when(hover) {

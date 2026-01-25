@@ -3,7 +3,7 @@ defineOptions({ name: 'LkCellGroup' });
 const props = defineProps({
   title: { type: String, default: '' },
   inset: { type: Boolean, default: false },
-  border: { type: Boolean, default: true },
+  border: { type: Boolean, default: false },
   card: { type: Boolean, default: false },
 });
 </script>

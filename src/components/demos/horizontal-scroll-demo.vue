@@ -3,9 +3,9 @@
     <lk-navbar title="HorizontalScroll 横向滚动" />
 
     <demo-block title="基础用法">
-      <lk-horizontal-scroll>
-        <view v-for="i in 10" :key="i" class="card">
-          <view class="card-content">Item {{ i }}</view>
+      <lk-horizontal-scroll gap="40rpx">
+        <view v-for="i in 10" :key="i">
+          <view>Item {{ i }}</view>
         </view>
       </lk-horizontal-scroll>
     </demo-block>
@@ -32,21 +32,6 @@ import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-
 .horizontal-scroll-demo {
   min-height: 100vh;
   padding-bottom: 40rpx;
-}
-
-.card {
-  width: 200rpx;
-  height: 200rpx;
-  background-color: #fff;
-  border-radius: 16rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &-content {
-    font-size: 28rpx;
-    color: #333;
-  }
 }
 
 .music-card {

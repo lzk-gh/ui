@@ -22,16 +22,20 @@
         </view>
       </view>
 
-      <!-- 统计数据 -->
-      <view class="stats-card" @click="activeTab = 'analytics'">
-        <view v-for="(stat, i) in stats" :key="i" class="stat-item">
-          <text class="stat-value">{{ stat.value }}</text>
-          <text class="stat-label">{{ stat.label }}</text>
+
+      <lk-space direction="vertical" :gap="36">
+              <!-- 统计数据 -->
+      <lk-card class="stats-card" padding="34rpx 24rpx" shadow="base" @click="activeTab = 'analytics'">
+        <view class="stats-row">
+          <view v-for="(stat, i) in stats" :key="i" class="stat-item">
+            <text class="stat-value">{{ stat.value }}</text>
+            <text class="stat-label">{{ stat.label }}</text>
+          </view>
         </view>
-      </view>
+      </lk-card>
 
       <!-- 快捷入口 -->
-      <view class="quick-entry section-card" style="padding: 20rpx;">
+      <lk-card class="quick-entry section-card" padding="20rpx" shadow="sm">
         <lk-grid :columns="2" :border="false">
           <view class="entry-item" @click="activeTab = 'check-in'">
             <lk-icon name="calendar-check" size="40" color="var(--test-primary)" />
@@ -42,14 +46,16 @@
             <text>Data Insights</text>
           </view>
         </lk-grid>
-      </view>
+      </lk-card>
 
       <!-- 订单状态 -->
-      <view class="section-card">
-        <view class="section-header">
+      <lk-card class="section-card" padding="30rpx" shadow="sm">
+        <template #header>
           <text class="section-title">My Orders</text>
+        </template>
+        <template #header-extra>
           <text class="view-all" @click="goToOrders">View All</text>
-        </view>
+        </template>
         <lk-grid :columns="4" :border="false">
           <view v-for="(order, i) in orderStatuses" :key="i" class="order-status-item">
             <lk-badge :value="order.count" :offset="[0, 5]">
@@ -58,23 +64,28 @@
             <text class="status-label">{{ order.label }}</text>
           </view>
         </lk-grid>
-      </view>
+      </lk-card>
 
       <!-- 菜单项 -->
-      <view class="menu-list">
-        <view class="section-card">
-          <lk-cell title="Edit Profile" icon="person-gear" clickable arrow border @click="activeTab = 'edit-profile'" />
-          <lk-cell title="My Wishlist" icon="heart" clickable arrow border />
-          <lk-cell title="Shipping Addresses" icon="geo-alt" clickable arrow border />
-          <lk-cell title="Payment Methods" icon="credit-card" clickable arrow />
-        </view>
+        <lk-card  shadow="sm">
+          <lk-cell-group>
+            <lk-cell title="Edit Profile" icon="person-gear" clickable arrow border @click="activeTab = 'edit-profile'" />
+            <lk-cell title="My Wishlist" icon="heart" clickable arrow border />
+            <lk-cell title="Shipping Addresses" icon="geo-alt" clickable arrow border />
+            <lk-cell title="Payment Methods" icon="credit-card" clickable arrow />
+          </lk-cell-group>
+        </lk-card>
 
-        <view class="section-card" style="margin-top: 30rpx;">
-          <lk-cell title="Theme Management" icon="palette" clickable arrow border @click="showThemeSheet = true" />
-          <lk-cell title="Privacy Policy" icon="shield-lock" clickable arrow border />
-          <lk-cell title="Settings" icon="gear" clickable arrow />
-        </view>
-      </view>
+        <lk-card shadow="sm">
+          <lk-cell-group>
+            <lk-cell title="Theme Management" icon="palette" clickable arrow border @click="showThemeSheet = true" />
+            <lk-cell title="Privacy Policy" icon="shield-lock" clickable arrow border />
+            <lk-cell title="Settings" icon="gear" clickable arrow />
+          </lk-cell-group>
+        </lk-card>
+      </lk-space>
+
+
 
       <!-- 退出登录 -->
       <view class="logout-btn-wrap">
@@ -114,6 +125,9 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
 import LkActionSheet from '@/uni_modules/lucky-ui/components/lk-action-sheet/lk-action-sheet.vue';
 import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
+import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 
 defineProps<{
   contentHeight: string;
@@ -215,12 +229,11 @@ const goToOrders = () => {
 }
 
 .stats-card {
-  background: $test-bg-card;
-  border-radius: 32rpx;
-  display: flex;
-  padding: 40rpx 0;
-  box-shadow: $test-shadow-md;
-  margin-bottom: 40rpx;
+
+  .stats-row {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .stat-item {
     flex: 1;
@@ -248,28 +261,16 @@ const goToOrders = () => {
 }
 
 .section-card {
-  background: $test-bg-card;
-  border-radius: 32rpx;
-  padding: 30rpx;
-  box-shadow: $test-shadow-sm;
-  margin-bottom: 30rpx;
 
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 36rpx;
+  .section-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: $test-text-primary;
+  }
 
-    .section-title {
-      font-size: 32rpx;
-      font-weight: bold;
-      color: $test-text-primary;
-    }
-
-    .view-all {
-      font-size: 24rpx;
-      color: $test-primary;
-    }
+  .view-all {
+    font-size: 24rpx;
+    color: $test-primary;
   }
 }
 

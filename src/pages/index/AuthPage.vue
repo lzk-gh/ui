@@ -5,21 +5,25 @@
       <text class="auth-subtitle">{{ isLogin ? 'Sign in to continue your shopping' : 'Join our premium community today' }}</text>
     </view>
 
-    <view class="auth-card">
+    <lk-card class="auth-card" padding="40rpx" border>
       <lk-space direction="vertical" :gap="40" fill>
         <!-- 表单 -->
-        <view class="input-group">
-          <lk-input v-model="form.email" placeholder="Email Address" prefix-icon="envelope" border />
-          <lk-input v-model="form.password" placeholder="Password" prefix-icon="lock" type="password" border style="margin-top: 30rpx;" />
+        <lk-form :model="form" class="auth-form">
+          <lk-form-item>
+            <lk-input v-model="form.email" placeholder="Email Address" prefix-icon="envelope" border />
+          </lk-form-item>
+          <lk-form-item>
+            <lk-input v-model="form.password" placeholder="Password" prefix-icon="lock" type="password" border />
+          </lk-form-item>
 
-          <view v-if="!isLogin" style="margin-top: 30rpx;">
+          <lk-form-item v-if="!isLogin">
             <lk-input v-model="form.confirmPassword" placeholder="Confirm Password" prefix-icon="lock" type="password" border />
-          </view>
+          </lk-form-item>
 
           <view v-if="isLogin" class="forgot-row">
             <text class="forgot-text" @click="goToForgot">Forgot Password?</text>
           </view>
-        </view>
+        </lk-form>
 
         <!-- 按钮 -->
         <view class="btn-group">
@@ -43,7 +47,7 @@
           </view>
         </view>
       </lk-space>
-    </view>
+    </lk-card>
 
     <!-- 验证码弹窗示例 (用于注册或重置) -->
     <lk-popup v-model="showVerify" position="center" round width="80%">
@@ -55,6 +59,26 @@
           <text class="resend-label">Didn't receive code?</text>
           <text class="resend-btn">Resend</text>
         </view>
+      </view>
+    </lk-popup>
+
+    <!-- 忘记密码弹窗 -->
+    <lk-popup v-model="showForgot" position="bottom" round height="70%">
+      <view class="forgot-content">
+        <text class="forgot-title">Reset Password</text>
+        <text class="forgot-desc">Enter your email and verification code to reset.</text>
+        <lk-form :model="forgotForm" class="forgot-form">
+          <lk-form-item>
+            <lk-input v-model="forgotForm.email" placeholder="Email Address" prefix-icon="envelope" border />
+          </lk-form-item>
+          <lk-form-item>
+            <lk-verify-code v-model="forgotForm.code" :length="6" />
+          </lk-form-item>
+          <lk-form-item>
+            <lk-input v-model="forgotForm.password" placeholder="New Password" prefix-icon="lock" type="password" border />
+          </lk-form-item>
+        </lk-form>
+        <lk-button type="primary" block radius="60" height="110" @click="handleResetPassword">Reset Password</lk-button>
       </view>
     </lk-popup>
   </view>
@@ -69,6 +93,9 @@ import LkDivider from '@/uni_modules/lucky-ui/components/lk-divider/lk-divider.v
 import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
+import LkForm from '@/uni_modules/lucky-ui/components/lk-form/lk-form.vue';
+import LkFormItem from '@/uni_modules/lucky-ui/components/lk-form/lk-form-item.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 
 const themeClass = inject('themeClass', ref('lk-theme-light'));
 const activeTab = inject('activeTab', ref('home'));
@@ -76,11 +103,18 @@ const activeTab = inject('activeTab', ref('home'));
 const isLogin = ref(true);
 const showVerify = ref(false);
 const verifyCode = ref('');
+const showForgot = ref(false);
 
 const form = reactive({
   email: '',
   password: '',
   confirmPassword: ''
+});
+
+const forgotForm = reactive({
+  email: '',
+  code: '',
+  password: ''
 });
 
 const handleSubmit = () => {
@@ -103,7 +137,20 @@ const onVerifyComplete = (code: string) => {
 };
 
 const goToForgot = () => {
-  uni.showToast({ title: 'Redirecting to reset...', icon: 'none' });
+  showForgot.value = true;
+};
+
+const handleResetPassword = () => {
+  if (!forgotForm.email || !forgotForm.code || !forgotForm.password) {
+    uni.showToast({ title: 'Please complete all fields', icon: 'none' });
+    return;
+  }
+  uni.showLoading({ title: 'Resetting...' });
+  setTimeout(() => {
+    uni.hideLoading();
+    showForgot.value = false;
+    uni.showToast({ title: 'Password reset successfully', icon: 'success' });
+  }, 1200);
 };
 </script>
 
@@ -134,7 +181,13 @@ const goToForgot = () => {
 }
 
 .auth-card {
-  background: transparent;
+  :deep(.lk-form-item) {
+    margin-bottom: 30rpx;
+  }
+
+  :deep(.lk-form-item:last-child) {
+    margin-bottom: 0;
+  }
 }
 
 .forgot-row {
@@ -220,6 +273,37 @@ const goToForgot = () => {
       color: $test-primary;
       font-weight: bold;
       margin-left: 10rpx;
+    }
+  }
+}
+
+.forgot-content {
+  padding: 60rpx 40rpx 80rpx;
+  background: $test-bg-page;
+
+  .forgot-title {
+    font-size: 40rpx;
+    font-weight: bold;
+    color: $test-text-primary;
+    display: block;
+  }
+
+  .forgot-desc {
+    font-size: 26rpx;
+    color: $test-text-secondary;
+    margin: 16rpx 0 40rpx;
+    display: block;
+  }
+
+  .forgot-form {
+    margin-bottom: 40rpx;
+
+    :deep(.lk-form-item) {
+      margin-bottom: 30rpx;
+    }
+
+    :deep(.lk-form-item:last-child) {
+      margin-bottom: 0;
     }
   }
 }

@@ -57,6 +57,7 @@
       <lk-tabbar-item name="cart" icon="cart" label="购物车" />
       <lk-tabbar-item name="detail" icon="list" label="详情" />
       <lk-tabbar-item name="mine" icon="gear" label="我的" />
+      <lk-tabbar-item name="overview" icon="grid" label="预览" />
     </lk-tabbar>
   </view>
 </template>
@@ -117,7 +118,7 @@ onMounted(() => {
 const activeTab = ref<string>('home');
 provide('activeTab', activeTab);
 
-const tabbarTabs = ['home', 'cart', 'detail', 'mine'];
+const tabbarTabs = ['home', 'cart', 'detail', 'mine', 'overview'];
 const isTabSwitching = ref(false);
 let tabSwitchTimer: number | undefined;
 
@@ -128,6 +129,7 @@ const pageTitle = computed(() => {
     home: '发现',
     cart: '购物车',
     detail: '详情',
+    mine: '个人中心',
   };
   return titles[activeTab.value] || 'Lucky UI';
 });

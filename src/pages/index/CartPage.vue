@@ -15,74 +15,61 @@
     <lk-popup v-model="showMorePopup" position="bottom" round height="45%">
       <view class="drag-handle"></view>
       <view class="popup-menu-content">
-        <lk-cell title="Select All Items" icon="check-all" clickable @click="handleMoreAction('select-all')" border />
-        <lk-cell title="Clear Cart" icon="trash" clickable @click="handleMoreAction('clear')" border />
-        <lk-cell title="Manage Vouchers" icon="ticket-perforated" clickable @click="handleMoreAction('voucher')" border />
+        <lk-cell title="Select All Items" icon="check-all" clickable border @click="handleMoreAction('select-all')" />
+        <lk-cell title="Clear Cart" icon="trash" clickable border @click="handleMoreAction('clear')" />
+        <lk-cell title="Manage Vouchers" icon="ticket-perforated" clickable border @click="handleMoreAction('voucher')" />
         <lk-cell title="Shipping Support" icon="headset" clickable @click="handleMoreAction('support')" />
       </view>
     </lk-popup>
 
     <!-- 商品列表 -->
     <view class="cart-items">
-      <view v-for="(item, index) in cartItems" :key="index" class="cart-item">
-        <image :src="item.image" mode="aspectFill" class="item-img" />
-        <view class="item-details">
-          <view class="item-header">
-            <view class="item-info">
-              <text class="item-title">{{ item.title }}</text>
-              <text class="item-sub">{{ item.sub }}</text>
+      <lk-card
+        v-for="(item, index) in cartItems"
+        :key="index"
+        class="cart-item"
+        padding="24rpx"
+        shadow="none"
+        transparent
+      >
+        <view class="item-body">
+          <lk-image :src="item.image" width="160rpx" height="160rpx" radius="30rpx" fit="cover" />
+          <view class="item-details">
+            <view class="item-header">
+              <view class="item-info">
+                <text class="item-title">{{ item.title }}</text>
+                <text class="item-sub">{{ item.sub }}</text>
+              </view>
+              <lk-icon name="three-dots" size="32" color="var(--test-text-secondary)" />
             </view>
-            <lk-icon name="three-dots" size="32" color="var(--test-text-secondary)" />
-          </view>
-          <view class="item-footer">
-            <text class="item-price">${{ item.price }}</text>
-            <view class="stepper-wrap">
-              <lk-stepper v-model="item.count" :min="1" />
+            <view class="item-footer">
+              <text class="item-price">${{ item.price }}</text>
+              <view class="stepper-wrap">
+                <lk-stepper v-model="item.count" :min="1" />
+              </view>
             </view>
           </view>
         </view>
-      </view>
+      </lk-card>
     </view>
 
     <!-- 配送信息 -->
-    <view class="section-container">
-      <text class="section-title">Shipping Information</text>
-      <view class="payment-card">
-        <view class="visa-logo">
-          <lk-icon name="credit-card-fill" size="48" color="#0E4595" />
-          <text class="visa-text">VISA</text>
-        </view>
-        <text class="card-number">**** **** **** 2143</text>
-        <lk-icon name="chevron-down" size="32" color="var(--test-text-tertiary)" />
-      </view>
-    </view>
-
+    <lk-card class="section-container" title="Shipping Information" padding="0" shadow="none" transparent>
+      <lk-cell-group>
+        <lk-cell title="VISA" label="Primary" value="**** **** **** 2143" icon="credit-card-fill" arrow />
+      </lk-cell-group>
+    </lk-card>
     <!-- 金额结算 -->
-    <view class="bill-container">
-      <view class="bill-row">
-        <text class="label">Total (9 items)</text>
-        <text class="value">$1,014.95</text>
-      </view>
-      <view class="bill-row">
-        <text class="label">Shipping Fee</text>
-        <text class="value">$0.00</text>
-      </view>
-      <view class="bill-row">
-        <text class="label">Discount</text>
-        <text class="value">$0.00</text>
-      </view>
-      <view class="divider"></view>
-      <view class="bill-row subtotal">
-        <text class="label">Sub Total</text>
-        <text class="value">$1,014.95</text>
-      </view>
-    </view>
+    <lk-cell-group class="bill-container" card>
+      <lk-cell title="Total (9 items)" value="$1,014.95" />
+      <lk-cell title="Shipping Fee" value="$0.00" />
+      <lk-cell title="Discount" value="$0.00" />
+      <lk-cell class="subtotal" title="Sub Total" value="$1,014.95" />
+    </lk-cell-group>
 
     <!-- 支付按钮 -->
     <view class="footer-btn">
-      <view class="pay-btn" @click="handlePay">
-        <text>Pay</text>
-      </view>
+      <lk-button type="primary" block radius="55" height="110" @click="handlePay">Pay</lk-button>
     </view>
 
     <view class="safe-area-bottom"></view>
@@ -95,6 +82,10 @@ import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
+import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
 
 defineProps<{
   contentHeight: string;
@@ -108,7 +99,7 @@ const showMorePopup = ref(false);
 
 const handleMoreAction = (type: string) => {
   showMorePopup.value = false;
-  uni.showToast({ title: 'Action: ' + type, icon: 'none' });
+  uni.showToast({ title: `Action: ${  type}`, icon: 'none' });
 };
 
 const cartItems = ref([
@@ -185,15 +176,12 @@ const handlePay = () => {
 }
 
 .cart-item {
-  display: flex;
-  gap: 30rpx;
   margin-bottom: 40rpx;
 
-  .item-img {
-    width: 160rpx;
-    height: 160rpx;
-    border-radius: 30rpx;
-    background: $test-gray-100;
+  .item-body {
+    display: flex;
+    gap: 30rpx;
+    align-items: center;
   }
 
   .item-details {
@@ -235,101 +223,21 @@ const handlePay = () => {
 
 .section-container {
   margin-bottom: 60rpx;
-
-  .section-title {
-    font-size: 30rpx;
-    font-weight: bold;
-    color: $test-text-primary;
-    display: block;
-    margin-bottom: 30rpx;
-  }
-
-  .payment-card {
-    height: 140rpx;
-    background: $test-gray-100;
-    border-radius: 20rpx;
-    display: flex;
-    align-items: center;
-    padding: 0 30rpx;
-    gap: 20rpx;
-
-    .visa-logo {
-      display: flex;
-      align-items: center;
-      gap: 10rpx;
-      padding: 10rpx 20rpx;
-      background: $test-bg-card;
-      border-radius: 12rpx;
-
-      .visa-text {
-        font-weight: bold;
-        font-style: italic;
-        color: #0E4595;
-        font-size: 24rpx;
-      }
-    }
-
-    .card-number {
-      flex: 1;
-      font-size: 28rpx;
-      color: $test-text-primary;
-      letter-spacing: 2rpx;
-    }
-  }
 }
 
 .bill-container {
   margin-bottom: 60rpx;
 
-  .bill-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20rpx;
-
-    .label {
-      font-size: 28rpx;
-      color: $test-text-secondary;
-    }
-
-    .value {
-      font-size: 28rpx;
-      color: $test-text-primary;
-      font-weight: bold;
-    }
-
-    &.subtotal {
-      margin-top: 20rpx;
-      .label {
-        color: $test-text-primary;
-      }
-      .value {
-        font-size: 34rpx;
-      }
-    }
-  }
-
-  .divider {
-    height: 1px;
-    background: $test-border-color;
-    margin: 30rpx 0;
+  :deep(.subtotal .lk-cell__title),
+  :deep(.subtotal .lk-cell__value) {
+    color: $test-text-primary;
+    font-weight: bold;
+    font-size: 34rpx;
   }
 }
 
 .footer-btn {
   padding: 20rpx 0;
-
-  .pay-btn {
-    height: 110rpx;
-    background: $test-text-primary;
-    color: $test-text-inverse;
-    border-radius: 55rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 34rpx;
-    font-weight: bold;
-    box-shadow: $test-shadow-md;
-  }
 }
 
 .safe-area-bottom {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { CSSProperties } from 'vue';
 import { cardProps } from './card.props';
 
 defineOptions({ name: 'LkCard' });
@@ -15,10 +16,35 @@ const cardClass = computed(() => {
     },
   ];
 });
+
+const cardStyle = computed<CSSProperties>(() => {
+  const style: CSSProperties = {};
+  const shadowMap: Record<string, string> = {
+    none: 'none',
+    never: 'none',
+    sm: 'var(--test-shadow-sm, var(--lk-shadow-sm))',
+    md: 'var(--test-shadow-md, var(--lk-shadow-base))',
+    base: 'var(--test-shadow-md, var(--lk-shadow-base))',
+    lg: 'var(--test-shadow-lg, var(--lk-shadow-lg))',
+  };
+
+  if (props.transparent) {
+    style['--_bg'] = 'transparent';
+  } else if (props.bgColor) {
+    style['--_bg'] = props.bgColor;
+  }
+
+  const shadow = shadowMap[props.shadow];
+  if (shadow) {
+    style['--_shadow'] = shadow;
+  }
+
+  return style;
+});
 </script>
 
 <template>
-  <view :class="cardClass">
+  <view :class="cardClass" :style="cardStyle">
     <!-- 封面图插槽：贴边显示 -->
     <view v-if="$slots.cover" class="lk-card__cover">
       <slot name="cover" />

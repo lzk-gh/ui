@@ -27,29 +27,41 @@
 
           <!-- 搜索与筛选 -->
           <view class="search-section">
-            <view class="search-bar" @click="activeTab = 'search'">
-              <lk-icon name="search" size="32" color="var(--test-text-tertiary)" />
-              <view class="search-ticker">
-                <lk-notice-bar
-                  :messages="searchHints"
-                  scrollable="vertical"
-                  :speed="2"
-                  no-background
-                />
-              </view>
-            </view>
+            <lk-input
+              class="search-bar"
+              fake
+              prefix-icon="search"
+              placeholder=""
+              fake-text=""
+              @click="activeTab = 'search'"
+            >
+              <template #notice>
+                <view class="search-ticker">
+                  <lk-notice-bar
+                    :messages="searchHints"
+                    scrollable="vertical"
+                    :speed="2"
+                    no-background
+                  />
+                </view>
+              </template>
+            </lk-input>
             <lk-button>
               <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" @click="showFilter = true" />
             </lk-button>
           </view>
 
           <!-- 分类标签 -->
-          <scroll-view scroll-x class="category-scroll" show-scrollbar="false">
+          <lk-horizontal-scroll class="category-scroll" :gap="20" :padding="0" hide-scrollbar>
             <view class="category-list">
-              <view
+              <lk-tag
                 v-for="(item, index) in categories"
                 :key="index"
-                :class="['category-item', activeCategory === index ? 'active' : '']"
+                class="category-item"
+                size="md"
+                :type="activeCategory === index ? 'solid' : 'light'"
+                :bg-color="activeCategory === index ? 'var(--test-text-primary)' : 'var(--test-bg-card)'"
+                :text-color="activeCategory === index ? 'var(--test-text-inverse)' : 'var(--test-text-primary)'"
                 @click="activeCategory = index"
               >
                 <lk-icon
@@ -59,35 +71,47 @@
                   :color="activeCategory === index ? 'var(--test-text-inverse)' : 'var(--test-text-primary)'"
                 />
                 <text class="category-name">{{ item.name }}</text>
-              </view>
+              </lk-tag>
             </view>
-          </scroll-view>
+          </lk-horizontal-scroll>
         </view>
       </template>
 
       <template #item="{ item, height, loading, onImageLoad, onImageError }">
-        <view class="product-card" @click="goToDetail(item)">
-          <view class="image-wrapper" :style="{ height: (height - (item.extraHeight || 90)) + 'px' }">
-            <lk-skeleton
-              class="product-image-skeleton"
-              :loading="loading"
-              :rows="1"
-              row-width="100%"
-              :row-height="`${height - (item.extraHeight || 90)}px`"
-              animated
-            />
-            <image
-              :src="item.image"
-              mode="aspectFill"
-              class="product-image"
-              :style="{ opacity: loading ? 0 : 1 }"
-              @load="onImageLoad"
-              @error="onImageError"
-            />
-            <view class="favorite-icon">
-              <lk-icon name="heart" size="24" color="#fff" />
+        <lk-card
+          class="product-card"
+          padding="0"
+          :border="false"
+          shadow="none"
+          transparent
+          @click="goToDetail(item)"
+        >
+          <template #cover>
+            <view class="image-wrapper" :style="{ height: (height - (item.extraHeight || 90)) + 'px' }">
+              <lk-skeleton
+                class="product-image-skeleton"
+                :loading="loading"
+                :rows="1"
+                row-width="100%"
+                :row-height="`${height - (item.extraHeight || 90)}px`"
+                animated
+              />
+              <lk-image
+                :src="item.image"
+                width="100%"
+                height="100%"
+                fit="cover"
+                class="product-image"
+                :show-loading="false"
+                :style="{ opacity: loading ? 0 : 1 }"
+                @load="onImageLoad"
+                @error="onImageError"
+              />
+              <view class="favorite-icon">
+                <lk-icon name="heart" size="24" color="#fff" />
+              </view>
             </view>
-          </view>
+          </template>
           <view class="product-info">
             <text class="product-title">{{ item.title }}</text>
             <text class="product-type">{{ item.type }}</text>
@@ -99,7 +123,7 @@
               </view>
             </view>
           </view>
-        </view>
+        </lk-card>
       </template>
       <!-- 底部加载状态与安全区占位 -->
       <template #loading>
@@ -126,32 +150,44 @@
           <view class="filter-group">
             <text class="group-title">Category</text>
             <view class="tag-flex">
-              <view
+              <lk-tag
                 v-for="c in categories"
                 :key="c.name"
-                :class="['filter-tag', activeCategoryName === c.name ? 'active' : '']"
+                class="filter-tag"
+                size="md"
+                :type="activeCategoryName === c.name ? 'solid' : 'light'"
+                :bg-color="activeCategoryName === c.name ? 'var(--test-text-primary)' : 'var(--test-bg-card)'"
+                :text-color="activeCategoryName === c.name ? 'var(--test-text-inverse)' : 'var(--test-text-secondary)'"
                 @click="activeCategoryName = c.name"
               >
                 {{ c.name }}
-              </view>
+              </lk-tag>
             </view>
           </view>
 
           <view class="filter-group">
             <text class="group-title">Price Range</text>
             <view class="price-inputs">
-              <input class="price-input" placeholder="Min" type="number" />
+              <lk-input class="price-input" placeholder="Min" type="number" border />
               <view class="dash">-</view>
-              <input class="price-input" placeholder="Max" type="number" />
+              <lk-input class="price-input" placeholder="Max" type="number" border />
             </view>
           </view>
 
           <view class="filter-group">
             <text class="group-title">Sort By</text>
             <view class="tag-flex">
-              <view v-for="s in ['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular']" :key="s" class="filter-tag">
+              <lk-tag
+                v-for="s in ['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular']"
+                :key="s"
+                class="filter-tag"
+                size="md"
+                type="light"
+                bg-color="var(--test-bg-card)"
+                text-color="var(--test-text-secondary)"
+              >
                 {{ s }}
-              </view>
+              </lk-tag>
             </view>
           </view>
         </scroll-view>
@@ -174,6 +210,11 @@ import LkNoticeBar from '@/uni_modules/lucky-ui/components/lk-notice-bar/lk-noti
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
+import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
+import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
+import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
 
 defineProps<{
   contentHeight: string;
@@ -322,12 +363,17 @@ const goToDetail = (_item: WaterfallItem) => {
   .search-bar {
     flex: 1;
     height: 100rpx;
-    background: $test-bg-card;
-    border-radius: 24rpx;
-    display: flex;
-    align-items: center;
-    padding: 0 30rpx;
-    border: 1px solid $test-border-color;
+    --_bg: #{$test-bg-card};
+    --_border: #{$test-border-color};
+    --_radius: 24rpx;
+    --_height: 100rpx;
+    --_px: 30rpx;
+
+    :deep(.lk-input__fake) {
+      height: 100rpx;
+      display: flex;
+      align-items: center;
+    }
 
     .search-ticker {
       flex: 1;
@@ -357,11 +403,6 @@ const goToDetail = (_item: WaterfallItem) => {
   }
 }
 
-.category-scroll {
-  margin-bottom: 40rpx;
-  flex-shrink: 0;
-}
-
 .category-list {
   display: flex;
   gap: 20rpx;
@@ -372,23 +413,12 @@ const goToDetail = (_item: WaterfallItem) => {
     align-items: center;
     gap: 12rpx;
     padding: 20rpx 36rpx;
-    background: $test-bg-card;
-    border: 1px solid $test-border-color;
     border-radius: 24rpx;
     transition: all 0.3s;
     flex-shrink: 0;
 
-    &.active {
-      background: $test-text-primary;
-      border-color: $test-text-primary;
-      .category-name {
-        color: $test-text-inverse;
-      }
-    }
-
     .category-name {
       font-size: 28rpx;
-      color: $test-text-primary;
       font-weight: 500;
     }
   }
@@ -396,8 +426,6 @@ const goToDetail = (_item: WaterfallItem) => {
 
 .product-card {
   width: 100%;
-  display: flex;
-  flex-direction: column;
   box-sizing: border-box;
   padding: 0;
 
@@ -608,12 +636,14 @@ const goToDetail = (_item: WaterfallItem) => {
 
         .price-input {
           flex: 1;
-          height: 80rpx;
-          background: $test-bg-card;
           border-radius: 20rpx;
           text-align: center;
-          font-size: 28rpx;
-          border: 1px solid $test-border-color;
+
+          :deep(.lk-input__inner) {
+            height: 80rpx;
+            font-size: 28rpx;
+            text-align: center;
+          }
         }
 
         .dash {
