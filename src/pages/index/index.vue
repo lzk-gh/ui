@@ -14,7 +14,6 @@
     </lk-navbar>
 
     <!-- 子页面容器 -->
-    <lk-skeleton :loading="isTabSwitching" :rows="1" row-height="100vh" animated :duration="1.6">
       <view class="pages-container">
         <!-- 组件预览（保留之前第一页面） -->
         <overview-page v-if="activeTab === 'overview'" :content-height="contentHeight" />
@@ -46,7 +45,6 @@
         <!-- 福利打卡 -->
         <check-in-page v-else-if="activeTab === 'check-in'" :content-height="contentHeight" />
       </view>
-    </lk-skeleton>
 
     <!-- 底部 Tabbar -->
     <lk-tabbar
@@ -77,7 +75,6 @@ import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue'
 import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue';
 import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
 
 // 子页面组件
 import OverviewPage from './OverviewPage.vue';
@@ -187,7 +184,6 @@ watch(activeTab, (newTab, oldTab) => {
   flex: 1;
   position: relative;
   overflow: hidden;
-  padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 
