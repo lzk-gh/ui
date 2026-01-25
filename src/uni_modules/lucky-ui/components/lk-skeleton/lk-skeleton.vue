@@ -12,6 +12,13 @@ function getRowWidth(i: number): string {
   return String(props.rowWidth);
 }
 
+function getRowHeight(i: number): string {
+  if (Array.isArray(props.rowHeight)) {
+    return String(props.rowHeight[i] || props.rowHeight[props.rowHeight.length - 1] || '32rpx');
+  }
+  return String(props.rowHeight);
+}
+
 const hostStyle = computed(() => {
   const dur =
     typeof props.duration === 'number' ? `${props.duration}s` : String(props.duration || '1.8s');
@@ -45,7 +52,7 @@ const hostStyle = computed(() => {
         v-for="i in rows"
         :key="i"
         class="lk-skeleton__row"
-        :style="{ width: getRowWidth(i - 1) }"
+        :style="{ width: getRowWidth(i - 1), height: getRowHeight(i - 1) }"
         :class="{ 'is-anim': animated }"
       />
     </view>

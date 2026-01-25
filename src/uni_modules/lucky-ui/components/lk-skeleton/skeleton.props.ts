@@ -31,6 +31,12 @@ export const skeletonProps = {
     default: '100%',
   },
 
+  /** 行高度 */
+  rowHeight: {
+    type: [String, Array] as PropType<string | string[]>,
+    default: '32rpx',
+  },
+
   /** 是否开启动画 */
   animated: LkProp.boolean(true),
 
