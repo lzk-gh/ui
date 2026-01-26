@@ -49,27 +49,23 @@
           </view>
 
           <!-- 分类标签 -->
-          <lk-horizontal-scroll class="category-scroll" :gap="20" :padding="0" hide-scrollbar>
-            <view class="category-list">
+          <lk-horizontal-scroll hide-scrollbar>
+            <lk-tag-group v-model="activeCategory" :wrap="false" :gap="30" size="lg">
               <lk-tag
                 v-for="(item, index) in categories"
                 :key="index"
-                class="category-item"
-                size="md"
-                :type="activeCategory === index ? 'solid' : 'light'"
-                :bg-color="activeCategory === index ? 'var(--test-text-primary)' : 'var(--test-bg-card)'"
-                :text-color="activeCategory === index ? 'var(--test-text-inverse)' : 'var(--test-text-primary)'"
-                @click="activeCategory = index"
+                :name="index"
+                v-slot="{ checked }"
               >
                 <lk-icon
                   v-if="item.icon"
                   :name="item.icon"
                   size="28"
-                  :color="activeCategory === index ? 'var(--test-text-inverse)' : 'var(--test-text-primary)'"
+                  :color="checked ? 'var(--test-text-inverse)' : 'var(--test-text-primary)'"
                 />
                 <text class="category-name">{{ item.name }}</text>
               </lk-tag>
-            </view>
+            </lk-tag-group>
           </lk-horizontal-scroll>
         </view>
       </template>
@@ -146,20 +142,15 @@
         <scroll-view scroll-y class="filter-body">
           <view class="filter-group">
             <text class="group-title">Category</text>
-            <view class="tag-flex">
+            <lk-tag-group v-model="activeCategoryName" class="tag-flex">
               <lk-tag
                 v-for="c in categories"
                 :key="c.name"
-                class="filter-tag"
-                size="md"
-                :type="activeCategoryName === c.name ? 'solid' : 'light'"
-                :bg-color="activeCategoryName === c.name ? 'var(--test-text-primary)' : 'var(--test-bg-card)'"
-                :text-color="activeCategoryName === c.name ? 'var(--test-text-inverse)' : 'var(--test-text-secondary)'"
-                @click="activeCategoryName = c.name"
+                :name="c.name"
               >
                 {{ c.name }}
               </lk-tag>
-            </view>
+            </lk-tag-group>
           </view>
 
           <view class="filter-group">
@@ -209,6 +200,7 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
 import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
+import LkTagGroup from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag-group.vue';
 import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
@@ -400,27 +392,6 @@ const goToDetail = (_item: WaterfallItem) => {
   }
 }
 
-.category-list {
-  display: flex;
-  gap: 20rpx;
-  padding-right: 30rpx;
-
-  .category-item {
-    display: flex;
-    align-items: center;
-    gap: 12rpx;
-    padding: 20rpx 36rpx;
-    border-radius: 24rpx;
-    transition: all 0.3s;
-    flex-shrink: 0;
-
-    .category-name {
-      font-size: 28rpx;
-      font-weight: 500;
-    }
-  }
-}
-
 .product-card {
   width: 100%;
   box-sizing: border-box;
@@ -609,21 +580,6 @@ const goToDetail = (_item: WaterfallItem) => {
         display: flex;
         flex-wrap: wrap;
         gap: 20rpx;
-
-        .filter-tag {
-          padding: 16rpx 32rpx;
-          background: $test-bg-card;
-          border: 1px solid $test-border-color;
-          border-radius: 40rpx;
-          font-size: 26rpx;
-          color: $test-text-secondary;
-
-          &.active {
-            background: $test-text-primary;
-            color: $test-text-inverse;
-            border-color: $test-text-primary;
-          }
-        }
       }
 
       .price-inputs {

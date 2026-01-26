@@ -3,60 +3,75 @@
 @include b(tag) {
   --_fs: 24rpx;
   --_px: 20rpx;
+  --_py: 8rpx;
   --_radius: var(--lk-radius-full);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--lk-spacing-xs);
   font-size: var(--_fs);
-  padding: 8rpx var(--_px);
-  line-height: 1;
+  padding: var(--_py) var(--_px);
+  line-height: 1.2;
   border-radius: var(--_radius);
   user-select: none;
-  // 默认使用中性填充色背景，而不是品牌色
+  box-sizing: border-box;
+  white-space: nowrap;
+  vertical-align: middle;
+
+  // 默认使用中性填充色背景
   background: var(--lk-fill-1);
   color: var(--lk-text-regular);
-  transition:
-    background var(--lk-transition-fast),
-    color var(--lk-transition-fast),
-    opacity var(--lk-transition-fast);
+  transition: all var(--lk-transition-fast);
 
   @include m(sm) {
     --_fs: 22rpx;
-    --_px: 16rpx;
+    --_px: 12rpx;
+    --_py: 4rpx;
   }
   @include m(md) {
     --_fs: 26rpx;
     --_px: 20rpx;
+    --_py: 12rpx;
   }
   @include m(lg) {
-    --_fs: 30rpx;
-    --_px: 28rpx;
+    --_fs: 28rpx;
+    --_px: 36rpx;
+    --_py: 20rpx;
   }
 
   @include m(light) {
-    // 使用中性填充色背景，而不是品牌淡色
     background: var(--lk-fill-1);
     color: var(--lk-text-regular);
   }
+
+  @include m(solid) {
+    background: var(--lk-color-primary);
+    color: var(--lk-text-inverse);
+  }
+
   @include m(outline) {
     background: transparent;
     color: var(--lk-text-regular);
     box-shadow: inset 0 0 0 2rpx var(--lk-color-border);
   }
-  @include m(soft) {
-    // 使用中性填充色背景，而不是品牌淡色
-    background: var(--lk-fill-1);
-    color: var(--lk-text-regular);
-  }
-  
-  // 只有明确指定 primary 时才使用品牌色
-  @include m(primary) {
+
+  // 选中态样式
+  @include when(checked) {
     background: var(--lk-color-primary);
     color: var(--lk-text-inverse);
+    border-color: transparent;
+
+    &.lk-tag--outline {
+      box-shadow: none;
+    }
   }
 
-  &:active:not(.is-disabled) {
-    filter: brightness(0.93);
+  @include when(clickable) {
+    cursor: pointer;
+    &:active {
+      filter: brightness(0.9);
+      transform: scale(0.97);
+    }
   }
 
   @include when(disabled) {

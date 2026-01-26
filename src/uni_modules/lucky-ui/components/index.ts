@@ -13,6 +13,7 @@ export { default as LkRadio } from './lk-radio/lk-radio.vue';
 export { default as LkRadioGroup } from './lk-radio/lk-radio-group.vue';
 
 export { default as LkTag } from './lk-tag/lk-tag.vue';
+export { default as LkTagGroup } from './lk-tag/lk-tag-group.vue';
 export { default as LkBadge } from './lk-badge/lk-badge.vue';
 export { default as LkAvatar } from './lk-avatar/lk-avatar.vue';
 export { default as LkLoading } from './lk-loading/lk-loading.vue';
