@@ -96,7 +96,9 @@ watch(
 
     <!-- 假输入框模式 -->
     <view v-if="fake" class="lk-input__fake">
-      <text class="lk-input__fake-text">{{ fakeDisplayText }}</text>
+      <slot>
+        <text class="lk-input__fake-text">{{ fakeDisplayText }}</text>
+      </slot>
     </view>
 
     <!-- 真实输入框 -->

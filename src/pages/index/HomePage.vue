@@ -32,19 +32,16 @@
               fake
               prefix-icon="search"
               placeholder=""
-              fake-text=""
               @click="activeTab = 'search'"
             >
-              <template #notice>
-                <view class="search-ticker">
-                  <lk-notice-bar
-                    :messages="searchHints"
-                    scrollable="vertical"
-                    :speed="2"
-                    no-background
-                  />
-                </view>
-              </template>
+              <view class="search-ticker">
+                <lk-notice-bar
+                  :messages="searchHints"
+                  scrollable="vertical"
+                  :speed="2"
+                  no-background
+                />
+              </view>
             </lk-input>
             <lk-button>
               <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" @click="showFilter = true" />
