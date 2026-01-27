@@ -1,9 +1,37 @@
 {
   "pages": [
     {
-      "path": "pages/index/index",
+      "path": "pages/tabbar/home/index",
       "style": {
-        "navigationBarTitleText": "Lucky UI",
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tabbar/cart/index",
+      "style": {
+        "navigationBarTitleText": "购物车",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tabbar/detail/index",
+      "style": {
+        "navigationBarTitleText": "详情",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tabbar/mine/index",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tabbar/overview/index",
+      "style": {
+        "navigationBarTitleText": "组件预览",
         "navigationStyle": "custom"
       }
     },
@@ -13,25 +41,90 @@
         "navigationBarTitleText": "组件详情",
         "navigationStyle": "custom"
       }
-    },
-    {
-      "path": "pages/order-detail/index",
-      "style": {
-        "navigationBarTitleText": "订单详情",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/todo/index",
-      "style": {
-        "navigationBarTitleText": "待办事项",
-        "navigationStyle": "custom"
-      }
     }
   ],
+  "subPackages": [
+    {
+      "root": "pages_sub",
+      "name": "sub-pages",
+      "pages": [
+        {
+          "path": "search/index",
+          "style": {
+            "navigationBarTitleText": "搜索",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "auth/index",
+          "style": {
+            "navigationBarTitleText": "登录",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "edit-profile/index",
+          "style": {
+            "navigationBarTitleText": "编辑资料",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "analytics/index",
+          "style": {
+            "navigationBarTitleText": "数据分析",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "check-in/index",
+          "style": {
+            "navigationBarTitleText": "每日签到",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "product-detail/index",
+          "style": {
+            "navigationBarTitleText": "商品详情",
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    }
+  ],
+  "tabBar": {
+    "custom": false,
+    "color": "#999999",
+    "selectedColor": "#6965db",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabbar/cart/index",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/tabbar/detail/index",
+        "text": "详情"
+      },
+      {
+        "pagePath": "pages/tabbar/mine/index",
+        "text": "我的"
+      },
+      {
+        "pagePath": "pages/tabbar/overview/index",
+        "text": "预览"
+      }
+    ]
+  },
   "globalStyle": {
     "navigationStyle": "custom",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "Lucky UI",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   }
