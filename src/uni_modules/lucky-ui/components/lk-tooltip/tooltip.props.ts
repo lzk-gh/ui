@@ -30,6 +30,9 @@ export const tooltipProps = {
   /** 内容文本 */
   content: LkProp.string(''),
 
+  /** 层级 (默认 600，弹出层-无遮罩) */
+  zIndex: LkProp.number(600),
+
   /**
    * 触发方式
    * @value hover 鼠标悬停

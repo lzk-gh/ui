@@ -88,7 +88,7 @@ $tabbar-height: 120rpx;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: 300; // 低于 popup (1000)、modal (1500)、toast (2000)
   background: $test-bg-card;
   border-top: 1px solid $test-border-color;
   padding-bottom: env(safe-area-inset-bottom);

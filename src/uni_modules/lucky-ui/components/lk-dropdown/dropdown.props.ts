@@ -32,6 +32,9 @@ export const dropdownProps = {
     default: '',
   },
 
+  /** 层级 (默认 500，弹出层-无遮罩) */
+  zIndex: LkProp.number(500),
+
   /**
    * 触发方式
    * @value click 点击

@@ -11,6 +11,9 @@ export const tabbarProps = {
   /** 当前选中项的 name 值 */
   modelValue: LkProp.stringNumber(''),
 
+  /** 层级 (默认 300，低于弹出层) */
+  zIndex: LkProp.number(300),
+
   /** 是否固定在底部 */
   fixed: LkProp.boolean(true),
 

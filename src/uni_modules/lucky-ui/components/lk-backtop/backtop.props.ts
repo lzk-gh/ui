@@ -25,6 +25,9 @@ export type BacktopSize = (typeof BacktopSize)[keyof typeof BacktopSize];
 export const backtopProps = {
   ...baseProps,
 
+  /** 层级 (默认 400，导航层) */
+  zIndex: LkProp.number(400),
+
   /** 滚动高度达到此值时显示 */
   visibilityHeight: LkProp.number(200),
 

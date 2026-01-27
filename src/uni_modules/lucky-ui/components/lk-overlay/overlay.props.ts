@@ -13,6 +13,9 @@ export const overlayProps = {
     default: undefined as unknown as boolean,
   },
 
+  /** 层级 */
+  zIndex: LkProp.number(900),
+
   /** 透明度 */
   opacity: LkProp.number(0.55),
 

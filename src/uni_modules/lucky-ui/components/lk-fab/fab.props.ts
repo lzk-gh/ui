@@ -104,9 +104,9 @@ export const fabProps = {
   blur: LkProp.boolean(true),
 
   /**
-   * 层级
+   * 层级 (默认 400，导航层最高，低于弹出层)
    */
-  zIndex: LkProp.number(999),
+  zIndex: LkProp.number(400),
 
   /**
    * 是否显示遮罩（展开时）

@@ -8,6 +8,9 @@ export const modalProps = {
   /** 是否显示 */
   modelValue: LkProp.boolean(false),
 
+  /** 层级 (默认 1500，高于 Popup 的 1000) */
+  zIndex: LkProp.number(1500),
+
   /** 标题 */
   title: LkProp.string(''),
 

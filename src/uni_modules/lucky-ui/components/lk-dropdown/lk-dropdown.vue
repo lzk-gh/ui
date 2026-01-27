@@ -95,7 +95,7 @@ const {
       v-if="display"
       class="lk-dropdown__menu lk-elevated"
       :class="menuClasses"
-      :style="menuStyles"
+      :style="[menuStyles, { zIndex }]"
     >
       <slot name="menu" />
     </view>

@@ -25,6 +25,9 @@ export const toastProps = {
   /** 是否显示 */
   modelValue: LkProp.boolean(false),
 
+  /** 层级 (默认 2000，消息层最高优先级) */
+  zIndex: LkProp.number(2000),
+
   /** 提示内容 */
   message: LkProp.string(''),
 
@@ -38,7 +41,7 @@ export const toastProps = {
    * @value slide-down 向下滑动
     * @value zoom-in 缩放
    */
-    transition: LkProp.enum(ToastTransitionNames, 'slide-up', 'Toast.transition'),
+  transition: LkProp.enum(ToastTransitionNames, 'slide-up', 'Toast.transition'),
 
   /**
    * 位置

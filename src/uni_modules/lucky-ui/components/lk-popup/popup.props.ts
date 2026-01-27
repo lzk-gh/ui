@@ -21,6 +21,9 @@ export const popupProps = {
   /** 是否显示 */
   modelValue: LkProp.boolean(false),
 
+  /** 层级 (默认 1000，高于 Tabbar 的 300) */
+  zIndex: LkProp.number(1000),
+
   /**
    * 弹出位置
    * @value center 居中

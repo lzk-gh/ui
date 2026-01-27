@@ -16,6 +16,9 @@ export const actionSheetProps = {
   /** 是否显示 */
   modelValue: LkProp.boolean(false),
 
+  /** 层级 (默认 1000，与 Popup 相同) */
+  zIndex: LkProp.number(1000),
+
   /** 标题 */
   title: LkProp.string(''),
 

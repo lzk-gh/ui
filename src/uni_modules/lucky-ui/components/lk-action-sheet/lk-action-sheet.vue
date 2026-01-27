@@ -54,6 +54,7 @@ function onPopupModelChange(v: boolean) {
     :model-value="modelValue"
     position="bottom"
     :round="true"
+    :z-index="zIndex"
     :animation="animation"
     :animation-type="animationType"
     :duration="duration"

@@ -82,6 +82,7 @@ const placementClass = computed(() => `is-${props.placement}`);
 const popStyle = computed(() => {
   const style: Record<string, any> = {
     '--lk-tooltip-offset': `${props.offset}rpx`,
+    zIndex: props.zIndex,
   };
   if (props.width !== undefined && props.width !== null && props.width !== '') {
     style.width = typeof props.width === 'number' ? `${props.width}rpx` : String(props.width);

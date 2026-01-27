@@ -75,15 +75,29 @@ page {
   --lk-transition-base: 0.25s ease;
   --lk-transition-slow: 0.35s ease;
 
-  /* === 层级 === */
-  --lk-z-index-dropdown: 1000;
-  --lk-z-index-sticky: 1020;
-  --lk-z-index-fixed: 1030;
-  --lk-z-index-modal-backdrop: 1040;
-  --lk-z-index-modal: 1050;
-  --lk-z-index-popover: 1060;
-  --lk-z-index-tooltip: 1070;
-  --lk-z-index-toast: 1080;
+  /* === 层级 (Z-Index) === */
+  /* 导航层 */
+  --lk-z-index-sticky: 100;
+  --lk-z-index-navbar: 200;
+  --lk-z-index-tabbar: 300;
+  --lk-z-index-fab: 400;
+
+  /* 弹出层（不带遮罩） */
+  --lk-z-index-dropdown: 500;
+  --lk-z-index-tooltip: 600;
+  --lk-z-index-popover: 700;
+
+  /* 遮罩层 */
+  --lk-z-index-overlay: 900;
+
+  /* 模态层（带遮罩） */
+  --lk-z-index-popup: 1000;
+  --lk-z-index-modal: 1500;
+
+  /* 消息层 */
+  --lk-z-index-toast: 2000;
+  --lk-z-index-notify: 2100;
+  --lk-z-index-loading: 2200;
 }
 
 /* =============================================================================
@@ -190,9 +204,9 @@ page,
   --lk-color-highlight: rgba(0, 0, 0, 0.04);
 
   /* === 骨架屏与加载（纯灰色，无色调）=== */
-  --lk-skeleton-start: #F0F2F5;
-  --lk-skeleton-end: #E1E4E8;
-  --lk-loading-spinner: #C8C9CC;
+  --lk-skeleton-start: #f0f2f5;
+  --lk-skeleton-end: #e1e4e8;
+  --lk-loading-spinner: #c8c9cc;
 
   /* === 图标 === */
   --lk-icon-color: var(--lk-text-primary);
@@ -293,9 +307,9 @@ page,
   --lk-color-highlight: rgba(255, 255, 255, 0.08);
 
   /* === 骨架屏与加载（纯灰色，无色调）=== */
-  --lk-skeleton-start: #2C2C2C;
-  --lk-skeleton-end: #3D3D3D;
-  --lk-loading-spinner: #5D5D5D;
+  --lk-skeleton-start: #2c2c2c;
+  --lk-skeleton-end: #3d3d3d;
+  --lk-loading-spinner: #5d5d5d;
 
   /* === 图标 === */
   /* 图标默认跟随文字颜色，自动适配暗黑模式 */

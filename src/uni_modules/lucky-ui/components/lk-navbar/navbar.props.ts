@@ -7,6 +7,9 @@ export const navbarProps = {
   /** 标题 */
   title: LkProp.string(''),
 
+  /** 层级 (默认 200，导航层) */
+  zIndex: LkProp.number(200),
+
   /** 是否固定在顶部 */
   fixed: LkProp.boolean(true),
 
