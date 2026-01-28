@@ -10,6 +10,9 @@ import { initLkIconsFont } from '@/uni_modules/lucky-ui/utils/init-lk-icons';
 import { LK_ICONS_TTF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/fonts/lk-icons.base64';
 
 onLaunch(async () => {
+  // 立即隐藏原生 tabBar，防止闪烁
+  uni.hideTabBar({ animation: false });
+
   // 初始化图标字体
   await initLkIconsFont({ source: 'base64', data: LK_ICONS_TTF_BASE64 });
 
@@ -21,4 +24,24 @@ onLaunch(async () => {
 
 <style lang="scss">
 @import '@/uni_modules/lucky-ui/theme/src/index.scss';
+
+/* 彻底隐藏原生 tabBar，防止加载时闪烁 */
+/* #ifdef H5 */
+uni-tabbar,
+.uni-tabbar {
+  display: none !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+/* #endif */
+
+/* #ifdef MP-WEIXIN */
+.weui-tabbar {
+  display: none !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+/* #endif */
 </style>
