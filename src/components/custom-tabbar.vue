@@ -1,5 +1,5 @@
 <template>
-  <view class="custom-tabbar">
+  <view class="custom-tabbar" :class="{ 'custom-tabbar--ready': isReady }">
     <view class="tabbar-wrapper">
       <view
         v-for="item in tabs"
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, onMounted, nextTick } from 'vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 interface TabItem {
@@ -42,6 +42,9 @@ const tabs: TabItem[] = [
   { name: 'mine', path: '/pages/tabbar/mine/index', icon: 'gear', label: '我的' },
   { name: 'overview', path: '/pages/tabbar/overview/index', icon: 'grid', label: '预览' },
 ];
+
+// tabbar 准备就绪状态
+const isReady = ref(false);
 
 /**
  * 根据当前路由判断高亮项
@@ -76,6 +79,21 @@ function switchTab(item: TabItem) {
     },
   });
 }
+
+// 组件挂载后标记为准备就绪
+onMounted(() => {
+  // 使用 requestAnimationFrame 确保 DOM 已渲染
+  // #ifdef H5
+  requestAnimationFrame(() => {
+    isReady.value = true;
+  });
+  // #endif
+  // #ifndef H5
+  nextTick(() => {
+    isReady.value = true;
+  });
+  // #endif
+});
 </script>
 
 <style lang="scss" scoped>
@@ -92,6 +110,16 @@ $tabbar-height: 120rpx;
   background: $test-bg-card;
   border-top: 1px solid $test-border-color;
   padding-bottom: env(safe-area-inset-bottom);
+  
+  // 初始状态：已渲染但透明，避免闪烁
+  opacity: 0;
+  transform: translateY(10rpx);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  
+  &--ready {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tabbar-wrapper {

@@ -104,3 +104,9 @@ export { default as LkCurtain } from './lk-curtain/lk-curtain.vue'
 export { default as LkHorizontalScroll } from './lk-horizontal-scroll/lk-horizontal-scroll.vue'
 // New: FAB (Floating Action Button)
 export { default as LkFab } from './lk-fab/lk-fab.vue'
+
+// New: Preload Debugger (预加载调试面板)
+export { default as LkPreloadDebugger } from './lk-preload-debugger/lk-preload-debugger.vue'
+
+// New: Tabbar Container (单页面 Tab 容器)
+export { default as LkTabbarContainer } from './lk-tabbar-container/lk-tabbar-container.vue'

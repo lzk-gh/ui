@@ -31,17 +31,26 @@ uni-tabbar,
 .uni-tabbar {
   display: none !important;
   height: 0 !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  z-index: -1 !important;
 }
 /* #endif */
 
 /* #ifdef MP-WEIXIN */
-.weui-tabbar {
+.weui-tabbar,
+.wx-tabbar {
   display: none !important;
   height: 0 !important;
+  max-height: 0 !important;
   visibility: hidden !important;
+  opacity: 0 !important;
 }
 /* #endif */
 </style>

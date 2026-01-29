@@ -9,7 +9,12 @@ const props = defineProps(tabbarProps);
 const emit = defineEmits(tabbarEmits);
 
 const rootStyle = computed(() => {
-  const style: Record<string, string | number> = { zIndex: props.zIndex };
+  const style: Record<string, string | number> = { 
+    zIndex: props.zIndex,
+    // 硬件加速，防止切换时闪烁
+    transform: 'translateZ(0)',
+    backfaceVisibility: 'hidden',
+  };
 
   if (props.backgroundColor) style['--lk-tabbar-bg'] = props.backgroundColor;
   if (props.activeColor) style['--lk-tabbar-active-color'] = props.activeColor;

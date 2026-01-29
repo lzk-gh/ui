@@ -1,6 +1,13 @@
 {
   "pages": [
     {
+      "path": "pages/app-main/index",
+      "style": {
+        "navigationBarTitleText": "Lucky UI",
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/tabbar/home/index",
       "style": {
         "navigationBarTitleText": "首页",
