@@ -14,14 +14,14 @@
             <lk-loading type="spinner" size="64" />
             <text class="loading-text">加载中...</text>
           </view>
-          
+
           <!-- 加载错误状态 -->
           <view v-else-if="getTabInstance(tab.id)?.error" class="lk-tabbar-container__error">
             <lk-icon name="exclamation-circle" size="80" />
             <text class="error-text">加载失败</text>
             <view class="error-retry" @click="retryLoad(tab.id)">点击重试</view>
           </view>
-          
+
           <!-- Tab 内容组件 -->
           <!-- #ifndef MP-WEIXIN -->
           <component
@@ -64,7 +64,7 @@
         </view>
       </view>
     </view>
-    
+
     <!-- 底部安全区占位 -->
     <view class="lk-tabbar-container__placeholder" />
   </view>
@@ -136,10 +136,10 @@ const containerStyle = computed(() => {
 // 处理 Tab 点击
 const handleTabClick = async (tab: TabConfig) => {
   if (tab.id === activeId.value) return;
-  
+
   const oldTabId = activeId.value;
   emit('beforeChange', tab.id, oldTabId);
-  
+
   await switchTab(tab.id);
   emit('change', tab.id);
 };
@@ -159,10 +159,10 @@ onMounted(() => {
   if (props.debug) {
     setTabbarDebug(true);
   }
-  
+
   // 初始化容器
   initTabbarContainer(props.tabs, props.defaultTab || props.tabs[0]?.id);
-  
+
   // 预加载其他 Tab
   if (props.preloadAll) {
     setTimeout(() => {
@@ -181,7 +181,7 @@ watch(() => props.tabs, (newTabs) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 $tabbar-height: 120rpx;
 
@@ -192,13 +192,13 @@ $tabbar-height: 120rpx;
   flex-direction: column;
   background: $test-bg-page;
   overflow: hidden;
-  
+
   &__content {
     flex: 1;
     overflow: hidden;
     position: relative;
   }
-  
+
   &__panel {
     position: absolute;
     top: 0;
@@ -214,7 +214,7 @@ $tabbar-height: 120rpx;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
   }
-  
+
   &__loading,
   &__error {
     display: flex;
@@ -229,20 +229,20 @@ $tabbar-height: 120rpx;
     width: 100%;
     height: 100%;
   }
-  
+
   &__loading {
     .loading-text {
       margin-top: 24rpx;
       font-size: 28rpx;
     }
   }
-  
+
   &__error {
     .error-text {
       margin-top: 24rpx;
       font-size: 28rpx;
     }
-    
+
     .error-retry {
       margin-top: 32rpx;
       padding: 16rpx 48rpx;
@@ -250,13 +250,13 @@ $tabbar-height: 120rpx;
       color: $test-primary;
       border: 1px solid $test-primary;
       border-radius: 40rpx;
-      
+
       &:active {
         background: rgba($test-primary, 0.1);
       }
     }
   }
-  
+
   &__tabbar {
     position: fixed;
     left: 0;
@@ -271,7 +271,7 @@ $tabbar-height: 120rpx;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
-  
+
   &__placeholder {
     height: calc(#{$tabbar-height} + env(safe-area-inset-bottom));
     flex-shrink: 0;
@@ -299,11 +299,11 @@ $tabbar-height: 120rpx;
   // 防止点击时闪烁
   -webkit-tap-highlight-color: transparent;
   user-select: none;
-  
+
   &.is-active {
     color: $test-primary;
   }
-  
+
   &__icon {
     position: relative;
     display: flex;
@@ -315,7 +315,7 @@ $tabbar-height: 120rpx;
     // 防止图标切换时跳动
     transform: translateZ(0);
   }
-  
+
   &__badge {
     position: absolute;
     top: -8rpx;
@@ -330,7 +330,7 @@ $tabbar-height: 120rpx;
     background: #f56c6c;
     border-radius: 16rpx;
   }
-  
+
   &__dot {
     position: absolute;
     top: 0;
@@ -340,7 +340,7 @@ $tabbar-height: 120rpx;
     background: #f56c6c;
     border-radius: 50%;
   }
-  
+
   &__label {
     margin-top: 4rpx;
     font-size: 22rpx;

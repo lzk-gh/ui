@@ -8,41 +8,6 @@
       }
     },
     {
-      "path": "pages/tabbar/home/index",
-      "style": {
-        "navigationBarTitleText": "首页",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/tabbar/cart/index",
-      "style": {
-        "navigationBarTitleText": "购物车",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/tabbar/detail/index",
-      "style": {
-        "navigationBarTitleText": "详情",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/tabbar/mine/index",
-      "style": {
-        "navigationBarTitleText": "我的",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/tabbar/overview/index",
-      "style": {
-        "navigationBarTitleText": "组件预览",
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/component-detail/index",
       "style": {
         "navigationBarTitleText": "组件详情",
@@ -100,35 +65,6 @@
       ]
     }
   ],
-  "tabBar": {
-    "custom": true,
-    "color": "#999999",
-    "selectedColor": "#6965db",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "white",
-    "list": [
-      {
-        "pagePath": "pages/tabbar/home/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/tabbar/cart/index",
-        "text": "购物车"
-      },
-      {
-        "pagePath": "pages/tabbar/detail/index",
-        "text": "详情"
-      },
-      {
-        "pagePath": "pages/tabbar/mine/index",
-        "text": "我的"
-      },
-      {
-        "pagePath": "pages/tabbar/overview/index",
-        "text": "预览"
-      }
-    ]
-  },
   "globalStyle": {
     "navigationStyle": "custom",
     "navigationBarTitleText": "Lucky UI",

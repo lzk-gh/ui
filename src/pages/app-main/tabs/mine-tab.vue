@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import MineContent from '@/pages/tabbar/mine/components/mine-content.vue';
+import MineContent from './components/mine-content.vue';
 
 defineProps<{
   tabId?: string;
@@ -18,7 +18,7 @@ const contentHeight = computed(() => '100%');
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .tab-page {
   width: 100%;

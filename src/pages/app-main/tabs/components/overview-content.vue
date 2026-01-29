@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="overview-page" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
+  <scroll-view class="overview-content" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
     <view class="page-content">
       <!-- 主题调试工具 -->
       <theme-debugger />
@@ -52,10 +52,7 @@
               @blur="applyCustomColor"
               @confirm="applyCustomColor"
             />
-            <view
-              class="color-preview"
-              :style="{ background: customColorInput || currentBrandColor }"
-            ></view>
+            <view class="color-preview" :style="{ background: customColorInput || currentBrandColor }"></view>
           </view>
         </view>
         <!-- 色阶预览 -->
@@ -83,13 +80,7 @@
           placeholder="搜索组件名称..."
           placeholder-class="search-placeholder"
         />
-        <lk-icon
-          v-if="searchKeyword"
-          name="x-circle"
-          size="32"
-          color="textTertiary"
-          @click="searchKeyword = ''"
-        />
+        <lk-icon v-if="searchKeyword" name="x-circle" size="32" color="textTertiary" @click="searchKeyword = ''" />
       </view>
 
       <!-- 组件分类 -->
@@ -128,22 +119,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, inject } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useThemeStore, PRESET_COLORS, DEFAULT_BRAND_COLOR } from '@/stores/theme';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import ThemeDebugger from '@/components/theme-debugger.vue';
-import {
-  applyBrandColor as applyBrand,
-  loadBrandColor,
-  DEFAULT_BRAND_COLOR,
-  PRESET_COLORS,
-} from '@/uni_modules/lucky-ui/theme';
 
 defineProps<{
   contentHeight: string;
 }>();
 
+const themeStore = useThemeStore();
+
 const searchKeyword = ref('');
-const updateBrandColor = inject<(color: string) => void>('updateBrandColor');
 
 // ============ 主题色配置 ============
 const currentBrandColor = ref(DEFAULT_BRAND_COLOR);
@@ -152,17 +139,11 @@ const customColorInput = ref('');
 // 预设主题色
 const presetColors = PRESET_COLORS;
 
-// 应用品牌色
-const applyBrandColor = (color: string) => {
-  applyBrand(color);
-  updateBrandColor?.(color);
-};
-
 // 切换预设颜色
 const changeBrandColor = (color: string) => {
   currentBrandColor.value = color;
   customColorInput.value = color;
-  applyBrandColor(color);
+  themeStore.setBrandColor(color);
 };
 
 // 应用自定义颜色
@@ -170,17 +151,15 @@ const applyCustomColor = () => {
   const color = customColorInput.value.trim();
   if (/^#[0-9A-Fa-f]{6}$/.test(color)) {
     currentBrandColor.value = color;
-    applyBrandColor(color);
+    themeStore.setBrandColor(color);
   }
 };
 
 // 初始化时恢复保存的颜色
 onMounted(() => {
-  const savedColor = loadBrandColor();
-  if (savedColor) {
-    currentBrandColor.value = savedColor;
-    customColorInput.value = savedColor;
-    applyBrandColor(savedColor);
+  if (themeStore.brandColor) {
+    currentBrandColor.value = themeStore.brandColor;
+    customColorInput.value = themeStore.brandColor;
   }
 });
 
@@ -200,12 +179,7 @@ const categories = [
       { name: 'notice-bar', label: 'NoticeBar', desc: '通知栏', icon: 'house' },
       { name: 'image', label: 'Image', desc: '图片', icon: 'image' },
       { name: 'grid', label: 'Grid', desc: '栅格布局', icon: 'grid-3x3-gap' },
-      {
-        name: 'space',
-        label: 'Space',
-        desc: '元素间距',
-        icon: 'arrows-expand',
-      },
+      { name: 'space', label: 'Space', desc: '元素间距', icon: 'arrows-expand' },
     ],
   },
   {
@@ -217,52 +191,17 @@ const categories = [
       { name: 'input', label: 'Input', desc: '输入框', icon: 'house' },
       { name: 'textarea', label: 'Textarea', desc: '文本域', icon: 'house' },
       { name: 'radio', label: 'Radio', desc: '单选框', icon: 'record-circle' },
-      {
-        name: 'checkbox',
-        label: 'Checkbox',
-        desc: '复选框',
-        icon: 'check-square',
-      },
+      { name: 'checkbox', label: 'Checkbox', desc: '复选框', icon: 'check-square' },
       { name: 'switch', label: 'Switch', desc: '开关', icon: 'toggle-on' },
-      {
-        name: 'stepper',
-        label: 'Stepper',
-        desc: '步进器',
-        icon: 'plus-slash-minus',
-      },
+      { name: 'stepper', label: 'Stepper', desc: '步进器', icon: 'plus-slash-minus' },
       { name: 'slider', label: 'Slider', desc: '滑块', icon: 'sliders' },
       { name: 'rate', label: 'Rate', desc: '评分', icon: 'star' },
       { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' },
-      {
-        name: 'picker',
-        label: 'Picker',
-        desc: '选择器',
-        icon: 'menu-button-wide',
-      },
-      {
-        name: 'picker-view',
-        label: 'PickerView',
-        desc: '内联选择器',
-        icon: 'columns',
-      },
-      {
-        name: 'area-picker',
-        label: 'AreaPicker',
-        desc: '地区选择',
-        icon: 'geo-alt',
-      },
-      {
-        name: 'keyboard',
-        label: 'Keyboard',
-        desc: '虚拟键盘',
-        icon: 'keyboard',
-      },
-      {
-        name: 'verify-code',
-        label: 'VerifyCode',
-        desc: '验证码',
-        icon: 'shield-lock',
-      },
+      { name: 'picker', label: 'Picker', desc: '选择器', icon: 'menu-button-wide' },
+      { name: 'picker-view', label: 'PickerView', desc: '内联选择器', icon: 'columns' },
+      { name: 'area-picker', label: 'AreaPicker', desc: '地区选择', icon: 'geo-alt' },
+      { name: 'keyboard', label: 'Keyboard', desc: '虚拟键盘', icon: 'keyboard' },
+      { name: 'verify-code', label: 'VerifyCode', desc: '验证码', icon: 'shield-lock' },
     ],
   },
   {
@@ -270,74 +209,24 @@ const categories = [
     icon: 'grid-3x3-gap',
     color: 'warning',
     components: [
-      {
-        name: 'card',
-        label: 'Card',
-        desc: '卡片',
-        icon: 'credit-card-2-front',
-      },
+      { name: 'card', label: 'Card', desc: '卡片', icon: 'credit-card-2-front' },
       { name: 'cell', label: 'Cell', desc: '单元格', icon: 'list-ul' },
       { name: 'collapse', label: 'Collapse', desc: '折叠面板', icon: 'house' },
       { name: 'table', label: 'Table', desc: '表格', icon: 'table' },
       { name: 'tabs', label: 'Tabs', desc: '标签页', icon: 'house' },
-      {
-        name: 'timeline',
-        label: 'Timeline',
-        desc: '时间轴',
-        icon: 'hourglass-split',
-      },
+      { name: 'timeline', label: 'Timeline', desc: '时间轴', icon: 'hourglass-split' },
       { name: 'steps', label: 'Steps', desc: '步骤条', icon: 'house' },
-      {
-        name: 'progress',
-        label: 'Progress',
-        desc: '进度条',
-        icon: 'reception-4',
-      },
-      {
-        name: 'loading',
-        label: 'Loading',
-        desc: '加载',
-        icon: 'arrow-clockwise',
-      },
+      { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
+      { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
       { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'border' },
       { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'house' },
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
-      {
-        name: 'pagination',
-        label: 'Pagination',
-        desc: '分页',
-        icon: 'three-dots',
-      },
-      {
-        name: 'number-roller',
-        label: 'NumberRoller',
-        desc: '数字翻牌',
-        icon: 'speedometer',
-      },
-      {
-        name: 'horizontal-scroll',
-        label: 'HorizontalScroll',
-        desc: '横向滚动',
-        icon: 'distribute-horizontal',
-      },
-      {
-        name: 'chart-bar',
-        label: 'ChartBar',
-        desc: '柱状图',
-        icon: 'bar-chart',
-      },
-      {
-        name: 'chart-line',
-        label: 'ChartLine',
-        desc: '折线图',
-        icon: 'graph-up',
-      },
-      {
-        name: 'chart-pie',
-        label: 'ChartPie',
-        desc: '饼/环图',
-        icon: 'pie-chart',
-      },
+      { name: 'pagination', label: 'Pagination', desc: '分页', icon: 'three-dots' },
+      { name: 'number-roller', label: 'NumberRoller', desc: '数字翻牌', icon: 'speedometer' },
+      { name: 'horizontal-scroll', label: 'HorizontalScroll', desc: '横向滚动', icon: 'distribute-horizontal' },
+      { name: 'chart-bar', label: 'ChartBar', desc: '柱状图', icon: 'bar-chart' },
+      { name: 'chart-line', label: 'ChartLine', desc: '折线图', icon: 'graph-up' },
+      { name: 'chart-pie', label: 'ChartPie', desc: '饼/环图', icon: 'pie-chart' },
     ],
   },
   {
@@ -347,43 +236,13 @@ const categories = [
     components: [
       { name: 'modal', label: 'Modal', desc: '对话框', icon: 'window' },
       { name: 'popup', label: 'Popup', desc: '弹出层', icon: 'window-stack' },
-      {
-        name: 'toast',
-        label: 'Toast',
-        desc: '轻提示',
-        icon: 'chat-right-text',
-      },
-      {
-        name: 'action-sheet',
-        label: 'ActionSheet',
-        desc: '动作面板',
-        icon: 'list-task',
-      },
+      { name: 'toast', label: 'Toast', desc: '轻提示', icon: 'chat-right-text' },
+      { name: 'action-sheet', label: 'ActionSheet', desc: '动作面板', icon: 'list-task' },
       { name: 'overlay', label: 'Overlay', desc: '遮罩', icon: 'house' },
-      {
-        name: 'tooltip',
-        label: 'Tooltip',
-        desc: '气泡提示',
-        icon: 'chat-square-quote',
-      },
-      {
-        name: 'dropdown',
-        label: 'Dropdown',
-        desc: '下拉菜单',
-        icon: 'caret-down-square',
-      },
-      {
-        name: 'transition',
-        label: 'Transition',
-        desc: '过渡动画',
-        icon: 'bezier2',
-      },
-      {
-        name: 'curtain',
-        label: 'Curtain',
-        desc: '幕帘',
-        icon: 'aspect-ratio',
-      },
+      { name: 'tooltip', label: 'Tooltip', desc: '气泡提示', icon: 'chat-square-quote' },
+      { name: 'dropdown', label: 'Dropdown', desc: '下拉菜单', icon: 'caret-down-square' },
+      { name: 'transition', label: 'Transition', desc: '过渡动画', icon: 'bezier2' },
+      { name: 'curtain', label: 'Curtain', desc: '幕帘', icon: 'aspect-ratio' },
     ],
   },
   {
@@ -391,42 +250,12 @@ const categories = [
     icon: 'signpost-split',
     color: 'info',
     components: [
-      {
-        name: 'navbar',
-        label: 'Navbar',
-        desc: '导航栏',
-        icon: 'layout-text-window',
-      },
-      {
-        name: 'tabbar',
-        label: 'Tabbar',
-        desc: '标签栏',
-        icon: 'layout-three-columns',
-      },
-      {
-        name: 'breadcrumb',
-        label: 'Breadcrumb',
-        desc: '面包屑',
-        icon: 'chevron-right',
-      },
-      {
-        name: 'backtop',
-        label: 'Backtop',
-        desc: '回到顶部',
-        icon: 'arrow-up-circle',
-      },
-      {
-        name: 'fab',
-        label: 'Fab',
-        desc: '悬浮按钮',
-        icon: 'plus-circle-fill',
-      },
-      {
-        name: 'index-bar',
-        label: 'IndexBar',
-        desc: '字母索引',
-        icon: 'sort-alpha-down',
-      },
+      { name: 'navbar', label: 'Navbar', desc: '导航栏', icon: 'layout-text-window' },
+      { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
+      { name: 'breadcrumb', label: 'Breadcrumb', desc: '面包屑', icon: 'chevron-right' },
+      { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' },
+      { name: 'fab', label: 'Fab', desc: '悬浮按钮', icon: 'plus-circle-fill' },
+      { name: 'index-bar', label: 'IndexBar', desc: '字母索引', icon: 'sort-alpha-down' },
       { name: 'anchor', label: 'Anchor', desc: '页面锚点', icon: 'hash' },
       { name: 'sticky', label: 'Sticky', desc: '粘性布局', icon: 'pin-angle' },
     ],
@@ -437,25 +266,10 @@ const categories = [
     color: 'purple',
     components: [
       { name: 'calendar', label: 'Calendar', desc: '日历', icon: 'calendar3' },
-      {
-        name: 'date-picker',
-        label: 'DatePicker',
-        desc: '日期选择',
-        icon: 'calendar-event',
-      },
+      { name: 'date-picker', label: 'DatePicker', desc: '日期选择', icon: 'calendar-event' },
       { name: 'cascader', label: 'Cascader', desc: '级联选择', icon: 'house' },
-      {
-        name: 'virtual-list',
-        label: 'VirtualList',
-        desc: '虚拟列表',
-        icon: 'list-columns',
-      },
-      {
-        name: 'waterfall',
-        label: 'Waterfall',
-        desc: '瀑布流',
-        icon: 'grid-3x2',
-      },
+      { name: 'virtual-list', label: 'VirtualList', desc: '虚拟列表', icon: 'list-columns' },
+      { name: 'waterfall', label: 'Waterfall', desc: '瀑布流', icon: 'grid-3x2' },
     ],
   },
 ];
@@ -468,23 +282,21 @@ const filteredCategories = computed(() => {
 
   const keyword = searchKeyword.value.toLowerCase();
   return categories
-    .map(cat => ({
+    .map((cat) => ({
       ...cat,
       components: cat.components.filter(
-        comp =>
+        (comp) =>
           comp.name.toLowerCase().includes(keyword) ||
           comp.label.toLowerCase().includes(keyword) ||
           comp.desc.includes(keyword) ||
           cat.name.includes(keyword)
       ),
     }))
-    .filter(cat => cat.components.length > 0);
+    .filter((cat) => cat.components.length > 0);
 });
 
 // 统计数据
-const totalComponents = computed(() =>
-  categories.reduce((sum, cat) => sum + cat.components.length, 0)
-);
+const totalComponents = computed(() => categories.reduce((sum, cat) => sum + cat.components.length, 0));
 const categoryCount = computed(() => categories.length);
 
 // 跳转到详情页
@@ -496,14 +308,19 @@ const navigateToDetail = (componentName: string) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
-.overview-page {
+.overview-content {
   width: 100%;
   background: $test-bg-page;
+  flex: 1;
 }
 
-// 统计卡片（使用测试页面专用渐变）
+.page-content {
+  padding: 20rpx;
+}
+
+// 统计卡片
 .stats-card {
   display: flex;
   align-items: stretch;
@@ -540,7 +357,7 @@ const navigateToDetail = (componentName: string) => {
   margin: 0 24rpx;
 }
 
-// 主题色配置卡片（测试页面样式）
+// 主题色配置卡片
 .theme-config-card {
   background: $test-theme-card-bg;
   border: 1rpx solid $test-theme-card-border;
@@ -651,7 +468,6 @@ const navigateToDetail = (componentName: string) => {
   height: 56rpx;
   border-radius: $test-border-radius;
   border: 2rpx solid $test-border-color;
-  cursor: pointer;
 }
 
 .color-scale-preview {
@@ -686,7 +502,7 @@ const navigateToDetail = (componentName: string) => {
   text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
 }
 
-// 搜索框（测试页面样式）
+// 搜索框
 .search-box {
   display: flex;
   align-items: center;
@@ -711,7 +527,7 @@ const navigateToDetail = (componentName: string) => {
   color: $test-text-tertiary;
 }
 
-// 分类区域（测试页面样式）
+// 分类区域
 .category-section {
   margin-bottom: 48rpx;
 }
@@ -738,7 +554,7 @@ const navigateToDetail = (componentName: string) => {
   border-radius: 999rpx;
 }
 
-// 组件网格（测试页面样式）
+// 组件网格
 .component-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -787,7 +603,7 @@ const navigateToDetail = (componentName: string) => {
   text-align: center;
 }
 
-// 空状态（测试页面样式）
+// 空状态
 .empty-state {
   display: flex;
   flex-direction: column;

@@ -308,7 +308,7 @@ const navigateToDetail = (componentName: string) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .overview-content {
   width: 100%;

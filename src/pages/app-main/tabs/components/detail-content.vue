@@ -201,7 +201,7 @@ const addToCart = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .detail-content {
   background-color: $test-bg-page;

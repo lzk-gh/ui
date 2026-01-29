@@ -1,8 +1,3 @@
-<template>
-  <!-- App.vue 作为应用根组件，不直接渲染页面内容 -->
-  <slot />
-</template>
-
 <script setup lang="ts">
 import { onLaunch } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
@@ -23,7 +18,7 @@ onLaunch(async () => {
 </script>
 
 <style lang="scss">
-@import '@/uni_modules/lucky-ui/theme/src/index.scss';
+@use '@/uni_modules/lucky-ui/theme/src/index.scss' as *;
 
 /* 彻底隐藏原生 tabBar，防止加载时闪烁 */
 /* #ifdef H5 */
@@ -45,7 +40,8 @@ uni-tabbar,
 
 /* #ifdef MP-WEIXIN */
 .weui-tabbar,
-.wx-tabbar {
+.wx-tabbar,
+wx-tabbar {
   display: none !important;
   height: 0 !important;
   max-height: 0 !important;

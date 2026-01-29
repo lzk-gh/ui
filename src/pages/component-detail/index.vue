@@ -732,7 +732,7 @@ const loadDemoComponent = async (name: string) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .detail-page {
   width: 100%;

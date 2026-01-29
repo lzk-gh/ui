@@ -1,5 +1,5 @@
 <template>
-  <view class="home-page" :class="themeClass">
+  <view class="home-content" :class="themeClass">
     <lk-waterfall
       :items="products"
       height="100%"
@@ -32,7 +32,7 @@
               fake
               prefix-icon="search"
               placeholder=""
-              @click="activeTab = 'search'"
+              @click="goToSearch"
             >
               <view class="search-ticker">
                 <lk-notice-bar
@@ -43,8 +43,8 @@
                 />
               </view>
             </lk-input>
-            <lk-button>
-              <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" @click="showFilter = true" />
+            <lk-button @click="showFilter = true">
+              <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" />
             </lk-button>
           </view>
 
@@ -54,8 +54,8 @@
               <lk-tag
                 v-for="(item, index) in categories"
                 :key="index"
-                :name="index"
                 v-slot="{ checked }"
+                :name="String(index)"
               >
                 <lk-icon
                   v-if="item.icon"
@@ -118,6 +118,7 @@
           </view>
         </lk-card>
       </template>
+
       <!-- 底部加载状态与安全区占位 -->
       <template #loading>
         <view class="loading-footer">
@@ -189,7 +190,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
 import type { WaterfallItem } from '@/uni_modules/lucky-ui/components/lk-waterfall/waterfall.props';
 import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
@@ -209,12 +211,14 @@ defineProps<{
   contentHeight: string;
 }>();
 
-const activeTab = inject('activeTab', ref('home'));
-const themeClass = inject('themeClass', ref('lk-theme-light'));
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
 
 const showFilter = ref(false);
 const activeCategoryName = ref('All Items');
-const resetFilter = () => { activeCategoryName.value = 'All Items'; };
+const resetFilter = () => {
+  activeCategoryName.value = 'All Items';
+};
 
 type ProductItem = WaterfallItem & {
   id: number;
@@ -228,23 +232,18 @@ type ProductItem = WaterfallItem & {
 };
 
 const products = ref<ProductItem[]>([]);
-const activeCategory = ref(0);
+const activeCategory = ref<string | number>('0');
 const categories = [
   { name: 'All Items', icon: 'grid' },
   { name: 'Dress', icon: 'list' },
   { name: 'T-Shirt', icon: 'box' },
-  { name: 'Pants', icon: 'list' }
+  { name: 'Pants', icon: 'list' },
 ];
 
 const mockAdjectives = ['Modern', 'Casual', 'Street', 'Light', 'Floral', 'Classic', 'Luxurious', 'Vintage', 'Minimalist', 'Cozy'];
 const mockNouns = ['T-Shirt', 'Dress', 'Jacket', 'Pants', 'Gown', 'Hoodie', 'Skirts', 'Blazer', 'Sweater', 'Cardigan'];
 const mockTypes = ['Modern', 'Style', 'Luxury', 'Casual', 'Summer', 'Winter', 'Autumn', 'Spring'];
-const searchHints = [
-  'Search: New arrivals',
-  'Search: Summer dresses',
-  'Search: Cozy hoodies',
-  'Search: Minimalist tees'
-];
+const searchHints = ['Search: New arrivals', 'Search: Summer dresses', 'Search: Cozy hoodies', 'Search: Minimalist tees'];
 
 const generateMockData = (count: number): ProductItem[] => {
   const newItems: ProductItem[] = [];
@@ -253,7 +252,6 @@ const generateMockData = (count: number): ProductItem[] => {
     const adj = mockAdjectives[Math.floor(Math.random() * mockAdjectives.length)];
     const noun = mockNouns[Math.floor(Math.random() * mockNouns.length)];
     const type = mockTypes[Math.floor(Math.random() * mockTypes.length)];
-    // 随机宽高比 1.0 - 1.35
     const ratio = 1.0 + Math.random() * 0.35;
 
     newItems.push({
@@ -264,7 +262,7 @@ const generateMockData = (count: number): ProductItem[] => {
       rating: (4.5 + Math.random() * 0.5).toFixed(1),
       image: `https://picsum.photos/400/${Math.floor(400 * ratio)}?random=${id}`,
       ratio,
-      extraHeight: 90
+      extraHeight: 90,
     });
   }
   return newItems;
@@ -278,7 +276,6 @@ const handleLoadMore = () => {
   if (isLoading.value) return;
   isLoading.value = true;
 
-  // 模拟网络请求
   setTimeout(() => {
     const nextData = generateMockData(6);
     products.value = [...products.value, ...nextData];
@@ -286,22 +283,28 @@ const handleLoadMore = () => {
   }, 1000);
 };
 
+/** 跳转到搜索页 */
+const goToSearch = () => {
+  uni.navigateTo({ url: '/pages_sub/search/index' });
+};
+
+/** 跳转到详情页 */
 const goToDetail = (_item: WaterfallItem) => {
-  // 模拟切换到详情页
-  activeTab.value = 'detail';
+  uni.navigateTo({ url: '/pages_sub/product-detail/index' });
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
-.home-page {
+.home-content {
   background-color: $test-bg-page;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   height: 100%;
+  flex: 1;
 }
 
 :deep(.lk-waterfall__scroll) {
@@ -369,26 +372,18 @@ const goToDetail = (_item: WaterfallItem) => {
       margin-left: 20rpx;
       font-size: 28rpx;
       color: $test-text-tertiary;
+
       :deep(.lk-notice-bar) {
         height: 100%;
         display: flex;
         align-items: center;
       }
+
       :deep(.lk-notice-bar__message) {
         font-size: 28rpx;
         color: $test-text-tertiary;
       }
     }
-  }
-
-  .filter-btn {
-    width: 100rpx;
-    height: 100rpx;
-    background: $test-text-primary;
-    border-radius: 24rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }
 
@@ -528,6 +523,7 @@ const goToDetail = (_item: WaterfallItem) => {
     transform: translateY(0);
     opacity: 0.4;
   }
+
   to {
     transform: translateY(-10rpx);
     opacity: 1;
@@ -612,5 +608,3 @@ const goToDetail = (_item: WaterfallItem) => {
   }
 }
 </style>
-
-

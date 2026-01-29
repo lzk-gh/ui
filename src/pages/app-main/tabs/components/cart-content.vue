@@ -1,8 +1,8 @@
 <template>
-  <scroll-view scroll-y show-scrollbar="false" class="checkout-page" :class="themeClass" :style="{ height: contentHeight }">
+  <scroll-view scroll-y show-scrollbar="false" class="checkout-content" :class="themeClass" :style="{ height: contentHeight }">
     <!-- 自定义导航栏 -->
     <view class="nav-header">
-      <view class="icon-btn" @click="activeTab = 'home'">
+      <view class="icon-btn" @click="goBack">
         <lk-icon name="chevron-left" size="40" color="var(--test-text-primary)" />
       </view>
       <text class="nav-title">Checkout</text>
@@ -59,6 +59,7 @@
         <lk-cell title="VISA" label="Primary" value="**** **** **** 2143" icon="credit-card-fill" arrow />
       </lk-cell-group>
     </lk-card>
+
     <!-- 金额结算 -->
     <lk-cell-group class="bill-container" card>
       <lk-cell title="Total (9 items)" value="$1,014.95" />
@@ -77,7 +78,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
@@ -91,15 +93,18 @@ defineProps<{
   contentHeight: string;
 }>();
 
-// 获取父组件的 activeTab 改变方法 (简单模拟)
-const activeTab = inject('activeTab', ref('cart'));
-const themeClass = inject('themeClass', ref('lk-theme-light'));
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
 
 const showMorePopup = ref(false);
 
+const goBack = () => {
+  uni.switchTab({ url: '/pages/tabbar/home/index' });
+};
+
 const handleMoreAction = (type: string) => {
   showMorePopup.value = false;
-  uni.showToast({ title: `Action: ${  type}`, icon: 'none' });
+  uni.showToast({ title: `Action: ${type}`, icon: 'none' });
 };
 
 const cartItems = ref([
@@ -108,15 +113,15 @@ const cartItems = ref([
     sub: 'Dress modern',
     price: '212.99',
     count: 4,
-    image: 'https://picsum.photos/200/200?random=11'
+    image: 'https://picsum.photos/200/200?random=11',
   },
   {
     title: 'Modern light clothes',
     sub: 'Dress modern',
     price: '162.99',
     count: 1,
-    image: 'https://picsum.photos/200/200?random=12'
-  }
+    image: 'https://picsum.photos/200/200?random=12',
+  },
 ]);
 
 const handlePay = () => {
@@ -125,12 +130,13 @@ const handlePay = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
-.checkout-page {
+.checkout-content {
   background-color: $test-bg-page;
   padding: 30rpx 40rpx 0;
   box-sizing: border-box;
+  flex: 1;
 }
 
 .nav-header {
@@ -244,4 +250,3 @@ const handlePay = () => {
   height: 120rpx;
 }
 </style>
-

@@ -171,7 +171,7 @@ const goToEditProfile = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .mine-content {
   background-color: $test-bg-page;

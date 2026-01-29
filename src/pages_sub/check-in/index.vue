@@ -50,7 +50,7 @@ const handleCheckIn = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .page-container {
   width: 100%;

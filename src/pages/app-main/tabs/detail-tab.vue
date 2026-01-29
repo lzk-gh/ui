@@ -19,7 +19,7 @@ import { computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DetailContent from '@/pages/tabbar/detail/components/detail-content.vue';
+import DetailContent from './components/detail-content.vue';
 
 defineProps<{
   tabId?: string;
@@ -33,7 +33,7 @@ const contentHeight = computed(() => '100%');
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@use '@/styles/test-page.scss' as *;
 
 .tab-page {
   width: 100%;
