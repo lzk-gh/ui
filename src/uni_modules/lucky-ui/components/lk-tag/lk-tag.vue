@@ -11,7 +11,7 @@ const emit = defineEmits(['close', 'click', 'update:checked']);
 const tagGroup = inject('lkTagGroup', null as any);
 
 const isChecked = computed(() => {
-  if (tagGroup && props.name !== undefined) {
+  if (tagGroup && props.name) {
     if (tagGroup.props.multiple) {
       return Array.isArray(tagGroup.props.modelValue) && tagGroup.props.modelValue.includes(props.name);
     }
@@ -35,7 +35,7 @@ function onClose(e: any) {
 function onClick(e: any) {
   if (props.disabled) return;
   
-  if (tagGroup && props.name !== undefined) {
+  if (tagGroup && props.name) {
     tagGroup.toggleValue(props.name);
   } else if (props.clickable || props.checked !== undefined) {
     emit('update:checked', !props.checked);

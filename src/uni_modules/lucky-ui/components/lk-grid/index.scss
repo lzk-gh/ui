@@ -15,11 +15,8 @@
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
     overflow: hidden;
-    
-    // 使用中性点击叠加色
-    &:active {
-      background: var(--lk-bg-active);
-    }
+
+    // 去掉整块点击态背景，保留波纹效果
   }
 
   @include e(item-text) {

@@ -28,10 +28,7 @@
   }
 
   @include when(clickable) {
-    &:active {
-      // 使用中性点击叠加色，而不是品牌淡色
-      background: var(--lk-bg-active);
-    }
+    // 去掉整块点击态背景，保留波纹效果
   }
 
   @include when(disabled) {
