@@ -7,6 +7,8 @@
   "transformPx": false,
   /* 5+App特有相关 */
   "app-plus": {
+    "darkmode": true,
+    "themeLocation": "theme.json",
     "usingComponents": true,
     "nvueStyleCompiler": "uni-app",
     "compilerVersion": 3,
@@ -50,6 +52,8 @@
   "quickapp": {},
   /* 小程序特有相关 */
   "mp-weixin": {
+    "darkmode": true,
+    "themeLocation": "theme.json",
     "appid": "wxb517e760a35104de",
     "setting": {
       "urlCheck": false
@@ -64,6 +68,11 @@
   },
   "mp-toutiao": {
     "usingComponents": true
+  },
+  /* H5 配置 */
+  "h5": {
+    "darkmode": true,
+    "themeLocation": "theme.json"
   },
   "uniStatistics": {
     "enable": false

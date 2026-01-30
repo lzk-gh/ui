@@ -109,9 +109,19 @@ export const useThemeStore = defineStore('theme', () => {
   }
 
   /**
-   * 检测系统主题偏好（仅 H5）
+   * 检测系统主题偏好
    */
   function getSystemTheme(): Theme {
+    // 优先使用 uni-app API 获取系统主题（支持所有平台）
+    try {
+      const systemInfo = uni.getSystemInfoSync();
+      if (systemInfo.theme === 'dark' || systemInfo.theme === 'light') {
+        return systemInfo.theme;
+      }
+    } catch {
+      // 静默失败，回退到 H5 检测
+    }
+
     // #ifdef H5
     if (typeof window !== 'undefined' && window.matchMedia) {
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -130,6 +140,8 @@ export const useThemeStore = defineStore('theme', () => {
       root.classList.remove('lk-theme-light', 'lk-theme-dark');
       root.classList.add(`lk-theme-${t}`);
       root.setAttribute('data-theme', t);
+      // 设置 color-scheme 以影响滚动条等原生元素
+      root.style.colorScheme = t;
     }
     // #endif
   }
@@ -149,6 +161,40 @@ export const useThemeStore = defineStore('theme', () => {
    */
   function toggleTheme() {
     setTheme(theme.value === 'light' ? 'dark' : 'light');
+  }
+
+  /**
+   * 监听系统主题变化（需在 App.vue 中调用）
+   */
+  function watchSystemTheme() {
+    // 使用 uni-app 的 onThemeChange API（支持所有配置了 darkmode 的平台）
+    uni.onThemeChange?.((result: { theme: 'dark' | 'light' }) => {
+      // 仅当用户未手动设置主题时，才跟随系统
+      const saved = loadTheme();
+      if (!saved) {
+        setTheme(result.theme);
+      }
+    });
+
+    // #ifdef H5
+    // H5 额外监听 prefers-color-scheme 变化
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handler = (e: { matches: boolean }) => {
+        const saved = loadTheme();
+        if (!saved) {
+          setTheme(e.matches ? 'dark' : 'light');
+        }
+      };
+      // 兼容旧版本浏览器
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', handler);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (mediaQuery as any).addListener?.(handler);
+      }
+    }
+    // #endif
   }
 
   /**
@@ -229,6 +275,7 @@ export const useThemeStore = defineStore('theme', () => {
   function init() {
     initTheme();
     initBrandColor();
+    watchSystemTheme(); // 监听系统主题变化
   }
 
   return {
@@ -238,6 +285,7 @@ export const useThemeStore = defineStore('theme', () => {
     themeClass,
     setTheme,
     toggleTheme,
+    watchSystemTheme,
 
     // 品牌色状态
     brandColor,
