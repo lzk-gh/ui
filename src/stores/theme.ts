@@ -147,12 +147,40 @@ export const useThemeStore = defineStore('theme', () => {
   }
 
   /**
+   * 应用主题到系统 UI（小程序端）
+   */
+  function applySystemUI(t: Theme): void {
+    const isDark = t === 'dark';
+    const bg = isDark ? '#111827' : '#f5f5f7';
+
+    // 设置底部 Tabbar 颜色 (对于原生 TabBar，虽然我们隐藏了，但设置下无妨)
+    uni.setTabbarColor?.({
+      color: isDark ? '#9ca3af' : '#6b7280',
+      selectedColor: brandColor.value,
+      backgroundColor: isDark ? '#1f2937' : '#ffffff',
+      fail: () => { },
+    });
+
+    // 设置导航栏颜色
+    uni.setNavigationBarColor?.({
+      frontColor: isDark ? '#ffffff' : '#000000',
+      backgroundColor: bg,
+      animation: {
+        duration: 200,
+        timingFunc: 'easeIn',
+      },
+      fail: () => { },
+    });
+  }
+
+  /**
    * 设置主题
    */
   function setTheme(t: Theme) {
     if (theme.value === t) return;
     theme.value = t;
     applyThemeToDOM(t);
+    applySystemUI(t);
     saveTheme(t);
   }
 
@@ -205,6 +233,7 @@ export const useThemeStore = defineStore('theme', () => {
     const initial = saved ?? getSystemTheme();
     theme.value = initial;
     applyThemeToDOM(initial);
+    applySystemUI(initial);
     return initial;
   }
 

@@ -34,13 +34,13 @@ function onClose(e: any) {
 
 function onClick(e: any) {
   if (props.disabled) return;
-  
+
   if (tagGroup && props.name) {
     tagGroup.toggleValue(props.name);
   } else if (props.clickable || props.checked !== undefined) {
     emit('update:checked', !props.checked);
   }
-  
+
   emit('click', e);
 }
 
@@ -50,10 +50,10 @@ const customStyle = computed<CSSProperties>(() => {
   const checked = isChecked.value;
 
   // 背景颜色
-  const bgColor = checked 
-    ? (props.activeBgColor || tagGroup?.props.activeBgColor || props.bgColor) 
+  const bgColor = checked
+    ? (props.activeBgColor || tagGroup?.props.activeBgColor || props.bgColor)
     : props.bgColor;
-    
+
   if (bgColor) {
     if (currentType.value === 'outline') {
       style.boxShadow = `inset 0 0 0 2rpx ${bgColor}`;
@@ -64,10 +64,10 @@ const customStyle = computed<CSSProperties>(() => {
   }
 
   // 文本颜色
-  const textColor = checked 
-    ? (props.activeTextColor || tagGroup?.props.activeTextColor || props.textColor) 
+  const textColor = checked
+    ? (props.activeTextColor || tagGroup?.props.activeTextColor || props.textColor)
     : props.textColor;
-    
+
   if (textColor) {
     style.color = textColor;
   }
@@ -93,7 +93,9 @@ const customStyle = computed<CSSProperties>(() => {
     :style="customStyle"
     @click="onClick"
   >
-    <slot :checked="isChecked" />
+    <view class="lk-tag__content">
+      <slot :checked="isChecked" />
+    </view>
     <view v-if="props.closable" class="lk-tag__close" @click="onClose">×</view>
   </view>
 </template>

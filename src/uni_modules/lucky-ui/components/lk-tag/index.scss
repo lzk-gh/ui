@@ -11,7 +11,7 @@
   gap: var(--lk-spacing-xs);
   font-size: var(--_fs);
   padding: var(--_py) var(--_px);
-  line-height: 1.2;
+  line-height: 1.4;
   border-radius: var(--_radius);
   user-select: none;
   box-sizing: border-box;
@@ -81,6 +81,13 @@
 
   @include when(round) {
     border-radius: var(--lk-radius-full);
+  }
+
+  @include e(content) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: inherit;
   }
 
   @include e(close) {

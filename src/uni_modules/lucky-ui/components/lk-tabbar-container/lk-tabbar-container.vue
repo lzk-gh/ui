@@ -207,12 +207,6 @@ $tabbar-height: 120rpx;
     bottom: 0;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    // 防止切换时闪烁
-    will-change: opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
   }
 
   &__loading,
@@ -265,11 +259,6 @@ $tabbar-height: 120rpx;
     z-index: 300;
     background: $test-bg-card;
     border-top: 1px solid $test-border-color;
-    // 防止切换时跳动
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
   }
 
   &__placeholder {
