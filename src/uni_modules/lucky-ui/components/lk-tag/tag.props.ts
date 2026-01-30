@@ -32,8 +32,7 @@ export const tagProps = {
    * @value outline 描边标签
    * @value light 浅色标签
    */
-
-  type: LkProp.enum(Object.values(TagType), TagType.Solid, 'Tag.type'),
+  type: LkProp.enum(Object.values(TagType), TagType.Light, 'Tag.type'),
 
   /**
    * 标签尺寸
@@ -43,9 +42,6 @@ export const tagProps = {
    */
   size: LkProp.enum(Object.values(TagSize), TagSize.Md, 'Tag.size'),
 
-  /** 标签标识符，用于组选择 */
-  name: LkProp.string(''),
-
   /** 是否可关闭 */
   closable: LkProp.boolean(false),
 
@@ -54,18 +50,6 @@ export const tagProps = {
 
   /** 是否圆角 */
   round: LkProp.boolean(true),
-
-  /** 是否可点击（会有点击反馈） */
-  clickable: LkProp.boolean(false),
-
-  /** 是否选中态 */
-  checked: LkProp.boolean(false),
-
-  /** 选中时的背景颜色 */
-  activeBgColor: LkProp.string(''),
-
-  /** 选中时的文字颜色 */
-  activeTextColor: LkProp.string(''),
 
   /** 文字颜色 */
   textColor: LkProp.string(''),

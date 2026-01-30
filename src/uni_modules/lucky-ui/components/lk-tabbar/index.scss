@@ -74,26 +74,23 @@
   align-items: center;
   justify-content: center;
   gap: 4rpx;
-  height: 100%;
-  width: 100%;
-  min-width: 0; // 防止 flex 子元素溢出
+  height: 84rpx;
+  margin: 18rpx 10rpx;
+  min-width: 0;
   color: var(--lk-tabbar-inactive-color, var(--lk-color-text-tertiary));
   font-size: 20rpx;
   line-height: 1;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: color 0.15s ease-out;
-  // 防止切换时闪烁
+  transition: all 0.2s ease-out;
+  border-radius: 42rpx;
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 
   // 激活状态
   &.is-active {
-    color: var(--lk-tabbar-active-color, var(--lk-color-primary));
-    // 移除图标缩放效果，防止跳动
+    color: var(--lk-color-text-inverse, #ffffff);
+    background: var(--lk-tabbar-active-color, var(--lk-color-primary));
   }
 
   // 按下效果 - 使用 transform 代替 opacity

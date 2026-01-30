@@ -90,7 +90,7 @@
 
               <lk-space justify="between" align="center" fill>
                 <lk-space :gap="8">
-                  <lk-tag v-for="tag in item.tags" :key="tag" plain size="sm">{{ tag }}</lk-tag>
+                  <lk-tag v-for="tag in item.tags" :key="tag" type="outline" size="sm">{{ tag }}</lk-tag>
                 </lk-space>
                 <lk-space :gap="24">
                   <lk-icon name="edit" size="32" color="var(--lk-color-text-secondary)" @click="handleEdit(item)" />

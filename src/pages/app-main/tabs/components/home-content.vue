@@ -50,22 +50,12 @@
 
           <!-- 分类标签 -->
           <lk-horizontal-scroll hide-scrollbar>
-            <lk-tag-group v-model="activeCategory" :wrap="false" :gap="30" size="lg">
-              <lk-tag
-                v-for="(item, index) in categories"
-                :key="index"
-                v-slot="{ checked }"
-                :name="String(index)"
-              >
-                <lk-icon
-                  v-if="item.icon"
-                  :name="item.icon"
-                  size="28"
-                  :color="checked ? 'var(--test-text-inverse)' : 'var(--test-text-primary)'"
-                />
-                <text class="category-name">{{ item.name }}</text>
-              </lk-tag>
-            </lk-tag-group>
+            <lk-choice
+              v-model="activeCategory"
+              :options="categories.map((c, i) => ({ label: c.name, value: String(i), icon: c.icon }))"
+              size="lg"
+              :gap="30"
+            />
           </lk-horizontal-scroll>
         </view>
       </template>
@@ -143,15 +133,13 @@
         <scroll-view scroll-y class="filter-body">
           <view class="filter-group">
             <text class="group-title">Category</text>
-            <lk-tag-group v-model="activeCategoryName" class="tag-flex">
-              <lk-tag
-                v-for="c in categories"
-                :key="c.name"
-                :name="c.name"
-              >
-                {{ c.name }}
-              </lk-tag>
-            </lk-tag-group>
+            <lk-choice
+              v-model="activeCategoryName"
+              :options="categories.map(c => ({ label: c.name, value: c.name }))"
+              size="md"
+              :gap="20"
+              class="tag-flex"
+            />
           </view>
 
           <view class="filter-group">
@@ -165,19 +153,13 @@
 
           <view class="filter-group">
             <text class="group-title">Sort By</text>
-            <view class="tag-flex">
-              <lk-tag
-                v-for="s in ['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular']"
-                :key="s"
-                class="filter-tag"
-                size="md"
-                type="light"
-                bg-color="var(--test-bg-card)"
-                text-color="var(--test-text-secondary)"
-              >
-                {{ s }}
-              </lk-tag>
-            </view>
+            <lk-choice
+              v-model="activeSort"
+              :options="['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular'].map(s => ({ label: s, value: s }))"
+              size="md"
+              :gap="20"
+              class="tag-flex"
+            />
           </view>
         </scroll-view>
 
@@ -202,7 +184,7 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
 import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkTagGroup from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag-group.vue';
+import LkChoice from '@/uni_modules/lucky-ui/components/lk-choice/lk-choice.vue';
 import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
@@ -233,6 +215,7 @@ type ProductItem = WaterfallItem & {
 
 const products = ref<ProductItem[]>([]);
 const activeCategory = ref<string | number>('0');
+const activeSort = ref('Newest');
 const categories = [
   { name: 'All Items', icon: 'grid' },
   { name: 'Dress', icon: 'list' },

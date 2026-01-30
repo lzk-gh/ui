@@ -1,0 +1,57 @@
+@use '../../theme/src/mixins/bem' as *;
+
+@include b(choice) {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  @include e(item) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12rpx;
+    padding: 16rpx 32rpx;
+    background: var(--lk-fill-1);
+    color: var(--lk-text-primary);
+    border-radius: var(--lk-radius-pill);
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    border: 2rpx solid transparent;
+
+    @include m(sm) {
+      padding: 8rpx 20rpx;
+      font-size: 24rpx;
+    }
+    @include m(md) {
+      padding: 16rpx 32rpx;
+      font-size: 28rpx;
+    }
+    @include m(lg) {
+      padding: 20rpx 40rpx;
+      font-size: 32rpx;
+    }
+
+    @include when(selected) {
+      background: var(--lk-color-primary);
+      color: #ffffff; //强制白色，符合要求1
+      border-color: var(--lk-color-primary);
+
+      // 如果有图标，也应该是白色
+      :deep(.lk-icon) {
+        color: #ffffff !important;
+      }
+    }
+
+    &:active:not(.is-selected) {
+      background: var(--lk-fill-2);
+    }
+  }
+
+  @include e(icon) {
+    font-size: inherit;
+  }
+
+  @include e(label) {
+    line-height: 1;
+  }
+}

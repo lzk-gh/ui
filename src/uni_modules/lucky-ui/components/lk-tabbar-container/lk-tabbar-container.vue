@@ -259,6 +259,7 @@ $tabbar-height: 120rpx;
     z-index: 300;
     background: $test-bg-card;
     border-top: 1px solid $test-border-color;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   &__placeholder {
@@ -272,7 +273,6 @@ $tabbar-height: 120rpx;
   justify-content: space-around;
   align-items: center;
   height: $tabbar-height;
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .tabbar-item {
@@ -281,16 +281,27 @@ $tabbar-height: 120rpx;
   align-items: center;
   justify-content: center;
   flex: 1;
-  height: 100%;
-  min-width: 0; // 防止 flex 子元素溢出
+  height: 84rpx; // Slightly shorter to fit in the wrapper with margin
+  margin: 12rpx 8rpx;
+  min-width: 0;
   color: $test-text-secondary;
-  transition: color 0.15s ease-out;
-  // 防止点击时闪烁
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  border-radius: 42rpx;
 
   &.is-active {
-    color: $test-primary;
+    background: $test-primary;
+    color: #ffffff;
+
+    .tabbar-item__icon {
+      color: #ffffff;
+    }
+
+    .tabbar-item__label {
+      color: #ffffff;
+      font-weight: bold;
+    }
   }
 
   &__icon {
@@ -298,11 +309,11 @@ $tabbar-height: 120rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48rpx;
-    height: 48rpx;
+    width: 44rpx;
+    height: 44rpx;
     flex-shrink: 0;
-    // 防止图标切换时跳动
     transform: translateZ(0);
+    transition: all 0.3s ease;
   }
 
   &__badge {

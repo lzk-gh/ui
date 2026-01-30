@@ -46,32 +46,13 @@
 
   @include m(solid) {
     background: var(--lk-color-primary);
-    color: var(--lk-text-inverse);
+    color: var(--lk-color-text-inverse);
   }
 
   @include m(outline) {
     background: transparent;
     color: var(--lk-text-regular);
     box-shadow: inset 0 0 0 2rpx var(--lk-color-border);
-  }
-
-  // 选中态样式
-  @include when(checked) {
-    background: var(--lk-color-primary);
-    color: var(--lk-text-inverse);
-    border-color: transparent;
-
-    &.lk-tag--outline {
-      box-shadow: none;
-    }
-  }
-
-  @include when(clickable) {
-    cursor: pointer;
-    &:active {
-      filter: brightness(0.9);
-      transform: scale(0.97);
-    }
   }
 
   @include when(disabled) {
@@ -94,11 +75,10 @@
     font-size: 28rpx;
     line-height: 1;
     padding: 4rpx;
+    margin-left: 4rpx;
     border-radius: var(--lk-radius-sm);
     &:active {
-      // 使用中性填充色背景，而不是品牌淡色
       background: var(--lk-fill-2);
-      color: var(--lk-text-primary);
     }
   }
 }

@@ -80,7 +80,7 @@
                 <text style="font-size: 26rpx; color: var(--lk-color-text-secondary);">订单编号</text>
                 <lk-space :gap="8" align="center">
                   <text style="font-size: 26rpx; color: var(--lk-color-text-primary);">LK202310010001</text>
-                  <lk-tag size="sm" plain @click="handleCopy">复制</lk-tag>
+                  <lk-tag size="sm" type="outline" @click="handleCopy">复制</lk-tag>
                 </lk-space>
               </lk-space>
               <lk-space justify="between" fill>
