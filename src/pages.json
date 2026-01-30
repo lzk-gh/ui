@@ -70,5 +70,11 @@
     "navigationBarTitleText": "Lucky UI",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "preloadRule": {
+    "pages/app-main/index": {
+      "network": "all",
+      "packages": ["pages_sub"]
+    }
   }
 }

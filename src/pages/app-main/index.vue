@@ -3,9 +3,6 @@
     <lk-tabbar-container
       :tabs="tabConfig"
       default-tab="home"
-      :debug="true"
-      :preload-delay="1500"
-      :preload-all="true"
       @change="handleTabChange"
     >
       <!-- #ifdef MP-WEIXIN -->

@@ -18,9 +18,6 @@
 
     <!-- 底部 Tabbar -->
     <custom-tabbar active="home" />
-
-    <!-- 预加载调试面板（仅开发环境显示） -->
-    <lk-preload-debugger :visible="showDebugger" position="bottom-right" />
   </view>
 </template>
 
@@ -30,10 +27,8 @@ import { onShow } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkPreloadDebugger from '@/uni_modules/lucky-ui/components/lk-preload-debugger/lk-preload-debugger.vue';
 import HomeContent from './components/home-content.vue';
 import CustomTabbar from '@/components/custom-tabbar.vue';
-import { useTabbarPreload } from '@/uni_modules/lucky-ui/core/src/preload';
 import { usePageCache } from '@/uni_modules/lucky-ui/core/src/cache';
 
 const themeStore = useThemeStore();
@@ -46,9 +41,6 @@ const toggleTheme = () => themeStore.toggleTheme();
 // 内容区高度（扣除 navbar + tabbar）
 const contentHeight = computed(() => '100%');
 
-// 是否显示预加载调试面板（可通过环境变量或配置控制）
-const showDebugger = ref(true);
-
 // 页面缓存 - 用于判断是否首次访问，减少动画闪烁
 const { isFirstVisit, markRendered, hasRendered } = usePageCache({
   pageId: 'tabbar-home',
@@ -57,30 +49,6 @@ const { isFirstVisit, markRendered, hasRendered } = usePageCache({
 
 // 页面准备就绪状态
 const isReady = ref(hasRendered.value);
-
-// 预加载其他 Tabbar 页面
-// 在首页加载完成后，自动预加载购物车、详情、我的、预览等页面
-const { manager } = useTabbarPreload({
-  pages: [
-    { id: 'home', path: '/pages/tabbar/home/index' },
-    { id: 'cart', path: '/pages/tabbar/cart/index' },
-    { id: 'detail', path: '/pages/tabbar/detail/index' },
-    { id: 'mine', path: '/pages/tabbar/mine/index' },
-    { id: 'overview', path: '/pages/tabbar/overview/index' },
-  ],
-  currentPageId: 'home',
-  delay: 2000, // 首页加载后 2 秒开始预加载
-  debug: true, // 开启调试日志
-});
-
-// 监听预加载完成事件
-manager.on('task:complete', (event) => {
-  console.log('[Home] 预加载完成:', event.task?.resource);
-});
-
-manager.on('queue:empty', () => {
-  console.log('[Home] 所有预加载任务完成');
-});
 
 onMounted(() => {
   // 页面挂载后立即标记为准备就绪
