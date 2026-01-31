@@ -96,7 +96,14 @@
 
     <demo-block title="可拖拽 (Snap Points)">
       <lk-button type="primary" @click="visibleDraggable = true">可拖拽底部弹窗</lk-button>
-      <lk-popup v-model="visibleDraggable" position="bottom" round draggable title="拖拽示例" closable>
+      <lk-popup
+        v-model="visibleDraggable"
+        position="bottom"
+        round
+        draggable
+        title="拖拽示例"
+        closable
+      >
         <view class="popup-content-large">
           <view class="desc">
             <p>1. 默认打开在半屏位置</p>

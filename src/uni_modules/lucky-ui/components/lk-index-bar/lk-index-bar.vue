@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { indexBarProps, indexBarEmits } from './index-bar.props'
+import { ref, computed } from 'vue';
+import { indexBarProps, indexBarEmits } from './index-bar.props';
 
-defineOptions({ name: 'LkIndexBar' })
+defineOptions({ name: 'LkIndexBar' });
 
-const props = defineProps(indexBarProps)
-const emit = defineEmits(indexBarEmits)
+const props = defineProps(indexBarProps);
+const emit = defineEmits(indexBarEmits);
 
-const active = ref('')
-const touching = ref(false)
-const indicatorVisible = ref(false)
-const indicatorText = ref('')
+const active = ref('');
+const touching = ref(false);
+const indicatorVisible = ref(false);
+const indicatorText = ref('');
 
 // 侧边栏项目的位置缓存
-let itemRects: { top: number; bottom: number; letter: string }[] = []
-let sidebarTop = 0
+let itemRects: { top: number; bottom: number; letter: string }[] = [];
+let sidebarTop = 0;
 
 // 高亮颜色
 const highlightStyle = computed(() => {
   if (props.highlightColor) {
-    return { '--_highlight-color': props.highlightColor }
+    return { '--_highlight-color': props.highlightColor };
   }
-  return {}
-})
+  return {};
+});
 
 function scrollTo(letter: string) {
-  if (active.value === letter) return
-  emit('select', letter)
-  active.value = letter
+  if (active.value === letter) return;
+  emit('select', letter);
+  active.value = letter;
 
   // 震动反馈
   // #ifdef APP-PLUS || MP-WEIXIN
   try {
-    uni.vibrateShort({ type: 'light' })
+    uni.vibrateShort({ type: 'light' });
   } catch {}
   // #endif
 
@@ -40,22 +40,22 @@ function scrollTo(letter: string) {
   try {
     const root: HTMLElement | Window = props.scrollTarget
       ? (document.querySelector(props.scrollTarget) as HTMLElement)
-      : window
+      : window;
     const selector = props.scrollTarget
       ? `${props.scrollTarget} [data-lk-index-anchor="${letter}"]`
-      : `[data-lk-index-anchor="${letter}"]`
-    const el = document.querySelector(selector) as HTMLElement | null
+      : `[data-lk-index-anchor="${letter}"]`;
+    const el = document.querySelector(selector) as HTMLElement | null;
 
     if (el) {
       if (root === window) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        const rect = el.getBoundingClientRect()
-        const container = root as HTMLElement
+        const rect = el.getBoundingClientRect();
+        const container = root as HTMLElement;
         container.scrollTo({
           top: rect.top - container.getBoundingClientRect().top + container.scrollTop,
           behavior: 'smooth',
-        })
+        });
       }
     }
   } catch {}
@@ -63,99 +63,99 @@ function scrollTo(letter: string) {
 
   // #ifndef H5
   try {
-    const q = uni.createSelectorQuery()
-    const target = props.scrollTarget || ''
-    const sel = `${target ? target + ' ' : ''}[data-lk-index-anchor="${letter}"]`
-    q.select(sel).boundingClientRect()
+    const q = uni.createSelectorQuery();
+    const target = props.scrollTarget || '';
+    const sel = `${target ? target + ' ' : ''}[data-lk-index-anchor="${letter}"]`;
+    q.select(sel).boundingClientRect();
     // @ts-ignore
-    q.selectViewport().scrollOffset && q.selectViewport().scrollOffset()
-    q.exec((res) => {
-      const rect = res[0]
-      const viewport = res[1]
+    q.selectViewport().scrollOffset && q.selectViewport().scrollOffset();
+    q.exec(res => {
+      const rect = res[0];
+      const viewport = res[1];
       if (rect && viewport) {
         uni.pageScrollTo({
           scrollTop: rect.top + viewport.scrollTop,
           duration: 200,
-        })
+        });
       }
-    })
+    });
   } catch {}
   // #endif
 }
 
 function showIndicator(letter: string) {
   if (props.showIndicator) {
-    indicatorText.value = letter
-    indicatorVisible.value = true
+    indicatorText.value = letter;
+    indicatorVisible.value = true;
   }
 }
 
 function hideIndicator() {
-  indicatorVisible.value = false
+  indicatorVisible.value = false;
 }
 
 // 触摸开始
 function onTouchStart(e: TouchEvent) {
-  touching.value = true
-  updateItemRects()
-  handleTouch(e)
+  touching.value = true;
+  updateItemRects();
+  handleTouch(e);
 }
 
 // 触摸移动
 function onTouchMove(e: TouchEvent) {
-  if (!touching.value) return
-  e.preventDefault?.()
-  handleTouch(e)
+  if (!touching.value) return;
+  e.preventDefault?.();
+  handleTouch(e);
 }
 
 // 触摸结束
 function onTouchEnd() {
-  touching.value = false
-  hideIndicator()
+  touching.value = false;
+  hideIndicator();
 }
 
 // 更新侧边栏项目位置
 function updateItemRects() {
   // #ifdef H5
   try {
-    const items = document.querySelectorAll('.lk-index-bar__item')
-    const sidebar = document.querySelector('.lk-index-bar__sidebar') as HTMLElement
+    const items = document.querySelectorAll('.lk-index-bar__item');
+    const sidebar = document.querySelector('.lk-index-bar__sidebar') as HTMLElement;
     if (sidebar) {
-      sidebarTop = sidebar.getBoundingClientRect().top
+      sidebarTop = sidebar.getBoundingClientRect().top;
     }
     itemRects = Array.from(items).map((item, i) => {
-      const rect = item.getBoundingClientRect()
+      const rect = item.getBoundingClientRect();
       return {
         top: rect.top - sidebarTop,
         bottom: rect.bottom - sidebarTop,
         letter: props.indexList[i] || '',
-      }
-    })
+      };
+    });
   } catch {}
   // #endif
 }
 
 // 处理触摸
 function handleTouch(e: TouchEvent) {
-  const touch = e.touches[0]
-  if (!touch) return
+  const touch = e.touches[0];
+  if (!touch) return;
 
   // #ifdef H5
-  const y = touch.clientY - sidebarTop
+  const y = touch.clientY - sidebarTop;
   for (const item of itemRects) {
     if (y >= item.top && y <= item.bottom) {
-      showIndicator(item.letter)
-      scrollTo(item.letter)
-      break
+      showIndicator(item.letter);
+      scrollTo(item.letter);
+      break;
     }
   }
   // #endif
 }
 
 function onItemClick(letter: string) {
-  showIndicator(letter)
-  scrollTo(letter)
-  setTimeout(hideIndicator, 300)
+  showIndicator(letter);
+  scrollTo(letter);
+  setTimeout(hideIndicator, 300);
 }
 </script>
 

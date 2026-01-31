@@ -76,7 +76,7 @@ function onPopupModelChange(v: boolean) {
           :class="{
             'is-disabled': a.disabled,
             'is-loading': a.loading,
-            'lk-ripple--active': rippleActive && activeIndex === i
+            'lk-ripple--active': rippleActive && activeIndex === i,
           }"
           :style="{ color: a.color || 'inherit' }"
           @tap="onSelect(a, i, $event)"

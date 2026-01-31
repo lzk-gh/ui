@@ -5,11 +5,7 @@
     </demo-block>
 
     <demo-block title="自定义选项">
-      <lk-cascader
-        v-model="value2"
-        :options="customOptions"
-        placeholder="请选择"
-      />
+      <lk-cascader v-model="value2" :options="customOptions" placeholder="请选择" />
     </demo-block>
 
     <demo-block title="动态加载">

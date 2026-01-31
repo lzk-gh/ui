@@ -91,7 +91,11 @@ export const buttonProps = {
    * @value submit 提交按钮
    * @value reset 重置按钮
    */
-  nativeType: LkProp.enum(Object.values(ButtonNativeType), ButtonNativeType.Button, 'Button.nativeType'),
+  nativeType: LkProp.enum(
+    Object.values(ButtonNativeType),
+    ButtonNativeType.Button,
+    'Button.nativeType'
+  ),
 } as const;
 
 export const buttonEmits = {

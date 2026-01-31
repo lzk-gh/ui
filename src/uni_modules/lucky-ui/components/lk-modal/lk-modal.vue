@@ -128,8 +128,12 @@ watch(
       <!-- Footer -->
       <view v-if="showFooter" class="lk-modal__footer">
         <slot name="footer">
-          <lk-button class="lk-modal__footer-btn" block size="md" variant="soft" @click="cancel">取消</lk-button>
-          <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="close">确定</lk-button>
+          <lk-button class="lk-modal__footer-btn" block size="md" variant="soft" @click="cancel"
+            >取消</lk-button
+          >
+          <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="close"
+            >确定</lk-button
+          >
         </slot>
       </view>
     </view>

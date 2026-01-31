@@ -32,12 +32,7 @@ function onClick(e: MouseEvent) {
 </script>
 
 <template>
-  <button
-    :class="cls"
-    :disabled="disabled"
-    :form-type="nativeType"
-    @tap="onClick"
-  >
+  <button :class="cls" :disabled="disabled" :form-type="nativeType" @tap="onClick">
     <view v-if="loading" class="lk-button__loader" />
     <slot />
     <view class="lk-ripple__wave" :style="rippleWaveStyle" />

@@ -1,6 +1,9 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
-import type { ANIMATION_PRESETS, TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
+import type {
+  ANIMATION_PRESETS,
+  TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 /**
  * 触发方式
@@ -48,7 +51,11 @@ export const tooltipProps = {
    * @value left 左侧
    * @value right 右侧
    */
-  placement: LkProp.enum(Object.values(TooltipPlacement), TooltipPlacement.Top, 'Tooltip.placement'),
+  placement: LkProp.enum(
+    Object.values(TooltipPlacement),
+    TooltipPlacement.Top,
+    'Tooltip.placement'
+  ),
 
   /** 是否显示（受控） */
   modelValue: {

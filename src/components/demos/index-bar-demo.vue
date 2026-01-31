@@ -40,17 +40,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import LkIndexBar from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-bar.vue'
-import LkIndexAnchor from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-anchor.vue'
+import { computed } from 'vue';
+import LkIndexBar from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-bar.vue';
+import LkIndexAnchor from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-anchor.vue';
 
 interface Contact {
-  id: string
-  name: string
-  phone: string
-  avatar: string
-  color: string
-  pinyin: string
+  id: string;
+  name: string;
+  phone: string;
+  avatar: string;
+  color: string;
+  pinyin: string;
 }
 
 // 联系人数据
@@ -88,42 +88,42 @@ const contacts: Contact[] = [
   { id: '31', name: '张飞', phone: '193****1234', avatar: '张', color: '#F5EEF8', pinyin: 'Z' },
   { id: '32', name: '赵云', phone: '192****5678', avatar: '赵', color: '#EAF2F8', pinyin: 'Z' },
   { id: '33', name: '周瑜', phone: '191****9012', avatar: '周', color: '#E9F7EF', pinyin: 'Z' },
-]
+];
 
 // 分组后的联系人
 const contactGroups = computed(() => {
-  const groups: { letter: string; contacts: Contact[] }[] = []
-  const map = new Map<string, Contact[]>()
+  const groups: { letter: string; contacts: Contact[] }[] = [];
+  const map = new Map<string, Contact[]>();
 
-  contacts.forEach((contact) => {
-    const letter = contact.pinyin
+  contacts.forEach(contact => {
+    const letter = contact.pinyin;
     if (!map.has(letter)) {
-      map.set(letter, [])
+      map.set(letter, []);
     }
-    map.get(letter)!.push(contact)
-  })
+    map.get(letter)!.push(contact);
+  });
 
   // 排序
-  const sortedKeys = Array.from(map.keys()).sort()
-  sortedKeys.forEach((letter) => {
-    groups.push({ letter, contacts: map.get(letter)! })
-  })
+  const sortedKeys = Array.from(map.keys()).sort();
+  sortedKeys.forEach(letter => {
+    groups.push({ letter, contacts: map.get(letter)! });
+  });
 
-  return groups
-})
+  return groups;
+});
 
 // 索引列表
-const indexList = computed(() => contactGroups.value.map((g) => g.letter))
+const indexList = computed(() => contactGroups.value.map(g => g.letter));
 
 function onSelect(letter: string) {
-  console.log('选择索引:', letter)
+  console.log('选择索引:', letter);
 }
 
 function onContactClick(contact: Contact) {
   uni.showToast({
     title: `${contact.name} - ${contact.phone}`,
     icon: 'none',
-  })
+  });
 }
 </script>
 

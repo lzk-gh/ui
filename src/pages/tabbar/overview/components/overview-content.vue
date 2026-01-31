@@ -1,5 +1,10 @@
 <template>
-  <scroll-view class="overview-content" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
+  <scroll-view
+    class="overview-content"
+    :style="{ height: contentHeight }"
+    scroll-y
+    show-scrollbar="false"
+  >
     <view class="page-content">
       <!-- 主题调试工具 -->
       <theme-debugger />
@@ -52,7 +57,10 @@
               @blur="applyCustomColor"
               @confirm="applyCustomColor"
             />
-            <view class="color-preview" :style="{ background: customColorInput || currentBrandColor }"></view>
+            <view
+              class="color-preview"
+              :style="{ background: customColorInput || currentBrandColor }"
+            ></view>
           </view>
         </view>
         <!-- 色阶预览 -->
@@ -80,7 +88,13 @@
           placeholder="搜索组件名称..."
           placeholder-class="search-placeholder"
         />
-        <lk-icon v-if="searchKeyword" name="x-circle" size="32" color="textTertiary" @click="searchKeyword = ''" />
+        <lk-icon
+          v-if="searchKeyword"
+          name="x-circle"
+          size="32"
+          color="textTertiary"
+          @click="searchKeyword = ''"
+        />
       </view>
 
       <!-- 组件分类 -->
@@ -223,7 +237,12 @@ const categories = [
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
       { name: 'pagination', label: 'Pagination', desc: '分页', icon: 'three-dots' },
       { name: 'number-roller', label: 'NumberRoller', desc: '数字翻牌', icon: 'speedometer' },
-      { name: 'horizontal-scroll', label: 'HorizontalScroll', desc: '横向滚动', icon: 'distribute-horizontal' },
+      {
+        name: 'horizontal-scroll',
+        label: 'HorizontalScroll',
+        desc: '横向滚动',
+        icon: 'distribute-horizontal',
+      },
       { name: 'chart-bar', label: 'ChartBar', desc: '柱状图', icon: 'bar-chart' },
       { name: 'chart-line', label: 'ChartLine', desc: '折线图', icon: 'graph-up' },
       { name: 'chart-pie', label: 'ChartPie', desc: '饼/环图', icon: 'pie-chart' },
@@ -282,21 +301,23 @@ const filteredCategories = computed(() => {
 
   const keyword = searchKeyword.value.toLowerCase();
   return categories
-    .map((cat) => ({
+    .map(cat => ({
       ...cat,
       components: cat.components.filter(
-        (comp) =>
+        comp =>
           comp.name.toLowerCase().includes(keyword) ||
           comp.label.toLowerCase().includes(keyword) ||
           comp.desc.includes(keyword) ||
           cat.name.includes(keyword)
       ),
     }))
-    .filter((cat) => cat.components.length > 0);
+    .filter(cat => cat.components.length > 0);
 });
 
 // 统计数据
-const totalComponents = computed(() => categories.reduce((sum, cat) => sum + cat.components.length, 0));
+const totalComponents = computed(() =>
+  categories.reduce((sum, cat) => sum + cat.components.length, 0)
+);
 const categoryCount = computed(() => categories.length);
 
 // 跳转到详情页

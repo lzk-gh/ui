@@ -57,17 +57,17 @@ const radioClass = computed(() => {
 const iconStyle = computed(() => {
   const style: any = {};
   const activeColor = props.activeColor || (group && group.props.activeColor);
-  
+
   if (isChecked.value && activeColor) {
     style.borderColor = activeColor;
     style.backgroundColor = activeColor;
   }
-  
+
   if (props.iconSize) {
     style.width = addUnit(props.iconSize);
     style.height = addUnit(props.iconSize);
   }
-  
+
   return style;
 });
 

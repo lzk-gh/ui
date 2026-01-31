@@ -1,9 +1,7 @@
-import type { ExtractPropTypes, PropType } from 'vue'
-import { baseProps, LkProp } from '../common/props'
+import type { ExtractPropTypes, PropType } from 'vue';
+import { baseProps, LkProp } from '../common/props';
 
-export const defaultIndexList = Array.from({ length: 26 }, (_, i) =>
-  String.fromCharCode(65 + i)
-)
+export const defaultIndexList = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
 export const indexBarProps = {
   ...baseProps,
@@ -28,14 +26,14 @@ export const indexBarProps = {
 
   /** 高亮颜色 */
   highlightColor: LkProp.string(''),
-} as const
+} as const;
 
-export type IndexBarProps = ExtractPropTypes<typeof indexBarProps>
+export type IndexBarProps = ExtractPropTypes<typeof indexBarProps>;
 
 export const indexBarEmits = {
   select: (_: string) => true,
   change: (_: string) => true,
-}
+};
 
 export const indexAnchorProps = {
   ...baseProps,
@@ -48,6 +46,6 @@ export const indexAnchorProps = {
 
   /** 锚点标题 */
   title: LkProp.string(''),
-} as const
+} as const;
 
-export type IndexAnchorProps = ExtractPropTypes<typeof indexAnchorProps>
+export type IndexAnchorProps = ExtractPropTypes<typeof indexAnchorProps>;

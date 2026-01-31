@@ -58,8 +58,8 @@ export type StepperProps = ExtractPropTypes<typeof stepperProps>;
 
 export const stepperEmits = {
   'update:modelValue': (val: number | string) => true,
-  'change': (val: number | string) => true,
-  'overlimit': (type: 'minus' | 'plus') => true,
-  'focus': (e: any) => true,
-  'blur': (e: any) => true,
+  change: (val: number | string) => true,
+  overlimit: (type: 'minus' | 'plus') => true,
+  focus: (e: any) => true,
+  blur: (e: any) => true,
 };

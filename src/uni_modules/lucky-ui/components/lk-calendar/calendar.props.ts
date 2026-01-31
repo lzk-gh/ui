@@ -20,7 +20,9 @@ export const calendarProps = {
   ...baseProps,
   /** 绑定值 */
   modelValue: {
-    type: [Date, Array, String] as PropType<Date | string | [Date | string, Date | string] | Array<Date | string> | null>,
+    type: [Date, Array, String] as PropType<
+      Date | string | [Date | string, Date | string] | Array<Date | string> | null
+    >,
     default: null,
   },
   /** 日历类型 */
@@ -55,7 +57,11 @@ export const calendarProps = {
   /** 最大选择数量 */
   maxCount: LkProp.number(0),
   /** 值类型 */
-  valueType: LkProp.enum(Object.values(CalendarValueType), CalendarValueType.Date, 'Calendar.valueType'),
+  valueType: LkProp.enum(
+    Object.values(CalendarValueType),
+    CalendarValueType.Date,
+    'Calendar.valueType'
+  ),
   /** 值格式化 */
   valueFormat: LkProp.string('YYYY-MM-DD'),
 } as const;

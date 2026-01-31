@@ -1,6 +1,5 @@
 <template>
   <view class="component-demo">
-
     <!-- 1. 基础用法 -->
     <demo-block title="基础用法（默认底部居中，点状）">
       <lk-carousel
@@ -98,14 +97,19 @@
             <view class="content-text">
               <text class="title">第 {{ index + 1 }} 页内容</text>
               <text class="desc">高度由内容撑开，不固定。</text>
-              <view v-if="index === 0" style="height: 100rpx; background: rgba(0,0,0,0.05); margin-top: 20rpx;"></view>
-              <view v-if="index === 1" style="height: 240rpx; background: rgba(0,0,0,0.05); margin-top: 20rpx;"></view>
+              <view
+                v-if="index === 0"
+                style="height: 100rpx; background: rgba(0, 0, 0, 0.05); margin-top: 20rpx"
+              ></view>
+              <view
+                v-if="index === 1"
+                style="height: 240rpx; background: rgba(0, 0, 0, 0.05); margin-top: 20rpx"
+              ></view>
             </view>
           </view>
         </template>
       </lk-carousel>
     </demo-block>
-
   </view>
 </template>
 
@@ -122,7 +126,6 @@ const imageList = ref([
   'https://img01.yzcdn.cn/vant/cat.jpeg',
   'https://img01.yzcdn.cn/vant/cat.jpeg',
   'https://img01.yzcdn.cn/vant/cat.jpeg',
-
 ]);
 
 const current1 = ref(0);
@@ -161,8 +164,12 @@ const handleClick = (item: any, index: number) => {
   justify-content: center;
   align-items: center;
 
-  &.bg-0 { background-color: #ffffff; }
-  &.bg-1 { background-color: #ffffff; }
+  &.bg-0 {
+    background-color: #ffffff;
+  }
+  &.bg-1 {
+    background-color: #ffffff;
+  }
 
   .content-text {
     width: 100%;

@@ -13,8 +13,8 @@ export function createApp() {
   app.mixin({
     onShow() {
       // 静默隐藏，不需要判断页面类型
-      uni.hideTabBar({ animation: false, fail: () => { } });
-    }
+      uni.hideTabBar({ animation: false, fail: () => {} });
+    },
   });
 
   return {

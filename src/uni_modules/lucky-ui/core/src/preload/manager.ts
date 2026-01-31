@@ -14,10 +14,7 @@ import type {
   ImagePreloadOptions,
   IPreloadManager,
 } from './types';
-import {
-  PreloadPriority,
-  PreloadResourceType,
-} from './types';
+import { PreloadPriority, PreloadResourceType } from './types';
 import { PreloadQueue, getPreloadQueue } from './queue';
 
 /** 已加载的资源缓存 */
@@ -98,9 +95,7 @@ export class PreloadManager implements IPreloadManager {
 
         // 预取页面关联的数据接口
         if (dataUrls.length > 0) {
-          await Promise.allSettled(
-            dataUrls.map((url) => this.prefetchData(url))
-          );
+          await Promise.allSettled(dataUrls.map(url => this.prefetchData(url)));
         }
 
         loadedResources.add(resourceKey);
@@ -184,7 +179,7 @@ export class PreloadManager implements IPreloadManager {
               loadedResources.add(resourceKey);
               resolve();
             },
-            fail: (err) => {
+            fail: err => {
               reject(new Error(`Failed to load image: ${url}, ${JSON.stringify(err)}`));
             },
           });
@@ -199,7 +194,7 @@ export class PreloadManager implements IPreloadManager {
    * 批量预加载图片
    */
   preloadImages(urls: string[], priority = PreloadPriority.LOW): string[] {
-    return urls.map((url) => this.preloadImage({ url, priority })).filter(Boolean);
+    return urls.map(url => this.preloadImage({ url, priority })).filter(Boolean);
   }
 
   /**
@@ -215,11 +210,11 @@ export class PreloadManager implements IPreloadManager {
       uni.request({
         url,
         method: 'GET',
-        success: (res) => {
+        success: res => {
           pageDataCache.set(url, res.data);
           resolve();
         },
-        fail: (err) => {
+        fail: err => {
           console.warn('[PreloadManager] Data prefetch failed:', url, err);
           resolve(); // 即使失败也继续
         },
@@ -248,9 +243,7 @@ export class PreloadManager implements IPreloadManager {
   /**
    * 添加自定义预加载任务
    */
-  addTask(
-    task: Omit<PreloadTask, 'id' | 'status' | 'createdAt' | 'retryCount'>
-  ): string {
+  addTask(task: Omit<PreloadTask, 'id' | 'status' | 'createdAt' | 'retryCount'>): string {
     return this.queue.addTask(task);
   }
 

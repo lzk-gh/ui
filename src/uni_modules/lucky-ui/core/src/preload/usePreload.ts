@@ -61,11 +61,7 @@ export interface UsePreloadReturn {
  * @description 在 Vue 组件中使用预加载功能
  */
 export function usePreload(options: UsePreloadOptions = {}): UsePreloadReturn {
-  const {
-    config,
-    autoStart = false,
-    startDelay = 1000,
-  } = options;
+  const { config, autoStart = false, startDelay = 1000 } = options;
 
   const manager = getPreloadManager(config);
   const stats = ref<PreloadStats>(manager.getStats());
@@ -121,7 +117,7 @@ export function usePreload(options: UsePreloadOptions = {}): UsePreloadReturn {
   };
 
   const preloadPages = (pages: PagePreloadOptions[]): string[] => {
-    return pages.map((page) => manager.preloadPage(page)).filter(Boolean);
+    return pages.map(page => manager.preloadPage(page)).filter(Boolean);
   };
 
   const preloadImage = (imageOptions: ImagePreloadOptions): string => {
@@ -154,9 +150,7 @@ export function usePreload(options: UsePreloadOptions = {}): UsePreloadReturn {
 
   const off = (event: PreloadEventType, handler: PreloadEventHandler): void => {
     manager.off(event, handler);
-    const index = eventListeners.findIndex(
-      (l) => l.event === event && l.handler === handler
-    );
+    const index = eventListeners.findIndex(l => l.event === event && l.handler === handler);
     if (index !== -1) {
       eventListeners.splice(index, 1);
     }
@@ -215,10 +209,13 @@ export function useTabbarPreload(config: TabbarPreloadConfig) {
    */
   const preloadOtherTabs = () => {
     // 过滤出需要预加载的页面
-    const pagesToPreload = pages.filter((page) => page.id !== currentPageId);
+    const pagesToPreload = pages.filter(page => page.id !== currentPageId);
 
     if (debug) {
-      console.log('[TabbarPreload] Starting preload for:', pagesToPreload.map((p) => p.id));
+      console.log(
+        '[TabbarPreload] Starting preload for:',
+        pagesToPreload.map(p => p.id)
+      );
     }
 
     // 按顺序添加预加载任务

@@ -38,19 +38,37 @@ function clampIndex(i: number, len: number) {
 
 function triggerPulse() {
   if (!props.highlightPulse) return;
-  chart.animateTo(320, (p) => {
-    pulse.value = Math.sin(p * Math.PI);
-    chart.scheduleRender(1);
-  }, () => {
-    pulse.value = 0;
-  });
+  chart.animateTo(
+    320,
+    p => {
+      pulse.value = Math.sin(p * Math.PI);
+      chart.scheduleRender(1);
+    },
+    () => {
+      pulse.value = 0;
+    }
+  );
 }
 
-const chart = useChartCanvas({ wrapperId: wrapperId.value, canvasId: canvasId.value, autoSize: true });
+const chart = useChartCanvas({
+  wrapperId: wrapperId.value,
+  canvasId: canvasId.value,
+  autoSize: true,
+});
 
-function resolveSliceColor(slice: PieChartSlice, index: number, palette: ReturnType<typeof buildBrandPalette>) {
+function resolveSliceColor(
+  slice: PieChartSlice,
+  index: number,
+  palette: ReturnType<typeof buildBrandPalette>
+) {
   if (slice.color) return slice.color;
-  const candidates = [palette.brand600, palette.brand500, palette.brand700, palette.brand400, palette.brand800];
+  const candidates = [
+    palette.brand600,
+    palette.brand500,
+    palette.brand700,
+    palette.brand400,
+    palette.brand800,
+  ];
   return candidates[index % candidates.length];
 }
 
@@ -114,7 +132,11 @@ chart.setRenderer((info, progress) => {
   // effective hover for always/auto
   const hasHover = hoverIndex.value >= 0 && hoverIndex.value < d.length;
   const effectiveIndex = props.tooltip
-    ? (hasHover ? hoverIndex.value : (props.tooltipAlways || props.autoTooltip ? clampIndex(props.defaultIndex, d.length) : -1))
+    ? hasHover
+      ? hoverIndex.value
+      : props.tooltipAlways || props.autoTooltip
+        ? clampIndex(props.defaultIndex, d.length)
+        : -1
     : -1;
 
   if (props.donut) {
@@ -192,7 +214,8 @@ chart.setRenderer((info, progress) => {
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.92);
     ctx.font = `bold 18px sans-serif`;
     ctx.textBaseline = 'top';
-    const main = activePercent != null ? `${activePercent}%` : String(Math.round(total * 100) / 100);
+    const main =
+      activePercent != null ? `${activePercent}%` : String(Math.round(total * 100) / 100);
     ctx.fillText(main, cx, cy + 2);
     ctx.restore();
   }
@@ -208,7 +231,7 @@ chart.setRenderer((info, progress) => {
 });
 
 function triggerIntro() {
-  chart.animateTo(props.animationDuration, (p) => {
+  chart.animateTo(props.animationDuration, p => {
     chart.scheduleRender(p);
   });
 }
@@ -222,14 +245,24 @@ watch(
   () => props.data,
   () => {
     if (!chart.ready.value) return;
-    hoverIndex.value = props.tooltipAlways || props.autoTooltip ? clampIndex(props.defaultIndex, (props.data || []).length) : -1;
+    hoverIndex.value =
+      props.tooltipAlways || props.autoTooltip
+        ? clampIndex(props.defaultIndex, (props.data || []).length)
+        : -1;
     triggerIntro();
   },
   { deep: true }
 );
 
 watch(
-  () => [props.autoTooltip, props.autoTooltipInterval, props.tooltipAlways, props.defaultIndex, (props.data || []).length] as const,
+  () =>
+    [
+      props.autoTooltip,
+      props.autoTooltipInterval,
+      props.tooltipAlways,
+      props.defaultIndex,
+      (props.data || []).length,
+    ] as const,
   () => {
     if (autoTimer) {
       clearInterval(autoTimer);
@@ -240,14 +273,19 @@ watch(
 
     if (props.autoTooltip) {
       hoverIndex.value = clampIndex(props.defaultIndex, len);
-      autoTimer = setInterval(() => {
-        if (!chart.ready.value) return;
-        const next = (clampIndex(hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value, len) + 1) % len;
-        hoverIndex.value = next;
-        emit('hoverChange', next);
-        triggerPulse();
-        refresh();
-      }, Math.max(300, props.autoTooltipInterval)) as unknown as number;
+      autoTimer = setInterval(
+        () => {
+          if (!chart.ready.value) return;
+          const next =
+            (clampIndex(hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value, len) + 1) %
+            len;
+          hoverIndex.value = next;
+          emit('hoverChange', next);
+          triggerPulse();
+          refresh();
+        },
+        Math.max(300, props.autoTooltipInterval)
+      ) as unknown as number;
       return;
     }
 
@@ -261,7 +299,7 @@ watch(
 
 watch(
   () => chart.ready.value,
-  (v) => {
+  v => {
     if (v) triggerIntro();
   }
 );
@@ -368,12 +406,7 @@ onUnmounted(() => {
     @mousemove="onMove"
     @mouseleave="onEnd"
   >
-    <canvas
-      :id="canvasId"
-      :canvas-id="canvasId"
-      type="2d"
-      class="lk-chart__canvas"
-    />
+    <canvas :id="canvasId" :canvas-id="canvasId" type="2d" class="lk-chart__canvas" />
   </view>
 </template>
 

@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { ref, watch, computed, inject, getCurrentInstance, onMounted, nextTick, type CSSProperties } from 'vue';
+import {
+  ref,
+  watch,
+  computed,
+  inject,
+  getCurrentInstance,
+  onMounted,
+  nextTick,
+  type CSSProperties,
+} from 'vue';
 import { formContextKey } from '../lk-form/context';
 import { sliderProps, sliderEmits } from './slider.props';
 
@@ -17,10 +26,14 @@ const instance = getCurrentInstance();
 const trackId = `lk-slider-track-${instance?.uid ?? Math.random().toString(36).slice(2)}`;
 const trackRect = ref<{ left: number; width: number }>({ left: 0, width: 0 });
 
-watch(() => props.modelValue, (newVal) => {
-  if (dragging.value) return;
-  initValue(newVal);
-}, { immediate: true, deep: true });
+watch(
+  () => props.modelValue,
+  newVal => {
+    if (dragging.value) return;
+    initValue(newVal);
+  },
+  { immediate: true, deep: true }
+);
 
 function initValue(val: number | number[]) {
   if (props.range) {
@@ -53,7 +66,7 @@ const stops = computed(() => {
   if (stepCount > 50) return [];
 
   for (let i = 1; i < stepCount; i++) {
-    result.push((i * props.step / range) * 100);
+    result.push(((i * props.step) / range) * 100);
   }
   return result;
 });
@@ -77,7 +90,7 @@ const barStyle = computed(() => {
 const rootClass = computed(() => [
   'lk-slider',
   `lk-slider--${props.size}`,
-  { 'is-disabled': props.disabled, 'is-dragging': dragging.value }
+  { 'is-disabled': props.disabled, 'is-dragging': dragging.value },
 ]);
 
 const trackStyle = computed(() => {
@@ -122,11 +135,7 @@ function measureTrack(): Promise<{ left: number; width: number }> {
 
 function getPointX(e: any): number {
   return (
-    e?.changedTouches?.[0]?.clientX ??
-    e?.touches?.[0]?.clientX ??
-    e?.clientX ??
-    e?.detail?.x ??
-    0
+    e?.changedTouches?.[0]?.clientX ?? e?.touches?.[0]?.clientX ?? e?.clientX ?? e?.detail?.x ?? 0
   );
 }
 
@@ -171,9 +180,7 @@ function updateValue(clientX: number, isClick = false) {
     nextVal[index] = newValue;
     currentVal.value = nextVal;
 
-    const emitValue = props.range
-      ? [...nextVal].sort((a, b) => a - b)
-      : nextVal[0];
+    const emitValue = props.range ? [...nextVal].sort((a, b) => a - b) : nextVal[0];
     emit('update:modelValue', emitValue);
     emit('input', emitValue);
   }
@@ -200,9 +207,7 @@ function onTouchEnd() {
   draggingIndex.value = -1;
   emit('dragend');
 
-  const finalVal = props.range
-    ? [...currentVal.value].sort((a, b) => a - b)
-    : currentVal.value[0];
+  const finalVal = props.range ? [...currentVal.value].sort((a, b) => a - b) : currentVal.value[0];
   emit('change', finalVal);
   if (props.prop) form?.emitFieldChange(props.prop, finalVal);
 }
@@ -260,7 +265,6 @@ onMounted(() => nextTick(() => measureTrack()));
           <view class="lk-slider__thumb" :style="blockCustomStyle"></view>
         </slot>
       </view>
-
     </view>
 
     <text v-if="showValue && !range" class="lk-slider__value">{{ currentVal[0] }}</text>

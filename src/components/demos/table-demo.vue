@@ -58,9 +58,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import LkTable from '@/uni_modules/lucky-ui/components/lk-table/lk-table.vue'
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue'
+import { ref, computed } from 'vue';
+import LkTable from '@/uni_modules/lucky-ui/components/lk-table/lk-table.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 // 订单数据示例 - 卡片模式
 const orderColumns = ref([
@@ -70,7 +70,7 @@ const orderColumns = ref([
   { key: 'status', prop: 'status', label: '状态' },
   { key: 'createTime', prop: 'createTime', label: '下单时间' },
   { key: 'remark', prop: 'remark', label: '备注' },
-])
+]);
 
 const orderData = ref([
   {
@@ -100,62 +100,62 @@ const orderData = ref([
     createTime: '2024-01-03 09:00',
     remark: '质量问题退货',
   },
-])
+]);
 
 const actions = ref([
   { key: 'detail', text: '详情', type: 'primary' },
   { key: 'delete', text: '删除', type: 'danger' },
-])
+]);
 
-const selectedOrders = ref<string[]>([])
+const selectedOrders = ref<string[]>([]);
 
 const totalAmount = computed(() => {
-  const selected = orderData.value.filter((item) => selectedOrders.value.includes(item.id))
+  const selected = orderData.value.filter(item => selectedOrders.value.includes(item.id));
   return selected.reduce((sum, item) => {
-    const amount = parseFloat(item.amount.replace(/[¥,]/g, ''))
-    return sum + amount
-  }, 0)
-})
+    const amount = parseFloat(item.amount.replace(/[¥,]/g, ''));
+    return sum + amount;
+  }, 0);
+});
 
 const handleAction = (action: { action: string; row: Record<string, unknown> }) => {
   uni.showToast({
     title: `${action.action}: ${action.row.orderNo}`,
     icon: 'none',
-  })
-}
+  });
+};
 
 const handleSelection = (selection: string[]) => {
-  selectedOrders.value = selection
-}
+  selectedOrders.value = selection;
+};
 
 // 基础表格数据
 const columns = ref([
   { key: 'name', prop: 'name', label: '姓名', width: '150', primary: true },
   { key: 'age', prop: 'age', label: '年龄', width: '120' },
   { key: 'address', prop: 'address', label: '地址', width: '280' },
-])
+]);
 
 const data = ref([
   { name: '张三', age: 25, address: '北京市朝阳区望京' },
   { name: '李四', age: 30, address: '上海市浦东新区陆家嘴' },
   { name: '王五', age: 28, address: '广州市天河区珠江新城' },
-])
+]);
 
 const onTableSelect = (selection: string[]) => {
-  console.log('Table selected:', selection)
-}
+  console.log('Table selected:', selection);
+};
 
 // 加载状态
-const loading = ref(false)
-const isEmpty = ref(false)
+const loading = ref(false);
+const isEmpty = ref(false);
 
 const toggleLoading = () => {
-  loading.value = !loading.value
-}
+  loading.value = !loading.value;
+};
 
 const toggleEmpty = () => {
-  isEmpty.value = !isEmpty.value
-}
+  isEmpty.value = !isEmpty.value;
+};
 </script>
 
 <style scoped lang="scss">

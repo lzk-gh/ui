@@ -24,7 +24,11 @@
 
     <demo-block title="自定义颜色">
       <lk-progress :percentage="40" color="#f56c6c" />
-      <lk-progress :percentage="60" color="linear-gradient(to right, #f83600 0%, #f9d423 100%)" style="margin-top: 16rpx" />
+      <lk-progress
+        :percentage="60"
+        color="linear-gradient(to right, #f83600 0%, #f9d423 100%)"
+        style="margin-top: 16rpx"
+      />
     </demo-block>
 
     <demo-block title="文字内显">

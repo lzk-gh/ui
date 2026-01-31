@@ -128,7 +128,10 @@ watch(
       </slot>
     </view>
 
-    <view v-if="clearable && !disabled && !readonly && inner && !fake" class="lk-input__clear" @click="clear"
+    <view
+      v-if="clearable && !disabled && !readonly && inner && !fake"
+      class="lk-input__clear"
+      @click="clear"
       >×</view
     >
     <view v-if="count && !fake" class="lk-input__count">{{ count }}</view>

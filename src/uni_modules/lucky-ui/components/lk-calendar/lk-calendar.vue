@@ -13,7 +13,7 @@ const emit = defineEmits(calendarEmits);
 
 // 工具函数
 function pad(n: number) {
-  return n < 10 ? `0${  n}` : `${  n}`;
+  return n < 10 ? `0${n}` : `${n}`;
 }
 function makeDate(y: number, m: number, d: number) {
   return new Date(y, m - 1, d, 0, 0, 0, 0);
@@ -246,7 +246,9 @@ const rowHeightPx = computed(() => {
 });
 
 const isCollapsed = computed(() => gridHeightCurrent.value <= rowHeightPx.value + 1);
-const gridOffsetPx = computed(() => (isCollapsed.value ? getFocusWeekIndex() * rowHeightPx.value : 0));
+const gridOffsetPx = computed(() =>
+  isCollapsed.value ? getFocusWeekIndex() * rowHeightPx.value : 0
+);
 
 const gridWrapperStyle = computed(() => {
   const height = gridHeightCurrent.value || rowHeightPx.value * totalRows.value;

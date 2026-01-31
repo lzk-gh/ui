@@ -1,10 +1,6 @@
 <template>
   <view class="app-main" :class="themeClass" :style="brandStyleVars">
-    <lk-tabbar-container
-      :tabs="tabConfig"
-      default-tab="home"
-      @change="handleTabChange"
-    >
+    <lk-tabbar-container :tabs="tabConfig" default-tab="home" @change="handleTabChange">
       <!-- #ifdef MP-WEIXIN -->
       <template #tab-home>
         <home-tab />

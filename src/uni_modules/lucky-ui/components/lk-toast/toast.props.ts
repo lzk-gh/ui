@@ -39,7 +39,7 @@ export const toastProps = {
    * @value fade 淡入淡出
    * @value slide-up 向上滑动
    * @value slide-down 向下滑动
-    * @value zoom-in 缩放
+   * @value zoom-in 缩放
    */
   transition: LkProp.enum(ToastTransitionNames, 'slide-up', 'Toast.transition'),
 

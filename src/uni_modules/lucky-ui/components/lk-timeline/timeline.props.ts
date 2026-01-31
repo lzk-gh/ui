@@ -9,7 +9,6 @@ export const TimelineDirection = {
   Horizontal: 'horizontal',
 } as const;
 
-
 /**
  * 时间轴尺寸
  */
@@ -18,7 +17,6 @@ export const TimelineSize = {
   Md: 'md',
   Lg: 'lg',
 } as const;
-
 
 export type TimelineDirection = (typeof TimelineDirection)[keyof typeof TimelineDirection];
 export type TimelineSize = (typeof TimelineSize)[keyof typeof TimelineSize];
@@ -31,7 +29,11 @@ export const timelineProps = {
    * @value vertical 垂直
    * @value horizontal 水平
    */
-  direction: LkProp.enum(Object.values(TimelineDirection), TimelineDirection.Vertical, 'Timeline.direction'),
+  direction: LkProp.enum(
+    Object.values(TimelineDirection),
+    TimelineDirection.Vertical,
+    'Timeline.direction'
+  ),
 
   /** 是否显示待完成项 */
   pending: {
@@ -70,7 +72,6 @@ export const timelineProps = {
    * @value lg 大尺寸
    */
   size: LkProp.enum(Object.values(TimelineSize), TimelineSize.Md, 'Timeline.size'),
-
 } as const;
 
 export type TimelineProps = ExtractPropTypes<typeof timelineProps>;

@@ -3,8 +3,8 @@ import { baseProps, LkProp } from '../common/props';
 
 export const TextareaVariant = {
   Outline: 'outline', // 描边型（传统）
-  Filled: 'filled',   // 填充型（现代，带灰色背景）
-  Flush: 'flush',     // 无边框型（适合列表）
+  Filled: 'filled', // 填充型（现代，带灰色背景）
+  Flush: 'flush', // 无边框型（适合列表）
 } as const;
 
 export type TextareaVariant = (typeof TextareaVariant)[keyof typeof TextareaVariant];

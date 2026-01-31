@@ -67,7 +67,7 @@ const outerStyle = computed(() => {
     const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
     return {
       height: total > 0 ? `${total}px` : '200rpx',
-      transition: 'height 0.3s ease'
+      transition: 'height 0.3s ease',
     };
   }
   return {
@@ -139,25 +139,34 @@ function measureIndicatorHeight() {
 }
 
 // 监听
-watch(() => props.current, val => {
-  const n = length.value;
-  if (typeof val !== 'number' || n === 0) return;
-  const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
-  if (innerCurrent.value !== clamped) innerCurrent.value = clamped;
-});
-
-watch(() => innerCurrent.value, () => measureActiveHeight());
-
-watch(() => length.value, n => {
-  if (n <= 0) {
-    innerCurrent.value = 0;
-    currentHeight.value = 0;
-    return;
+watch(
+  () => props.current,
+  val => {
+    const n = length.value;
+    if (typeof val !== 'number' || n === 0) return;
+    const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
+    if (innerCurrent.value !== clamped) innerCurrent.value = clamped;
   }
-  if (innerCurrent.value > n - 1) innerCurrent.value = n - 1;
-  measureActiveHeight();
-  measureIndicatorHeight();
-});
+);
+
+watch(
+  () => innerCurrent.value,
+  () => measureActiveHeight()
+);
+
+watch(
+  () => length.value,
+  n => {
+    if (n <= 0) {
+      innerCurrent.value = 0;
+      currentHeight.value = 0;
+      return;
+    }
+    if (innerCurrent.value > n - 1) innerCurrent.value = n - 1;
+    measureActiveHeight();
+    measureIndicatorHeight();
+  }
+);
 
 function updateActive(index: number) {
   innerCurrent.value = index;
@@ -237,12 +246,12 @@ onMounted(() => {
           `is-align-${indicatorAlign}`,
           {
             'is-vertical': indicatorVertical,
-            'is-animated': indicatorAnimated
+            'is-animated': indicatorAnimated,
           },
         ]"
       >
         <view v-if="indicatorType === 'number'" class="lk-carousel__indicator-number">
-            {{ innerCurrent + 1 }}/{{ length }}
+          {{ innerCurrent + 1 }}/{{ length }}
         </view>
         <view
           v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
@@ -255,9 +264,10 @@ onMounted(() => {
             'is-bar': indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor: index === innerCurrent
-              ? (indicatorActiveColor || undefined)
-              : (indicatorColor || undefined),
+            backgroundColor:
+              index === innerCurrent
+                ? indicatorActiveColor || undefined
+                : indicatorColor || undefined,
           }"
           @click.stop="indicatorClickable ? setActive(index) : undefined"
         ></view>
@@ -273,13 +283,13 @@ onMounted(() => {
           `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
           `is-align-${indicatorAlign}`,
           {
-             'is-vertical': indicatorVertical,
-             'is-animated': indicatorAnimated
+            'is-vertical': indicatorVertical,
+            'is-animated': indicatorAnimated,
           },
         ]"
       >
         <view v-if="indicatorType === 'number'" class="lk-carousel__indicator-number">
-             {{ innerCurrent + 1 }}/{{ length }}
+          {{ innerCurrent + 1 }}/{{ length }}
         </view>
         <view
           v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
@@ -292,9 +302,10 @@ onMounted(() => {
             'is-bar': indicatorType === 'bars',
           }"
           :style="{
-            backgroundColor: index === innerCurrent
-              ? (indicatorActiveColor || undefined)
-              : (indicatorColor || undefined),
+            backgroundColor:
+              index === innerCurrent
+                ? indicatorActiveColor || undefined
+                : indicatorColor || undefined,
           }"
           @click.stop="indicatorClickable ? setActive(index) : undefined"
         ></view>

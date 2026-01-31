@@ -31,7 +31,9 @@ const budget = ref<Slice[]>([
   { label: 'Other', value: 22, color: '#ff9f43' },
 ]);
 
-const many = ref<Slice[]>(Array.from({ length: 9 }, (_, i) => ({ label: `S${i + 1}`, value: 5 + i })));
+const many = ref<Slice[]>(
+  Array.from({ length: 9 }, (_, i) => ({ label: `S${i + 1}`, value: 5 + i }))
+);
 
 const donut = ref(true);
 const donutWidth = ref(30);
@@ -54,7 +56,7 @@ const data = computed(() => {
 });
 
 function randomize() {
-  const next = data.value.map((it) => ({ ...it, value: Math.round(Math.random() * 40) + 5 }));
+  const next = data.value.map(it => ({ ...it, value: Math.round(Math.random() * 40) + 5 }));
   if (dataset.value === 'budget') budget.value = next;
   else if (dataset.value === 'many') many.value = next;
   else traffic.value = next;
@@ -79,7 +81,10 @@ function reset() {
 
 <template>
   <view class="component-demo">
-    <demo-block title="ChartPie 饼/环图" desc="圆环端帽圆润（lineCap=round）+ 触摸 Tooltip + RAF 动画">
+    <demo-block
+      title="ChartPie 饼/环图"
+      desc="圆环端帽圆润（lineCap=round）+ 触摸 Tooltip + RAF 动画"
+    >
       <view class="panel">
         <view class="row">
           <text class="label">数据集</text>
@@ -114,7 +119,14 @@ function reset() {
         <view class="row row--slider">
           <text class="label">轮播间隔: {{ autoTooltipInterval }}ms</text>
           <view class="slider">
-            <lk-slider v-model="autoTooltipInterval" :min="300" :max="3000" :step="50" show-value :disabled="!tooltip || !autoTooltip" />
+            <lk-slider
+              v-model="autoTooltipInterval"
+              :min="300"
+              :max="3000"
+              :step="50"
+              show-value
+              :disabled="!tooltip || !autoTooltip"
+            />
           </view>
         </view>
         <view class="row">

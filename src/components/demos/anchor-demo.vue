@@ -30,12 +30,7 @@
         :scroll-into-view="scrollIntoViewId"
         @scroll="onScroll"
       >
-        <view
-          v-for="(item, index) in list"
-          :id="item.id"
-          :key="index"
-          class="section"
-        >
+        <view v-for="(item, index) in list" :id="item.id" :key="index" class="section">
           <view class="section-title">{{ item.name }}</view>
           <view class="goods-list">
             <view v-for="g in 4" :key="g" class="goods-item">
@@ -48,7 +43,7 @@
             </view>
           </view>
         </view>
-        <view style="height: 400rpx;"></view>
+        <view style="height: 400rpx"></view>
       </scroll-view>
     </view>
   </view>
@@ -81,7 +76,9 @@ const handleAnchorClick = (href: string) => {
   scrollIntoViewId.value = href;
   isScrolling = true;
   if (timer) clearTimeout(timer);
-  timer = setTimeout(() => { isScrolling = false; }, 800);
+  timer = setTimeout(() => {
+    isScrolling = false;
+  }, 800);
 };
 
 const onScroll = (e: { detail: { scrollTop: number } }) => {
@@ -168,18 +165,18 @@ onMounted(() => {
       justify-content: space-between;
 
       .goods-name {
-          font-size: 30rpx;
-          color: #333;
-          font-weight: 500;
+        font-size: 30rpx;
+        color: #333;
+        font-weight: 500;
       }
       .goods-desc {
-          font-size: 22rpx;
-          color: #999;
+        font-size: 22rpx;
+        color: #999;
       }
       .goods-price {
-          font-size: 32rpx;
-          font-weight: bold;
-          color: #ff4d4f;
+        font-size: 32rpx;
+        font-weight: bold;
+        color: #ff4d4f;
       }
     }
   }

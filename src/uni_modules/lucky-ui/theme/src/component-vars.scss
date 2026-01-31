@@ -228,7 +228,7 @@ page,
   --lk-color-primary: var(--lk-brand-500);
   --lk-color-primary-hover: var(--lk-brand-400);
   --lk-color-primary-active: var(--lk-brand-300);
-  --lk-color-primary-soft: rgba(105, 101, 219, 0.15);
+  --lk-color-primary-soft: rgba(var(--lk-brand-rgb, 105, 101, 219), 0.15);
 
   /* === 语义色（暗色适配）=== */
   --lk-color-success: #73d13d;

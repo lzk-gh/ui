@@ -67,7 +67,9 @@ export function useRipple(options: RippleOptions = {}) {
     return null;
   }
 
-  function getCurrentTargetRect(e: unknown): { left: number; top: number; width: number; height: number } | null {
+  function getCurrentTargetRect(
+    e: unknown
+  ): { left: number; top: number; width: number; height: number } | null {
     if (!isRecord(e)) return null;
     const ct = e.currentTarget;
     if (!ct || !isRecord(ct)) return null;
@@ -111,10 +113,11 @@ export function useRipple(options: RippleOptions = {}) {
 
     // Case 2: Need to calculate relative position (MP/App)
     if (coords && instance) {
-      uni.createSelectorQuery()
+      uni
+        .createSelectorQuery()
         .in(instance)
         .select(selector)
-        .boundingClientRect((rect) => {
+        .boundingClientRect(rect => {
           if (
             rect &&
             !Array.isArray(rect) &&

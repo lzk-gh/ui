@@ -55,7 +55,11 @@ export const datePickerProps = {
     default: null,
   },
   /** 时间精度 */
-  timePrecision: LkProp.enum(Object.values(TimePrecision), TimePrecision.Minute, 'DatePicker.timePrecision'),
+  timePrecision: LkProp.enum(
+    Object.values(TimePrecision),
+    TimePrecision.Minute,
+    'DatePicker.timePrecision'
+  ),
 } as const;
 
 export type DatePickerProps = ExtractPropTypes<typeof datePickerProps>;

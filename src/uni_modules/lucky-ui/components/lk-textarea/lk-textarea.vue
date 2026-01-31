@@ -102,18 +102,15 @@ function onClear() {
       <!-- 清空按钮 -->
       <!-- 逻辑：开启clearable && 有内容 && 非禁用 -->
       <!-- 使用 transition 增加出现消失的动画 -->
-      <view
-        v-if="clearable || $slots.suffix"
-        class="lk-textarea__suffix"
-      >
+      <view v-if="clearable || $slots.suffix" class="lk-textarea__suffix">
         <transition name="fade">
           <view
             v-if="clearable && modelValue && !disabled"
             class="lk-textarea__clear"
             @tap.stop.prevent="onClear"
           >
-             <!-- 推荐使用 SVG 图标或 font-icon，这里用 CSS 画一个优雅的叉 -->
-             <view class="lk-icon-close" />
+            <!-- 推荐使用 SVG 图标或 font-icon，这里用 CSS 画一个优雅的叉 -->
+            <view class="lk-icon-close" />
           </view>
         </transition>
         <slot name="suffix" />
@@ -136,10 +133,12 @@ function onClear() {
 @use './index.scss';
 
 // 简单的过渡动画
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.2s ease;
 }
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

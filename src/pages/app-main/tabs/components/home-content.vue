@@ -18,11 +18,7 @@
               <text class="welcome-text">Hello, Welcome 👋</text>
               <text class="user-name">Albert Stevano</text>
             </view>
-            <lk-avatar
-              src="https://picsum.photos/100/100?random=100"
-              size="80"
-              round
-            />
+            <lk-avatar src="https://picsum.photos/100/100?random=100" size="80" round />
           </view>
 
           <!-- 搜索与筛选 -->
@@ -52,7 +48,9 @@
           <lk-horizontal-scroll hide-scrollbar>
             <lk-choice
               v-model="activeCategory"
-              :options="categories.map((c, i) => ({ label: c.name, value: String(i), icon: c.icon }))"
+              :options="
+                categories.map((c, i) => ({ label: c.name, value: String(i), icon: c.icon }))
+              "
               size="lg"
               :gap="30"
             />
@@ -70,7 +68,10 @@
           @click="goToDetail(item)"
         >
           <template #cover>
-            <view class="image-wrapper" :style="{ height: (height - (item.extraHeight || 90)) + 'px' }">
+            <view
+              class="image-wrapper"
+              :style="{ height: height - (item.extraHeight || 90) + 'px' }"
+            >
               <lk-skeleton
                 class="product-image-skeleton"
                 :loading="loading"
@@ -155,7 +156,12 @@
             <text class="group-title">Sort By</text>
             <lk-choice
               v-model="activeSort"
-              :options="['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular'].map(s => ({ label: s, value: s }))"
+              :options="
+                ['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular'].map(s => ({
+                  label: s,
+                  value: s,
+                }))
+              "
               size="md"
               :gap="20"
               class="tag-flex"
@@ -164,7 +170,9 @@
         </scroll-view>
 
         <view class="filter-footer">
-          <lk-button type="primary" block radius="40" @click="showFilter = false">Apply Filters</lk-button>
+          <lk-button type="primary" block radius="40" @click="showFilter = false"
+            >Apply Filters</lk-button
+          >
         </view>
       </view>
     </lk-popup>
@@ -223,10 +231,37 @@ const categories = [
   { name: 'Pants', icon: 'list' },
 ];
 
-const mockAdjectives = ['Modern', 'Casual', 'Street', 'Light', 'Floral', 'Classic', 'Luxurious', 'Vintage', 'Minimalist', 'Cozy'];
-const mockNouns = ['T-Shirt', 'Dress', 'Jacket', 'Pants', 'Gown', 'Hoodie', 'Skirts', 'Blazer', 'Sweater', 'Cardigan'];
+const mockAdjectives = [
+  'Modern',
+  'Casual',
+  'Street',
+  'Light',
+  'Floral',
+  'Classic',
+  'Luxurious',
+  'Vintage',
+  'Minimalist',
+  'Cozy',
+];
+const mockNouns = [
+  'T-Shirt',
+  'Dress',
+  'Jacket',
+  'Pants',
+  'Gown',
+  'Hoodie',
+  'Skirts',
+  'Blazer',
+  'Sweater',
+  'Cardigan',
+];
 const mockTypes = ['Modern', 'Style', 'Luxury', 'Casual', 'Summer', 'Winter', 'Autumn', 'Spring'];
-const searchHints = ['Search: New arrivals', 'Search: Summer dresses', 'Search: Cozy hoodies', 'Search: Minimalist tees'];
+const searchHints = [
+  'Search: New arrivals',
+  'Search: Summer dresses',
+  'Search: Cozy hoodies',
+  'Search: Minimalist tees',
+];
 
 const generateMockData = (count: number): ProductItem[] => {
   const newItems: ProductItem[] = [];

@@ -30,11 +30,7 @@ export * from './types';
 export { PreloadQueue, getPreloadQueue, resetPreloadQueue } from './queue';
 
 // 预加载管理器
-export {
-  PreloadManager,
-  getPreloadManager,
-  resetPreloadManager,
-} from './manager';
+export { PreloadManager, getPreloadManager, resetPreloadManager } from './manager';
 
 // 组合式函数
 export {

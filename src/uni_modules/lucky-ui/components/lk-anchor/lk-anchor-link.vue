@@ -4,7 +4,7 @@
     class="lk-anchor-link"
     :class="[
       isActive ? 'lk-anchor-link--active' : '',
-      props.disabled ? 'lk-anchor-link--disabled' : ''
+      props.disabled ? 'lk-anchor-link--disabled' : '',
     ]"
     @click="onClick"
   >
@@ -53,5 +53,5 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@use "./index.scss";
+@use './index.scss';
 </style>

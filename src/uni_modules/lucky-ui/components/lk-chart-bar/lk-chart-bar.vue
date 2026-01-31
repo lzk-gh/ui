@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, watch, onUnmounted } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
-import { buildBrandPalette, resolveBrandBaseColor, mixRgb, hexToRgb, rgbaFromHex } from '../../utils/chart-colors';
+import {
+  buildBrandPalette,
+  resolveBrandBaseColor,
+  mixRgb,
+  hexToRgb,
+  rgbaFromHex,
+} from '../../utils/chart-colors';
 import { chartBarProps, chartBarEmits, type BarChartItem } from './chart-bar.props';
 
 defineOptions({ name: 'LkChartBar' });
@@ -45,16 +51,24 @@ function getEffectiveIndex(len: number) {
 
 function triggerPulse() {
   if (!props.highlightPulse) return;
-  chart.animateTo(280, (p) => {
-    // 0..1..0
-    pulse.value = Math.sin(p * Math.PI);
-    chart.scheduleRender(1);
-  }, () => {
-    pulse.value = 0;
-  });
+  chart.animateTo(
+    280,
+    p => {
+      // 0..1..0
+      pulse.value = Math.sin(p * Math.PI);
+      chart.scheduleRender(1);
+    },
+    () => {
+      pulse.value = 0;
+    }
+  );
 }
 
-const chart = useChartCanvas({ wrapperId: wrapperId.value, canvasId: canvasId.value, autoSize: true });
+const chart = useChartCanvas({
+  wrapperId: wrapperId.value,
+  canvasId: canvasId.value,
+  autoSize: true,
+});
 
 function roundedTopRectPath(ctx: any, x: number, y: number, w: number, h: number, r: number) {
   const radius = Math.max(0, Math.min(r, w / 2, h));
@@ -71,9 +85,19 @@ function roundedTopRectPath(ctx: any, x: number, y: number, w: number, h: number
   ctx.closePath();
 }
 
-function resolveItemColor(item: BarChartItem, index: number, palette: ReturnType<typeof buildBrandPalette>) {
+function resolveItemColor(
+  item: BarChartItem,
+  index: number,
+  palette: ReturnType<typeof buildBrandPalette>
+) {
   if (item.color) return item.color;
-  const candidates = [palette.brand600, palette.brand500, palette.brand700, palette.brand400, palette.brand800];
+  const candidates = [
+    palette.brand600,
+    palette.brand500,
+    palette.brand700,
+    palette.brand400,
+    palette.brand800,
+  ];
   return candidates[index % candidates.length];
 }
 
@@ -86,7 +110,13 @@ function buildGradient(ctx: any, x: number, y: number, h: number, baseHex: strin
   return g;
 }
 
-function drawTooltip(ctx: any, x: number, y: number, text: string, palette: ReturnType<typeof buildBrandPalette>) {
+function drawTooltip(
+  ctx: any,
+  x: number,
+  y: number,
+  text: string,
+  palette: ReturnType<typeof buildBrandPalette>
+) {
   const padX = 8;
   const padY = 6;
   ctx.save();
@@ -242,7 +272,7 @@ chart.setRenderer((info, progress) => {
 });
 
 function triggerIntro() {
-  chart.animateTo(props.animationDuration, (p) => {
+  chart.animateTo(props.animationDuration, p => {
     chart.scheduleRender(p);
   });
 }
@@ -256,14 +286,24 @@ watch(
   () => props.data,
   () => {
     if (!chart.ready.value) return;
-    hoverIndex.value = props.tooltipAlways || props.autoTooltip ? clampIndex(props.defaultIndex, (props.data || []).length) : -1;
+    hoverIndex.value =
+      props.tooltipAlways || props.autoTooltip
+        ? clampIndex(props.defaultIndex, (props.data || []).length)
+        : -1;
     triggerIntro();
   },
   { deep: true }
 );
 
 watch(
-  () => [props.autoTooltip, props.autoTooltipInterval, props.tooltipAlways, props.defaultIndex, (props.data || []).length] as const,
+  () =>
+    [
+      props.autoTooltip,
+      props.autoTooltipInterval,
+      props.tooltipAlways,
+      props.defaultIndex,
+      (props.data || []).length,
+    ] as const,
   () => {
     if (autoTimer) {
       clearInterval(autoTimer);
@@ -274,14 +314,17 @@ watch(
 
     if (props.autoTooltip) {
       hoverIndex.value = clampIndex(props.defaultIndex, len);
-      autoTimer = setInterval(() => {
-        if (!chart.ready.value) return;
-        const next = (clampIndex(hoverIndex.value, len) + 1) % len;
-        hoverIndex.value = next;
-        emit('hoverChange', next);
-        triggerPulse();
-        refresh();
-      }, Math.max(300, props.autoTooltipInterval)) as unknown as number;
+      autoTimer = setInterval(
+        () => {
+          if (!chart.ready.value) return;
+          const next = (clampIndex(hoverIndex.value, len) + 1) % len;
+          hoverIndex.value = next;
+          emit('hoverChange', next);
+          triggerPulse();
+          refresh();
+        },
+        Math.max(300, props.autoTooltipInterval)
+      ) as unknown as number;
       return;
     }
 
@@ -295,7 +338,7 @@ watch(
 
 watch(
   () => chart.ready.value,
-  (v) => {
+  v => {
     if (v) triggerIntro();
   }
 );
@@ -356,12 +399,7 @@ onUnmounted(() => {
     @mousemove="onMove"
     @mouseleave="onEnd"
   >
-    <canvas
-      :id="canvasId"
-      :canvas-id="canvasId"
-      type="2d"
-      class="lk-chart__canvas"
-    />
+    <canvas :id="canvasId" :canvas-id="canvasId" type="2d" class="lk-chart__canvas" />
   </view>
 </template>
 

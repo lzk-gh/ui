@@ -18,11 +18,7 @@ provide('lkRadioGroup', {
 });
 
 const groupClass = computed(() => {
-  return [
-    'lk-radio-group',
-    `lk-radio-group--${props.direction}`,
-    props.customClass,
-  ];
+  return ['lk-radio-group', `lk-radio-group--${props.direction}`, props.customClass];
 });
 </script>
 

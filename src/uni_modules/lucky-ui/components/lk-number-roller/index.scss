@@ -12,7 +12,9 @@
   --lk-number-roller-speed: 800ms;
   --lk-number-roller-easing: cubic-bezier(0.33, 1, 0.68, 1);
   font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-feature-settings:
+    'tnum' 1,
+    'lnum' 1;
 
   @include e(segment) {
     display: inline-flex;

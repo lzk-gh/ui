@@ -45,7 +45,9 @@
     padding: 24rpx 40rpx;
     border-radius: var(--lk-border-radius-base); // Medium radius
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12), 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 8rpx 24rpx rgba(0, 0, 0, 0.12),
+      0 2rpx 8rpx rgba(0, 0, 0, 0.04);
     border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
   }
 
@@ -98,10 +100,10 @@
     padding: 20rpx 32rpx;
     border-radius: 999px;
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12), 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 8rpx 24rpx rgba(0, 0, 0, 0.12),
+      0 2rpx 8rpx rgba(0, 0, 0, 0.04);
     border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
-
-
   }
 }
 
@@ -128,8 +130,12 @@
 }
 
 @keyframes lk-fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes lk-zoom-in {

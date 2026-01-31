@@ -2,21 +2,43 @@
   <view class="todo-page" :class="themeClass">
     <lk-navbar title="待办清单" left-arrow @click-left="handleBack">
       <template #right>
-        <view style="display: flex; align-items: center; gap: 20rpx;">
-          <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="32" color="var(--lk-color-text-secondary)" @click="toggleTheme" />
-          <lk-icon name="plus" size="40" color="var(--lk-color-primary)" @click="showAddPopup = true" />
+        <view style="display: flex; align-items: center; gap: 20rpx">
+          <lk-icon
+            :name="theme === 'dark' ? 'sun' : 'moon'"
+            size="32"
+            color="var(--lk-color-text-secondary)"
+            @click="toggleTheme"
+          />
+          <lk-icon
+            name="plus"
+            size="40"
+            color="var(--lk-color-primary)"
+            @click="showAddPopup = true"
+          />
         </view>
       </template>
     </lk-navbar>
 
     <lk-sticky :offset-top="0">
-      <view style="padding: 20rpx 24rpx; background-color: var(--lk-color-bg-surface); border-bottom: 1rpx solid var(--lk-color-border-light);">
+      <view
+        style="
+          padding: 20rpx 24rpx;
+          background-color: var(--lk-color-bg-surface);
+          border-bottom: 1rpx solid var(--lk-color-border-light);
+        "
+      >
         <lk-space :gap="16" fill>
-          <lk-input v-model="searchQuery" placeholder="搜索任务..." prefix-icon="search" clearable style="flex: 1;" />
+          <lk-input
+            v-model="searchQuery"
+            placeholder="搜索任务..."
+            prefix-icon="search"
+            clearable
+            style="flex: 1"
+          />
           <lk-dropdown v-model="filterStatus">
             <lk-button size="sm" plain>
               {{ statusOptions.find(o => o.value === filterStatus)?.label }}
-              <lk-icon name="arrow-down" size="24" style="margin-left: 8rpx;" />
+              <lk-icon name="arrow-down" size="24" style="margin-left: 8rpx" />
             </lk-button>
             <template #menu>
               <lk-dropdown-item v-for="opt in statusOptions" :key="opt.value" :name="opt.value">
@@ -29,26 +51,36 @@
     </lk-sticky>
 
     <scroll-view class="todo-page__scroll" scroll-y show-scrollbar="false">
-      <lk-space direction="vertical" :gap="20" fill style="padding: 24rpx; padding-bottom: calc(24rpx + env(safe-area-inset-bottom));">
-
+      <lk-space
+        direction="vertical"
+        :gap="20"
+        fill
+        style="padding: 24rpx; padding-bottom: calc(24rpx + env(safe-area-inset-bottom))"
+      >
         <!-- 统计概览 -->
         <lk-grid :columns="3" :border="false">
           <lk-card shadow="never" :border="true" padding="16rpx">
             <lk-space direction="vertical" align="center" :gap="8">
-              <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-primary);">{{ todoList.length }}</text>
-              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary);">全部</text>
+              <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-primary)">{{
+                todoList.length
+              }}</text>
+              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary)">全部</text>
             </lk-space>
           </lk-card>
           <lk-card shadow="never" :border="true" padding="16rpx">
             <lk-space direction="vertical" align="center" :gap="8">
-              <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-warning);">{{ pendingCount }}</text>
-              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary);">进行中</text>
+              <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-warning)">{{
+                pendingCount
+              }}</text>
+              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary)">进行中</text>
             </lk-space>
           </lk-card>
           <lk-card shadow="never" :border="true" padding="16rpx">
             <lk-space direction="vertical" align="center" :gap="8">
-              <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-success);">{{ completedCount }}</text>
-              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary);">已完成</text>
+              <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-success)">{{
+                completedCount
+              }}</text>
+              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary)">已完成</text>
             </lk-space>
           </lk-card>
         </lk-grid>
@@ -59,42 +91,73 @@
             <lk-space direction="vertical" :gap="20" fill>
               <lk-space justify="between" align="start" fill>
                 <lk-space :gap="16" align="center">
-                  <lk-checkbox v-model="item.completed" shape="circle" @change="handleStatusChange(item)" />
+                  <lk-checkbox
+                    v-model="item.completed"
+                    shape="circle"
+                    @change="handleStatusChange(item)"
+                  />
                   <text
-:style="{
-                    fontSize: '30rpx',
-                    fontWeight: 'bold',
-                    color: item.completed ? 'var(--lk-color-text-placeholder)' : 'var(--lk-color-text-primary)',
-                    textDecoration: item.completed ? 'line-through' : 'none'
-                  }">{{ item.title }}</text>
+                    :style="{
+                      fontSize: '30rpx',
+                      fontWeight: 'bold',
+                      color: item.completed
+                        ? 'var(--lk-color-text-placeholder)'
+                        : 'var(--lk-color-text-primary)',
+                      textDecoration: item.completed ? 'line-through' : 'none',
+                    }"
+                    >{{ item.title }}</text
+                  >
                 </lk-space>
                 <lk-tag
                   type="light"
                   size="sm"
                   :bg-color="getPriorityBg(item.priority)"
                   :text-color="getPriorityColor(item.priority)"
-                >{{ getPriorityLabel(item.priority) }}</lk-tag>
+                  >{{ getPriorityLabel(item.priority) }}</lk-tag
+                >
               </lk-space>
 
-              <text style="font-size: 26rpx; color: var(--lk-color-text-regular);">{{ item.desc }}</text>
+              <text style="font-size: 26rpx; color: var(--lk-color-text-regular)">{{
+                item.desc
+              }}</text>
 
               <lk-space direction="vertical" :gap="12" fill>
                 <lk-space justify="between" fill>
-                  <text style="font-size: 24rpx; color: var(--lk-color-text-secondary);">进度: {{ item.progress }}%</text>
-                  <text style="font-size: 24rpx; color: var(--lk-color-text-secondary);">截止: {{ item.dueDate }}</text>
+                  <text style="font-size: 24rpx; color: var(--lk-color-text-secondary)"
+                    >进度: {{ item.progress }}%</text
+                  >
+                  <text style="font-size: 24rpx; color: var(--lk-color-text-secondary)"
+                    >截止: {{ item.dueDate }}</text
+                  >
                 </lk-space>
-                <lk-progress :percentage="item.progress" :color="getPriorityColor(item.priority)" stroke-width="8" />
+                <lk-progress
+                  :percentage="item.progress"
+                  :color="getPriorityColor(item.priority)"
+                  stroke-width="8"
+                />
               </lk-space>
 
               <lk-divider />
 
               <lk-space justify="between" align="center" fill>
                 <lk-space :gap="8">
-                  <lk-tag v-for="tag in item.tags" :key="tag" type="outline" size="sm">{{ tag }}</lk-tag>
+                  <lk-tag v-for="tag in item.tags" :key="tag" type="outline" size="sm">{{
+                    tag
+                  }}</lk-tag>
                 </lk-space>
                 <lk-space :gap="24">
-                  <lk-icon name="edit" size="32" color="var(--lk-color-text-secondary)" @click="handleEdit(item)" />
-                  <lk-icon name="delete" size="32" color="var(--lk-color-danger)" @click="handleDelete(item)" />
+                  <lk-icon
+                    name="edit"
+                    size="32"
+                    color="var(--lk-color-text-secondary)"
+                    @click="handleEdit(item)"
+                  />
+                  <lk-icon
+                    name="delete"
+                    size="32"
+                    color="var(--lk-color-danger)"
+                    @click="handleDelete(item)"
+                  />
                 </lk-space>
               </lk-space>
             </lk-space>
@@ -102,28 +165,47 @@
         </view>
 
         <lk-divider v-if="filteredList.length > 0" text="没有更多任务了" />
-        <view v-else style="padding: 100rpx 0; text-align: center;">
+        <view v-else style="padding: 100rpx 0; text-align: center">
           <lk-icon name="info" size="120" color="var(--lk-color-text-placeholder)" />
-          <view style="margin-top: 20rpx; color: var(--lk-color-text-placeholder);">暂无相关任务</view>
+          <view style="margin-top: 20rpx; color: var(--lk-color-text-placeholder)"
+            >暂无相关任务</view
+          >
         </view>
       </lk-space>
     </scroll-view>
 
     <!-- 新增/编辑弹窗 -->
     <lk-popup v-model:show="showAddPopup" position="bottom" round title="添加新任务" height="85vh">
-      <view style="padding: 32rpx;">
+      <view style="padding: 32rpx">
         <lk-form ref="formRef" :model="formModel" label-width="160">
           <lk-space direction="vertical" :gap="32" fill>
-            <lk-input v-model="formModel.title" label="任务名称" placeholder="请输入任务名称" required />
+            <lk-input
+              v-model="formModel.title"
+              label="任务名称"
+              placeholder="请输入任务名称"
+              required
+            />
 
-            <lk-textarea v-model="formModel.desc" label="任务描述" placeholder="请输入详细描述" :maxlength="200" show-word-limit />
+            <lk-textarea
+              v-model="formModel.desc"
+              label="任务描述"
+              placeholder="请输入详细描述"
+              :maxlength="200"
+              show-word-limit
+            />
 
             <view class="form-item">
               <text class="label">优先级</text>
               <lk-tooltip content="1: 低, 2: 中, 3: 高">
-                <lk-rate v-model="formModel.priority" :count="3" active-color="var(--lk-color-danger)" />
+                <lk-rate
+                  v-model="formModel.priority"
+                  :count="3"
+                  active-color="var(--lk-color-danger)"
+                />
               </lk-tooltip>
-              <text style="margin-left: 20rpx; font-size: 24rpx; color: var(--lk-color-text-secondary);">
+              <text
+                style="margin-left: 20rpx; font-size: 24rpx; color: var(--lk-color-text-secondary)"
+              >
                 {{ getPriorityLabel(formModel.priority) }}
               </text>
             </view>
@@ -140,12 +222,17 @@
 
             <view class="form-item">
               <text class="label">当前进度</text>
-              <view style="flex: 1; padding: 0 20rpx;">
+              <view style="flex: 1; padding: 0 20rpx">
                 <lk-slider v-model="formModel.progress" :step="5" show-value />
               </view>
             </view>
 
-            <lk-cell title="截止日期" :value="formModel.dueDate || '请选择'" is-link @click="showDatePicker = true" />
+            <lk-cell
+              title="截止日期"
+              :value="formModel.dueDate || '请选择'"
+              is-link
+              @click="showDatePicker = true"
+            />
 
             <view class="form-item">
               <text class="label">任务分类</text>
@@ -247,7 +334,7 @@ const todoList = ref([
     tags: ['工作', '紧急'],
     category: 'work',
     estimatedHours: 8,
-    files: []
+    files: [],
   },
   {
     id: 2,
@@ -260,7 +347,7 @@ const todoList = ref([
     tags: ['生活'],
     category: 'life',
     estimatedHours: 2,
-    files: []
+    files: [],
   },
   {
     id: 3,
@@ -273,8 +360,8 @@ const todoList = ref([
     tags: ['学习'],
     category: 'study',
     estimatedHours: 4,
-    files: []
-  }
+    files: [],
+  },
 ]);
 
 const formModel = ref({
@@ -286,7 +373,7 @@ const formModel = ref({
   category: 'work',
   reminder: true,
   estimatedHours: 1,
-  files: []
+  files: [],
 });
 
 const pendingCount = computed(() => todoList.value.filter(t => !t.completed).length);
@@ -294,10 +381,12 @@ const completedCount = computed(() => todoList.value.filter(t => t.completed).le
 
 const filteredList = computed(() => {
   return todoList.value.filter(item => {
-    const matchSearch = item.title.includes(searchQuery.value) || item.desc.includes(searchQuery.value);
-    const matchStatus = filterStatus.value === 'all' ||
-                       (filterStatus.value === 'completed' && item.completed) ||
-                       (filterStatus.value === 'pending' && !item.completed);
+    const matchSearch =
+      item.title.includes(searchQuery.value) || item.desc.includes(searchQuery.value);
+    const matchStatus =
+      filterStatus.value === 'all' ||
+      (filterStatus.value === 'completed' && item.completed) ||
+      (filterStatus.value === 'pending' && !item.completed);
     return matchSearch && matchStatus;
   });
 });
@@ -354,7 +443,13 @@ const handleSubmit = () => {
     id: Date.now(),
     ...formModel.value,
     completed: formModel.value.progress === 100,
-    tags: [formModel.value.category === 'work' ? '工作' : formModel.value.category === 'life' ? '生活' : '学习']
+    tags: [
+      formModel.value.category === 'work'
+        ? '工作'
+        : formModel.value.category === 'life'
+          ? '生活'
+          : '学习',
+    ],
   };
 
   todoList.value.unshift(newTask);
@@ -371,7 +466,7 @@ const handleSubmit = () => {
     category: 'work',
     reminder: true,
     estimatedHours: 1,
-    files: []
+    files: [],
   };
 };
 
@@ -379,13 +474,13 @@ const handleDelete = (item: any) => {
   uni.showModal({
     title: '提示',
     content: '确定要删除该任务吗？',
-    success: (res) => {
+    success: res => {
       if (res.confirm) {
         const index = todoList.value.findIndex(t => t.id === item.id);
         todoList.value.splice(index, 1);
         toastRef.value?.show({ message: '已删除', type: 'success' });
       }
-    }
+    },
   });
 };
 

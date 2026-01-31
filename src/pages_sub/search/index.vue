@@ -4,7 +4,13 @@
 
     <view class="search-page">
       <view class="search-header">
-        <lk-input v-model="keyword" prefix-icon="search" placeholder="搜索商品..." clearable autofocus />
+        <lk-input
+          v-model="keyword"
+          prefix-icon="search"
+          placeholder="搜索商品..."
+          clearable
+          autofocus
+        />
       </view>
 
       <view class="search-content">

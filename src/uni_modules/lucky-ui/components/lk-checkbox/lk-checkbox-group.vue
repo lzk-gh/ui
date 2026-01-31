@@ -31,11 +31,7 @@ provide('lkCheckboxGroup', {
 });
 
 const groupClass = computed(() => {
-  return [
-    'lk-checkbox-group',
-    `lk-checkbox-group--${props.direction}`,
-    props.customClass,
-  ];
+  return ['lk-checkbox-group', `lk-checkbox-group--${props.direction}`, props.customClass];
 });
 </script>
 

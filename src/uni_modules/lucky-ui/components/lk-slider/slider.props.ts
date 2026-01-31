@@ -10,7 +10,7 @@ export const sliderProps = {
   /** 绑定值 (number | number[]) */
   modelValue: {
     type: [Number, Array] as PropType<number | number[]>,
-    default: 0
+    default: 0,
   },
 
   /** 是否开启双滑块范围选择 */

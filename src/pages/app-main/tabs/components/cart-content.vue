@@ -1,5 +1,11 @@
 <template>
-  <scroll-view scroll-y show-scrollbar="false" class="checkout-content" :class="themeClass" :style="{ height: contentHeight }">
+  <scroll-view
+    scroll-y
+    show-scrollbar="false"
+    class="checkout-content"
+    :class="themeClass"
+    :style="{ height: contentHeight }"
+  >
     <!-- 自定义导航栏 -->
     <view class="nav-header">
       <view class="icon-btn" @click="goBack">
@@ -15,10 +21,33 @@
     <lk-popup v-model="showMorePopup" position="bottom" round height="45%">
       <view class="drag-handle"></view>
       <view class="popup-menu-content">
-        <lk-cell title="Select All Items" icon="check-all" clickable border @click="handleMoreAction('select-all')" />
-        <lk-cell title="Clear Cart" icon="trash" clickable border @click="handleMoreAction('clear')" />
-        <lk-cell title="Manage Vouchers" icon="ticket-perforated" clickable border @click="handleMoreAction('voucher')" />
-        <lk-cell title="Shipping Support" icon="headset" clickable @click="handleMoreAction('support')" />
+        <lk-cell
+          title="Select All Items"
+          icon="check-all"
+          clickable
+          border
+          @click="handleMoreAction('select-all')"
+        />
+        <lk-cell
+          title="Clear Cart"
+          icon="trash"
+          clickable
+          border
+          @click="handleMoreAction('clear')"
+        />
+        <lk-cell
+          title="Manage Vouchers"
+          icon="ticket-perforated"
+          clickable
+          border
+          @click="handleMoreAction('voucher')"
+        />
+        <lk-cell
+          title="Shipping Support"
+          icon="headset"
+          clickable
+          @click="handleMoreAction('support')"
+        />
       </view>
     </lk-popup>
 
@@ -54,9 +83,21 @@
     </view>
 
     <!-- 配送信息 -->
-    <lk-card class="section-container" title="Shipping Information" padding="0" shadow="none" transparent>
+    <lk-card
+      class="section-container"
+      title="Shipping Information"
+      padding="0"
+      shadow="none"
+      transparent
+    >
       <lk-cell-group>
-        <lk-cell title="VISA" label="Primary" value="**** **** **** 2143" icon="credit-card-fill" arrow />
+        <lk-cell
+          title="VISA"
+          label="Primary"
+          value="**** **** **** 2143"
+          icon="credit-card-fill"
+          arrow
+        />
       </lk-cell-group>
     </lk-card>
 

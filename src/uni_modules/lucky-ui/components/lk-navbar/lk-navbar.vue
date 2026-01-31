@@ -12,13 +12,13 @@ const slots = useSlots();
 const {
   rippleActive: leftActive,
   rippleWaveStyle: leftRippleStyle,
-  triggerRipple: triggerLeft
+  triggerRipple: triggerLeft,
 } = useRipple({ selector: '.lk-navbar__left' });
 
 const {
   rippleActive: rightActive,
   rippleWaveStyle: rightRippleStyle,
-  triggerRipple: triggerRight
+  triggerRipple: triggerRight,
 } = useRipple({ selector: '.lk-navbar__right' });
 
 type SysInfoLike = {

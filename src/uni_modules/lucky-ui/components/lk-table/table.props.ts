@@ -1,42 +1,34 @@
-import type { ExtractPropTypes, PropType } from 'vue'
-import { baseProps, LkProp } from '../common/props'
+import type { ExtractPropTypes, PropType } from 'vue';
+import { baseProps, LkProp } from '../common/props';
 
 export interface TableColumn {
-  key: string
-  title?: string
+  key: string;
+  title?: string;
   /** 列宽度，支持 px、rpx、百分比，不设置则均匀分配 */
-  width?: string | number
+  width?: string | number;
   /** 最小宽度 */
-  minWidth?: string | number
-  align?: 'left' | 'center' | 'right'
-  sortable?: boolean
-  sortMethod?: (
-    a: Record<string, unknown>,
-    b: Record<string, unknown>,
-    asc: boolean
-  ) => number
-  formatter?: (
-    row: Record<string, unknown>,
-    col: TableColumn,
-    rowIndex: number
-  ) => unknown
-  summary?: 'sum' | 'avg' | ((values: number[], col: TableColumn) => unknown)
+  minWidth?: string | number;
+  align?: 'left' | 'center' | 'right';
+  sortable?: boolean;
+  sortMethod?: (a: Record<string, unknown>, b: Record<string, unknown>, asc: boolean) => number;
+  formatter?: (row: Record<string, unknown>, col: TableColumn, rowIndex: number) => unknown;
+  summary?: 'sum' | 'avg' | ((values: number[], col: TableColumn) => unknown);
   /** 列固定位置 */
-  fixed?: 'left' | 'right'
-  hidden?: boolean
-  className?: string
-  headerSlot?: string
+  fixed?: 'left' | 'right';
+  hidden?: boolean;
+  className?: string;
+  headerSlot?: string;
 }
 
 export interface TableAction {
-  key: string
-  text: string
-  type?: 'default' | 'primary' | 'danger' | 'warning'
+  key: string;
+  text: string;
+  type?: 'default' | 'primary' | 'danger' | 'warning';
 }
 
 export interface DefaultSort {
-  key: string
-  order: 'asc' | 'desc'
+  key: string;
+  order: 'asc' | 'desc';
 }
 
 export const tableProps = {
@@ -119,9 +111,9 @@ export const tableProps = {
 
   /** 操作列是否固定在右侧 */
   actionFixed: LkProp.boolean(true),
-} as const
+} as const;
 
-export type TableProps = ExtractPropTypes<typeof tableProps>
+export type TableProps = ExtractPropTypes<typeof tableProps>;
 
 export const tableEmits = {
   'update:modelValue': (_val: (string | number)[]) => true,
@@ -130,4 +122,4 @@ export const tableEmits = {
   'sort-change': (_params: { key: string; order: 'asc' | 'desc' | null }) => true,
   'summary-computed': (_row: Record<string, unknown>) => true,
   action: (_action: string, _row: Record<string, unknown>, _index: number) => true,
-}
+};

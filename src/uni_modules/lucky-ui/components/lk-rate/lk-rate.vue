@@ -17,7 +17,7 @@ const innerValue = ref<number>(props.modelValue);
 // 监听外部变化
 watch(
   () => props.modelValue,
-  (val) => {
+  val => {
     innerValue.value = val;
   }
 );
@@ -62,14 +62,9 @@ const activeColor = computed(() => props.color || 'var(--lk-color-warning)');
       'is-readonly': props.readonly,
     }"
   >
-    <view
-      v-for="item in stars"
-      :key="item"
-      class="lk-rate__item"
-      @click="select(item)"
-    >
+    <view v-for="item in stars" :key="item" class="lk-rate__item" @click="select(item)">
       <lk-icon
-        :name="innerValue >= item ? (props.icon || 'star-fill') : 'star'"
+        :name="innerValue >= item ? props.icon || 'star-fill' : 'star'"
         :size="iconSize"
         :color="innerValue >= item ? activeColor : 'var(--lk-color-border)'"
       />

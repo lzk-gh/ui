@@ -1,7 +1,9 @@
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
-      <view class="desc">可拖拽的悬浮按钮，默认吸附到屏幕边缘。拖拽后自动吸边，点击可执行操作。</view>
+      <view class="desc"
+        >可拖拽的悬浮按钮，默认吸附到屏幕边缘。拖拽后自动吸边，点击可执行操作。</view
+      >
     </demo-block>
 
     <demo-block title="带子按钮">

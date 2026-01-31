@@ -13,7 +13,11 @@
     <demo-block title="音乐 App 风格">
       <lk-horizontal-scroll gap="24rpx" padding="0rpx">
         <view v-for="i in 6" :key="i" class="music-card">
-          <image class="music-cover" :src="`https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg`" mode="aspectFill" />
+          <image
+            class="music-cover"
+            :src="`https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg`"
+            mode="aspectFill"
+          />
           <text class="music-title">每日推荐 {{ i }}</text>
           <text class="music-desc">猜你喜欢</text>
         </view>

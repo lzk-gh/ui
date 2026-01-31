@@ -1,16 +1,16 @@
 <template>
   <view class="lk-anchor" :style="anchorStyle">
     <scroll-view
-       scroll-y
-       class="lk-anchor__scroll"
-       :scroll-into-view="scrollIntoViewId"
-       scroll-with-animation
-       :show-scrollbar="false"
+      scroll-y
+      class="lk-anchor__scroll"
+      :scroll-into-view="scrollIntoViewId"
+      scroll-with-animation
+      :show-scrollbar="false"
     >
       <view class="lk-anchor__wrapper">
         <slot></slot>
       </view>
-      <view style="height: 20px;"></view>
+      <view style="height: 20px"></view>
     </scroll-view>
   </view>
 </template>
@@ -49,9 +49,7 @@ const measureTargets = async (baseScrollTop: number = 0) => {
   // 确保 DOM 已经渲染
   await nextTick();
 
-  const hrefs = children.value
-    .map((child) => child?.props?.href as string)
-    .filter((href) => !!href);
+  const hrefs = children.value.map(child => child?.props?.href as string).filter(href => !!href);
 
   if (hrefs.length === 0) {
     targets.value = [];
@@ -81,11 +79,11 @@ const measureTargets = async (baseScrollTop: number = 0) => {
 
   const hasContainer = !!props.targetContainer;
   if (hasContainer) q.select(props.targetContainer).boundingClientRect();
-  hrefs.forEach((href) => q.select(`#${href}`).boundingClientRect());
+  hrefs.forEach(href => q.select(`#${href}`).boundingClientRect());
 
   type RectLike = { top?: number; height?: number } | null;
-  const results = await new Promise<RectLike[]>((resolve) => {
-    q!.exec((res) => resolve(Array.isArray(res) ? (res as RectLike[]) : []));
+  const results = await new Promise<RectLike[]>(resolve => {
+    q!.exec(res => resolve(Array.isArray(res) ? (res as RectLike[]) : []));
   });
 
   const containerRect = hasContainer ? results[0] : null;
@@ -114,15 +112,15 @@ const onScroll = (scrollTop: number, headerHeight: number = 0) => {
     const item = targets.value[i];
     const nextItem = targets.value[i + 1];
     if (scrollTop + offset >= item.top) {
-        if (!nextItem || scrollTop + offset < nextItem.top) {
-            active = item.href;
-            break;
-        }
+      if (!nextItem || scrollTop + offset < nextItem.top) {
+        active = item.href;
+        break;
+      }
     }
   }
   // 如果没找到，且滚动条很小，默认第一个
   if (!active && targets.value.length > 0 && scrollTop < targets.value[0].top) {
-      active = targets.value[0].href;
+    active = targets.value[0].href;
   }
 
   if (active && active !== activeHref.value) {
@@ -136,8 +134,8 @@ const handleClick = (href: string) => {
   emit('click', href);
 };
 
-watch(activeHref, (val) => {
-    if (val) scrollIntoViewId.value = `anchor-link-${val}`;
+watch(activeHref, val => {
+  if (val) scrollIntoViewId.value = `anchor-link-${val}`;
 });
 
 watch(
@@ -154,7 +152,7 @@ provide('lkAnchor', {
   register,
   unregister,
   handleClick,
-  props
+  props,
 });
 
 defineExpose({ measureTargets, onScroll, scrollTo: handleClick, active: activeHref });
@@ -165,5 +163,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@use "./index.scss";
+@use './index.scss';
 </style>

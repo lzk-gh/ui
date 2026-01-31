@@ -1,34 +1,32 @@
-import type { ExtractPropTypes, PropType } from 'vue'
-import { baseProps, LkProp } from '../common/props'
+import type { ExtractPropTypes, PropType } from 'vue';
+import { baseProps, LkProp } from '../common/props';
 
 /** 选择器选项 */
 export interface PickerOption {
-  label: string
-  value: string | number
-  children?: PickerOption[]
+  label: string;
+  value: string | number;
+  children?: PickerOption[];
 }
 
 /** 选项列数据 */
-export type PickerColumns = PickerOption[] | PickerOption[][]
+export type PickerColumns = PickerOption[] | PickerOption[][];
 
 /** 地区数据节点 */
 export interface RegionNode {
-  code: string
-  name: string
-  children?: RegionNode[]
+  code: string;
+  name: string;
+  children?: RegionNode[];
 }
 
 /** Picker 模式 */
-export type PickerMode = 'single' | 'multi' | 'cascade' | 'region'
+export type PickerMode = 'single' | 'multi' | 'cascade' | 'region';
 
 export const pickerProps = {
   ...baseProps,
 
   /** 绑定值 */
   modelValue: {
-    type: [Array, String, Number] as unknown as PropType<
-      string | number | (string | number)[]
-    >,
+    type: [Array, String, Number] as unknown as PropType<string | number | (string | number)[]>,
     default: undefined,
   },
 
@@ -73,9 +71,9 @@ export const pickerProps = {
 
   /** 选项高度 (rpx) */
   itemHeight: LkProp.number(88),
-} as const
+} as const;
 
-export type PickerProps = ExtractPropTypes<typeof pickerProps>
+export type PickerProps = ExtractPropTypes<typeof pickerProps>;
 
 export const pickerEmits = {
   'update:modelValue': (_: string | number | (string | number)[]) => true,
@@ -83,7 +81,7 @@ export const pickerEmits = {
   change: (_: string | number | (string | number)[]) => true,
   confirm: (_: string | number | (string | number)[]) => true,
   cancel: () => true,
-}
+};
 
 /** 内置简易省市区数据 */
 export const defaultRegionData: RegionNode[] = [
@@ -172,4 +170,4 @@ export const defaultRegionData: RegionNode[] = [
       },
     ],
   },
-]
+];

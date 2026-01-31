@@ -61,6 +61,13 @@
             "navigationBarTitleText": "商品详情",
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "settings/index",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "navigationStyle": "custom"
+          }
         }
       ]
     }

@@ -23,7 +23,7 @@ $B: null;
   $currentSelector: '';
 
   @each $unit in $element {
-    $currentSelector: #{$currentSelector + "." + $B + $element-separator + $unit + ","};
+    $currentSelector: #{$currentSelector + '.' + $B + $element-separator + $unit + ','};
   }
 
   // 判断父级是否有 modifier，如果有，则生成嵌套选择器以提高优先级
@@ -49,7 +49,7 @@ $B: null;
   $selector: &;
   $currentSelector: '';
   @each $unit in $modifier {
-    $currentSelector: #{$currentSelector + $selector + $modifier-separator + $unit + ","};
+    $currentSelector: #{$currentSelector + $selector + $modifier-separator + $unit + ','};
   }
 
   @at-root {

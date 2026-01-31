@@ -59,17 +59,17 @@ const checkboxClass = computed(() => {
 const iconStyle = computed(() => {
   const style: any = {};
   const activeColor = props.activeColor || (group && group.props.activeColor);
-  
+
   if ((isChecked.value || props.indeterminate) && activeColor) {
     style.borderColor = activeColor;
     style.backgroundColor = activeColor;
   }
-  
+
   if (props.iconSize) {
     style.width = addUnit(props.iconSize);
     style.height = addUnit(props.iconSize);
   }
-  
+
   return style;
 });
 
@@ -93,7 +93,12 @@ const handleLabelClick = () => {
 <template>
   <view :class="checkboxClass" :style="customStyle" @tap="handleToggle">
     <view class="lk-checkbox__icon-wrap">
-      <slot name="icon" :checked="isChecked" :disabled="isDisabled" :indeterminate="props.indeterminate">
+      <slot
+        name="icon"
+        :checked="isChecked"
+        :disabled="isDisabled"
+        :indeterminate="props.indeterminate"
+      >
         <view
           class="lk-checkbox__icon"
           :class="[`lk-checkbox__icon--${mergedShape}`]"

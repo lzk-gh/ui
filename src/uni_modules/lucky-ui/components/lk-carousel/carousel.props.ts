@@ -18,13 +18,13 @@ export const CarouselIndicatorType = {
  * 增加了角落位置定义
  */
 export const CarouselIndicatorPosition = {
-  Bottom: 'bottom',       // 底部居中
-  Top: 'top',             // 顶部居中
-  Left: 'left',           // 左侧垂直居中
-  Right: 'right',         // 右侧垂直居中
-  TopLeft: 'top-left',    // 左上
-  TopRight: 'top-right',  // 右上
-  BottomLeft: 'bottom-left',   // 左下
+  Bottom: 'bottom', // 底部居中
+  Top: 'top', // 顶部居中
+  Left: 'left', // 左侧垂直居中
+  Right: 'right', // 右侧垂直居中
+  TopLeft: 'top-left', // 左上
+  TopRight: 'top-right', // 右上
+  BottomLeft: 'bottom-left', // 左下
   BottomRight: 'bottom-right', // 右下
   Auto: 'auto',
 } as const;
@@ -36,9 +36,12 @@ export const CarouselIndicatorAlign = {
 } as const;
 
 export type CarouselEffect = (typeof CarouselEffect)[keyof typeof CarouselEffect];
-export type CarouselIndicatorType = (typeof CarouselIndicatorType)[keyof typeof CarouselIndicatorType];
-export type CarouselIndicatorPosition = (typeof CarouselIndicatorPosition)[keyof typeof CarouselIndicatorPosition];
-export type CarouselIndicatorAlign = (typeof CarouselIndicatorAlign)[keyof typeof CarouselIndicatorAlign];
+export type CarouselIndicatorType =
+  (typeof CarouselIndicatorType)[keyof typeof CarouselIndicatorType];
+export type CarouselIndicatorPosition =
+  (typeof CarouselIndicatorPosition)[keyof typeof CarouselIndicatorPosition];
+export type CarouselIndicatorAlign =
+  (typeof CarouselIndicatorAlign)[keyof typeof CarouselIndicatorAlign];
 
 export const carouselProps = {
   ...baseProps,
@@ -49,10 +52,22 @@ export const carouselProps = {
   effect: LkProp.enum(Object.values(CarouselEffect), CarouselEffect.Fade, 'Carousel.effect'),
   vertical: LkProp.boolean(false),
   showIndicators: LkProp.boolean(true),
-  indicatorType: LkProp.enum(Object.values(CarouselIndicatorType), CarouselIndicatorType.Dots, 'Carousel.indicatorType'),
-  indicatorPosition: LkProp.enum(Object.values(CarouselIndicatorPosition), CarouselIndicatorPosition.Auto, 'Carousel.indicatorPosition'),
+  indicatorType: LkProp.enum(
+    Object.values(CarouselIndicatorType),
+    CarouselIndicatorType.Dots,
+    'Carousel.indicatorType'
+  ),
+  indicatorPosition: LkProp.enum(
+    Object.values(CarouselIndicatorPosition),
+    CarouselIndicatorPosition.Auto,
+    'Carousel.indicatorPosition'
+  ),
 
-  indicatorAlign: LkProp.enum(Object.values(CarouselIndicatorAlign), CarouselIndicatorAlign.Center, 'Carousel.indicatorAlign'),
+  indicatorAlign: LkProp.enum(
+    Object.values(CarouselIndicatorAlign),
+    CarouselIndicatorAlign.Center,
+    'Carousel.indicatorAlign'
+  ),
   indicatorClickable: { type: Boolean, default: undefined },
   indicatorColor: LkProp.string(''),
   indicatorActiveColor: LkProp.string(''),

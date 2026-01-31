@@ -23,7 +23,7 @@ const v5 = ref(1);
 // 异步变更模拟
 const asyncChange = (val: number) => {
   uni.showLoading({ title: '校验中...' });
-  return new Promise<boolean>((resolve) => {
+  return new Promise<boolean>(resolve => {
     setTimeout(() => {
       uni.hideLoading();
       // 模拟：不能超过 5
@@ -40,7 +40,6 @@ const asyncChange = (val: number) => {
 
 <template>
   <view class="stepper-demo">
-
     <demo-block title="基础用法">
       <view class="row">
         <lk-stepper v-model="v1" />
@@ -85,7 +84,6 @@ const asyncChange = (val: number) => {
         <lk-stepper v-model="v5" :before-change="asyncChange" />
       </view>
     </demo-block>
-
   </view>
 </template>
 

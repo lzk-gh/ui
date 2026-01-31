@@ -2,9 +2,7 @@
   <view class="component-demo">
     <demo-block title="基础用法">
       <lk-card title="卡片标题" sub-title="副标题">
-        <view class="card-content">
-          卡片内容区域，可以包含文字、图片等多种元素。
-        </view>
+        <view class="card-content"> 卡片内容区域，可以包含文字、图片等多种元素。 </view>
       </lk-card>
     </demo-block>
 
@@ -17,9 +15,7 @@
             class="cover-image"
           />
         </template>
-        <view class="card-content">
-          优美的风景图片，展示了卡片组件对封面图的完美支持。
-        </view>
+        <view class="card-content"> 优美的风景图片，展示了卡片组件对封面图的完美支持。 </view>
       </lk-card>
     </demo-block>
 

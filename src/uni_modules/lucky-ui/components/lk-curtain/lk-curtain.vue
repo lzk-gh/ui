@@ -1,7 +1,11 @@
 <template>
   <view v-if="display" class="lk-curtain" :class="customClass" :style="customStyle">
     <lk-overlay v-if="display" :show="show" :z-index="zIndex" @click="onOverlayClick" />
-    <view class="lk-curtain__content" :class="contentClasses" :style="{ ...contentStyle, ...contentStyles }">
+    <view
+      class="lk-curtain__content"
+      :class="contentClasses"
+      :style="{ ...contentStyle, ...contentStyles }"
+    >
       <image
         class="lk-curtain__image"
         :src="imageUrl"
@@ -22,7 +26,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useTransition, type TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
+import {
+  useTransition,
+  type TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 import { curtainProps, curtainEmits } from './curtain.props';
 import { addUnit } from '../../core/src/utils/unit';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
@@ -52,10 +59,11 @@ const transitionConfig = computed<TransitionConfig>(() => ({
   easing: 'ease-out',
 }));
 
-const { classes: contentClasses, styles: contentStyles, display } = useTransition(
-  () => props.show,
-  transitionConfig.value
-);
+const {
+  classes: contentClasses,
+  styles: contentStyles,
+  display,
+} = useTransition(() => props.show, transitionConfig.value);
 
 const onOverlayClick = () => {
   emit('click-overlay');

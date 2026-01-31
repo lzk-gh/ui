@@ -45,13 +45,11 @@
       <template #item="{ item, index, loading }">
         <view class="card" :class="{ 'card--loading': loading }">
           <!-- 图片区域 -->
-          <view class="card__image-wrapper" :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }">
-            <image
-              class="card__image"
-              :src="item.image"
-              mode="aspectFill"
-              :lazy-load="true"
-            />
+          <view
+            class="card__image-wrapper"
+            :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }"
+          >
+            <image class="card__image" :src="item.image" mode="aspectFill" :lazy-load="true" />
             <!-- 图片上的标签 -->
             <view v-if="item.tag" class="card__tag">{{ item.tag }}</view>
           </view>
@@ -104,51 +102,211 @@ function rand(min: number, max: number) {
 // 使用 Unsplash 精选图片，分类：时尚、美食、旅行、生活方式、设计
 const curatedImages = [
   // 时尚穿搭类
-  { url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80', ratio: 1.5, category: 'fashion' },
-  { url: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80', ratio: 1.33, category: 'fashion' },
-  { url: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&q=80', ratio: 1.5, category: 'fashion' },
-  { url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80', ratio: 1.25, category: 'fashion' },
-  { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', ratio: 1.4, category: 'fashion' },
-  { url: 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&q=80', ratio: 1.33, category: 'fashion' },
+  {
+    url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80',
+    ratio: 1.5,
+    category: 'fashion',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80',
+    ratio: 1.33,
+    category: 'fashion',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&q=80',
+    ratio: 1.5,
+    category: 'fashion',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80',
+    ratio: 1.25,
+    category: 'fashion',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+    ratio: 1.4,
+    category: 'fashion',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&q=80',
+    ratio: 1.33,
+    category: 'fashion',
+  },
   // 美食类
-  { url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80', ratio: 0.75, category: 'food' },
-  { url: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80', ratio: 1, category: 'food' },
-  { url: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80', ratio: 0.8, category: 'food' },
-  { url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80', ratio: 1.2, category: 'food' },
-  { url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80', ratio: 0.75, category: 'food' },
-  { url: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&q=80', ratio: 0.85, category: 'food' },
+  {
+    url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',
+    ratio: 0.75,
+    category: 'food',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80',
+    ratio: 1,
+    category: 'food',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80',
+    ratio: 0.8,
+    category: 'food',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',
+    ratio: 1.2,
+    category: 'food',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
+    ratio: 0.75,
+    category: 'food',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&q=80',
+    ratio: 0.85,
+    category: 'food',
+  },
   // 旅行风景类
-  { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80', ratio: 0.75, category: 'travel' },
-  { url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&q=80', ratio: 0.67, category: 'travel' },
-  { url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80', ratio: 0.67, category: 'travel' },
-  { url: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&q=80', ratio: 0.6, category: 'travel' },
-  { url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80', ratio: 0.75, category: 'travel' },
-  { url: 'https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=400&q=80', ratio: 0.8, category: 'travel' },
+  {
+    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80',
+    ratio: 0.75,
+    category: 'travel',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&q=80',
+    ratio: 0.67,
+    category: 'travel',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',
+    ratio: 0.67,
+    category: 'travel',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&q=80',
+    ratio: 0.6,
+    category: 'travel',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80',
+    ratio: 0.75,
+    category: 'travel',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=400&q=80',
+    ratio: 0.8,
+    category: 'travel',
+  },
   // 生活方式类
-  { url: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?w=400&q=80', ratio: 1.33, category: 'lifestyle' },
-  { url: 'https://images.unsplash.com/photo-1522199755839-a2bacb67c546?w=400&q=80', ratio: 1, category: 'lifestyle' },
-  { url: 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=400&q=80', ratio: 1.25, category: 'lifestyle' },
-  { url: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=400&q=80', ratio: 0.75, category: 'lifestyle' },
-  { url: 'https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=400&q=80', ratio: 1, category: 'lifestyle' },
-  { url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&q=80', ratio: 0.8, category: 'lifestyle' },
+  {
+    url: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?w=400&q=80',
+    ratio: 1.33,
+    category: 'lifestyle',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1522199755839-a2bacb67c546?w=400&q=80',
+    ratio: 1,
+    category: 'lifestyle',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=400&q=80',
+    ratio: 1.25,
+    category: 'lifestyle',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=400&q=80',
+    ratio: 0.75,
+    category: 'lifestyle',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=400&q=80',
+    ratio: 1,
+    category: 'lifestyle',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&q=80',
+    ratio: 0.8,
+    category: 'lifestyle',
+  },
   // 设计艺术类
-  { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', ratio: 1.33, category: 'design' },
-  { url: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&q=80', ratio: 1.5, category: 'design' },
-  { url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80', ratio: 1, category: 'design' },
-  { url: 'https://images.unsplash.com/photo-1456086272160-b28b0645b729?w=400&q=80', ratio: 1.2, category: 'design' },
-  { url: 'https://images.unsplash.com/photo-1541123603104-512919d6a96c?w=400&q=80', ratio: 0.85, category: 'design' },
-  { url: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400&q=80', ratio: 0.75, category: 'design' },
+  {
+    url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+    ratio: 1.33,
+    category: 'design',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&q=80',
+    ratio: 1.5,
+    category: 'design',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+    ratio: 1,
+    category: 'design',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1456086272160-b28b0645b729?w=400&q=80',
+    ratio: 1.2,
+    category: 'design',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1541123603104-512919d6a96c?w=400&q=80',
+    ratio: 0.85,
+    category: 'design',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400&q=80',
+    ratio: 0.75,
+    category: 'design',
+  },
   // 更多精选
-  { url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80', ratio: 0.75, category: 'product' },
-  { url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80', ratio: 1, category: 'product' },
-  { url: 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=400&q=80', ratio: 1.2, category: 'product' },
-  { url: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80', ratio: 1.5, category: 'coffee' },
-  { url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80', ratio: 0.85, category: 'coffee' },
-  { url: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80', ratio: 1, category: 'coffee' },
-  { url: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?w=400&q=80', ratio: 1.33, category: 'sport' },
-  { url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80', ratio: 1.5, category: 'sport' },
-  { url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80', ratio: 0.75, category: 'sport' },
-  { url: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&q=80', ratio: 1, category: 'flower' },
+  {
+    url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80',
+    ratio: 0.75,
+    category: 'product',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
+    ratio: 1,
+    category: 'product',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=400&q=80',
+    ratio: 1.2,
+    category: 'product',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80',
+    ratio: 1.5,
+    category: 'coffee',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',
+    ratio: 0.85,
+    category: 'coffee',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80',
+    ratio: 1,
+    category: 'coffee',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?w=400&q=80',
+    ratio: 1.33,
+    category: 'sport',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80',
+    ratio: 1.5,
+    category: 'sport',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80',
+    ratio: 0.75,
+    category: 'sport',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&q=80',
+    ratio: 1,
+    category: 'flower',
+  },
 ];
 
 // 分类对应的标题模板
@@ -156,7 +314,14 @@ const categoryTitles: Record<string, string[]> = {
   fashion: ['今日穿搭分享', '秋季必备单品', '极简风格穿搭', '通勤OOTD', '约会穿搭灵感', '街拍时尚'],
   food: ['美味不可辜负', '探店打卡', '周末美食记录', '自制早餐', '下午茶时光', '深夜食堂'],
   travel: ['旅行的意义', '绝美风景推荐', '小众旅行地', '周末出游', '治愈系风景', '想去的地方'],
-  lifestyle: ['生活的仪式感', '居家好物分享', '提升幸福感的小事', '工作日常', '咖啡时光', '阅读时光'],
+  lifestyle: [
+    '生活的仪式感',
+    '居家好物分享',
+    '提升幸福感的小事',
+    '工作日常',
+    '咖啡时光',
+    '阅读时光',
+  ],
   design: ['设计灵感', '创意空间', '极简美学', '艺术装置', '室内设计', '建筑之美'],
   product: ['好物推荐', '开箱测评', '必入好物', '品质生活', '设计感好物', '实用好物'],
   coffee: ['咖啡日记', '拿铁艺术', '咖啡店探店', '手冲咖啡', '咖啡与阅读', '治愈咖啡'],
@@ -322,7 +487,8 @@ onMounted(() => {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }

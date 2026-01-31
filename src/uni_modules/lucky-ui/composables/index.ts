@@ -6,4 +6,9 @@ export { useRipple } from './useRipple';
 export type { RippleOptions } from './useRipple';
 
 export { useChartCanvas } from './useChartCanvas';
-export type { UseChartCanvasOptions, ChartCanvasInfo, ChartRenderer, ChartSize } from './useChartCanvas';
+export type {
+  UseChartCanvasOptions,
+  ChartCanvasInfo,
+  ChartRenderer,
+  ChartSize,
+} from './useChartCanvas';

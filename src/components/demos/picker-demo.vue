@@ -40,33 +40,33 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue'
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
-import LkPicker from '@/uni_modules/lucky-ui/components/lk-picker/lk-picker.vue'
+import { computed, ref } from 'vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkPicker from '@/uni_modules/lucky-ui/components/lk-picker/lk-picker.vue';
 
 // 单列选择器
-const show = ref(false)
-const value = ref('green')
+const show = ref(false);
+const value = ref('green');
 const columns = [
   { label: '红色', value: 'red' },
   { label: '绿色', value: 'green' },
   { label: '蓝色', value: 'blue' },
   { label: '黄色', value: 'yellow' },
   { label: '紫色', value: 'purple' },
-]
+];
 const display = computed(() => {
-  const m = new Map(columns.map((o) => [o.value, o.label]))
-  return m.get(value.value) || ''
-})
+  const m = new Map(columns.map(o => [o.value, o.label]));
+  return m.get(value.value) || '';
+});
 
 function onConfirm(_v: string | number) {
-  uni.showToast({ title: `已选择: ${display.value}`, icon: 'none' })
+  uni.showToast({ title: `已选择: ${display.value}`, icon: 'none' });
 }
 
 // 多列选择器
-const show2 = ref(false)
-const value2 = ref<(string | number)[]>(['tue', 'pm'])
+const show2 = ref(false);
+const value2 = ref<(string | number)[]>(['tue', 'pm']);
 const columns2 = [
   [
     { label: '周一', value: 'mon' },
@@ -80,11 +80,11 @@ const columns2 = [
     { label: '下午', value: 'pm' },
     { label: '晚上', value: 'night' },
   ],
-]
+];
 
 // 级联选择器
-const show3 = ref(false)
-const value3 = ref<(string | number)[]>([])
+const show3 = ref(false);
+const value3 = ref<(string | number)[]>([]);
 const cascadeData = [
   {
     label: '电子产品',
@@ -131,11 +131,11 @@ const cascadeData = [
       },
     ],
   },
-]
+];
 const cascadeDisplay = computed(() => {
-  if (!value3.value.length) return '未选择'
-  return value3.value.join(' > ')
-})
+  if (!value3.value.length) return '未选择';
+  return value3.value.join(' > ');
+});
 </script>
 
 <style scoped lang="scss">

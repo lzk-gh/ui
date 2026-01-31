@@ -38,7 +38,7 @@ export function generateShade(baseColor: string, level: number): string {
  */
 export function generateBrandVars(color: string): Record<string, string> {
   const vars: Record<string, string> = {};
-  LEVELS.forEach((level) => {
+  LEVELS.forEach(level => {
     vars[`--lk-brand-${level}`] = generateShade(color, level);
   });
   return vars;

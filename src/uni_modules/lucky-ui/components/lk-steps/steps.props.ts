@@ -41,7 +41,11 @@ export const stepsProps = {
    * @value horizontal 水平
    * @value vertical 垂直
    */
-  direction: LkProp.enum(Object.values(StepsDirection), StepsDirection.Horizontal, 'Steps.direction'),
+  direction: LkProp.enum(
+    Object.values(StepsDirection),
+    StepsDirection.Horizontal,
+    'Steps.direction'
+  ),
 
   /**
    * 样式类型

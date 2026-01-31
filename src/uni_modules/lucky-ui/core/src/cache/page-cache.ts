@@ -102,12 +102,7 @@ export function markPageRendered(pageId: string): void {
 /**
  * 缓存页面数据
  */
-export function cachePageData<T>(
-  pageId: string,
-  key: string,
-  data: T,
-  ttl = 0
-): void {
+export function cachePageData<T>(pageId: string, key: string, data: T, ttl = 0): void {
   const cacheKey = `${pageId}:${key}`;
   pageDataCache.set(cacheKey, {
     data,

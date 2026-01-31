@@ -5,7 +5,12 @@
     <scroll-view scroll-y class="product-detail-page">
       <!-- 商品图片 -->
       <view class="product-image">
-        <lk-image src="https://picsum.photos/800/800?random=product" width="100%" height="600rpx" fit="cover" />
+        <lk-image
+          src="https://picsum.photos/800/800?random=product"
+          width="100%"
+          height="600rpx"
+          fit="cover"
+        />
       </view>
 
       <!-- 商品信息 -->
@@ -15,7 +20,9 @@
           <text class="current-price">¥299</text>
           <text class="original-price">¥599</text>
         </view>
-        <text class="product-desc">这是一款高品质的时尚连衣裙，采用优质面料制作，舒适透气，适合各种场合穿着。</text>
+        <text class="product-desc"
+          >这是一款高品质的时尚连衣裙，采用优质面料制作，舒适透气，适合各种场合穿着。</text
+        >
       </view>
 
       <!-- 操作按钮 -->

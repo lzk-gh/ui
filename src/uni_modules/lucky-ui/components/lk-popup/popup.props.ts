@@ -1,6 +1,9 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
-import type { ANIMATION_PRESETS, TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
+import type {
+  ANIMATION_PRESETS,
+  TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 /**
  * 弹出层位置

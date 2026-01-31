@@ -44,7 +44,8 @@
     transition: background-color 0.1s;
 
     // 纯 CSS 绘制图标 (黑科技)
-    &::before, &::after {
+    &::before,
+    &::after {
       content: '';
       position: absolute;
       background-color: currentColor;
@@ -103,7 +104,7 @@
 
   @include when(disabled) {
     @include e(btn) {
-       // 整体禁用时的覆盖
+      // 整体禁用时的覆盖
     }
   }
 }

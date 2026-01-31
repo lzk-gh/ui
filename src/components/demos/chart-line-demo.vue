@@ -25,7 +25,9 @@ const day = ref<Point[]>([
   { label: '20:00', value: 24 },
   { label: '24:00', value: 20 },
 ]);
-const wave = ref<Point[]>(Array.from({ length: 16 }, (_, i) => ({ label: `${i}`, value: 18 + Math.sin(i / 2) * 6 })));
+const wave = ref<Point[]>(
+  Array.from({ length: 16 }, (_, i) => ({ label: `${i}`, value: 18 + Math.sin(i / 2) * 6 }))
+);
 const spike = ref<Point[]>([
   { label: '1', value: 8 },
   { label: '2', value: 9 },
@@ -59,7 +61,7 @@ const data = computed(() => {
 });
 
 function randomize() {
-  const next = data.value.map((it) => ({ ...it, value: Math.round(Math.random() * 30) + 5 }));
+  const next = data.value.map(it => ({ ...it, value: Math.round(Math.random() * 30) + 5 }));
   if (dataset.value === 'wave') wave.value = next;
   else if (dataset.value === 'spike') spike.value = next;
   else day.value = next;
@@ -106,7 +108,14 @@ function reset() {
         <view class="row row--slider">
           <text class="label">轮播间隔: {{ autoTooltipInterval }}ms</text>
           <view class="slider">
-            <lk-slider v-model="autoTooltipInterval" :min="300" :max="3000" :step="50" show-value :disabled="!tooltip || !autoTooltip" />
+            <lk-slider
+              v-model="autoTooltipInterval"
+              :min="300"
+              :max="3000"
+              :step="50"
+              show-value
+              :disabled="!tooltip || !autoTooltip"
+            />
           </view>
         </view>
         <view class="row">
@@ -142,7 +151,14 @@ function reset() {
         <view class="row">
           <text class="label">Y 轴刻度: {{ yAxisTicks }}</text>
           <view class="slider">
-            <lk-slider v-model="yAxisTicks" :min="2" :max="8" :step="1" show-value :disabled="!showAxis" />
+            <lk-slider
+              v-model="yAxisTicks"
+              :min="2"
+              :max="8"
+              :step="1"
+              show-value
+              :disabled="!showAxis"
+            />
           </view>
         </view>
         <view class="row">

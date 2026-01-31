@@ -18,7 +18,11 @@ export function hexToRgb(hex: string): RGB | null {
   const m = raw.match(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/);
   if (!m) return null;
   let v = m[1];
-  if (v.length === 3) v = v.split('').map(c => c + c).join('');
+  if (v.length === 3)
+    v = v
+      .split('')
+      .map(c => c + c)
+      .join('');
   const n = parseInt(v, 16);
   return {
     r: (n >> 16) & 255,

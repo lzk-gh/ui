@@ -9,7 +9,8 @@ const VirtualListPositionStrategy = {
   Absolute: 'absolute',
   Padding: 'padding',
 } as const;
-export type VirtualListPositionStrategy = (typeof VirtualListPositionStrategy)[keyof typeof VirtualListPositionStrategy];
+export type VirtualListPositionStrategy =
+  (typeof VirtualListPositionStrategy)[keyof typeof VirtualListPositionStrategy];
 
 export const virtualListProps = {
   ...baseProps,

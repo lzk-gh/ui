@@ -56,9 +56,7 @@ const numberLayout = computed((): KeyboardKey[][] => {
           ? { text: props.extraKey, value: props.extraKey, type: 'extra' }
           : { text: '', type: 'empty' },
       { text: '0', value: '0' },
-      props.showDelete
-        ? { text: '', type: 'delete' }
-        : { text: '', type: 'empty' },
+      props.showDelete ? { text: '', type: 'delete' } : { text: '', type: 'empty' },
     ],
   ];
 });
@@ -92,17 +90,75 @@ const idCardLayout = computed((): KeyboardKey[][] => {
 
 // 车牌号键盘 - 省份简称
 const plateProvinces = [
-  '京', '津', '沪', '渝', '冀', '豫', '云', '辽', '黑', '湘',
-  '皖', '鲁', '新', '苏', '浙', '赣', '鄂', '桂', '甘', '晋',
-  '蒙', '陕', '吉', '闽', '贵', '粤', '青', '藏', '川', '宁', '琼',
+  '京',
+  '津',
+  '沪',
+  '渝',
+  '冀',
+  '豫',
+  '云',
+  '辽',
+  '黑',
+  '湘',
+  '皖',
+  '鲁',
+  '新',
+  '苏',
+  '浙',
+  '赣',
+  '鄂',
+  '桂',
+  '甘',
+  '晋',
+  '蒙',
+  '陕',
+  '吉',
+  '闽',
+  '贵',
+  '粤',
+  '青',
+  '藏',
+  '川',
+  '宁',
+  '琼',
 ];
 
 // 车牌号字母数字
 const plateAlphaNum = [
-  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
-  'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-  'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5',
-  '6', '7', '8', '9',
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
 ];
 
 // 车牌模式：省份 or 字母数字
@@ -160,9 +216,7 @@ const currentLayout = computed((): KeyboardKey[][] => {
     case 'idcard':
       return idCardLayout.value;
     case 'plate':
-      return plateMode.value === 'province'
-        ? plateProvinceLayout.value
-        : plateAlphaNumLayout.value;
+      return plateMode.value === 'province' ? plateProvinceLayout.value : plateAlphaNumLayout.value;
     case 'custom':
       return props.keys;
     default:
@@ -322,11 +376,7 @@ function getKeyStyle(key: KeyboardKey) {
 
     <!-- 键盘区域 -->
     <view class="lk-keyboard__body">
-      <view
-        v-for="(row, rowIndex) in currentLayout"
-        :key="rowIndex"
-        class="lk-keyboard__row"
-      >
+      <view v-for="(row, rowIndex) in currentLayout" :key="rowIndex" class="lk-keyboard__row">
         <view
           v-for="(key, keyIndex) in row"
           :key="keyIndex"

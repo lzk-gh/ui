@@ -6,6 +6,18 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
 export type Theme = 'light' | 'dark';
+export type TabbarMode =
+  | 'plain'
+  | 'block'
+  | 'flashlight'
+  | 'float'
+  | 'marker-top'
+  | 'marker-bottom'
+  | 'dot-slide'
+  | 'bubble'
+  | 'ripple'
+  | 'mask-fill'
+  | 'text-raise';
 
 // 色阶常量
 const LEVELS = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
@@ -44,9 +56,17 @@ function generateShade(baseColor: string, level: number): string {
  */
 function generateBrandVars(color: string): Record<string, string> {
   const vars: Record<string, string> = {};
-  LEVELS.forEach((level) => {
+  const rgb = hexToRgb(color);
+  LEVELS.forEach(level => {
     vars[`--lk-brand-${level}`] = generateShade(color, level);
   });
+
+  // 同时同步到测试页面使用的变量（兼容已有页面）
+  vars['--test-primary'] = color;
+  if (rgb) {
+    vars['--lk-brand-rgb'] = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
+    vars['--test-primary-rgb'] = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
+  }
   return vars;
 }
 
@@ -75,6 +95,7 @@ export const PRESET_COLORS = [
   { name: '中国红', value: '#f5222d' },
   { name: '玫瑰粉', value: '#eb2f96' },
   { name: '极客青', value: '#13c2c2' },
+  { name: '暗影黑', value: '#1c1c1e' },
 ] as const;
 
 export const useThemeStore = defineStore('theme', () => {
@@ -158,7 +179,7 @@ export const useThemeStore = defineStore('theme', () => {
       color: isDark ? '#9ca3af' : '#6b7280',
       selectedColor: brandColor.value,
       backgroundColor: isDark ? '#1f2937' : '#ffffff',
-      fail: () => { },
+      fail: () => {},
     });
 
     // 设置导航栏颜色
@@ -169,7 +190,7 @@ export const useThemeStore = defineStore('theme', () => {
         duration: 200,
         timingFunc: 'easeIn',
       },
-      fail: () => { },
+      fail: () => {},
     });
   }
 
@@ -241,6 +262,31 @@ export const useThemeStore = defineStore('theme', () => {
   const brandColor = ref<string>(DEFAULT_BRAND_COLOR);
   const brandStyleVars = ref<string>('');
 
+  // ======================== Tabbar 状态 ========================
+  const tabbarMode = ref<TabbarMode>('block');
+
+  /**
+   * 设置 Tabbar 模式
+   */
+  function setTabbarMode(mode: TabbarMode) {
+    tabbarMode.value = mode;
+    try {
+      uni.setStorageSync('lk-tabbar-mode', mode);
+    } catch {}
+  }
+
+  /**
+   * 初始化 Tabbar 模式
+   */
+  function initTabbarMode() {
+    try {
+      const saved = uni.getStorageSync('lk-tabbar-mode') as TabbarMode;
+      if (['plain', 'block', 'flashlight'].includes(saved)) {
+        tabbarMode.value = saved;
+      }
+    } catch {}
+  }
+
   /**
    * 加载保存的品牌色
    */
@@ -290,11 +336,8 @@ export const useThemeStore = defineStore('theme', () => {
    */
   function initBrandColor() {
     const saved = loadBrandColor();
-    if (saved) {
-      setBrandColor(saved);
-    } else {
-      brandStyleVars.value = serializeVars(generateBrandVars(DEFAULT_BRAND_COLOR));
-    }
+    const color = saved || DEFAULT_BRAND_COLOR;
+    setBrandColor(color);
   }
 
   // ======================== 初始化 ========================
@@ -304,6 +347,7 @@ export const useThemeStore = defineStore('theme', () => {
   function init() {
     initTheme();
     initBrandColor();
+    initTabbarMode();
     watchSystemTheme(); // 监听系统主题变化
   }
 
@@ -320,6 +364,10 @@ export const useThemeStore = defineStore('theme', () => {
     brandColor,
     brandStyleVars,
     setBrandColor,
+
+    // Tabbar 状态
+    tabbarMode,
+    setTabbarMode,
 
     // 初始化
     init,

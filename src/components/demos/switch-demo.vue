@@ -54,7 +54,11 @@
     <demo-block title="异步切换">
       <view class="switch-row">
         <text>模拟请求</text>
-        <lk-switch v-model="asyncValue" :loading="asyncLoading" :before-change="handleAsyncChange" />
+        <lk-switch
+          v-model="asyncValue"
+          :loading="asyncLoading"
+          :before-change="handleAsyncChange"
+        />
       </view>
     </demo-block>
   </view>
@@ -79,7 +83,7 @@ const asyncLoading = ref(false);
 
 const handleAsyncChange = (): Promise<boolean> => {
   asyncLoading.value = true;
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       asyncLoading.value = false;
       resolve(true);

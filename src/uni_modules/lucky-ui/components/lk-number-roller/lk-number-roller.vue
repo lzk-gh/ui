@@ -49,7 +49,7 @@ const animatedDigitByKey = ref<Record<string, number>>({});
 const renderSegments = computed<Segment[]>(() => {
   // 仅对数字段做“从 0 滚到目标值”的动画
   if (!props.autoplay) return segments.value;
-  return segments.value.map((seg) => {
+  return segments.value.map(seg => {
     if (seg.type !== 'digit') return seg;
     const current = animatedDigitByKey.value[seg.key];
     return {
@@ -121,7 +121,9 @@ function normalizeValue(value: number | string): string {
  */
 function formatNumeric(num: number, raw: string): string {
   const decimals =
-    typeof props.decimals === 'number' && props.decimals >= 0 ? props.decimals : extractDecimalLength(raw);
+    typeof props.decimals === 'number' && props.decimals >= 0
+      ? props.decimals
+      : extractDecimalLength(raw);
   const normalized = decimals !== null ? num.toFixed(decimals) : raw;
   return injectSeparators(normalized);
 }
@@ -166,8 +168,13 @@ function trackTransform(digit: number) {
     <template v-for="segment in renderSegments" :key="segment.key">
       <view v-if="segment.type === 'digit'" class="lk-number-roller__segment">
         <view class="lk-number-roller__window">
-          <view class="lk-number-roller__track" :style="{ transform: trackTransform(segment.digit) }">
-            <text v-for="digit in digitsPool" :key="digit" class="lk-number-roller__digit">{{ digit }}</text>
+          <view
+            class="lk-number-roller__track"
+            :style="{ transform: trackTransform(segment.digit) }"
+          >
+            <text v-for="digit in digitsPool" :key="digit" class="lk-number-roller__digit">{{
+              digit
+            }}</text>
           </view>
         </view>
       </view>

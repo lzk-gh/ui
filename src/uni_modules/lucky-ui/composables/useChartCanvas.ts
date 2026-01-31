@@ -1,4 +1,12 @@
-import { ref, shallowRef, computed, onMounted, onUnmounted, nextTick, getCurrentInstance } from 'vue';
+import {
+  ref,
+  shallowRef,
+  computed,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  getCurrentInstance,
+} from 'vue';
 
 export type MaybeCanvas2DContext = CanvasRenderingContext2D | any;
 
@@ -20,7 +28,11 @@ export interface ChartCanvasInfo {
   px: (rpx: number) => number;
 }
 
-export type ChartRenderer<TExtra = any> = (info: ChartCanvasInfo, progress: number, extra?: TExtra) => void;
+export type ChartRenderer<TExtra = any> = (
+  info: ChartCanvasInfo,
+  progress: number,
+  extra?: TExtra
+) => void;
 
 export interface UseChartCanvasOptions {
   /** wrapper 的 id，用于 selectorQuery 取宽高 */
@@ -44,7 +56,12 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
   const renderer = shallowRef<ChartRenderer<TExtra> | null>(null);
 
   // 交互坐标换算需要缓存 wrapper rect
-  const wrapperRect = shallowRef<{ left: number; top: number; width: number; height: number } | null>(null);
+  const wrapperRect = shallowRef<{
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  } | null>(null);
 
   let rafId: number | undefined;
   let animRafId: number | undefined;
@@ -76,7 +93,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
     const autoSize = options.autoSize !== false;
     if (!autoSize) return Promise.resolve(size.value);
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (!instance) {
         resolve(size.value);
         return;
@@ -86,7 +103,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
         .createSelectorQuery()
         .in(instance)
         .select(`#${options.wrapperId}`)
-        .boundingClientRect((rect) => {
+        .boundingClientRect(rect => {
           if (
             rect &&
             !Array.isArray(rect) &&
@@ -109,7 +126,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
   }
 
   function initCanvas2D(): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (!instance) {
         resolve();
         return;
@@ -186,7 +203,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
         if (ready.value) scheduleRender(1);
         return;
       }
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         clearRetryTimer();
         retryTimer = setTimeout(() => resolve(), delays[i]);
       });

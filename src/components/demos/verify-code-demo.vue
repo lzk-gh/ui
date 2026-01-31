@@ -62,12 +62,7 @@
       </view>
       <view class="demo-row">
         <text class="demo-label">成功状态</text>
-        <lk-verify-code
-          v-model="codeSuccess"
-          :length="4"
-          :cell-size="88"
-          status="success"
-        />
+        <lk-verify-code v-model="codeSuccess" :length="4" :cell-size="88" status="success" />
       </view>
       <view class="demo-row">
         <text class="demo-label">禁用状态</text>
@@ -101,12 +96,7 @@
 
     <!-- 文本类型 -->
     <demo-block title="文本类型输入">
-      <lk-verify-code
-        v-model="codeText"
-        type="text"
-        :length="4"
-        tips="支持字母和数字混合输入"
-      />
+      <lk-verify-code v-model="codeText" type="text" :length="4" tips="支持字母和数字混合输入" />
       <view class="value">当前值：{{ codeText || '未输入' }}</view>
     </demo-block>
 

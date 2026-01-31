@@ -41,7 +41,11 @@ export const curtainProps = {
    * 关闭按钮位置
    * @default 'bottom'
    */
-  closePosition: LkProp.enum(CurtainClosePositions, CurtainClosePosition.Bottom, 'Curtain.closePosition'),
+  closePosition: LkProp.enum(
+    CurtainClosePositions,
+    CurtainClosePosition.Bottom,
+    'Curtain.closePosition'
+  ),
   /**
    * 点击遮罩层是否关闭
    */

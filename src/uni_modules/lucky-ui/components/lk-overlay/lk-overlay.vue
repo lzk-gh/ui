@@ -24,10 +24,10 @@ const styleVar = computed(
   () =>
     ({
       zIndex: props.zIndex,
-      '--lk-overlay-duration': `${props.duration  }ms`,
+      '--lk-overlay-duration': `${props.duration}ms`,
       '--lk-overlay-bg': props.background || `rgba(0,0,0,${props.opacity})`,
       // 兼容不支持 CSS 变量的平台
-      transitionDuration: `${props.duration  }ms`,
+      transitionDuration: `${props.duration}ms`,
     }) as Record<string, string | number>
 );
 

@@ -53,7 +53,7 @@ const statusClass = computed(() => {
 // 监听外部值变化
 watch(
   () => props.modelValue,
-  (v) => {
+  v => {
     if (v !== val.value) {
       val.value = v || '';
       focusIndex.value = v?.length || 0;
@@ -262,11 +262,7 @@ onUnmounted(() => {
 <template>
   <view
     class="lk-verify-code"
-    :class="[
-      `lk-verify-code--${props.variant}`,
-      statusClass,
-      { 'is-disabled': props.disabled },
-    ]"
+    :class="[`lk-verify-code--${props.variant}`, statusClass, { 'is-disabled': props.disabled }]"
   >
     <!-- 隐藏的真实输入框 -->
     <input
@@ -320,10 +316,7 @@ onUnmounted(() => {
 
     <!-- 提示/错误文字 -->
     <view v-if="props.errorMessage || props.tips" class="lk-verify-code__message">
-      <text
-        v-if="props.status === 'error' && props.errorMessage"
-        class="lk-verify-code__error"
-      >
+      <text v-if="props.status === 'error' && props.errorMessage" class="lk-verify-code__error">
         {{ props.errorMessage }}
       </text>
       <text v-else-if="props.tips" class="lk-verify-code__tips">{{ props.tips }}</text>

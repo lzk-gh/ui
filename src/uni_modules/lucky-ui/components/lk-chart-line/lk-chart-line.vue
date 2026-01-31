@@ -44,12 +44,16 @@ function isAutoAnimating() {
 
 function triggerPulse() {
   if (!props.highlightPulse) return;
-  chart.animateTo(320, (p) => {
-    pulse.value = Math.sin(p * Math.PI);
-    chart.scheduleRender(1);
-  }, () => {
-    pulse.value = 0;
-  });
+  chart.animateTo(
+    320,
+    p => {
+      pulse.value = Math.sin(p * Math.PI);
+      chart.scheduleRender(1);
+    },
+    () => {
+      pulse.value = 0;
+    }
+  );
 }
 
 function setHover(idx: number) {
@@ -70,24 +74,39 @@ function animateHoverTo(nextIndex: number) {
   autoTo.value = to;
   autoT.value = 0;
   triggerPulse();
-  chart.animateTo(260, (p) => {
-    autoT.value = p;
-    chart.scheduleRender(1);
-  }, () => {
-    autoT.value = 1;
-    setHover(to);
-    autoFrom.value = null;
-    autoTo.value = null;
-  });
+  chart.animateTo(
+    260,
+    p => {
+      autoT.value = p;
+      chart.scheduleRender(1);
+    },
+    () => {
+      autoT.value = 1;
+      setHover(to);
+      autoFrom.value = null;
+      autoTo.value = null;
+    }
+  );
 }
 
-const chart = useChartCanvas({ wrapperId: wrapperId.value, canvasId: canvasId.value, autoSize: true });
+const chart = useChartCanvas({
+  wrapperId: wrapperId.value,
+  canvasId: canvasId.value,
+  autoSize: true,
+});
 
 type Pt = { x: number; y: number; v: number; label?: string };
 
 function catmullRomToBezier(points: Pt[]) {
   // 返回每段的控制点：[{cp1x,cp1y,cp2x,cp2y,endx,endy}]
-  const result: Array<{ cp1x: number; cp1y: number; cp2x: number; cp2y: number; x: number; y: number }> = [];
+  const result: Array<{
+    cp1x: number;
+    cp1y: number;
+    cp2x: number;
+    cp2y: number;
+    x: number;
+    y: number;
+  }> = [];
   const n = points.length;
   if (n < 2) return result;
 
@@ -107,7 +126,13 @@ function catmullRomToBezier(points: Pt[]) {
   return result;
 }
 
-function drawTooltip(ctx: any, x: number, y: number, text: string, palette: ReturnType<typeof buildBrandPalette>) {
+function drawTooltip(
+  ctx: any,
+  x: number,
+  y: number,
+  text: string,
+  palette: ReturnType<typeof buildBrandPalette>
+) {
   ctx.save();
   ctx.font = '12px sans-serif';
   const padX = 8;
@@ -262,7 +287,8 @@ chart.setRenderer((info, progress) => {
 
   // tooltip (touch/always/auto)
   const hasHover = hoverIndex.value >= 0 && hoverIndex.value < pts.length;
-  const shouldShow = props.tooltip && (hasHover || props.tooltipAlways || props.autoTooltip || isAutoAnimating());
+  const shouldShow =
+    props.tooltip && (hasHover || props.tooltipAlways || props.autoTooltip || isAutoAnimating());
 
   let cursorX: number | null = null;
   let cursorY: number | null = null;
@@ -276,7 +302,9 @@ chart.setRenderer((info, progress) => {
       cursorY = a.y + (b.y - a.y) * autoT.value;
       const v = a.v + (b.v - a.v) * autoT.value;
       const label = (d[autoTo.value]?.label ? String(d[autoTo.value]?.label) : '') || '';
-      cursorText = label ? `${label}: ${Math.round(v * 100) / 100}` : String(Math.round(v * 100) / 100);
+      cursorText = label
+        ? `${label}: ${Math.round(v * 100) / 100}`
+        : String(Math.round(v * 100) / 100);
     } else {
       const idx = hasHover ? hoverIndex.value : clampIndex(props.defaultIndex, pts.length);
       const p = pts[idx];
@@ -319,7 +347,7 @@ chart.setRenderer((info, progress) => {
 });
 
 function triggerIntro() {
-  chart.animateTo(props.animationDuration, (p) => {
+  chart.animateTo(props.animationDuration, p => {
     chart.scheduleRender(p);
   });
 }
@@ -333,14 +361,24 @@ watch(
   () => props.data,
   () => {
     if (!chart.ready.value) return;
-    hoverIndex.value = props.tooltipAlways || props.autoTooltip ? clampIndex(props.defaultIndex, (props.data || []).length) : -1;
+    hoverIndex.value =
+      props.tooltipAlways || props.autoTooltip
+        ? clampIndex(props.defaultIndex, (props.data || []).length)
+        : -1;
     triggerIntro();
   },
   { deep: true }
 );
 
 watch(
-  () => [props.autoTooltip, props.autoTooltipInterval, props.tooltipAlways, props.defaultIndex, (props.data || []).length] as const,
+  () =>
+    [
+      props.autoTooltip,
+      props.autoTooltipInterval,
+      props.tooltipAlways,
+      props.defaultIndex,
+      (props.data || []).length,
+    ] as const,
   () => {
     if (autoTimer) {
       clearInterval(autoTimer);
@@ -351,12 +389,18 @@ watch(
 
     if (props.autoTooltip) {
       hoverIndex.value = clampIndex(props.defaultIndex, len);
-      autoTimer = setInterval(() => {
-        if (!chart.ready.value) return;
-        const current = clampIndex(hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value, len);
-        const next = (current + 1) % len;
-        animateHoverTo(next);
-      }, Math.max(300, props.autoTooltipInterval)) as unknown as number;
+      autoTimer = setInterval(
+        () => {
+          if (!chart.ready.value) return;
+          const current = clampIndex(
+            hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value,
+            len
+          );
+          const next = (current + 1) % len;
+          animateHoverTo(next);
+        },
+        Math.max(300, props.autoTooltipInterval)
+      ) as unknown as number;
       return;
     }
 
@@ -370,7 +414,7 @@ watch(
 
 watch(
   () => chart.ready.value,
-  (v) => {
+  v => {
     if (v) triggerIntro();
   }
 );
@@ -431,12 +475,7 @@ onUnmounted(() => {
     @mousemove="onMove"
     @mouseleave="onEnd"
   >
-    <canvas
-      :id="canvasId"
-      :canvas-id="canvasId"
-      type="2d"
-      class="lk-chart__canvas"
-    />
+    <canvas :id="canvasId" :canvas-id="canvasId" type="2d" class="lk-chart__canvas" />
   </view>
 </template>
 

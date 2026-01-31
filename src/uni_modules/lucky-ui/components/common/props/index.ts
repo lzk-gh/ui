@@ -73,7 +73,10 @@ type LkPropHelper = {
   /**
    * 字符串或数字（常用于尺寸类 props）
    */
-  stringNumber: (def: string | number) => { type: PropType<string | number>; default: string | number };
+  stringNumber: (def: string | number) => {
+    type: PropType<string | number>;
+    default: string | number;
+  };
   enum: <T extends readonly string[], D extends T[number]>(
     values: T,
     def: D,

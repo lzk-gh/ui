@@ -1,5 +1,11 @@
 <template>
-  <scroll-view scroll-y show-scrollbar="false" class="detail-content" :class="themeClass" :style="{ height: contentHeight }">
+  <scroll-view
+    scroll-y
+    show-scrollbar="false"
+    class="detail-content"
+    :class="themeClass"
+    :style="{ height: contentHeight }"
+  >
     <!-- 顶部导航栏 (模拟) -->
     <view class="nav-header">
       <view class="back-btn" @click="goBack">
@@ -12,7 +18,12 @@
 
     <!-- 商品大图 (轮播图) -->
     <view class="image-container">
-      <lk-carousel :carousel-list="carouselImages" height="700rpx" indicator-type="dots" auto-play />
+      <lk-carousel
+        :carousel-list="carouselImages"
+        height="700rpx"
+        indicator-type="dots"
+        auto-play
+      />
     </view>
 
     <!-- 商品基本信息 -->
@@ -33,7 +44,8 @@
 
       <!-- 商品描述 -->
       <text class="desc-text">
-        Its simple and elegant shape makes it perfect for those of you who like you who want minimalist clothes
+        Its simple and elegant shape makes it perfect for those of you who like you who want
+        minimalist clothes
         <text class="read-more" @click="showDescModal = true">Read More. . .</text>
       </text>
 
@@ -55,7 +67,9 @@
               <text class="review-user-name">Jennifer L.</text>
               <lk-rate :model-value="5" size="24" readonly />
             </view>
-            <text class="review-text">The fabric is so soft and the fit is perfect! I love it so much!</text>
+            <text class="review-text"
+              >The fabric is so soft and the fit is perfect! I love it so much!</text
+            >
           </view>
         </view>
       </lk-card>
@@ -91,7 +105,14 @@
 
     <!-- 底部按钮 -->
     <view class="footer-bar">
-      <lk-button class="add-cart-btn" type="primary" block radius="60" height="120" @click="addToCart">
+      <lk-button
+        class="add-cart-btn"
+        type="primary"
+        block
+        radius="60"
+        height="120"
+        @click="addToCart"
+      >
         <lk-icon name="cart-plus" size="40" color="var(--test-text-inverse)" />
         <view class="btn-text-content">
           <text class="main-text">Add to Cart | $100.99</text>
@@ -125,7 +146,9 @@
               <text class="u-date">2 days ago</text>
             </view>
             <lk-rate :model-value="5 - (i % 2)" size="24" readonly />
-            <text class="u-text">Amazing quality! Definitely worth the price. I will buy another color soon!</text>
+            <text class="u-text"
+              >Amazing quality! Definitely worth the price. I will buy another color soon!</text
+            >
             <view class="u-imgs">
               <lk-image
                 v-for="j in 3"
@@ -146,9 +169,10 @@
     <!-- 交互增强：详细描述对话框 -->
     <lk-modal v-model="showDescModal" title="Product Description">
       <text class="full-desc">
-        This dress is crafted from premium sustainable cotton, offering a breathable and luxurious feel. Its minimalist
-        design features a sleek silhouette, making it suitable for both casual outings and evening events. Care
-        Instructions: Hand wash cold, do not bleach, iron on low heat.
+        This dress is crafted from premium sustainable cotton, offering a breathable and luxurious
+        feel. Its minimalist design features a sleek silhouette, making it suitable for both casual
+        outings and evening events. Care Instructions: Hand wash cold, do not bleach, iron on low
+        heat.
       </text>
     </lk-modal>
   </scroll-view>

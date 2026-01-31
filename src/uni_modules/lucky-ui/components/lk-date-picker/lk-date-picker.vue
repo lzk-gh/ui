@@ -213,7 +213,10 @@ function confirm() {
 
         <template v-if="isDateTime">
           <view class="lk-date-picker__time">
-            <view class="lk-date-picker__time-row" v-if="type === 'date-time' || type === 'range-date-time'">
+            <view
+              class="lk-date-picker__time-row"
+              v-if="type === 'date-time' || type === 'range-date-time'"
+            >
               <text class="lk-date-picker__time-label">开始时间</text>
               <view class="lk-date-picker__time-cols">
                 <view class="lk-date-picker__col">

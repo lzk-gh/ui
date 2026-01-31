@@ -44,13 +44,13 @@ const handleSelect = (option: any) => {
 
 const containerStyle = computed(() => ({
   gap: `${props.gap}rpx`,
-  ...(typeof props.customStyle === 'object' ? props.customStyle : {})
+  ...(typeof props.customStyle === 'object' ? props.customStyle : {}),
 }));
 
 const itemClass = (option: any) => [
   'lk-choice__item',
   `lk-choice__item--${props.size}`,
-  { 'is-selected': isSelected(option.value) }
+  { 'is-selected': isSelected(option.value) },
 ];
 </script>
 

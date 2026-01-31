@@ -11,244 +11,227 @@
  *  - 空数据/加载状态
  *  - 触摸优化的交互
  */
-import { ref, computed, watch, type CSSProperties } from 'vue'
+import { ref, computed, watch, type CSSProperties } from 'vue';
 import {
   tableProps,
   tableEmits,
   type TableColumn,
   type TableAction,
   type DefaultSort,
-} from './table.props'
+} from './table.props';
 
-defineOptions({ name: 'LkTable' })
+defineOptions({ name: 'LkTable' });
 
-const props = defineProps(tableProps)
-const emit = defineEmits(tableEmits)
+const props = defineProps(tableProps);
+const emit = defineEmits(tableEmits);
 
 // 类型安全的 props 访问
-const columnsData = computed<TableColumn[]>(() => (props.columns as TableColumn[]) || [])
+const columnsData = computed<TableColumn[]>(() => (props.columns as TableColumn[]) || []);
 const rowsData = computed<Record<string, unknown>[]>(
   () => (props.data as Record<string, unknown>[]) || []
-)
-const actionsData = computed<TableAction[]>(() => (props.actions as TableAction[]) || [])
+);
+const actionsData = computed<TableAction[]>(() => (props.actions as TableAction[]) || []);
 const selectionData = computed<(string | number)[]>(
   () => (props.modelValue as (string | number)[]) || []
-)
-const rowKeyStr = computed(() => props.rowKey as string)
+);
+const rowKeyStr = computed(() => props.rowKey as string);
 
 // ======================== 状态 ========================
-const internalSelection = ref<(string | number)[]>([])
+const internalSelection = ref<(string | number)[]>([]);
 const sortState = ref<{ key: string; order: '' | 'asc' | 'desc' }>({
   key: '',
   order: '',
-})
-const expandedRows = ref<Set<string | number>>(new Set())
+});
+const expandedRows = ref<Set<string | number>>(new Set());
 
 // 初始化排序
-const defaultSortVal = props.defaultSort as DefaultSort | undefined
+const defaultSortVal = props.defaultSort as DefaultSort | undefined;
 if (defaultSortVal && defaultSortVal.key) {
   sortState.value = {
     key: defaultSortVal.key,
     order: (defaultSortVal.order === 'desc' ? 'desc' : 'asc') as 'asc' | 'desc',
-  }
+  };
 }
 
 // 同步外部选择
 watch(
   () => selectionData.value,
-  (v) => {
+  v => {
     if (v) {
-      internalSelection.value = [...v]
+      internalSelection.value = [...v];
     }
   },
   { immediate: true }
-)
+);
 
 // ======================== 计算属性 ========================
-const visibleColumns = computed<TableColumn[]>(() =>
-  columnsData.value.filter((c) => !c.hidden)
-)
+const visibleColumns = computed<TableColumn[]>(() => columnsData.value.filter(c => !c.hidden));
 
 // 数据数组
-const dataArray = computed<Record<string, unknown>[]>(() => rowsData.value)
+const dataArray = computed<Record<string, unknown>[]>(() => rowsData.value);
 
 // 卡片模式下的主要列和次要列
 const primaryColumns = computed<TableColumn[]>(() =>
-  visibleColumns.value.filter(
-    (c) => c.primary || c.key === columnsData.value[0]?.key
-  )
-)
+  visibleColumns.value.filter(c => c.primary || c.key === columnsData.value[0]?.key)
+);
 const secondaryColumns = computed<TableColumn[]>(() =>
-  visibleColumns.value.filter(
-    (c) => !c.primary && c.key !== columnsData.value[0]?.key
-  )
-)
+  visibleColumns.value.filter(c => !c.primary && c.key !== columnsData.value[0]?.key)
+);
 
 // 排序后的数据
 const sortedData = computed<Record<string, unknown>[]>(() => {
-  const { key, order } = sortState.value
-  if (!key || !order) return dataArray.value
-  if (props.sortRemote) return dataArray.value
-  const col = visibleColumns.value.find((c) => c.key === key)
-  if (!col) return dataArray.value
-  const arr = [...dataArray.value]
-  const asc = order === 'asc'
-  const method = col.sortMethod || defaultSortMethod
-  arr.sort((a, b) => method(a, b, asc))
-  return arr
-})
+  const { key, order } = sortState.value;
+  if (!key || !order) return dataArray.value;
+  if (props.sortRemote) return dataArray.value;
+  const col = visibleColumns.value.find(c => c.key === key);
+  if (!col) return dataArray.value;
+  const arr = [...dataArray.value];
+  const asc = order === 'asc';
+  const method = col.sortMethod || defaultSortMethod;
+  arr.sort((a, b) => method(a, b, asc));
+  return arr;
+});
 
-function defaultSortMethod(
-  a: Record<string, unknown>,
-  b: Record<string, unknown>,
-  asc: boolean
-) {
-  const va = a[sortState.value.key]
-  const vb = b[sortState.value.key]
-  if (va == null && vb == null) return 0
-  if (va == null) return asc ? -1 : 1
-  if (vb == null) return asc ? 1 : -1
-  if (typeof va === 'number' && typeof vb === 'number')
-    return asc ? va - vb : vb - va
-  return asc
-    ? String(va).localeCompare(String(vb))
-    : String(vb).localeCompare(String(va))
+function defaultSortMethod(a: Record<string, unknown>, b: Record<string, unknown>, asc: boolean) {
+  const va = a[sortState.value.key];
+  const vb = b[sortState.value.key];
+  if (va == null && vb == null) return 0;
+  if (va == null) return asc ? -1 : 1;
+  if (vb == null) return asc ? 1 : -1;
+  if (typeof va === 'number' && typeof vb === 'number') return asc ? va - vb : vb - va;
+  return asc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
 }
 
 // 全选状态
 const allChecked = computed(() => {
-  if (!dataArray.value.length) return false
-  return dataArray.value.every((r) =>
+  if (!dataArray.value.length) return false;
+  return dataArray.value.every(r =>
     internalSelection.value.includes(r[rowKeyStr.value] as string | number)
-  )
-})
+  );
+});
 const indeterminate = computed(() => {
-  if (!dataArray.value.length) return false
-  return !allChecked.value && internalSelection.value.length > 0
-})
+  if (!dataArray.value.length) return false;
+  return !allChecked.value && internalSelection.value.length > 0;
+});
 
 // 总结行
 const summaryRow = computed<Record<string, unknown> | null>(() => {
-  if (!props.summary || !visibleColumns.value.length) return null
-  const row: Record<string, unknown> = {}
-  visibleColumns.value.forEach((col) => {
-    if (!col.summary) return
+  if (!props.summary || !visibleColumns.value.length) return null;
+  const row: Record<string, unknown> = {};
+  visibleColumns.value.forEach(col => {
+    if (!col.summary) return;
     const values = sortedData.value
-      .map((r) => r[col.key])
-      .filter((v) => typeof v === 'number') as number[]
-    if (!values.length) return
+      .map(r => r[col.key])
+      .filter(v => typeof v === 'number') as number[];
+    if (!values.length) return;
     if (col.summary === 'sum') {
-      row[col.key] = values.reduce((s, v) => s + v, 0)
+      row[col.key] = values.reduce((s, v) => s + v, 0);
     } else if (col.summary === 'avg') {
-      row[col.key] = +(values.reduce((s, v) => s + v, 0) / values.length).toFixed(2)
+      row[col.key] = +(values.reduce((s, v) => s + v, 0) / values.length).toFixed(2);
     } else if (typeof col.summary === 'function') {
       try {
-        row[col.key] = col.summary(values, col)
+        row[col.key] = col.summary(values, col);
       } catch {
         // ignore
       }
     }
-  })
-  emit('summary-computed', row)
-  return row
-})
+  });
+  emit('summary-computed', row);
+  return row;
+});
 
 // ======================== 方法 ========================
 function getRowKey(row: Record<string, unknown>): string | number {
-  return row[rowKeyStr.value] as string | number
+  return row[rowKeyStr.value] as string | number;
 }
 
 function isSelected(row: Record<string, unknown>) {
-  return internalSelection.value.includes(getRowKey(row))
+  return internalSelection.value.includes(getRowKey(row));
 }
 
 function toggleRow(row: Record<string, unknown>) {
-  const keyVal = getRowKey(row)
-  const idx = internalSelection.value.indexOf(keyVal)
+  const keyVal = getRowKey(row);
+  const idx = internalSelection.value.indexOf(keyVal);
   if (idx >= 0) {
-    internalSelection.value.splice(idx, 1)
+    internalSelection.value.splice(idx, 1);
   } else {
-    internalSelection.value.push(keyVal)
+    internalSelection.value.push(keyVal);
   }
-  emit('update:modelValue', [...internalSelection.value])
-  emit('selection-change', [...internalSelection.value])
+  emit('update:modelValue', [...internalSelection.value]);
+  emit('selection-change', [...internalSelection.value]);
 }
 
 function toggleAll() {
   if (allChecked.value) {
-    internalSelection.value = []
+    internalSelection.value = [];
   } else {
-    internalSelection.value = dataArray.value.map((r) => getRowKey(r))
+    internalSelection.value = dataArray.value.map(r => getRowKey(r));
   }
-  emit('update:modelValue', [...internalSelection.value])
-  emit('selection-change', [...internalSelection.value])
+  emit('update:modelValue', [...internalSelection.value]);
+  emit('selection-change', [...internalSelection.value]);
 }
 
 function cycleSort(col: TableColumn) {
-  if (!col.sortable) return
+  if (!col.sortable) return;
   if (sortState.value.key !== col.key) {
-    sortState.value = { key: col.key, order: 'asc' }
+    sortState.value = { key: col.key, order: 'asc' };
   } else {
-    const current = sortState.value.order
-    sortState.value.order = current === 'asc' ? 'desc' : current === 'desc' ? '' : 'asc'
-    if (!sortState.value.order) sortState.value.key = ''
+    const current = sortState.value.order;
+    sortState.value.order = current === 'asc' ? 'desc' : current === 'desc' ? '' : 'asc';
+    if (!sortState.value.order) sortState.value.key = '';
   }
   emit('sort-change', {
     key: sortState.value.key,
     order: sortState.value.order || null,
-  })
+  });
 }
 
 function cellContent(row: Record<string, unknown>, col: TableColumn, rowIndex: number) {
-  if (col.formatter) return col.formatter(row, col, rowIndex)
-  return row[col.key]
+  if (col.formatter) return col.formatter(row, col, rowIndex);
+  return row[col.key];
 }
 
 function onRowClick(row: Record<string, unknown>, idx: number) {
-  emit('row-click', row, idx)
+  emit('row-click', row, idx);
 }
 
 function toggleExpand(row: Record<string, unknown>) {
-  const key = getRowKey(row)
+  const key = getRowKey(row);
   if (expandedRows.value.has(key)) {
-    expandedRows.value.delete(key)
+    expandedRows.value.delete(key);
   } else {
-    expandedRows.value.add(key)
+    expandedRows.value.add(key);
   }
 }
 
 function isExpanded(row: Record<string, unknown>) {
-  return expandedRows.value.has(getRowKey(row))
+  return expandedRows.value.has(getRowKey(row));
 }
 
 function onAction(action: string, row: Record<string, unknown>, idx: number) {
-  emit('action', action, row, idx)
+  emit('action', action, row, idx);
 }
 
 // 样式
 const wrapStyle = computed<CSSProperties>(() => {
-  const st: CSSProperties = {}
-  const maxH = props.maxHeight as string | number | undefined
+  const st: CSSProperties = {};
+  const maxH = props.maxHeight as string | number | undefined;
   if (maxH) {
-    st.maxHeight = typeof maxH === 'number' ? `${maxH}px` : maxH
+    st.maxHeight = typeof maxH === 'number' ? `${maxH}px` : maxH;
   }
-  return st
-})
+  return st;
+});
 
 function getColStyle(col: TableColumn): CSSProperties {
   return {
-    width: col.width
-      ? typeof col.width === 'number'
-        ? `${col.width}px`
-        : col.width
-      : undefined,
+    width: col.width ? (typeof col.width === 'number' ? `${col.width}px` : col.width) : undefined,
     minWidth: col.minWidth
       ? typeof col.minWidth === 'number'
         ? `${col.minWidth}px`
         : col.minWidth
       : undefined,
     textAlign: col.align || undefined,
-  }
+  };
 }
 </script>
 
@@ -305,10 +288,7 @@ function getColStyle(col: TableColumn): CSSProperties {
               class="lk-table__card-checkbox"
               @click.stop="toggleRow(row)"
             >
-              <view
-                class="lk-table__checkbox"
-                :class="{ 'is-checked': isSelected(row) }"
-              />
+              <view class="lk-table__checkbox" :class="{ 'is-checked': isSelected(row) }" />
             </view>
 
             <!-- 卡片内容 -->
@@ -318,7 +298,13 @@ function getColStyle(col: TableColumn): CSSProperties {
                 <slot name="card-main" :row="row" :index="ri">
                   <template v-for="col in primaryColumns" :key="col.key">
                     <view class="lk-table__card-primary">
-                      <slot :name="'col-' + col.key" :row="row" :column="col" :value="row[col.key]" :row-index="ri">
+                      <slot
+                        :name="'col-' + col.key"
+                        :row="row"
+                        :column="col"
+                        :value="row[col.key]"
+                        :row-index="ri"
+                      >
                         {{ cellContent(row, col, ri) }}
                       </slot>
                     </view>
@@ -329,14 +315,16 @@ function getColStyle(col: TableColumn): CSSProperties {
               <!-- 次要信息 -->
               <view v-if="secondaryColumns.length" class="lk-table__card-secondary">
                 <slot name="card-secondary" :row="row" :index="ri">
-                  <view
-                    v-for="col in secondaryColumns"
-                    :key="col.key"
-                    class="lk-table__card-field"
-                  >
+                  <view v-for="col in secondaryColumns" :key="col.key" class="lk-table__card-field">
                     <text class="lk-table__card-label">{{ col.title }}</text>
                     <text class="lk-table__card-value">
-                      <slot :name="'col-' + col.key" :row="row" :column="col" :value="row[col.key]" :row-index="ri">
+                      <slot
+                        :name="'col-' + col.key"
+                        :row="row"
+                        :column="col"
+                        :value="row[col.key]"
+                        :row-index="ri"
+                      >
                         {{ cellContent(row, col, ri) }}
                       </slot>
                     </text>
@@ -395,7 +383,9 @@ function getColStyle(col: TableColumn): CSSProperties {
           <view class="lk-table__summary-title">合计</view>
           <view class="lk-table__summary-content">
             <view
-              v-for="col in visibleColumns.filter((c) => summaryRow && summaryRow[c.key] !== undefined)"
+              v-for="col in visibleColumns.filter(
+                c => summaryRow && summaryRow[c.key] !== undefined
+              )"
               :key="col.key"
               class="lk-table__summary-item"
             >
@@ -414,7 +404,11 @@ function getColStyle(col: TableColumn): CSSProperties {
           <!-- 表头 -->
           <view class="lk-table__header" :class="{ 'is-sticky': props.stickyHeader }">
             <view class="lk-table__tr lk-table__tr--head">
-              <view v-if="props.selectable" class="lk-table__th lk-table__th--checkbox" @click="toggleAll">
+              <view
+                v-if="props.selectable"
+                class="lk-table__th lk-table__th--checkbox"
+                @click="toggleAll"
+              >
                 <view
                   class="lk-table__checkbox"
                   :class="{ 'is-checked': allChecked, 'is-indeterminate': indeterminate }"
@@ -462,10 +456,7 @@ function getColStyle(col: TableColumn): CSSProperties {
                   class="lk-table__td lk-table__td--checkbox"
                   @click.stop="toggleRow(row)"
                 >
-                  <view
-                    class="lk-table__checkbox"
-                    :class="{ 'is-checked': isSelected(row) }"
-                  />
+                  <view class="lk-table__checkbox" :class="{ 'is-checked': isSelected(row) }" />
                 </view>
                 <view v-if="props.showIndex" class="lk-table__td lk-table__td--index">
                   {{ ri + 1 }}
@@ -515,7 +506,12 @@ function getColStyle(col: TableColumn): CSSProperties {
                 class="lk-table__td"
                 :style="getColStyle(col)"
               >
-                <slot name="summary-cell" :column="col" :value="summaryRow[col.key]" :row="summaryRow">
+                <slot
+                  name="summary-cell"
+                  :column="col"
+                  :value="summaryRow[col.key]"
+                  :row="summaryRow"
+                >
                   {{ summaryRow[col.key] !== undefined ? summaryRow[col.key] : '' }}
                 </slot>
               </view>

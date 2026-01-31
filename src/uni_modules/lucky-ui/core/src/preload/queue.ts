@@ -85,7 +85,7 @@ export class PreloadQueue {
 
     const handlers = this.eventHandlers.get(type);
     if (handlers) {
-      handlers.forEach((handler) => {
+      handlers.forEach(handler => {
         try {
           handler(event);
         } catch (e) {
@@ -96,9 +96,7 @@ export class PreloadQueue {
   }
 
   /** 添加任务到队列 */
-  addTask(
-    task: Omit<PreloadTask, 'id' | 'status' | 'createdAt' | 'retryCount'>
-  ): string {
+  addTask(task: Omit<PreloadTask, 'id' | 'status' | 'createdAt' | 'retryCount'>): string {
     const newTask: PreloadTask = {
       ...task,
       id: this.generateTaskId(),
@@ -109,7 +107,7 @@ export class PreloadQueue {
     };
 
     // 按优先级插入队列
-    const insertIndex = this.queue.findIndex((t) => t.priority > newTask.priority);
+    const insertIndex = this.queue.findIndex(t => t.priority > newTask.priority);
     if (insertIndex === -1) {
       this.queue.push(newTask);
     } else {
@@ -125,7 +123,7 @@ export class PreloadQueue {
   /** 取消任务 */
   cancelTask(taskId: string): boolean {
     // 检查队列中的任务
-    const queueIndex = this.queue.findIndex((t) => t.id === taskId);
+    const queueIndex = this.queue.findIndex(t => t.id === taskId);
     if (queueIndex !== -1) {
       const task = this.queue[queueIndex];
       task.status = PreloadTaskStatus.CANCELLED;
@@ -164,7 +162,7 @@ export class PreloadQueue {
 
   /** 清空队列 */
   clear(): void {
-    this.queue.forEach((task) => {
+    this.queue.forEach(task => {
       task.status = PreloadTaskStatus.CANCELLED;
       this.completedTasks.set(task.id, task);
     });
@@ -179,7 +177,7 @@ export class PreloadQueue {
     let failed = 0;
     let cancelled = 0;
 
-    this.completedTasks.forEach((task) => {
+    this.completedTasks.forEach(task => {
       if (task.status === PreloadTaskStatus.COMPLETED) completed++;
       else if (task.status === PreloadTaskStatus.FAILED) failed++;
       else if (task.status === PreloadTaskStatus.CANCELLED) cancelled++;
@@ -214,8 +212,14 @@ export class PreloadQueue {
   /** 取消空闲回调 */
   private cancelIdleCallback(): void {
     // #ifdef H5
-    if (this.idleCallbackId !== null && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
-      (window as typeof window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(this.idleCallbackId);
+    if (
+      this.idleCallbackId !== null &&
+      typeof window !== 'undefined' &&
+      'cancelIdleCallback' in window
+    ) {
+      (window as typeof window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(
+        this.idleCallbackId
+      );
       this.idleCallbackId = null;
     }
     // #endif
@@ -235,9 +239,16 @@ export class PreloadQueue {
 
     // #ifdef H5
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      const ric = (window as typeof window & { requestIdleCallback: (cb: (deadline: { timeRemaining: () => number }) => void, opts?: { timeout: number }) => number }).requestIdleCallback;
+      const ric = (
+        window as typeof window & {
+          requestIdleCallback: (
+            cb: (deadline: { timeRemaining: () => number }) => void,
+            opts?: { timeout: number }
+          ) => number;
+        }
+      ).requestIdleCallback;
       this.idleCallbackId = ric(
-        (deadline) => this.processWithDeadline(deadline),
+        deadline => this.processWithDeadline(deadline),
         { timeout: 5000 } // 最多等待 5 秒
       );
     } else {
@@ -257,10 +268,7 @@ export class PreloadQueue {
     this.isProcessing = true;
 
     // 在空闲时间内处理任务
-    while (
-      deadline.timeRemaining() > this.config.idleThreshold &&
-      this.canStartNewTask()
-    ) {
+    while (deadline.timeRemaining() > this.config.idleThreshold && this.canStartNewTask()) {
       this.startNextTask();
     }
 
@@ -296,9 +304,7 @@ export class PreloadQueue {
   /** 检查是否可以启动新任务 */
   private canStartNewTask(): boolean {
     return (
-      !this.isPaused &&
-      this.queue.length > 0 &&
-      this.runningTasks.size < this.config.maxConcurrency
+      !this.isPaused && this.queue.length > 0 && this.runningTasks.size < this.config.maxConcurrency
     );
   }
 
@@ -320,10 +326,7 @@ export class PreloadQueue {
   /** 执行任务 */
   private async executeTask(task: PreloadTask): Promise<void> {
     const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(
-        () => reject(new Error(`Task timeout: ${task.id}`)),
-        this.config.taskTimeout
-      );
+      setTimeout(() => reject(new Error(`Task timeout: ${task.id}`)), this.config.taskTimeout);
     });
 
     try {
@@ -363,7 +366,7 @@ export class PreloadQueue {
 
         setTimeout(() => {
           // 重新加入队列（保持优先级）
-          const insertIndex = this.queue.findIndex((t) => t.priority > task.priority);
+          const insertIndex = this.queue.findIndex(t => t.priority > task.priority);
           if (insertIndex === -1) {
             this.queue.push(task);
           } else {

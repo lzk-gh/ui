@@ -1,19 +1,32 @@
 <template>
-  <scroll-view class="mine-content" :class="themeClass" :style="{ height: contentHeight }" scroll-y show-scrollbar="false">
+  <scroll-view
+    class="mine-content"
+    :class="themeClass"
+    :style="{ height: contentHeight }"
+    scroll-y
+    show-scrollbar="false"
+  >
     <!-- 背景装饰 -->
     <view class="profile-bg"></view>
 
     <view class="content-wrap">
       <!-- 用户头像与基本信息 -->
       <view class="profile-header">
-        <lk-avatar src="https://picsum.photos/200/200?random=mine-profile" size="160" round border="4rpx solid #fff" />
+        <lk-avatar
+          src="https://picsum.photos/200/200?random=mine-profile"
+          size="160"
+          round
+          border="4rpx solid #fff"
+        />
         <text class="user-name">Albert Stevano</text>
         <text class="user-email">albert.stevano@example.com</text>
 
         <!-- 用户等级/勋章 -->
         <view class="badge-row">
           <lk-tag type="solid" size="sm" radius="20">Gold Member</lk-tag>
-          <lk-tag type="solid" size="sm" radius="20" bg-color="#22c55e" style="margin-left: 12rpx">Verified</lk-tag>
+          <lk-tag type="solid" size="sm" radius="20" bg-color="#22c55e" style="margin-left: 12rpx"
+            >Verified</lk-tag
+          >
         </view>
       </view>
 
@@ -63,7 +76,14 @@
         <!-- 菜单项 -->
         <lk-card shadow="sm">
           <lk-cell-group>
-            <lk-cell title="Edit Profile" icon="person-gear" clickable arrow border @click="goToEditProfile" />
+            <lk-cell
+              title="Edit Profile"
+              icon="person-gear"
+              clickable
+              arrow
+              border
+              @click="goToEditProfile"
+            />
             <lk-cell title="My Wishlist" icon="heart" clickable arrow border />
             <lk-cell title="Shipping Addresses" icon="geo-alt" clickable arrow border />
             <lk-cell title="Payment Methods" icon="credit-card" clickable arrow />
@@ -72,24 +92,44 @@
 
         <lk-card shadow="sm">
           <lk-cell-group>
-            <lk-cell title="Theme Management" icon="palette" clickable arrow border @click="showThemeSheet = true" />
+            <lk-cell
+              title="Theme Management"
+              icon="palette"
+              clickable
+              arrow
+              border
+              @click="showThemeSheet = true"
+            />
             <lk-cell title="Privacy Policy" icon="shield-lock" clickable arrow border />
-            <lk-cell title="Settings" icon="gear" clickable arrow />
+            <lk-cell title="Settings" icon="gear" clickable arrow @click="goToSettings" />
           </lk-cell-group>
         </lk-card>
       </lk-space>
 
       <!-- 退出登录 -->
       <view class="logout-btn-wrap">
-        <lk-button block plain type="danger" radius="40" @click="showLogoutModal = true">Log Out</lk-button>
+        <lk-button block plain type="danger" radius="40" @click="showLogoutModal = true"
+          >Log Out</lk-button
+        >
       </view>
     </view>
 
     <!-- 交互增强：主题切换 -->
-    <lk-action-sheet v-model="showThemeSheet" :actions="themeActions" title="Select Theme" @select="handleThemeSelect" />
+    <lk-action-sheet
+      v-model="showThemeSheet"
+      :actions="themeActions"
+      title="Select Theme"
+      @select="handleThemeSelect"
+    />
 
     <!-- 交互增强：退出确认 -->
-    <lk-modal v-model="showLogoutModal" title="Sign Out" confirm-text="Logout" cancel-text="Wait" @confirm="handleLogout">
+    <lk-modal
+      v-model="showLogoutModal"
+      title="Sign Out"
+      confirm-text="Logout"
+      cancel-text="Wait"
+      @confirm="handleLogout"
+    >
       <text style="color: var(--test-text-secondary); font-size: 28rpx">
         Are you sure you want to sign out? You will need to login again to access your orders.
       </text>
@@ -139,7 +179,10 @@ const themeActions = [
   { name: 'Dark Mode', value: 'dark', icon: 'moon' },
 ];
 
-const handleThemeSelect = (payload: { action: { name?: string; value?: string }; index: number }) => {
+const handleThemeSelect = (payload: {
+  action: { name?: string; value?: string };
+  index: number;
+}) => {
   const value = payload.action.value as 'light' | 'dark';
   if (value) {
     themeStore.setTheme(value);
@@ -167,6 +210,10 @@ const goToCheckIn = () => {
 
 const goToEditProfile = () => {
   uni.navigateTo({ url: '/pages_sub/edit-profile/index' });
+};
+
+const goToSettings = () => {
+  uni.navigateTo({ url: '/pages_sub/settings/index' });
 };
 </script>
 

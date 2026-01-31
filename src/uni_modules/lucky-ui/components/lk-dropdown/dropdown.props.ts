@@ -1,6 +1,9 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
-import type { ANIMATION_PRESETS, TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
+import type {
+  ANIMATION_PRESETS,
+  TransitionConfig,
+} from '@/uni_modules/lucky-ui/composables/useTransition';
 
 /**
  * 下拉菜单触发方式
@@ -49,7 +52,11 @@ export const dropdownProps = {
    * @value left 左侧
    * @value right 右侧
    */
-  placement: LkProp.enum(Object.values(DropdownPlacement), DropdownPlacement.Bottom, 'Dropdown.placement'),
+  placement: LkProp.enum(
+    Object.values(DropdownPlacement),
+    DropdownPlacement.Bottom,
+    'Dropdown.placement'
+  ),
 
   /** 选择后是否关闭 */
   closeOnSelect: LkProp.boolean(true),

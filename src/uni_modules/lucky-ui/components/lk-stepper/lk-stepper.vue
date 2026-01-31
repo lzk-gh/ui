@@ -36,13 +36,11 @@ function format(value: string | number): string {
 
 // --- 计算属性 ---
 
-const isMinusDisabled = computed(() =>
-  props.disabled || Number(current.value) <= Number(props.min)
+const isMinusDisabled = computed(
+  () => props.disabled || Number(current.value) <= Number(props.min)
 );
 
-const isPlusDisabled = computed(() =>
-  props.disabled || Number(current.value) >= Number(props.max)
-);
+const isPlusDisabled = computed(() => props.disabled || Number(current.value) >= Number(props.max));
 
 const wrapperStyle = computed(() => {
   const style: Record<string, string> = {};
@@ -135,11 +133,14 @@ const onTouchEnd = () => {
   }
 };
 
-watch(() => props.modelValue, (val) => {
-  if (val !== Number(current.value)) {
-    current.value = format(val);
+watch(
+  () => props.modelValue,
+  val => {
+    if (val !== Number(current.value)) {
+      current.value = format(val);
+    }
   }
-});
+);
 </script>
 
 <template>

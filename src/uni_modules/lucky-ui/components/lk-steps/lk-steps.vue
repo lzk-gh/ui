@@ -30,10 +30,7 @@ const progressPercent = computed(() => {
 <template>
   <view
     class="lk-steps"
-    :class="[
-      `lk-steps--${direction}`,
-      `lk-steps--${type}`,
-    ]"
+    :class="[`lk-steps--${direction}`, `lk-steps--${type}`]"
     :style="{
       '--steps-progress': `${progressPercent}%`,
       '--steps-current': current,

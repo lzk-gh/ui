@@ -1,7 +1,7 @@
 /**
  * Tabbar 页面容器系统
  * @description 实现单页面内的 Tab 切换，避免页面重新渲染导致的闪烁
- * 
+ *
  * 核心思路：
  * 1. 只有一个真正的"页面"作为 Tabbar 容器
  * 2. 各个 Tab 内容作为组件存在，通过 v-show 或 keep-alive 切换
@@ -66,7 +66,6 @@ export interface UseTabbarContainerReturn {
   isVisited: typeof isTabVisited;
 }
 
-
 /** 全局状态 */
 const state = ref<TabbarContainerState>({
   activeId: '',
@@ -94,7 +93,7 @@ export function initTabbarContainer(tabs: TabConfig[], defaultTabId?: string): v
   state.value.visitedTabs.clear();
 
   // 初始化各 Tab 实例状态
-  tabs.forEach((tab) => {
+  tabs.forEach(tab => {
     state.value.instances.set(tab.id, {
       component: null,
       loaded: false,
@@ -109,14 +108,17 @@ export function initTabbarContainer(tabs: TabConfig[], defaultTabId?: string): v
     switchTab(initialTab);
   }
 
-  log('Container initialized with tabs:', tabs.map((t) => t.id));
+  log(
+    'Container initialized with tabs:',
+    tabs.map(t => t.id)
+  );
 }
 
 /**
  * 切换 Tab
  */
 export async function switchTab(tabId: string): Promise<void> {
-  const tab = state.value.tabs.find((t) => t.id === tabId);
+  const tab = state.value.tabs.find(t => t.id === tabId);
   if (!tab) {
     console.warn(`[TabbarContainer] Tab not found: ${tabId}`);
     return;
@@ -195,7 +197,7 @@ export function isTabVisited(tabId: string): boolean {
  * 预加载 Tab 组件
  */
 export async function preloadTab(tabId: string): Promise<void> {
-  const tab = state.value.tabs.find((t) => t.id === tabId);
+  const tab = state.value.tabs.find(t => t.id === tabId);
   const instance = state.value.instances.get(tabId);
 
   if (!tab || !instance || instance.loaded || instance.loading) {
@@ -230,14 +232,14 @@ export async function preloadTab(tabId: string): Promise<void> {
  * 批量预加载 Tab 组件
  */
 export async function preloadTabs(tabIds: string[]): Promise<void> {
-  await Promise.all(tabIds.map((id) => preloadTab(id)));
+  await Promise.all(tabIds.map(id => preloadTab(id)));
 }
 
 /**
  * 更新 Tab 徽标
  */
 export function updateTabBadge(tabId: string, badge?: number, dot?: boolean): void {
-  const tab = state.value.tabs.find((t) => t.id === tabId);
+  const tab = state.value.tabs.find(t => t.id === tabId);
   if (tab) {
     if (badge !== undefined) tab.badge = badge;
     if (dot !== undefined) tab.dot = dot;

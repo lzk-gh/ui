@@ -34,7 +34,9 @@
     <demo-block title="键盘主题">
       <view class="desc">支持浅色和深色主题。</view>
       <view class="row">
-        <lk-button size="sm" @click="showKeyboard('number', { theme: 'light' })">浅色主题</lk-button>
+        <lk-button size="sm" @click="showKeyboard('number', { theme: 'light' })"
+          >浅色主题</lk-button
+        >
         <lk-button size="sm" @click="showKeyboard('number', { theme: 'dark' })">深色主题</lk-button>
       </view>
     </demo-block>
@@ -42,8 +44,14 @@
     <demo-block title="带标题">
       <view class="desc">可以显示标题栏和操作按钮。</view>
       <view class="row">
-        <lk-button size="sm" @click="showKeyboard('number', { title: '输入金额' })">带标题</lk-button>
-        <lk-button size="sm" @click="showKeyboard('number', { title: '输入密码', showClose: false })">隐藏关闭</lk-button>
+        <lk-button size="sm" @click="showKeyboard('number', { title: '输入金额' })"
+          >带标题</lk-button
+        >
+        <lk-button
+          size="sm"
+          @click="showKeyboard('number', { title: '输入密码', showClose: false })"
+          >隐藏关闭</lk-button
+        >
       </view>
     </demo-block>
 
@@ -51,7 +59,9 @@
       <view class="desc">可以限制最大输入长度。</view>
       <view class="row">
         <lk-button size="sm" @click="showKeyboard('number', { maxLength: 6 })">最多6位</lk-button>
-        <lk-button size="sm" @click="showKeyboard('idcard', { maxLength: 18 })">身份证18位</lk-button>
+        <lk-button size="sm" @click="showKeyboard('idcard', { maxLength: 18 })"
+          >身份证18位</lk-button
+        >
       </view>
     </demo-block>
 
@@ -85,7 +95,10 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 import LkKeyboard from '@/uni_modules/lucky-ui/components/lk-keyboard/lk-keyboard.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import type { KeyboardType, KeyboardTheme } from '@/uni_modules/lucky-ui/components/lk-keyboard/keyboard.props';
+import type {
+  KeyboardType,
+  KeyboardTheme,
+} from '@/uni_modules/lucky-ui/components/lk-keyboard/keyboard.props';
 
 const inputValue = ref('');
 const keyboardVisible = ref(false);

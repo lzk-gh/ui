@@ -33,7 +33,11 @@ export const spaceProps = {
   },
 
   /** 方向: horizontal 水平, vertical 垂直 */
-  direction: LkProp.enum(Object.values(SpaceDirection), SpaceDirection.Horizontal, 'Space.direction'),
+  direction: LkProp.enum(
+    Object.values(SpaceDirection),
+    SpaceDirection.Horizontal,
+    'Space.direction'
+  ),
 
   /** 对齐方式: start, center, end, baseline, stretch */
   align: {

@@ -242,7 +242,9 @@ const mainStyle = computed((): CSSProperties & Record<string, string | number> =
     height: `${sizePx.value}px`,
     zIndex: props.zIndex,
     '--fab-color': color,
-    transition: isDragging.value ? 'none' : 'left 0.35s cubic-bezier(0.25, 1, 0.5, 1), top 0.35s cubic-bezier(0.25, 1, 0.5, 1)',
+    transition: isDragging.value
+      ? 'none'
+      : 'left 0.35s cubic-bezier(0.25, 1, 0.5, 1), top 0.35s cubic-bezier(0.25, 1, 0.5, 1)',
   };
 });
 
@@ -284,9 +286,13 @@ function getActionStyle(index: number) {
   return {
     width: `${actionSizePx.value}px`,
     height: `${actionSizePx.value}px`,
-    transform: isExpanded.value ? `translate(${x}px, ${y}px) scale(1)` : `translate(${offsetToCenter}px, ${offsetToCenter}px) scale(0)`,
+    transform: isExpanded.value
+      ? `translate(${x}px, ${y}px) scale(1)`
+      : `translate(${offsetToCenter}px, ${offsetToCenter}px) scale(0)`,
     opacity: isExpanded.value ? 1 : 0,
-    transitionDelay: isExpanded.value ? `${index * 0.05}s` : `${(props.actions.length - index - 1) * 0.03}s`,
+    transitionDelay: isExpanded.value
+      ? `${index * 0.05}s`
+      : `${(props.actions.length - index - 1) * 0.03}s`,
   } as CSSProperties;
 }
 

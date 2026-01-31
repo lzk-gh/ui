@@ -63,7 +63,7 @@ const data = computed(() => {
 });
 
 function randomize() {
-  const next = data.value.map((it) => ({ ...it, value: Math.round(Math.random() * 50) + 1 }));
+  const next = data.value.map(it => ({ ...it, value: Math.round(Math.random() * 50) + 1 }));
   if (dataset.value === 'tiny') tiny.value = next;
   else if (dataset.value === 'colorful') colorful.value = next;
   else week.value = next;
@@ -110,7 +110,14 @@ function reset() {
         <view class="row row--slider">
           <text class="label">轮播间隔: {{ autoTooltipInterval }}ms</text>
           <view class="slider">
-            <lk-slider v-model="autoTooltipInterval" :min="300" :max="3000" :step="50" show-value :disabled="!tooltip || !autoTooltip" />
+            <lk-slider
+              v-model="autoTooltipInterval"
+              :min="300"
+              :max="3000"
+              :step="50"
+              show-value
+              :disabled="!tooltip || !autoTooltip"
+            />
           </view>
         </view>
         <view class="row">
@@ -148,7 +155,14 @@ function reset() {
         <view class="row">
           <text class="label">Y 轴刻度: {{ yAxisTicks }}</text>
           <view class="slider">
-            <lk-slider v-model="yAxisTicks" :min="2" :max="8" :step="1" show-value :disabled="!showAxis" />
+            <lk-slider
+              v-model="yAxisTicks"
+              :min="2"
+              :max="8"
+              :step="1"
+              show-value
+              :disabled="!showAxis"
+            />
           </view>
         </view>
         <view class="row">

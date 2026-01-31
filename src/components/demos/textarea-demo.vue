@@ -1,14 +1,9 @@
 <template>
   <view class="component-demo">
-
     <demo-block title="风格变体 (Variant)">
       <view class="demo-col">
         <!-- 1. 默认描边 -->
-        <lk-textarea
-          v-model="v1"
-          placeholder="Outline (默认): 经典描边风格"
-          clearable
-        />
+        <lk-textarea v-model="v1" placeholder="Outline (默认): 经典描边风格" clearable />
 
         <!-- 2. 填充风格 (非常适合现代APP) -->
         <lk-textarea
@@ -41,11 +36,7 @@
     </demo-block>
 
     <demo-block title="高级插槽 (Footer Slot)">
-      <lk-textarea
-        v-model="v5"
-        placeholder="写评论..."
-        auto-height
-      >
+      <lk-textarea v-model="v5" placeholder="写评论..." auto-height>
         <!-- 利用插槽放置一个发送按钮 -->
         <template #footer>
           <view class="quick-tags">
@@ -55,9 +46,7 @@
         </template>
       </lk-textarea>
     </demo-block>
-
   </view>
-
 </template>
 
 <script setup lang="ts">

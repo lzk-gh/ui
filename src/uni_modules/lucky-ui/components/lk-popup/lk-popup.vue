@@ -218,7 +218,9 @@ const panelStyle = computed(() => {
       transform: `translateY(${translateY.value}px)`,
       transition: isDragging.value ? 'none' : 'transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)', // 弹性动画
       height: '100vh', // 拖拽模式下占满全屏高度以便上拉
-      borderRadius: props.round ? `var(--lk-popup-radius, 24rpx) var(--lk-popup-radius, 24rpx) 0 0` : '0',
+      borderRadius: props.round
+        ? `var(--lk-popup-radius, 24rpx) var(--lk-popup-radius, 24rpx) 0 0`
+        : '0',
     };
   }
   return transitionStyles.value;
@@ -235,11 +237,7 @@ const panelStyle = computed(() => {
     @click="onOverlayClick"
   />
   <view v-if="display" :class="wrapperClass" :style="wrapperStyle" @touchmove.stop>
-    <view
-      class="lk-popup__panel"
-      :class="transitionClasses"
-      :style="panelStyle"
-    >
+    <view class="lk-popup__panel" :class="transitionClasses" :style="panelStyle">
       <!-- Drag Handle -->
       <view
         v-if="position === 'bottom' && draggable"

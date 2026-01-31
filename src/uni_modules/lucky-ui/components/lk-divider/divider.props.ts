@@ -33,7 +33,11 @@ export const dividerProps = {
    * @value center 居中
    * @value right 右侧
    */
-  textPosition: LkProp.enum(Object.values(DividerTextPosition), DividerTextPosition.Center, 'Divider.textPosition'),
+  textPosition: LkProp.enum(
+    Object.values(DividerTextPosition),
+    DividerTextPosition.Center,
+    'Divider.textPosition'
+  ),
 } as const;
 
 export type DividerProps = ExtractPropTypes<typeof dividerProps>;

@@ -64,28 +64,26 @@
         :options="baseOptions"
         block
         style="
-          --lk-seg-track-bg    : var(--lk-color-primary);
-          --lk-seg-slider-bg   : var(--lk-color-primary-bg-soft);
-          --lk-seg-text        : var(--lk-color-text-inverse);
-          --lk-seg-text-active : var(--lk-color-primary);
+          --lk-seg-track-bg: var(--lk-color-primary);
+          --lk-seg-slider-bg: var(--lk-color-primary-bg-soft);
+          --lk-seg-text: var(--lk-color-text-inverse);
+          --lk-seg-text-active: var(--lk-color-primary);
         "
       />
     </demo-block>
 
     <demo-block title="自定义高度">
-      <lk-segmented v-model="hVal"
-                    :options="baseOptions"
-                    height="96rpx" />
+      <lk-segmented v-model="hVal" :options="baseOptions" height="96rpx" />
     </demo-block>
 
     <!-- 插槽示例 ------------------------------------->
     <demo-block title="插槽自定义">
       <lk-segmented v-model="slotVal" :options="slotOpts">
         <template #item="{ option, active }">
-          <view :style="{ padding:'0 24rpx', fontWeight: active?600:500 }">
+          <view :style="{ padding: '0 24rpx', fontWeight: active ? 600 : 500 }">
             <!-- 可以放图标、徽章等 -->
             <text>{{ option.label }}</text>
-            <text v-if="active" style="color:#f56c6c;margin-left:4rpx">★</text>
+            <text v-if="active" style="color: #f56c6c; margin-left: 4rpx">★</text>
           </view>
         </template>
       </lk-segmented>
@@ -96,7 +94,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import LkSegmented from '@/uni_modules/lucky-ui/components/lk-segmented/lk-segmented.vue';
-import DemoBlock   from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 /* v-model refs */
 const v1 = ref('daily');
@@ -108,29 +106,29 @@ const v6 = ref('daily');
 const v7 = ref('nearby');
 const v8 = ref('daily');
 
-const hVal    = ref('weekly');
+const hVal = ref('weekly');
 const slotVal = ref('1');
 const slotOpts = [
-  { label:'A', value:'1' },
-  { label:'B', value:'2' },
-  { label:'C', value:'3' },
+  { label: 'A', value: '1' },
+  { label: 'B', value: '2' },
+  { label: 'C', value: '3' },
 ];
 
 /* options */
 const baseOptions = [
   { label: '每日精选', value: 'daily' },
-  { label: '周榜',     value: 'weekly' },
-  { label: '月榜',     value: 'monthly' },
+  { label: '周榜', value: 'weekly' },
+  { label: '月榜', value: 'monthly' },
 ];
 const simpleOptions = [
-  { label: 'Map',      value: '1' },
-  { label: 'Transit',  value: '2' },
-  { label: 'Satellite',value: '3' },
+  { label: 'Map', value: '1' },
+  { label: 'Transit', value: '2' },
+  { label: 'Satellite', value: '3' },
 ];
 const variedOptions = [
-  { label: '推荐',       value: 'rec' },
-  { label: '附近的人',   value: 'nearby' },
-  { label: '关注',       value: 'follow' },
+  { label: '推荐', value: 'rec' },
+  { label: '附近的人', value: 'nearby' },
+  { label: '关注', value: 'follow' },
 ];
 const disabledOptions = [
   { label: '启用 A', value: 'a' },

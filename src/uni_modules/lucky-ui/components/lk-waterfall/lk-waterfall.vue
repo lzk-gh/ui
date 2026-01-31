@@ -11,7 +11,15 @@
  * - 无限滚动 + 预加载
  * - 作用域插槽自定义卡片
  */
-import { computed, getCurrentInstance, nextTick, onMounted, ref, watch, type CSSProperties } from 'vue';
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
+  type CSSProperties,
+} from 'vue';
 import { waterfallProps, waterfallEmits } from './waterfall.props';
 import type { WaterfallItem, PlacedCard, WaterfallLoadingState } from './waterfall.props';
 
@@ -104,7 +112,9 @@ const columnWidth = computed(() => {
 const rightColumnLeft = computed(() => paddingXPx.value + columnWidth.value + gutterPx.value);
 
 /** 总高度 */
-const totalHeight = computed(() => Math.max(leftHeight.value, rightHeight.value) + paddingYPx.value);
+const totalHeight = computed(
+  () => Math.max(leftHeight.value, rightHeight.value) + paddingYPx.value
+);
 
 // ======================== 高度计算 ========================
 
@@ -244,7 +254,7 @@ async function measureContainer() {
     const query = uni.createSelectorQuery();
     query
       .select(`#${rootId}`)
-      .boundingClientRect((rect) => {
+      .boundingClientRect(rect => {
         const info = Array.isArray(rect) ? rect[0] : rect;
         const sys = uni.getSystemInfoSync?.();
         if (info && info.width && info.width > 0) {
@@ -341,19 +351,41 @@ function getCardStyle(card: PlacedCard): CSSProperties {
       <slot name="header" />
 
       <!-- 初始加载骨架屏 -->
-      <view v-if="showSkeleton && !isReady" class="lk-waterfall__init-skeleton" :style="{ padding: `${addUnit(paddingYPx)} ${addUnit(paddingXPx)}` }">
+      <view
+        v-if="showSkeleton && !isReady"
+        class="lk-waterfall__init-skeleton"
+        :style="{ padding: `${addUnit(paddingYPx)} ${addUnit(paddingXPx)}` }"
+      >
         <view class="lk-waterfall__columns">
           <view class="lk-waterfall__column" :style="columnStyle">
             <view
               v-for="i in 3"
               :key="`left-skel-${i}`"
               class="lk-waterfall__skeleton-card"
-              :style="{ height: `${180 + i * 40}px`, borderRadius: addUnit(cardRadiusPx), marginBottom: addUnit(rowGapPx) }"
+              :style="{
+                height: `${180 + i * 40}px`,
+                borderRadius: addUnit(cardRadiusPx),
+                marginBottom: addUnit(rowGapPx),
+              }"
             >
-              <lk-skeleton :loading="true" :animated="true" :avatar="false" :title="false" :rows="0" />
+              <lk-skeleton
+                :loading="true"
+                :animated="true"
+                :avatar="false"
+                :title="false"
+                :rows="0"
+              />
               <view class="lk-waterfall__skeleton-image" />
               <view class="lk-waterfall__skeleton-content">
-                <lk-skeleton :loading="true" :animated="true" :avatar="false" :title="true" title-width="80%" :rows="1" row-width="60%" />
+                <lk-skeleton
+                  :loading="true"
+                  :animated="true"
+                  :avatar="false"
+                  :title="true"
+                  title-width="80%"
+                  :rows="1"
+                  row-width="60%"
+                />
               </view>
             </view>
           </view>
@@ -362,12 +394,30 @@ function getCardStyle(card: PlacedCard): CSSProperties {
               v-for="i in 3"
               :key="`right-skel-${i}`"
               class="lk-waterfall__skeleton-card"
-              :style="{ height: `${220 + i * 30}px`, borderRadius: addUnit(cardRadiusPx), marginBottom: addUnit(rowGapPx) }"
+              :style="{
+                height: `${220 + i * 30}px`,
+                borderRadius: addUnit(cardRadiusPx),
+                marginBottom: addUnit(rowGapPx),
+              }"
             >
-              <lk-skeleton :loading="true" :animated="true" :avatar="false" :title="false" :rows="0" />
+              <lk-skeleton
+                :loading="true"
+                :animated="true"
+                :avatar="false"
+                :title="false"
+                :rows="0"
+              />
               <view class="lk-waterfall__skeleton-image" />
               <view class="lk-waterfall__skeleton-content">
-                <lk-skeleton :loading="true" :animated="true" :avatar="false" :title="true" title-width="70%" :rows="1" row-width="50%" />
+                <lk-skeleton
+                  :loading="true"
+                  :animated="true"
+                  :avatar="false"
+                  :title="true"
+                  title-width="70%"
+                  :rows="1"
+                  row-width="50%"
+                />
               </view>
             </view>
           </view>
@@ -408,7 +458,9 @@ function getCardStyle(card: PlacedCard): CSSProperties {
                 @error="onImageError(card)"
               />
               <view class="lk-waterfall__default-content">
-                <text class="lk-waterfall__default-title">{{ card.item.title || `#${card.index + 1}` }}</text>
+                <text class="lk-waterfall__default-title">{{
+                  card.item.title || `#${card.index + 1}`
+                }}</text>
               </view>
             </view>
           </slot>
@@ -418,7 +470,12 @@ function getCardStyle(card: PlacedCard): CSSProperties {
         <view
           v-if="cardList.length > 0"
           class="lk-waterfall__footer"
-          :style="{ position: 'absolute', top: addUnit(totalHeight - paddingYPx), left: 0, right: 0 }"
+          :style="{
+            position: 'absolute',
+            top: addUnit(totalHeight - paddingYPx),
+            left: 0,
+            right: 0,
+          }"
         >
           <slot name="loading">
             <view class="lk-waterfall__loading">

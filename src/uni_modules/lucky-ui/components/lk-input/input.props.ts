@@ -99,4 +99,12 @@ export const inputProps = {
 
 export type InputProps = ExtractPropTypes<typeof inputProps>;
 
-export const inputEmits = ['update:modelValue', 'input', 'change', 'focus', 'blur', 'clear', 'click'];
+export const inputEmits = [
+  'update:modelValue',
+  'input',
+  'change',
+  'focus',
+  'blur',
+  'clear',
+  'click',
+];
