@@ -28,7 +28,10 @@
   }
 
   @include when(clickable) {
-    // 去掉整块点击态背景，保留波纹效果
+    transition: background-color 0.2s ease;
+    &:active {
+      background-color: var(--lk-color-bg-active);
+    }
   }
 
   @include when(disabled) {

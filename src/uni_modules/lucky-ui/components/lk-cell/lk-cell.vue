@@ -7,7 +7,7 @@ defineOptions({ name: 'LkCell' });
 const props = defineProps(cellProps);
 const emit = defineEmits(cellEmits);
 
-const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 600 });
+const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
 function onTap(e: unknown) {
   if (props.disabled) return;

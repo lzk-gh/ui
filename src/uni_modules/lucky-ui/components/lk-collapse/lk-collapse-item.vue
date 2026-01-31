@@ -12,7 +12,7 @@ const props = defineProps({
 const collapse = inject<any>('LkCollapse');
 const open = computed(() => collapse.active.value.includes(props.name));
 
-const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 600 });
+const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
 function toggle() {
   if (props.disabled) return;

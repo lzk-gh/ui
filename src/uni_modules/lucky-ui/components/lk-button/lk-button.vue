@@ -8,7 +8,7 @@ defineOptions({ name: 'LkButton' });
 const props = defineProps(buttonProps);
 const emit = defineEmits(buttonEmits);
 
-const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 600 });
+const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
 const cls = computed(() => [
   'lk-ripple',
