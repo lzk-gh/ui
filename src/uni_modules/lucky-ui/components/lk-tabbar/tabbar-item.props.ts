@@ -7,8 +7,14 @@ export const tabbarItemProps = {
     required: true,
   },
 
-  /** 图标名称 */
+  /** 图标名称（lk-icon 内置图标） */
   icon: {
+    type: String as PropType<string>,
+    default: '',
+  },
+
+  /** 选中态图标名称 */
+  selectedIcon: {
     type: String as PropType<string>,
     default: '',
   },
@@ -17,6 +23,12 @@ export const tabbarItemProps = {
   label: {
     type: String as PropType<string>,
     default: '',
+  },
+
+  /** 是否使用自定义图标（图片路径模式） */
+  customIcon: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
 
   /** 徽标数字 */

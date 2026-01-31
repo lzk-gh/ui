@@ -1,8 +1,69 @@
 <template>
   <view class="component-demo">
-    <demo-block title="基础用法" desc="iOS 风格的底部导航">
+    <!-- ============================================================ -->
+    <!-- Fixed 模式 - 简约风格（默认） -->
+    <!-- ============================================================ -->
+    <demo-block title="Fixed 模式（简约风格）" desc="仅颜色渐变过渡，跟随品牌色">
       <view class="tabbar-preview">
-        <lk-tabbar v-model="active1" :fixed="false">
+        <lk-tabbar v-model="activeFixed" :fixed="false" mode="fixed">
+          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
+          <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
+          <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" :badge="3" />
+          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+        </lk-tabbar>
+      </view>
+    </demo-block>
+
+    <!-- ============================================================ -->
+    <!-- Slider 模式 - 滑块风格 -->
+    <!-- ============================================================ -->
+    <demo-block title="Slider 模式（滑块风格）" desc="滑块平滑移动到目标位置">
+      <view class="tabbar-preview">
+        <lk-tabbar v-model="activeSlider" :fixed="false" mode="slider">
+          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
+          <lk-tabbar-item name="discover" icon="compass-fill" label="发现" />
+          <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" dot />
+          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+        </lk-tabbar>
+      </view>
+    </demo-block>
+
+    <!-- ============================================================ -->
+    <!-- Bump 模式 - 中间凸起风格 -->
+    <!-- ============================================================ -->
+    <demo-block title="Bump 模式（中间凸起）" desc="中间按钮悬浮突出，点击有回弹效果">
+      <view class="tabbar-preview tabbar-preview--bump">
+        <lk-tabbar v-model="activeBump" :fixed="false" mode="bump" :border="false">
+          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
+          <lk-tabbar-item name="discover" icon="compass-fill" label="发现" />
+          <lk-tabbar-item name="add" icon="plus-lg" label="" />
+          <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" :badge="5" />
+          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+        </lk-tabbar>
+      </view>
+    </demo-block>
+
+    <!-- ============================================================ -->
+    <!-- List 模式 - 使用配置数组 -->
+    <!-- ============================================================ -->
+    <demo-block title="List 配置模式" desc="通过 list 属性配置，无需使用 slot">
+      <view class="tabbar-preview">
+        <lk-tabbar v-model="activeList" :fixed="false" mode="slider" :list="tabbarList" />
+      </view>
+    </demo-block>
+
+    <!-- ============================================================ -->
+    <!-- 自定义颜色 -->
+    <!-- ============================================================ -->
+    <demo-block title="自定义颜色" desc="可自定义激活/未激活颜色">
+      <view class="tabbar-preview">
+        <lk-tabbar
+          v-model="activeColor"
+          :fixed="false"
+          mode="fixed"
+          active-color="#10b981"
+          inactive-color="#9ca3af"
+        >
           <lk-tabbar-item name="home" icon="house-fill" label="首页" />
           <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
           <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" />
@@ -11,50 +72,44 @@
       </view>
     </demo-block>
 
-    <demo-block title="带徽标" desc="展示消息数量或小红点">
-      <view class="tabbar-preview">
-        <lk-tabbar v-model="active2" :fixed="false">
+    <!-- ============================================================ -->
+    <!-- 毛玻璃效果 -->
+    <!-- ============================================================ -->
+    <demo-block title="毛玻璃效果" desc="开启 glassBg 呈现磨砂玻璃质感">
+      <view class="tabbar-preview tabbar-preview--gradient">
+        <lk-tabbar v-model="activeGlass" :fixed="false" mode="fixed" glass-bg :border="false">
           <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-          <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" :badge="5" />
+          <lk-tabbar-item name="discover" icon="compass-fill" label="发现" />
+          <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" />
+          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+        </lk-tabbar>
+      </view>
+    </demo-block>
+
+    <!-- ============================================================ -->
+    <!-- 徽标与小红点 -->
+    <!-- ============================================================ -->
+    <demo-block title="徽标与小红点" desc="展示消息数量或提示状态">
+      <view class="tabbar-preview">
+        <lk-tabbar v-model="activeBadge" :fixed="false" mode="slider">
+          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
+          <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" :badge="99" />
           <lk-tabbar-item name="notification" icon="bell-fill" label="通知" dot />
           <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
         </lk-tabbar>
       </view>
     </demo-block>
 
-    <demo-block title="自定义颜色" desc="修改激活/未激活颜色">
+    <!-- ============================================================ -->
+    <!-- 选中态图标切换 -->
+    <!-- ============================================================ -->
+    <demo-block title="选中态图标" desc="支持未选中/选中不同图标">
       <view class="tabbar-preview">
-        <lk-tabbar
-          v-model="active3"
-          :fixed="false"
-          active-color="var(--lk-color-success)"
-          inactive-color="var(--lk-color-text-tertiary)"
-        >
-          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-          <lk-tabbar-item name="discover" icon="compass-fill" label="发现" />
-          <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" :badge="2" />
-          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
-        </lk-tabbar>
-      </view>
-    </demo-block>
-
-    <demo-block title="三项导航">
-      <view class="tabbar-preview">
-        <lk-tabbar v-model="active4" :fixed="false">
-          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-          <lk-tabbar-item name="search" icon="search" label="搜索" />
-          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
-        </lk-tabbar>
-      </view>
-    </demo-block>
-
-    <demo-block title="无边框" desc=":border='false'">
-      <view class="tabbar-preview tabbar-preview--shadow">
-        <lk-tabbar v-model="active5" :fixed="false" :border="false">
-          <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-          <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
-          <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" :badge="99" />
-          <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+        <lk-tabbar v-model="activeIcon" :fixed="false" mode="fixed">
+          <lk-tabbar-item name="home" icon="house" selected-icon="house-fill" label="首页" />
+          <lk-tabbar-item name="heart" icon="heart" selected-icon="heart-fill" label="收藏" />
+          <lk-tabbar-item name="star" icon="star" selected-icon="star-fill" label="关注" />
+          <lk-tabbar-item name="profile" icon="person" selected-icon="person-fill" label="我的" />
         </lk-tabbar>
       </view>
     </demo-block>
@@ -67,11 +122,35 @@ import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue'
 import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
-const active1 = ref('home');
-const active2 = ref('home');
-const active3 = ref('home');
-const active4 = ref('home');
-const active5 = ref('home');
+// Fixed 模式
+const activeFixed = ref('home');
+
+// Slider 模式
+const activeSlider = ref('home');
+
+// Bump 模式
+const activeBump = ref('home');
+
+// List 配置模式
+const activeList = ref(0);
+const tabbarList = [
+  { icon: 'house-fill', text: '首页' },
+  { icon: 'compass-fill', text: '发现' },
+  { icon: 'chat-dots-fill', text: '消息', badge: 12 },
+  { icon: 'person-fill', text: '我的' },
+];
+
+// 自定义颜色
+const activeColor = ref('home');
+
+// 毛玻璃效果
+const activeGlass = ref('home');
+
+// 徽标
+const activeBadge = ref('home');
+
+// 图标切换
+const activeIcon = ref('home');
 </script>
 
 <style scoped lang="scss">
@@ -87,8 +166,21 @@ const active5 = ref('home');
   overflow: hidden;
   background: var(--lk-color-bg-container);
 
-  &--shadow {
-    box-shadow: var(--lk-shadow-sm);
+  // Bump 模式需要更多上方空间
+  &--bump {
+    padding-top: 60rpx;
+    overflow: visible;
+  }
+
+  // 渐变背景用于展示毛玻璃效果
+  &--gradient {
+    background: linear-gradient(
+      135deg,
+      var(--lk-color-primary) 0%,
+      var(--lk-color-primary-soft) 50%,
+      #e0f2fe 100%
+    );
+    padding-top: 100rpx;
   }
 }
 </style>

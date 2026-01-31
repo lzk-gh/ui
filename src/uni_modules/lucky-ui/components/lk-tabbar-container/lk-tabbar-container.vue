@@ -246,7 +246,7 @@ $tabbar-height: 120rpx;
       border-radius: 40rpx;
 
       &:active {
-        background: rgba($test-primary, 0.1);
+        background: $test-primary-soft;
       }
     }
   }

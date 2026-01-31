@@ -1,7 +1,16 @@
 ﻿/**
  * LkTabbar 底部导航栏
- * 设计参考 iOS TabBar，简洁优雅
+ * 支持三种模式：fixed（简约）、slider（滑块）、bump（中间凸起）
+ * 设计参考 iOS TabBar，支持丝滑动画
  */
+
+// ============================================================================
+// 变量定义
+// ============================================================================
+$tabbar-height: 120rpx;
+$tabbar-item-height: 84rpx;
+$tabbar-transition: cubic-bezier(0.4, 0, 0.2, 1); // Material Design 标准曲线
+$tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
 // ============================================================================
 // Tabbar 容器
@@ -31,6 +40,7 @@
       height: 1px;
       background-color: var(--lk-color-border-light);
       transform: scaleY(0.5);
+      z-index: 1;
     }
   }
 
@@ -40,24 +50,80 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
+  // 毛玻璃效果
+  &--glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    // 暗色主题下的毛玻璃
+    .lk-theme-dark & {
+      background: rgba(30, 30, 30, 0.85);
+    }
+  }
+
+  // ============================================================================
+  // Slider 模式 - 滑块指示器
+  // ============================================================================
+  &__slider {
+    position: absolute;
+    top: 18rpx;
+    height: $tabbar-item-height;
+    transition: left 0.35s $tabbar-transition, width 0.35s $tabbar-transition;
+    z-index: 0;
+    pointer-events: none;
+
+    &-inner {
+      width: calc(100% - 20rpx);
+      height: 100%;
+      margin: 0 10rpx;
+      background: var(--lk-tabbar-active-color, var(--lk-color-primary));
+      border-radius: 42rpx;
+      opacity: 0.12;
+    }
+  }
+
+  // Slider 模式容器调整
+  &--slider {
+    .lk-tabbar-item {
+      background: transparent !important;
+
+      &.is-active {
+        color: var(--lk-tabbar-active-color, var(--lk-color-primary));
+        background: transparent !important;
+      }
+    }
+  }
+
+  // ============================================================================
+  // Bump 模式 - 容器需要溢出显示
+  // ============================================================================
+  &--bump {
+    overflow: visible;
+
+    .lk-tabbar__wrapper {
+      overflow: visible;
+    }
+  }
+
   // 内部容器 - 使用 flex 均分
   &__wrapper {
+    position: relative;
     display: flex;
     align-items: stretch;
     justify-content: space-around;
-    height: 120rpx;
+    height: $tabbar-height;
     width: 100%;
-    // 防止切换时跳动
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
   }
 
   // 占位元素
   &__placeholder {
-    height: 120rpx;
+    height: $tabbar-height;
     width: 100%;
 
-    .lk-tabbar--safe-area + & {
+    &.lk-tabbar--safe-area {
       padding-bottom: constant(safe-area-inset-bottom);
       padding-bottom: env(safe-area-inset-bottom);
     }
@@ -68,34 +134,108 @@
 // Tabbar Item 导航项
 // ============================================================================
 .lk-tabbar-item {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4rpx;
-  height: 84rpx;
+  height: $tabbar-item-height;
   margin: 18rpx 10rpx;
   min-width: 0;
-  color: var(--lk-tabbar-inactive-color, var(--lk-color-text-tertiary));
+  color: var(--lk-tabbar-inactive-color, #909399);
   font-size: 20rpx;
   line-height: 1;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: all 0.2s ease-out;
   border-radius: 42rpx;
-  transform: translateZ(0);
+  z-index: 1;
 
-  // 激活状态
-  &.is-active {
-    color: var(--lk-color-text-inverse, #ffffff);
-    background: var(--lk-tabbar-active-color, var(--lk-color-primary));
+  // 核心过渡动画 - 使用贝塞尔曲线
+  transition:
+    color 0.3s $tabbar-transition,
+    background-color 0.3s $tabbar-transition,
+    transform 0.2s $tabbar-transition-bounce;
+
+  // ============================================================================
+  // Fixed 模式（默认）- 仅颜色变化
+  // ============================================================================
+  .lk-tabbar--fixed & {
+    &.is-active {
+      color: var(--lk-tabbar-active-color, var(--lk-color-primary));
+      background: transparent;
+    }
   }
 
-  // 按下效果 - 使用 transform 代替 opacity
+  // ============================================================================
+  // 点击反馈 - 缩放动画增加跟手感
+  // ============================================================================
   &:active {
-    transform: translateZ(0) scale(0.95);
+    transform: scale(0.92);
+    transition: transform 0.1s ease-out;
+  }
+
+  // ============================================================================
+  // Bump 模式 - 中间凸起项
+  // ============================================================================
+  &--bump {
+    position: relative;
+    flex: none;
+    width: 120rpx;
+    height: 120rpx;
+    margin: 0;
+    margin-top: -50rpx; // 向上突出
+    z-index: 10;
+    color: var(--lk-color-text-inverse, #fff);
+    border-radius: 50%;
+
+    // 凸起项始终显示为激活态颜色
+    .lk-tabbar-item__icon {
+      position: relative;
+      z-index: 2;
+    }
+
+    .lk-tabbar-item__label {
+      position: relative;
+      z-index: 2;
+      color: var(--lk-color-text-inverse, #fff);
+    }
+
+    // 点击缩放回弹效果
+    &:active {
+      transform: scale(0.9);
+
+      .lk-tabbar-item__bump-bg {
+        transform: scale(0.95);
+      }
+    }
+
+    // 凸起背景容器
+    &__bump-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--lk-tabbar-active-color, var(--lk-color-primary));
+      border-radius: 50%;
+      box-shadow:
+        0 8rpx 24rpx rgba(0, 0, 0, 0.15),
+        0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      transition: transform 0.2s $tabbar-transition-bounce;
+    }
+
+    // 激活状态增强
+    &.is-active {
+      .lk-tabbar-item__bump-bg {
+        box-shadow:
+          0 12rpx 32rpx rgba(0, 0, 0, 0.2),
+          0 6rpx 12rpx rgba(0, 0, 0, 0.15);
+      }
+    }
   }
 
   // 图标容器
@@ -108,6 +248,15 @@
     height: 48rpx;
     flex-shrink: 0;
     margin-bottom: 4rpx;
+
+    // 图标过渡
+    transition: transform 0.2s $tabbar-transition-bounce;
+  }
+
+  // 自定义图标（图片）
+  &__custom-icon {
+    width: 48rpx;
+    height: 48rpx;
   }
 
   // 文字标签
@@ -117,13 +266,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    height: 28rpx; // 固定高度防止跳动
+    height: 28rpx;
     line-height: 28rpx;
-  }
-
-  // 移除激活状态字体加粗，防止宽度跳动
-  &.is-active &__label {
-    // font-weight: 500; // 注释掉防止跳动
+    transition: color 0.3s $tabbar-transition;
   }
 
   // 小红点
@@ -135,6 +280,7 @@
     height: 16rpx;
     background-color: var(--lk-color-danger);
     border-radius: 50%;
+    animation: lk-dot-pulse 2s infinite;
   }
 
   // 徽标数字
@@ -157,6 +303,21 @@
 }
 
 // ============================================================================
+// 动画关键帧
+// ============================================================================
+@keyframes lk-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+// ============================================================================
 // 暗色主题
 // ============================================================================
 .lk-theme-dark {
@@ -165,6 +326,18 @@
 
     &--border::before {
       background-color: var(--lk-color-border-light);
+    }
+
+    &--glass {
+      background: rgba(30, 30, 30, 0.85);
+    }
+  }
+
+  .lk-tabbar-item {
+    color: var(--lk-tabbar-inactive-color, #6b7280);
+
+    &.is-active {
+      color: var(--lk-tabbar-active-color, var(--lk-color-primary));
     }
   }
 }

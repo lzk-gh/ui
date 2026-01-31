@@ -49,7 +49,7 @@ const contentHeight = computed(() => '100%');
   justify-content: center;
   width: 64rpx;
   height: 64rpx;
-  background: rgba($test-primary, 0.1);
+  background: $test-primary-soft;
   color: $test-primary;
   border-radius: 50%;
   transition: all 0.3s;

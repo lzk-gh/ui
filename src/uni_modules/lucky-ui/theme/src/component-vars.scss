@@ -98,14 +98,7 @@ page {
   --lk-z-index-toast: 2000;
   --lk-z-index-notify: 2100;
   --lk-z-index-loading: 2200;
-}
 
-/* =============================================================================
-   亮色主题（默认）
-   ============================================================================= */
-:root,
-page,
-.lk-theme-light {
   /* === 品牌色（支持运行时覆盖）=== */
   --lk-brand-100: #{colors.$color-brand-100};
   --lk-brand-200: #{colors.$color-brand-200};
@@ -116,7 +109,14 @@ page,
   --lk-brand-700: #{colors.$color-brand-700};
   --lk-brand-800: #{colors.$color-brand-800};
   --lk-brand-900: #{colors.$color-brand-900};
+}
 
+/* =============================================================================
+   亮色主题（默认）
+   ============================================================================= */
+:root,
+page,
+.lk-theme-light {
   /* === 主色 === */
   --lk-color-primary: var(--lk-brand-600);
   --lk-color-primary-hover: var(--lk-brand-700);
