@@ -38,6 +38,6 @@ export const rateProps = {
 export type RateProps = ExtractPropTypes<typeof rateProps>;
 
 export const rateEmits = {
-  'update:modelValue': (val: number) => true,
-  change: (val: number) => true,
+  'update:modelValue': (_val: number) => true,
+  change: (_val: number) => true,
 };

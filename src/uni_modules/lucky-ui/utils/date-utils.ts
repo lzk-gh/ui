@@ -1,5 +1,5 @@
 export function pad(n: number) {
-  return n < 10 ? '0' + n : '' + n;
+  return n < 10 ? `0${  n}` : `${  n}`;
 }
 
 /** 解析 YYYY-MM-DD 返回 Date, 失败返回当前 */
@@ -20,7 +20,7 @@ export function dateRangeArray(start: string, end: string) {
   const e = parseDate(end);
   if (isNaN(+s) || isNaN(+e) || s > e) return [];
   const res: string[] = [];
-  let cur = new Date(s);
+  const cur = new Date(s);
   while (cur <= e) {
     res.push(formatDate(cur));
     cur.setDate(cur.getDate() + 1);

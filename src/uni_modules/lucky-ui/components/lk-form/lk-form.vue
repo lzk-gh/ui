@@ -26,7 +26,11 @@ async function validate(opts?: { fields?: string[] }) {
     try {
       await f.validate();
     } catch (e: any) {
-      Array.isArray(e) ? errors.push(...e) : errors.push(e);
+      if (Array.isArray(e)) {
+        errors.push(...e);
+      } else {
+        errors.push(e);
+      }
     }
   }
   emit('validate', errors.length === 0, errors.length ? errors : null);

@@ -95,7 +95,7 @@
             <lk-button size="sm" @click="toggleList">切换列表</lk-button>
             <view class="list-container">
               <view
-                v-for="(item, index) in listItems"
+                v-for="item in listItems"
                 :key="item.id"
                 v-show="listItemDisplayStates[item.id]"
                 class="list-item"

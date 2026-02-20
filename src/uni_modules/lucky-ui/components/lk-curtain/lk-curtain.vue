@@ -1,10 +1,15 @@
 <template>
-  <view v-if="display" class="lk-curtain" :class="customClass" :style="customStyle">
-    <lk-overlay v-if="display" :show="show" :z-index="zIndex" @click="onOverlayClick" />
+  <view
+    v-if="display"
+    class="lk-curtain"
+    :class="customClass"
+    :style="[customStyle, { zIndex: props.zIndex }]"
+  >
+    <lk-overlay v-if="display" :show="show" :z-index="props.zIndex" @click="onOverlayClick" />
     <view
       class="lk-curtain__content"
       :class="contentClasses"
-      :style="{ ...contentStyle, ...contentStyles }"
+      :style="[contentStyle, contentStyles]"
     >
       <view v-if="hasDefaultSlot" class="lk-curtain__slot" @click="onClick">
         <slot />
@@ -46,8 +51,6 @@ const props = defineProps(curtainProps);
 const emit = defineEmits(curtainEmits);
 const slots = useSlots();
 
-const zIndex = 10090;
-
 const widthStr = computed(() => addUnit(props.width));
 const heightStr = computed(() => addUnit(props.height));
 const closeOffsetStr = computed(() => addUnit(props.closeOffset) || '24rpx');
@@ -55,7 +58,7 @@ const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || 
 
 const contentStyle = computed(() => {
   return {
-    zIndex: zIndex + 1,
+    zIndex: props.zIndex + 1,
     width: widthStr.value,
     height: heightStr.value,
   };
@@ -109,9 +112,18 @@ const onClose = () => {
 
 const onClick = () => {
   emit('click');
-  if (props.link) {
-    // @ts-ignore
-    uni[props.linkType]({
+  if (!props.link) return;
+
+  // #ifdef H5
+  if (props.link.startsWith('http')) {
+    window.location.href = props.link;
+    return;
+  }
+  // #endif
+
+  const navFn = (uni as any)[props.linkType];
+  if (typeof navFn === 'function') {
+    navFn({
       url: props.link,
     });
   }
@@ -128,7 +140,6 @@ const onClick = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10090;
   pointer-events: auto;
 
   &__content {

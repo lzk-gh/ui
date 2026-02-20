@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'LkCellGroup' });
-const props = defineProps({
+defineProps({
   title: { type: String, default: '' },
   inset: { type: Boolean, default: false },
   border: { type: Boolean, default: false },

@@ -69,7 +69,7 @@ function clickNode(level: number, n: CascaderNode) {
 const display = computed(() => {
   if (!props.modelValue.length) return '';
   // 查 label
-  let labels: string[] = [];
+  const labels: string[] = [];
   let list: CascaderNode[] = props.options;
   for (const v of props.modelValue) {
     const item = list.find(n => n.value === v);

@@ -38,8 +38,23 @@ export const CurtainImageModes = [
 
 export type CurtainImageMode = (typeof CurtainImageModes)[number];
 
+export const CurtainLinkTypes = [
+  'navigateTo',
+  'redirectTo',
+  'reLaunch',
+  'switchTab',
+  'navigateBack',
+] as const;
+
+export type CurtainLinkType = (typeof CurtainLinkTypes)[number];
+
 export const curtainProps = {
   ...baseProps,
+
+  /**
+   * 层级 (覆盖 baseProps 默认值)
+   */
+  zIndex: LkProp.number(10090),
   /**
    * 是否显示幕帘
    */
@@ -88,7 +103,7 @@ export const curtainProps = {
   /**
    * 链接跳转类型
    */
-  linkType: LkProp.string('navigateTo'),
+  linkType: LkProp.enum(CurtainLinkTypes, 'navigateTo', 'Curtain.linkType'),
 };
 
 export type CurtainProps = ExtractPropTypes<typeof curtainProps>;

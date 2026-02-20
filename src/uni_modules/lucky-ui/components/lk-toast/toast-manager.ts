@@ -1,4 +1,4 @@
-import { ref, reactive, nextTick } from 'vue';
+import { ref, reactive } from 'vue';
 import type { ToastTransitionName } from './toast.props';
 
 export interface ToastItem {

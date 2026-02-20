@@ -44,13 +44,13 @@ export const textareaProps = {
 } as const;
 
 export const textareaEmits = {
-  'update:modelValue': (val: string) => true,
-  focus: (e: any) => true,
-  blur: (e: any) => true,
-  confirm: (e: any) => true,
-  input: (val: string) => true,
+  'update:modelValue': (_val: string) => true,
+  focus: (_e: unknown) => true,
+  blur: (_e: unknown) => true,
+  confirm: (_e: unknown) => true,
+  input: (_val: string) => true,
   clear: () => true,
-  linechange: (e: any) => true,
+  linechange: (_e: unknown) => true,
 };
 
 export type TextareaProps = ExtractPropTypes<typeof textareaProps>;

@@ -68,10 +68,11 @@ function handleClick(e: Event) {
   <text
     class="lk-icon"
     :style="[iconStyle, props.customStyle]"
-    @click="handleClick"
-    v-text="iconChar"
     aria-hidden="true"
-  />
+    @click="handleClick"
+  >
+    {{ iconChar }}
+  </text>
 </template>
 
 <style lang="scss">

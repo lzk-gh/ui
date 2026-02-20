@@ -177,11 +177,11 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
       >
         <view class="lk-tabs__nav-wrap">
           <view
-            v-for="(pane, index) in panes"
+            v-for="pane in panes"
+            :id="'lk-tab-' + pane.name"
             :key="pane.name"
             class="lk-tabs__nav-item"
             :class="{ 'is-active': pane.name === current }"
-            :id="'lk-tab-' + pane.name"
             @click="setActive(pane.name)"
           >
             <text class="lk-tabs__label">{{ pane.label }}</text>

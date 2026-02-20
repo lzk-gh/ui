@@ -67,6 +67,9 @@ export default [
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
+      'no-undef': 'off',
+      'no-redeclare': 'off',
+      '@typescript-eslint/no-redeclare': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -160,6 +163,9 @@ export default [
       ],
 
       // TypeScript 规则（Vue 文件中）
+      'no-undef': 'off',
+      'no-redeclare': 'off',
+      '@typescript-eslint/no-redeclare': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -187,6 +193,24 @@ export default [
       'arrow-parens': ['error', 'as-needed'],
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0, maxBOF: 0 }],
       eqeqeq: ['error', 'always', { null: 'ignore' }],
+    },
+  },
+
+  // Node 脚本配置
+  {
+    files: ['src/uni_modules/lucky-ui/scripts/**/*.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        console: 'readonly',
+      },
+    },
+    rules: {
+      'no-undef': 'off',
     },
   },
 

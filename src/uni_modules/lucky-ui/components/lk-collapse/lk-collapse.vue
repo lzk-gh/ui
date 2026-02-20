@@ -24,7 +24,11 @@ function toggle(name: any) {
     emit('update:modelValue', next[0] ?? '');
   } else {
     const set = new Set(active.value);
-    set.has(name) ? set.delete(name) : set.add(name);
+    if (set.has(name)) {
+      set.delete(name);
+    } else {
+      set.add(name);
+    }
     next = Array.from(set);
     emit('update:modelValue', next);
   }

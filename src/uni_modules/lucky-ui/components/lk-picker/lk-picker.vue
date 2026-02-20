@@ -92,11 +92,9 @@ function onChange(e: { detail: { value: number[] } }) {
   const cols = computedColumns.value;
 
   // 检测是否级联列变化
-  let cascadeChanged = false;
   if (props.mode === 'region' || props.mode === 'cascade') {
     for (let i = 0; i < idxs.length; i++) {
       if (idxs[i] !== selectedIndexes.value[i]) {
-        cascadeChanged = true;
         // 重置后续列的索引
         for (let j = i + 1; j < idxs.length; j++) {
           idxs[j] = 0;
@@ -142,7 +140,7 @@ function onConfirm() {
 }
 
 // 计算 picker-view 高度
-const viewHeight = computed(() => props.itemHeight * props.visibleCount + 'rpx');
+const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx`);
 </script>
 
 <template>

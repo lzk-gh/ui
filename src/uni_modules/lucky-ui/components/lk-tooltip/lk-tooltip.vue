@@ -25,19 +25,8 @@ const open = computed({
   },
 });
 
-let showTimer: any = null;
-let hideTimer: any = null;
-
-function clearTimers() {
-  if (showTimer) {
-    clearTimeout(showTimer);
-    showTimer = null;
-  }
-  if (hideTimer) {
-    clearTimeout(hideTimer);
-    hideTimer = null;
-  }
-}
+let showTimer: ReturnType<typeof setTimeout> | null = null;
+let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
 function doOpen(v = true) {
   if (props.disabled || props.always) return;
@@ -80,14 +69,14 @@ watch(
 // 计算方位 class 与偏移变量
 const placementClass = computed(() => `is-${props.placement}`);
 const popStyle = computed(() => {
-  const style: Record<string, any> = {
+  const style: Record<string, string | number> = {
     '--lk-tooltip-offset': `${props.offset}rpx`,
     zIndex: props.zIndex,
   };
   if (props.width !== undefined && props.width !== null && props.width !== '') {
     style.width = typeof props.width === 'number' ? `${props.width}rpx` : String(props.width);
   }
-  return style as any;
+  return style;
 });
 
 onMounted(() => {

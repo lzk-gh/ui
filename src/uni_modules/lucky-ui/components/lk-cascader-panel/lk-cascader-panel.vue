@@ -1,3 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineOptions({ name: 'LkCascaderPanel' });
+</script>
 
-<template></template>
+<template>
+	<view class="lk-cascader-panel">
+		<slot />
+	</view>
+</template>

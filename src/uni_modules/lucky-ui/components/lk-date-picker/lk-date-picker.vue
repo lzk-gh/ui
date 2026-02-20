@@ -3,7 +3,7 @@ import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkCalendar from '../lk-calendar/lk-calendar.vue';
 import LkButton from '../lk-button/lk-button.vue';
-import { datePickerProps, datePickerEmits, type DatePickerType } from './date-picker.props';
+import { datePickerProps, datePickerEmits } from './date-picker.props';
 
 defineOptions({ name: 'LkDatePicker' });
 
@@ -208,14 +208,14 @@ function confirm() {
                 ? (draftRange as any)
                 : (draftSingle as any)
           "
-          @update:modelValue="onCalendarChange"
+          @update:model-value="onCalendarChange"
         />
 
         <template v-if="isDateTime">
           <view class="lk-date-picker__time">
             <view
-              class="lk-date-picker__time-row"
               v-if="type === 'date-time' || type === 'range-date-time'"
+              class="lk-date-picker__time-row"
             >
               <text class="lk-date-picker__time-label">开始时间</text>
               <view class="lk-date-picker__time-cols">
@@ -229,7 +229,7 @@ function confirm() {
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="lk-date-picker__col" v-if="timePrecision !== 'hour'">
+                <view v-if="timePrecision !== 'hour'" class="lk-date-picker__col">
                   <view
                     v-for="n in 60"
                     :key="'m1-' + n"
@@ -239,7 +239,7 @@ function confirm() {
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="lk-date-picker__col" v-if="timePrecision === 'second'">
+                <view v-if="timePrecision === 'second'" class="lk-date-picker__col">
                   <view
                     v-for="n in 60"
                     :key="'s1-' + n"
@@ -251,7 +251,7 @@ function confirm() {
                 </view>
               </view>
             </view>
-            <view class="lk-date-picker__time-row" v-if="type === 'range-date-time'">
+            <view v-if="type === 'range-date-time'" class="lk-date-picker__time-row">
               <text class="lk-date-picker__time-label">结束时间</text>
               <view class="lk-date-picker__time-cols">
                 <view class="lk-date-picker__col">
@@ -264,7 +264,7 @@ function confirm() {
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="lk-date-picker__col" v-if="timePrecision !== 'hour'">
+                <view v-if="timePrecision !== 'hour'" class="lk-date-picker__col">
                   <view
                     v-for="n in 60"
                     :key="'m2-' + n"
@@ -274,7 +274,7 @@ function confirm() {
                     >{{ (n - 1).toString().padStart(2, '0') }}</view
                   >
                 </view>
-                <view class="lk-date-picker__col" v-if="timePrecision === 'second'">
+                <view v-if="timePrecision === 'second'" class="lk-date-picker__col">
                   <view
                     v-for="n in 60"
                     :key="'s2-' + n"

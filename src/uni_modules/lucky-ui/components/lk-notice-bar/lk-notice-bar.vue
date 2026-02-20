@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
-import { noticeBarProps, type NoticeBarProps } from './notice-bar.props';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import { noticeBarProps } from './notice-bar.props';
 
 defineOptions({ name: 'LkNoticeBar' });
 
@@ -141,8 +141,8 @@ function click() {
         class="lk-notice-bar__content lk-notice-bar__content--vertical"
       >
         <view
-          class="lk-notice-bar__vertical-list"
           ref="verticalListEl"
+          class="lk-notice-bar__vertical-list"
           :style="{
             transform: `translateY(-${verticalList.length ? (currentIndex * 100) / verticalList.length : 0}%)`,
             transition: enableTransition ? 'transform 0.3s ease-in-out' : 'none',

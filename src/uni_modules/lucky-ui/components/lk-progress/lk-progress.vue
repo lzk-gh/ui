@@ -18,7 +18,7 @@ const trackStyle = computed(() => {
 
 const barStyle = computed(() => {
   const style: any = {
-    width: pct.value + '%',
+    width: `${pct.value  }%`,
   };
   if (props.color) {
     style.backgroundColor = props.color;

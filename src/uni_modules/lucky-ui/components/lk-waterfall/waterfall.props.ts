@@ -156,17 +156,17 @@ export type WaterfallProps = ExtractPropTypes<typeof waterfallProps>;
 
 export const waterfallEmits = {
   /** 滚动事件 */
-  scroll: (payload: { scrollTop: number; scrollHeight: number }) => true,
+  scroll: (_payload: { scrollTop: number; scrollHeight: number }) => true,
   /** 触底事件 */
   'reach-bottom': () => true,
   /** 需要加载更多 */
   'load-more': () => true,
   /** 卡片点击 */
-  'card-click': (item: WaterfallItem, index: number) => true,
+  'card-click': (_item: WaterfallItem, _index: number) => true,
   /** 图片加载完成 */
-  'image-loaded': (item: WaterfallItem, index: number) => true,
+  'image-loaded': (_item: WaterfallItem, _index: number) => true,
   /** 图片加载失败 */
-  'image-error': (item: WaterfallItem, index: number) => true,
+  'image-error': (_item: WaterfallItem, _index: number) => true,
 };
 
 export type WaterfallEmits = typeof waterfallEmits;

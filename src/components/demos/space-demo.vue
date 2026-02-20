@@ -37,7 +37,6 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
   gap: 24rpx;
 }
 .cell {
-  background: var(--lk-color-bg-elevated);
   border-radius: var(--lk-radius-sm);
   background: var(--lk-color-primary-bg-soft);
 }

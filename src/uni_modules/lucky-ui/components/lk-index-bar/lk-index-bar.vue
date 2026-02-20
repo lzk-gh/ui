@@ -33,7 +33,9 @@ function scrollTo(letter: string) {
   // #ifdef APP-PLUS || MP-WEIXIN
   try {
     uni.vibrateShort({ type: 'light' });
-  } catch {}
+  } catch {
+    // ignore
+  }
   // #endif
 
   // #ifdef H5
@@ -58,17 +60,22 @@ function scrollTo(letter: string) {
         });
       }
     }
-  } catch {}
+  } catch {
+    // ignore
+  }
   // #endif
 
   // #ifndef H5
   try {
     const q = uni.createSelectorQuery();
     const target = props.scrollTarget || '';
-    const sel = `${target ? target + ' ' : ''}[data-lk-index-anchor="${letter}"]`;
+    const sel = `${target ? `${target  } ` : ''}[data-lk-index-anchor="${letter}"]`;
     q.select(sel).boundingClientRect();
     // @ts-ignore
-    q.selectViewport().scrollOffset && q.selectViewport().scrollOffset();
+    const viewportQuery = q.selectViewport();
+    if (viewportQuery.scrollOffset) {
+      viewportQuery.scrollOffset();
+    }
     q.exec(res => {
       const rect = res[0];
       const viewport = res[1];
@@ -79,7 +86,9 @@ function scrollTo(letter: string) {
         });
       }
     });
-  } catch {}
+  } catch {
+    // ignore
+  }
   // #endif
 }
 
@@ -131,7 +140,9 @@ function updateItemRects() {
         letter: props.indexList[i] || '',
       };
     });
-  } catch {}
+  } catch {
+    // ignore
+  }
   // #endif
 }
 

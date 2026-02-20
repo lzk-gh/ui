@@ -155,7 +155,7 @@ const methodRef = ref<InstanceType<typeof LkVerifyCode>>();
 const codeMethod = ref('');
 
 function onFinish(v: string) {
-  uni.showToast({ title: '输入完成: ' + v, icon: 'none' });
+  uni.showToast({ title: `输入完成: ${v}`, icon: 'none' });
 }
 
 function onSend() {
@@ -167,7 +167,7 @@ function onResend() {
 }
 
 function onCountdownFinish(v: string) {
-  uni.showToast({ title: '验证完成: ' + v, icon: 'success' });
+  uni.showToast({ title: `验证完成: ${v}`, icon: 'success' });
 }
 
 function handleFocus() {

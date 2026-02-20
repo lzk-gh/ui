@@ -58,9 +58,9 @@ export const sliderProps = {
 export type SliderProps = ExtractPropTypes<typeof sliderProps>;
 
 export const sliderEmits = {
-  'update:modelValue': (val: number | number[]) => true,
-  change: (val: number | number[]) => true,
-  input: (val: number | number[]) => true,
+  'update:modelValue': (_val: number | number[]) => true,
+  change: (_val: number | number[]) => true,
+  input: (_val: number | number[]) => true,
   dragstart: () => true,
   dragend: () => true,
 };

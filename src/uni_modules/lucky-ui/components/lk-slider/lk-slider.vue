@@ -226,8 +226,8 @@ onMounted(() => nextTick(() => measureTrack()));
 <template>
   <view :class="rootClass">
     <view
-      class="lk-slider__track-container"
       :id="trackId"
+      class="lk-slider__track-container"
       @click="onTrackClick"
       @touchstart.stop.prevent="onTouchStart"
       @touchmove.stop.prevent="onTouchMove"

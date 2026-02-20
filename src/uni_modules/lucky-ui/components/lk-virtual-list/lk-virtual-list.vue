@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { virtualListProps } from './virtual-list.props';
-import type { AnyItem } from './virtual-list.props';
 
 // Utility: Convert rpx/px/number to px
 function toPx(val: string | number | undefined, fallback = 0): number {
@@ -227,6 +226,7 @@ defineExpose({ scrollToIndex, scrollToTop });
   <scroll-view
     scroll-y
     class="lk-virtual-list"
+    ref="wrapperRef"
     :style="{ height: containerHeightPx + 'px' }"
     :lower-threshold="lowerThresholdPx"
     :scroll-top="boundScrollTop"
@@ -237,7 +237,6 @@ defineExpose({ scrollToIndex, scrollToTop });
     :bounces="bounces"
     @scroll="onScroll"
     @scrolltolower="onScrollToLower"
-    ref="wrapperRef"
   >
     <view
       v-if="positionStrategy === 'padding'"
@@ -247,7 +246,7 @@ defineExpose({ scrollToIndex, scrollToTop });
         paddingBottom: bottomPaddingTotal + 'px',
       }"
     >
-      <slot :items="visibleItems" :start="startIndex" :end="endIndex" :itemHeight="itemPx" />
+      <slot :items="visibleItems" :start="startIndex" :end="endIndex" :item-height="itemPx" />
     </view>
     <template v-else>
       <view class="lk-virtual-list__phantom" :style="{ height: totalScrollable + 'px' }" />
@@ -255,7 +254,7 @@ defineExpose({ scrollToIndex, scrollToTop });
         class="lk-virtual-list__container"
         :style="{ transform: `translate3d(0, ${topPadding}px, 0)` }"
       >
-        <slot :items="visibleItems" :start="startIndex" :end="endIndex" :itemHeight="itemPx" />
+        <slot :items="visibleItems" :start="startIndex" :end="endIndex" :item-height="itemPx" />
       </view>
     </template>
   </scroll-view>

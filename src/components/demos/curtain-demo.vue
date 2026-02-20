@@ -67,11 +67,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkCurtain from '@/uni_modules/lucky-ui/components/lk-curtain/lk-curtain.vue';
-import type { CurtainClosePosition } from '@/uni_modules/lucky-ui/components/lk-curtain/curtain.props';
+import {
+  LkNavbar,
+  DemoBlock,
+  LkButton,
+  LkCurtain,
+  type CurtainClosePosition,
+} from '@/uni_modules/lucky-ui/components';
 
 const show1 = ref(false);
 const show2 = ref(false);

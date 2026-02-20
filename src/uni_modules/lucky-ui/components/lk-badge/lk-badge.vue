@@ -8,7 +8,7 @@ const props = defineProps(badgeProps);
 const displayValue = computed(() => {
   if (props.dot) return '';
   const val = props.value;
-  if (typeof val === 'number' && val > props.max) return props.max + '+';
+  if (typeof val === 'number' && val > props.max) return `${props.max  }+`;
   return val;
 });
 </script>

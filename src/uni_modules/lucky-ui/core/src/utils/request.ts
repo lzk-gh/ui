@@ -21,13 +21,13 @@ export interface RequestConfig
   // 请求唯一标识，用于取消重复请求
   requestId?: string;
   // 自定义元数据
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
 }
 
 /**
  * 响应数据接口
  */
-export interface RequestResponse<T = any> {
+export interface RequestResponse<T = unknown> {
   // 响应数据
   data: T;
   // 状态码
@@ -47,13 +47,13 @@ export interface RequestError extends UniApp.GeneralCallbackResult {
   // 状态码
   statusCode?: number;
   // 响应数据
-  data?: any;
+  data?: unknown;
   // 请求配置
   config?: RequestConfig;
 }
 
 type FulfilledInterceptor<T> = (value: T) => T | Promise<T>;
-type RejectedInterceptor = (error: any) => any;
+type RejectedInterceptor = (error: unknown) => unknown;
 
 interface Interceptor<T> {
   fulfilled: FulfilledInterceptor<T>;
@@ -73,7 +73,7 @@ export interface RequestInterceptors {
 /**
  * 上传文件响应接口
  */
-export interface UploadResponse extends UniApp.UploadFileSuccessCallbackResult {}
+export type UploadResponse = UniApp.UploadFileSuccessCallbackResult;
 
 /**
  * 下载文件响应接口
@@ -264,7 +264,7 @@ export class Request {
    */
   private combineURLs(baseURL: string, relativeURL: string): string {
     return relativeURL
-      ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+      ? `${baseURL.replace(/\/+$/, '')  }/${  relativeURL.replace(/^\/+/, '')}`
       : baseURL;
   }
 
@@ -341,7 +341,7 @@ export class Request {
         fail: async (
           err: UniApp.GeneralCallbackResult & {
             statusCode?: number;
-            data?: any;
+            data?: unknown;
           }
         ) => {
           this.taskManager.remove(requestId);
@@ -356,7 +356,7 @@ export class Request {
               const result = await this.performRequest<T>(config, attempt + 1);
               resolve(result);
               return;
-            } catch (retryError) {
+            } catch {
               // 重试失败，继续走原来的错误处理逻辑
             }
           }
@@ -379,13 +379,13 @@ export class Request {
   /**
    * 请求方法
    */
-  async request<T = any>(config: RequestConfig): Promise<RequestResponse<T>> {
+  async request<T = unknown>(config: RequestConfig): Promise<RequestResponse<T>> {
     const mergedConfig = this.mergeConfig(config);
     // 用于在 finally 块中访问最终配置，以判断是否需要隐藏 loading
     let finalConfig: RequestConfig = mergedConfig;
 
     // Promise 链，初始值为已合并的配置
-    let promise: Promise<any> = Promise.resolve(mergedConfig);
+    let promise: Promise<unknown> = Promise.resolve(mergedConfig);
 
     // 核心请求分发函数
     const dispatchRequest = (config: RequestConfig): Promise<RequestResponse<T>> => {
@@ -397,7 +397,10 @@ export class Request {
     };
 
     // 构建执行链，[成功处理, 失败处理, 成功处理, 失败处理, ...]
-    const chain: any[] = [dispatchRequest, undefined];
+    const chain: Array<((value: unknown) => unknown | Promise<unknown>) | undefined> = [
+      dispatchRequest as unknown as (value: unknown) => unknown | Promise<unknown>,
+      undefined,
+    ];
 
     // 请求拦截器：后进先出 (LIFO)，使用 unshift 添加到链的头部
     this.interceptors.request.forEach(interceptor => {
@@ -415,7 +418,7 @@ export class Request {
     }
 
     try {
-      return await promise;
+      return (await promise) as RequestResponse<T>;
     } finally {
       if (finalConfig.loading) {
         this.hideLoading();
@@ -426,7 +429,7 @@ export class Request {
   /**
    * GET请求
    */
-  get<T = any>(
+  get<T = unknown>(
     url: string,
     config?: Omit<RequestConfig, 'url' | 'method'>
   ): Promise<RequestResponse<T>> {
@@ -436,9 +439,9 @@ export class Request {
   /**
    * POST请求
    */
-  post<T = any>(
+  post<T = unknown>(
     url: string,
-    data?: any,
+    data?: unknown,
     config?: Omit<RequestConfig, 'url' | 'method' | 'data'>
   ): Promise<RequestResponse<T>> {
     return this.request<T>({ ...config, url, method: 'POST', data });
@@ -447,9 +450,9 @@ export class Request {
   /**
    * PUT请求
    */
-  put<T = any>(
+  put<T = unknown>(
     url: string,
-    data?: any,
+    data?: unknown,
     config?: Omit<RequestConfig, 'url' | 'method' | 'data'>
   ): Promise<RequestResponse<T>> {
     return this.request<T>({ ...config, url, method: 'PUT', data });
@@ -458,7 +461,7 @@ export class Request {
   /**
    * DELETE请求
    */
-  delete<T = any>(
+  delete<T = unknown>(
     url: string,
     config?: Omit<RequestConfig, 'url' | 'method'>
   ): Promise<RequestResponse<T>> {
@@ -468,7 +471,7 @@ export class Request {
   /**
    * HEAD请求
    */
-  head<T = any>(
+  head<T = unknown>(
     url: string,
     config?: Omit<RequestConfig, 'url' | 'method'>
   ): Promise<RequestResponse<T>> {
@@ -478,7 +481,7 @@ export class Request {
   /**
    * OPTIONS请求
    */
-  options<T = any>(
+  options<T = unknown>(
     url: string,
     config?: Omit<RequestConfig, 'url' | 'method'>
   ): Promise<RequestResponse<T>> {
@@ -536,7 +539,7 @@ export class Request {
     return new Promise((resolve, reject) => {
       const task = uni.downloadFile({
         ...config,
-        success: (res: any) => {
+        success: (res: UniApp.DownloadSuccessData) => {
           const response: DownloadResponse = {
             tempFilePath: res.tempFilePath,
             statusCode: res.statusCode,
@@ -659,25 +662,25 @@ export const transformRequest = {
   /**
    * JSON数据转换
    */
-  json: (data: any): string => {
+  json: (data: unknown): string => {
     return JSON.stringify(data);
   },
 
   /**
    * 表单数据转换
    */
-  formData: (data: Record<string, any>): string => {
+  formData: (data: Record<string, unknown>): string => {
     return Object.keys(data)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(String(data[key]))}`)
       .join('&');
   },
 
   /**
    * 查询字符串转换
    */
-  queryString: (data: Record<string, any>): string => {
+  queryString: (data: Record<string, unknown>): string => {
     return Object.keys(data)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(String(data[key]))}`)
       .join('&');
   },
 };

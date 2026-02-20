@@ -111,7 +111,7 @@ function setActive(val: TabbarValue, index: number) {
 }
 
 // 点击 list 模式的 item
-function onItemClick(index: number, item: TabbarItemConfig) {
+function onItemClick(index: number, _item: TabbarItemConfig) {
   setActive(index, index);
 }
 
@@ -145,8 +145,8 @@ const isBumpItem = (index: number) => {
 
 <template>
   <view
-    ref="tabbarRef"
     :id="id"
+    ref="tabbarRef"
     class="lk-tabbar"
     :class="[
       customClass,

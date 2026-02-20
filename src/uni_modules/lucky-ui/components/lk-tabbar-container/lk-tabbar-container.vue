@@ -152,7 +152,7 @@ const emit = defineEmits<{
   (e: 'beforeChange', tabId: string, oldTabId: string): void;
 }>();
 
-const { activeId, tabs, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
+const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
 
 const activeMode = computed(() => props.mode || themeStore.tabbarMode);
 

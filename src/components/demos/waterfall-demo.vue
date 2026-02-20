@@ -42,7 +42,7 @@
       @card-click="onCardClick"
       @scroll="onScroll"
     >
-      <template #item="{ item, index, loading }">
+      <template #item="{ item, loading }">
         <view class="card" :class="{ 'card--loading': loading }">
           <!-- 图片区域 -->
           <view
@@ -363,7 +363,7 @@ function generateItems(page: number): WaterfallItem[] {
       image: imageData.url,
       ratio: imageData.ratio,
       extraHeight: 56,
-      title: titleList[rand(0, titleList.length - 1)] + ` #${id + 1}`,
+      title: `${titleList[rand(0, titleList.length - 1)]} #${id + 1}`,
       author: author.name,
       avatarColor: author.color,
       likes: rand(100, 9999),

@@ -118,7 +118,6 @@ function drawTooltip(
   palette: ReturnType<typeof buildBrandPalette>
 ) {
   const padX = 8;
-  const padY = 6;
   ctx.save();
   ctx.font = '12px sans-serif';
   const metrics = ctx.measureText(text);

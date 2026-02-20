@@ -21,7 +21,7 @@ export const baseProps = {
    * 自定义样式
    */
   customStyle: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | Record<string, unknown>>,
     default: '',
   },
 
@@ -45,7 +45,7 @@ export const baseProps = {
    * 动画类名
    */
   animation: {
-    type: [String, Object] as PropType<string | Record<string, any>>,
+    type: [String, Object] as PropType<string | Record<string, unknown>>,
     default: '',
   },
 
@@ -84,7 +84,7 @@ type LkPropHelper = {
   ) => {
     type: PropType<T[number]>;
     default: D;
-    validator: (v: any) => v is T[number];
+    validator: (v: unknown) => v is T[number];
   };
 };
 
@@ -134,8 +134,8 @@ export const LkProp: LkPropHelper = {
   enum: <T extends readonly string[], D extends T[number]>(values: T, def: D, name = 'prop') => ({
     type: String as PropType<T[number]>,
     default: def,
-    validator: (v: any): v is T[number] => {
-      const ok = values.includes(v);
+    validator: (v: unknown): v is T[number] => {
+      const ok = typeof v === 'string' && values.includes(v as T[number]);
       if (!ok) console.warn(`[LkUi] ${name} 无效值: "${v}"，可选值：${values.join(' | ')}`);
       return ok;
     },

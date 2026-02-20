@@ -39,7 +39,7 @@ const list = ref<{ id: number; text: string }[]>([]);
 const loading = ref(false);
 const pageSize = 100;
 let currentPage = 0;
-let totalPages = Infinity; // 模拟无尽流；如果有总页数请设置为具体数字
+const totalPages = Infinity; // 模拟无尽流；如果有总页数请设置为具体数字
 
 async function loadNextPage() {
   if (loading.value) return;

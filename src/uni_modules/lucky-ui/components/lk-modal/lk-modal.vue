@@ -59,7 +59,7 @@ async function close() {
   if ((result as any) instanceof Promise) {
     try {
       await result;
-    } catch (err) {
+    } catch {
       // 用户可能 reject，取消关闭
       return;
     }

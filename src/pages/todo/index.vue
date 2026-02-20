@@ -86,7 +86,7 @@
         </lk-grid>
 
         <!-- 任务列表 -->
-        <view v-for="(item, index) in filteredList" :key="item.id">
+        <view v-for="item in filteredList" :key="item.id">
           <lk-card shadow="base" padding="24rpx">
             <lk-space direction="vertical" :gap="20" fill>
               <lk-space justify="between" align="start" fill>
