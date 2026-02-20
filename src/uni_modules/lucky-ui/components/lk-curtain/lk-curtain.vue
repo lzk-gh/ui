@@ -6,16 +6,21 @@
       :class="contentClasses"
       :style="{ ...contentStyle, ...contentStyles }"
     >
+      <view v-if="hasDefaultSlot" class="lk-curtain__slot" @click="onClick">
+        <slot />
+      </view>
       <image
+        v-else
         class="lk-curtain__image"
         :src="imageUrl"
-        mode="aspectFit"
+        :mode="imageMode"
         :style="{ width: '100%', height: '100%' }"
         @click="onClick"
       />
       <view
         class="lk-curtain__close"
         :class="['lk-curtain__close--' + closePosition]"
+        :style="closeStyle"
         @click="onClose"
       >
         <lk-icon name="x-lg" size="32" color="var(--lk-color-text-inverse)" />
@@ -25,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
 import {
   useTransition,
   type TransitionConfig,
@@ -39,17 +44,42 @@ defineOptions({ name: 'LkCurtain' });
 
 const props = defineProps(curtainProps);
 const emit = defineEmits(curtainEmits);
+const slots = useSlots();
 
 const zIndex = 10090;
 
 const widthStr = computed(() => addUnit(props.width));
 const heightStr = computed(() => addUnit(props.height));
+const closeOffsetStr = computed(() => addUnit(props.closeOffset) || '24rpx');
+const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || '36rpx');
 
 const contentStyle = computed(() => {
   return {
     zIndex: zIndex + 1,
     width: widthStr.value,
     height: heightStr.value,
+  };
+});
+
+const hasDefaultSlot = computed(() => !!slots.default);
+
+const ensureNegativeOffset = (value: string) => (value.startsWith('-') ? value : `-${value}`);
+
+const closeStyle = computed(() => {
+  if (props.closePosition === 'bottom') {
+    return {
+      bottom: ensureNegativeOffset(closeOffsetBottomStr.value),
+    };
+  }
+
+  if (props.closePosition === 'top-left' || props.closePosition === 'top-right') {
+    return {
+      top: ensureNegativeOffset(closeOffsetStr.value),
+    };
+  }
+
+  return {
+    bottom: ensureNegativeOffset(closeOffsetStr.value),
   };
 });
 
@@ -114,6 +144,11 @@ const onClick = () => {
     display: block;
   }
 
+  &__slot {
+    width: 100%;
+    height: 100%;
+  }
+
   &__close {
     position: absolute;
     display: flex;
@@ -126,27 +161,22 @@ const onClick = () => {
     z-index: 1;
 
     &--top-left {
-      top: -40rpx;
       left: 0;
     }
 
     &--top-right {
-      top: -40rpx;
       right: 0;
     }
 
     &--bottom-left {
-      bottom: -40rpx;
       left: 0;
     }
 
     &--bottom-right {
-      bottom: -40rpx;
       right: 0;
     }
 
     &--bottom {
-      bottom: -56rpx;
       left: 50%;
       transform: translateX(-50%);
     }
