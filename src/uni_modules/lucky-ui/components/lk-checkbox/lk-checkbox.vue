@@ -38,7 +38,7 @@ const mergedSize = computed(() => {
 
 const mergedIconSize = computed(() => {
   if (props.iconSize) return props.iconSize;
-  return mergedSize.value === 'sm' ? 18 : mergedSize.value === 'lg' ? 26 : 22;
+  return mergedSize.value === 'sm' ? 24 : mergedSize.value === 'lg' ? 36 : 30;
 });
 
 const checkboxClass = computed(() => {

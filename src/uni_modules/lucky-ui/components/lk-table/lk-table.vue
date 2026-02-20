@@ -222,16 +222,30 @@ const wrapStyle = computed<CSSProperties>(() => {
   return st;
 });
 
+function resolveSize(val: string | number | undefined): string | undefined {
+  if (!val) return undefined;
+  return typeof val === 'number' ? `${val}px` : val;
+}
+
 function getColStyle(col: TableColumn): CSSProperties {
-  return {
-    width: col.width ? (typeof col.width === 'number' ? `${col.width}px` : col.width) : undefined,
-    minWidth: col.minWidth
-      ? typeof col.minWidth === 'number'
-        ? `${col.minWidth}px`
-        : col.minWidth
-      : undefined,
-    textAlign: col.align || undefined,
-  };
+  const align = col.align;
+  const justifyContent =
+    align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
+  const base: CSSProperties = {};
+  if (align) {
+    base.justifyContent = justifyContent;
+    base.textAlign = align;
+  }
+  if (col.width) {
+    const w = resolveSize(col.width)!;
+    return { ...base, flex: `0 0 ${w}`, width: w, maxWidth: w };
+  }
+  if (col.minWidth) {
+    const minW = resolveSize(col.minWidth)!;
+    return { ...base, flex: `1 0 ${minW}`, minWidth: minW };
+  }
+  // 无显式宽度时只返回对齐，flex 由 CSS class 控制
+  return base;
 }
 </script>
 
@@ -400,7 +414,15 @@ function getColStyle(col: TableColumn): CSSProperties {
     <!-- ==================== 传统表格模式 ==================== -->
     <template v-else>
       <view class="lk-table__wrapper" :style="wrapStyle">
-        <scroll-view class="lk-table__scroll" scroll-x scroll-y :enhanced="true" :bounces="false">
+        <scroll-view
+          class="lk-table__scroll"
+          scroll-x
+          scroll-y
+          :enhanced="true"
+          :bounces="false"
+          enable-flex
+          :show-scrollbar="false"
+        >
           <!-- 表头 -->
           <view class="lk-table__header" :class="{ 'is-sticky': props.stickyHeader }">
             <view class="lk-table__tr lk-table__tr--head">
