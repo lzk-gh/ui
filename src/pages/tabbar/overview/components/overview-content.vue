@@ -212,8 +212,6 @@ const categories = [
       { name: 'rate', label: 'Rate', desc: '评分', icon: 'star' },
       { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' },
       { name: 'picker', label: 'Picker', desc: '选择器', icon: 'menu-button-wide' },
-      { name: 'picker-view', label: 'PickerView', desc: '内联选择器', icon: 'columns' },
-      { name: 'area-picker', label: 'AreaPicker', desc: '地区选择', icon: 'geo-alt' },
       { name: 'keyboard', label: 'Keyboard', desc: '虚拟键盘', icon: 'keyboard' },
       { name: 'verify-code', label: 'VerifyCode', desc: '验证码', icon: 'shield-lock' },
     ],

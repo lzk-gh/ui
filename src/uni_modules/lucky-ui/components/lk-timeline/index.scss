@@ -63,9 +63,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
     padding-top: 10rpx;
-    /* 延伸入下方 gap，让连线视觉上直接抵达下一项的圆点 */
-    padding-bottom: var(--lk-timeline-gap, 28rpx);
   }
 
   @include e(dot) {
@@ -74,22 +73,23 @@
     flex-shrink: 0;
     border-radius: 50%;
     background-color: var(--lk-timeline-accent, var(--lk-color-primary));
-    box-shadow: 0 0 0 10rpx rgb(0 0 0 / 6%);
+    box-shadow: 0 0 0 10rpx rgba(var(--lk-color-primary-rgb, 105, 101, 219), 0.1);
+    z-index: 2;
   }
 
   @include e(line) {
-    flex: 1;
+    position: absolute;
+    top: calc(var(--lk-timeline-dot-size, 20rpx) + 12rpx);
+    bottom: calc(var(--lk-timeline-gap, 28rpx) * -1 - 4rpx);
+    left: 50%;
+    transform: translateX(-50%);
     width: var(--lk-timeline-line-width, 4rpx);
-    min-height: 20rpx;
-    margin-top: 8rpx;
-    background-color: var(--lk-color-border-light);
+    background-color: var(--lk-color-border, #d1d5db);
     border-radius: 999rpx;
+    z-index: 1;
   }
 
   &:last-child {
-    @include e(rail) {
-      padding-bottom: 0;
-    }
     @include e(line) {
       display: none;
     }

@@ -56,7 +56,6 @@ export { default as LkDivider } from './lk-divider/lk-divider.vue';
 export { default as LkBreadcrumb } from './lk-breadcrumb/lk-breadcrumb.vue';
 export { default as LkBreadcrumbItem } from './lk-breadcrumb/lk-breadcrumb-item.vue';
 export { default as LkSegmented } from './lk-segmented/lk-segmented.vue';
-export { default as LkPagination } from './lk-pagination/lk-pagination.vue';
 export { default as LkCalendar } from './lk-calendar/lk-calendar.vue';
 export { default as LkDatePicker } from './lk-date-picker/lk-date-picker.vue';
 export { default as LkUpload } from './lk-upload/lk-upload.vue';
@@ -69,7 +68,6 @@ export { default as LkWaterfall } from './lk-waterfall/lk-waterfall.vue';
 
 export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
 export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
-export { default as LkTable } from './lk-table/lk-table.vue';
 export { default as LkBacktop } from './lk-backtop/lk-backtop.vue';
 
 // Charts
@@ -109,5 +107,3 @@ export { default as LkFab } from './lk-fab/lk-fab.vue';
 // New: Preload Debugger (预加载调试面板)
 export { default as LkPreloadDebugger } from './lk-preload-debugger/lk-preload-debugger.vue';
 
-// New: Tabbar Container (单页面 Tab 容器)
-export { default as LkTabbarContainer } from './lk-tabbar-container/lk-tabbar-container.vue';

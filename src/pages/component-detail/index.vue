@@ -48,8 +48,6 @@
           <RateDemo v-else-if="componentName === 'rate'" />
           <UploadDemo v-else-if="componentName === 'upload'" />
           <PickerDemo v-else-if="componentName === 'picker'" />
-          <PickerViewDemo v-else-if="componentName === 'picker-view'" />
-          <AreaPickerDemo v-else-if="componentName === 'area-picker'" />
           <KeyboardDemo v-else-if="componentName === 'keyboard'" />
           <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
@@ -57,7 +55,6 @@
           <CardDemo v-else-if="componentName === 'card'" />
           <CellDemo v-else-if="componentName === 'cell'" />
           <CollapseDemo v-else-if="componentName === 'collapse'" />
-          <TableDemo v-else-if="componentName === 'table'" />
           <TabsDemo v-else-if="componentName === 'tabs'" />
           <TimelineDemo v-else-if="componentName === 'timeline'" />
           <StepsDemo v-else-if="componentName === 'steps'" />
@@ -67,7 +64,6 @@
           <SkeletonDemo v-else-if="componentName === 'skeleton'" />
           <CarouselDemo v-else-if="componentName === 'carousel'" />
           <SegmentedDemo v-else-if="componentName === 'segmented'" />
-          <PaginationDemo v-else-if="componentName === 'pagination'" />
           <BacktopDemo v-else-if="componentName === 'backtop'" />
           <FabDemo v-else-if="componentName === 'fab'" />
 
@@ -267,18 +263,6 @@ const componentMap: Record<string, any> = {
     icon: 'menu-button-wide',
     color: 'success',
   },
-  'picker-view': {
-    title: 'PickerView 选择器视图',
-    desc: '内联滚动选择视图',
-    icon: 'columns',
-    color: 'success',
-  },
-  'area-picker': {
-    title: 'AreaPicker 地区选择',
-    desc: '省市区三级联动选择',
-    icon: 'geo-alt',
-    color: 'success',
-  },
   keyboard: {
     title: 'Keyboard 虚拟键盘',
     desc: '多功能虚拟键盘，支持数字/身份证/车牌',
@@ -316,12 +300,6 @@ const componentMap: Record<string, any> = {
     desc: '可折叠的内容面板',
     icon: 'arrows-collapse',
     color: 'primary',
-  },
-  table: {
-    title: 'Table 表格',
-    desc: '数据表格组件',
-    icon: 'table',
-    color: 'success',
   },
   tabs: {
     title: 'Tabs 标签页',
@@ -369,12 +347,6 @@ const componentMap: Record<string, any> = {
     title: 'Segmented 分段器',
     desc: '分段选择组件',
     icon: 'segmented-nav',
-    color: 'primary',
-  },
-  pagination: {
-    title: 'Pagination 分页',
-    desc: '数据分页组件',
-    icon: 'three-dots',
     color: 'primary',
   },
   'number-roller': {
@@ -603,7 +575,6 @@ import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
 import CardDemo from '@/components/demos/card-demo.vue';
 import CellDemo from '@/components/demos/cell-demo.vue';
 import CollapseDemo from '@/components/demos/collapse-demo.vue';
-import TableDemo from '@/components/demos/table-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TimelineDemo from '@/components/demos/timeline-demo.vue';
 import StepsDemo from '@/components/demos/steps-demo.vue';
@@ -613,7 +584,6 @@ import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
 import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
-import PaginationDemo from '@/components/demos/pagination-demo.vue';
 import BacktopDemo from '@/components/demos/backtop-demo.vue';
 import FabDemo from '@/components/demos/fab-demo.vue';
 
@@ -678,7 +648,6 @@ const demoComponentMap: Record<string, any> = {
   card: CardDemo,
   cell: CellDemo,
   collapse: CollapseDemo,
-  table: TableDemo,
   tabs: TabsDemo,
   timeline: TimelineDemo,
   steps: StepsDemo,
@@ -688,7 +657,6 @@ const demoComponentMap: Record<string, any> = {
   skeleton: SkeletonDemo,
   carousel: CarouselDemo,
   segmented: SegmentedDemo,
-  pagination: PaginationDemo,
   backtop: BacktopDemo,
   fab: FabDemo,
 
