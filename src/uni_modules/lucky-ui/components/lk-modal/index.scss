@@ -83,5 +83,17 @@
 
     /* 恢复使用 gap，简洁且适配现代浏览器 */
     gap: var(--lk-spacing-md);
+
+    @include e(footer-btn) {
+      @include m(cancel) {
+        /* 默认显示为填充背景（Apple 风格，与 Body 区分） */
+        background: var(--lk-fill-2);
+
+        &:active:not(.is-disabled):not(.is-loading) {
+          /* 点击时背景再微微变深 */
+          background: var(--lk-fill-3, var(--lk-color-border));
+        }
+      }
+    }
   }
 }
