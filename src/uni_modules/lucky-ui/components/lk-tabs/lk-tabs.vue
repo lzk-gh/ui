@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
 import { tabsProps, tabsEmits } from './tabs.props';
 
@@ -17,32 +17,28 @@ const panes = ref<any[]>([]);
 const instance = getCurrentInstance();
 
 function register(pane: any) {
-  // 以 name 作为唯一键，避免小程序端对象引用不一致导致判重失败
   const idx = panes.value.findIndex(p => p.name === pane.name);
   if (idx === -1) {
-    panes.value.push({ name: pane.name, label: pane.label });
+    panes.value.push(pane);
   } else {
-    panes.value[idx] = { ...panes.value[idx], label: pane.label };
+    panes.value[idx] = pane;
   }
-  if (!current.value) {
-    current.value = pane.name;
+  if (!current.value && panes.value.length > 0) {
+    current.value = panes.value[0].name;
     emit('update:modelValue', current.value);
   }
-  // 新增面板后更新滚动与指示条
   nextTick(() => {
     updateScrollIntoView();
     updateLinePosition();
   });
 }
+
 function unregister(pane: any) {
-  const beforeLen = panes.value.length;
   panes.value = panes.value.filter(p => p.name !== pane.name);
-  if (panes.value.length !== beforeLen) {
-    nextTick(() => {
-      updateScrollIntoView();
-      updateLinePosition();
-    });
-  }
+  nextTick(() => {
+    updateScrollIntoView();
+    updateLinePosition();
+  });
 }
 
 function setActive(name: any) {
@@ -64,8 +60,7 @@ const activeIndex = computed(() => panes.value.findIndex(p => p.name === current
 const lineStyle = ref({ transform: 'translateX(0)', width: '0' });
 
 function updateScrollIntoView() {
-  // 使激活项滚动到可视区域（scroll-view 支持 scroll-into-view）
-  scrollIntoViewId.value = current.value != null ? `lk-tab-${String(current.value)}` : '';
+  scrollIntoViewId.value = current.value != null ? "lk-tab-${String(current.value)}" : '';
 }
 
 function updateLinePosition() {
@@ -76,11 +71,9 @@ function updateLinePosition() {
   nextTick(() => {
     let query = (uni as any)?.createSelectorQuery?.();
     if (!query) return;
-    // 作用域限定到当前组件实例，兼容小程序端
     if (query.in && instance?.proxy) query = query.in(instance.proxy);
 
     query.select('.lk-tabs__nav').boundingClientRect();
-    // 需要获取横向滚动偏移
     if (query.select('.lk-tabs__nav').scrollOffset) {
       query.select('.lk-tabs__nav').scrollOffset();
     }
@@ -89,7 +82,6 @@ function updateLinePosition() {
     query.exec((res: any[]) => {
       if (!res) return;
       const navRect = res[0];
-      // 当调用了 scrollOffset 时，res: [navRect, offset, items]；否则为 [navRect, items]
       const hasOffset = res.length >= 3;
       const offsetObj = hasOffset ? res[1] : null;
       const itemRects = hasOffset ? res[2] : res[1];
@@ -99,11 +91,10 @@ function updateLinePosition() {
       const navLeft = navRect.left || 0;
       const scrollLeft = offsetObj?.scrollLeft || 0;
 
-      // 计算指示条：相对内容容器的偏移，需要加上 scrollLeft
       const itemLeftInViewport = activeItem.left || 0;
       const itemLeft = itemLeftInViewport - navLeft + scrollLeft;
       const itemWidth = activeItem.width || 0;
-      const lineWidth = itemWidth * 0.56; // 56% 宽度
+      const lineWidth = itemWidth * 0.6; // 60% width
       const translateX = itemLeft + (itemWidth - lineWidth) / 2;
 
       lineStyle.value = {
@@ -118,7 +109,7 @@ watch(current, () => {
   updateScrollIntoView();
   updateLinePosition();
 });
-// 面板数量变化时也更新一次
+
 watch(
   () => panes.value.length,
   () => {
@@ -132,13 +123,13 @@ onMounted(() => {
   updateLinePosition();
 });
 
-// 手势滑动联动内容 -> 切换 tabs
+// Swipe logic
 let startX = 0;
 let startY = 0;
 let deltaX = 0;
 let deltaY = 0;
 let isTracking = false;
-const SWIPE_THRESHOLD = 50; // px 阈值
+const SWIPE_THRESHOLD = 50;
 
 function onTouchStart(e: any) {
   const t = e?.changedTouches?.[0] || e?.touches?.[0];
@@ -159,26 +150,22 @@ function onTouchMove(e: any) {
 function onTouchEnd() {
   if (!isTracking) return;
   isTracking = false;
-  // 仅当横向意图明显时触发
   if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
   const idx = panes.value.findIndex(p => p.name === current.value);
   if (idx < 0) return;
   if (deltaX < 0 && idx < panes.value.length - 1) {
-    // 向左滑 -> 下一页
     setActive(panes.value[idx + 1].name);
   } else if (deltaX > 0 && idx > 0) {
-    // 向右滑 -> 上一页
     setActive(panes.value[idx - 1].name);
   }
 }
 
-// 少量 tabs 时保持等分，多时自动切换为可滚动
 const stretching = computed(() => props.stretch && panes.value.length <= 4);
 </script>
 
 <template>
-  <view class="lk-tabs" :class="[`lk-tabs--${type}`, { 'is-stretch': stretching }]">
-    <view class="lk-tabs__nav-wrapper">
+  <view class="lk-tabs" :class="['lk-tabs--' + type, { 'is-stretch': stretching }]">
+    <view class="lk-tabs__header">
       <slot name="left"></slot>
       <scroll-view
         scroll-x
@@ -188,17 +175,19 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
         :show-scrollbar="false"
         enable-flex
       >
-        <view
-          v-for="(pane, index) in panes"
-          :key="pane.name"
-          class="lk-tabs__nav-item"
-          :class="{ 'is-active': pane.name === current }"
-          :id="`lk-tab-${pane.name}`"
-          @click="setActive(pane.name)"
-        >
-          <text class="lk-tabs__label">{{ pane.label }}</text>
+        <view class="lk-tabs__nav-wrap">
+          <view
+            v-for="(pane, index) in panes"
+            :key="pane.name"
+            class="lk-tabs__nav-item"
+            :class="{ 'is-active': pane.name === current }"
+            :id="'lk-tab-' + pane.name"
+            @click="setActive(pane.name)"
+          >
+            <text class="lk-tabs__label">{{ pane.label }}</text>
+          </view>
+          <view v-if="type === 'line'" class="lk-tabs__line" :style="lineStyle"></view>
         </view>
-        <view v-if="type === 'line'" class="lk-tabs__line" :style="lineStyle"></view>
       </scroll-view>
       <slot name="right"></slot>
     </view>
@@ -216,3 +205,4 @@ const stretching = computed(() => props.stretch && panes.value.length <= 4);
 <style lang="scss">
 @use './index.scss';
 </style>
+
