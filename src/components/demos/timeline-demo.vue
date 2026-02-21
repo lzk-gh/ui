@@ -51,13 +51,14 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
     </demo-block>
     <demo-block title="激活索引（active-index）">
       <lk-timeline :active-index="1">
-        <lk-timeline-item index="0" title="需求确认" desc="梳理范围" time="09:00" />
-        <lk-timeline-item index="1" title="开发进行中" desc="接口联调" time="10:00" />
-        <lk-timeline-item index="2" title="测试验收" desc="回归测试" time="11:00" />
+        <lk-timeline-item :index="0" title="需求确认" desc="梳理范围" time="09:00" />
+        <lk-timeline-item :index="1" title="开发进行中" desc="接口联调" time="10:00" />
+        <lk-timeline-item :index="2" title="测试验收" desc="回归测试" time="11:00" />
       </lk-timeline>
     </demo-block>
   </view>
 </template>
+
 <style scoped lang="scss">
 .component-demo {
   display: flex;

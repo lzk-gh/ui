@@ -19,7 +19,7 @@ const display = computed(() => {
   return m.get(value.value) || '';
 });
 
-function onConfirm(_v: string | number) {
+function onConfirm(_v: string | number | (string | number)[]) {
   uni.showToast({ title: `已选择: ${display.value}`, icon: 'none' });
 }
 
@@ -137,6 +137,7 @@ const cascadeDisplay = computed(() => {
     </demo-block>
   </view>
 </template>
+
 <style scoped lang="scss">
 .component-demo {
   display: flex;
