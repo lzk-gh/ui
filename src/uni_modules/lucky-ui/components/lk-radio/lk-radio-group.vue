@@ -7,10 +7,10 @@ defineOptions({ name: 'LkRadioGroup' });
 const props = defineProps(radioGroupProps);
 const emit = defineEmits(radioGroupEmits);
 
-const updateValue = (value: any) => {
+function updateValue(value: any) {
   emit('update:modelValue', value);
   emit('change', value);
-};
+}
 
 provide('lkRadioGroup', {
   props,

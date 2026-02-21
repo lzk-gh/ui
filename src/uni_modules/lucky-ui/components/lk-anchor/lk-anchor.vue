@@ -1,20 +1,3 @@
-<template>
-  <view class="lk-anchor" :style="anchorStyle">
-    <scroll-view
-      scroll-y
-      class="lk-anchor__scroll"
-      :scroll-into-view="scrollIntoViewId"
-      scroll-with-animation
-      :show-scrollbar="false"
-    >
-      <view class="lk-anchor__wrapper">
-        <slot></slot>
-      </view>
-      <view style="height: 20px"></view>
-    </scroll-view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, provide, onMounted, nextTick, watch, computed } from 'vue';
 import type { ComponentInternalInstance } from 'vue';
@@ -38,14 +21,17 @@ const anchorStyle = computed(() => {
   return style;
 });
 
-const register = (child: ComponentInternalInstance) => children.value.push(child);
-const unregister = (child: ComponentInternalInstance) => {
+function register(child: ComponentInternalInstance) {
+  children.value.push(child);
+}
+
+function unregister(child: ComponentInternalInstance) {
   const idx = children.value.indexOf(child);
   if (idx > -1) children.value.splice(idx, 1);
-};
+}
 
 // 测量目标元素位置
-const measureTargets = async (baseScrollTop: number = 0) => {
+async function measureTargets(baseScrollTop: number = 0) {
   // 确保 DOM 已经渲染
   await nextTick();
 
@@ -100,10 +86,10 @@ const measureTargets = async (baseScrollTop: number = 0) => {
     .sort((a, b) => a.top - b.top);
 
   targets.value = measured;
-};
+}
 
 // 滚动监听逻辑
-const onScroll = (scrollTop: number, headerHeight: number = 0) => {
+function onScroll(scrollTop: number, headerHeight: number = 0) {
   if (targets.value.length === 0) return;
   const offset = Number(props.headerOffset) + headerHeight + 10; // +10 稍微增加一点容错
 
@@ -127,12 +113,12 @@ const onScroll = (scrollTop: number, headerHeight: number = 0) => {
     activeHref.value = active;
     emit('change', active);
   }
-};
+}
 
-const handleClick = (href: string) => {
+function handleClick(href: string) {
   activeHref.value = href;
   emit('click', href);
-};
+}
 
 watch(activeHref, val => {
   if (val) scrollIntoViewId.value = `anchor-link-${val}`;
@@ -161,6 +147,23 @@ onMounted(() => {
   setTimeout(() => measureTargets(), 500);
 });
 </script>
+
+<template>
+  <view class="lk-anchor" :style="anchorStyle">
+    <scroll-view
+      scroll-y
+      class="lk-anchor__scroll"
+      :scroll-into-view="scrollIntoViewId"
+      scroll-with-animation
+      :show-scrollbar="false"
+    >
+      <view class="lk-anchor__wrapper">
+        <slot></slot>
+      </view>
+      <view style="height: 20px"></view>
+    </scroll-view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 @use './index.scss';

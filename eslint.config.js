@@ -129,6 +129,12 @@ export default [
       'vue/require-default-prop': 'off',
       'vue/require-explicit-emits': 'off',
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
+      'vue/block-order': [
+        'error',
+        {
+          order: ['script', 'template', 'style'],
+        },
+      ],
       'vue/html-self-closing': [
         'error',
         {
@@ -189,10 +195,18 @@ export default [
       'object-shorthand': 'error',
       'quote-props': ['error', 'as-needed'],
       'prefer-template': 'error',
-      'prefer-arrow-callback': 'error',
+      'prefer-arrow-callback': 'off',
       'arrow-parens': ['error', 'as-needed'],
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0, maxBOF: 0 }],
       eqeqeq: ['error', 'always', { null: 'ignore' }],
+    },
+  },
+
+  // Lucky UI 组件函数声明风格约束
+  {
+    files: ['src/uni_modules/lucky-ui/components/**/*.vue'],
+    rules: {
+      'func-style': ['error', 'declaration', { allowArrowFunctions: false }],
     },
   },
 

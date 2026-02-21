@@ -71,7 +71,7 @@ const iconStyle = computed(() => {
   return style;
 });
 
-const handleToggle = () => {
+function handleToggle() {
   if (isDisabled.value) return;
   if (group) {
     group.updateValue(radioValue.value);
@@ -79,12 +79,12 @@ const handleToggle = () => {
     emit('update:modelValue', radioValue.value);
     emit('change', radioValue.value);
   }
-};
+}
 
-const handleLabelClick = () => {
+function handleLabelClick() {
   if (props.labelDisabled) return;
   handleToggle();
-};
+}
 </script>
 
 <template>

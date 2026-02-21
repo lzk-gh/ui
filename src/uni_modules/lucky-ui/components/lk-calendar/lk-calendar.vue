@@ -414,12 +414,12 @@ function select(day: any) {
 function applyShortcut(type: string) {
   const now = new Date();
   const todayD = makeDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
-  const setSingle = (d: Date | null) => {
+  function setSingle(d: Date | null) {
     internalSingle.value = d;
-  };
-  const setRange = (s: Date | null, e: Date | null) => {
+  }
+  function setRange(s: Date | null, e: Date | null) {
     internalRange.value = [s, e];
-  };
+  }
 
   switch (type) {
     case 'today':

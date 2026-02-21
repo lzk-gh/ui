@@ -14,7 +14,7 @@ const emit = defineEmits(tabbarEmits);
 const itemCount = ref(0);
 let itemIndexCounter = 0;
 
-const registerItem = () => {
+function registerItem() {
   const index = itemIndexCounter++;
   itemCount.value++;
   return {
@@ -23,7 +23,7 @@ const registerItem = () => {
       itemCount.value--;
     },
   };
-};
+}
 
 // ============================================================================
 // Slider 模式相关
@@ -33,7 +33,7 @@ const sliderWidth = ref(0);
 const tabbarRef = ref<HTMLElement | null>(null);
 
 // 计算滑块位置
-const updateSliderPosition = (index: number) => {
+function updateSliderPosition(index: number) {
   if (props.mode !== TabbarMode.Slider) return;
 
   nextTick(() => {
@@ -45,7 +45,7 @@ const updateSliderPosition = (index: number) => {
     sliderLeft.value = index * itemWidth;
     sliderWidth.value = itemWidth;
   });
-};
+}
 
 // 当激活项变化时更新滑块位置
 watch(
@@ -136,11 +136,11 @@ const isSliderMode = computed(() => props.mode === TabbarMode.Slider);
 const middleIndex = computed(() => Math.floor((props.list.length || itemCount.value) / 2));
 
 // 判断某个项是否是中间凸起项
-const isBumpItem = (index: number) => {
+function isBumpItem(index: number) {
   if (!isBumpMode.value) return false;
   const total = props.list.length || itemCount.value;
   return total % 2 === 1 && index === middleIndex.value;
-};
+}
 </script>
 
 <template>

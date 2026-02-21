@@ -32,8 +32,8 @@ let rafId: number | null = null;
 // Fallback for environments without requestAnimationFrame (e.g., some mini-program runtimes)
 type RAFHandle = number;
 const hasRAF = typeof requestAnimationFrame === 'function';
-const rAF = (cb: (t: number) => void): RAFHandle =>
-  hasRAF
+function rAF(cb: (t: number) => void): RAFHandle {
+  return hasRAF
     ? (requestAnimationFrame as any)(cb)
     : (setTimeout(
         () =>
@@ -44,10 +44,12 @@ const rAF = (cb: (t: number) => void): RAFHandle =>
           ),
         16
       ) as unknown as number);
-const cAF = (id: RAFHandle) => {
+}
+
+function cAF(id: RAFHandle) {
   if (hasRAF) (cancelAnimationFrame as any)(id);
   else clearTimeout(id as unknown as any);
-};
+}
 
 // 根据滚动速度动态增加 overscan 行数
 const currentOverscanBoost = ref(0);

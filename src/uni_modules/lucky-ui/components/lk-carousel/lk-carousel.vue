@@ -102,7 +102,7 @@ function measureActiveHeight() {
   if (!props.autoHeight) return;
   const idx = innerCurrent.value;
 
-  const query = () => {
+  function query() {
     const q = uni.createSelectorQuery().in(instance as any);
     q.select(`#lk-slide-${idx}`)
       .boundingClientRect(rect => {
@@ -111,7 +111,7 @@ function measureActiveHeight() {
         if (h) currentHeight.value = h;
       })
       .exec();
-  };
+  }
 
   nextTick(() => {
     query();

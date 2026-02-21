@@ -4,10 +4,10 @@ import { ref, watch, nextTick, getCurrentInstance, computed, onMounted } from 'v
 import { segmentedProps, segmentedEmits, type SegmentedOption } from './segmented.props';
 
 /* 工具：把 16rpx / 20px -> 真实 px */
-const toPx = (v: string | number) => {
+function toPx(v: string | number) {
   if (typeof v === 'number') return v;
   return /rpx$/.test(v) ? uni.upx2px(parseFloat(v)) : parseFloat(v);
-};
+}
 
 defineOptions({ name: 'LkSegmented' });
 const props = defineProps(segmentedProps);

@@ -1,18 +1,3 @@
-<template>
-  <scroll-view
-    class="lk-horizontal-scroll"
-    :class="customClass"
-    :style="customStyle"
-    scroll-x
-    :show-scrollbar="!hideScrollbar"
-    enable-flex
-  >
-    <view class="lk-horizontal-scroll__container" :style="containerStyle">
-      <slot />
-    </view>
-  </scroll-view>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import { horizontalScrollProps } from './horizontal-scroll.props';
@@ -32,6 +17,21 @@ const containerStyle = computed(() => {
   };
 });
 </script>
+
+<template>
+  <scroll-view
+    class="lk-horizontal-scroll"
+    :class="customClass"
+    :style="customStyle"
+    scroll-x
+    :show-scrollbar="!hideScrollbar"
+    enable-flex
+  >
+    <view class="lk-horizontal-scroll__container" :style="containerStyle">
+      <slot />
+    </view>
+  </scroll-view>
+</template>
 
 <style lang="scss" scoped>
 .lk-horizontal-scroll {

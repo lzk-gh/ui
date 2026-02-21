@@ -28,7 +28,7 @@ const semanticColorMap: Record<string, string> = {
   textInverse: 'var(--lk-color-text-inverse)',
 };
 
-const resolveColor = (color: string): string => {
+function resolveColor(color: string): string {
   if (!color) return '';
   // 如果是语义值，转换为 CSS 变量
   if (semanticColorMap[color]) {
@@ -36,7 +36,7 @@ const resolveColor = (color: string): string => {
   }
   // 否则直接使用（HEX、RGB 等）
   return color;
-};
+}
 
 const iconStyle = computed(() => {
   const styles: Record<string, string> = {};

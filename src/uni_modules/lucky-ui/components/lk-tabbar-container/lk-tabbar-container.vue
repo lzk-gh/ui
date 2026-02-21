@@ -1,97 +1,3 @@
-<template>
-  <view class="lk-tabbar-container" :class="containerClass" :style="containerStyle">
-    <!-- Tab 内容区域 -->
-    <view class="lk-tabbar-container__content">
-      <!-- 使用 v-show 保持组件状态，避免重新渲染 -->
-      <template v-for="tab in tabs" :key="tab.id">
-        <view
-          v-if="isVisited(tab.id) || tab.id === activeId"
-          v-show="tab.id === activeId"
-          class="lk-tabbar-container__panel"
-        >
-          <!-- 加载中状态 -->
-          <view v-if="getTabInstance(tab.id)?.loading" class="lk-tabbar-container__loading">
-            <lk-loading type="spinner" size="64" />
-            <text class="loading-text">加载中...</text>
-          </view>
-
-          <!-- 加载错误状态 -->
-          <view v-else-if="getTabInstance(tab.id)?.error" class="lk-tabbar-container__error">
-            <lk-icon name="exclamation-circle" size="80" />
-            <text class="error-text">加载失败</text>
-            <view class="error-retry" @click="retryLoad(tab.id)">点击重试</view>
-          </view>
-
-          <!-- Tab 内容组件 -->
-          <!-- #ifndef MP-WEIXIN -->
-          <component
-            :is="getTabInstance(tab.id)!.component"
-            v-else-if="getTabInstance(tab.id)?.component"
-            :tab-id="tab.id"
-            :is-active="tab.id === activeId"
-          />
-          <!-- #endif -->
-
-          <!-- #ifdef MP-WEIXIN -->
-          <view v-else class="lk-tabbar-container__slot">
-            <slot :name="`tab-${tab.id}`" :tab-id="tab.id" :is-active="tab.id === activeId" />
-          </view>
-          <!-- #endif -->
-        </view>
-      </template>
-    </view>
-
-    <!-- 底部 Tabbar -->
-    <view class="lk-tabbar-container__tabbar">
-      <view class="tabbar-wrapper">
-        <!-- 激活项背景 (滑动指示器类模式) -->
-        <view
-          v-if="['block', 'marker-top', 'marker-bottom', 'dot-slide'].includes(activeMode)"
-          class="tabbar-active-bg"
-          :class="[`is-${activeMode}`]"
-          :style="activeBgStyle"
-        />
-
-        <view
-          v-for="tab in tabs"
-          :key="tab.id"
-          class="tabbar-item"
-          :class="{ 'is-active': tab.id === activeId }"
-          @click="handleTabClick(tab)"
-        >
-          <!-- 手电筒模式下的照亮效果 -->
-          <view v-if="activeMode === 'flashlight'" class="tabbar-item__flashlight" />
-
-          <!-- 气泡模式下的背景 -->
-          <view v-if="activeMode === 'bubble'" class="tabbar-item__bubble" />
-
-          <!-- 遮罩填充背景 -->
-          <view v-if="activeMode === 'mask-fill'" class="tabbar-item__mask-fill" />
-
-          <view class="tabbar-item__icon-wrapper">
-            <view class="tabbar-item__icon">
-              <lk-icon :name="tab.icon" size="44" />
-              <!-- 徽标 -->
-              <view v-if="tab.badge && tab.badge > 0" class="tabbar-item__badge">
-                {{ tab.badge > 99 ? '99+' : tab.badge }}
-              </view>
-              <!-- 小红点 -->
-              <view v-else-if="tab.dot" class="tabbar-item__dot" />
-            </view>
-            <!-- 涟漪效果点缀 -->
-            <view v-if="activeMode === 'ripple'" class="tabbar-item__ripple" />
-          </view>
-
-          <view class="tabbar-item__label">{{ tab.label }}</view>
-        </view>
-      </view>
-    </view>
-
-    <!-- 底部安全区占位 -->
-    <view class="lk-tabbar-container__placeholder" />
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
 import { useThemeStore } from '@/stores/theme';
@@ -192,7 +98,7 @@ const activeBgStyle = computed(() => {
 });
 
 // 处理 Tab 点击
-const handleTabClick = async (tab: TabConfig) => {
+async function handleTabClick(tab: TabConfig) {
   if (tab.id === activeId.value) return;
 
   const oldTabId = activeId.value;
@@ -200,17 +106,17 @@ const handleTabClick = async (tab: TabConfig) => {
 
   await switchTab(tab.id);
   emit('change', tab.id);
-};
+}
 
 // 重试加载
-const retryLoad = async (tabId: string) => {
+async function retryLoad(tabId: string) {
   const instance = getTabInstance(tabId);
   if (instance) {
     instance.loaded = false;
     instance.error = null;
   }
   await switchTab(tabId);
-};
+}
 
 // 初始化
 onMounted(() => {
@@ -239,6 +145,100 @@ watch(
   { deep: true }
 );
 </script>
+
+<template>
+  <view class="lk-tabbar-container" :class="containerClass" :style="containerStyle">
+    <!-- Tab 内容区域 -->
+    <view class="lk-tabbar-container__content">
+      <!-- 使用 v-show 保持组件状态，避免重新渲染 -->
+      <template v-for="tab in tabs" :key="tab.id">
+        <view
+          v-if="isVisited(tab.id) || tab.id === activeId"
+          v-show="tab.id === activeId"
+          class="lk-tabbar-container__panel"
+        >
+          <!-- 加载中状态 -->
+          <view v-if="getTabInstance(tab.id)?.loading" class="lk-tabbar-container__loading">
+            <lk-loading type="spinner" size="64" />
+            <text class="loading-text">加载中...</text>
+          </view>
+
+          <!-- 加载错误状态 -->
+          <view v-else-if="getTabInstance(tab.id)?.error" class="lk-tabbar-container__error">
+            <lk-icon name="exclamation-circle" size="80" />
+            <text class="error-text">加载失败</text>
+            <view class="error-retry" @click="retryLoad(tab.id)">点击重试</view>
+          </view>
+
+          <!-- Tab 内容组件 -->
+          <!-- #ifndef MP-WEIXIN -->
+          <component
+            :is="getTabInstance(tab.id)!.component"
+            v-else-if="getTabInstance(tab.id)?.component"
+            :tab-id="tab.id"
+            :is-active="tab.id === activeId"
+          />
+          <!-- #endif -->
+
+          <!-- #ifdef MP-WEIXIN -->
+          <view v-else class="lk-tabbar-container__slot">
+            <slot :name="`tab-${tab.id}`" :tab-id="tab.id" :is-active="tab.id === activeId" />
+          </view>
+          <!-- #endif -->
+        </view>
+      </template>
+    </view>
+
+    <!-- 底部 Tabbar -->
+    <view class="lk-tabbar-container__tabbar">
+      <view class="tabbar-wrapper">
+        <!-- 激活项背景 (滑动指示器类模式) -->
+        <view
+          v-if="['block', 'marker-top', 'marker-bottom', 'dot-slide'].includes(activeMode)"
+          class="tabbar-active-bg"
+          :class="[`is-${activeMode}`]"
+          :style="activeBgStyle"
+        />
+
+        <view
+          v-for="tab in tabs"
+          :key="tab.id"
+          class="tabbar-item"
+          :class="{ 'is-active': tab.id === activeId }"
+          @click="handleTabClick(tab)"
+        >
+          <!-- 手电筒模式下的照亮效果 -->
+          <view v-if="activeMode === 'flashlight'" class="tabbar-item__flashlight" />
+
+          <!-- 气泡模式下的背景 -->
+          <view v-if="activeMode === 'bubble'" class="tabbar-item__bubble" />
+
+          <!-- 遮罩填充背景 -->
+          <view v-if="activeMode === 'mask-fill'" class="tabbar-item__mask-fill" />
+
+          <view class="tabbar-item__icon-wrapper">
+            <view class="tabbar-item__icon">
+              <lk-icon :name="tab.icon" size="44" />
+              <!-- 徽标 -->
+              <view v-if="tab.badge && tab.badge > 0" class="tabbar-item__badge">
+                {{ tab.badge > 99 ? '99+' : tab.badge }}
+              </view>
+              <!-- 小红点 -->
+              <view v-else-if="tab.dot" class="tabbar-item__dot" />
+            </view>
+            <!-- 涟漪效果点缀 -->
+            <view v-if="activeMode === 'ripple'" class="tabbar-item__ripple" />
+          </view>
+
+          <view class="tabbar-item__label">{{ tab.label }}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部安全区占位 -->
+    <view class="lk-tabbar-container__placeholder" />
+  </view>
+</template>
 
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;

@@ -9,8 +9,9 @@ defineOptions({ name: 'LkOverlay' });
  * 小程序环境中 requestAnimationFrame 不可用，使用 setTimeout 作为 fallback
  */
 const hasRAF = typeof requestAnimationFrame === 'function';
-const rAF = (cb: () => void): number =>
-  hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
+function rAF(cb: () => void): number {
+  return hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
+}
 
 const props = defineProps(overlayProps);
 const emit = defineEmits(overlayEmits);

@@ -73,7 +73,7 @@ const iconStyle = computed(() => {
   return style;
 });
 
-const handleToggle = () => {
+function handleToggle() {
   if (isDisabled.value) return;
   if (group) {
     group.toggleValue(checkboxValue.value);
@@ -82,12 +82,12 @@ const handleToggle = () => {
     emit('update:modelValue', nextValue);
     emit('change', nextValue);
   }
-};
+}
 
-const handleLabelClick = () => {
+function handleLabelClick() {
   if (props.labelDisabled) return;
   handleToggle();
-};
+}
 </script>
 
 <template>

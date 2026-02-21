@@ -8,14 +8,14 @@ defineOptions({ name: 'LkChoice' });
 const props = defineProps(choiceProps);
 const emit = defineEmits(choiceEmits);
 
-const isSelected = (value: any) => {
+function isSelected(value: any) {
   if (props.multiple) {
     return Array.isArray(props.modelValue) && props.modelValue.includes(value);
   }
   return props.modelValue === value;
-};
+}
 
-const handleSelect = (option: any) => {
+function handleSelect(option: any) {
   const value = option.value;
   if (isSelected(value)) {
     if (!props.allowUnselect) return;
@@ -40,18 +40,20 @@ const handleSelect = (option: any) => {
     }
   }
   emit('click', option);
-};
+}
 
 const containerStyle = computed(() => ({
   gap: `${props.gap}rpx`,
   ...(typeof props.customStyle === 'object' ? props.customStyle : {}),
 }));
 
-const itemClass = (option: any) => [
+function itemClass(option: any) {
+  return [
   'lk-choice__item',
   `lk-choice__item--${props.size}`,
   { 'is-selected': isSelected(option.value) },
-];
+  ];
+}
 </script>
 
 <template>

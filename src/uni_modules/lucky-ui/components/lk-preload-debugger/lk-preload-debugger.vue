@@ -1,3 +1,128 @@
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { preloadDebuggerProps } from './preload-debugger.props';
+import {
+  getPreloadManager,
+  type PreloadStats,
+  type PreloadEventHandler,
+} from '../../core/src/preload';
+
+const props = defineProps(preloadDebuggerProps);
+
+const manager = getPreloadManager();
+const isExpanded = ref(false);
+const isPaused = ref(false);
+const stats = ref<PreloadStats>({
+  total: 0,
+  pending: 0,
+  running: 0,
+  completed: 0,
+  failed: 0,
+  cancelled: 0,
+});
+
+interface LogItem {
+  id: string;
+  type: 'start' | 'complete' | 'error' | 'info';
+  time: string;
+  message: string;
+}
+
+const logs = ref<LogItem[]>([]);
+const lastLogId = ref('');
+
+const positionClass = computed(() => `lk-preload-debugger--${props.position}`);
+
+const statusClass = computed(() => {
+  if (stats.value.running > 0) return 'lk-preload-debugger__badge--running';
+  if (stats.value.pending > 0) return 'lk-preload-debugger__badge--pending';
+  return 'lk-preload-debugger__badge--idle';
+});
+
+function formatTime(date: Date): string {
+  return date.toLocaleTimeString('zh-CN', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+}
+
+function addLog(type: LogItem['type'], message: string) {
+  const id = `log_${Date.now()}`;
+  logs.value.push({
+    id,
+    type,
+    time: formatTime(new Date()),
+    message,
+  });
+
+  // 保持最多 50 条日志
+  if (logs.value.length > 50) {
+    logs.value.shift();
+  }
+
+  lastLogId.value = id;
+}
+
+function updateStats() {
+  stats.value = manager.getStats();
+}
+
+function toggleExpand() {
+  isExpanded.value = !isExpanded.value;
+}
+
+function togglePause() {
+  if (isPaused.value) {
+    manager.resume();
+    addLog('info', '队列已恢复');
+  } else {
+    manager.pause();
+    addLog('info', '队列已暂停');
+  }
+  isPaused.value = !isPaused.value;
+}
+
+function handleClear() {
+  manager.clear();
+  addLog('info', '队列已清空');
+  updateStats();
+}
+
+// 事件处理器
+function handleTaskStart(event: Parameters<PreloadEventHandler>[0]) {
+  addLog('start', `开始: ${event.task?.resource || 'unknown'}`);
+  updateStats();
+}
+
+function handleTaskComplete(event: Parameters<PreloadEventHandler>[0]) {
+  addLog('complete', `完成: ${event.task?.resource || 'unknown'}`);
+  updateStats();
+}
+
+function handleTaskError(event: Parameters<PreloadEventHandler>[0]) {
+  addLog('error', `失败: ${event.task?.resource || 'unknown'} - ${event.error?.message || ''}`);
+  updateStats();
+}
+
+onMounted(() => {
+  updateStats();
+
+  manager.on('task:start', handleTaskStart);
+  manager.on('task:complete', handleTaskComplete);
+  manager.on('task:error', handleTaskError);
+
+  addLog('info', '调试面板已启动');
+});
+
+onUnmounted(() => {
+  manager.off('task:start', handleTaskStart);
+  manager.off('task:complete', handleTaskComplete);
+  manager.off('task:error', handleTaskError);
+});
+</script>
+
 <template>
   <view v-if="props.visible" class="lk-preload-debugger" :class="positionClass">
     <view class="lk-preload-debugger__header" @click="toggleExpand">
@@ -57,131 +182,6 @@
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { preloadDebuggerProps } from './preload-debugger.props';
-import {
-  getPreloadManager,
-  type PreloadStats,
-  type PreloadEventHandler,
-} from '../../core/src/preload';
-
-const props = defineProps(preloadDebuggerProps);
-
-const manager = getPreloadManager();
-const isExpanded = ref(false);
-const isPaused = ref(false);
-const stats = ref<PreloadStats>({
-  total: 0,
-  pending: 0,
-  running: 0,
-  completed: 0,
-  failed: 0,
-  cancelled: 0,
-});
-
-interface LogItem {
-  id: string;
-  type: 'start' | 'complete' | 'error' | 'info';
-  time: string;
-  message: string;
-}
-
-const logs = ref<LogItem[]>([]);
-const lastLogId = ref('');
-
-const positionClass = computed(() => `lk-preload-debugger--${props.position}`);
-
-const statusClass = computed(() => {
-  if (stats.value.running > 0) return 'lk-preload-debugger__badge--running';
-  if (stats.value.pending > 0) return 'lk-preload-debugger__badge--pending';
-  return 'lk-preload-debugger__badge--idle';
-});
-
-const formatTime = (date: Date): string => {
-  return date.toLocaleTimeString('zh-CN', {
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-};
-
-const addLog = (type: LogItem['type'], message: string) => {
-  const id = `log_${Date.now()}`;
-  logs.value.push({
-    id,
-    type,
-    time: formatTime(new Date()),
-    message,
-  });
-
-  // 保持最多 50 条日志
-  if (logs.value.length > 50) {
-    logs.value.shift();
-  }
-
-  lastLogId.value = id;
-};
-
-const updateStats = () => {
-  stats.value = manager.getStats();
-};
-
-const toggleExpand = () => {
-  isExpanded.value = !isExpanded.value;
-};
-
-const togglePause = () => {
-  if (isPaused.value) {
-    manager.resume();
-    addLog('info', '队列已恢复');
-  } else {
-    manager.pause();
-    addLog('info', '队列已暂停');
-  }
-  isPaused.value = !isPaused.value;
-};
-
-const handleClear = () => {
-  manager.clear();
-  addLog('info', '队列已清空');
-  updateStats();
-};
-
-// 事件处理器
-const handleTaskStart: PreloadEventHandler = event => {
-  addLog('start', `开始: ${event.task?.resource || 'unknown'}`);
-  updateStats();
-};
-
-const handleTaskComplete: PreloadEventHandler = event => {
-  addLog('complete', `完成: ${event.task?.resource || 'unknown'}`);
-  updateStats();
-};
-
-const handleTaskError: PreloadEventHandler = event => {
-  addLog('error', `失败: ${event.task?.resource || 'unknown'} - ${event.error?.message || ''}`);
-  updateStats();
-};
-
-onMounted(() => {
-  updateStats();
-
-  manager.on('task:start', handleTaskStart);
-  manager.on('task:complete', handleTaskComplete);
-  manager.on('task:error', handleTaskError);
-
-  addLog('info', '调试面板已启动');
-});
-
-onUnmounted(() => {
-  manager.off('task:start', handleTaskStart);
-  manager.off('task:complete', handleTaskComplete);
-  manager.off('task:error', handleTaskError);
-});
-</script>
 
 <style lang="scss" scoped>
 .lk-preload-debugger {

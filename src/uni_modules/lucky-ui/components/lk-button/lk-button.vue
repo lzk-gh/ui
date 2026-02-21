@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { buttonProps, buttonEmits } from './button.props';
+
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+
+import { buttonProps, buttonEmits } from './button.props';
 
 defineOptions({ name: 'LkButton' });
 
