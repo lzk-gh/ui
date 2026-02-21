@@ -91,7 +91,7 @@ function handleLabelClick() {
 </script>
 
 <template>
-  <view :class="checkboxClass" :style="customStyle" @tap="handleToggle">
+  <view :class="checkboxClass" :style="customStyle as any" @tap="handleToggle">
     <view class="lk-checkbox__icon-wrap">
       <slot
         name="icon"

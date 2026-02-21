@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
+import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
+import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
+const brandStyleVars = computed(() => themeStore.brandStyleVars);
+
+const goBack = () => {
+  uni.navigateBack();
+};
+</script>
+
 <template>
   <view class="page-container" :class="themeClass" :style="brandStyleVars">
     <lk-navbar title="商品详情" @back="goBack" />
@@ -33,23 +49,6 @@
     </scroll-view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-
-const themeStore = useThemeStore();
-const themeClass = computed(() => themeStore.themeClass);
-const brandStyleVars = computed(() => themeStore.brandStyleVars);
-
-const goBack = () => {
-  uni.navigateBack();
-};
-</script>
-
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

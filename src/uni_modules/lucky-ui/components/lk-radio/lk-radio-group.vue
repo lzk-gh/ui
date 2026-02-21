@@ -23,7 +23,7 @@ const groupClass = computed(() => {
 </script>
 
 <template>
-  <view :class="groupClass" :style="customStyle">
+  <view :class="groupClass" :style="customStyle as any">
     <slot />
   </view>
 </template>

@@ -1,3 +1,47 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useThemeStore, PRESET_COLORS, type TabbarMode } from '@/stores/theme';
+import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
+import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+
+const themeStore = useThemeStore();
+
+const themeClass = computed(() => themeStore.themeClass);
+const brandStyleVars = computed(() => themeStore.brandStyleVars);
+const isDark = computed(() => themeStore.isDark);
+const brandColor = computed(() => themeStore.brandColor);
+const activeTabbarMode = computed(() => themeStore.tabbarMode);
+
+const currentColorName = computed(() => {
+  return PRESET_COLORS.find(c => c.value === brandColor.value)?.name || 'Custom';
+});
+
+const tabbarModes: { name: string; value: TabbarMode; desc: string }[] = [
+  { name: 'Plain (简约)', value: 'plain', desc: 'No background, only color changes' },
+  { name: 'Block (弹性块)', value: 'block', desc: 'Moving background with elastic impact' },
+  { name: 'Flashlight (手电筒)', value: 'flashlight', desc: 'Glowing spotlight effect' },
+  { name: 'Float (悬浮)', value: 'float', desc: 'Icon springs up, text stays put' },
+  { name: 'Marker Top (顶置线)', value: 'marker-top', desc: 'Clean indicator at the top' },
+  { name: 'Marker Bottom (底置线)', value: 'marker-bottom', desc: 'Underline indicator at bottom' },
+  { name: 'Dot Slide (灵动点)', value: 'dot-slide', desc: 'Centred sliding dot indicator' },
+  { name: 'Bubble (泡泡)', value: 'bubble', desc: 'Soft expansion from center' },
+  { name: 'Ripple (涟漪)', value: 'ripple', desc: 'Cyclic energy wave feedback' },
+  { name: 'Mask Fill (遮罩填充)', value: 'mask-fill', desc: 'Liquid filling from bottom' },
+  { name: 'Text Raise (文字跃动)', value: 'text-raise', desc: 'Icon hides while text rises' },
+];
+
+const toggleTheme = () => themeStore.toggleTheme();
+const setBrandColor = (color: string) => themeStore.setBrandColor(color);
+const setTabbarMode = (mode: TabbarMode) => themeStore.setTabbarMode(mode);
+
+const goBack = () => {
+  uni.navigateBack();
+};
+</script>
+
 <template>
   <view class="page-container" :class="themeClass" :style="brandStyleVars">
     <lk-navbar title="Settings" @back="goBack" />
@@ -16,7 +60,7 @@
                 :color="brandColor"
                 style="transform: scale(0.8)"
                 @change="toggleTheme"
-              />
+              ></switch>
             </template>
           </lk-cell>
         </lk-cell-group>
@@ -67,53 +111,6 @@
     </scroll-view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useThemeStore, PRESET_COLORS, type TabbarMode } from '@/stores/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-
-const themeStore = useThemeStore();
-
-const themeClass = computed(() => themeStore.themeClass);
-const brandStyleVars = computed(() => themeStore.brandStyleVars);
-const isDark = computed(() => themeStore.isDark);
-const brandColor = computed(() => themeStore.brandColor);
-const activeTabbarMode = computed(() => themeStore.tabbarMode);
-
-const currentColorName = computed(() => {
-  return PRESET_COLORS.find(c => c.value === brandColor.value)?.name || 'Custom';
-});
-
-const tabbarModes: { name: string; value: TabbarMode; desc: string }[] = [
-  { name: 'Plain (简约)', value: 'plain', desc: 'No background, only color changes' },
-  { name: 'Block (弹性块)', value: 'block', desc: 'Moving background with elastic impact' },
-  { name: 'Flashlight (手电筒)', value: 'flashlight', desc: 'Glowing spotlight effect' },
-  { name: 'Float (悬浮)', value: 'float', desc: 'Icon springs up, text stays put' },
-  { name: 'Marker Top (顶置线)', value: 'marker-top', desc: 'Clean indicator at the top' },
-  { name: 'Marker Bottom (底置线)', value: 'marker-bottom', desc: 'Underline indicator at bottom' },
-  { name: 'Dot Slide (灵动点)', value: 'dot-slide', desc: 'Centred sliding dot indicator' },
-  { name: 'Bubble (泡泡)', value: 'bubble', desc: 'Soft expansion from center' },
-  { name: 'Ripple (涟漪)', value: 'ripple', desc: 'Cyclic energy wave feedback' },
-  { name: 'Gooey Drop (粘滞水滴)', value: 'gooey-drop', desc: 'Elastic drop that stretches' },
-  { name: 'Parallax (视差)', value: 'parallax', desc: '3D floating layer depth' },
-  { name: 'Mask Fill (遮罩填充)', value: 'mask-fill', desc: 'Liquid filling from bottom' },
-  { name: 'Double Line (双轨)', value: 'double-line', desc: 'Top and bottom line squeeze' },
-  { name: 'Text Raise (文字跃动)', value: 'text-raise', desc: 'Icon hides while text rises' },
-];
-
-const toggleTheme = () => themeStore.toggleTheme();
-const setBrandColor = (color: string) => themeStore.setBrandColor(color);
-const setTabbarMode = (mode: TabbarMode) => themeStore.setTabbarMode(mode);
-
-const goBack = () => {
-  uni.navigateBack();
-};
-</script>
 
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;

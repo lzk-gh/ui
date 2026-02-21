@@ -158,7 +158,7 @@ function isBumpItem(index: number) {
         'lk-tabbar--glass': glassBg,
       },
     ]"
-    :style="[rootStyle, customStyle]"
+    :style="[rootStyle, customStyle as any]"
   >
     <!-- Slider 模式下的滑块指示器 -->
     <view v-if="isSliderMode" class="lk-tabbar__slider" :style="sliderStyle">

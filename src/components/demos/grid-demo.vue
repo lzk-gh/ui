@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
+
+const items = Array.from({ length: 14 }, (_, i) => ({
+  text: `项目${i + 1}`,
+  icon: 'star',
+}));
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础网格">
@@ -9,13 +19,3 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
-
-const items = Array.from({ length: 14 }, (_, i) => ({
-  text: `项目${i + 1}`,
-  icon: 'star',
-}));
-</script>

@@ -1,3 +1,49 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const commonIcons = ref([
+  'house',
+  'search',
+  'bell',
+  'heart',
+  'star',
+  'gear',
+  'person',
+  'chat-dots',
+  'envelope',
+  'calendar',
+  'camera',
+  'image',
+  'file-earmark',
+  'download',
+  'upload',
+  'trash',
+]);
+
+const copyIcon = (name: string) => {
+  // #ifdef H5
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(name);
+    uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
+    return;
+  }
+  // #endif
+
+  // #ifdef MP || APP-PLUS
+  uni.setClipboardData({
+    data: name,
+    success: () => {
+      uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
+    },
+  });
+  // #endif
+
+  uni.showToast({ title: name, icon: 'none' });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="常用图标 (点击复制)">
@@ -65,53 +111,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const commonIcons = ref([
-  'house',
-  'search',
-  'bell',
-  'heart',
-  'star',
-  'gear',
-  'person',
-  'chat-dots',
-  'envelope',
-  'calendar',
-  'camera',
-  'image',
-  'file-earmark',
-  'download',
-  'upload',
-  'trash',
-]);
-
-const copyIcon = (name: string) => {
-  // #ifdef H5
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(name);
-    uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
-    return;
-  }
-  // #endif
-
-  // #ifdef MP || APP-PLUS
-  uni.setClipboardData({
-    data: name,
-    success: () => {
-      uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
-    },
-  });
-  // #endif
-
-  uni.showToast({ title: name, icon: 'none' });
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

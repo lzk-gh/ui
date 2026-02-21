@@ -1,83 +1,3 @@
-<template>
-  <view class="component-demo">
-    <demo-block title="基础用法">
-      <lk-button type="primary" @click="showPicker1">选择日期</lk-button>
-      <text class="result-text">选择的日期: {{ formatDate(date1) }}</text>
-      <lk-date-picker v-model="visible1" :value="date1" @confirm="handleConfirm1" />
-    </demo-block>
-
-    <demo-block title="年月选择">
-      <lk-button type="primary" @click="showPicker2">选择年月</lk-button>
-      <text class="result-text">选择的年月: {{ formatDate(date2) }}</text>
-      <lk-date-picker
-        v-model="visible2"
-        :value="date2"
-        type="year-month"
-        @confirm="handleConfirm2"
-      />
-    </demo-block>
-
-    <demo-block title="时间范围">
-      <lk-button type="primary" @click="showPicker3">选择时间范围</lk-button>
-      <text class="result-text">开始: {{ formatDate(startDate) }}</text>
-      <text class="result-text">结束: {{ formatDate(endDate) }}</text>
-      <lk-date-picker
-        v-model="visible3"
-        :value="[startDate, endDate]"
-        type="range"
-        :min-date="minDate"
-        :max-date="maxDate"
-        :show-shortcuts="true"
-        @confirm="handleConfirm3"
-      />
-    </demo-block>
-
-    <demo-block title="多选日期">
-      <lk-button type="primary" @click="showPicker4">选择多个日期</lk-button>
-      <text class="result-text">已选: {{ selectedMultiple.map(formatDate).join(', ') }}</text>
-      <lk-date-picker
-        v-model="visible4"
-        :value="selectedMultiple"
-        type="multiple"
-        :min-date="minDate"
-        :max-date="maxDate"
-        :show-shortcuts="true"
-        @confirm="handleConfirm4"
-      />
-    </demo-block>
-
-    <demo-block title="日期时间（单选）">
-      <lk-button type="primary" @click="showPicker5">选择日期时间</lk-button>
-      <text class="result-text">选择: {{ formatDateTime(dateTime1) }}</text>
-      <lk-date-picker
-        v-model="visible5"
-        :value="dateTime1"
-        type="date-time"
-        time-precision="minute"
-        :min-date="minDate"
-        :max-date="maxDate"
-        @confirm="handleConfirm5"
-      />
-    </demo-block>
-
-    <demo-block title="日期时间范围">
-      <lk-button type="primary" @click="showPicker6">选择日期时间范围</lk-button>
-      <text class="result-text">开始: {{ formatDateTime(startDateTime) }}</text>
-      <text class="result-text">结束: {{ formatDateTime(endDateTime) }}</text>
-      <lk-date-picker
-        v-model="visible6"
-        :value="[startDateTime, endDateTime]"
-        type="range-date-time"
-        time-precision="minute"
-        :min-date="minDate"
-        :max-date="maxDate"
-        :show-shortcuts="true"
-        @confirm="handleConfirm6"
-      />
-    </demo-block>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
@@ -186,6 +106,85 @@ const formatDateTime = (date: Date) => {
 };
 </script>
 
+<template>
+  <view class="component-demo">
+    <demo-block title="基础用法">
+      <lk-button type="primary" @click="showPicker1">选择日期</lk-button>
+      <text class="result-text">选择的日期: {{ formatDate(date1) }}</text>
+      <lk-date-picker v-model="visible1" :value="date1" @confirm="handleConfirm1" />
+    </demo-block>
+
+    <demo-block title="年月选择">
+      <lk-button type="primary" @click="showPicker2">选择年月</lk-button>
+      <text class="result-text">选择的年月: {{ formatDate(date2) }}</text>
+      <lk-date-picker
+        v-model="visible2"
+        :value="date2"
+        type="year-month"
+        @confirm="handleConfirm2"
+      />
+    </demo-block>
+
+    <demo-block title="时间范围">
+      <lk-button type="primary" @click="showPicker3">选择时间范围</lk-button>
+      <text class="result-text">开始: {{ formatDate(startDate) }}</text>
+      <text class="result-text">结束: {{ formatDate(endDate) }}</text>
+      <lk-date-picker
+        v-model="visible3"
+        :value="[startDate, endDate]"
+        type="range"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :show-shortcuts="true"
+        @confirm="handleConfirm3"
+      />
+    </demo-block>
+
+    <demo-block title="多选日期">
+      <lk-button type="primary" @click="showPicker4">选择多个日期</lk-button>
+      <text class="result-text">已选: {{ selectedMultiple.map(formatDate).join(', ') }}</text>
+      <lk-date-picker
+        v-model="visible4"
+        :value="selectedMultiple"
+        type="multiple"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :show-shortcuts="true"
+        @confirm="handleConfirm4"
+      />
+    </demo-block>
+
+    <demo-block title="日期时间（单选）">
+      <lk-button type="primary" @click="showPicker5">选择日期时间</lk-button>
+      <text class="result-text">选择: {{ formatDateTime(dateTime1) }}</text>
+      <lk-date-picker
+        v-model="visible5"
+        :value="dateTime1"
+        type="date-time"
+        time-precision="minute"
+        :min-date="minDate"
+        :max-date="maxDate"
+        @confirm="handleConfirm5"
+      />
+    </demo-block>
+
+    <demo-block title="日期时间范围">
+      <lk-button type="primary" @click="showPicker6">选择日期时间范围</lk-button>
+      <text class="result-text">开始: {{ formatDateTime(startDateTime) }}</text>
+      <text class="result-text">结束: {{ formatDateTime(endDateTime) }}</text>
+      <lk-date-picker
+        v-model="visible6"
+        :value="[startDateTime, endDateTime]"
+        type="range-date-time"
+        time-precision="minute"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :show-shortcuts="true"
+        @confirm="handleConfirm6"
+      />
+    </demo-block>
+  </view>
+</template>
 <style scoped lang="scss">
 .component-demo {
   display: flex;

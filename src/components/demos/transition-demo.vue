@@ -1,135 +1,3 @@
-<template>
-  <view class="transition-demo">
-    <!-- 控制面板 -->
-    <view class="control-panel">
-      <view class="control-row">
-        <text class="control-label">持续时间: {{ duration }}ms</text>
-        <lk-slider v-model="duration" :min="100" :max="2000" :step="100" />
-      </view>
-      <view class="control-row">
-        <text class="control-label">延迟时间: {{ delay }}ms</text>
-        <lk-slider v-model="delay" :min="0" :max="1000" :step="100" />
-      </view>
-      <view class="control-row">
-        <lk-button type="primary" block @click="toggleAll">
-          {{ showAll ? '隐藏所有' : '显示所有' }}
-        </lk-button>
-      </view>
-    </view>
-    <scroll-view class="demo-scroll" scroll-y>
-      <!-- 动画分类展示 -->
-      <view
-        v-for="category in ANIMATION_CATEGORIES"
-        :key="category.category"
-        class="animation-category"
-      >
-        <view class="category-header">
-          <text class="category-title">{{ category.title }}</text>
-          <text class="category-desc">{{ category.description }}</text>
-        </view>
-
-        <view class="animation-list">
-          <view
-            v-for="animation in category.animations"
-            :key="animation"
-            class="animation-item"
-            @click="toggleAnimation(animation)"
-          >
-            <view class="animation-label">{{ animation }}</view>
-            <view
-              v-if="animationDisplayStates[animation]"
-              class="animation-box"
-              :class="animationClasses[animation]"
-              :style="animationStyles[animation]"
-            >
-              <lk-icon name="check-circle" size="40" color="#fff" />
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <!-- 预设配置展示 -->
-      <view class="animation-category">
-        <view class="category-header">
-          <text class="category-title">预设配置</text>
-          <text class="category-desc">快速使用的预设动画配置</text>
-        </view>
-
-        <view class="preset-list">
-          <view
-            v-for="(preset, key) in ANIMATION_PRESETS"
-            :key="key"
-            class="preset-item"
-            @click="applyPreset(key)"
-          >
-            <view class="preset-header">
-              <text class="preset-name">{{ preset.name }}</text>
-              <lk-tag type="solid" size="sm">{{ preset.animation }}</lk-tag>
-            </view>
-            <view class="preset-info">
-              <text class="preset-detail">时长: {{ preset.duration }}ms</text>
-              <text class="preset-detail">缓动: {{ preset.easing }}</text>
-            </view>
-            <view
-              v-if="presetDisplayStates[key]"
-              class="preset-demo-box"
-              :class="presetClasses[key]"
-              :style="presetStyles[key]"
-            >
-              <lk-icon name="star" size="40" color="#fff" />
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <!-- 使用示例 -->
-      <view class="animation-category">
-        <view class="category-header">
-          <text class="category-title">使用示例</text>
-          <text class="category-desc">在实际场景中的应用</text>
-        </view>
-
-        <view class="example-section">
-          <view class="example-item">
-            <text class="example-title">列表项动画</text>
-            <lk-button size="sm" @click="toggleList">切换列表</lk-button>
-            <view class="list-container">
-              <view
-                v-for="item in listItems"
-                :key="item.id"
-                v-show="listItemDisplayStates[item.id]"
-                class="list-item"
-                :class="listItemClasses[item.id]"
-                :style="listItemStyles[item.id]"
-              >
-                <lk-icon :name="item.icon" size="24" />
-                <text class="list-text">{{ item.text }}</text>
-              </view>
-            </view>
-          </view>
-
-          <view class="example-item">
-            <text class="example-title">卡片动画</text>
-            <lk-button size="sm" @click="toggleCard">切换卡片</lk-button>
-            <lk-card
-              v-if="cardDisplay"
-              title="动画卡片"
-              class="demo-card"
-              :class="cardClasses"
-              :style="cardStyles"
-            >
-              <text>这是一个带有动画效果的卡片组件</text>
-            </lk-card>
-          </view>
-        </view>
-      </view>
-
-      <!-- 底部间距 -->
-      <view class="bottom-spacer" />
-    </scroll-view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, reactive, watch } from 'vue';
 import type { CSSProperties } from 'vue';
@@ -382,6 +250,137 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 );`;
 </script>
 
+<template>
+  <view class="transition-demo">
+    <!-- 控制面板 -->
+    <view class="control-panel">
+      <view class="control-row">
+        <text class="control-label">持续时间: {{ duration }}ms</text>
+        <lk-slider v-model="duration" :min="100" :max="2000" :step="100" />
+      </view>
+      <view class="control-row">
+        <text class="control-label">延迟时间: {{ delay }}ms</text>
+        <lk-slider v-model="delay" :min="0" :max="1000" :step="100" />
+      </view>
+      <view class="control-row">
+        <lk-button type="primary" block @click="toggleAll">
+          {{ showAll ? '隐藏所有' : '显示所有' }}
+        </lk-button>
+      </view>
+    </view>
+    <scroll-view class="demo-scroll" scroll-y>
+      <!-- 动画分类展示 -->
+      <view
+        v-for="category in ANIMATION_CATEGORIES"
+        :key="category.category"
+        class="animation-category"
+      >
+        <view class="category-header">
+          <text class="category-title">{{ category.title }}</text>
+          <text class="category-desc">{{ category.description }}</text>
+        </view>
+
+        <view class="animation-list">
+          <view
+            v-for="animation in category.animations"
+            :key="animation"
+            class="animation-item"
+            @click="toggleAnimation(animation)"
+          >
+            <view class="animation-label">{{ animation }}</view>
+            <view
+              v-if="animationDisplayStates[animation]"
+              class="animation-box"
+              :class="animationClasses[animation]"
+              :style="animationStyles[animation]"
+            >
+              <lk-icon name="check-circle" size="40" color="#fff" />
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 预设配置展示 -->
+      <view class="animation-category">
+        <view class="category-header">
+          <text class="category-title">预设配置</text>
+          <text class="category-desc">快速使用的预设动画配置</text>
+        </view>
+
+        <view class="preset-list">
+          <view
+            v-for="(preset, key) in ANIMATION_PRESETS"
+            :key="key"
+            class="preset-item"
+            @click="applyPreset(key)"
+          >
+            <view class="preset-header">
+              <text class="preset-name">{{ preset.name }}</text>
+              <lk-tag type="solid" size="sm">{{ preset.animation }}</lk-tag>
+            </view>
+            <view class="preset-info">
+              <text class="preset-detail">时长: {{ preset.duration }}ms</text>
+              <text class="preset-detail">缓动: {{ preset.easing }}</text>
+            </view>
+            <view
+              v-if="presetDisplayStates[key]"
+              class="preset-demo-box"
+              :class="presetClasses[key]"
+              :style="presetStyles[key]"
+            >
+              <lk-icon name="star" size="40" color="#fff" />
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 使用示例 -->
+      <view class="animation-category">
+        <view class="category-header">
+          <text class="category-title">使用示例</text>
+          <text class="category-desc">在实际场景中的应用</text>
+        </view>
+
+        <view class="example-section">
+          <view class="example-item">
+            <text class="example-title">列表项动画</text>
+            <lk-button size="sm" @click="toggleList">切换列表</lk-button>
+            <view class="list-container">
+              <view
+                v-for="item in listItems"
+                :key="item.id"
+                v-show="listItemDisplayStates[item.id]"
+                class="list-item"
+                :class="listItemClasses[item.id]"
+                :style="listItemStyles[item.id]"
+              >
+                <lk-icon :name="item.icon" size="24" />
+                <text class="list-text">{{ item.text }}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="example-item">
+            <text class="example-title">卡片动画</text>
+            <lk-button size="sm" @click="toggleCard">切换卡片</lk-button>
+            <lk-card
+              v-if="cardDisplay"
+              title="动画卡片"
+              class="demo-card"
+              :class="cardClasses"
+              :style="cardStyles"
+            >
+              <text>这是一个带有动画效果的卡片组件</text>
+            </lk-card>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部间距 -->
+      <view class="bottom-spacer" />
+    </scroll-view>
+  </view>
+</template>
 <style scoped lang="scss">
 .transition-demo {
   width: 100%;

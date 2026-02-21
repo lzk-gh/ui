@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import LkTimeline from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline.vue';
+import LkTimelineItem from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline-item.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="Apple 风格时间轴">
@@ -52,13 +58,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import LkTimeline from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline.vue';
-import LkTimelineItem from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline-item.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { computed, useSlots } from 'vue';
 
 import LkOverlay from '../lk-overlay/lk-overlay.vue';

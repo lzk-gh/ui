@@ -1,3 +1,32 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const visible1 = ref(false);
+const visible2 = ref(false);
+const visible3 = ref(false);
+const visible4 = ref(false);
+const visibleScale = ref(false);
+const visibleBounce = ref(false);
+const visibleNoHeader = ref(false);
+const visibleLong = ref(false);
+const visibleDynamic = ref(false);
+
+// 动态参数
+const dynamicType = ref('zoom-in');
+const dynamicDuration = ref(400);
+const dynamicEasing = ref('ease-out');
+
+const handleConfirm = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      uni.showToast({ title: '删除成功' });
+      resolve(true);
+    }, 1000);
+  });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="预设动画">
@@ -101,36 +130,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const visible1 = ref(false);
-const visible2 = ref(false);
-const visible3 = ref(false);
-const visible4 = ref(false);
-const visibleScale = ref(false);
-const visibleBounce = ref(false);
-const visibleNoHeader = ref(false);
-const visibleLong = ref(false);
-const visibleDynamic = ref(false);
-
-// 动态参数
-const dynamicType = ref('zoom-in');
-const dynamicDuration = ref(400);
-const dynamicEasing = ref('ease-out');
-
-const handleConfirm = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      uni.showToast({ title: '删除成功' });
-      resolve(true);
-    }, 1000);
-  });
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

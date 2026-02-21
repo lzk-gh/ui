@@ -67,7 +67,7 @@ function handleClick(e: Event) {
 <template>
   <text
     class="lk-icon"
-    :style="[iconStyle, props.customStyle]"
+    :style="[iconStyle, props.customStyle as any]"
     aria-hidden="true"
     @click="handleClick"
   >

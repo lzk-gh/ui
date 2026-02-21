@@ -76,7 +76,7 @@ function initIndexes() {
 watch(
   () => [props.modelValue, props.columns, props.mode],
   () => {
-    if (props.mode === 'region' || props.mode === 'cascade' || props.mode === 'multi') {
+    if (props.mode === 'cascade' || props.mode === 'multi') {
       innerValue.value = Array.isArray(props.modelValue)
         ? (props.modelValue as (string | number)[]).slice()
         : [];
@@ -92,7 +92,7 @@ function onChange(e: { detail: { value: number[] } }) {
   const cols = computedColumns.value;
 
   // 检测是否级联列变化
-  if (props.mode === 'region' || props.mode === 'cascade') {
+  if (props.mode === 'cascade') {
     for (let i = 0; i < idxs.length; i++) {
       if (idxs[i] !== selectedIndexes.value[i]) {
         // 重置后续列的索引

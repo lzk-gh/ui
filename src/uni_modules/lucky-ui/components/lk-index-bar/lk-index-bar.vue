@@ -71,9 +71,8 @@ function scrollTo(letter: string) {
     const target = props.scrollTarget || '';
     const sel = `${target ? `${target  } ` : ''}[data-lk-index-anchor="${letter}"]`;
     q.select(sel).boundingClientRect();
-    // @ts-ignore
-    const viewportQuery = q.selectViewport();
-    if (viewportQuery.scrollOffset) {
+    const viewportQuery = q.selectViewport() as unknown as { scrollOffset?: () => void };
+    if (typeof viewportQuery?.scrollOffset === 'function') {
       viewportQuery.scrollOffset();
     }
     q.exec(res => {

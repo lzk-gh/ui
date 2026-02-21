@@ -1,3 +1,39 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const tags = ref({
+  tag1: true,
+  tag2: true,
+  tag3: true,
+});
+
+const allTagsVisible = computed(() => tags.value.tag1 && tags.value.tag2 && tags.value.tag3);
+
+const selectableTags = ref([
+  { name: 'vue', label: 'Vue', selected: false },
+  { name: 'react', label: 'React', selected: false },
+  { name: 'uniapp', label: 'UniApp', selected: true },
+]);
+
+const skills = ref(['Vue3', 'TypeScript', 'UniApp', 'Sass', 'Vite']);
+
+const resetTags = () => {
+  tags.value = { tag1: true, tag2: true, tag3: true };
+  uni.showToast({ title: '标签已恢复', icon: 'none' });
+};
+
+const toggleTag = (name: string) => {
+  const tag = selectableTags.value.find(t => t.name === name);
+  if (tag) {
+    tag.selected = !tag.selected;
+  }
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="标签类型">
@@ -62,43 +98,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const tags = ref({
-  tag1: true,
-  tag2: true,
-  tag3: true,
-});
-
-const allTagsVisible = computed(() => tags.value.tag1 && tags.value.tag2 && tags.value.tag3);
-
-const selectableTags = ref([
-  { name: 'vue', label: 'Vue', selected: false },
-  { name: 'react', label: 'React', selected: false },
-  { name: 'uniapp', label: 'UniApp', selected: true },
-]);
-
-const skills = ref(['Vue3', 'TypeScript', 'UniApp', 'Sass', 'Vite']);
-
-const resetTags = () => {
-  tags.value = { tag1: true, tag2: true, tag3: true };
-  uni.showToast({ title: '标签已恢复', icon: 'none' });
-};
-
-const toggleTag = (name: string) => {
-  const tag = selectableTags.value.find(t => t.name === name);
-  if (tag) {
-    tag.selected = !tag.selected;
-  }
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

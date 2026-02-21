@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkSteps from '@/uni_modules/lucky-ui/components/lk-steps/lk-steps.vue';
+import LkStep from '@/uni_modules/lucky-ui/components/lk-steps/lk-step.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const current1 = ref(1);
+const current2 = ref(2);
+const current3 = ref(2);
+const currentStep = ref(0);
+
+const prevStep = () => {
+  if (currentStep.value > 0) {
+    currentStep.value--;
+  }
+};
+
+const nextStep = () => {
+  if (currentStep.value < 3) {
+    currentStep.value++;
+  }
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -38,32 +63,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkSteps from '@/uni_modules/lucky-ui/components/lk-steps/lk-steps.vue';
-import LkStep from '@/uni_modules/lucky-ui/components/lk-steps/lk-step.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const current1 = ref(1);
-const current2 = ref(2);
-const current3 = ref(2);
-const currentStep = ref(0);
-
-const prevStep = () => {
-  if (currentStep.value > 0) {
-    currentStep.value--;
-  }
-};
-
-const nextStep = () => {
-  if (currentStep.value < 3) {
-    currentStep.value++;
-  }
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

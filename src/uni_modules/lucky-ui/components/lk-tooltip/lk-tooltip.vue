@@ -38,12 +38,12 @@ function doOpen(v = true) {
 
 function onTriggerEnter() {
   if (props.always || props.trigger !== 'hover') return;
-  clearTimeout(hideTimer);
+  if (hideTimer) clearTimeout(hideTimer);
   showTimer = setTimeout(() => doOpen(true), props.showDelay);
 }
 function onTriggerLeave() {
   if (props.always || props.trigger !== 'hover') return;
-  clearTimeout(showTimer);
+  if (showTimer) clearTimeout(showTimer);
   hideTimer = setTimeout(() => doOpen(false), props.hideDelay);
 }
 function onTriggerClick() {
@@ -52,7 +52,7 @@ function onTriggerClick() {
 }
 function onContentEnter() {
   if (props.always || props.trigger !== 'hover') return;
-  clearTimeout(hideTimer);
+  if (hideTimer) clearTimeout(hideTimer);
 }
 function onContentLeave() {
   if (props.always || props.trigger !== 'hover') return;

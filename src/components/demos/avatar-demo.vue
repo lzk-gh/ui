@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -73,14 +80,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const value1 = ref(3);
+const value3 = ref(4);
+const value4 = ref(2);
+const value5 = ref(5);
+const value6 = ref(4);
+const value7 = ref(3);
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -29,20 +42,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const value1 = ref(3);
-const value3 = ref(4);
-const value4 = ref(2);
-const value5 = ref(5);
-const value6 = ref(4);
-const value7 = ref(3);
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

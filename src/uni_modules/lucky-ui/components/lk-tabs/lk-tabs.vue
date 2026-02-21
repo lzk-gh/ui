@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
 import { tabsProps, tabsEmits } from './tabs.props';
 

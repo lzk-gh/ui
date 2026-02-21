@@ -1,29 +1,3 @@
-<template>
-  <view class="component-demo">
-    <demo-block title="基础用法">
-      <lk-cascader v-model="value1" :options="options" placeholder="请选择地区" />
-    </demo-block>
-
-    <demo-block title="自定义选项">
-      <lk-cascader v-model="value2" :options="customOptions" placeholder="请选择" />
-    </demo-block>
-
-    <demo-block title="动态加载">
-      <lk-cascader
-        v-model="value3"
-        :options="asyncOptions"
-        lazy
-        placeholder="动态加载"
-        @load="loadData"
-      />
-    </demo-block>
-
-    <demo-block title="多选">
-      <lk-cascader v-model="value4" :options="options" multiple placeholder="请选择多个地区" />
-    </demo-block>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import LkCascader from '@/uni_modules/lucky-ui/components/lk-cascader/lk-cascader.vue';
@@ -99,6 +73,31 @@ const loadData = (node: any) => {
 };
 </script>
 
+<template>
+  <view class="component-demo">
+    <demo-block title="基础用法">
+      <lk-cascader v-model="value1" :options="options" placeholder="请选择地区" />
+    </demo-block>
+
+    <demo-block title="自定义选项">
+      <lk-cascader v-model="value2" :options="customOptions" placeholder="请选择" />
+    </demo-block>
+
+    <demo-block title="动态加载">
+      <lk-cascader
+        v-model="value3"
+        :options="asyncOptions"
+        lazy
+        placeholder="动态加载"
+        @load="loadData"
+      />
+    </demo-block>
+
+    <demo-block title="多选">
+      <lk-cascader v-model="value4" :options="options" multiple placeholder="请选择多个地区" />
+    </demo-block>
+  </view>
+</template>
 <style scoped lang="scss">
 .component-demo {
   display: flex;

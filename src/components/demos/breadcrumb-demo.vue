@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import LkBreadcrumb from '@/uni_modules/lucky-ui/components/lk-breadcrumb/lk-breadcrumb.vue';
+import LkBreadcrumbItem from '@/uni_modules/lucky-ui/components/lk-breadcrumb/lk-breadcrumb-item.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const handleClick = (name: string) => {
+  uni.showToast({
+    title: `点击了: ${name}`,
+    icon: 'none',
+  });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -33,21 +47,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import LkBreadcrumb from '@/uni_modules/lucky-ui/components/lk-breadcrumb/lk-breadcrumb.vue';
-import LkBreadcrumbItem from '@/uni_modules/lucky-ui/components/lk-breadcrumb/lk-breadcrumb-item.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const handleClick = (name: string) => {
-  uni.showToast({
-    title: `点击了: ${name}`,
-    icon: 'none',
-  });
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

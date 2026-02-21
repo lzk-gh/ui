@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkProgress from '@/uni_modules/lucky-ui/components/lk-progress/lk-progress.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const percentage1 = ref(70);
+const percentage2 = ref(50);
+
+const increase = () => {
+  if (percentage2.value < 100) {
+    percentage2.value += 10;
+  }
+};
+
+const decrease = () => {
+  if (percentage2.value > 0) {
+    percentage2.value -= 10;
+  }
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -44,29 +66,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkProgress from '@/uni_modules/lucky-ui/components/lk-progress/lk-progress.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const percentage1 = ref(70);
-const percentage2 = ref(50);
-
-const increase = () => {
-  if (percentage2.value < 100) {
-    percentage2.value += 10;
-  }
-};
-
-const decrease = () => {
-  if (percentage2.value > 0) {
-    percentage2.value -= 10;
-  }
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

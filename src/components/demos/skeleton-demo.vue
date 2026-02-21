@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
+import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const loading = ref(true);
+
+const toggleLoading = () => {
+  loading.value = !loading.value;
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -52,21 +66,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const loading = ref(true);
-
-const toggleLoading = () => {
-  loading.value = !loading.value;
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

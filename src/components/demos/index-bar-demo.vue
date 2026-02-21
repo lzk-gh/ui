@@ -1,44 +1,3 @@
-<template>
-  <view class="contacts-page">
-    <!-- 搜索栏 -->
-    <view class="search-bar">
-      <view class="search-input">
-        <text class="search-icon">🔍</text>
-        <text class="search-placeholder">搜索联系人</text>
-      </view>
-    </view>
-
-    <!-- 联系人列表 -->
-    <lk-index-bar :index-list="indexList" @select="onSelect">
-      <lk-index-anchor
-        v-for="group in contactGroups"
-        :key="group.letter"
-        :index="group.letter"
-        :title="group.letter"
-      >
-        <view
-          v-for="contact in group.contacts"
-          :key="contact.id"
-          class="contact-item"
-          @click="onContactClick(contact)"
-        >
-          <view class="contact-avatar" :style="{ background: contact.color }">
-            {{ contact.avatar }}
-          </view>
-          <view class="contact-info">
-            <view class="contact-name">{{ contact.name }}</view>
-            <view class="contact-desc">{{ contact.phone }}</view>
-          </view>
-          <view class="contact-actions">
-            <view class="action-btn action-btn--call">📞</view>
-            <view class="action-btn action-btn--msg">💬</view>
-          </view>
-        </view>
-      </lk-index-anchor>
-    </lk-index-bar>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import LkIndexBar from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-bar.vue';
@@ -127,6 +86,46 @@ function onContactClick(contact: Contact) {
 }
 </script>
 
+<template>
+  <view class="contacts-page">
+    <!-- 搜索栏 -->
+    <view class="search-bar">
+      <view class="search-input">
+        <text class="search-icon">🔍</text>
+        <text class="search-placeholder">搜索联系人</text>
+      </view>
+    </view>
+
+    <!-- 联系人列表 -->
+    <lk-index-bar :index-list="indexList" @select="onSelect">
+      <lk-index-anchor
+        v-for="group in contactGroups"
+        :key="group.letter"
+        :index="group.letter"
+        :title="group.letter"
+      >
+        <view
+          v-for="contact in group.contacts"
+          :key="contact.id"
+          class="contact-item"
+          @click="onContactClick(contact)"
+        >
+          <view class="contact-avatar" :style="{ background: contact.color }">
+            {{ contact.avatar }}
+          </view>
+          <view class="contact-info">
+            <view class="contact-name">{{ contact.name }}</view>
+            <view class="contact-desc">{{ contact.phone }}</view>
+          </view>
+          <view class="contact-actions">
+            <view class="action-btn action-btn--call">📞</view>
+            <view class="action-btn action-btn--msg">💬</view>
+          </view>
+        </view>
+      </lk-index-anchor>
+    </lk-index-bar>
+  </view>
+</template>
 <style scoped lang="scss">
 .contacts-page {
   min-height: 100vh;

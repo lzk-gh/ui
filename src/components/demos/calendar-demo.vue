@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkCalendar from '@/uni_modules/lucky-ui/components/lk-calendar/lk-calendar.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const date1 = ref(new Date());
+const date2 = ref(new Date());
+const date3 = ref(new Date());
+const date4 = ref(new Date());
+const date5 = ref(new Date());
+const dateRange = ref<[Date, Date]>([new Date(), new Date(Date.now() + 7 * 24 * 3600 * 1000)]);
+
+const disabledDate = (date: Date) => {
+  return date < new Date();
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -26,24 +43,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkCalendar from '@/uni_modules/lucky-ui/components/lk-calendar/lk-calendar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const date1 = ref(new Date());
-const date2 = ref(new Date());
-const date3 = ref(new Date());
-const date4 = ref(new Date());
-const date5 = ref(new Date());
-const dateRange = ref<[Date, Date]>([new Date(), new Date(Date.now() + 7 * 24 * 3600 * 1000)]);
-
-const disabledDate = (date: Date) => {
-  return date < new Date();
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

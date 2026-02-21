@@ -1,34 +1,3 @@
-<template>
-  <view class="component-demo">
-    <demo-block title="基础用法">
-      <view class="roller-card">
-        <lk-number-roller :value="dailyActive" />
-        <text class="roller-label">今日活跃用户</text>
-      </view>
-      <lk-button size="sm" type="primary" @click="refreshDaily">刷新数据</lk-button>
-    </demo-block>
-
-    <demo-block title="动画速率调节">
-      <view class="roller-card">
-        <lk-number-roller :value="transactionVolume" :speed="rollerSpeed" />
-        <text class="roller-label">交易成功次数</text>
-      </view>
-      <view class="slider-row">
-        <text class="slider-tip">动画时长: {{ rollerSpeed }}ms</text>
-        <lk-slider v-model="rollerSpeed" :min="200" :max="2000" :step="100" />
-      </view>
-    </demo-block>
-
-    <demo-block title="货币风格 (两位小数)">
-      <view class="currency-line">
-        <text class="currency-symbol">¥</text>
-        <lk-number-roller :value="revenue" :decimals="2" :digit-height="64" :speed="600" />
-      </view>
-      <lk-button size="sm" type="success" plain @click="boostRevenue">追加订单</lk-button>
-    </demo-block>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import LkNumberRoller from '@/uni_modules/lucky-ui/components/lk-number-roller/lk-number-roller.vue';
@@ -68,6 +37,36 @@ onUnmounted(() => {
 });
 </script>
 
+<template>
+  <view class="component-demo">
+    <demo-block title="基础用法">
+      <view class="roller-card">
+        <lk-number-roller :value="dailyActive" />
+        <text class="roller-label">今日活跃用户</text>
+      </view>
+      <lk-button size="sm" type="primary" @click="refreshDaily">刷新数据</lk-button>
+    </demo-block>
+
+    <demo-block title="动画速率调节">
+      <view class="roller-card">
+        <lk-number-roller :value="transactionVolume" :speed="rollerSpeed" />
+        <text class="roller-label">交易成功次数</text>
+      </view>
+      <view class="slider-row">
+        <text class="slider-tip">动画时长: {{ rollerSpeed }}ms</text>
+        <lk-slider v-model="rollerSpeed" :min="200" :max="2000" :step="100" />
+      </view>
+    </demo-block>
+
+    <demo-block title="货币风格 (两位小数)">
+      <view class="currency-line">
+        <text class="currency-symbol">¥</text>
+        <lk-number-roller :value="revenue" :decimals="2" :digit-height="64" :speed="600" />
+      </view>
+      <lk-button size="sm" type="success" plain @click="boostRevenue">追加订单</lk-button>
+    </demo-block>
+  </view>
+</template>
 <style scoped lang="scss">
 .component-demo {
   display: flex;

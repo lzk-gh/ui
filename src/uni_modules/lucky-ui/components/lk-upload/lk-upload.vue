@@ -21,7 +21,11 @@ function select() {
     sizeType: props.sizeType as UniApp.ChooseImageOptions['sizeType'],
     sourceType: ['album', 'camera'],
     success(res: UniApp.ChooseImageSuccessCallbackResult) {
-      const paths = res.tempFilePaths || [];
+      const paths = Array.isArray(res.tempFilePaths)
+        ? res.tempFilePaths
+        : res.tempFilePaths
+          ? [res.tempFilePaths]
+          : [];
       add(paths);
     },
   });

@@ -8,8 +8,7 @@ import {
   getCurrentInstance,
 } from 'vue';
 
-type Canvas2DLike = {
-  clearRect?: (x: number, y: number, width: number, height: number) => void;
+type Canvas2DLike = CanvasRenderingContext2D & {
   setTransform?: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   scale?: (x: number, y: number) => void;
 };
@@ -27,7 +26,7 @@ type RectLike = {
   height: number;
 };
 
-export type MaybeCanvas2DContext = CanvasRenderingContext2D | Canvas2DLike;
+export type MaybeCanvas2DContext = Canvas2DLike;
 
 const raf = globalThis.requestAnimationFrame?.bind(globalThis);
 const caf = globalThis.cancelAnimationFrame?.bind(globalThis);
@@ -244,7 +243,7 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
 
   function clear() {
     if (!ctx.value) return;
-    ctx.value.clearRect(0, 0, size.value.width, size.value.height);
+    ctx.value?.clearRect?.(0, 0, size.value.width, size.value.height);
   }
 
   function render(progress = 1, extra?: TExtra) {

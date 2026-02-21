@@ -41,7 +41,7 @@ const barStyle = computed(() => {
   <view
     class="lk-progress"
     :class="[{ 'is-striped': striped, 'is-animated': animated }, customClass]"
-    :style="customStyle"
+    :style="customStyle as any"
   >
     <view class="lk-progress__track" :style="trackStyle">
       <view class="lk-progress__bar" :style="barStyle">

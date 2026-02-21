@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, provide, onMounted, nextTick, watch, computed } from 'vue';
-import type { ComponentInternalInstance } from 'vue';
 import { anchorProps } from './anchor.props';
 
 defineOptions({ name: 'LkAnchor' });
 const props = defineProps(anchorProps);
 const emit = defineEmits(['change', 'click']);
 
-const children = ref<ComponentInternalInstance[]>([]);
+type AnchorChild = { props?: { href?: string } };
+const children = ref<AnchorChild[]>([]);
 const activeHref = ref('');
 const scrollIntoViewId = ref('');
 const targets = ref<{ href: string; top: number; height: number }[]>([]);
@@ -21,11 +21,11 @@ const anchorStyle = computed(() => {
   return style;
 });
 
-function register(child: ComponentInternalInstance) {
+function register(child: AnchorChild) {
   children.value.push(child);
 }
 
-function unregister(child: ComponentInternalInstance) {
+function unregister(child: AnchorChild) {
   const idx = children.value.indexOf(child);
   if (idx > -1) children.value.splice(idx, 1);
 }
@@ -65,7 +65,7 @@ async function measureTargets(baseScrollTop: number = 0) {
 
   const hasContainer = !!props.targetContainer;
   if (hasContainer) q.select(props.targetContainer).boundingClientRect();
-  hrefs.forEach(href => q.select(`#${href}`).boundingClientRect());
+  hrefs.forEach(href => q?.select(`#${href}`).boundingClientRect());
 
   type RectLike = { top?: number; height?: number } | null;
   const results = await new Promise<RectLike[]>(resolve => {

@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
+</script>
+
 <template>
   <view class="horizontal-scroll-demo">
     <lk-navbar title="HorizontalScroll 横向滚动" />
@@ -25,13 +31,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
-</script>
-
 <style lang="scss" scoped>
 .horizontal-scroll-demo {
   min-height: 100vh;

@@ -88,7 +88,7 @@ function handleLabelClick() {
 </script>
 
 <template>
-  <view :class="radioClass" :style="customStyle" @tap="handleToggle">
+  <view :class="radioClass" :style="customStyle as any" @tap="handleToggle">
     <view class="lk-radio__icon-wrap">
       <slot name="icon" :checked="isChecked" :disabled="isDisabled">
         <view class="lk-radio__icon" :class="[`lk-radio__icon--${mergedShape}`]" :style="iconStyle">

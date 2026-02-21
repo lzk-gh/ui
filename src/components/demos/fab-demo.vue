@@ -1,3 +1,40 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkFab from '@/uni_modules/lucky-ui/components/lk-fab/lk-fab.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import type { FabAction } from '@/uni_modules/lucky-ui/components/lk-fab/fab.props';
+
+const expanded = ref(false);
+const direction = ref<'up' | 'down' | 'left' | 'right'>('up');
+const color = ref('primary');
+const blur = ref(true);
+const draggable = ref(true);
+const icon = ref('plus');
+
+const actions = ref<FabAction[]>([
+  { key: 'scan', icon: 'qr-code-scan', label: '扫一扫' },
+  { key: 'photo', icon: 'camera', label: '拍照' },
+  { key: 'share', icon: 'share' },
+]);
+
+function onFabClick() {
+  console.log('FAB clicked');
+}
+
+function onActionClick(action: FabAction) {
+  uni.showToast({
+    title: `点击了 ${action.label || action.key}`,
+    icon: 'none',
+  });
+}
+
+function onDragEnd(position: { x: number; y: number }) {
+  console.log('拖拽结束，位置：', position);
+}
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -64,44 +101,6 @@
     />
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkFab from '@/uni_modules/lucky-ui/components/lk-fab/lk-fab.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import type { FabAction } from '@/uni_modules/lucky-ui/components/lk-fab/fab.props';
-
-const expanded = ref(false);
-const direction = ref<'up' | 'down' | 'left' | 'right'>('up');
-const color = ref('primary');
-const blur = ref(true);
-const draggable = ref(true);
-const icon = ref('plus');
-
-const actions = ref<FabAction[]>([
-  { key: 'scan', icon: 'qr-code-scan', label: '扫一扫' },
-  { key: 'photo', icon: 'camera', label: '拍照' },
-  { key: 'share', icon: 'share' },
-]);
-
-function onFabClick() {
-  console.log('FAB clicked');
-}
-
-function onActionClick(action: FabAction) {
-  uni.showToast({
-    title: `点击了 ${action.label || action.key}`,
-    icon: 'none',
-  });
-}
-
-function onDragEnd(position: { x: number; y: number }) {
-  console.log('拖拽结束，位置：', position);
-}
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

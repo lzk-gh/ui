@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
+import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
+import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
+import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
+
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
+const brandStyleVars = computed(() => themeStore.brandStyleVars);
+
+const keyword = ref('');
+const hotTags = ['连衣裙', '外套', '运动鞋', 'T恤', '牛仔裤'];
+
+const goBack = () => {
+  uni.navigateBack();
+};
+</script>
+
 <template>
   <view class="page-container" :class="themeClass" :style="brandStyleVars">
     <lk-navbar title="搜索" @back="goBack" />
@@ -26,26 +45,6 @@
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-
-const themeStore = useThemeStore();
-const themeClass = computed(() => themeStore.themeClass);
-const brandStyleVars = computed(() => themeStore.brandStyleVars);
-
-const keyword = ref('');
-const hotTags = ['连衣裙', '外套', '运动鞋', 'T恤', '牛仔裤'];
-
-const goBack = () => {
-  uni.navigateBack();
-};
-</script>
-
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

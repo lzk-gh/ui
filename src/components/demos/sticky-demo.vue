@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue';
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础吸顶">
@@ -11,12 +16,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue';
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

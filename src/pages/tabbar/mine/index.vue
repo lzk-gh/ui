@@ -1,17 +1,3 @@
-<template>
-  <view
-    class="page-container"
-    :class="[themeClass, { 'page-container--ready': isReady }]"
-    :style="brandStyleVars"
-  >
-    <!-- 页面内容 - 个人中心页面自带顶部装饰，不需要 navbar -->
-    <mine-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
-
-    <!-- 底部 Tabbar -->
-    <custom-tabbar active="mine" />
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
@@ -47,6 +33,19 @@ onShow(() => {
 });
 </script>
 
+<template>
+  <view
+    class="page-container"
+    :class="[themeClass, { 'page-container--ready': isReady }]"
+    :style="brandStyleVars"
+  >
+    <!-- 页面内容 - 个人中心页面自带顶部装饰，不需要 navbar -->
+    <mine-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
+
+    <!-- 底部 Tabbar -->
+    <custom-tabbar active="mine" />
+  </view>
+</template>
 <style lang="scss" scoped>
 @import url('@/styles/test-page.scss');
 

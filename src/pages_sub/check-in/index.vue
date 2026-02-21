@@ -1,29 +1,3 @@
-<template>
-  <view class="page-container" :class="themeClass" :style="brandStyleVars">
-    <lk-navbar title="每日签到" @back="goBack" />
-
-    <view class="check-in-page">
-      <lk-card class="check-in-card" padding="40rpx">
-        <view class="check-in-header">
-          <text class="points">当前积分: 1,204</text>
-          <text class="streak">连续签到: 7 天</text>
-        </view>
-
-        <lk-button type="primary" block radius="40" size="lg" @click="handleCheckIn">
-          {{ isCheckedIn ? '今日已签到' : '立即签到' }}
-        </lk-button>
-      </lk-card>
-
-      <lk-card title="签到日历" padding="30rpx">
-        <view class="calendar-placeholder">
-          <lk-icon name="calendar-check" size="80" color="var(--test-primary)" />
-          <text class="placeholder-text">日历功能开发中...</text>
-        </view>
-      </lk-card>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
@@ -49,6 +23,31 @@ const handleCheckIn = () => {
 };
 </script>
 
+<template>
+  <view class="page-container" :class="themeClass" :style="brandStyleVars">
+    <lk-navbar title="每日签到" @back="goBack" />
+
+    <view class="check-in-page">
+      <lk-card class="check-in-card" padding="40rpx">
+        <view class="check-in-header">
+          <text class="points">当前积分: 1,204</text>
+          <text class="streak">连续签到: 7 天</text>
+        </view>
+
+        <lk-button type="primary" block radius="40" size="lg" @click="handleCheckIn">
+          {{ isCheckedIn ? '今日已签到' : '立即签到' }}
+        </lk-button>
+      </lk-card>
+
+      <lk-card title="签到日历" padding="30rpx">
+        <view class="calendar-placeholder">
+          <lk-icon name="calendar-check" size="80" color="var(--test-primary)" />
+          <text class="placeholder-text">日历功能开发中...</text>
+        </view>
+      </lk-card>
+    </view>
+  </view>
+</template>
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

@@ -1,3 +1,47 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useTheme } from '@/uni_modules/lucky-ui/theme';
+import LkAnchor from '../../uni_modules/lucky-ui/components/lk-anchor/lk-anchor.vue';
+import LkAnchorLink from '../../uni_modules/lucky-ui/components/lk-anchor/lk-anchor-link.vue';
+
+const { themeClass, toggleTheme } = useTheme();
+
+const list = [
+  { name: '人气热销', id: 'c1' },
+  { name: '超值套餐', id: 'c2' },
+  { name: '季节限定', id: 'c3' },
+  { name: '鲜果茶', id: 'c4' },
+  { name: '纯茶系列', id: 'c5' },
+  { name: '加料', id: 'c6' },
+  { name: '周边', id: 'c7' },
+];
+
+const anchorRef = ref();
+const scrollIntoViewId = ref('');
+let isScrolling = false;
+let timer: ReturnType<typeof setTimeout> | null = null;
+
+const handleAnchorClick = (href: string) => {
+  scrollIntoViewId.value = href;
+  isScrolling = true;
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(() => {
+    isScrolling = false;
+  }, 800);
+};
+
+const onScroll = (e: { detail: { scrollTop: number } }) => {
+  if (isScrolling) return;
+  anchorRef.value?.onScroll(e.detail.scrollTop);
+};
+
+onMounted(() => {
+  setTimeout(() => {
+    anchorRef.value?.measureTargets(0);
+  }, 1000);
+});
+</script>
+
 <template>
   <view class="anchor-demo" :class="themeClass">
     <view class="header">
@@ -48,51 +92,6 @@
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useTheme } from '@/uni_modules/lucky-ui/theme';
-import LkAnchor from '../../uni_modules/lucky-ui/components/lk-anchor/lk-anchor.vue';
-import LkAnchorLink from '../../uni_modules/lucky-ui/components/lk-anchor/lk-anchor-link.vue';
-
-const { themeClass, toggleTheme } = useTheme();
-
-const list = [
-  { name: '人气热销', id: 'c1' },
-  { name: '超值套餐', id: 'c2' },
-  { name: '季节限定', id: 'c3' },
-  { name: '鲜果茶', id: 'c4' },
-  { name: '纯茶系列', id: 'c5' },
-  { name: '加料', id: 'c6' },
-  { name: '周边', id: 'c7' },
-];
-
-const anchorRef = ref();
-const scrollIntoViewId = ref('');
-let isScrolling = false;
-let timer: ReturnType<typeof setTimeout> | null = null;
-
-const handleAnchorClick = (href: string) => {
-  scrollIntoViewId.value = href;
-  isScrolling = true;
-  if (timer) clearTimeout(timer);
-  timer = setTimeout(() => {
-    isScrolling = false;
-  }, 800);
-};
-
-const onScroll = (e: { detail: { scrollTop: number } }) => {
-  if (isScrolling) return;
-  anchorRef.value?.onScroll(e.detail.scrollTop);
-};
-
-onMounted(() => {
-  setTimeout(() => {
-    anchorRef.value?.measureTargets(0);
-  }, 1000);
-});
-</script>
-
 <style lang="scss" scoped>
 .anchor-demo {
   height: 100vh;

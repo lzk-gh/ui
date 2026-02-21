@@ -1,3 +1,61 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import {
+  LkNavbar,
+  DemoBlock,
+  LkButton,
+  LkCurtain,
+  type CurtainClosePosition,
+} from '@/uni_modules/lucky-ui/components';
+
+const show1 = ref(false);
+const show2 = ref(false);
+const show3 = ref(false);
+const show4 = ref(false);
+const show5 = ref(false);
+const imageMode = ref<'aspectFit' | 'aspectFill'>('aspectFit');
+const closePosition = ref<CurtainClosePosition>('bottom');
+const closeOffset = ref('24rpx');
+const closeOffsetBottom = ref('36rpx');
+
+const showTopLeft = () => {
+  closePosition.value = 'top-left';
+  show2.value = true;
+};
+const showTopRight = () => {
+  closePosition.value = 'top-right';
+  show2.value = true;
+};
+const showBottomLeft = () => {
+  closePosition.value = 'bottom-left';
+  show2.value = true;
+};
+const showBottomRight = () => {
+  closePosition.value = 'bottom-right';
+  show2.value = true;
+};
+
+const showFit = () => {
+  imageMode.value = 'aspectFit';
+  show4.value = true;
+};
+
+const showFill = () => {
+  imageMode.value = 'aspectFill';
+  show4.value = true;
+};
+
+const setCloseNear = () => {
+  closeOffset.value = '12rpx';
+  closeOffsetBottom.value = '20rpx';
+};
+
+const setCloseFar = () => {
+  closeOffset.value = '36rpx';
+  closeOffsetBottom.value = '52rpx';
+};
+</script>
+
 <template>
   <view class="curtain-demo">
     <lk-navbar title="Curtain 幕帘" />
@@ -64,65 +122,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import {
-  LkNavbar,
-  DemoBlock,
-  LkButton,
-  LkCurtain,
-  type CurtainClosePosition,
-} from '@/uni_modules/lucky-ui/components';
-
-const show1 = ref(false);
-const show2 = ref(false);
-const show3 = ref(false);
-const show4 = ref(false);
-const show5 = ref(false);
-const imageMode = ref<'aspectFit' | 'aspectFill'>('aspectFit');
-const closePosition = ref<CurtainClosePosition>('bottom');
-const closeOffset = ref('24rpx');
-const closeOffsetBottom = ref('36rpx');
-
-const showTopLeft = () => {
-  closePosition.value = 'top-left';
-  show2.value = true;
-};
-const showTopRight = () => {
-  closePosition.value = 'top-right';
-  show2.value = true;
-};
-const showBottomLeft = () => {
-  closePosition.value = 'bottom-left';
-  show2.value = true;
-};
-const showBottomRight = () => {
-  closePosition.value = 'bottom-right';
-  show2.value = true;
-};
-
-const showFit = () => {
-  imageMode.value = 'aspectFit';
-  show4.value = true;
-};
-
-const showFill = () => {
-  imageMode.value = 'aspectFill';
-  show4.value = true;
-};
-
-const setCloseNear = () => {
-  closeOffset.value = '12rpx';
-  closeOffsetBottom.value = '20rpx';
-};
-
-const setCloseFar = () => {
-  closeOffset.value = '36rpx';
-  closeOffsetBottom.value = '52rpx';
-};
-</script>
-
 <style lang="scss" scoped>
 .curtain-demo {
   min-height: 100vh;

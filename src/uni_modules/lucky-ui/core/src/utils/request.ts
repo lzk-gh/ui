@@ -385,7 +385,7 @@ export class Request {
     let finalConfig: RequestConfig = mergedConfig;
 
     // Promise 链，初始值为已合并的配置
-    let promise: Promise<unknown> = Promise.resolve(mergedConfig);
+    let promise: Promise<any> = Promise.resolve(mergedConfig);
 
     // 核心请求分发函数
     const dispatchRequest = (config: RequestConfig): Promise<RequestResponse<T>> => {
@@ -397,19 +397,25 @@ export class Request {
     };
 
     // 构建执行链，[成功处理, 失败处理, 成功处理, 失败处理, ...]
-    const chain: Array<((value: unknown) => unknown | Promise<unknown>) | undefined> = [
-      dispatchRequest as unknown as (value: unknown) => unknown | Promise<unknown>,
+    const chain: Array<((value: any) => any | Promise<any>) | undefined> = [
+      dispatchRequest as unknown as (value: any) => any | Promise<any>,
       undefined,
     ];
 
     // 请求拦截器：后进先出 (LIFO)，使用 unshift 添加到链的头部
     this.interceptors.request.forEach(interceptor => {
-      chain.unshift(interceptor.fulfilled, interceptor.rejected);
+      chain.unshift(
+        interceptor.fulfilled as unknown as (value: any) => any | Promise<any>,
+        interceptor.rejected as unknown as (value: any) => any | Promise<any>
+      );
     });
 
     // 响应拦截器：先进先出 (FIFO)，使用 push 添加到链的尾部
     this.interceptors.response.forEach(interceptor => {
-      chain.push(interceptor.fulfilled, interceptor.rejected);
+      chain.push(
+        interceptor.fulfilled as unknown as (value: any) => any | Promise<any>,
+        interceptor.rejected as unknown as (value: any) => any | Promise<any>
+      );
     });
 
     // 执行 Promise 链
@@ -444,7 +450,7 @@ export class Request {
     data?: unknown,
     config?: Omit<RequestConfig, 'url' | 'method' | 'data'>
   ): Promise<RequestResponse<T>> {
-    return this.request<T>({ ...config, url, method: 'POST', data });
+    return this.request<T>({ ...config, url, method: 'POST', data: data as RequestConfig['data'] });
   }
 
   /**
@@ -455,7 +461,7 @@ export class Request {
     data?: unknown,
     config?: Omit<RequestConfig, 'url' | 'method' | 'data'>
   ): Promise<RequestResponse<T>> {
-    return this.request<T>({ ...config, url, method: 'PUT', data });
+    return this.request<T>({ ...config, url, method: 'PUT', data: data as RequestConfig['data'] });
   }
 
   /**
@@ -637,7 +643,7 @@ export const transformResponse = {
         return response.data as T;
       }
     }
-    return response.data;
+    return response.data as T;
   },
 
   /**
