@@ -67,7 +67,7 @@ const handleTabChange = (tabId: string) => {
 
 onShow(() => {
   // 隐藏原生 tabbar
-  uni.hideTabBar({ animation: false });
+  uni.hideTabBar({ animation: false, fail: () => {} });
 });
 </script>
 

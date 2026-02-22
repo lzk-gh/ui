@@ -56,7 +56,7 @@ onMounted(() => {
 });
 
 onShow(() => {
-  uni.hideTabBar();
+  uni.hideTabBar({ fail: () => {} });
 });
 </script>
 

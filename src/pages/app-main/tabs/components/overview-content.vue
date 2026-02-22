@@ -2,10 +2,13 @@
 import { ref, computed, onMounted } from 'vue';
 import { useThemeStore, PRESET_COLORS, DEFAULT_BRAND_COLOR } from '@/stores/theme';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+// #ifdef H5
 import ThemeDebugger from '@/components/theme-debugger.vue';
+// #endif
 
 defineProps<{
   contentHeight: string;
+  skipAnimation?: boolean;
 }>();
 
 const themeStore = useThemeStore();
@@ -133,7 +136,6 @@ const categories = [
     components: [
       { name: 'navbar', label: 'Navbar', desc: '导航栏', icon: 'layout-text-window' },
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
-      { name: 'breadcrumb', label: 'Breadcrumb', desc: '面包屑', icon: 'chevron-right' },
       { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' },
       { name: 'fab', label: 'Fab', desc: '悬浮按钮', icon: 'plus-circle-fill' },
       { name: 'index-bar', label: 'IndexBar', desc: '字母索引', icon: 'sort-alpha-down' },
@@ -148,7 +150,6 @@ const categories = [
     components: [
       { name: 'calendar', label: 'Calendar', desc: '日历', icon: 'calendar3' },
       { name: 'date-picker', label: 'DatePicker', desc: '日期选择', icon: 'calendar-event' },
-      { name: 'cascader', label: 'Cascader', desc: '级联选择', icon: 'house' },
       { name: 'virtual-list', label: 'VirtualList', desc: '虚拟列表', icon: 'list-columns' },
       { name: 'waterfall', label: 'Waterfall', desc: '瀑布流', icon: 'grid-3x2' },
     ],
@@ -199,7 +200,9 @@ const navigateToDetail = (componentName: string) => {
   >
     <view class="page-content">
       <!-- 主题调试工具 -->
+      <!-- #ifdef H5 -->
       <theme-debugger />
+      <!-- #endif -->
 
       <!-- 统计卡片 -->
       <view class="stats-card">

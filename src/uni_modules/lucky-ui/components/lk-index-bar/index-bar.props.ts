@@ -21,6 +21,9 @@ export const indexBarProps = {
   /** 滚动容器选择器 */
   scrollTarget: LkProp.string(''),
 
+  /** 当前滚动条高度，用于计算激活项 */
+  scrollTop: LkProp.number(0),
+
   /** 是否显示触摸时的大字母提示 */
   showIndicator: LkProp.boolean(true),
 

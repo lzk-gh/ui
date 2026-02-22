@@ -78,14 +78,12 @@
 
           <NavbarDemo v-else-if="componentName === 'navbar'" />
           <TabbarDemo v-else-if="componentName === 'tabbar'" />
-          <BreadcrumbDemo v-else-if="componentName === 'breadcrumb'" />
           <IndexBarDemo v-else-if="componentName === 'index-bar'" />
           <AnchorDemo v-else-if="componentName === 'anchor'" />
           <StickyDemo v-else-if="componentName === 'sticky'" />
 
           <CalendarDemo v-else-if="componentName === 'calendar'" />
           <DatePickerDemo v-else-if="componentName === 'date-picker'" />
-          <CascaderDemo v-else-if="componentName === 'cascader'" />
           <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />
           <CurtainDemo v-else-if="componentName === 'curtain'" />
@@ -419,12 +417,6 @@ const componentMap: Record<string, any> = {
     icon: 'menu-button-wide',
     color: 'success',
   },
-  breadcrumb: {
-    title: 'Breadcrumb 面包屑',
-    desc: '导航路径组件',
-    icon: 'chevron-right',
-    color: 'warning',
-  },
   backtop: {
     title: 'Backtop 回到顶部',
     desc: '快速返回页面顶部的悬浮按钮',
@@ -468,12 +460,6 @@ const componentMap: Record<string, any> = {
     desc: '日期选择器',
     icon: 'calendar-date-fill',
     color: 'success',
-  },
-  cascader: {
-    title: 'Cascader 级联选择',
-    desc: '级联选择器',
-    icon: 'diagram-2-fill',
-    color: 'info',
   },
   'virtual-list': {
     title: 'VirtualList 虚拟列表',
@@ -600,7 +586,6 @@ import TransitionDemo from '@/components/demos/transition-demo.vue';
 // 导航组件
 import NavbarDemo from '@/components/demos/navbar-demo.vue';
 import TabbarDemo from '@/components/demos/tabbar-demo.vue';
-import BreadcrumbDemo from '@/components/demos/breadcrumb-demo.vue';
 import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
 import AnchorDemo from '@/components/demos/anchor-demo.vue';
 import StickyDemo from '@/components/demos/sticky-demo.vue';
@@ -608,7 +593,6 @@ import StickyDemo from '@/components/demos/sticky-demo.vue';
 // 高级组件
 import CalendarDemo from '@/components/demos/calendar-demo.vue';
 import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
-import CascaderDemo from '@/components/demos/cascader-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
@@ -673,7 +657,6 @@ const demoComponentMap: Record<string, any> = {
   // 导航组件
   navbar: NavbarDemo,
   tabbar: TabbarDemo,
-  breadcrumb: BreadcrumbDemo,
   'index-bar': IndexBarDemo,
   anchor: AnchorDemo,
   sticky: StickyDemo,
@@ -681,7 +664,6 @@ const demoComponentMap: Record<string, any> = {
   // 高级组件
   calendar: CalendarDemo,
   'date-picker': DatePickerDemo,
-  cascader: CascaderDemo,
   'virtual-list': VirtualListDemo,
   waterfall: WaterfallDemo,
   curtain: CurtainDemo,

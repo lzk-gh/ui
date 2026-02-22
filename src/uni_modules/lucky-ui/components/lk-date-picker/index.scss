@@ -87,46 +87,83 @@
   @include e(time) {
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-sm);
+    gap: var(--lk-spacing-xs);
 
-    @include e(time-row) {
+    @include e(time-card) {
+      border-radius: var(--lk-radius-md);
+      border: 1rpx solid var(--lk-color-border-light);
+      background: var(--lk-color-fill-tertiary);
+      padding: var(--lk-spacing-sm);
       display: flex;
-      align-items: flex-start;
-      gap: var(--lk-spacing-sm);
+      flex-direction: column;
+      gap: var(--lk-spacing-xs);
+    }
+
+    @include e(time-head) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     @include e(time-label) {
-      width: 160rpx;
       color: var(--lk-color-text-secondary);
       font-size: var(--lk-font-size-sm);
-      line-height: 1.6;
     }
 
-    @include e(time-cols) {
+    @include e(time-value) {
+      color: var(--lk-color-text);
+      font-weight: 600;
+      font-size: var(--lk-font-size-md);
+    }
+
+    @include e(time-grid) {
       display: flex;
       gap: var(--lk-spacing-xs);
-      flex: 1;
     }
 
-    @include e(col) {
+    @include e(time-unit) {
       flex: 1;
-      max-height: 280rpx;
-      overflow: auto;
-      background: var(--lk-color-fill-tertiary);
-      border-radius: var(--lk-radius-md);
+      display: flex;
+      flex-direction: column;
+      gap: 8rpx;
+      align-items: center;
+    }
 
-      @include e(cell) {
-        padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
-        text-align: center;
-        color: var(--lk-color-text);
-        transition: all var(--lk-transition-fast);
+    @include e(time-unit-label) {
+      font-size: var(--lk-font-size-xs);
+      color: var(--lk-color-text-tertiary);
+    }
 
-        @include when(active) {
-          background: var(--lk-color-primary);
-          color: var(--lk-color-text-inverse);
-          font-weight: 600;
-        }
+    @include e(time-unit-main) {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border-radius: var(--lk-radius-sm);
+      background: var(--lk-color-bg-container);
+      border: 1rpx solid var(--lk-color-border-light);
+      overflow: hidden;
+    }
+
+    @include e(time-btn) {
+      width: 64rpx;
+      height: 64rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lk-color-text-secondary);
+      font-size: var(--lk-font-size-lg);
+
+      &:active {
+        background: var(--lk-color-fill-tertiary);
       }
+    }
+
+    @include e(time-num) {
+      flex: 1;
+      text-align: center;
+      color: var(--lk-color-text);
+      font-weight: 600;
+      font-size: var(--lk-font-size-md);
     }
   }
 }

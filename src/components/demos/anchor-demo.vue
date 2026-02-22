@@ -18,21 +18,14 @@ const list = [
 
 const anchorRef = ref();
 const scrollIntoViewId = ref('');
-let isScrolling = false;
-let timer: ReturnType<typeof setTimeout> | null = null;
+const currentScrollTop = ref(0);
 
 const handleAnchorClick = (href: string) => {
   scrollIntoViewId.value = href;
-  isScrolling = true;
-  if (timer) clearTimeout(timer);
-  timer = setTimeout(() => {
-    isScrolling = false;
-  }, 800);
 };
 
 const onScroll = (e: { detail: { scrollTop: number } }) => {
-  if (isScrolling) return;
-  anchorRef.value?.onScroll(e.detail.scrollTop);
+  currentScrollTop.value = e.detail.scrollTop;
 };
 
 onMounted(() => {
@@ -55,6 +48,7 @@ onMounted(() => {
           ref="anchorRef"
           target-container="#anchor-content"
           :show-line="true"
+          :scroll-top="currentScrollTop"
           @click="handleAnchorClick"
         >
           <lk-anchor-link

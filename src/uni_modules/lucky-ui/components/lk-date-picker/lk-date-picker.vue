@@ -36,6 +36,14 @@ const s2 = ref<number>(0);
 const isDateTime = computed(() => props.type === 'date-time' || props.type === 'range-date-time');
 const isRangeLike = computed(() => props.type === 'range' || props.type === 'range-date-time');
 const isMultiple = computed(() => props.type === 'multiple');
+const confirmDisabled = computed(() => {
+  if (props.type === 'range' || props.type === 'range-date-time') {
+    return !(draftRange.value[0] && draftRange.value[1]);
+  }
+  if (props.type === 'multiple') return false;
+  if (props.type === 'year-month') return false;
+  return !draftSingle.value;
+});
 
 // 同步外部 value 到内部
 function parseDate(val: any): Date | null {
@@ -44,10 +52,28 @@ function parseDate(val: any): Date | null {
   const d = new Date(val);
   return isNaN(+d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
+
+function syncTimeFromDate(target: 'start' | 'end', val: any) {
+  if (!(val instanceof Date) || isNaN(+val)) return;
+  if (target === 'start') {
+    h1.value = val.getHours();
+    m1.value = val.getMinutes();
+    s1.value = val.getSeconds();
+    return;
+  }
+  h2.value = val.getHours();
+  m2.value = val.getMinutes();
+  s2.value = val.getSeconds();
+}
+
 function syncFromValue() {
   if (props.type === 'range' || props.type === 'range-date-time') {
     if (Array.isArray(props.value)) {
       draftRange.value = [parseDate(props.value[0]), parseDate(props.value[1])];
+      if (props.type === 'range-date-time') {
+        syncTimeFromDate('start', props.value[0]);
+        syncTimeFromDate('end', props.value[1]);
+      }
     } else {
       draftRange.value = [null, null];
     }
@@ -64,6 +90,9 @@ function syncFromValue() {
       : [];
   } else {
     draftSingle.value = parseDate(props.value as any);
+    if (props.type === 'date-time') {
+      syncTimeFromDate('start', props.value);
+    }
   }
 }
 
@@ -126,6 +155,65 @@ function close() {
   emit('cancel');
 }
 
+type TimeUnit = 'hour' | 'minute' | 'second';
+type TimeTarget = 'start' | 'end';
+
+const timeUnits = computed(() => {
+  const units: Array<{ key: TimeUnit; label: string; max: number }> = [
+    { key: 'hour', label: '时', max: 23 },
+  ];
+  if (props.timePrecision !== 'hour') {
+    units.push({ key: 'minute', label: '分', max: 59 });
+  }
+  if (props.timePrecision === 'second') {
+    units.push({ key: 'second', label: '秒', max: 59 });
+  }
+  return units;
+});
+
+function getTimeValue(target: TimeTarget, unit: TimeUnit) {
+  if (target === 'start') {
+    if (unit === 'hour') return h1.value;
+    if (unit === 'minute') return m1.value;
+    return s1.value;
+  }
+  if (unit === 'hour') return h2.value;
+  if (unit === 'minute') return m2.value;
+  return s2.value;
+}
+
+function setTimeValue(target: TimeTarget, unit: TimeUnit, value: number) {
+  const normalized = Math.max(0, value);
+  if (target === 'start') {
+    if (unit === 'hour') h1.value = Math.min(23, normalized);
+    if (unit === 'minute') m1.value = Math.min(59, normalized);
+    if (unit === 'second') s1.value = Math.min(59, normalized);
+    return;
+  }
+  if (unit === 'hour') h2.value = Math.min(23, normalized);
+  if (unit === 'minute') m2.value = Math.min(59, normalized);
+  if (unit === 'second') s2.value = Math.min(59, normalized);
+}
+
+function stepTime(target: TimeTarget, unit: TimeUnit, max: number, step: number) {
+  const current = getTimeValue(target, unit);
+  const next = (current + step + max + 1) % (max + 1);
+  setTimeValue(target, unit, next);
+}
+
+function format2(value: number) {
+  return `${value}`.padStart(2, '0');
+}
+
+function getTimePreview(target: TimeTarget) {
+  const h = format2(getTimeValue(target, 'hour'));
+  if (props.timePrecision === 'hour') return `${h}:00`;
+  const m = format2(getTimeValue(target, 'minute'));
+  if (props.timePrecision === 'minute') return `${h}:${m}`;
+  const s = format2(getTimeValue(target, 'second'));
+  return `${h}:${m}:${s}`;
+}
+
 function confirm() {
   let value: Date | [Date, Date] | Date[] | null = null;
   if (props.type === 'range') {
@@ -166,7 +254,7 @@ function confirm() {
         m2.value,
         props.timePrecision === 'second' ? s2.value : 0
       );
-      value = [sdt, edt];
+      value = sdt <= edt ? [sdt, edt] : [edt, sdt];
     } else value = null;
   } else {
     value = draftSingle.value || null;
@@ -183,7 +271,7 @@ function confirm() {
         <text class="lk-date-picker__title">{{ title }}</text>
         <view class="lk-date-picker__spacer" />
         <lk-button variant="text" @click="close">取消</lk-button>
-        <lk-button @click="confirm">确定</lk-button>
+        <lk-button :disabled="confirmDisabled" @click="confirm">确定</lk-button>
       </view>
 
       <template v-if="type !== 'year-month'">
@@ -213,76 +301,53 @@ function confirm() {
 
         <template v-if="isDateTime">
           <view class="lk-date-picker__time">
-            <view
-              v-if="type === 'date-time' || type === 'range-date-time'"
-              class="lk-date-picker__time-row"
-            >
-              <text class="lk-date-picker__time-label">开始时间</text>
-              <view class="lk-date-picker__time-cols">
-                <view class="lk-date-picker__col">
-                  <view
-                    v-for="n in 24"
-                    :key="'h1-' + n"
-                    class="lk-date-picker__cell"
-                    :class="{ 'is-active': h1 === n - 1 }"
-                    @click="h1 = n - 1"
-                    >{{ (n - 1).toString().padStart(2, '0') }}</view
-                  >
-                </view>
-                <view v-if="timePrecision !== 'hour'" class="lk-date-picker__col">
-                  <view
-                    v-for="n in 60"
-                    :key="'m1-' + n"
-                    class="lk-date-picker__cell"
-                    :class="{ 'is-active': m1 === n - 1 }"
-                    @click="m1 = n - 1"
-                    >{{ (n - 1).toString().padStart(2, '0') }}</view
-                  >
-                </view>
-                <view v-if="timePrecision === 'second'" class="lk-date-picker__col">
-                  <view
-                    v-for="n in 60"
-                    :key="'s1-' + n"
-                    class="lk-date-picker__cell"
-                    :class="{ 'is-active': s1 === n - 1 }"
-                    @click="s1 = n - 1"
-                    >{{ (n - 1).toString().padStart(2, '0') }}</view
-                  >
+            <view v-if="type === 'date-time'" class="lk-date-picker__time-card">
+              <view class="lk-date-picker__time-head">
+                <text class="lk-date-picker__time-label">时间</text>
+                <text class="lk-date-picker__time-value">{{ getTimePreview('start') }}</text>
+              </view>
+              <view class="lk-date-picker__time-grid">
+                <view v-for="unit in timeUnits" :key="'single-' + unit.key" class="lk-date-picker__time-unit">
+                  <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
+                  <view class="lk-date-picker__time-unit-main">
+                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, -1)">-</view>
+                    <view class="lk-date-picker__time-num">{{ format2(getTimeValue('start', unit.key)) }}</view>
+                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, 1)">+</view>
+                  </view>
                 </view>
               </view>
             </view>
-            <view v-if="type === 'range-date-time'" class="lk-date-picker__time-row">
-              <text class="lk-date-picker__time-label">结束时间</text>
-              <view class="lk-date-picker__time-cols">
-                <view class="lk-date-picker__col">
-                  <view
-                    v-for="n in 24"
-                    :key="'h2-' + n"
-                    class="lk-date-picker__cell"
-                    :class="{ 'is-active': h2 === n - 1 }"
-                    @click="h2 = n - 1"
-                    >{{ (n - 1).toString().padStart(2, '0') }}</view
-                  >
+
+            <view v-if="type === 'range-date-time'" class="lk-date-picker__time-card">
+              <view class="lk-date-picker__time-head">
+                <text class="lk-date-picker__time-label">开始时间</text>
+                <text class="lk-date-picker__time-value">{{ getTimePreview('start') }}</text>
+              </view>
+              <view class="lk-date-picker__time-grid">
+                <view v-for="unit in timeUnits" :key="'start-' + unit.key" class="lk-date-picker__time-unit">
+                  <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
+                  <view class="lk-date-picker__time-unit-main">
+                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, -1)">-</view>
+                    <view class="lk-date-picker__time-num">{{ format2(getTimeValue('start', unit.key)) }}</view>
+                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, 1)">+</view>
+                  </view>
                 </view>
-                <view v-if="timePrecision !== 'hour'" class="lk-date-picker__col">
-                  <view
-                    v-for="n in 60"
-                    :key="'m2-' + n"
-                    class="lk-date-picker__cell"
-                    :class="{ 'is-active': m2 === n - 1 }"
-                    @click="m2 = n - 1"
-                    >{{ (n - 1).toString().padStart(2, '0') }}</view
-                  >
-                </view>
-                <view v-if="timePrecision === 'second'" class="lk-date-picker__col">
-                  <view
-                    v-for="n in 60"
-                    :key="'s2-' + n"
-                    class="lk-date-picker__cell"
-                    :class="{ 'is-active': s2 === n - 1 }"
-                    @click="s2 = n - 1"
-                    >{{ (n - 1).toString().padStart(2, '0') }}</view
-                  >
+              </view>
+            </view>
+
+            <view v-if="type === 'range-date-time'" class="lk-date-picker__time-card">
+              <view class="lk-date-picker__time-head">
+                <text class="lk-date-picker__time-label">结束时间</text>
+                <text class="lk-date-picker__time-value">{{ getTimePreview('end') }}</text>
+              </view>
+              <view class="lk-date-picker__time-grid">
+                <view v-for="unit in timeUnits" :key="'end-' + unit.key" class="lk-date-picker__time-unit">
+                  <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
+                  <view class="lk-date-picker__time-unit-main">
+                    <view class="lk-date-picker__time-btn" @click="stepTime('end', unit.key, unit.max, -1)">-</view>
+                    <view class="lk-date-picker__time-num">{{ format2(getTimeValue('end', unit.key)) }}</view>
+                    <view class="lk-date-picker__time-btn" @click="stepTime('end', unit.key, unit.max, 1)">+</view>
+                  </view>
                 </view>
               </view>
             </view>

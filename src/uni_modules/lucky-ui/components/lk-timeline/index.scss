@@ -1,192 +1,367 @@
-@use '../../theme/src/mixins/bem' as *;
+// ─────────────────────────────────────────────────────────────────────────────
+// lk-timeline  ·  Apple Design Language  v2
+// ─────────────────────────────────────────────────────────────────────────────
+// 修复点：
+//   1. 连接线高度与右侧内容严格对齐（align-items: stretch + flex:1 line）
+//   2. 统一品牌色 —— 全部使用 primary，pending 降透明，error 用描边方式
+//   3. 左侧列插槽（时间/自定义） + 右侧内容列（三列布局）
+//   4. 节点圆统一 32rpx，所有变体等宽不撑开
+// ─────────────────────────────────────────────────────────────────────────────
 
-@include b(timeline) {
+// ── Variables ─────────────────────────────────────────────────────────────────
+
+$dot-size: 32rpx;
+$track-width: 48rpx; // 轨道列宽（含节点两侧空白）
+$left-col-width: 96rpx; // 左侧时间列固定宽
+$item-gap: 48rpx; // 项目间距（padding-bottom 实现，线穿过 gap）
+$line-width: 2rpx;
+
+// ── 容器 ──────────────────────────────────────────────────────────────────────
+
+.lk-timeline {
   display: flex;
-  flex-direction: column;
-  gap: var(--lk-timeline-gap, 28rpx);
 
-  @include when(horizontal) {
+  &--vertical {
     flex-direction: column;
   }
 
-  @include e(pending) {
-    padding-left: 120rpx;
-    color: var(--lk-color-text-tertiary);
-    font-size: 22rpx;
+  &--horizontal {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 16rpx;
+
+    // #ifdef H5
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    // #endif
   }
 }
 
-@include b(timeline-item) {
+// ── 条目 ──────────────────────────────────────────────────────────────────────
+
+.lk-timeline-item {
+  --lk-ti-accent: var(--lk-color-primary, #007aff);
+
   display: flex;
-  align-items: flex-start;
-  gap: 20rpx;
   position: relative;
 
-  @include when(no-line) {
-    gap: 12rpx;
-  }
+  // ── 垂直布局 ────────────────────────────────────────────────────────────────
+  // align-items: stretch → track 高度 = 内容高度 + padding-bottom（gap区）
+  // 线 flex:1 自动填满 track 剩余高度，精确对齐内容底部 + 穿过间距
+  &--vertical {
+    flex-direction: row;
+    align-items: stretch; // ← FIX1: 轨道与内容等高
+    padding-bottom: $item-gap;
 
-  @include when(no-time) {
-    gap: 12rpx;
+    &:last-child {
+      padding-bottom: 0;
 
-    @include e(time) {
-      display: none;
+      .lk-timeline-item__line {
+        display: none;
+      }
     }
   }
 
-  @include e(time) {
-    width: 120rpx;
-    flex-shrink: 0;
-    text-align: right;
-    padding-top: 6rpx;
-    display: flex;
+  // ── 水平布局 ────────────────────────────────────────────────────────────────
+  &--horizontal {
     flex-direction: column;
-    gap: 6rpx;
-  }
+    align-items: flex-start;
+    min-width: 260rpx;
+    padding-right: $item-gap;
 
-  @include e(time-start) {
-    font-size: 30rpx;
-    font-weight: 600;
-    color: var(--lk-color-text);
-    line-height: 1.2;
-  }
+    &:last-child {
+      padding-right: 0;
 
-  @include e(time-end) {
-    font-size: 22rpx;
-    color: var(--lk-color-text-tertiary);
-  }
-
-  @include e(rail) {
-    width: 40rpx;
-    flex-shrink: 0;
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding-top: 10rpx;
-  }
-
-  @include e(dot) {
-    width: var(--lk-timeline-dot-size, 20rpx);
-    height: var(--lk-timeline-dot-size, 20rpx);
-    flex-shrink: 0;
-    border-radius: 50%;
-    background-color: var(--lk-timeline-accent, var(--lk-color-primary));
-    box-shadow: 0 0 0 10rpx rgba(var(--lk-color-primary-rgb, 105, 101, 219), 0.1);
-    z-index: 2;
-  }
-
-  @include e(line) {
-    position: absolute;
-    top: calc(var(--lk-timeline-dot-size, 20rpx) + 12rpx);
-    bottom: calc(var(--lk-timeline-gap, 28rpx) * -1 - 4rpx);
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--lk-timeline-line-width, 4rpx);
-    background-color: var(--lk-color-border, #d1d5db);
-    border-radius: 999rpx;
-    z-index: 1;
-  }
-
-  &:last-child {
-    @include e(line) {
-      display: none;
-    }
-  }
-
-  @include e(card) {
-    flex: 1;
-    background: var(--lk-bg-container);
-    border: 2rpx solid var(--lk-color-border-light);
-    border-radius: 28rpx;
-    padding: 28rpx;
-    box-shadow: var(--lk-shadow-sm);
-    display: flex;
-    flex-direction: column;
-    gap: 10rpx;
-  }
-
-  // 激活态样式优化
-  @include when(active) {
-    @include e(dot) {
-      box-shadow:
-        0 0 0 10rpx rgba(var(--lk-color-primary-rgb, 105, 101, 219), 0.15),
-        0 10rpx 24rpx rgba(0, 0, 0, 0.14);
-      transform: scale(1.2);
+      .lk-timeline-item__line {
+        display: none;
+      }
     }
 
-    @include e(card) {
-      border-color: var(--lk-color-primary);
-      box-shadow: 0 12rpx 32rpx rgba(var(--lk-color-primary-rgb, 105, 101, 219), 0.15);
+    .lk-timeline-item__track {
+      flex-direction: row;
+      align-items: center;
+      align-self: auto;
+      width: 100%;
+      height: 48rpx;
+      margin-bottom: 12rpx;
     }
 
-    @include e(title) {
-      color: var(--lk-color-primary);
+    .lk-timeline-item__line {
+      flex: 1;
+      width: auto;
+      height: $line-width;
+      min-height: unset;
+      margin-top: 0;
+      margin-left: 8rpx;
     }
 
-    @include e(line) {
-      background-color: var(--lk-color-primary);
+    .lk-timeline-item__body {
+      padding-left: 0;
     }
-  }
-
-  // 已完成状态
-  @include when(finished) {
-    @include e(line) {
-      background-color: var(--lk-color-primary);
-    }
-  }
-
-  @include e(header) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12rpx;
-  }
-
-  @include e(title) {
-    font-size: 30rpx;
-    font-weight: 600;
-    color: var(--lk-color-text);
-  }
-
-  @include e(tag) {
-    padding: 6rpx 16rpx;
-    border-radius: 999rpx;
-    font-size: 20rpx;
-    color: var(--lk-color-text-secondary);
-    background: var(--lk-color-bg-weak);
-  }
-
-  @include e(subtitle) {
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-  }
-
-  @include e(desc) {
-    font-size: 24rpx;
-    color: var(--lk-color-text-tertiary);
-    line-height: 1.5;
-  }
-
-  @include e(meta) {
-    display: flex;
-    flex-direction: column;
-    gap: 8rpx;
-    margin-top: 6rpx;
-  }
-
-  @include e(meta-item) {
-    display: flex;
-    align-items: center;
-    gap: 8rpx;
-    font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
-  }
-
-  @include e(avatar) {
-    width: 36rpx;
-    height: 36rpx;
-    border-radius: 50%;
   }
 }
+
+// ── 左侧列（时间 / 自定义左插槽） ────────────────────────────────────────────
+
+.lk-timeline-item__left {
+  width: $left-col-width;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;  // 右对齐靠近节点
+  justify-content: flex-start;
+  padding-top: 4rpx;      // 与节点圆中心微对齐
+  padding-right: 16rpx;
+  gap: 4rpx;
+}
+
+// 左侧列 date 标签
+.lk-timeline-item__date {
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--lk-ti-accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+// 左侧列 time 文字
+.lk-timeline-item__time {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--lk-color-text, #1c1c1e);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+// ── 轨道（节点 + 线）────────────────────────────────────────────────────────
+
+.lk-timeline-item__track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: $track-width;
+  // align-self: stretch 继承自父级 align-items: stretch
+}
+
+// ── 节点圆 ── FIX4: 所有变体统一 32rpx，不因内容撑开 ──────────────────────────
+
+.lk-timeline-item__dot {
+  // 固定尺寸 box — flex-shrink:0 + 明确 width/height
+  width: $dot-size;
+  height: $dot-size;
+  min-width: $dot-size;
+  min-height: $dot-size;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;       // 防止内部文字溢出撑大
+  position: relative;
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 200ms ease;
+  z-index: 2;
+
+  // ── filled（默认：实心）──
+  &--filled {
+    background-color: var(--lk-ti-accent);
+  }
+
+  // ── outlined（空心描边）──
+  &--outlined {
+    background-color: var(--lk-color-bg, #fff);
+    border: 4rpx solid var(--lk-ti-accent);
+  }
+
+  // ── numbered（数字序号，与 filled 等宽）──
+  &--numbered {
+    background-color: var(--lk-ti-accent);
+    // 不再覆盖 width/height，继承 32rpx
+  }
+
+  // ── 激活光晕 ──────────────────────────────
+  &.is-active {
+    transform: scale(1.2);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -12rpx;
+      border-radius: 50%;
+      background: var(--lk-ti-accent);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+  }
+}
+
+// FIX2: pending → 同品牌色，降透明度区分
+.is-pending .lk-timeline-item__dot {
+  opacity: 0.3;
+}
+
+// FIX2: error → 描边 + 实心，仍用 primary
+.is-error .lk-timeline-item__dot--filled,
+.is-error .lk-timeline-item__dot--numbered {
+  background-color: transparent;
+  border: 4rpx solid var(--lk-ti-accent);
+
+  .lk-timeline-item__dot-symbol {
+    color: var(--lk-ti-accent);
+  }
+}
+
+// 节点内文字（数字 / ✓ / ✕ / icon）统一样式
+.lk-timeline-item__dot-num,
+.lk-timeline-item__dot-symbol {
+  font-size: 16rpx;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+  // 防止 text 节点本身撑大父容器
+  display: block;
+  width: 100%;
+}
+
+// ── 连接线 — FIX1: flex:1 撑满 track 剩余高度 ───────────────────────────────
+
+.lk-timeline-item__line {
+  flex: 1;             // 填满 track 的剩余高度（= 内容高 + gap - 节点高 - margin）
+  width: $line-width;
+  margin-top: 6rpx;
+  background-color: var(--lk-color-border, #e5e5ea);
+  border-radius: 999rpx;
+  transition: background-color 200ms ease;
+
+  // FIX2: 完成连接线不再变绿
+  .is-completed & {
+    background-color: var(--lk-color-border, #e5e5ea);
+  }
+}
+
+// ── 右侧内容区 ────────────────────────────────────────────────────────────────
+
+.lk-timeline-item__body {
+  flex: 1;
+  padding-left: 16rpx;
+  padding-top: 2rpx;  // 与节点圆中心对齐
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+// ── 标题 ─────────────────────────────────────────────────────────────────────
+
+.lk-timeline-item__title-row {
+  display: flex;
+  align-items: center;
+}
+
+.lk-timeline-item__title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--lk-color-text, #1c1c1e);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+
+  .is-active & {
+    color: var(--lk-ti-accent);
+  }
+
+  .is-pending & {
+    color: var(--lk-color-text-tertiary, #aeaeb2);
+  }
+}
+
+// ── 副标题（地点 / 备注）─────────────────────────────────────────────────────
+
+.lk-timeline-item__subtitle-row {
+  display: flex;
+  align-items: center;
+}
+
+.lk-timeline-item__subtitle {
+  font-size: 24rpx;
+  color: var(--lk-color-text-secondary, #8e8e93);
+  line-height: 1.4;
+}
+
+// ── 正文描述 ──────────────────────────────────────────────────────────────────
+
+.lk-timeline-item__desc-row {
+  display: flex;
+}
+
+.lk-timeline-item__desc {
+  font-size: 28rpx;
+  color: var(--lk-color-text-secondary, #636366);
+  line-height: 1.6;
+
+  .is-pending & {
+    color: var(--lk-color-text-tertiary, #aeaeb2);
+  }
+}
+
+// ── extra 插槽区（图片预览 / 自定义卡片）────────────────────────────────────
+
+.lk-timeline-item__body > .lk-timeline-item-preview {
+  margin-top: 8rpx;
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+// 图片预览缩略图（demo 中使用，可作为通用类）
+.lk-timeline-preview-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: var(--lk-color-bg-weak, #f2f2f7);
+  flex-shrink: 0;
+}
+
+// 图片预览信息块（图 + 文字侧边）
+.lk-timeline-preview-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-top: 8rpx;
+  padding: 16rpx;
+  background: var(--lk-color-bg-surface, #f2f2f7);
+  border-radius: 20rpx;
+
+  &__image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 14rpx;
+    flex-shrink: 0;
+    background: var(--lk-color-bg-weak, #e5e5ea);
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+  }
+
+  &__name {
+    font-size: 26rpx;
+    font-weight: 600;
+    color: var(--lk-color-text, #1c1c1e);
+    line-height: 1.3;
+  }
+
+  &__meta {
+    font-size: 22rpx;
+    color: var(--lk-color-text-secondary, #8e8e93);
+    line-height: 1.4;
+  }
+}
+

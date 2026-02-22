@@ -199,6 +199,7 @@ import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-
 
 defineProps<{
   contentHeight: string;
+  skipAnimation?: boolean;
 }>();
 
 const themeStore = useThemeStore();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, provide, onMounted, nextTick, watch, computed } from 'vue';
+import { ref, provide, onMounted, onUnmounted, nextTick, watch, computed } from 'vue';
 import { anchorProps } from './anchor.props';
 
 defineOptions({ name: 'LkAnchor' });
@@ -11,6 +11,7 @@ const children = ref<AnchorChild[]>([]);
 const activeHref = ref('');
 const scrollIntoViewId = ref('');
 const targets = ref<{ href: string; top: number; height: number }[]>([]);
+let measureTimer: ReturnType<typeof setTimeout> | null = null;
 
 const anchorStyle = computed(() => {
   const style: Record<string, string> = {};
@@ -88,8 +89,7 @@ async function measureTargets(baseScrollTop: number = 0) {
   targets.value = measured;
 }
 
-// 滚动监听逻辑
-function onScroll(scrollTop: number, headerHeight: number = 0) {
+function resolveActiveByScroll(scrollTop: number, headerHeight: number = 0) {
   if (targets.value.length === 0) return;
   const offset = Number(props.headerOffset) + headerHeight + 10; // +10 稍微增加一点容错
 
@@ -115,8 +115,45 @@ function onScroll(scrollTop: number, headerHeight: number = 0) {
   }
 }
 
+function scheduleMeasure(scrollTop: number, headerHeight: number = 0) {
+  if (measureTimer) return;
+  measureTimer = setTimeout(async () => {
+    measureTimer = null;
+    await measureTargets(scrollTop);
+    resolveActiveByScroll(scrollTop, headerHeight);
+  }, 80);
+}
+
+// 滚动监听逻辑
+function onScroll(scrollTop: number, headerHeight: number = 0) {
+  // #ifdef MP
+  scheduleMeasure(scrollTop, headerHeight);
+  // #endif
+
+  resolveActiveByScroll(scrollTop, headerHeight);
+}
+
 function handleClick(href: string) {
   activeHref.value = href;
+
+  // #ifdef H5
+  try {
+    const target = document.getElementById(href);
+    if (target && props.targetContainer) {
+      const container = document.querySelector(props.targetContainer) as HTMLElement | null;
+      if (container) {
+        const top =
+          target.getBoundingClientRect().top -
+          container.getBoundingClientRect().top +
+          container.scrollTop;
+        container.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+  } catch {
+    // ignore
+  }
+  // #endif
+
   emit('click', href);
 }
 
@@ -133,6 +170,13 @@ watch(
   }
 );
 
+watch(
+  () => props.scrollTop,
+  (val) => {
+    onScroll(val);
+  }
+);
+
 provide('lkAnchor', {
   activeHref,
   register,
@@ -145,6 +189,10 @@ defineExpose({ measureTargets, onScroll, scrollTo: handleClick, active: activeHr
 
 onMounted(() => {
   setTimeout(() => measureTargets(), 500);
+});
+
+onUnmounted(() => {
+  if (measureTimer) clearTimeout(measureTimer);
 });
 </script>
 

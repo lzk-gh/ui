@@ -12,6 +12,7 @@ import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group
 
 defineProps<{
   contentHeight: string;
+  skipAnimation?: boolean;
 }>();
 
 const themeStore = useThemeStore();

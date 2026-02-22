@@ -88,11 +88,9 @@ export * from './lk-steps/steps.props';
 export { default as LkTimeline } from './lk-timeline/lk-timeline.vue';
 export { default as LkTimelineItem } from './lk-timeline/lk-timeline-item.vue';
 export * from './lk-timeline/timeline.props';
+export * from './lk-timeline/timeline-item.props';
 export { default as LkDivider } from './lk-divider/lk-divider.vue';
 export * from './lk-divider/divider.props';
-export { default as LkBreadcrumb } from './lk-breadcrumb/lk-breadcrumb.vue';
-export { default as LkBreadcrumbItem } from './lk-breadcrumb/lk-breadcrumb-item.vue';
-export * from './lk-breadcrumb/breadcrumb.props';
 export { default as LkSegmented } from './lk-segmented/lk-segmented.vue';
 export * from './lk-segmented/segmented.props';
 export { default as LkCalendar } from './lk-calendar/lk-calendar.vue';
@@ -103,10 +101,6 @@ export { default as LkTimePicker } from './lk-time-picker/lk-time-picker.vue';
 export * from './lk-time-picker/time-picker.props';
 export { default as LkUpload } from './lk-upload/lk-upload.vue';
 export * from './lk-upload/upload.props';
-
-export { default as LkCascader } from './lk-cascader/lk-cascader.vue';
-export * from './lk-cascader/cascader.props';
-export { default as LkCascaderPanel } from './lk-cascader-panel/lk-cascader-panel.vue';
 
 export { default as LkVirtualList } from './lk-virtual-list/lk-virtual-list.vue';
 export * from './lk-virtual-list/virtual-list.props';

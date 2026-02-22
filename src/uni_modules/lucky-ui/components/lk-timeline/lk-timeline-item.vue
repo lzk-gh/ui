@@ -1,106 +1,141 @@
 <script setup lang="ts">
-import { computed, inject, useSlots } from 'vue';
+import { computed, inject, useSlots, type ComputedRef } from 'vue';
 import { timelineItemProps } from './timeline-item.props';
+import type { TimelineDirection, TimelineDotVariant } from './timeline.props';
 
 defineOptions({ name: 'LkTimelineItem' });
 
-const emits = defineEmits<{ (e: 'click', ev: Event): void }>();
+interface TimelineCtx {
+  direction: TimelineDirection;
+  showLine: boolean;
+  activeIndex: number;
+  dotVariant: TimelineDotVariant;
+}
+
+const emit = defineEmits<{ (e: 'click', ev: Event): void }>();
 const props = defineProps(timelineItemProps);
 const slots = useSlots();
 
-const injectedRaw = inject<any>('LkTimelineCtx', null as any);
-const injected = computed(
+const injectedRaw = inject<ComputedRef<TimelineCtx>>(
+  'LkTimelineCtx',
+  null as unknown as ComputedRef<TimelineCtx>
+);
+const ctx = computed<TimelineCtx>(
   () =>
     injectedRaw?.value ?? {
       direction: 'vertical',
       showLine: true,
-      showTime: true,
-      lineColor: 'var(--lk-color-border-weak)',
-      lineWidth: '4rpx',
-      itemGap: '28rpx',
-      size: 'md',
       activeIndex: -1,
+      dotVariant: 'filled',
     }
 );
 
-const dotSize = computed(() => {
-  if (injected.value.size === 'sm') return '16rpx';
-  if (injected.value.size === 'lg') return '26rpx';
-  return '20rpx';
+const isActive = computed(
+  () =>
+    props.status === 'active' ||
+    (props.index >= 0 && props.index === ctx.value.activeIndex)
+);
+const isCompleted = computed(() => props.status === 'completed');
+const isPending = computed(() => props.status === 'pending');
+const isError = computed(() => props.status === 'error');
+const isHorizontal = computed(() => ctx.value.direction === 'horizontal');
+
+// 节点样式优先用 item 自身的，否则继承父级
+const dotVariant = computed(() => props.dotVariant || ctx.value.dotVariant || 'filled');
+
+// 节点显示数字（numbered 时）
+const displayNumber = computed(() => (props.index >= 0 ? props.index + 1 : ''));
+
+// 品牌色统一：所有状态均使用 primary，pending 在 SCSS 层降透明
+const accentColor = computed(() => {
+  if (props.color) return props.color;
+  return 'var(--lk-color-primary, #007aff)';
 });
 
-const showTime = computed(() => injected.value.showTime !== false);
-const hasTime = computed(() => showTime.value && !!(props.time || props.endTime || slots.time));
-const showLine = computed(() => injected.value.showLine !== false);
-const isActive = computed(() => {
-  if (props.active) return true;
-  if (typeof injected.value.activeIndex !== 'number') return false;
-  if (props.index < 0) return false;
-  return props.index === injected.value.activeIndex;
-});
+// 是否显示左侧列（有 left 插槽或 time/date prop）
+const hasLeft = computed(() => !!(slots.left || props.time || props.date));
+
+const itemClass = computed(() => [
+  'lk-timeline-item',
+  isHorizontal.value ? 'lk-timeline-item--horizontal' : 'lk-timeline-item--vertical',
+  hasLeft.value && 'has-left',
+  isActive.value && 'is-active',
+  isCompleted.value && 'is-completed',
+  isPending.value && 'is-pending',
+  isError.value && 'is-error',
+]);
 
 const itemStyle = computed(() => ({
-  '--lk-timeline-accent': props.accent,
-  '--lk-timeline-card-bg': props.cardBg,
-  '--lk-timeline-card-border': props.cardBorder,
-  '--lk-timeline-dot-size': dotSize.value,
+  '--lk-ti-accent': accentColor.value,
 }));
 
-function onClick(ev: Event) {
-  emits('click', ev);
+function onTap(ev: Event) {
+  emit('click', ev);
 }
 </script>
 
 <template>
-  <view
-    class="lk-timeline-item"
-    :class="{ 'is-active': isActive, 'is-no-line': !showLine, 'is-no-time': !showTime }"
-    :style="itemStyle"
-    role="listitem"
-    @click="onClick"
-  >
-    <view v-if="hasTime" class="lk-timeline-item__time">
-      <slot name="time">
-        <text class="lk-timeline-item__time-start">{{ time }}</text>
-        <text v-if="endTime" class="lk-timeline-item__time-end">{{ endTime }}</text>
+  <view :class="itemClass" :style="itemStyle" role="listitem" @click="onTap">
+    <!-- 左侧列：时间 / 自定义（有内容时才渲染） -->
+    <view v-if="hasLeft" class="lk-timeline-item__left">
+      <slot name="left">
+        <text v-if="date" class="lk-timeline-item__date">{{ date }}</text>
+        <text v-if="time" class="lk-timeline-item__time">{{ time }}</text>
       </slot>
     </view>
 
-    <view v-if="showLine" class="lk-timeline-item__rail">
-      <view class="lk-timeline-item__dot" />
-      <view class="lk-timeline-item__line" />
+    <!-- 轨道列：节点圆 + 连接线 -->
+    <view class="lk-timeline-item__track">
+      <!-- 节点圆 -->
+      <view
+        class="lk-timeline-item__dot"
+        :class="[
+          `lk-timeline-item__dot--${dotVariant}`,
+          isActive && 'is-active',
+        ]"
+      >
+        <!-- numbered 变体显示序号 -->
+        <text v-if="dotVariant === 'numbered' && displayNumber" class="lk-timeline-item__dot-num">
+          {{ displayNumber }}
+        </text>
+        <!-- icon 插槽 -->
+        <text v-else-if="icon" class="lk-icon" :class="`lk-icon-${icon}`" />
+        <!-- 已完成 checkmark -->
+        <text v-else-if="isCompleted" class="lk-timeline-item__dot-symbol">✓</text>
+        <!-- error 叉 -->
+        <text v-else-if="isError" class="lk-timeline-item__dot-symbol">✕</text>
+      </view>
+
+      <!-- 连接线 -->
+      <view v-if="ctx.showLine && !last" class="lk-timeline-item__line" />
     </view>
 
-    <view class="lk-timeline-item__card">
-      <view class="lk-timeline-item__header">
-        <view class="lk-timeline-item__title">
-          <slot name="title">{{ title }}</slot>
-        </view>
-        <view v-if="tag || $slots.tag" class="lk-timeline-item__tag">
-          <slot name="tag">{{ tag }}</slot>
-        </view>
+    <!-- 右侧内容列 -->
+    <view class="lk-timeline-item__body">
+      <!-- 标题行 -->
+      <view v-if="title || $slots.title" class="lk-timeline-item__title-row">
+        <slot name="title">
+          <text class="lk-timeline-item__title">{{ title }}</text>
+        </slot>
       </view>
 
-      <view v-if="subtitle" class="lk-timeline-item__subtitle">{{ subtitle }}</view>
-      <view v-if="desc" class="lk-timeline-item__desc">{{ desc }}</view>
-      <slot />
-
-      <view v-if="location || person || $slots.footer" class="lk-timeline-item__meta">
-        <view v-if="location" class="lk-timeline-item__meta-item">
-          <lk-icon name="geo-alt" :size="24" />
-          <text>{{ location }}</text>
-        </view>
-        <view v-if="person" class="lk-timeline-item__meta-item">
-          <image v-if="avatar" :src="avatar" class="lk-timeline-item__avatar" mode="aspectFill" />
-          <lk-icon v-else name="person" :size="24" />
-          <text>{{ person }}</text>
-        </view>
-        <slot name="footer" />
+      <!-- 副标题（地点 / 房间号等） -->
+      <view v-if="subtitle || $slots.subtitle" class="lk-timeline-item__subtitle-row">
+        <slot name="subtitle">
+          <text class="lk-timeline-item__subtitle">{{ subtitle }}</text>
+        </slot>
       </view>
+
+      <!-- 正文描述 -->
+      <view v-if="desc || $slots.default" class="lk-timeline-item__desc-row">
+        <slot>
+          <text class="lk-timeline-item__desc">{{ desc }}</text>
+        </slot>
+      </view>
+
+      <!-- 扩展插槽（图片预览 / 自定义卡片内容） -->
+      <slot name="extra" />
     </view>
   </view>
 </template>
 
-<style lang="scss">
-@use './index.scss';
-</style>

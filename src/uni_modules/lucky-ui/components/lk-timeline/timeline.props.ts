@@ -1,77 +1,46 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
 /**
- * 时间轴方向
+ * 时间轴排列方向
  */
-export const TimelineDirection = {
-  Vertical: 'vertical',
-  Horizontal: 'horizontal',
-} as const;
+export const TimelineDirection = ['vertical', 'horizontal'] as const;
+export type TimelineDirection = (typeof TimelineDirection)[number];
 
 /**
- * 时间轴尺寸
+ * 节点默认样式变体
  */
-export const TimelineSize = {
-  Sm: 'sm',
-  Md: 'md',
-  Lg: 'lg',
-} as const;
-
-export type TimelineDirection = (typeof TimelineDirection)[keyof typeof TimelineDirection];
-export type TimelineSize = (typeof TimelineSize)[keyof typeof TimelineSize];
+export const TimelineDotVariant = ['filled', 'outlined', 'numbered'] as const;
+export type TimelineDotVariant = (typeof TimelineDotVariant)[number];
 
 export const timelineProps = {
   ...baseProps,
 
   /**
-   * 方向
-   * @value vertical 垂直
-   * @value horizontal 水平
+   * 排列方向
+   * @value vertical 垂直（默认）
+   * @value horizontal 水平滚动
    */
-  direction: LkProp.enum(
-    Object.values(TimelineDirection),
-    TimelineDirection.Vertical,
-    'Timeline.direction'
-  ),
+  direction: LkProp.enum(TimelineDirection, 'vertical', 'Timeline.direction'),
 
-  /** 是否显示待完成项 */
-  pending: {
-    type: [Boolean, String] as PropType<boolean | string>,
-    default: false,
-  },
-
-  /** 是否显示时间轴 */
+  /**
+   * 是否显示连接线
+   */
   showLine: LkProp.boolean(true),
 
-  /** 是否显示时间区域 */
-  showTime: LkProp.boolean(true),
-
-  /** 线条颜色 */
-  lineColor: LkProp.string('var(--lk-color-border-weak)'),
-
-  /** 线条宽度 */
-  lineWidth: {
-    type: [Number, String] as PropType<number | string>,
-    default: '4rpx',
-  },
-
-  /** 项目间距 */
-  itemGap: {
-    type: [Number, String] as PropType<number | string>,
-    default: '28rpx',
-  },
-
-  /** 激活的索引（从 0 开始），仅在子项未传 active 时生效 */
+  /**
+   * 激活节点索引（0-based），-1 表示不高亮
+   */
   activeIndex: LkProp.number(-1),
 
   /**
-   * 尺寸
-   * @value sm 小尺寸
-   * @value md 中尺寸
-   * @value lg 大尺寸
+   * 节点样式变体
+   * @value filled 实心圆（默认）
+   * @value outlined 空心圆描边
+   * @value numbered 数字序号
    */
-  size: LkProp.enum(Object.values(TimelineSize), TimelineSize.Md, 'Timeline.size'),
+  dotVariant: LkProp.enum(TimelineDotVariant, 'filled', 'Timeline.dotVariant'),
 } as const;
 
 export type TimelineProps = ExtractPropTypes<typeof timelineProps>;
+

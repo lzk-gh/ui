@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
 
 defineOptions({ name: 'ThemeDebugger' });
@@ -7,6 +7,7 @@ defineOptions({ name: 'ThemeDebugger' });
 const { theme, isDark, toggleTheme } = useTheme();
 
 const debugVars = ref<Record<string, string>>({});
+let observer: MutationObserver | null = null;
 
 const varNames = [
   '--lk-color-primary',
@@ -22,7 +23,11 @@ const varNames = [
 ];
 
 const updateDebugVars = () => {
-  // @ts-ignore
+  // #ifndef H5
+  return;
+  // #endif
+
+  // #ifdef H5
   if (typeof document === 'undefined') return;
 
   const root = document.documentElement;
@@ -35,13 +40,20 @@ const updateDebugVars = () => {
   });
 
   debugVars.value = newVars;
+  // #endif
 };
 
 onMounted(() => {
+  // #ifndef H5
+  return;
+  // #endif
+
+  // #ifdef H5
   updateDebugVars();
 
   // 监听主题变化
-  const observer = new MutationObserver(mutations => {
+  if (typeof MutationObserver === 'undefined') return;
+  observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
         setTimeout(updateDebugVars, 50);
@@ -49,11 +61,18 @@ onMounted(() => {
     });
   });
 
-  // @ts-ignore
   observer.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['data-theme'],
   });
+  // #endif
+});
+
+onUnmounted(() => {
+  // #ifdef H5
+  observer?.disconnect();
+  observer = null;
+  // #endif
 });
 
 const currentDataTheme = computed(() => {
