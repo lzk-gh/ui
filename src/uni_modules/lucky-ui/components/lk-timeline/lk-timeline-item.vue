@@ -139,3 +139,7 @@ function onTap(ev: Event) {
   </view>
 </template>
 
+<style lang="scss">
+@use './index.scss';
+</style>
+

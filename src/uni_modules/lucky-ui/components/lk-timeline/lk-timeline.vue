@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
 import { timelineProps } from './timeline.props';
-import './index.scss';
 
 defineOptions({ name: 'LkTimeline' });
 
@@ -27,4 +26,8 @@ const rootClass = computed(() => [
     <slot />
   </view>
 </template>
+
+<style lang="scss">
+@use './index.scss';
+</style>
 
