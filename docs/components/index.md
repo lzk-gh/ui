@@ -1,73 +1,104 @@
----
-title: 组件总览
----
-
 # 组件总览
 
-## 文档示例规范
+Lucky UI 共收录 **65+** 个组件，按功能分为以下几类。
 
-组件文档统一参考 Naive UI / Ant Design 的组织方式，建议每个组件页至少包含：
+::: tip 右侧实时预览
+每个组件文档页右侧都有**手机模拟器**，
+需先运行 `pnpm run dev:h5`（H5 服务默认 5173 端口），刷新文档页即可看到实时效果。
+:::
 
-- 基础用法
-- 变体（Variants）
-- 尺寸（Size）
-- 状态（States）
-- API（Props / Events / Slots / Expose）
+## 基础元素
 
-当前组件文档已批量补齐“规范示例（推荐）”章节，可与对应 demo 对照完善。
+| 组件 | 说明 |
+|------|------|
+| [Button 按钮](./basic/button) | 触发操作的主入口，支持多变体、尺寸、形状 |
+| [Icon 图标](./basic/icon) | Bootstrap Icons 封装，颜色/尺寸可控 |
+| [Avatar 头像](./basic/avatar) | 图片/文字/图标三种形式，支持堆叠 |
+| [Badge 徽标](./basic/badge) | 数字/红点/文字类型，灵活叠加在子元素上 |
+| [Tag 标签](./basic/tag) | 状态和属性标注，支持关闭与多变体 |
+| [Divider 分割线](./basic/divider) | 水平/垂直方向分隔，支持文字插入 |
+| [Cell 单元格](./basic/cell) | 列表行，内置图标/箭头/右侧自定义插槽 |
 
-选择一个组件查看文档（按字母序）：
+## 布局
 
-- [Hooks 与工具](/components/hooks-utils)
+| 组件 | 说明 |
+|------|------|
+| [Grid 宫格](./grid) | 等分网格布局，图标入口首选 |
+| [Space 间距](./space) | 子元素之间的统一间距容器 |
 
-- [Action Sheet 动作面板](/components/action-sheet)
-- [Anchor 锚点导航](/components/anchor)
-- [Avatar 头像](/components/basic/avatar)
-- [Backtop 返回顶部](/components/backtop)
-- [Badge 徽标](/components/basic/badge)
-- [Button 按钮](/components/basic/button)
-- [Calendar 日历](/components/calendar)
-- [Card 卡片](/components/card)
-- [Carousel 轮播](/components/carousel)
-- [Cell 单元格](/components/basic/cell)
-- [Checkbox 复选框](/components/checkbox)
-- [ChartBar 柱状图](/components/chart-bar)
-- [ChartLine 折线图](/components/chart-line)
-- [ChartPie 饼/环图](/components/chart-pie)
-- [Collapse 折叠面板](/components/collapse)
-- [Date Picker 日期选择器](/components/date-picker)
-- [Divider 分割线](/components/basic/divider)
-- [Dropdown 下拉菜单](/components/dropdown)
-- [Fab 悬浮按钮](/components/fab)
-- [Form 表单](/components/form)
-- [Icon 图标](/components/basic/icon)
-- [Image 图片](/components/image)
-- [Input 输入框](/components/input)
-- [Loading 加载](/components/loading)
-- [Modal 模态框](/components/modal)
-- [Navbar 导航栏](/components/navbar)
-- [Notice Bar 通知栏](/components/notice-bar)
-- [Overlay 遮罩层](/components/overlay)
-- [Popup 弹出层](/components/popup)
-- [Preload 预加载](/components/preload)
-- [Progress 进度条](/components/progress)
-- [Radio 单选框](/components/radio)
-- [Rate 评分](/components/rate)
-- [Segmented 分段器](/components/segmented)
-- [Skeleton 骨架屏](/components/skeleton)
-- [Slider 滑块](/components/slider)
-- [Stepper 步进器](/components/stepper)
-- [Steps 步骤条](/components/steps)
-- [Switch 开关](/components/switch)
-- [Tabbar 底部导航](/components/tabbar)
-- [Tabs 选项卡](/components/tabs)
-- [Tag 标签](/components/basic/tag)
-- [Textarea 文本域](/components/textarea)
-- [Time Picker 时间选择器](/components/time-picker)
-- [Timeline 时间轴](/components/timeline)
-- [Toast 轻提示](/components/toast)
-- [Tooltip 文字提示](/components/tooltip)
-- [Upload 上传](/components/upload)
-- [Verify Code 验证码](/components/verify-code)
-- [Virtual List 虚拟列表](/components/virtual-list)
-- [Waterfall 瀑布流](/components/waterfall)
+## 表单控件
+
+| 组件 | 说明 |
+|------|------|
+| [Form 表单](./form) | 统一的表单验证容器 |
+| [Input 输入框](./input) | 单行文本，前缀图标/清空/字数统计 |
+| [Textarea 文本域](./textarea) | 多行文本，支持自适应高度 |
+| [Radio 单选框](./radio) | 单选，支持 dot/check 两种图标 |
+| [Checkbox 复选框](./checkbox) | 多选，支持全选/中间态 |
+| [Switch 开关](./switch) | 布尔值开关，颜色可定制 |
+| [Stepper 步进器](./stepper) | 数量增减控件 |
+| [Slider 滑块](./slider) | 范围选择，支持区间模式 |
+| [Rate 评分](./rate) | 星级评分，支持半星 |
+| [Upload 上传](./upload) | 图片/文件选择与预览 |
+| [Date Picker 日期选择](./date-picker) | 年/月/日选择 |
+| [Time Picker 时间选择](./time-picker) | 时/分/秒选择 |
+| [Keyboard 键盘](./keyboard) | 数字/身份证/车牌等模式 |
+| [Verify Code 验证码](./verify-code) | N 格验证码输入框 |
+
+## 数据展示
+
+| 组件 | 说明 |
+|------|------|
+| [Card 卡片](./card) | 带圆角阴影的容器 |
+| [Carousel 轮播](./carousel) | 自动播放、指示点、Loop |
+| [Collapse 折叠面板](./collapse) | 手风琴/多展开模式 |
+| [Timeline 时间轴](./timeline) | 纵向时间线 |
+| [Steps 步骤条](./steps) | 横向/纵向步骤指引 |
+| [Progress 进度条](./progress) | 线形/圆形进度 |
+| [Loading 加载](./loading) | 多形态加载动效 |
+| [Skeleton 骨架屏](./skeleton) | 内容加载中的占位动画 |
+| [Number Roller 数字滚动](./number-roller) | 数值变化卷动动效 |
+| [Image 图片](./image) | 懒加载/多裁剪/加载失败兜底 |
+| [Virtual List 虚拟列表](./virtual-list) | 超长列表高性能渲染 |
+| [Waterfall 瀑布流](./waterfall) | 不等高卡片双列布局 |
+
+## 图表
+
+| 组件 | 说明 |
+|------|------|
+| [ChartBar 柱状图](./chart-bar) | Canvas 绘制柱形图 |
+| [ChartLine 折线图](./chart-line) | Canvas 绘制折线/面积图 |
+| [ChartPie 饼图](./chart-pie) | Canvas 绘制饼图/环形图 |
+
+## 导航
+
+| 组件 | 说明 |
+|------|------|
+| [Navbar 导航栏](./navbar) | 自定义顶部导航栏，适配安全区 |
+| [Tabbar 底部导航](./tabbar) | 底部 Tab 栏，图标/徽标支持 |
+| [Tabs 选项卡](./tabs) | 多 Tab 内容切换 |
+| [Segmented 分段器](./segmented) | 紧凑分段控制 |
+| [Anchor 锚点导航](./anchor) | 页面内区块快速跳转 |
+| [Backtop 返回顶部](./backtop) | 滚动到顶的悬浮按钮 |
+
+## 反馈与浮层
+
+| 组件 | 说明 |
+|------|------|
+| [Modal 模态框](./modal) | 带遮罩的对话框，多种动画 |
+| [Popup 弹出层](./popup) | 四方向弹出容器 |
+| [Toast 轻提示](./toast) | 全局轻量通知，自动消失 |
+| [Action Sheet 动作面板](./action-sheet) | 从底部弹出的操作菜单 |
+| [Overlay 遮罩层](./overlay) | 独立遮罩层 |
+| [Tooltip 文字提示](./tooltip) | 气泡提示 |
+| [Dropdown 下拉菜单](./dropdown) | 点击触发的下拉菜单 |
+| [Notice Bar 通知栏](./notice-bar) | 横幅通知，支持滚动 |
+
+## 高级
+
+| 组件 | 说明 |
+|------|------|
+| [Fab 悬浮按钮](./fab) | 可拖拽的悬浮操作按钮 |
+| [Curtain 幕帘](./curtain) | 从边缘拉出的抽屉式浮层 |
+| [Horizontal Scroll 横向滚动](./horizontal-scroll) | 横向滑动容器 |
+| [Preload 预加载调试](./preload) | 开发阶段预加载状态面板 |

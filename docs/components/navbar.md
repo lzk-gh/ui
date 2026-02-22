@@ -1,47 +1,89 @@
 ---
 title: Navbar 导航栏
+phone: navbar
 ---
 
 # Navbar 导航栏
 
-页面顶部导航栏。
+自定义顶部导航栏，适配 H5 安全区域和小程序状态栏高度。
 
 ## 基础用法
 
 ```vue
-<lk-navbar title="标题" />
+<template>
+  <lk-navbar title="页面标题" />
+</template>
 ```
 
-参考 Demo：
-- https://github.com/lzk-gh/ui/blob/main/src/components/demos/navbar-demo.vue
+## 带返回按钮
 
-## 规范示例（推荐）
+```vue
+<template>
+  <lk-navbar title="订单详情" back @back="handleBack" />
+</template>
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+<script setup lang="ts">
+function handleBack() {
+  uni.navigateBack()
+}
+</script>
+```
 
-- 运行示例参考：`src/components/demos/navbar-demo.vue`
+## 自定义左侧 / 右侧
 
-### 基础用法
+```vue
+<template>
+  <lk-navbar title="Lucky UI">
+    <template #left>
+      <lk-button variant="text" size="sm" @click="goHome">
+        <lk-icon name="house" :size="20" />
+      </lk-button>
+    </template>
+    <template #right>
+      <view style="display:flex; gap:16rpx">
+        <lk-icon name="search" :size="22" @click="openSearch" />
+        <lk-icon name="person-circle" :size="22" @click="goProfile" />
+      </view>
+    </template>
+  </lk-navbar>
+</template>
+```
 
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
+## 透明导航栏
 
-### 变体（Variants）
+```vue
+<template>
+  <!-- 适合有封面大图的页面 -->
+  <lk-navbar title="详情" transparent dark back />
 
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
-
-### 尺寸（Size）
-
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
-
-### 状态（States）
-
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+  <view class="cover-image" style="height:500rpx; background:#7c3aed" />
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| title | 标题文字 | `string` | `''` |
+| back | 是否显示返回按钮 | `boolean` | `false` |
+| transparent | 是否透明背景 | `boolean` | `false` |
+| dark | 暗色文字（配合透明） | `boolean` | `false` |
+| fixed | 是否固定在顶部 | `boolean` | `true` |
+| border | 是否显示底部边框 | `boolean` | `true` |
+| zIndex | 层级 | `number` | `100` |
+
+### Events
+
+| 事件名 | 说明 |
+|--------|------|
+| back | 点击返回按钮 |
+
+### Slots
+
+| 插槽名 | 说明 |
+|--------|------|
+| default | 标题区域自定义内容 |
+| left | 左侧区域自定义 |
+| right | 右侧区域自定义 |

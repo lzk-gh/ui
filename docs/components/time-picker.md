@@ -1,47 +1,119 @@
 ---
 title: Time Picker 时间选择器
+phone: time-picker
 ---
 
 # Time Picker 时间选择器
 
-选择时间点或时间段。
+用于选择时间值，支持步长、清空、禁用与格式控制。
 
 ## 基础用法
 
 ```vue
-<lk-time-picker v-model="time" />
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const time = ref('12:00:00')
+</script>
+
+<template>
+  <lk-time-picker v-model="time" />
+</template>
 ```
 
-参考 Demo：
-- https://github.com/lzk-gh/ui/blob/main/src/components/demos/time-picker-demo.vue
+## 常见场景
 
-## 规范示例（推荐）
+### 时间步长
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
 
-- 运行示例参考：`src/components/demos/time-picker-demo.vue`
+const time = ref('09:00:00')
+</script>
 
-### 基础用法
+<template>
+  <lk-time-picker
+    v-model="time"
+    :step-hour="1"
+    :step-minute="5"
+    :step-second="10"
+  />
+</template>
+```
 
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
+### 可清空 + 禁用
 
-### 变体（Variants）
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
 
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
+const time = ref('14:30:00')
+</script>
 
-### 尺寸（Size）
+<template>
+  <lk-time-picker v-model="time" clearable @clear="() => (time = '')" />
+  <lk-time-picker v-model="time" disabled style="margin-top: 24rpx" />
+</template>
+```
 
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
+### 监听变化
 
-### 状态（States）
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
 
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+const time = ref('08:00:00')
+
+const handleChange = (value: string) => {
+  console.log('time changed:', value)
+}
+</script>
+
+<template>
+  <lk-time-picker v-model="time" @change="handleChange" />
+</template>
+```
+
+## Demo 复用
+
+### 直接使用项目 Demo（推荐）
+
+```vue
+<script setup lang="ts">
+import TimePickerDemo from '@/components/demos/time-picker-demo.vue'
+</script>
+
+<template>
+  <TimePickerDemo />
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| modelValue | 绑定值（时间字符串） | `string` | `''` |
+| format | 时间格式（支持裁剪秒） | `string` | `HH:mm:ss` |
+| placeholder | 占位文本 | `string` | `选择时间` |
+| clearable | 是否可清除 | `boolean` | `true` |
+| disabled | 是否禁用 | `boolean` | `false` |
+| stepHour | 小时步长 | `number` | `1` |
+| stepMinute | 分钟步长 | `number` | `1` |
+| stepSecond | 秒步长 | `number` | `1` |
+
+### Events
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 绑定值更新 | `(val: string)` |
+| change | 选择值变化 | `(val: string)` |
+| open | 打开面板 | `-` |
+| close | 关闭面板 | `-` |
+| clear | 清空值 | `-` |
+
+### Slots
+
+当前版本以 props + events 为主，暂无对外自定义插槽。

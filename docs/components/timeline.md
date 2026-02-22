@@ -1,5 +1,6 @@
 ---
 title: Timeline 时间轴
+phone: timeline
 ---
 
 # Timeline 时间轴
@@ -129,4 +130,3 @@ title: Timeline 时间轴
 | 事件名  | 说明     | 回调参数  |
 | ------- | -------- | --------- |
 | `click` | 点击条目 | `(ev: Event)` |
-

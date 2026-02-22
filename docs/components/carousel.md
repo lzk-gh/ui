@@ -1,5 +1,6 @@
 ---
 title: Carousel 轮播
+phone: carousel
 ---
 
 # Carousel 轮播
@@ -14,36 +15,41 @@ title: Carousel 轮播
 </lk-carousel>
 ```
 
-参考 Demo：
-- https://github.com/lzk-gh/ui/blob/main/src/components/demos/carousel-demo.vue
+## 推荐示例
 
-## 规范示例（推荐）
+### 1) 直接复用项目 Demo（推荐）
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+```vue
+<script setup lang="ts">
+import CarouselDemo from '@/components/demos/carousel-demo.vue'
+</script>
 
-- 运行示例参考：`src/components/demos/carousel-demo.vue`
+<template>
+  <CarouselDemo />
+</template>
+```
 
-### 基础用法
+### 2) 在业务页中按需组合
 
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
-
-### 变体（Variants）
-
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
-
-### 尺寸（Size）
-
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
-
-### 状态（States）
-
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+```vue
+<template>
+  <view class="page-demo">
+    <lk-carousel />
+  </view>
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+- 组件参数较多，建议优先参考：`src/uni_modules/lucky-ui/components/lk-carousel/`
+- 交互行为与默认值以 `*.props.ts` 为准
+
+### Events
+
+- 事件名称与参数说明以组件源码和对应 demo 为准
+
+### Slots
+
+- 插槽能力以组件模板实现为准（建议结合 demo 对照使用）

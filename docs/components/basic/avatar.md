@@ -1,60 +1,103 @@
 ---
 title: Avatar 头像
+phone: avatar
 ---
 
 # Avatar 头像
 
-用来代表用户或物体，支持图片、图标与文字。
+展示用户或实体头像，支持图片、文字、图标三种形式。
 
 ## 基础用法
 
 ```vue
-<lk-avatar src="https://example.com/user.png" />
-<lk-avatar icon="person" />
-<lk-avatar>U</lk-avatar>
+<template>
+  <view class="demo-row">
+    <lk-avatar src="https://i.pravatar.cc/100?img=1" />
+    <lk-avatar text="张" />
+    <lk-avatar icon="person" />
+  </view>
+</template>
 ```
 
-## 形状与尺寸
+## 尺寸
 
 ```vue
-<lk-avatar shape="circle" size="small">A</lk-avatar>
-<lk-avatar shape="square" size="large">A</lk-avatar>
+<template>
+  <view class="demo-row" style="align-items:flex-end">
+    <lk-avatar src="https://i.pravatar.cc/100" size="sm" />
+    <lk-avatar src="https://i.pravatar.cc/100" size="md" />
+    <lk-avatar src="https://i.pravatar.cc/100" size="lg" />
+    <lk-avatar src="https://i.pravatar.cc/100" size="xl" />
+    <lk-avatar src="https://i.pravatar.cc/100" :size="90" />
+  </view>
+</template>
 ```
 
-## Props（节选）
+## 形状
 
-- src: 图片地址
-- icon: 内置图标名
-- shape: `circle | square`
-- size: `small | medium | large` 或 数字
+```vue
+<template>
+  <view class="demo-row">
+    <lk-avatar src="https://i.pravatar.cc/100?img=2" shape="circle" />
+    <lk-avatar src="https://i.pravatar.cc/100?img=2" shape="square" />
+    <lk-avatar src="https://i.pravatar.cc/100?img=2" shape="rounded" />
+  </view>
+</template>
+```
 
-## 规范示例（推荐）
+## 头像堆叠
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+```vue
+<script setup lang="ts">
+const avatars = [
+  'https://i.pravatar.cc/100?img=1',
+  'https://i.pravatar.cc/100?img=2',
+  'https://i.pravatar.cc/100?img=3',
+]
+</script>
 
-- 运行示例参考：`src/components/demos/avatar-demo.vue`
+<template>
+  <view style="display:flex">
+    <lk-avatar
+      v-for="(src, i) in avatars" :key="i"
+      :src="src"
+      :style="{ marginLeft: i > 0 ? '-16rpx' : 0, zIndex: avatars.length - i }"
+    />
+    <lk-avatar
+      text="+3"
+      :style="{ marginLeft: '-16rpx', background: '#e2e8f0', color: '#64748b' }"
+    />
+  </view>
+</template>
+```
 
-### 基础用法
+## 图片加载兜底
 
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
-
-### 变体（Variants）
-
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
-
-### 尺寸（Size）
-
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
-
-### 状态（States）
-
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+```vue
+<template>
+  <view class="demo-row">
+    <!-- 有效图片 -->
+    <lk-avatar src="https://i.pravatar.cc/100?img=3" />
+    <!-- 无效图片 → 显示备用图标 -->
+    <lk-avatar src="invalid-url.jpg" fallback-icon="person" />
+    <!-- 无效图片 → 显示备用文字 -->
+    <lk-avatar src="invalid-url.jpg" fallback-text="U" />
+  </view>
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| src | 图片地址 | `string` | `''` |
+| text | 文字内容（无 src 时显示） | `string` | `''` |
+| icon | 图标名（无 src 和 text 时显示） | `string` | `'person'` |
+| size | 尺寸，支持预设或数字（rpx） | `sm \| md \| lg \| xl \| number` | `md` |
+| shape | 形状 | `circle \| square \| rounded` | `circle` |
+| fallbackIcon | 图片加载失败时的图标 | `string` | `'person'` |
+| fallbackText | 图片加载失败时的文字 | `string` | `''` |
+| customClass | 额外类名 | `string` | `''` |
+| customStyle | 额外样式 | `string \| object` | `''` |

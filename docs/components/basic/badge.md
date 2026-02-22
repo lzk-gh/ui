@@ -1,60 +1,88 @@
 ---
 title: Badge 徽标
+phone: badge
 ---
 
 # Badge 徽标
 
-用于显示消息数量或状态的小圆点。
+在图标、按钮或内容上标注通知数字或状态点。
 
 ## 基础用法
 
 ```vue
-<lk-badge :value="5">
-  <lk-button>消息</lk-button>
-</lk-badge>
+<template>
+  <view class="demo-row">
+    <lk-badge :count="3">
+      <lk-button>消息</lk-button>
+    </lk-badge>
+    <lk-badge dot>
+      <lk-icon name="bell" :size="28" />
+    </lk-badge>
+    <lk-badge text="新">
+      <lk-button>功能</lk-button>
+    </lk-badge>
+  </view>
+</template>
 ```
 
-## 小红点
+## 最大值
+
+超过 `max` 时显示 `max+`。
 
 ```vue
-<lk-badge dot>
-  <lk-icon name="bell" />
-</lk-badge>
+<template>
+  <view class="demo-row">
+    <lk-badge :count="5" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
+    <lk-badge :count="100" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
+    <lk-badge :count="999" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
+  </view>
+</template>
 ```
 
-## Props（节选）
+## 颜色类型
 
-- value: 显示的数值或文本
-- dot: 是否显示小红点
-- max: 封顶数值
+```vue
+<template>
+  <view class="demo-row">
+    <lk-badge :count="8" type="danger"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :count="8" type="success"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :count="8" type="warning"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :count="8" type="info"><lk-icon name="bell" :size="28" /></lk-badge>
+  </view>
+</template>
+```
 
-## 规范示例（推荐）
+## 独立使用
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+不包裹子内容时，作为纯徽标展示。
 
-- 运行示例参考：`src/components/demos/badge-demo.vue`
-
-### 基础用法
-
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
-
-### 变体（Variants）
-
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
-
-### 尺寸（Size）
-
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
-
-### 状态（States）
-
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+```vue
+<template>
+  <view class="demo-row" style="align-items:center">
+    <lk-badge :count="12" />
+    <lk-badge dot />
+    <lk-badge text="HOT" type="danger" />
+    <lk-badge text="NEW" type="success" />
+  </view>
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| count | 显示数字 | `number` | `0` |
+| max | 数字上限，超出显示 `max+` | `number` | `99` |
+| dot | 显示小红点 | `boolean` | `false` |
+| text | 显示文字（优先于 count） | `string` | `''` |
+| type | 颜色类型 | `danger \| success \| warning \| info` | `danger` |
+| showZero | count=0 时是否显示 | `boolean` | `false` |
+| offset | 徽标偏移量 `[x, y]` | `[number, number]` | `[0, 0]` |
+
+### Slots
+
+| 插槽名 | 说明 |
+|--------|------|
+| default | 被徽标包裹的内容 |

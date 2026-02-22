@@ -48,6 +48,7 @@
           <RateDemo v-else-if="componentName === 'rate'" />
           <UploadDemo v-else-if="componentName === 'upload'" />
           <PickerDemo v-else-if="componentName === 'picker'" />
+          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
           <KeyboardDemo v-else-if="componentName === 'keyboard'" />
           <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
@@ -88,6 +89,7 @@
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />
           <CurtainDemo v-else-if="componentName === 'curtain'" />
           <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
+          <PreloadDemo v-else-if="componentName === 'preload'" />
 
           <ChartBarDemo v-else-if="componentName === 'chart-bar'" />
           <ChartLineDemo v-else-if="componentName === 'chart-line'" />
@@ -101,30 +103,18 @@
           </view>
         </view>
 
-        <!-- API 文档入口 -->
-        <view class="api-section">
-          <view class="section-title">
-            <lk-icon name="book-fill" size="32" color="primary" />
-            <text>组件 API</text>
-          </view>
 
-          <lk-cell title="属性 Props" label="查看所有可配置属性" is-link />
-          <lk-cell title="事件 Events" label="查看所有事件回调" is-link />
-          <lk-cell title="插槽 Slots" label="查看所有插槽说明" is-link />
-          <lk-cell title="方法 Methods" label="查看组件实例方法" is-link />
-        </view>
       </view>
     </scroll-view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
-import { onLoad } from '@dcloudio/uni-app';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
 
 import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
 import ChartLineDemo from '@/components/demos/chart-line-demo.vue';
@@ -260,6 +250,12 @@ const componentMap: Record<string, any> = {
     desc: '弹出选择器',
     icon: 'menu-button-wide',
     color: 'success',
+  },
+  'time-picker': {
+    title: 'TimePicker 时间选择',
+    desc: '时间点选择组件',
+    icon: 'clock-fill',
+    color: 'warning',
   },
   keyboard: {
     title: 'Keyboard 虚拟键盘',
@@ -485,6 +481,12 @@ const componentMap: Record<string, any> = {
     icon: 'distribute-horizontal',
     color: 'success',
   },
+  preload: {
+    title: 'Preload 预加载',
+    desc: '资源预加载与调度能力',
+    icon: 'lightning-charge-fill',
+    color: 'warning',
+  },
 
   'chart-bar': {
     title: 'ChartBar 柱状图',
@@ -520,13 +522,45 @@ const demoComponent = ref<any>(null);
 // 主题
 const { theme, toggleTheme } = useTheme();
 
+const applyComponentName = (name?: string) => {
+  if (!name) return;
+  if (componentName.value === name) return;
+  componentName.value = name;
+  loadDemoComponent(name);
+};
+
+const readCurrentPageComponent = () => {
+  const pages = getCurrentPages();
+  const current = pages[pages.length - 1] as any;
+  return current?.options?.component || current?.options?.name || '';
+};
+
 // 页面加载
 onLoad(options => {
-  if (options?.name) {
-    componentName.value = options.name;
-    loadDemoComponent(options.name);
-  }
+  applyComponentName(options?.component || options?.name);
 });
+
+onShow(() => {
+  applyComponentName(readCurrentPageComponent());
+});
+
+// #ifdef H5
+const syncFromHash = () => {
+  const hash = window.location.hash || '';
+  const query = hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
+  const params = new URLSearchParams(query);
+  applyComponentName(params.get('component') || params.get('name') || '');
+};
+
+onMounted(() => {
+  syncFromHash();
+  window.addEventListener('hashchange', syncFromHash);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', syncFromHash);
+});
+// #endif
 
 // 导入所有演示组件
 // 基础组件
@@ -553,6 +587,7 @@ import SliderDemo from '@/components/demos/slider-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
+import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
 import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
@@ -597,6 +632,7 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
 import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
+import PreloadDemo from '@/components/demos/preload-demo.vue';
 
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
@@ -624,6 +660,7 @@ const demoComponentMap: Record<string, any> = {
   rate: RateDemo,
   upload: UploadDemo,
   picker: PickerDemo,
+  'time-picker': TimePickerDemo,
   keyboard: KeyboardDemo,
   'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,
@@ -668,6 +705,7 @@ const demoComponentMap: Record<string, any> = {
   waterfall: WaterfallDemo,
   curtain: CurtainDemo,
   'horizontal-scroll': HorizontalScrollDemo,
+  preload: PreloadDemo,
 };
 
 // 加载对应的演示组件

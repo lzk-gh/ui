@@ -1,52 +1,95 @@
 ---
 title: Icon 图标
+phone: icon
 ---
 
 # Icon 图标
 
-基于 bootstrap-icons 的图标集封装。
+基于 Bootstrap Icons 封装的图标组件，支持颜色、尺寸等常用定制。
 
 ## 基础用法
 
 ```vue
-<lk-icon name="house" />
-<lk-icon name="heart" color="#f00" />
-<lk-icon name="bell" size="24" />
+<template>
+  <view class="demo-row">
+    <lk-icon name="house" />
+    <lk-icon name="heart" />
+    <lk-icon name="star" />
+    <lk-icon name="bell" />
+    <lk-icon name="person" />
+  </view>
+</template>
 ```
 
-## Props（节选）
+## 尺寸
 
-- name: 图标名称（参考项目内置 icon 集合）
-- size: 尺寸，单位 px
-- color: 颜色
+通过 `size` 设置像素尺寸（单位 px，组件内部自动转 rpx）。
 
-## 规范示例（推荐）
+```vue
+<template>
+  <view class="demo-row">
+    <lk-icon name="star" :size="16" />
+    <lk-icon name="star" :size="24" />
+    <lk-icon name="star" :size="32" />
+    <lk-icon name="star" :size="48" />
+  </view>
+</template>
+```
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+## 颜色
 
-- 运行示例参考：`src/components/demos/icon-demo.vue`
+```vue
+<template>
+  <view class="demo-row">
+    <lk-icon name="heart-fill" color="#ef4444" />
+    <lk-icon name="patch-check-fill" color="#22c55e" />
+    <lk-icon name="lightning-charge-fill" color="#f59e0b" />
+    <lk-icon name="info-circle-fill" color="#3b82f6" />
+    <lk-icon name="shield-fill" color="var(--lk-color-primary)" />
+  </view>
+</template>
+```
 
-### 基础用法
+## 与文字/按钮组合
 
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
+```vue
+<template>
+  <view class="demo-col">
+    <!-- 与文字组合 -->
+    <view style="display:flex; align-items:center; gap:8rpx">
+      <lk-icon name="geo-alt-fill" color="var(--lk-color-primary)" :size="18" />
+      <text>北京市朝阳区</text>
+    </view>
 
-### 变体（Variants）
+    <!-- 作为按钮前缀 -->
+    <lk-button>
+      <lk-icon name="upload" style="margin-right:8rpx" />
+      上传图片
+    </lk-button>
 
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
-
-### 尺寸（Size）
-
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
-
-### 状态（States）
-
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+    <!-- 独立操作图标 -->
+    <view class="demo-row">
+      <lk-icon name="trash" color="#ef4444" :size="22" />
+      <lk-icon name="pencil" color="var(--lk-color-primary)" :size="22" />
+      <lk-icon name="share" color="#64748b" :size="22" />
+    </view>
+  </view>
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| name | 图标名称 | `string` | — |
+| size | 图标尺寸（px） | `number \| string` | `24` |
+| color | 图标颜色 | `string` | 继承文本色 |
+| customClass | 额外类名 | `string` | `''` |
+| customStyle | 额外样式 | `string \| object` | `''` |
+
+::: tip 图标列表
+所有图标名称请参考 [Bootstrap Icons](https://icons.getbootstrap.com/)，
+使用图标名的**小写连字符**形式（如 `chevron-right`、`arrow-up-circle`）。
+:::

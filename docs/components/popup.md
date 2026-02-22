@@ -1,47 +1,106 @@
 ---
 title: Popup 弹出层
+phone: popup
 ---
 
 # Popup 弹出层
 
-从不同位置弹出的容器。
+从屏幕四个方向弹出的浮层容器，适合抽屉菜单、选择面板、半屏表单等场景。
 
 ## 基础用法
 
 ```vue
-<lk-popup v-model:show="open" position="bottom">内容</lk-popup>
+<script setup lang="ts">
+import { ref } from 'vue'
+const show = ref(false)
+</script>
+
+<template>
+  <lk-button @click="show = true">从底部弹出</lk-button>
+
+  <lk-popup v-model="show" position="bottom">
+    <view style="padding:48rpx; text-align:center">
+      <view style="font-size:32rpx; font-weight:600">底部弹出内容</view>
+      <lk-button block style="margin-top:32rpx" @click="show = false">关闭</lk-button>
+    </view>
+  </lk-popup>
+</template>
 ```
 
-参考 Demo：
-- https://github.com/lzk-gh/ui/blob/main/src/components/demos/popup-demo.vue
+## 四个方向
 
-## 规范示例（推荐）
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
+</script>
 
-> 该章节结构参考 Naive UI / Ant Design 的文档组织方式，建议所有组件示例至少覆盖以下维度。
+<template>
+  <view class="demo-grid-2">
+    <lk-button @click="pos = 'top'">从顶部</lk-button>
+    <lk-button @click="pos = 'bottom'">从底部</lk-button>
+    <lk-button @click="pos = 'left'">从左侧</lk-button>
+    <lk-button @click="pos = 'right'">从右侧</lk-button>
+  </view>
 
-- 运行示例参考：`src/components/demos/popup-demo.vue`
+  <lk-popup v-model="pos" :position="pos || 'bottom'" @close="pos = ''">
+    <view style="padding:48rpx">弹出自 {{ pos }}</view>
+  </lk-popup>
+</template>
+```
 
-### 基础用法
+## 圆角弹框
 
-- 展示组件最小可用示例（MVP）。
-- 建议同时给出默认值与常见场景说明。
+```vue
+<template>
+  <lk-popup v-model="show" position="bottom" round>
+    <view style="padding:32rpx">
+      <!-- 顶部拖动条 -->
+      <view style="width:60rpx;height:8rpx;border-radius:4rpx;background:#e2e8f0;margin:0 auto 32rpx" />
+      <view>圆角底部弹框内容</view>
+    </view>
+  </lk-popup>
+</template>
+```
 
-### 变体（Variants）
+## 禁止背景滚动
 
-- 覆盖常见视觉/语义变体（如 primary / success / warning / danger）。
-- 如无变体能力，可说明“不适用”。
-
-### 尺寸（Size）
-
-- 覆盖 `sm / md / lg` 或对应尺寸能力。
-- 如组件不支持尺寸，说明由容器或样式变量控制。
-
-### 状态（States）
-
-- 至少覆盖 `disabled`、加载态、错误态、空态中的适用项。
-- 涉及交互时，补充事件触发与边界行为。
+```vue
+<template>
+  <lk-popup v-model="show" position="bottom" lock-scroll>
+    <!-- 当 Popup 打开时，背景页面不可滚动 -->
+    <scroll-view style="height:600rpx" scroll-y>
+      <view v-for="i in 30" :key="i">列表项 {{ i }}</view>
+    </scroll-view>
+  </lk-popup>
+</template>
+```
 
 ## API
 
-- 建议按 `Props`、`Events`、`Slots`、`Expose` 分节说明。
-- 推荐使用表格统一字段：`参数`、`说明`、`类型`、`默认值`。
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| modelValue | 是否显示（v-model） | `boolean` | `false` |
+| position | 弹出位置 | `top \| bottom \| left \| right \| center` | `center` |
+| round | 是否圆角 | `boolean` | `false` |
+| closeOnOverlay | 点击遮罩关闭 | `boolean` | `true` |
+| lockScroll | 锁定背景滚动 | `boolean` | `true` |
+| showOverlay | 是否显示遮罩 | `boolean` | `true` |
+| zIndex | 层级 | `number` | `1000` |
+
+### Events
+
+| 事件名 | 说明 |
+|--------|------|
+| update:modelValue | 显示状态变化 |
+| open | 弹出后 |
+| close | 关闭后 |
+| overlay-click | 点击遮罩 |
+
+### Slots
+
+| 插槽名 | 说明 |
+|--------|------|
+| default | 弹出层内容 |
