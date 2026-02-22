@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import LkAnchor from '../../uni_modules/lucky-ui/components/lk-anchor/lk-anchor.vue';
 import LkAnchorLink from '../../uni_modules/lucky-ui/components/lk-anchor/lk-anchor-link.vue';
@@ -19,6 +19,45 @@ const list = [
 const anchorRef = ref();
 const scrollIntoViewId = ref('');
 const currentScrollTop = ref(0);
+const instance = getCurrentInstance();
+const hasMeasuredTargets = ref(false);
+
+type AnchorMeasuredItem = { href: string; top: number; height: number };
+
+function measureAndSyncTargets(baseScrollTop: number = currentScrollTop.value) {
+  if (!instance?.proxy) return;
+
+  const query = uni.createSelectorQuery();
+  query.in(instance.proxy);
+  query.select('#anchor-content').boundingClientRect();
+  list.forEach(item => query.select(`#${item.id}`).boundingClientRect());
+
+  query.exec((res) => {
+    const results = Array.isArray(res) ? (res as Array<{ top?: number; height?: number } | null>) : [];
+    const containerRect = results[0];
+    const measured: AnchorMeasuredItem[] = list
+      .map((item, index) => {
+        const rect = results[index + 1];
+        if (!rect || typeof rect.top !== 'number') return null;
+        return {
+          href: item.id,
+          top: rect.top - (containerRect?.top || 0) + Number(baseScrollTop || 0),
+          height: Number(rect.height || 0),
+        };
+      })
+      .filter((item): item is AnchorMeasuredItem => !!item)
+      .sort((a, b) => a.top - b.top);
+
+    if (measured.length > 0) {
+      hasMeasuredTargets.value = true;
+      anchorRef.value?.setTargets?.(measured, baseScrollTop);
+    }
+  });
+}
+
+function getGoodsImage(sectionId: string, index: number) {
+  return `https://picsum.photos/seed/lucky-anchor-${sectionId}-${index}/320/320`;
+}
 
 const handleAnchorClick = (href: string) => {
   scrollIntoViewId.value = href;
@@ -26,12 +65,15 @@ const handleAnchorClick = (href: string) => {
 
 const onScroll = (e: { detail: { scrollTop: number } }) => {
   currentScrollTop.value = e.detail.scrollTop;
+  if (!hasMeasuredTargets.value) {
+    measureAndSyncTargets(e.detail.scrollTop);
+  }
 };
 
 onMounted(() => {
   setTimeout(() => {
-    anchorRef.value?.measureTargets(0);
-  }, 1000);
+    measureAndSyncTargets(currentScrollTop.value);
+  }, 600);
 });
 </script>
 
@@ -44,10 +86,12 @@ onMounted(() => {
 
     <view class="container">
       <view class="sidebar">
+        <!-- 为了实现右侧一致的点餐风格，设置白色的激活背景 active-bg-color="#ffffff" -->
         <lk-anchor
           ref="anchorRef"
           target-container="#anchor-content"
           :show-line="true"
+          active-bg-color="var(--lk-color-bg-container)"
           :scroll-top="currentScrollTop"
           @click="handleAnchorClick"
         >
@@ -72,7 +116,11 @@ onMounted(() => {
           <view class="section-title">{{ item.name }}</view>
           <view class="goods-list">
             <view v-for="g in 4" :key="g" class="goods-item">
-              <view class="goods-img"></view>
+              <image
+                class="goods-img"
+                :src="getGoodsImage(item.id, g)"
+                mode="aspectFill"
+              />
               <view class="goods-info">
                 <view class="goods-name">{{ item.name }}商品 {{ g }}</view>
                 <view class="goods-desc">月售 100+</view>
@@ -86,6 +134,7 @@ onMounted(() => {
     </view>
   </view>
 </template>
+
 <style lang="scss" scoped>
 .anchor-demo {
   height: 100vh;
@@ -133,7 +182,7 @@ onMounted(() => {
   &-title {
     font-size: 28rpx;
     font-weight: bold;
-    color: #333;
+    color: var(--lk-color-text);
     margin-bottom: 20rpx;
   }
 }
@@ -146,9 +195,10 @@ onMounted(() => {
     .goods-img {
       width: 160rpx;
       height: 160rpx;
-      background-color: #f0f0f0;
+      background-color: var(--lk-color-bg-surface-variant);
       border-radius: 12rpx;
       margin-right: 20rpx;
+      flex-shrink: 0;
     }
 
     .goods-info {
@@ -159,17 +209,17 @@ onMounted(() => {
 
       .goods-name {
         font-size: 30rpx;
-        color: #333;
+        color: var(--lk-color-text);
         font-weight: 500;
       }
       .goods-desc {
         font-size: 22rpx;
-        color: #999;
+        color: var(--lk-color-text-secondary);
       }
       .goods-price {
         font-size: 32rpx;
         font-weight: bold;
-        color: #ff4d4f;
+        color: var(--lk-color-danger);
       }
     }
   }

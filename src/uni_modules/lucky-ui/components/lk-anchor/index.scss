@@ -46,7 +46,7 @@
     max-width: 100%;
   }
 
-  // 侧边指示条 (可选，现在的流行风格通常不需要这个条，或者做得很细)
+  // 侧边指示条
   @include e(indicator) {
     position: absolute;
     left: 0;
