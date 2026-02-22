@@ -1,116 +1,132 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import { ICON_CODEPOINTS } from '@/uni_modules/lucky-ui/components/lk-icon/codepoints';
 
-const commonIcons = ref([
-  'house',
-  'search',
-  'bell',
-  'heart',
-  'star',
-  'gear',
-  'person',
-  'chat-dots',
-  'envelope',
-  'calendar',
-  'camera',
-  'image',
-  'file-earmark',
-  'download',
-  'upload',
-  'trash',
-]);
+const searchKeyword = ref('');
 
-const copyIcon = (name: string) => {
+const allIconNames = Object.keys(ICON_CODEPOINTS).sort((leftName, rightName) =>
+  leftName.localeCompare(rightName)
+);
+
+const iconTotal = allIconNames.length;
+
+const filteredIcons = computed(() => {
+  const keyword = searchKeyword.value.trim().toLowerCase();
+  if (!keyword) {
+    return allIconNames.slice(0, 60);
+  }
+  return allIconNames.filter(name => name.includes(keyword)).slice(0, 60);
+});
+
+const iconGroups = computed(() => {
+  const groupRules = [
+    { title: '导航类', pattern: /^(arrow|chevron|caret)/ },
+    { title: '通信类', pattern: /^(chat|envelope|telephone|send)/ },
+    { title: '媒体类', pattern: /^(play|pause|stop|camera|image|music|mic|volume)/ },
+    { title: '业务类', pattern: /^(cart|bag|wallet|credit-card|cash|tag|receipt)/ },
+  ] as const;
+
+  return groupRules.map(group => ({
+    title: group.title,
+    icons: allIconNames.filter(name => group.pattern.test(name)).slice(0, 8),
+  }));
+});
+
+const copyIconUsage = (name: string) => {
+  const usage = `<lk-icon name=\"${name}\" />`;
+
   // #ifdef H5
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(name);
+    navigator.clipboard.writeText(usage);
     uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
     return;
   }
   // #endif
 
-  // #ifdef MP || APP-PLUS
   uni.setClipboardData({
-    data: name,
+    data: usage,
     success: () => {
       uni.showToast({ title: `已复制: ${name}`, icon: 'none' });
     },
+    fail: () => {
+      uni.showToast({ title: name, icon: 'none' });
+    },
   });
-  // #endif
-
-  uni.showToast({ title: name, icon: 'none' });
 };
 </script>
 
 <template>
   <view class="component-demo">
-    <demo-block title="常用图标 (点击复制)">
-      <view class="icon-grid">
-        <view v-for="icon in commonIcons" :key="icon" class="icon-item" @click="copyIcon(icon)">
-          <lk-icon :name="icon" size="36" />
-          <text class="icon-label">{{ icon }}</text>
+    <demo-block title="图标引擎能力总览">
+      <view class="engine-card">
+        <view class="engine-item">
+          <text class="engine-label">当前字体图标数</text>
+          <text class="engine-value">{{ iconTotal }}</text>
+        </view>
+        <view class="engine-item">
+          <text class="engine-label">构建流程</text>
+          <text class="engine-value engine-value--small">icons:prepare → icons:build</text>
         </view>
       </view>
+      <text class="engine-tip">
+        你的 SVG 文件名会直接成为 `name`，构建后在全端统一使用，点击图标可复制 `<lk-icon />` 代码。
+      </text>
     </demo-block>
 
-    <demo-block title="图标尺寸">
-      <view class="demo-row" style="align-items: flex-end">
-        <lk-icon name="star" size="24" color="var(--lk-color-warning)" />
-        <lk-icon name="star" size="32" color="var(--lk-color-warning)" />
-        <lk-icon name="star" size="40" color="var(--lk-color-warning)" />
-        <lk-icon name="star" size="48" color="var(--lk-color-warning)" />
-        <lk-icon name="star" size="56" color="var(--lk-color-warning)" />
-      </view>
-    </demo-block>
-
-    <demo-block title="图标颜色">
-      <view class="demo-row">
-        <lk-icon name="heart" size="44" color="#ff4757" />
-        <lk-icon name="heart" size="44" color="#5352ed" />
-        <lk-icon name="heart" size="44" color="#2ed573" />
-        <lk-icon name="heart" size="44" color="#ffa502" />
-        <lk-icon name="heart" size="44" color="#747d8c" />
-      </view>
-    </demo-block>
-
-    <demo-block title="图标动画">
-      <view class="demo-row">
-        <lk-icon
-          name="arrow-clockwise"
-          size="40"
-          class="icon-spin"
-          color="var(--lk-color-primary)"
+    <demo-block title="图标检索（前 60 个）">
+      <view class="search-wrap">
+        <lk-icon name="search" color="textSecondary" size="28" />
+        <input
+          v-model="searchKeyword"
+          class="search-input"
+          placeholder="输入图标名关键字，例如：arrow / chat / wallet"
         />
-        <lk-icon name="heart" size="40" class="icon-beat" color="#ff4757" />
-        <lk-icon name="star" size="40" class="icon-shake" color="var(--lk-color-warning)" />
-        <lk-icon name="bell" size="40" class="icon-swing" color="var(--lk-color-info)" />
+      </view>
+
+      <view class="icon-grid">
+        <view
+          v-for="iconName in filteredIcons"
+          :key="iconName"
+          class="icon-item"
+          @click="copyIconUsage(iconName)"
+        >
+          <lk-icon :name="iconName" size="40" color="primary" />
+          <text class="icon-label">{{ iconName }}</text>
+        </view>
       </view>
     </demo-block>
 
-    <demo-block title="图标与文本">
-      <view class="icon-text-group">
-        <view class="icon-text-item">
-          <lk-icon name="house" size="32" color="var(--lk-color-primary)" />
-          <text>首页</text>
-        </view>
-        <view class="icon-text-item">
-          <lk-icon name="search" size="32" color="var(--lk-color-primary)" />
-          <text>搜索</text>
-        </view>
-        <view class="icon-text-item">
-          <lk-icon name="bell" size="32" color="var(--lk-color-primary)" />
-          <text>通知</text>
-        </view>
-        <view class="icon-text-item">
-          <lk-icon name="person" size="32" color="var(--lk-color-primary)" />
-          <text>我的</text>
+    <demo-block title="分类样例（业务高频）">
+      <view class="group-wrap" v-for="group in iconGroups" :key="group.title">
+        <text class="group-title">{{ group.title }}</text>
+        <view class="demo-row">
+          <view
+            class="group-icon"
+            v-for="iconName in group.icons"
+            :key="iconName"
+            @click="copyIconUsage(iconName)"
+          >
+            <lk-icon :name="iconName" size="34" color="text" />
+            <text class="group-label">{{ iconName }}</text>
+          </view>
         </view>
       </view>
+    </demo-block>
+
+    <demo-block title="跨端主题适配">
+      <view class="demo-row">
+        <lk-icon name="shield-check" size="44" color="success" />
+        <lk-icon name="lightning-charge" size="44" color="warning" />
+        <lk-icon name="info-circle" size="44" color="info" />
+        <lk-icon name="exclamation-triangle" size="44" color="danger" />
+      </view>
+      <text class="engine-tip">支持语义色值（primary/success/warning/danger/info）与自定义颜色。</text>
     </demo-block>
   </view>
 </template>
+
 <style scoped lang="scss">
 .component-demo {
   display: flex;
@@ -118,17 +134,66 @@ const copyIcon = (name: string) => {
   gap: 24rpx;
 }
 
-.demo-row {
+.engine-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.engine-item {
+  background: var(--lk-color-bg-surface);
+  border: 2rpx solid var(--lk-color-border);
+  border-radius: var(--lk-radius-md);
+  padding: 18rpx;
+}
+
+.engine-label {
+  display: block;
+  color: var(--lk-color-text-tertiary);
+  font-size: 22rpx;
+  margin-bottom: 6rpx;
+}
+
+.engine-value {
+  color: var(--lk-color-text);
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.engine-value--small {
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.engine-tip {
+  display: block;
+  margin-top: 14rpx;
+  color: var(--lk-color-text-secondary);
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.search-wrap {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 16rpx;
+  gap: 12rpx;
+  padding: 12rpx 16rpx;
+  border-radius: var(--lk-radius-md);
+  border: 2rpx solid var(--lk-color-border);
+  background: var(--lk-color-bg-surface);
+  margin-bottom: 18rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 26rpx;
+  color: var(--lk-color-text);
 }
 
 .icon-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20rpx;
+  gap: 16rpx;
 }
 
 .icon-item {
@@ -136,15 +201,13 @@ const copyIcon = (name: string) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20rpx 12rpx;
-  background: var(--lk-color-bg-surface);
+  padding: 16rpx 8rpx;
   border-radius: var(--lk-radius-md);
   border: 2rpx solid var(--lk-color-border);
-  transition: all 0.3s;
+  background: var(--lk-color-bg-surface);
 
   &:active {
-    transform: scale(0.95);
-    background: var(--lk-color-bg-hover);
+    transform: scale(0.96);
     border-color: var(--lk-color-primary);
   }
 }
@@ -158,86 +221,39 @@ const copyIcon = (name: string) => {
   line-height: 1.3;
 }
 
-.icon-text-group {
-  display: flex;
-  justify-content: space-around;
-  gap: 16rpx;
+.group-wrap + .group-wrap {
+  margin-top: 16rpx;
 }
 
-.icon-text-item {
+.group-title {
+  display: block;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--lk-color-text-secondary);
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.group-icon {
+  min-width: 120rpx;
+  padding: 10rpx 8rpx;
+  border-radius: 12rpx;
+  background: var(--lk-color-bg-surface);
+  border: 2rpx solid var(--lk-color-border);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12rpx;
-  padding: 20rpx;
-  flex: 1;
-  background: var(--lk-color-bg-surface);
-  border-radius: var(--lk-radius-md);
-
-  text {
-    font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
-  }
+  gap: 6rpx;
 }
 
-.icon-spin {
-  animation: icon-spin 2s linear infinite;
-}
-
-.icon-beat {
-  animation: icon-beat 1.5s ease-in-out infinite;
-}
-
-.icon-shake {
-  animation: icon-shake 2s ease-in-out infinite;
-}
-
-.icon-swing {
-  animation: icon-swing 1.5s ease-in-out infinite;
-}
-
-@keyframes icon-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes icon-beat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-@keyframes icon-shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-4rpx);
-  }
-  75% {
-    transform: translateX(4rpx);
-  }
-}
-
-@keyframes icon-swing {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-10deg);
-  }
-  75% {
-    transform: rotate(10deg);
-  }
+.group-label {
+  font-size: 18rpx;
+  color: var(--lk-color-text-tertiary);
+  text-align: center;
 }
 </style>
