@@ -109,7 +109,10 @@ import {
   addUnit,
   debounce,
   throttle,
+  formatTime,
   formatPrice,
+  isEmail,
+  isIdCard,
   isPhone,
   isH5,
   isMpWeixin,
@@ -125,6 +128,54 @@ import {
 - `isPhone` / `isEmail` / `isIdCard`：常见输入校验
 - `isH5` / `isMpWeixin`：跨端平台判断
 - `createRequest`：请求实例（支持拦截器、重试、取消）
+
+### 尺寸与格式化
+
+```ts
+import { addUnit, formatPrice, formatTime } from '@/uni_modules/lucky-ui/core/src';
+
+addUnit(24); // "24rpx"
+formatPrice(1299); // "¥1,299.00"
+formatTime(Date.now(), 'YYYY-MM-DD HH:mm:ss');
+```
+
+### 输入校验
+
+```ts
+import { isPhone, isEmail, isIdCard } from '@/uni_modules/lucky-ui/core/src';
+
+isPhone('13800000000'); // true
+isEmail('dev@lucky-ui.com'); // true
+isIdCard('110101199001011234'); // true/false
+```
+
+### 高频事件优化
+
+```ts
+import { debounce, throttle } from '@/uni_modules/lucky-ui/core/src';
+
+const onSearchInput = debounce((keyword: string) => {
+  console.log('search:', keyword);
+}, 300);
+
+const onScroll = throttle(() => {
+  console.log('scrolling');
+}, 200);
+```
+
+### 平台判断
+
+```ts
+import { isH5, isMpWeixin } from '@/uni_modules/lucky-ui/core/src';
+
+if (isH5()) {
+  console.log('run in H5');
+}
+
+if (isMpWeixin()) {
+  console.log('run in WeChat Mini Program');
+}
+```
 
 ### createRequest 示例
 
@@ -147,6 +198,81 @@ request.interceptors.request.use((config) => {
 
 const getProfile = () => request.get({ url: '/user/profile' });
 ```
+
+## 网络请求（Request）
+
+Lucky UI 提供了完整的请求工具，包含：
+
+- 请求/响应拦截器
+- 自动重试（`retry` / `retryDelay`）
+- 请求取消（`requestId` / `cancel` / `cancelAll`）
+- 上传下载与进度回调
+
+### 快速示例
+
+```ts
+import { createRequest } from '@/uni_modules/lucky-ui/core/src';
+
+const request = createRequest({
+  baseURL: 'https://api.example.com',
+  timeout: 10000,
+  retry: 1,
+  retryDelay: 500,
+});
+
+const requestInterceptorId = request.interceptors.request.use((config) => {
+  config.header = {
+    ...config.header,
+    Authorization: 'Bearer token',
+  };
+  return config;
+});
+
+const responseInterceptorId = request.interceptors.response.use((res) => res);
+
+const getUser = () => request.get('/user/profile', { loading: true });
+
+// 不需要时可移除拦截器
+request.interceptors.request.eject(requestInterceptorId);
+request.interceptors.response.eject(responseInterceptorId);
+```
+
+### 请求取消
+
+```ts
+import { createRequest } from '@/uni_modules/lucky-ui/core/src';
+
+const request = createRequest();
+
+request.get('/search', {
+  data: { q: 'lucky-ui' },
+  requestId: 'search-api',
+});
+
+// 下一次搜索前取消上一次
+request.cancel('search-api');
+```
+
+### 上传下载
+
+```ts
+// 上传
+await request.upload({
+  url: '/upload',
+  filePath,
+  name: 'file',
+  onProgress: ({ progress }) => console.log('upload:', progress),
+});
+
+// 下载
+const file = await request.download({
+  url: '/static/manual.pdf',
+  onProgress: ({ progress }) => console.log('download:', progress),
+});
+console.log(file.tempFilePath);
+```
+
+详细网络请求文档请看：[Network Request](./request)
 
 ## 推荐约定
 
