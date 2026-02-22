@@ -55,7 +55,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 
     // 修复：竖线需要跨越父级 padding 区域才能触达下一个节点
     .lk-timeline-item__line {
-      bottom: calc(-#{$item-gap} + 4rpx); 
+      bottom: calc(-#{$item-gap} + 4rpx);
     }
 
     &:last-child {
