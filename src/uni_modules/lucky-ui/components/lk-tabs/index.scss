@@ -5,16 +5,23 @@
   flex-direction: column;
   width: 100%;
   background-color: var(--lk-color-bg-container);
+  border-radius: var(--lk-radius-lg, 16rpx);
+  overflow: hidden;
 
-  /* 内部样式变量 */
+  /* ── 设计令牌 ─────────────────────────────── */
   --lk-tabs-nav-bg: transparent;
   --lk-tabs-active-color: var(--lk-color-primary);
   --lk-tabs-text-color: var(--lk-text-secondary);
+  --lk-tabs-active-text-color: var(--lk-color-primary);
   --lk-tabs-line-height: 6rpx;
   --lk-tabs-line-radius: var(--lk-radius-full);
   --lk-tabs-font-size: var(--lk-font-size-base);
   --lk-tabs-padding: 0 24rpx;
+  --lk-tabs-item-gap: 8rpx;
+  --lk-tabs-header-border: 1px solid var(--lk-border-color-light, rgba(0, 0, 0, 0.06));
+  --lk-tabs-fade-width: 48rpx;
 
+  /* ── header (Tab 栏容器) ────────────────────── */
   @include e(header) {
     display: flex;
     align-items: center;
@@ -22,15 +29,69 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
+    border-bottom: var(--lk-tabs-header-border);
   }
 
+  /* ── prefix / suffix 固定区 ────────────────── */
+  @include e(prefix) {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 24rpx;
+  }
+
+  @include e(suffix) {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-right: 24rpx;
+  }
+
+  /* ── 渐变蒙层 (溢出提示) ───────────────────── */
+  @include e(fade) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--lk-tabs-fade-width);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .lk-tabs__fade--left {
+    left: 0;
+    background: linear-gradient(
+      to right,
+      var(--lk-color-bg-container, #ffffff) 0%,
+      transparent 100%
+    );
+
+    &.is-visible {
+      opacity: 1;
+    }
+  }
+
+  .lk-tabs__fade--right {
+    right: 0;
+    background: linear-gradient(
+      to left,
+      var(--lk-color-bg-container, #ffffff) 0%,
+      transparent 100%
+    );
+
+    &.is-visible {
+      opacity: 1;
+    }
+  }
+
+  /* ── nav 滚动容器 ──────────────────────────── */
   @include e(nav) {
     flex: 1;
     overflow: hidden;
     white-space: nowrap;
     position: relative;
 
-    /* 隐藏 H5 默认滚动条 */
     -ms-overflow-style: none;
     scrollbar-width: none;
     &::-webkit-scrollbar {
@@ -41,13 +102,14 @@
   }
 
   @include e(nav-wrap) {
-    display: flex;
+    display: inline-flex;
     position: relative;
     min-width: 100%;
     box-sizing: border-box;
     padding: var(--lk-tabs-padding);
   }
 
+  /* ── 单个 tab ──────────────────────────────── */
   @include e(nav-item) {
     position: relative;
     display: inline-flex;
@@ -57,12 +119,21 @@
     font-size: var(--lk-tabs-font-size);
     color: var(--lk-tabs-text-color);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition:
+      color 0.25s ease,
+      font-weight 0.25s ease,
+      background-color 0.25s ease,
+      transform 0.15s ease;
     flex-shrink: 0;
     box-sizing: border-box;
+    gap: var(--lk-tabs-item-gap);
+
+    &:active {
+      transform: scale(0.97);
+    }
 
     @include when(active) {
-      color: var(--lk-tabs-active-color);
+      color: var(--lk-tabs-active-text-color);
       font-weight: 600;
     }
   }
@@ -70,39 +141,60 @@
   @include e(label) {
     position: relative;
     z-index: 1;
+    line-height: 1.4;
   }
 
+  /* ── indicator-wrap ────────────────────────── */
+  @include e(indicator-wrap) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--lk-tabs-line-height);
+    pointer-events: none;
+  }
+
+  /* ── 默认下划线指示器 ──────────────────────── */
   @include e(line) {
     position: absolute;
     bottom: 0;
     left: 0;
     height: var(--lk-tabs-line-height);
-    background-color: var(--lk-tabs-active-color);
+    background: var(--lk-tabs-active-color);
     border-radius: var(--lk-tabs-line-radius);
-    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition:
+      transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+      width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     z-index: 1;
   }
 
+  /* ── card 类型 ─────────────────────────────── */
   @include m(card) {
+    @include e(header) {
+      border-bottom: none;
+    }
+
     @include e(nav-wrap) {
-      padding: 24rpx;
+      padding: 16rpx 24rpx;
+      gap: 16rpx;
     }
 
     @include e(nav-item) {
-      padding: 16rpx 32rpx;
-      margin-right: 16rpx;
-      background-color: var(--lk-fill-1);
-      border-radius: var(--lk-radius-full);
-      transition: all 0.3s ease;
-
-      &:last-child {
-        margin-right: 0;
-      }
+      padding: 16rpx 36rpx;
+      margin-right: 0;
+      background-color: var(--lk-fill-1, rgba(0, 0, 0, 0.04));
+      border-radius: var(--lk-radius-md, 12rpx);
+      transition: all 0.25s ease;
 
       @include when(active) {
         background-color: var(--lk-tabs-active-color);
         color: #ffffff;
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
       }
+    }
+
+    @include e(indicator-wrap) {
+      display: none;
     }
 
     @include e(line) {
@@ -110,17 +202,56 @@
     }
   }
 
-  @include when(stretch) {
+  /* ── pill 胶囊类型 ─────────────────────────── */
+  @include m(pill) {
+    @include e(header) {
+      border-bottom: none;
+    }
+
     @include e(nav-wrap) {
+      padding: 12rpx 24rpx;
+      gap: 12rpx;
+      background: var(--lk-fill-1, rgba(0, 0, 0, 0.04));
+      border-radius: var(--lk-radius-full, 999rpx);
+      margin: 16rpx 24rpx;
+    }
+
+    @include e(nav-item) {
+      padding: 14rpx 36rpx;
+      margin-right: 0;
+      border-radius: var(--lk-radius-full, 999rpx);
+      background: transparent;
+      transition: all 0.25s ease;
+
+      @include when(active) {
+        background-color: var(--lk-color-bg-container, #ffffff);
+        color: var(--lk-tabs-active-text-color);
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+      }
+    }
+
+    @include e(indicator-wrap) {
+      display: none;
+    }
+
+    @include e(line) {
+      display: none;
+    }
+  }
+
+  /* ── stretch 拉伸 (仅 tab 少时生效) ──────── */
+  &.is-stretch {
+    .lk-tabs__nav-wrap {
       display: flex;
     }
-    @include e(nav-item) {
+    .lk-tabs__nav-item {
       flex: 1;
       padding-left: 0;
       padding-right: 0;
     }
   }
 
+  /* ── content ───────────────────────────────── */
   @include e(content) {
     width: 100%;
     box-sizing: border-box;
@@ -131,4 +262,3 @@
   width: 100%;
   box-sizing: border-box;
 }
-
