@@ -2,51 +2,229 @@
 import { ref } from 'vue';
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import type { UploadFile } from '@/uni_modules/lucky-ui/components/lk-upload/upload.props';
 
-const fileList1 = ref([]);
-const fileList2 = ref([]);
-const fileList3 = ref([]);
-const fileList4 = ref([]);
+/* ── 基础用法 ── */
+const fileList1 = ref<UploadFile[]>([]);
 
-const handleChange = (files: any) => {
-  console.log('文件变化:', files);
+/* ── 限制数量 ── */
+const fileList2 = ref<UploadFile[]>([]);
+
+/* ── 限制大小 ── */
+const fileList3 = ref<UploadFile[]>([]);
+
+/* ── 上传前校验 ── */
+const fileList4 = ref<UploadFile[]>([]);
+
+/* ── 删除前确认（lk-modal） ── */
+const fileList5 = ref<UploadFile[]>([]);
+const deleteModalVisible = ref(false);
+const pendingDeleteIndex = ref(-1);
+const pendingDeleteName = ref('');
+
+/* ── 禁用状态 ── */
+const fileList6 = ref<UploadFile[]>([]);
+
+/* ── 自定义上传按钮 ── */
+const fileList7 = ref<UploadFile[]>([]);
+
+/* ── 带初始值 ── */
+const fileList8 = ref<UploadFile[]>([
+  {
+    uid: 'init-1',
+    name: 'demo.jpg',
+    url: 'https://picsum.photos/200/200?random=1',
+    status: 'success',
+  },
+  {
+    uid: 'init-2',
+    name: 'demo2.jpg',
+    url: 'https://picsum.photos/200/200?random=2',
+    status: 'success',
+  },
+]);
+
+/* ── 自定义上传函数（演示 customRequest） ── */
+const fileList9 = ref<UploadFile[]>([]);
+
+/* ── 回调函数 ── */
+
+const handleChange = (files: UploadFile[]) => {
+  console.log('文件列表变化:', files);
 };
 
-const beforeUpload = (file: any) => {
-  if (file.size > 1024 * 1024 * 2) {
-    uni.showToast({
-      title: '文件大小不能超过2MB',
-      icon: 'none',
-    });
-    return false;
-  }
-  return true;
+const handleAfterRead = (file: UploadFile | UploadFile[]) => {
+  console.log('文件读取完毕:', file);
+};
+
+const handleOversize = (file: UploadFile | UploadFile[]) => {
+  const name = Array.isArray(file)
+    ? file.map((f) => f.name).join(', ')
+    : file.name;
+  uni.showToast({ title: `${name} 超出 2MB 限制`, icon: 'none' });
+};
+
+const beforeRead = (file: UploadFile | UploadFile[]) => {
+  const check = (f: UploadFile) => {
+    if (f.type && f.type.includes('gif')) {
+      uni.showToast({ title: '不支持 GIF 格式', icon: 'none' });
+      return false;
+    }
+    return true;
+  };
+  if (Array.isArray(file)) return file.every(check);
+  return check(file);
+};
+
+/* 使用 lk-modal 进行删除前确认 */
+const beforeDelete = (file: UploadFile, { index }: { index: number }) => {
+  return new Promise<boolean>((resolve) => {
+    pendingDeleteIndex.value = index;
+    pendingDeleteName.value = file.name;
+    deleteModalVisible.value = true;
+    // 将 resolve 暂存到 ref 上，由 modal 回调决定
+    _deleteResolve = resolve;
+  });
+};
+
+let _deleteResolve: ((val: boolean) => void) | null = null;
+
+const onDeleteConfirm = () => {
+  deleteModalVisible.value = false;
+  if (_deleteResolve) _deleteResolve(true);
+  _deleteResolve = null;
+};
+
+const onDeleteCancel = () => {
+  deleteModalVisible.value = false;
+  if (_deleteResolve) _deleteResolve(false);
+  _deleteResolve = null;
+};
+
+const handleDelete = (file: UploadFile, { index }: { index: number }) => {
+  console.log(`已删除第 ${index + 1} 个文件:`, file.name);
+};
+
+const handleClickPreview = (file: UploadFile, { index }: { index: number }) => {
+  console.log(`预览第 ${index + 1} 个文件:`, file.url);
+};
+
+/* 模拟自定义上传（演示 customRequest 用法） */
+const mockCustomRequest: InstanceType<typeof LkUpload>['$props']['customRequest'] = ({
+  file,
+  onProgress,
+  onSuccess,
+}) => {
+  let progress = 0;
+  const timer = setInterval(() => {
+    progress += Math.floor(Math.random() * 20) + 10;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(timer);
+      onSuccess({ id: file.uid, url: file.url });
+    }
+    onProgress(progress);
+  }, 300);
 };
 </script>
 
 <template>
   <view class="component-demo">
-    <demo-block title="基础用法">
-      <lk-upload v-model="fileList1" :max-count="3" @change="handleChange" />
+    <demo-block title="基础用法" desc="选择图片后展示缩略图列表">
+      <lk-upload
+        v-model="fileList1"
+        @change="handleChange"
+        @after-read="handleAfterRead"
+      />
     </demo-block>
 
-    <demo-block title="文件预览">
-      <lk-upload v-model="fileList2" :max-count="5" preview />
+    <demo-block title="限制上传数量" desc="maxCount 限制最多上传 3 张">
+      <lk-upload
+        v-model="fileList2"
+        :max-count="3"
+        @change="handleChange"
+      />
     </demo-block>
 
-    <demo-block title="上传前校验">
-      <lk-upload v-model="fileList3" :before-upload="beforeUpload" />
+    <demo-block title="限制文件大小" desc="单个文件不超过 2MB，超出触发 oversize">
+      <lk-upload
+        v-model="fileList3"
+        :max-size="2 * 1024 * 1024"
+        @oversize="handleOversize"
+        @change="handleChange"
+      />
+    </demo-block>
+
+    <demo-block title="上传前校验" desc="beforeRead 校验文件类型，拒绝 GIF">
+      <lk-upload
+        v-model="fileList4"
+        :before-read="beforeRead"
+        @change="handleChange"
+      />
+    </demo-block>
+
+    <demo-block title="删除前确认（lk-modal）" desc="通过 beforeDelete + lk-modal 弹窗确认">
+      <lk-upload
+        v-model="fileList5"
+        :before-delete="beforeDelete"
+        @delete="handleDelete"
+        @change="handleChange"
+      />
+      <!-- 删除确认弹窗 -->
+      <lk-modal
+        v-model="deleteModalVisible"
+        title="删除确认"
+        @confirm="onDeleteConfirm"
+        @cancel="onDeleteCancel"
+      >
+        <text>确定删除「{{ pendingDeleteName }}」吗？</text>
+      </lk-modal>
     </demo-block>
 
     <demo-block title="禁用状态">
-      <lk-upload v-model="fileList4" disabled />
+      <lk-upload v-model="fileList6" disabled />
+    </demo-block>
+
+    <demo-block title="自定义上传按钮" desc="通过 trigger 插槽自定义">
+      <lk-upload v-model="fileList7" upload-text="" :max-count="1">
+        <template #trigger>
+          <lk-icon name="camera" size="48" />
+          <text class="upload-custom-text">拍照上传</text>
+        </template>
+      </lk-upload>
+    </demo-block>
+
+    <demo-block title="带初始值" desc="v-model 传入已有文件列表">
+      <lk-upload
+        v-model="fileList8"
+        :max-count="5"
+        @click-preview="handleClickPreview"
+        @delete="handleDelete"
+        @change="handleChange"
+      />
+    </demo-block>
+
+    <demo-block title="自定义上传函数" desc="customRequest 模拟上传进度">
+      <lk-upload
+        v-model="fileList9"
+        action="/mock/upload"
+        :custom-request="mockCustomRequest"
+        :max-count="3"
+        @change="handleChange"
+      />
     </demo-block>
   </view>
 </template>
+
 <style scoped lang="scss">
 .component-demo {
   display: flex;
   flex-direction: column;
   gap: 24rpx;
+}
+
+.upload-custom-text {
+  font-size: 22rpx;
+  margin-top: 8rpx;
 }
 </style>

@@ -7,8 +7,10 @@
 
   @include when(disabled) {
     opacity: 0.55;
+    pointer-events: none;
   }
 
+  /* ── 单个文件条目 ── */
   @include e(item) {
     width: 180rpx;
     height: 180rpx;
@@ -21,6 +23,113 @@
     justify-content: center;
   }
 
+  @include e(img) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ── 非图片文件展示 ── */
+  @include e(file) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 8rpx;
+    color: var(--lk-color-text-secondary);
+  }
+
+  @include e(file-name) {
+    font-size: 20rpx;
+    max-width: 140rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  /* ── 遮罩（上传中 / 失败） ── */
+  @include e(mask) {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8rpx;
+    color: #fff;
+
+    &--fail {
+      background: rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+    }
+  }
+
+  @include e(mask-text) {
+    font-size: 22rpx;
+    color: #fff;
+  }
+
+  /* ── 上传进度条 ── */
+  @include e(progress) {
+    width: 70%;
+    height: 8rpx;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4rpx;
+    overflow: hidden;
+  }
+
+  @include e(progress-bar) {
+    height: 100%;
+    background: var(--lk-color-primary);
+    border-radius: 4rpx;
+    transition: width 0.2s ease;
+  }
+
+  /* ── 删除按钮（亮暗模式自适应） ── */
+  @include e(del) {
+    --lk-upload-del-bg: var(--lk-color-fill-secondary);
+    --lk-upload-del-icon-color: var(--lk-color-text-inverse);
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40rpx;
+    height: 40rpx;
+    background: var(--lk-upload-del-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 var(--lk-radius-md) 0 var(--lk-radius-md);
+    color: var(--lk-upload-del-icon-color);
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── 成功角标 ── */
+  @include e(status-icon) {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 44rpx 44rpx;
+    border-color: transparent transparent var(--lk-color-success) transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    .lk-icon {
+      position: absolute;
+      right: 2rpx;
+      bottom: -40rpx;
+    }
+  }
+
+  /* ── 上传按钮 ── */
   @include e(add) {
     width: 180rpx;
     height: 180rpx;
@@ -35,32 +144,24 @@
     gap: var(--lk-spacing-xs);
     color: var(--lk-color-text-secondary);
     font-size: var(--lk-font-size-sm);
+    border: 2rpx dashed var(--lk-color-border);
+    transition: all 0.2s ease;
 
     &:active {
-      background: var(--lk-color-primary);
-      color: var(--lk-color-text-inverse);
+      background: var(--lk-color-fill-secondary);
+      border-color: var(--lk-color-primary);
+      color: var(--lk-color-primary);
     }
-  }
-
-  @include e(img) {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  @include e(del) {
-    position: absolute;
-    right: var(--lk-spacing-xs);
-    top: var(--lk-spacing-xs);
-    background: rgba(0, 0, 0, 0.55);
-    color: var(--lk-color-text-inverse);
-    font-size: 30rpx;
-    line-height: 1;
-    padding: 4rpx 12rpx 8rpx;
-    border-radius: var(--lk-radius-full);
   }
 
   @include e(add-text) {
     font-size: 22rpx;
+  }
+
+  /* ── 计数器 ── */
+  @include e(count) {
+    font-size: 20rpx;
+    color: var(--lk-color-text-tertiary);
+    margin-top: 4rpx;
   }
 }
