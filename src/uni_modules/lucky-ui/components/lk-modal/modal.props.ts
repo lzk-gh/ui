@@ -66,7 +66,7 @@ export const modalProps = {
 export type ModalProps = ExtractPropTypes<typeof modalProps>;
 
 export const modalEmits = {
-  'update:modelValue': (value: boolean) => true,
+  'update:modelValue': (_value: boolean) => true,
   open: () => true,
   close: () => true,
   confirm: () => true,

@@ -123,7 +123,7 @@ function onRightClick(event: unknown) {
     :id="id"
     class="lk-navbar"
     :class="[customClass, { 'is-fixed': fixed }]"
-    :style="[rootStyle, customStyle]"
+    :style="[rootStyle, customStyle as any]"
   >
     <!-- 状态栏占位 -->
     <view

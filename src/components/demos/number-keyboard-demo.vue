@@ -1,21 +1,3 @@
-<template>
-  <view class="component-demo">
-    <demo-block title="数字键盘">
-      <lk-button @click="show = true">弹出数字键盘</lk-button>
-      <view class="value">当前输入：{{ value }}</view>
-      <lk-number-keyboard
-        v-model:visible="show"
-        :random="true"
-        extra-key="."
-        :allow-decimal="true"
-        @input="onInput"
-        @delete="onDelete"
-        @confirm="onConfirm"
-      />
-    </demo-block>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
@@ -36,6 +18,23 @@ function onConfirm() {
 }
 </script>
 
+<template>
+  <view class="component-demo">
+    <demo-block title="数字键盘">
+      <lk-button @click="show = true">弹出数字键盘</lk-button>
+      <view class="value">当前输入：{{ value }}</view>
+      <lk-number-keyboard
+        v-model:visible="show"
+        :random="true"
+        extra-key="."
+        :allow-decimal="true"
+        @input="onInput"
+        @delete="onDelete"
+        @confirm="onConfirm"
+      />
+    </demo-block>
+  </view>
+</template>
 <style scoped lang="scss">
 .component-demo {
   display: flex;

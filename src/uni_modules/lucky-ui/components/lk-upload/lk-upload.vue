@@ -18,10 +18,14 @@ function select() {
   // #ifdef MP
   uni.chooseImage({
     count: props.max - files.value.length,
-    sizeType: props.sizeType as any,
+    sizeType: props.sizeType as UniApp.ChooseImageOptions['sizeType'],
     sourceType: ['album', 'camera'],
-    success(res: any) {
-      const paths = res.tempFilePaths || (res.tempFiles as any[])?.map((f: any) => f.path) || [];
+    success(res: UniApp.ChooseImageSuccessCallbackResult) {
+      const paths = Array.isArray(res.tempFilePaths)
+        ? res.tempFilePaths
+        : res.tempFilePaths
+          ? [res.tempFilePaths]
+          : [];
       add(paths);
     },
   });

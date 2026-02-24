@@ -39,9 +39,9 @@ function onClick() {
       class="lk-image__inner"
       :src="src"
       :mode="fit"
+      :lazy-load="lazy"
       @load="onLoad"
       @error="onError"
-      :lazy-load="lazy"
     />
     <view v-if="showLoading && state.loading" class="lk-image__placeholder">
       <lk-loading variant="spinner" size="40" />

@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkOverlay from '@/uni_modules/lucky-ui/components/lk-overlay/lk-overlay.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const visible1 = ref(false);
+const visible2 = ref(false);
+const visible3 = ref(false);
+const visible4 = ref(false);
+const visible5 = ref(false);
+const visible6 = ref(false);
+
+const showOverlay1 = () => {
+  visible1.value = true;
+};
+
+const showOverlay2 = () => {
+  visible2.value = true;
+};
+
+const showOverlay3 = () => {
+  visible3.value = true;
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -34,33 +60,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkOverlay from '@/uni_modules/lucky-ui/components/lk-overlay/lk-overlay.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const visible1 = ref(false);
-const visible2 = ref(false);
-const visible3 = ref(false);
-const visible4 = ref(false);
-const visible5 = ref(false);
-const visible6 = ref(false);
-
-const showOverlay1 = () => {
-  visible1.value = true;
-};
-
-const showOverlay2 = () => {
-  visible2.value = true;
-};
-
-const showOverlay3 = () => {
-  visible3.value = true;
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

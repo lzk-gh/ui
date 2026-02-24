@@ -1,23 +1,3 @@
-<template>
-  <view class="component-demo">
-    <demo-block title="基础用法">
-      <lk-upload v-model="fileList1" :max-count="3" @change="handleChange" />
-    </demo-block>
-
-    <demo-block title="文件预览">
-      <lk-upload v-model="fileList2" :max-count="5" preview />
-    </demo-block>
-
-    <demo-block title="上传前校验">
-      <lk-upload v-model="fileList3" :before-upload="beforeUpload" />
-    </demo-block>
-
-    <demo-block title="禁用状态">
-      <lk-upload v-model="fileList4" disabled />
-    </demo-block>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
@@ -44,6 +24,25 @@ const beforeUpload = (file: any) => {
 };
 </script>
 
+<template>
+  <view class="component-demo">
+    <demo-block title="基础用法">
+      <lk-upload v-model="fileList1" :max-count="3" @change="handleChange" />
+    </demo-block>
+
+    <demo-block title="文件预览">
+      <lk-upload v-model="fileList2" :max-count="5" preview />
+    </demo-block>
+
+    <demo-block title="上传前校验">
+      <lk-upload v-model="fileList3" :before-upload="beforeUpload" />
+    </demo-block>
+
+    <demo-block title="禁用状态">
+      <lk-upload v-model="fileList4" disabled />
+    </demo-block>
+  </view>
+</template>
 <style scoped lang="scss">
 .component-demo {
   display: flex;

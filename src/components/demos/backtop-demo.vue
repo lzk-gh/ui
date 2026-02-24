@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkBacktop from '@/uni_modules/lucky-ui/components/lk-backtop/lk-backtop.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+
+import { ref } from 'vue';
+
+const innerTop = ref(0);
+function onSvScroll(e: any) {
+  // #ifdef H5 || MP || APP-PLUS
+  innerTop.value = e.detail?.scrollTop || 0;
+  // #endif
+}
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="在容器内演示（受控模式）">
@@ -60,22 +75,6 @@
     </view>
   </view>
 </template>
-
-<script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkBacktop from '@/uni_modules/lucky-ui/components/lk-backtop/lk-backtop.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-
-import { ref } from 'vue';
-
-const innerTop = ref(0);
-function onSvScroll(e: any) {
-  // #ifdef H5 || MP || APP-PLUS
-  innerTop.value = e.detail?.scrollTop || 0;
-  // #endif
-}
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

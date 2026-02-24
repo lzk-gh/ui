@@ -7,7 +7,7 @@
   --lk-seg-radius: var(--lk-radius-full);
   --lk-seg-duration: var(--lk-transition-fast, 260ms);
   --lk-seg-easing: cubic-bezier(0.22, 1, 0.36, 1);
-  --lk-seg-inset: 4rpx;
+  --lk-seg-inset: 6rpx;
   --lk-seg-gutter: 0rpx;
 
   --lk-seg-track-bg: var(--lk-color-fill-tertiary);
@@ -37,12 +37,23 @@
 
   @include m(sm) {
     font-size: 22rpx;
+    .lk-segmented__item {
+      min-height: 60rpx;
+      padding: var(--lk-spacing-xs) var(--lk-spacing-md);
+    }
   }
   @include m(md) {
     font-size: 24rpx;
+    .lk-segmented__item {
+      min-height: 72rpx;
+    }
   }
   @include m(lg) {
     font-size: 28rpx;
+    .lk-segmented__item {
+      min-height: 88rpx;
+      padding: var(--lk-spacing-md) var(--lk-spacing-xl);
+    }
   }
 
   /* 滑块 */
@@ -73,7 +84,8 @@
       margin-left: 0;
     }
 
-    padding: var(--lk-spacing-xs) var(--lk-spacing-lg);
+    padding: var(--lk-spacing-sm) var(--lk-spacing-lg);
+    min-height: 72rpx;
     border-radius: var(--lk-seg-radius);
     color: var(--lk-seg-text);
     font-weight: 500;

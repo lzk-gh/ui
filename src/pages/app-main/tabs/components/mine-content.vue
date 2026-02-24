@@ -155,6 +155,7 @@ import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 
 defineProps<{
   contentHeight: string;
+  skipAnimation?: boolean;
 }>();
 
 const themeStore = useThemeStore();

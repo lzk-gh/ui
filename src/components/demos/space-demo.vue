@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="水平间距">
@@ -23,13 +29,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;
@@ -37,7 +36,6 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
   gap: 24rpx;
 }
 .cell {
-  background: var(--lk-color-bg-elevated);
   border-radius: var(--lk-radius-sm);
   background: var(--lk-color-primary-bg-soft);
 }

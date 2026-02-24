@@ -98,23 +98,25 @@ async function handleChange(type: 'minus' | 'plus' | 'input', val?: string) {
 }
 
 // 输入框事件
-const onInput = (e: any) => {
+function onInput(e: any) {
   current.value = e.detail.value;
-};
+}
 
-const onBlur = (e: any) => {
+function onBlur(e: any) {
   const val = Number(current.value);
   // Blur 时强制修正格式和范围
   handleChange('input', String(clamp(isNaN(val) ? Number(props.min) : val)));
   emit('blur', e);
-};
+}
 
-const onFocus = (e: any) => emit('focus', e);
+function onFocus(e: any) {
+  emit('focus', e);
+}
 
 // --- 长按处理 (简单实现) ---
 let longPressTimer: ReturnType<typeof setTimeout> | null = null;
 
-const onTouchStart = (type: 'minus' | 'plus') => {
+function onTouchStart(type: 'minus' | 'plus') {
   if (!props.longPress) return;
   handleChange(type); // 立即触发一次
 
@@ -123,15 +125,15 @@ const onTouchStart = (type: 'minus' | 'plus') => {
       handleChange(type);
     }, 200); // 长按触发间隔
   }, 600); // 长按触发阈值
-};
+}
 
-const onTouchEnd = () => {
+function onTouchEnd() {
   if (longPressTimer) {
     clearTimeout(longPressTimer);
     clearInterval(longPressTimer);
     longPressTimer = null;
   }
-};
+}
 
 watch(
   () => props.modelValue,

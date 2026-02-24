@@ -1,3 +1,56 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
+import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
+import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
+import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
+
+defineProps<{
+  contentHeight: string;
+  skipAnimation?: boolean;
+}>();
+
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
+
+const showMorePopup = ref(false);
+
+const goBack = () => {
+  uni.switchTab({ url: '/pages/tabbar/home/index' });
+};
+
+const handleMoreAction = (type: string) => {
+  showMorePopup.value = false;
+  uni.showToast({ title: `Action: ${type}`, icon: 'none' });
+};
+
+const cartItems = ref([
+  {
+    title: 'Modern light clothes',
+    sub: 'Dress modern',
+    price: '212.99',
+    count: 4,
+    image: 'https://picsum.photos/200/200?random=11',
+  },
+  {
+    title: 'Modern light clothes',
+    sub: 'Dress modern',
+    price: '162.99',
+    count: 1,
+    image: 'https://picsum.photos/200/200?random=12',
+  },
+]);
+
+const handlePay = () => {
+  uni.showToast({ title: '准备支付...', icon: 'loading' });
+};
+</script>
+
 <template>
   <scroll-view
     scroll-y
@@ -117,59 +170,6 @@
     <view class="safe-area-bottom"></view>
   </scroll-view>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-
-defineProps<{
-  contentHeight: string;
-}>();
-
-const themeStore = useThemeStore();
-const themeClass = computed(() => themeStore.themeClass);
-
-const showMorePopup = ref(false);
-
-const goBack = () => {
-  uni.switchTab({ url: '/pages/tabbar/home/index' });
-};
-
-const handleMoreAction = (type: string) => {
-  showMorePopup.value = false;
-  uni.showToast({ title: `Action: ${type}`, icon: 'none' });
-};
-
-const cartItems = ref([
-  {
-    title: 'Modern light clothes',
-    sub: 'Dress modern',
-    price: '212.99',
-    count: 4,
-    image: 'https://picsum.photos/200/200?random=11',
-  },
-  {
-    title: 'Modern light clothes',
-    sub: 'Dress modern',
-    price: '162.99',
-    count: 1,
-    image: 'https://picsum.photos/200/200?random=12',
-  },
-]);
-
-const handlePay = () => {
-  uni.showToast({ title: '准备支付...', icon: 'loading' });
-};
-</script>
-
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

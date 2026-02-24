@@ -175,7 +175,7 @@ export const useThemeStore = defineStore('theme', () => {
     const bg = isDark ? '#111827' : '#f5f5f7';
 
     // 设置底部 Tabbar 颜色 (对于原生 TabBar，虽然我们隐藏了，但设置下无妨)
-    uni.setTabbarColor?.({
+    uni.setTabBarStyle?.({
       color: isDark ? '#9ca3af' : '#6b7280',
       selectedColor: brandColor.value,
       backgroundColor: isDark ? '#1f2937' : '#ffffff',
@@ -272,7 +272,9 @@ export const useThemeStore = defineStore('theme', () => {
     tabbarMode.value = mode;
     try {
       uni.setStorageSync('lk-tabbar-mode', mode);
-    } catch {}
+    } catch {
+      // ignore
+    }
   }
 
   /**
@@ -284,7 +286,9 @@ export const useThemeStore = defineStore('theme', () => {
       if (['plain', 'block', 'flashlight'].includes(saved)) {
         tabbarMode.value = saved;
       }
-    } catch {}
+    } catch {
+      // ignore
+    }
   }
 
   /**

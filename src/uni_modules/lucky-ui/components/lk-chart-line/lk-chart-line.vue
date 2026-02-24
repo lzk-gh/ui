@@ -2,7 +2,7 @@
 import { computed, ref, watch, onUnmounted } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
-import { chartLineProps, chartLineEmits, type LineChartPoint } from './chart-line.props';
+import { chartLineProps, chartLineEmits } from './chart-line.props';
 
 defineOptions({ name: 'LkChartLine' });
 
@@ -136,7 +136,6 @@ function drawTooltip(
   ctx.save();
   ctx.font = '12px sans-serif';
   const padX = 8;
-  const padY = 6;
   const metrics = ctx.measureText(text);
   const w = Math.max(24, metrics.width + padX * 2);
   const h = 22;
@@ -467,7 +466,7 @@ onUnmounted(() => {
     :id="wrapperId"
     class="lk-chart"
     :class="props.customClass"
-    :style="[{ height: heightStyle }, props.customStyle]"
+    :style="[{ height: heightStyle }, props.customStyle as any]"
     @touchstart="onMove"
     @touchmove="onMove"
     @touchend="onEnd"

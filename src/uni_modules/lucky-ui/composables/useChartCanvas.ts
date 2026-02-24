@@ -8,12 +8,33 @@ import {
   getCurrentInstance,
 } from 'vue';
 
-export type MaybeCanvas2DContext = CanvasRenderingContext2D | any;
+type Canvas2DLike = CanvasRenderingContext2D & {
+  setTransform?: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
+  scale?: (x: number, y: number) => void;
+};
 
-const hasRAF = typeof requestAnimationFrame === 'function';
+type CanvasNodeLike = {
+  width: number;
+  height: number;
+  getContext?: (type: '2d') => MaybeCanvas2DContext | null;
+};
+
+type RectLike = {
+  left?: number;
+  top?: number;
+  width: number;
+  height: number;
+};
+
+export type MaybeCanvas2DContext = Canvas2DLike;
+
+const raf = globalThis.requestAnimationFrame?.bind(globalThis);
+const caf = globalThis.cancelAnimationFrame?.bind(globalThis);
+const hasRAF = typeof raf === 'function' && typeof caf === 'function';
 const rAF = (cb: () => void): number =>
-  hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
-const cAF = (id: number): void => (hasRAF ? (cancelAnimationFrame as any)(id) : clearTimeout(id));
+  hasRAF ? raf!(cb) : (setTimeout(cb, 16) as unknown as number);
+const cAF = (id: number): void =>
+  hasRAF ? caf!(id) : clearTimeout(id as unknown as ReturnType<typeof setTimeout>);
 
 export interface ChartSize {
   width: number;
@@ -22,13 +43,13 @@ export interface ChartSize {
 
 export interface ChartCanvasInfo {
   ctx: MaybeCanvas2DContext;
-  canvas: any;
+  canvas: CanvasNodeLike | HTMLCanvasElement;
   size: ChartSize;
   dpr: number;
   px: (rpx: number) => number;
 }
 
-export type ChartRenderer<TExtra = any> = (
+export type ChartRenderer<TExtra = unknown> = (
   info: ChartCanvasInfo,
   progress: number,
   extra?: TExtra
@@ -43,14 +64,14 @@ export interface UseChartCanvasOptions {
   autoSize?: boolean;
 }
 
-export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
-  const instance = getCurrentInstance()?.proxy as any;
+export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions) {
+  const instance = getCurrentInstance()?.proxy as unknown;
 
   const ready = ref(false);
   const size = ref<ChartSize>({ width: 0, height: 0 });
   const dpr = ref(1);
 
-  const canvasNode = shallowRef<any>(null);
+  const canvasNode = shallowRef<CanvasNodeLike | HTMLCanvasElement | null>(null);
   const ctx = shallowRef<MaybeCanvas2DContext | null>(null);
 
   const renderer = shallowRef<ChartRenderer<TExtra> | null>(null);
@@ -65,7 +86,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
 
   let rafId: number | undefined;
   let animRafId: number | undefined;
-  let retryTimer: any;
+  let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
   function px(rpx: number) {
     // rpx -> px
@@ -81,11 +102,15 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
         // @ts-ignore
         return (uni.getSystemInfoSync()?.pixelRatio as number) || 1;
       }
-    } catch {}
+    } catch {
+      // ignore
+    }
     // H5 fallback
     try {
       if (typeof window !== 'undefined') return (window.devicePixelRatio as number) || 1;
-    } catch {}
+    } catch {
+      // ignore
+    }
     return 1;
   }
 
@@ -104,19 +129,20 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
         .in(instance)
         .select(`#${options.wrapperId}`)
         .boundingClientRect(rect => {
+          const rectObj = rect as RectLike | null;
           if (
-            rect &&
-            !Array.isArray(rect) &&
-            typeof rect.width === 'number' &&
-            typeof rect.height === 'number'
+            rectObj &&
+            !Array.isArray(rectObj) &&
+            typeof rectObj.width === 'number' &&
+            typeof rectObj.height === 'number'
           ) {
             wrapperRect.value = {
-              left: (rect as any).left ?? 0,
-              top: (rect as any).top ?? 0,
-              width: rect.width,
-              height: rect.height,
+              left: rectObj.left ?? 0,
+              top: rectObj.top ?? 0,
+              width: rectObj.width,
+              height: rectObj.height,
             };
-            resolve({ width: rect.width, height: rect.height });
+            resolve({ width: rectObj.width, height: rectObj.height });
           } else {
             resolve(size.value);
           }
@@ -137,8 +163,10 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
         .in(instance)
         .select(`#${options.canvasId}`)
         // node: true 用于小程序 type="2d" 获取 canvas node
-        .fields({ node: true, size: true } as any, (res: any) => {
-          const node = res?.node || null;
+        .fields(
+          { node: true, size: true } as unknown as UniApp.NodeField,
+          (res: unknown) => {
+          const node = (res as { node?: CanvasNodeLike | null } | null)?.node || null;
           canvasNode.value = node;
 
           const context = node?.getContext ? node.getContext('2d') : null;
@@ -148,16 +176,19 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
           if (!ctx.value) {
             try {
               if (typeof document !== 'undefined') {
-                const el = document.getElementById(options.canvasId) as any;
+                const el = document.getElementById(options.canvasId) as HTMLCanvasElement | null;
                 if (el && typeof el.getContext === 'function') {
                   canvasNode.value = el;
                   ctx.value = el.getContext('2d');
                 }
               }
-            } catch {}
+            } catch {
+              // ignore
+            }
           }
           resolve();
-        })
+        }
+        )
         .exec();
     });
   }
@@ -212,7 +243,7 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
 
   function clear() {
     if (!ctx.value) return;
-    ctx.value.clearRect(0, 0, size.value.width, size.value.height);
+    ctx.value?.clearRect?.(0, 0, size.value.width, size.value.height);
   }
 
   function render(progress = 1, extra?: TExtra) {
@@ -269,7 +300,13 @@ export function useChartCanvas<TExtra = any>(options: UseChartCanvasOptions) {
   }
 
   function getRelativePoint(e: unknown): { x: number; y: number } | null {
-    const ev = e as any;
+    const ev = e as {
+      offsetX?: number;
+      offsetY?: number;
+      touches?: Array<{ x?: number; y?: number; clientX?: number; clientY?: number }>;
+      changedTouches?: Array<{ x?: number; y?: number; clientX?: number; clientY?: number }>;
+      detail?: { x?: number; y?: number };
+    };
     // H5
     if (ev && typeof ev.offsetX === 'number' && typeof ev.offsetY === 'number') {
       return { x: ev.offsetX, y: ev.offsetY };

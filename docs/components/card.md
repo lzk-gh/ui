@@ -1,5 +1,6 @@
 ---
 title: Card 卡片
+phone: card
 ---
 
 # Card 卡片
@@ -12,5 +13,41 @@ title: Card 卡片
 <lk-card title="标题">内容</lk-card>
 ```
 
-参考 Demo：
-- https://github.com/lzk-gh/ui/blob/main/src/components/demos/card-demo.vue
+## 推荐示例
+
+### 1) 直接复用项目 Demo（推荐）
+
+```vue
+<script setup lang="ts">
+import CardDemo from '@/components/demos/card-demo.vue'
+</script>
+
+<template>
+  <CardDemo />
+</template>
+```
+
+### 2) 在业务页中按需组合
+
+```vue
+<template>
+  <view class="page-demo">
+    <lk-card />
+  </view>
+</template>
+```
+
+## API
+
+### Props
+
+- 组件参数较多，建议优先参考：`src/uni_modules/lucky-ui/components/lk-card/`
+- 交互行为与默认值以 `*.props.ts` 为准
+
+### Events
+
+- 事件名称与参数说明以组件源码和对应 demo 为准
+
+### Slots
+
+- 插槽能力以组件模板实现为准（建议结合 demo 对照使用）

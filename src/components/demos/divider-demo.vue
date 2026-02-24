@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import LkDivider from '@/uni_modules/lucky-ui/components/lk-divider/lk-divider.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础分割线">
@@ -46,13 +52,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import LkDivider from '@/uni_modules/lucky-ui/components/lk-divider/lk-divider.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

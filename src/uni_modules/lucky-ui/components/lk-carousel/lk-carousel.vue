@@ -102,7 +102,7 @@ function measureActiveHeight() {
   if (!props.autoHeight) return;
   const idx = innerCurrent.value;
 
-  const query = () => {
+  function query() {
     const q = uni.createSelectorQuery().in(instance as any);
     q.select(`#lk-slide-${idx}`)
       .boundingClientRect(rect => {
@@ -111,7 +111,7 @@ function measureActiveHeight() {
         if (h) currentHeight.value = h;
       })
       .exec();
-  };
+  }
 
   nextTick(() => {
     query();
@@ -211,11 +211,12 @@ onMounted(() => {
       :previous-margin="previousMargin"
       :next-margin="nextMargin"
       :duration="300"
-      @change="onSwiperChange"
       :indicator-dots="false"
+      @change="onSwiperChange"
     >
       <swiper-item v-for="(item, index) in carouselList" :key="index">
         <view
+          :id="`lk-slide-${index}`"
           class="lk-carousel__item-wrap"
           :class="{
             'is-card': card,
@@ -224,7 +225,6 @@ onMounted(() => {
             'is-auto-height': autoHeight,
           }"
           :style="card ? cardStyleVars : undefined"
-          :id="`lk-slide-${index}`"
           @click="onItemClick(index)"
         >
           <template v-if="hasDefaultSlot">
@@ -254,8 +254,8 @@ onMounted(() => {
           {{ innerCurrent + 1 }}/{{ length }}
         </view>
         <view
-          v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           v-for="(_, index) in carouselList"
+          v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           :key="index"
           class="lk-carousel__indicator"
           :class="{
@@ -277,8 +277,8 @@ onMounted(() => {
     <!-- 外部指示器 (Outside) -->
     <template v-if="!props.indicatorOverlay && showIndicators">
       <view
-        class="lk-carousel__indicators is-outside"
         id="lk-indicators-outside"
+        class="lk-carousel__indicators is-outside"
         :class="[
           `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
           `is-align-${indicatorAlign}`,
@@ -292,8 +292,8 @@ onMounted(() => {
           {{ innerCurrent + 1 }}/{{ length }}
         </view>
         <view
-          v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           v-for="(_, index) in carouselList"
+          v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           :key="index"
           class="lk-carousel__indicator"
           :class="{

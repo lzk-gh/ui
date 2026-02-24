@@ -6,7 +6,7 @@ import { LK_ICONS_TTF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/f
 
 onLaunch(async () => {
   // 立即隐藏原生 tabBar，防止闪烁
-  uni.hideTabBar({ animation: false });
+  uni.hideTabBar({ animation: false, fail: () => {} });
 
   // 初始化图标字体
   await initLkIconsFont({ source: 'base64', data: LK_ICONS_TTF_BASE64 });

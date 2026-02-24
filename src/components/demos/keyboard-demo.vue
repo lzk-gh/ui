@@ -1,3 +1,69 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkKeyboard from '@/uni_modules/lucky-ui/components/lk-keyboard/lk-keyboard.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import type {
+  KeyboardType,
+  KeyboardTheme,
+} from '@/uni_modules/lucky-ui/components/lk-keyboard/keyboard.props';
+
+const inputValue = ref('');
+const keyboardVisible = ref(false);
+const keyboardType = ref<KeyboardType>('number');
+const keyboardTheme = ref<KeyboardTheme>('light');
+const keyboardTitle = ref('');
+const keyboardShowDot = ref(false);
+const keyboardRandom = ref(false);
+const keyboardMaxLength = ref(0);
+const keyboardShowClose = ref(true);
+
+interface KeyboardOptions {
+  theme?: KeyboardTheme;
+  title?: string;
+  showDot?: boolean;
+  random?: boolean;
+  maxLength?: number;
+  showClose?: boolean;
+}
+
+function showKeyboard(type: KeyboardType, options: KeyboardOptions = {}) {
+  keyboardType.value = type;
+  keyboardTheme.value = options.theme || 'light';
+  keyboardTitle.value = options.title || '';
+  keyboardShowDot.value = options.showDot || false;
+  keyboardRandom.value = options.random || false;
+  keyboardMaxLength.value = options.maxLength || 0;
+  keyboardShowClose.value = options.showClose !== false;
+  keyboardVisible.value = true;
+}
+
+function showNumberKeyboard() {
+  showKeyboard('number');
+}
+
+function onInput(key: string) {
+  console.log('输入:', key);
+}
+
+function onDelete() {
+  console.log('删除');
+}
+
+function onConfirm(value: string) {
+  console.log('确认:', value);
+  uni.showToast({
+    title: `输入完成: ${value}`,
+    icon: 'none',
+  });
+}
+
+function onClose() {
+  console.log('关闭');
+}
+</script>
+
 <template>
   <view class="component-demo">
     <!-- 输入展示区 -->
@@ -88,73 +154,6 @@
     />
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkKeyboard from '@/uni_modules/lucky-ui/components/lk-keyboard/lk-keyboard.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import type {
-  KeyboardType,
-  KeyboardTheme,
-} from '@/uni_modules/lucky-ui/components/lk-keyboard/keyboard.props';
-
-const inputValue = ref('');
-const keyboardVisible = ref(false);
-const keyboardType = ref<KeyboardType>('number');
-const keyboardTheme = ref<KeyboardTheme>('light');
-const keyboardTitle = ref('');
-const keyboardShowDot = ref(false);
-const keyboardRandom = ref(false);
-const keyboardMaxLength = ref(0);
-const keyboardShowClose = ref(true);
-
-interface KeyboardOptions {
-  theme?: KeyboardTheme;
-  title?: string;
-  showDot?: boolean;
-  random?: boolean;
-  maxLength?: number;
-  showClose?: boolean;
-}
-
-function showKeyboard(type: KeyboardType, options: KeyboardOptions = {}) {
-  keyboardType.value = type;
-  keyboardTheme.value = options.theme || 'light';
-  keyboardTitle.value = options.title || '';
-  keyboardShowDot.value = options.showDot || false;
-  keyboardRandom.value = options.random || false;
-  keyboardMaxLength.value = options.maxLength || 0;
-  keyboardShowClose.value = options.showClose !== false;
-  keyboardVisible.value = true;
-}
-
-function showNumberKeyboard() {
-  showKeyboard('number');
-}
-
-function onInput(key: string) {
-  console.log('输入:', key);
-}
-
-function onDelete() {
-  console.log('删除');
-}
-
-function onConfirm(value: string) {
-  console.log('确认:', value);
-  uni.showToast({
-    title: `输入完成: ${value}`,
-    icon: 'none',
-  });
-}
-
-function onClose() {
-  console.log('关闭');
-}
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

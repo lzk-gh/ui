@@ -1,3 +1,151 @@
+<script setup lang="ts">
+import { computed, onMounted, watch } from 'vue';
+import { useThemeStore } from '@/stores/theme';
+import LkLoading from '../lk-loading/lk-loading.vue';
+import LkIcon from '../lk-icon/lk-icon.vue';
+import {
+  useTabbarContainer,
+  initTabbarContainer,
+  setTabbarDebug,
+  type TabConfig,
+} from '../../core/src/tabbar-container';
+
+const themeStore = useThemeStore();
+
+const props = withDefaults(
+  defineProps<{
+    /** Tab 配置 */
+    tabs: TabConfig[];
+    /** 默认激活的 Tab ID */
+    defaultTab?: string;
+    /** 是否开启调试模式 */
+    debug?: boolean;
+    /** Tabbar 模式 */
+    mode?:
+      | 'plain'
+      | 'block'
+      | 'flashlight'
+      | 'float'
+      | 'marker-top'
+      | 'marker-bottom'
+      | 'dot-slide'
+      | 'bubble'
+      | 'ripple'
+      | 'mask-fill'
+      | 'text-raise';
+    /** 自定义类名 */
+    customClass?: string;
+    /** 自定义样式 */
+    customStyle?: string | Record<string, string>;
+    /** 预加载延迟（毫秒） */
+    preloadDelay?: number;
+    /** 是否预加载所有 Tab */
+    preloadAll?: boolean;
+  }>(),
+  {
+    defaultTab: '',
+    debug: false,
+    mode: undefined,
+    customClass: '',
+    customStyle: '',
+    preloadDelay: 2000,
+    preloadAll: true,
+  }
+);
+
+const emit = defineEmits<{
+  (e: 'change', tabId: string): void;
+  (e: 'beforeChange', tabId: string, oldTabId: string): void;
+}>();
+
+const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
+
+const activeMode = computed(() => props.mode || themeStore.tabbarMode);
+
+const containerClass = computed(() => [
+  'lk-tabbar-container',
+  `lk-tabbar-container--${activeMode.value}`,
+  props.customClass,
+]);
+
+const containerStyle = computed(() => {
+  if (typeof props.customStyle === 'string') {
+    return props.customStyle;
+  }
+  return Object.entries(props.customStyle || {})
+    .map(([k, v]) => `${k}: ${v}`)
+    .join('; ');
+});
+
+const activeIndex = computed(() => {
+  return props.tabs.findIndex(tab => tab.id === activeId.value);
+});
+
+const activeBgStyle = computed(() => {
+  const count = props.tabs.length;
+  if (count === 0 || activeIndex.value === -1) return { display: 'none' };
+
+  const width = 100 / count;
+  const left = activeIndex.value * width;
+
+  return {
+    '--item-width': `${width}%`,
+    '--item-left': `${left}%`,
+    '--item-count': count,
+    '--active-index': activeIndex.value,
+    '--active-center': `${left + width / 2}%`,
+  };
+});
+
+// 处理 Tab 点击
+async function handleTabClick(tab: TabConfig) {
+  if (tab.id === activeId.value) return;
+
+  const oldTabId = activeId.value;
+  emit('beforeChange', tab.id, oldTabId);
+
+  await switchTab(tab.id);
+  emit('change', tab.id);
+}
+
+// 重试加载
+async function retryLoad(tabId: string) {
+  const instance = getTabInstance(tabId);
+  if (instance) {
+    instance.loaded = false;
+    instance.error = null;
+  }
+  await switchTab(tabId);
+}
+
+// 初始化
+onMounted(() => {
+  if (props.debug) {
+    setTabbarDebug(true);
+  }
+
+  // 初始化容器
+  initTabbarContainer(props.tabs, props.defaultTab || props.tabs[0]?.id);
+
+  // 预加载其他 Tab
+  if (props.preloadAll) {
+    setTimeout(() => {
+      const otherTabs = props.tabs.filter(t => t.id !== activeId.value).map(t => t.id);
+      preloadTabs(otherTabs);
+    }, props.preloadDelay);
+  }
+});
+
+// 监听 tabs 变化
+watch(
+  () => props.tabs,
+  newTabs => {
+    initTabbarContainer(newTabs, activeId.value || props.defaultTab);
+  },
+  { deep: true }
+);
+</script>
+
 <template>
   <view class="lk-tabbar-container" :class="containerClass" :style="containerStyle">
     <!-- Tab 内容区域 -->
@@ -91,154 +239,6 @@
     <view class="lk-tabbar-container__placeholder" />
   </view>
 </template>
-
-<script setup lang="ts">
-import { computed, onMounted, watch } from 'vue';
-import { useThemeStore } from '@/stores/theme';
-import LkLoading from '../lk-loading/lk-loading.vue';
-import LkIcon from '../lk-icon/lk-icon.vue';
-import {
-  useTabbarContainer,
-  initTabbarContainer,
-  setTabbarDebug,
-  type TabConfig,
-} from '../../core/src/tabbar-container';
-
-const themeStore = useThemeStore();
-
-const props = withDefaults(
-  defineProps<{
-    /** Tab 配置 */
-    tabs: TabConfig[];
-    /** 默认激活的 Tab ID */
-    defaultTab?: string;
-    /** 是否开启调试模式 */
-    debug?: boolean;
-    /** Tabbar 模式 */
-    mode?:
-      | 'plain'
-      | 'block'
-      | 'flashlight'
-      | 'float'
-      | 'marker-top'
-      | 'marker-bottom'
-      | 'dot-slide'
-      | 'bubble'
-      | 'ripple'
-      | 'mask-fill'
-      | 'text-raise';
-    /** 自定义类名 */
-    customClass?: string;
-    /** 自定义样式 */
-    customStyle?: string | Record<string, string>;
-    /** 预加载延迟（毫秒） */
-    preloadDelay?: number;
-    /** 是否预加载所有 Tab */
-    preloadAll?: boolean;
-  }>(),
-  {
-    defaultTab: '',
-    debug: false,
-    mode: undefined,
-    customClass: '',
-    customStyle: '',
-    preloadDelay: 2000,
-    preloadAll: true,
-  }
-);
-
-const emit = defineEmits<{
-  (e: 'change', tabId: string): void;
-  (e: 'beforeChange', tabId: string, oldTabId: string): void;
-}>();
-
-const { activeId, tabs, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
-
-const activeMode = computed(() => props.mode || themeStore.tabbarMode);
-
-const containerClass = computed(() => [
-  'lk-tabbar-container',
-  `lk-tabbar-container--${activeMode.value}`,
-  props.customClass,
-]);
-
-const containerStyle = computed(() => {
-  if (typeof props.customStyle === 'string') {
-    return props.customStyle;
-  }
-  return Object.entries(props.customStyle || {})
-    .map(([k, v]) => `${k}: ${v}`)
-    .join('; ');
-});
-
-const activeIndex = computed(() => {
-  return props.tabs.findIndex(tab => tab.id === activeId.value);
-});
-
-const activeBgStyle = computed(() => {
-  const count = props.tabs.length;
-  if (count === 0 || activeIndex.value === -1) return { display: 'none' };
-
-  const width = 100 / count;
-  const left = activeIndex.value * width;
-
-  return {
-    '--item-width': `${width}%`,
-    '--item-left': `${left}%`,
-    '--item-count': count,
-    '--active-index': activeIndex.value,
-    '--active-center': `${left + width / 2}%`,
-  };
-});
-
-// 处理 Tab 点击
-const handleTabClick = async (tab: TabConfig) => {
-  if (tab.id === activeId.value) return;
-
-  const oldTabId = activeId.value;
-  emit('beforeChange', tab.id, oldTabId);
-
-  await switchTab(tab.id);
-  emit('change', tab.id);
-};
-
-// 重试加载
-const retryLoad = async (tabId: string) => {
-  const instance = getTabInstance(tabId);
-  if (instance) {
-    instance.loaded = false;
-    instance.error = null;
-  }
-  await switchTab(tabId);
-};
-
-// 初始化
-onMounted(() => {
-  if (props.debug) {
-    setTabbarDebug(true);
-  }
-
-  // 初始化容器
-  initTabbarContainer(props.tabs, props.defaultTab || props.tabs[0]?.id);
-
-  // 预加载其他 Tab
-  if (props.preloadAll) {
-    setTimeout(() => {
-      const otherTabs = props.tabs.filter(t => t.id !== activeId.value).map(t => t.id);
-      preloadTabs(otherTabs);
-    }, props.preloadDelay);
-  }
-});
-
-// 监听 tabs 变化
-watch(
-  () => props.tabs,
-  newTabs => {
-    initTabbarContainer(newTabs, activeId.value || props.defaultTab);
-  },
-  { deep: true }
-);
-</script>
 
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;

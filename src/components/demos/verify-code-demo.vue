@@ -1,3 +1,77 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
+
+// 基础用法
+const code1 = ref('');
+
+// 不同长度
+const code4 = ref('');
+const code6 = ref('');
+const code8 = ref('');
+
+// 样式变体
+const codeBox = ref('');
+const codeUnderline = ref('');
+const codeRounded = ref('');
+
+// 密码模式
+const codeMask = ref('');
+
+// 状态展示
+const codeDefault = ref('');
+const codeError = ref('1234');
+const codeSuccess = ref('5678');
+const codeDisabled = ref('0000');
+
+// 倒计时
+const countdownRef = ref<InstanceType<typeof LkVerifyCode>>();
+const codeCountdown = ref('');
+
+// 自定义颜色
+const codeCustom = ref('');
+
+// 文本类型
+const codeText = ref('');
+
+// 方法调用
+const methodRef = ref<InstanceType<typeof LkVerifyCode>>();
+const codeMethod = ref('');
+
+function onFinish(v: string) {
+  uni.showToast({ title: `输入完成: ${v}`, icon: 'none' });
+}
+
+function onSend() {
+  uni.showToast({ title: '验证码已发送', icon: 'none' });
+}
+
+function onResend() {
+  uni.showToast({ title: '验证码已重新发送', icon: 'none' });
+}
+
+function onCountdownFinish(v: string) {
+  uni.showToast({ title: `验证完成: ${v}`, icon: 'success' });
+}
+
+function handleFocus() {
+  methodRef.value?.focus();
+}
+
+function handleBlur() {
+  methodRef.value?.blur();
+}
+
+function handleClear() {
+  methodRef.value?.clear();
+}
+
+function handleSetValue() {
+  methodRef.value?.setValue('123456');
+}
+</script>
+
 <template>
   <view class="component-demo">
     <!-- 基础用法 -->
@@ -112,81 +186,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
-
-// 基础用法
-const code1 = ref('');
-
-// 不同长度
-const code4 = ref('');
-const code6 = ref('');
-const code8 = ref('');
-
-// 样式变体
-const codeBox = ref('');
-const codeUnderline = ref('');
-const codeRounded = ref('');
-
-// 密码模式
-const codeMask = ref('');
-
-// 状态展示
-const codeDefault = ref('');
-const codeError = ref('1234');
-const codeSuccess = ref('5678');
-const codeDisabled = ref('0000');
-
-// 倒计时
-const countdownRef = ref<InstanceType<typeof LkVerifyCode>>();
-const codeCountdown = ref('');
-
-// 自定义颜色
-const codeCustom = ref('');
-
-// 文本类型
-const codeText = ref('');
-
-// 方法调用
-const methodRef = ref<InstanceType<typeof LkVerifyCode>>();
-const codeMethod = ref('');
-
-function onFinish(v: string) {
-  uni.showToast({ title: '输入完成: ' + v, icon: 'none' });
-}
-
-function onSend() {
-  uni.showToast({ title: '验证码已发送', icon: 'none' });
-}
-
-function onResend() {
-  uni.showToast({ title: '验证码已重新发送', icon: 'none' });
-}
-
-function onCountdownFinish(v: string) {
-  uni.showToast({ title: '验证完成: ' + v, icon: 'success' });
-}
-
-function handleFocus() {
-  methodRef.value?.focus();
-}
-
-function handleBlur() {
-  methodRef.value?.blur();
-}
-
-function handleClear() {
-  methodRef.value?.clear();
-}
-
-function handleSetValue() {
-  methodRef.value?.setValue('123456');
-}
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

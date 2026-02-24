@@ -115,7 +115,7 @@ export const tooltipProps = {
 export type TooltipProps = ExtractPropTypes<typeof tooltipProps>;
 
 export const tooltipEmits = {
-  'update:modelValue': (val: boolean) => true,
+  'update:modelValue': (_val: boolean) => true,
   show: () => true,
   hide: () => true,
 };

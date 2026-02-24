@@ -1,44 +1,3 @@
-<template>
-  <view class="component-demo">
-    <demo-block title="单列选择器">
-      <lk-button @click="show = true">选择颜色</lk-button>
-      <view class="result">当前：{{ display }}</view>
-      <lk-picker
-        v-model:visible="show"
-        v-model="value"
-        mode="single"
-        title="请选择颜色"
-        :columns="columns"
-        @confirm="onConfirm"
-      />
-    </demo-block>
-
-    <demo-block title="多列选择器">
-      <lk-button @click="show2 = true">选择日期时段</lk-button>
-      <view class="result">当前：{{ value2.join(' / ') }}</view>
-      <lk-picker
-        v-model:visible="show2"
-        v-model="value2"
-        mode="multi"
-        title="日期/时段"
-        :columns="columns2"
-      />
-    </demo-block>
-
-    <demo-block title="级联选择器">
-      <lk-button @click="show3 = true">选择分类</lk-button>
-      <view class="result">当前：{{ cascadeDisplay }}</view>
-      <lk-picker
-        v-model:visible="show3"
-        v-model="value3"
-        mode="cascade"
-        title="选择分类"
-        :columns="cascadeData"
-      />
-    </demo-block>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
@@ -60,7 +19,7 @@ const display = computed(() => {
   return m.get(value.value) || '';
 });
 
-function onConfirm(_v: string | number) {
+function onConfirm(_v: string | number | (string | number)[]) {
   uni.showToast({ title: `已选择: ${display.value}`, icon: 'none' });
 }
 
@@ -137,6 +96,47 @@ const cascadeDisplay = computed(() => {
   return value3.value.join(' > ');
 });
 </script>
+
+<template>
+  <view class="component-demo">
+    <demo-block title="单列选择器">
+      <lk-button @click="show = true">选择颜色</lk-button>
+      <view class="result">当前：{{ display }}</view>
+      <lk-picker
+        v-model:visible="show"
+        v-model="value"
+        mode="single"
+        title="请选择颜色"
+        :columns="columns"
+        @confirm="onConfirm"
+      />
+    </demo-block>
+
+    <demo-block title="多列选择器">
+      <lk-button @click="show2 = true">选择日期时段</lk-button>
+      <view class="result">当前：{{ value2.join(' / ') }}</view>
+      <lk-picker
+        v-model:visible="show2"
+        v-model="value2"
+        mode="multi"
+        title="日期/时段"
+        :columns="columns2"
+      />
+    </demo-block>
+
+    <demo-block title="级联选择器">
+      <lk-button @click="show3 = true">选择分类</lk-button>
+      <view class="result">当前：{{ cascadeDisplay }}</view>
+      <lk-picker
+        v-model:visible="show3"
+        v-model="value3"
+        mode="cascade"
+        title="选择分类"
+        :columns="cascadeData"
+      />
+    </demo-block>
+  </view>
+</template>
 
 <style scoped lang="scss">
 .component-demo {

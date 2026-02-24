@@ -1,3 +1,40 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue';
+import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+// Fixed 模式
+const activeFixed = ref('home');
+
+// Slider 模式
+const activeSlider = ref('home');
+
+// Bump 模式
+const activeBump = ref('home');
+
+// List 配置模式
+const activeList = ref(0);
+const tabbarList = [
+  { icon: 'house-fill', text: '首页' },
+  { icon: 'compass-fill', text: '发现' },
+  { icon: 'chat-dots-fill', text: '消息', badge: 12 },
+  { icon: 'person-fill', text: '我的' },
+];
+
+// 自定义颜色
+const activeColor = ref('home');
+
+// 毛玻璃效果
+const activeGlass = ref('home');
+
+// 徽标
+const activeBadge = ref('home');
+
+// 图标切换
+const activeIcon = ref('home');
+</script>
+
 <template>
   <view class="component-demo">
     <!-- ============================================================ -->
@@ -115,44 +152,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue';
-import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-// Fixed 模式
-const activeFixed = ref('home');
-
-// Slider 模式
-const activeSlider = ref('home');
-
-// Bump 模式
-const activeBump = ref('home');
-
-// List 配置模式
-const activeList = ref(0);
-const tabbarList = [
-  { icon: 'house-fill', text: '首页' },
-  { icon: 'compass-fill', text: '发现' },
-  { icon: 'chat-dots-fill', text: '消息', badge: 12 },
-  { icon: 'person-fill', text: '我的' },
-];
-
-// 自定义颜色
-const activeColor = ref('home');
-
-// 毛玻璃效果
-const activeGlass = ref('home');
-
-// 徽标
-const activeBadge = ref('home');
-
-// 图标切换
-const activeIcon = ref('home');
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

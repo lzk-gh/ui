@@ -48,8 +48,7 @@
           <RateDemo v-else-if="componentName === 'rate'" />
           <UploadDemo v-else-if="componentName === 'upload'" />
           <PickerDemo v-else-if="componentName === 'picker'" />
-          <PickerViewDemo v-else-if="componentName === 'picker-view'" />
-          <AreaPickerDemo v-else-if="componentName === 'area-picker'" />
+          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
           <KeyboardDemo v-else-if="componentName === 'keyboard'" />
           <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
@@ -57,7 +56,6 @@
           <CardDemo v-else-if="componentName === 'card'" />
           <CellDemo v-else-if="componentName === 'cell'" />
           <CollapseDemo v-else-if="componentName === 'collapse'" />
-          <TableDemo v-else-if="componentName === 'table'" />
           <TabsDemo v-else-if="componentName === 'tabs'" />
           <TimelineDemo v-else-if="componentName === 'timeline'" />
           <StepsDemo v-else-if="componentName === 'steps'" />
@@ -67,7 +65,6 @@
           <SkeletonDemo v-else-if="componentName === 'skeleton'" />
           <CarouselDemo v-else-if="componentName === 'carousel'" />
           <SegmentedDemo v-else-if="componentName === 'segmented'" />
-          <PaginationDemo v-else-if="componentName === 'pagination'" />
           <BacktopDemo v-else-if="componentName === 'backtop'" />
           <FabDemo v-else-if="componentName === 'fab'" />
 
@@ -82,18 +79,17 @@
 
           <NavbarDemo v-else-if="componentName === 'navbar'" />
           <TabbarDemo v-else-if="componentName === 'tabbar'" />
-          <BreadcrumbDemo v-else-if="componentName === 'breadcrumb'" />
           <IndexBarDemo v-else-if="componentName === 'index-bar'" />
           <AnchorDemo v-else-if="componentName === 'anchor'" />
           <StickyDemo v-else-if="componentName === 'sticky'" />
 
           <CalendarDemo v-else-if="componentName === 'calendar'" />
           <DatePickerDemo v-else-if="componentName === 'date-picker'" />
-          <CascaderDemo v-else-if="componentName === 'cascader'" />
           <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />
           <CurtainDemo v-else-if="componentName === 'curtain'" />
           <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
+          <PreloadDemo v-else-if="componentName === 'preload'" />
 
           <ChartBarDemo v-else-if="componentName === 'chart-bar'" />
           <ChartLineDemo v-else-if="componentName === 'chart-line'" />
@@ -107,30 +103,18 @@
           </view>
         </view>
 
-        <!-- API 文档入口 -->
-        <view class="api-section">
-          <view class="section-title">
-            <lk-icon name="book-fill" size="32" color="primary" />
-            <text>组件 API</text>
-          </view>
 
-          <lk-cell title="属性 Props" label="查看所有可配置属性" is-link />
-          <lk-cell title="事件 Events" label="查看所有事件回调" is-link />
-          <lk-cell title="插槽 Slots" label="查看所有插槽说明" is-link />
-          <lk-cell title="方法 Methods" label="查看组件实例方法" is-link />
-        </view>
       </view>
     </scroll-view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
-import { onLoad } from '@dcloudio/uni-app';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
 
 import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
 import ChartLineDemo from '@/components/demos/chart-line-demo.vue';
@@ -267,17 +251,11 @@ const componentMap: Record<string, any> = {
     icon: 'menu-button-wide',
     color: 'success',
   },
-  'picker-view': {
-    title: 'PickerView 选择器视图',
-    desc: '内联滚动选择视图',
-    icon: 'columns',
-    color: 'success',
-  },
-  'area-picker': {
-    title: 'AreaPicker 地区选择',
-    desc: '省市区三级联动选择',
-    icon: 'geo-alt',
-    color: 'success',
+  'time-picker': {
+    title: 'TimePicker 时间选择',
+    desc: '时间点选择组件',
+    icon: 'clock-fill',
+    color: 'warning',
   },
   keyboard: {
     title: 'Keyboard 虚拟键盘',
@@ -316,12 +294,6 @@ const componentMap: Record<string, any> = {
     desc: '可折叠的内容面板',
     icon: 'arrows-collapse',
     color: 'primary',
-  },
-  table: {
-    title: 'Table 表格',
-    desc: '数据表格组件',
-    icon: 'table',
-    color: 'success',
   },
   tabs: {
     title: 'Tabs 标签页',
@@ -369,12 +341,6 @@ const componentMap: Record<string, any> = {
     title: 'Segmented 分段器',
     desc: '分段选择组件',
     icon: 'segmented-nav',
-    color: 'primary',
-  },
-  pagination: {
-    title: 'Pagination 分页',
-    desc: '数据分页组件',
-    icon: 'three-dots',
     color: 'primary',
   },
   'number-roller': {
@@ -447,12 +413,6 @@ const componentMap: Record<string, any> = {
     icon: 'menu-button-wide',
     color: 'success',
   },
-  breadcrumb: {
-    title: 'Breadcrumb 面包屑',
-    desc: '导航路径组件',
-    icon: 'chevron-right',
-    color: 'warning',
-  },
   backtop: {
     title: 'Backtop 回到顶部',
     desc: '快速返回页面顶部的悬浮按钮',
@@ -497,12 +457,6 @@ const componentMap: Record<string, any> = {
     icon: 'calendar-date-fill',
     color: 'success',
   },
-  cascader: {
-    title: 'Cascader 级联选择',
-    desc: '级联选择器',
-    icon: 'diagram-2-fill',
-    color: 'info',
-  },
   'virtual-list': {
     title: 'VirtualList 虚拟列表',
     desc: '长列表优化组件',
@@ -526,6 +480,12 @@ const componentMap: Record<string, any> = {
     desc: '横向滚动列表容器',
     icon: 'distribute-horizontal',
     color: 'success',
+  },
+  preload: {
+    title: 'Preload 预加载',
+    desc: '资源预加载与调度能力',
+    icon: 'lightning-charge-fill',
+    color: 'warning',
   },
 
   'chart-bar': {
@@ -562,13 +522,45 @@ const demoComponent = ref<any>(null);
 // 主题
 const { theme, toggleTheme } = useTheme();
 
+const applyComponentName = (name?: string) => {
+  if (!name) return;
+  if (componentName.value === name) return;
+  componentName.value = name;
+  loadDemoComponent(name);
+};
+
+const readCurrentPageComponent = () => {
+  const pages = getCurrentPages();
+  const current = pages[pages.length - 1] as any;
+  return current?.options?.component || current?.options?.name || '';
+};
+
 // 页面加载
 onLoad(options => {
-  if (options?.name) {
-    componentName.value = options.name;
-    loadDemoComponent(options.name);
-  }
+  applyComponentName(options?.component || options?.name);
 });
+
+onShow(() => {
+  applyComponentName(readCurrentPageComponent());
+});
+
+// #ifdef H5
+const syncFromHash = () => {
+  const hash = window.location.hash || '';
+  const query = hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
+  const params = new URLSearchParams(query);
+  applyComponentName(params.get('component') || params.get('name') || '');
+};
+
+onMounted(() => {
+  syncFromHash();
+  window.addEventListener('hashchange', syncFromHash);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', syncFromHash);
+});
+// #endif
 
 // 导入所有演示组件
 // 基础组件
@@ -595,6 +587,7 @@ import SliderDemo from '@/components/demos/slider-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
+import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
 import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
@@ -603,7 +596,6 @@ import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
 import CardDemo from '@/components/demos/card-demo.vue';
 import CellDemo from '@/components/demos/cell-demo.vue';
 import CollapseDemo from '@/components/demos/collapse-demo.vue';
-import TableDemo from '@/components/demos/table-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TimelineDemo from '@/components/demos/timeline-demo.vue';
 import StepsDemo from '@/components/demos/steps-demo.vue';
@@ -613,7 +605,6 @@ import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
 import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
-import PaginationDemo from '@/components/demos/pagination-demo.vue';
 import BacktopDemo from '@/components/demos/backtop-demo.vue';
 import FabDemo from '@/components/demos/fab-demo.vue';
 
@@ -630,7 +621,6 @@ import TransitionDemo from '@/components/demos/transition-demo.vue';
 // 导航组件
 import NavbarDemo from '@/components/demos/navbar-demo.vue';
 import TabbarDemo from '@/components/demos/tabbar-demo.vue';
-import BreadcrumbDemo from '@/components/demos/breadcrumb-demo.vue';
 import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
 import AnchorDemo from '@/components/demos/anchor-demo.vue';
 import StickyDemo from '@/components/demos/sticky-demo.vue';
@@ -638,11 +628,11 @@ import StickyDemo from '@/components/demos/sticky-demo.vue';
 // 高级组件
 import CalendarDemo from '@/components/demos/calendar-demo.vue';
 import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
-import CascaderDemo from '@/components/demos/cascader-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
 import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
+import PreloadDemo from '@/components/demos/preload-demo.vue';
 
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
@@ -670,6 +660,7 @@ const demoComponentMap: Record<string, any> = {
   rate: RateDemo,
   upload: UploadDemo,
   picker: PickerDemo,
+  'time-picker': TimePickerDemo,
   keyboard: KeyboardDemo,
   'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,
@@ -678,7 +669,6 @@ const demoComponentMap: Record<string, any> = {
   card: CardDemo,
   cell: CellDemo,
   collapse: CollapseDemo,
-  table: TableDemo,
   tabs: TabsDemo,
   timeline: TimelineDemo,
   steps: StepsDemo,
@@ -688,7 +678,6 @@ const demoComponentMap: Record<string, any> = {
   skeleton: SkeletonDemo,
   carousel: CarouselDemo,
   segmented: SegmentedDemo,
-  pagination: PaginationDemo,
   backtop: BacktopDemo,
   fab: FabDemo,
 
@@ -705,7 +694,6 @@ const demoComponentMap: Record<string, any> = {
   // 导航组件
   navbar: NavbarDemo,
   tabbar: TabbarDemo,
-  breadcrumb: BreadcrumbDemo,
   'index-bar': IndexBarDemo,
   anchor: AnchorDemo,
   sticky: StickyDemo,
@@ -713,11 +701,11 @@ const demoComponentMap: Record<string, any> = {
   // 高级组件
   calendar: CalendarDemo,
   'date-picker': DatePickerDemo,
-  cascader: CascaderDemo,
   'virtual-list': VirtualListDemo,
   waterfall: WaterfallDemo,
   curtain: CurtainDemo,
   'horizontal-scroll': HorizontalScrollDemo,
+  preload: PreloadDemo,
 };
 
 // 加载对应的演示组件

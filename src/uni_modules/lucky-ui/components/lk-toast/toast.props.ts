@@ -61,7 +61,7 @@ export const toastProps = {
 export type ToastProps = ExtractPropTypes<typeof toastProps>;
 
 export const toastEmits = {
-  'update:modelValue': (val: boolean) => true,
+  'update:modelValue': (_val: boolean) => true,
   open: () => true,
   close: () => true,
   'after-leave': () => true,

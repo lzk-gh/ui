@@ -1,3 +1,31 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const value1 = ref(true);
+const value2 = ref(true);
+const value3 = ref(false);
+const value4 = ref(true);
+const value5 = ref(true);
+const value6 = ref(true);
+const value7 = ref(true);
+const value8 = ref(true);
+const value9 = ref(false);
+
+// 异步切换示例
+const asyncValue = ref(false);
+const asyncLoading = ref(false);
+
+const handleAsyncChange = (): Promise<boolean> => {
+  asyncLoading.value = true;
+  return new Promise(resolve => {
+    setTimeout(() => {
+      asyncLoading.value = false;
+      resolve(true);
+    }, 1000);
+  });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -63,35 +91,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const value1 = ref(true);
-const value2 = ref(true);
-const value3 = ref(false);
-const value4 = ref(true);
-const value5 = ref(true);
-const value6 = ref(true);
-const value7 = ref(true);
-const value8 = ref(true);
-const value9 = ref(false);
-
-// 异步切换示例
-const asyncValue = ref(false);
-const asyncLoading = ref(false);
-
-const handleAsyncChange = (): Promise<boolean> => {
-  asyncLoading.value = true;
-  return new Promise(resolve => {
-    setTimeout(() => {
-      asyncLoading.value = false;
-      resolve(true);
-    }, 1000);
-  });
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

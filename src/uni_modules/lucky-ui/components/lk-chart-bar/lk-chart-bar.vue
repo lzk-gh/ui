@@ -118,7 +118,6 @@ function drawTooltip(
   palette: ReturnType<typeof buildBrandPalette>
 ) {
   const padX = 8;
-  const padY = 6;
   ctx.save();
   ctx.font = '12px sans-serif';
   const metrics = ctx.measureText(text);
@@ -391,7 +390,7 @@ onUnmounted(() => {
     :id="wrapperId"
     class="lk-chart"
     :class="props.customClass"
-    :style="[{ height: heightStyle }, props.customStyle]"
+      :style="[{ height: heightStyle }, props.customStyle as any]"
     @touchstart="onMove"
     @touchmove="onMove"
     @touchend="onEnd"

@@ -65,7 +65,7 @@ export const datePickerProps = {
 export type DatePickerProps = ExtractPropTypes<typeof datePickerProps>;
 
 export const datePickerEmits = {
-  'update:modelValue': (v: boolean) => true,
-  confirm: (v: Date | [Date, Date] | Date[] | null) => true,
+  'update:modelValue': (_v: boolean) => true,
+  confirm: (_v: Date | [Date, Date] | Date[] | null) => true,
   cancel: () => true,
 };

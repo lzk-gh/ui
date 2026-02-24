@@ -96,6 +96,6 @@ export const tabbarProps = {
 export type TabbarProps = ExtractPropTypes<typeof tabbarProps>;
 
 export const tabbarEmits = {
-  'update:modelValue': (val: string | number) => true,
-  change: (val: string | number, item?: TabbarItemConfig) => true,
+  'update:modelValue': (_val: string | number) => true,
+  change: (_val: string | number, _item?: TabbarItemConfig) => true,
 };

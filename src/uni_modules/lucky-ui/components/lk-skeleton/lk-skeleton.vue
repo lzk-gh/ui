@@ -30,7 +30,7 @@ const hostStyle = computed(() => {
 </script>
 
 <template>
-  <view class="lk-skeleton" v-if="loading" :style="hostStyle">
+  <view v-if="loading" class="lk-skeleton" :style="hostStyle">
     <view
       v-if="avatar"
       class="lk-skeleton__avatar"

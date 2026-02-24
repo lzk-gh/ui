@@ -1,17 +1,3 @@
-<template>
-  <view
-    class="page-container"
-    :class="[themeClass, { 'page-container--ready': isReady }]"
-    :style="brandStyleVars"
-  >
-    <!-- 页面内容 - 购物车页面不需要 navbar，自带头部 -->
-    <cart-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
-
-    <!-- 底部 Tabbar -->
-    <custom-tabbar active="cart" />
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
@@ -44,12 +30,25 @@ onMounted(() => {
 });
 
 onShow(() => {
-  uni.hideTabBar();
+  uni.hideTabBar({ fail: () => {} });
 });
 </script>
 
+<template>
+  <view
+    class="page-container"
+    :class="[themeClass, { 'page-container--ready': isReady }]"
+    :style="brandStyleVars"
+  >
+    <!-- 页面内容 - 购物车页面不需要 navbar，自带头部 -->
+    <cart-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
+
+    <!-- 底部 Tabbar -->
+    <custom-tabbar active="cart" />
+  </view>
+</template>
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@import url('@/styles/test-page.scss');
 
 .page-container {
   width: 100%;

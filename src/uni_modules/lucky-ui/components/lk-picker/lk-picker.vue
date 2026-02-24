@@ -3,9 +3,7 @@ import { computed, ref, watch } from 'vue';
 import {
   pickerProps,
   pickerEmits,
-  defaultRegionData,
   type PickerOption,
-  type RegionNode,
 } from './picker.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
 
@@ -16,11 +14,8 @@ const emit = defineEmits(pickerEmits);
 
 // 当前选中的索引数组
 const selectedIndexes = ref<number[]>([]);
-// 内部值 (用于 region 模式)
+// 内部值
 const innerValue = ref<(string | number)[]>([]);
-
-// 地区数据源
-const regionSource = computed(() => props.regionData || defaultRegionData);
 
 // 标准化列数据
 function normalizeColumns(cols: PickerOption[] | PickerOption[][]): PickerOption[][] {
@@ -29,46 +24,8 @@ function normalizeColumns(cols: PickerOption[] | PickerOption[][]): PickerOption
   return [cols as PickerOption[]];
 }
 
-// 根据地区数据和当前值生成列
-function buildRegionColumns(value: (string | number)[]): PickerOption[][] {
-  const data = regionSource.value;
-  const level = props.regionLevel;
-
-  // 省
-  const provs = data;
-  const pIdx = Math.max(
-    0,
-    provs.findIndex(p => p.code === value[0])
-  );
-  const prov = provs[pIdx] || provs[0];
-  const col1 = provs.map(p => ({ label: p.name, value: p.code }));
-
-  if (level < 2) return [col1];
-
-  // 市
-  const cities = prov?.children || [];
-  const cIdx = Math.max(
-    0,
-    cities.findIndex(c => c.code === value[1])
-  );
-  const city = cities[cIdx] || cities[0];
-  const col2 = cities.map(c => ({ label: c.name, value: c.code }));
-
-  if (level < 3) return [col1, col2];
-
-  // 区
-  const districts = city?.children || [];
-  const col3 = districts.map(d => ({ label: d.name, value: d.code }));
-
-  return [col1, col2, col3];
-}
-
 // 计算列数据
 const computedColumns = computed<PickerOption[][]>(() => {
-  if (props.mode === 'region') {
-    return buildRegionColumns(innerValue.value);
-  }
-
   if (props.mode === 'cascade' && Array.isArray(props.columns)) {
     // 级联模式：根据当前选择动态计算列
     return buildCascadeColumns(props.columns as PickerOption[], innerValue.value);
@@ -119,7 +76,7 @@ function initIndexes() {
 watch(
   () => [props.modelValue, props.columns, props.mode],
   () => {
-    if (props.mode === 'region' || props.mode === 'cascade' || props.mode === 'multi') {
+    if (props.mode === 'cascade' || props.mode === 'multi') {
       innerValue.value = Array.isArray(props.modelValue)
         ? (props.modelValue as (string | number)[]).slice()
         : [];
@@ -135,11 +92,9 @@ function onChange(e: { detail: { value: number[] } }) {
   const cols = computedColumns.value;
 
   // 检测是否级联列变化
-  let cascadeChanged = false;
-  if (props.mode === 'region' || props.mode === 'cascade') {
+  if (props.mode === 'cascade') {
     for (let i = 0; i < idxs.length; i++) {
       if (idxs[i] !== selectedIndexes.value[i]) {
-        cascadeChanged = true;
         // 重置后续列的索引
         for (let j = i + 1; j < idxs.length; j++) {
           idxs[j] = 0;
@@ -185,7 +140,7 @@ function onConfirm() {
 }
 
 // 计算 picker-view 高度
-const viewHeight = computed(() => props.itemHeight * props.visibleCount + 'rpx');
+const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx`);
 </script>
 
 <template>

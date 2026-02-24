@@ -24,8 +24,8 @@ export const timePickerProps = {
 export type TimePickerProps = ExtractPropTypes<typeof timePickerProps>;
 
 export const timePickerEmits = {
-  'update:modelValue': (val: string) => true,
-  change: (val: string) => true,
+  'update:modelValue': (_val: string) => true,
+  change: (_val: string) => true,
   open: () => true,
   close: () => true,
   clear: () => true,

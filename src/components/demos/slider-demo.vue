@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const v1 = ref(30);
+const vStep = ref(20);
+const vStep2 = ref(15);
+const vRange = ref([20, 60]);
+const v3 = ref(45);
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -31,19 +43,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const v1 = ref(30);
-const vStep = ref(20);
-const vStep2 = ref(15);
-const vRange = ref([20, 60]);
-const v3 = ref(45);
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   padding: 32rpx;

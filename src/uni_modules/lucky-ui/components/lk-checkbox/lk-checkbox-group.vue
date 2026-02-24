@@ -7,12 +7,12 @@ defineOptions({ name: 'LkCheckboxGroup' });
 const props = defineProps(checkboxGroupProps);
 const emit = defineEmits(checkboxGroupEmits);
 
-const updateValue = (value: any[]) => {
+function updateValue(value: any[]) {
   emit('update:modelValue', value);
   emit('change', value);
-};
+}
 
-const toggleValue = (name: any) => {
+function toggleValue(name: any) {
   const value = [...props.modelValue];
   const index = value.indexOf(name);
   if (index !== -1) {
@@ -23,7 +23,7 @@ const toggleValue = (name: any) => {
     }
   }
   updateValue(value);
-};
+}
 
 provide('lkCheckboxGroup', {
   props,
@@ -36,7 +36,7 @@ const groupClass = computed(() => {
 </script>
 
 <template>
-  <view :class="groupClass" :style="customStyle">
+  <view :class="groupClass" :style="customStyle as any">
     <slot />
   </view>
 </template>

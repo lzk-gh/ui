@@ -1,27 +1,3 @@
-<template>
-  <view class="page-container" :class="themeClass" :style="brandStyleVars">
-    <lk-navbar title="数据分析" @back="goBack" />
-
-    <view class="analytics-page">
-      <lk-card title="本月概览" padding="30rpx">
-        <view class="stats-grid">
-          <view v-for="stat in stats" :key="stat.label" class="stat-item">
-            <text class="stat-value">{{ stat.value }}</text>
-            <text class="stat-label">{{ stat.label }}</text>
-          </view>
-        </view>
-      </lk-card>
-
-      <lk-card title="消费趋势" padding="30rpx">
-        <view class="chart-placeholder">
-          <lk-icon name="bar-chart" size="80" color="var(--test-text-tertiary)" />
-          <text class="placeholder-text">图表功能开发中...</text>
-        </view>
-      </lk-card>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
@@ -45,6 +21,29 @@ const goBack = () => {
 };
 </script>
 
+<template>
+  <view class="page-container" :class="themeClass" :style="brandStyleVars">
+    <lk-navbar title="数据分析" @back="goBack" />
+
+    <view class="analytics-page">
+      <lk-card title="本月概览" padding="30rpx">
+        <view class="stats-grid">
+          <view v-for="stat in stats" :key="stat.label" class="stat-item">
+            <text class="stat-value">{{ stat.value }}</text>
+            <text class="stat-label">{{ stat.label }}</text>
+          </view>
+        </view>
+      </lk-card>
+
+      <lk-card title="消费趋势" padding="30rpx">
+        <view class="chart-placeholder">
+          <lk-icon name="bar-chart" size="80" color="var(--test-text-tertiary)" />
+          <text class="placeholder-text">图表功能开发中...</text>
+        </view>
+      </lk-card>
+    </view>
+  </view>
+</template>
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

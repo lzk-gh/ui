@@ -52,7 +52,7 @@ const customStyle = computed<CSSProperties>(() => {
       },
       customClass,
     ]"
-    :style="[customStyle, props.customStyle]"
+      :style="[customStyle, props.customStyle as any]"
     @click="onClick"
   >
     <view class="lk-tag__content">

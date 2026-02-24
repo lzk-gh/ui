@@ -14,12 +14,12 @@ const presetMap = { sm: 8, md: 16, lg: 24 } as const;
  * @param val 输入值
  * @returns 带单位的字符串
  */
-const formatGap = (val: string | number): string => {
+function formatGap(val: string | number): string {
   if (typeof val === 'number') return `${val}rpx`;
   if (val in presetMap) return `${presetMap[val as keyof typeof presetMap]}rpx`;
   // 如果是 '10px' 这种自带单位的字符串，直接返回；否则默认为 rpx
   return String(val).match(/^[0-9]+$/) ? `${val}rpx` : String(val);
-};
+}
 
 const style = computed(() => {
   let rowGap = '0'; // 垂直间距 (行间距)

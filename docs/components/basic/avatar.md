@@ -1,29 +1,103 @@
 ---
 title: Avatar 头像
+phone: avatar
 ---
 
 # Avatar 头像
 
-用来代表用户或物体，支持图片、图标与文字。
+展示用户或实体头像，支持图片、文字、图标三种形式。
 
 ## 基础用法
 
 ```vue
-<lk-avatar src="https://example.com/user.png" />
-<lk-avatar icon="person" />
-<lk-avatar>U</lk-avatar>
+<template>
+  <view class="demo-row">
+    <lk-avatar src="https://i.pravatar.cc/100?img=1" />
+    <lk-avatar text="张" />
+    <lk-avatar icon="person" />
+  </view>
+</template>
 ```
 
-## 形状与尺寸
+## 尺寸
 
 ```vue
-<lk-avatar shape="circle" size="small">A</lk-avatar>
-<lk-avatar shape="square" size="large">A</lk-avatar>
+<template>
+  <view class="demo-row" style="align-items:flex-end">
+    <lk-avatar src="https://i.pravatar.cc/100" size="sm" />
+    <lk-avatar src="https://i.pravatar.cc/100" size="md" />
+    <lk-avatar src="https://i.pravatar.cc/100" size="lg" />
+    <lk-avatar src="https://i.pravatar.cc/100" size="xl" />
+    <lk-avatar src="https://i.pravatar.cc/100" :size="90" />
+  </view>
+</template>
 ```
 
-## Props（节选）
+## 形状
 
-- src: 图片地址
-- icon: 内置图标名
-- shape: `circle | square`
-- size: `small | medium | large` 或 数字
+```vue
+<template>
+  <view class="demo-row">
+    <lk-avatar src="https://i.pravatar.cc/100?img=2" shape="circle" />
+    <lk-avatar src="https://i.pravatar.cc/100?img=2" shape="square" />
+    <lk-avatar src="https://i.pravatar.cc/100?img=2" shape="rounded" />
+  </view>
+</template>
+```
+
+## 头像堆叠
+
+```vue
+<script setup lang="ts">
+const avatars = [
+  'https://i.pravatar.cc/100?img=1',
+  'https://i.pravatar.cc/100?img=2',
+  'https://i.pravatar.cc/100?img=3',
+]
+</script>
+
+<template>
+  <view style="display:flex">
+    <lk-avatar
+      v-for="(src, i) in avatars" :key="i"
+      :src="src"
+      :style="{ marginLeft: i > 0 ? '-16rpx' : 0, zIndex: avatars.length - i }"
+    />
+    <lk-avatar
+      text="+3"
+      :style="{ marginLeft: '-16rpx', background: '#e2e8f0', color: '#64748b' }"
+    />
+  </view>
+</template>
+```
+
+## 图片加载兜底
+
+```vue
+<template>
+  <view class="demo-row">
+    <!-- 有效图片 -->
+    <lk-avatar src="https://i.pravatar.cc/100?img=3" />
+    <!-- 无效图片 → 显示备用图标 -->
+    <lk-avatar src="invalid-url.jpg" fallback-icon="person" />
+    <!-- 无效图片 → 显示备用文字 -->
+    <lk-avatar src="invalid-url.jpg" fallback-text="U" />
+  </view>
+</template>
+```
+
+## API
+
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| src | 图片地址 | `string` | `''` |
+| text | 文字内容（无 src 时显示） | `string` | `''` |
+| icon | 图标名（无 src 和 text 时显示） | `string` | `'person'` |
+| size | 尺寸，支持预设或数字（rpx） | `sm \| md \| lg \| xl \| number` | `md` |
+| shape | 形状 | `circle \| square \| rounded` | `circle` |
+| fallbackIcon | 图片加载失败时的图标 | `string` | `'person'` |
+| fallbackText | 图片加载失败时的文字 | `string` | `''` |
+| customClass | 额外类名 | `string` | `''` |
+| customStyle | 额外样式 | `string \| object` | `''` |

@@ -65,5 +65,5 @@ export const stepsProps = {
 export type StepsProps = ExtractPropTypes<typeof stepsProps>;
 
 export const stepsEmits = {
-  change: (val: number) => true,
+  change: (_val: number) => true,
 };

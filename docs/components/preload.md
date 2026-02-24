@@ -1,67 +1,76 @@
+---
+title: 预加载系统 (Preload System)
+phone: preload
+---
+
 # 预加载系统 (Preload System)
 
-Lucky UI 提供了一套完整的资源预加载系统，帮助开发者优化应用性能，提升用户体验。
+用于在用户真正进入页面前，提前加载页面资源、图片或自定义任务，降低白屏与等待感。
 
-## 特性
+## 什么时候用
 
-- 🚀 **智能队列管理** - 基于优先级的任务队列，支持并发控制
-- ⏰ **空闲时间调度** - 利用浏览器空闲时间执行预加载任务
-- 📦 **多类型支持** - 支持页面、组件、图片等多种资源类型
-- 🔄 **自动重试** - 失败任务自动重试机制
-- 📊 **调试面板** - 可视化的预加载状态监控
-- 🎯 **开发者友好** - 简洁的 API 设计，支持 Vue 组合式 API
+- 首页加载完成后，预加载常用二级页。
+- 列表数据返回后，预加载首屏可见图片。
+- Tabbar 应用中，预加载非当前 tab 页面。
 
 ## 快速开始
 
-### 基础使用
+### 1) 页面 + 图片预加载
 
 ```typescript
-import { usePreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src/preload';
+import { usePreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src';
+import { onMounted } from 'vue';
 
-// 在组件中使用
-const { preloadPage, preloadImages, stats, isLoading } = usePreload();
-
-// 预加载页面
-preloadPage({
-  path: '/pages/detail/index',
-  priority: PreloadPriority.HIGH,
+const { preloadPage, preloadImages, stats, isLoading } = usePreload({
+  autoStart: true,
+  startDelay: 0,
 });
 
-// 预加载多张图片
-preloadImages(['https://example.com/image1.jpg', 'https://example.com/image2.jpg']);
+onMounted(() => {
+  preloadPage({ path: '/pages_sub/search/index', priority: PreloadPriority.HIGH });
+  preloadPage({ path: '/pages_sub/settings/index', priority: PreloadPriority.MEDIUM });
+
+  preloadImages(
+    [
+      'https://picsum.photos/420/240?random=11',
+      'https://picsum.photos/420/240?random=12',
+    ],
+    PreloadPriority.LOW
+  );
+});
+
+// 响应式状态
+console.log(isLoading.value, stats.value);
 ```
 
-### Tabbar 页面预加载
+### 2) Tabbar 预加载
 
-专为 Tabbar 页面场景设计的 Hook，在首页加载完成后自动预加载其他 Tab 页面：
+适合 tab 首页稳定后，按优先级预热其他 tab 页面。
 
 ```typescript
-import { useTabbarPreload } from '@/uni_modules/lucky-ui/core/src/preload';
+import { useTabbarPreload } from '@/uni_modules/lucky-ui/core/src';
 
-const { isPreloaded, manager } = useTabbarPreload({
+const { isPreloaded, triggerPreload } = useTabbarPreload({
   pages: [
-    { id: 'home', path: '/pages/tabbar/home/index' },
-    { id: 'cart', path: '/pages/tabbar/cart/index' },
-    { id: 'mine', path: '/pages/tabbar/mine/index' },
+    { id: 'search', path: '/pages_sub/search/index' },
+    { id: 'settings', path: '/pages_sub/settings/index' },
   ],
-  currentPageId: 'home',
-  delay: 2000, // 首页加载后 2 秒开始预加载
+  currentPageId: 'search',
+  delay: 1500,
   debug: true,
 });
 
-// 检查页面是否已预加载
-if (isPreloaded('cart')) {
-  console.log('购物车页面已预加载');
-}
+triggerPreload();
+console.log(isPreloaded('settings'));
 ```
 
 ## API
 
 ### usePreload
 
-预加载组合式函数。
+用于管理预加载队列和状态。
 
-#### 参数
+**参数**
 
 | 参数       | 类型                     | 默认值  | 说明                             |
 | ---------- | ------------------------ | ------- | -------------------------------- |
@@ -69,7 +78,7 @@ if (isPreloaded('cart')) {
 | autoStart  | `boolean`                | `false` | 是否在组件挂载时自动开始         |
 | startDelay | `number`                 | `1000`  | 首次加载完成后的延迟时间（毫秒） |
 
-#### 返回值
+**返回值**
 
 | 属性          | 类型                                        | 说明               |
 | ------------- | ------------------------------------------- | ------------------ |
@@ -89,9 +98,9 @@ if (isPreloaded('cart')) {
 
 ### useTabbarPreload
 
-Tabbar 页面预加载 Hook。
+用于 Tabbar 页面的延迟预加载。
 
-#### 参数
+**参数**
 
 | 参数          | 类型                                                       | 说明                          |
 | ------------- | ---------------------------------------------------------- | ----------------------------- |
@@ -102,7 +111,7 @@ Tabbar 页面预加载 Hook。
 
 ### PreloadConfig
 
-预加载配置选项。
+队列全局配置。
 
 | 参数           | 类型      | 默认值  | 说明                     |
 | -------------- | --------- | ------- | ------------------------ |
@@ -116,7 +125,7 @@ Tabbar 页面预加载 Hook。
 
 ### PreloadPriority
 
-预加载优先级枚举。
+任务优先级。
 
 | 值         | 说明                              |
 | ---------- | --------------------------------- |
@@ -124,7 +133,7 @@ Tabbar 页面预加载 Hook。
 | MEDIUM (2) | 中优先级 - 常用页面               |
 | LOW (3)    | 低优先级 - 不常用但可能访问的页面 |
 
-### 事件类型
+### 事件
 
 | 事件            | 说明     |
 | --------------- | -------- |
@@ -136,16 +145,13 @@ Tabbar 页面预加载 Hook。
 | `queue:pause`   | 队列暂停 |
 | `queue:resume`  | 队列恢复 |
 
-## 调试面板
+## 调试面板（推荐开发环境开启）
 
-Lucky UI 提供了预加载调试面板组件 `<lk-preload-debugger>`，方便开发者查看预加载状态。
+可视化查看任务状态与日志。
 
 ```vue
 <template>
   <view>
-    <!-- 页面内容 -->
-
-    <!-- 预加载调试面板 -->
     <lk-preload-debugger :visible="isDev" position="bottom-right" />
   </view>
 </template>
@@ -157,54 +163,49 @@ const isDev = import.meta.env.DEV;
 </script>
 ```
 
-### Props
+**Props**
 
 | 参数     | 类型                                                           | 默认值           | 说明     |
 | -------- | -------------------------------------------------------------- | ---------------- | -------- |
 | visible  | `boolean`                                                      | `false`          | 是否显示 |
 | position | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-right'` | 位置     |
 
-## 最佳实践
+## 常见模式
 
-### 1. 在首页预加载关键页面
+### 首页延迟预热
 
 ```typescript
-// pages/home/index.vue
 import { onMounted } from 'vue';
-import { usePreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src/preload';
+import { usePreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src';
 
 const { preloadPages } = usePreload();
 
 onMounted(() => {
-  // 首页加载后 2 秒，开始预加载关键页面
   setTimeout(() => {
     preloadPages([
-      { path: '/pages/product/detail', priority: PreloadPriority.HIGH },
-      { path: '/pages/cart/index', priority: PreloadPriority.MEDIUM },
-      { path: '/pages/user/profile', priority: PreloadPriority.LOW },
+      { path: '/pages_sub/product-detail/index', priority: PreloadPriority.HIGH },
+      { path: '/pages_sub/search/index', priority: PreloadPriority.MEDIUM },
+      { path: '/pages_sub/settings/index', priority: PreloadPriority.LOW },
     ]);
   }, 2000);
 });
 ```
 
-### 2. 预加载列表中的图片
+### 列表图片预热
 
 ```typescript
-// 商品列表页
+import { watch } from 'vue';
+import { usePreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src';
+
 const { preloadImages } = usePreload();
 
-// 当获取到商品数据后，预加载图片
 watch(productList, list => {
   const imageUrls = list.map(item => item.image);
   preloadImages(imageUrls, PreloadPriority.MEDIUM);
 });
 ```
 
-### 3. 页面可见性控制
-
-预加载系统会自动在页面隐藏时暂停，页面可见时恢复，无需手动处理。
-
-### 4. 自定义预加载任务
+### 自定义任务
 
 ```typescript
 import {
@@ -215,7 +216,6 @@ import {
 
 const manager = getPreloadManager();
 
-// 添加自定义预加载任务
 manager.addTask({
   type: PreloadResourceType.CUSTOM,
   priority: PreloadPriority.LOW,
@@ -240,7 +240,11 @@ manager.addTask({
 
 ## 注意事项
 
-1. **避免过度预加载** - 预加载会消耗网络和内存资源，应该只预加载用户很可能访问的内容
-2. **设置合理的延迟** - 确保首页完全加载后再开始预加载，避免影响首屏性能
-3. **使用优先级** - 合理设置优先级，确保重要资源优先加载
-4. **生产环境关闭调试** - 记得在生产环境关闭调试面板和调试日志
+1. 避免一次性塞入过多任务，优先预加载“下一跳页面”。
+2. 首屏阶段建议延迟触发，避免影响首屏渲染。
+3. 生产环境关闭调试面板与详细日志。
+
+## 源码位置
+
+- `src/uni_modules/lucky-ui/core/src/preload/`
+- `src/uni_modules/lucky-ui/components/lk-preload-debugger/`

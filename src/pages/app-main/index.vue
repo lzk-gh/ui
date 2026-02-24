@@ -1,27 +1,3 @@
-<template>
-  <view class="app-main" :class="themeClass" :style="brandStyleVars">
-    <lk-tabbar-container :tabs="tabConfig" default-tab="home" @change="handleTabChange">
-      <!-- #ifdef MP-WEIXIN -->
-      <template #tab-home>
-        <home-tab />
-      </template>
-      <template #tab-cart>
-        <cart-tab />
-      </template>
-      <template #tab-detail>
-        <detail-tab />
-      </template>
-      <template #tab-mine>
-        <mine-tab />
-      </template>
-      <template #tab-overview>
-        <overview-tab />
-      </template>
-      <!-- #endif -->
-    </lk-tabbar-container>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
@@ -91,9 +67,33 @@ const handleTabChange = (tabId: string) => {
 
 onShow(() => {
   // 隐藏原生 tabbar
-  uni.hideTabBar({ animation: false });
+  uni.hideTabBar({ animation: false, fail: () => {} });
 });
 </script>
+
+<template>
+  <view class="app-main" :class="themeClass" :style="brandStyleVars">
+    <lk-tabbar-container :tabs="tabConfig" default-tab="home" @change="handleTabChange">
+      <!-- #ifdef MP-WEIXIN -->
+      <template #tab-home>
+        <home-tab />
+      </template>
+      <template #tab-cart>
+        <cart-tab />
+      </template>
+      <template #tab-detail>
+        <detail-tab />
+      </template>
+      <template #tab-mine>
+        <mine-tab />
+      </template>
+      <template #tab-overview>
+        <overview-tab />
+      </template>
+      <!-- #endif -->
+    </lk-tabbar-container>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .app-main {

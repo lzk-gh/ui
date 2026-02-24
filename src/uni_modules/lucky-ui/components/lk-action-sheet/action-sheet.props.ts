@@ -77,8 +77,8 @@ export const actionSheetProps = {
 export type ActionSheetProps = ExtractPropTypes<typeof actionSheetProps>;
 
 export const actionSheetEmits = {
-  'update:modelValue': (v: boolean) => true,
-  select: (payload: { action: Action; index: number }) => true,
+  'update:modelValue': (_v: boolean) => true,
+  select: (_payload: { action: Action; index: number }) => true,
   cancel: () => true,
   open: () => true,
   close: () => true,

@@ -56,12 +56,12 @@ onMounted(() => {
 });
 
 onShow(() => {
-  uni.hideTabBar();
+  uni.hideTabBar({ fail: () => {} });
 });
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/test-page.scss';
+@import url('@/styles/test-page.scss');
 
 .page-container {
   width: 100%;

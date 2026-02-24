@@ -5,10 +5,13 @@ import type { CSSProperties, Ref } from 'vue';
  * requestAnimationFrame 兼容处理
  * 小程序环境中 requestAnimationFrame 不可用，使用 setTimeout 作为 fallback
  */
-const hasRAF = typeof requestAnimationFrame === 'function';
+const raf = globalThis.requestAnimationFrame?.bind(globalThis);
+const caf = globalThis.cancelAnimationFrame?.bind(globalThis);
+const hasRAF = typeof raf === 'function' && typeof caf === 'function';
 const rAF = (cb: () => void): number =>
-  hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
-const cAF = (id: number): void => (hasRAF ? (cancelAnimationFrame as any)(id) : clearTimeout(id));
+  hasRAF ? raf!(cb) : (setTimeout(cb, 16) as unknown as number);
+const cAF = (id: number): void =>
+  hasRAF ? caf!(id) : clearTimeout(id as unknown as ReturnType<typeof setTimeout>);
 
 /**
  * 动画配置类型
@@ -132,11 +135,11 @@ export function useTransition(
   const { name = 'fade' } = config;
 
   // 工具函数: 解析动态/静态值
-  const resolve = (val: any, fallback: any) => {
+  const resolve = <T>(val: T | Ref<T> | (() => T) | undefined | null, fallback: T): T => {
     if (val == null) return fallback;
-    if (isRef(val)) return (val as any).value;
-    if (typeof val === 'function') return (val as any)();
-    return val as any;
+    if (isRef(val)) return val.value as T;
+    if (typeof val === 'function') return (val as () => T)();
+    return val as T;
   };
 
   // 状态
@@ -219,13 +222,15 @@ export function useTransition(
     if (currentDuration) {
       result.transitionDuration = `${currentDuration}ms`;
       result.animationDuration = `${currentDuration}ms`;
-      result['--lk-transition-duration'] = `${currentDuration}ms` as any;
+      (result as CSSProperties & Record<string, string>)['--lk-transition-duration'] =
+        `${currentDuration}ms`;
     }
 
     if (currentDelay) {
       result.transitionDelay = `${currentDelay}ms`;
       result.animationDelay = `${currentDelay}ms`;
-      result['--lk-transition-delay'] = `${currentDelay}ms` as any;
+      (result as CSSProperties & Record<string, string>)['--lk-transition-delay'] =
+        `${currentDelay}ms`;
     }
 
     if (currentEasing) {
@@ -248,7 +253,7 @@ export function useTransition(
       const easingValue = easingMap[currentEasing] || currentEasing;
       result.transitionTimingFunction = easingValue;
       result.animationTimingFunction = easingValue;
-      result['--lk-transition-easing'] = easingValue as any;
+      (result as CSSProperties & Record<string, string>)['--lk-transition-easing'] = easingValue;
     }
     return result;
   });
@@ -277,7 +282,7 @@ export function useTransition(
 
   // 进入动画
   const attachEndListeners = (done: () => void) => {
-    const el = elRef?.value as any;
+    const el = elRef?.value;
     if (!el || !useEvents) return;
     let called = false;
     const handler = () => {
@@ -294,8 +299,8 @@ export function useTransition(
     el.addEventListener('transitionend', onTransitionEnd, { passive: true });
     el.addEventListener('animationend', onAnimationEnd, { passive: true });
     removeEndListeners = () => {
-      el.removeEventListener('transitionend', onTransitionEnd as any);
-      el.removeEventListener('animationend', onAnimationEnd as any);
+      el.removeEventListener('transitionend', onTransitionEnd);
+      el.removeEventListener('animationend', onAnimationEnd);
     };
   };
 
@@ -430,19 +435,26 @@ export function getTransitionClass(
  * 获取动画样式（静态方法）
  */
 export function getTransitionStyle(config: TransitionConfig = {}): CSSProperties {
-  const duration = (config.duration as any) ?? 300;
-  const delay = (config.delay as any) ?? 0;
-  const easing = (config.easing as any) ?? 'ease';
+  const resolveStatic = <T>(val: T | Ref<T> | (() => T) | undefined | null, fallback: T): T => {
+    if (val == null) return fallback;
+    if (isRef(val)) return val.value as T;
+    if (typeof val === 'function') return (val as () => T)();
+    return val as T;
+  };
+  const duration = resolveStatic(config.duration, 300);
+  const delay = resolveStatic(config.delay, 0);
+  const easing = resolveStatic(config.easing, 'ease');
   const styles: CSSProperties = {};
   if (duration) {
     styles.transitionDuration = `${duration}ms`;
     styles.animationDuration = `${duration}ms`;
-    styles['--lk-transition-duration'] = `${duration}ms` as any;
+    (styles as CSSProperties & Record<string, string>)['--lk-transition-duration'] =
+      `${duration}ms`;
   }
   if (delay) {
     styles.transitionDelay = `${delay}ms`;
     styles.animationDelay = `${delay}ms`;
-    styles['--lk-transition-delay'] = `${delay}ms` as any;
+    (styles as CSSProperties & Record<string, string>)['--lk-transition-delay'] = `${delay}ms`;
   }
   if (easing) {
     const easingMap: Record<string, string> = {
@@ -461,10 +473,11 @@ export function getTransitionStyle(config: TransitionConfig = {}): CSSProperties
       'ease-out-back': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       'ease-in-out-back': 'cubic-bezier(0.68, -0.6, 0.32, 1.6)',
     };
-    const easingValue = easingMap[easing] || easing;
+    const easingKey = String(easing);
+    const easingValue = easingMap[easingKey] || easingKey;
     styles.transitionTimingFunction = easingValue;
     styles.animationTimingFunction = easingValue;
-    styles['--lk-transition-easing'] = easingValue as any;
+    (styles as CSSProperties & Record<string, string>)['--lk-transition-easing'] = easingValue;
   }
   return styles;
 }

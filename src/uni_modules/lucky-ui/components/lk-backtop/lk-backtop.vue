@@ -78,9 +78,9 @@ const classes = computed(() => [
     v-show="computedVisible"
     :class="classes"
     :style="wrapperStyle"
-    @click="toTop"
     aria-label="Back to top"
     role="button"
+    @click="toTop"
   >
     <slot>
       <LkIcon :name="icon" size="32" color="var(--lk-color-text-inverse)" />

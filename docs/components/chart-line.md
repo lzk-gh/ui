@@ -1,3 +1,8 @@
+---
+title: ChartLine 折线图
+phone: chart-line
+---
+
 # ChartLine 折线图
 
 高性能折线图组件，使用平滑贝塞尔曲线（Catmull-Rom 转 Bezier）绘制折线，支持 DPR 防模糊、RAF 进入动画与触摸 Tooltip。
@@ -20,3 +25,4 @@
 ## Events
 
 - `hoverChange(index)`：触摸高亮点变化（无高亮时为 `-1`）
+

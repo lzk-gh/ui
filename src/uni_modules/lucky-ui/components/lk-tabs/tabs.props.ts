@@ -37,6 +37,6 @@ export const tabsProps = {
 export type TabsProps = ExtractPropTypes<typeof tabsProps>;
 
 export const tabsEmits = {
-  'update:modelValue': (val: string | number) => true,
-  change: (val: string | number) => true,
+  'update:modelValue': (_val: string | number) => true,
+  change: (_val: string | number) => true,
 };

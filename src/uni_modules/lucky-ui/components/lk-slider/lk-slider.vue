@@ -49,11 +49,11 @@ function initValue(val: number | number[]) {
 
 // --- 计算属性 ---
 
-const getPercent = (value: number) => {
+function getPercent(value: number) {
   const range = props.max - props.min;
   if (range <= 0) return 0;
   return Math.max(0, Math.min(100, ((value - props.min) / range) * 100));
-};
+}
 
 // 计算间断点的位置数组
 const stops = computed(() => {
@@ -100,13 +100,13 @@ const trackStyle = computed(() => {
   return style;
 });
 
-const getThumbStyle = (index: number) => {
+function getThumbStyle(index: number) {
   const percent = getPercent(currentVal.value[index]);
   const style: CSSProperties = { left: `${percent}%` };
   if (dragging.value) style.transition = 'none';
   style.zIndex = draggingIndex.value === index ? 2 : 1;
   return style;
-};
+}
 
 const blockCustomStyle = computed(() => {
   const style: CSSProperties = {};
@@ -226,8 +226,8 @@ onMounted(() => nextTick(() => measureTrack()));
 <template>
   <view :class="rootClass">
     <view
-      class="lk-slider__track-container"
       :id="trackId"
+      class="lk-slider__track-container"
       @click="onTrackClick"
       @touchstart.stop.prevent="onTouchStart"
       @touchmove.stop.prevent="onTouchMove"

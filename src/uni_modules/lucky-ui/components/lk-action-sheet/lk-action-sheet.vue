@@ -2,10 +2,6 @@
 import { watch, ref } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import { actionSheetProps, actionSheetEmits, type Action } from './action-sheet.props';
-import {
-  ANIMATION_PRESETS,
-  type TransitionConfig,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
 defineOptions({ name: 'LkActionSheet' });
@@ -25,7 +21,7 @@ watch(
 function hide() {
   emit('update:modelValue', false);
 }
-function onSelect(act: Action, idx: number, event: any) {
+function onSelect(act: Action, idx: number, event: unknown) {
   if (act.disabled || act.loading) return;
 
   activeIndex.value = idx;
@@ -34,7 +30,7 @@ function onSelect(act: Action, idx: number, event: any) {
   emit('select', { action: act, index: idx });
   if (props.closeOnClickAction) hide();
 }
-function cancel(event: any) {
+function cancel(event: unknown) {
   activeIndex.value = 'cancel';
   triggerRipple(event);
 

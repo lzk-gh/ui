@@ -1,5 +1,6 @@
 ---
 title: Tabbar 底部导航
+phone: tabbar
 ---
 
 # Tabbar 底部导航
@@ -172,3 +173,4 @@ interface TabbarItemConfig {
 ## 参考
 
 - 组件演示：`src/components/demos/tabbar-demo.vue`
+

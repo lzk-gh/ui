@@ -38,6 +38,10 @@ export const anchorProps = {
    * 顶部偏移量 (px/rpx) - 判断吸顶/激活的阈值
    */
   headerOffset: LkProp.stringNumber(0),
+  /**
+   * 当前滚动条高度，用于计算激活项
+   */
+  scrollTop: LkProp.number(0),
 };
 
 export const anchorLinkProps = {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue';
+import { computed, ref } from 'vue';
 import { textareaProps, textareaEmits } from './textarea.props';
 
 defineOptions({ name: 'LkTextarea' });

@@ -38,7 +38,7 @@ const mergedSize = computed(() => {
 
 const mergedIconSize = computed(() => {
   if (props.iconSize) return props.iconSize;
-  return mergedSize.value === 'sm' ? 18 : mergedSize.value === 'lg' ? 26 : 22;
+  return mergedSize.value === 'sm' ? 24 : mergedSize.value === 'lg' ? 36 : 30;
 });
 
 const checkboxClass = computed(() => {
@@ -73,7 +73,7 @@ const iconStyle = computed(() => {
   return style;
 });
 
-const handleToggle = () => {
+function handleToggle() {
   if (isDisabled.value) return;
   if (group) {
     group.toggleValue(checkboxValue.value);
@@ -82,16 +82,16 @@ const handleToggle = () => {
     emit('update:modelValue', nextValue);
     emit('change', nextValue);
   }
-};
+}
 
-const handleLabelClick = () => {
+function handleLabelClick() {
   if (props.labelDisabled) return;
   handleToggle();
-};
+}
 </script>
 
 <template>
-  <view :class="checkboxClass" :style="customStyle" @tap="handleToggle">
+  <view :class="checkboxClass" :style="customStyle as any" @tap="handleToggle">
     <view class="lk-checkbox__icon-wrap">
       <slot
         name="icon"

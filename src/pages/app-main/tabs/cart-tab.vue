@@ -1,10 +1,3 @@
-<template>
-  <view class="tab-page cart-tab">
-    <!-- 页面内容 -->
-    <cart-content :content-height="contentHeight" />
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import CartContent from './components/cart-content.vue';
@@ -17,6 +10,12 @@ defineProps<{
 const contentHeight = computed(() => '100%');
 </script>
 
+<template>
+  <view class="tab-page cart-tab">
+    <!-- 页面内容 -->
+    <cart-content :content-height="contentHeight" />
+  </view>
+</template>
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

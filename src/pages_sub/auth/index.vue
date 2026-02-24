@@ -1,23 +1,3 @@
-<template>
-  <view class="page-container" :class="themeClass" :style="brandStyleVars">
-    <lk-navbar title="登录" @back="goBack" />
-
-    <view class="auth-page">
-      <view class="auth-header">
-        <text class="title">欢迎回来</text>
-        <text class="subtitle">请登录您的账户</text>
-      </view>
-
-      <view class="auth-form">
-        <lk-input v-model="phone" prefix-icon="phone" placeholder="请输入手机号" type="number" />
-        <lk-input v-model="password" prefix-icon="lock" placeholder="请输入密码" type="password" />
-
-        <lk-button type="primary" block radius="40" @click="handleLogin">登录</lk-button>
-      </view>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
@@ -44,6 +24,25 @@ const handleLogin = () => {
 };
 </script>
 
+<template>
+  <view class="page-container" :class="themeClass" :style="brandStyleVars">
+    <lk-navbar title="登录" @back="goBack" />
+
+    <view class="auth-page">
+      <view class="auth-header">
+        <text class="title">欢迎回来</text>
+        <text class="subtitle">请登录您的账户</text>
+      </view>
+
+      <view class="auth-form">
+        <lk-input v-model="phone" prefix-icon="phone" placeholder="请输入手机号" type="number" />
+        <lk-input v-model="password" prefix-icon="lock" placeholder="请输入密码" type="password" />
+
+        <lk-button type="primary" block radius="40" @click="handleLogin">登录</lk-button>
+      </view>
+    </view>
+  </view>
+</template>
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 

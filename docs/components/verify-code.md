@@ -1,5 +1,6 @@
 ---
 title: VerifyCode 验证码输入框
+phone: verify-code
 ---
 
 # VerifyCode 验证码输入框
@@ -190,3 +191,4 @@ function handleSetValue() {
 --lk-color-fill-tertiary   /* 填充色 */
 --lk-radius-lg             /* 圆角大小 */
 ```
+

@@ -27,7 +27,7 @@ onBeforeUnmount(() => tabs?.unregister({ name: props.name }));
 </script>
 
 <template>
-  <view class="lk-tab-pane" v-show="active">
+  <view v-show="active" class="lk-tab-pane">
     <slot v-if="!tabs?.lazy || loaded || active" />
   </view>
 </template>

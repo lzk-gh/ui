@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 // UniApp 环境下的平台检测 - 基于官方条件编译变量
 let systemInfo: UniApp.GetSystemInfoResult | null = null;
 

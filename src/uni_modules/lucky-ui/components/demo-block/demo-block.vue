@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({ name: 'DemoBlock' });
-const props = defineProps({
+defineProps({
   title: { type: String, default: '' },
   padding: { type: Boolean, default: true },
 });

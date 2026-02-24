@@ -1,55 +1,56 @@
-<template>
-  <view v-if="display" class="lk-curtain" :class="customClass" :style="customStyle">
-    <lk-overlay v-if="display" :show="show" :z-index="zIndex" @click="onOverlayClick" />
-    <view
-      class="lk-curtain__content"
-      :class="contentClasses"
-      :style="{ ...contentStyle, ...contentStyles }"
-    >
-      <image
-        class="lk-curtain__image"
-        :src="imageUrl"
-        mode="aspectFit"
-        :style="{ width: '100%', height: '100%' }"
-        @click="onClick"
-      />
-      <view
-        class="lk-curtain__close"
-        :class="['lk-curtain__close--' + closePosition]"
-        @click="onClose"
-      >
-        <lk-icon name="x-lg" size="32" color="var(--lk-color-text-inverse)" />
-      </view>
-    </view>
-  </view>
-</template>
-
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
+
+import LkOverlay from '../lk-overlay/lk-overlay.vue';
+import LkIcon from '../lk-icon/lk-icon.vue';
+
 import {
   useTransition,
   type TransitionConfig,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
-import { curtainProps, curtainEmits } from './curtain.props';
 import { addUnit } from '../../core/src/utils/unit';
-import LkOverlay from '../lk-overlay/lk-overlay.vue';
-import LkIcon from '../lk-icon/lk-icon.vue';
+import { curtainProps, curtainEmits } from './curtain.props';
 
 defineOptions({ name: 'LkCurtain' });
 
 const props = defineProps(curtainProps);
 const emit = defineEmits(curtainEmits);
 
-const zIndex = 10090;
+const slots = useSlots();
 
 const widthStr = computed(() => addUnit(props.width));
 const heightStr = computed(() => addUnit(props.height));
+const closeOffsetStr = computed(() => addUnit(props.closeOffset) || '24rpx');
+const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || '36rpx');
+const hasDefaultSlot = computed(() => !!slots.default);
+const rootStyle = computed<(string | Record<string, string | number>)[]>(() => [
+  (props.customStyle || '') as string,
+  { zIndex: props.zIndex },
+]);
 
 const contentStyle = computed(() => {
   return {
-    zIndex: zIndex + 1,
+    zIndex: props.zIndex + 1,
     width: widthStr.value,
     height: heightStr.value,
+  };
+});
+
+const closeStyle = computed(() => {
+  if (props.closePosition === 'bottom') {
+    return {
+      bottom: ensureNegativeOffset(closeOffsetBottomStr.value),
+    };
+  }
+
+  if (props.closePosition === 'top-left' || props.closePosition === 'top-right') {
+    return {
+      top: ensureNegativeOffset(closeOffsetStr.value),
+    };
+  }
+
+  return {
+    bottom: ensureNegativeOffset(closeOffsetStr.value),
   };
 });
 
@@ -65,28 +66,84 @@ const {
   display,
 } = useTransition(() => props.show, transitionConfig.value);
 
-const onOverlayClick = () => {
+function ensureNegativeOffset(value: string) {
+  return value.startsWith('-') ? value : `-${value}`;
+}
+
+function onOverlayClick() {
   emit('click-overlay');
   if (props.closeOnClickOverlay) {
     onClose();
   }
-};
+}
 
-const onClose = () => {
+function onClose() {
   emit('update:show', false);
   emit('close');
-};
+}
 
-const onClick = () => {
+function onClick() {
   emit('click');
-  if (props.link) {
-    // @ts-ignore
-    uni[props.linkType]({
+  if (!props.link) return;
+
+  // #ifdef H5
+  if (props.link.startsWith('http')) {
+    window.location.href = props.link;
+    return;
+  }
+  // #endif
+
+  const navFn = (uni as unknown as Record<string, (...args: unknown[]) => unknown>)[
+    props.linkType
+  ];
+  if (typeof navFn === 'function') {
+    navFn({
       url: props.link,
     });
   }
-};
+}
 </script>
+
+<template>
+  <view
+    v-if="display"
+    class="lk-curtain"
+    :class="customClass"
+    :style="rootStyle"
+  >
+    <lk-overlay
+      v-if="display"
+      :show="show"
+      :z-index="props.zIndex"
+      @click="onOverlayClick"
+    />
+    <view
+      class="lk-curtain__content"
+      :class="contentClasses"
+      :style="[contentStyle, contentStyles]"
+    >
+      <view v-if="hasDefaultSlot" class="lk-curtain__slot" @click="onClick">
+        <slot />
+      </view>
+      <image
+        v-else
+        class="lk-curtain__image"
+        :src="imageUrl"
+        :mode="imageMode"
+        :style="{ width: '100%', height: '100%' }"
+        @click="onClick"
+      />
+      <view
+        class="lk-curtain__close"
+        :class="['lk-curtain__close--' + closePosition]"
+        :style="closeStyle"
+        @click="onClose"
+      >
+        <lk-icon name="x-lg" size="32" color="var(--lk-color-text-inverse)" />
+      </view>
+    </view>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .lk-curtain {
@@ -98,7 +155,6 @@ const onClick = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10090;
   pointer-events: auto;
 
   &__content {
@@ -114,6 +170,11 @@ const onClick = () => {
     display: block;
   }
 
+  &__slot {
+    width: 100%;
+    height: 100%;
+  }
+
   &__close {
     position: absolute;
     display: flex;
@@ -126,27 +187,22 @@ const onClick = () => {
     z-index: 1;
 
     &--top-left {
-      top: -40rpx;
       left: 0;
     }
 
     &--top-right {
-      top: -40rpx;
       right: 0;
     }
 
     &--bottom-left {
-      bottom: -40rpx;
       left: 0;
     }
 
     &--bottom-right {
-      bottom: -40rpx;
       right: 0;
     }
 
     &--bottom {
-      bottom: -56rpx;
       left: 50%;
       transform: translateX(-50%);
     }

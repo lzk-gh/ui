@@ -6,7 +6,7 @@
  * @param trailing 是否在结束时执行（可选，默认为 true）
  * @returns 节流后的函数
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number,
   leading: boolean = true,
@@ -14,28 +14,23 @@ export function throttle<T extends (...args: any[]) => any>(
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null;
   let lastArgs: Parameters<T> | null;
-  let lastContext: any;
 
   const later = () => {
     if (trailing && lastArgs) {
-      func.apply(lastContext, lastArgs);
+      func(...lastArgs);
       lastArgs = null;
-      lastContext = null;
       timeout = setTimeout(later, wait);
     } else {
       timeout = null;
     }
   };
 
-  return function (this: any, ...args: Parameters<T>): void {
-    const context = this;
-
+  return function (...args: Parameters<T>): void {
     if (!timeout && leading) {
-      func.apply(context, args);
+      func(...args);
       timeout = setTimeout(later, wait);
     } else {
       lastArgs = args;
-      lastContext = context;
 
       if (!timeout) {
         timeout = setTimeout(later, wait);

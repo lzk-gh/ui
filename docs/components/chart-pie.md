@@ -1,3 +1,8 @@
+---
+title: ChartPie 饼/环图
+phone: chart-pie
+---
+
 # ChartPie 饼/环图
 
 高性能饼图/圆环图组件。圆环模式通过 `lineCap=round` 实现末端圆润，支持 DPR 防模糊、RAF 进入动画与触摸 Tooltip。
@@ -21,3 +26,4 @@
 ## Events
 
 - `hoverChange(index)`：触摸高亮扇区变化（无高亮时为 `-1`）
+

@@ -28,7 +28,11 @@ export type VerifyCodeStatus = (typeof VerifyCodeStatus)[keyof typeof VerifyCode
 export const verifyCodeProps = {
   ...baseProps,
   /** 验证码长度 (4/6/8) */
-  length: LkProp.number<4 | 6 | 8>(6),
+  length: {
+    type: Number as PropType<4 | 6 | 8>,
+    default: 6,
+    validator: (v: unknown): v is 4 | 6 | 8 => v === 4 || v === 6 || v === 8,
+  },
   /** 绑定值 */
   modelValue: LkProp.string(''),
   /** 输入类型 */

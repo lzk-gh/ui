@@ -58,7 +58,9 @@ export function applyBrandColor(color: string): void {
   // 保存
   try {
     uni.setStorageSync('lk-brand-color', color);
-  } catch {}
+  } catch {
+    // ignore
+  }
 }
 
 /**

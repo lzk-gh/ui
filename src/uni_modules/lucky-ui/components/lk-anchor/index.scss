@@ -1,8 +1,5 @@
 @use '../../theme/src/mixins' as *;
 
-// 圆角大小，控制凹角的弯曲程度
-$anchor-radius-size: 32rpx;
-
 @include b(anchor) {
   display: block;
   width: 100%;
@@ -49,7 +46,7 @@ $anchor-radius-size: 32rpx;
     max-width: 100%;
   }
 
-  // 侧边指示条 (可选，现在的流行风格通常不需要这个条，或者做得很细)
+  // 侧边指示条
   @include e(indicator) {
     position: absolute;
     left: 0;
@@ -60,7 +57,7 @@ $anchor-radius-size: 32rpx;
     border-radius: 0 4rpx 4rpx 0;
     background-color: var(--lk-anchor-active-color, var(--lk-color-primary, #2979ff));
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
     z-index: 6;
   }
 
@@ -81,50 +78,11 @@ $anchor-radius-size: 32rpx;
     @include e(title) {
       font-weight: 600;
       color: var(--lk-anchor-active-color, var(--lk-color-primary, #2979ff));
-      font-size: 28rpx;
+      font-size: 27rpx;
     }
 
     @include e(indicator) {
       opacity: 1;
-    }
-
-    // --- 核心：丝滑内凹圆角 (Concave Corners) ---
-    // 原理：在白色块的右上和右下放置透明方块，
-    // 利用 box-shadow 向内投射白色，配合 border-radius 形成切角
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      width: $anchor-radius-size;
-      height: $anchor-radius-size;
-      background-color: transparent; // 自身透明
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    // 上方的凹角
-    &::before {
-      top: -$anchor-radius-size;
-      // 这里的圆角是给“透明盒子”的右下角设的，配合 shadow 形成反向视觉
-      border-bottom-right-radius: $anchor-radius-size;
-      box-shadow: 10rpx 10rpx 0 0
-        var(
-          --lk-anchor-bg-active,
-          var(--lk-color-bg-surface, var(--lk-color-bg-container, #ffffff))
-        );
-    }
-
-    // 下方的凹角
-    &::after {
-      bottom: -$anchor-radius-size;
-      border-top-right-radius: $anchor-radius-size;
-      box-shadow: 10rpx -10rpx 0 0
-        var(
-          --lk-anchor-bg-active,
-          var(--lk-color-bg-surface, var(--lk-color-bg-container, #ffffff))
-        );
     }
   }
 

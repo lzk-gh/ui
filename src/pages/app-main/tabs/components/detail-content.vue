@@ -194,6 +194,7 @@ import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 
 defineProps<{
   contentHeight: string;
+  skipAnimation?: boolean;
 }>();
 
 const themeStore = useThemeStore();

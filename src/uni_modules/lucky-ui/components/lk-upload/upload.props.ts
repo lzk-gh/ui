@@ -28,9 +28,9 @@ export const uploadProps = {
 export type UploadProps = ExtractPropTypes<typeof uploadProps>;
 
 export const uploadEmits = {
-  'update:modelValue': (val: string[]) => true,
-  change: (val: string[]) => true,
-  remove: (index: number) => true,
-  add: (list: string[]) => true,
+  'update:modelValue': (_val: string[]) => true,
+  change: (_val: string[]) => true,
+  remove: (_index: number) => true,
+  add: (_list: string[]) => true,
   oversize: () => true,
 };

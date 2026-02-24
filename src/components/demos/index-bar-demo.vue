@@ -1,46 +1,5 @@
-<template>
-  <view class="contacts-page">
-    <!-- 搜索栏 -->
-    <view class="search-bar">
-      <view class="search-input">
-        <text class="search-icon">🔍</text>
-        <text class="search-placeholder">搜索联系人</text>
-      </view>
-    </view>
-
-    <!-- 联系人列表 -->
-    <lk-index-bar :index-list="indexList" @select="onSelect">
-      <lk-index-anchor
-        v-for="group in contactGroups"
-        :key="group.letter"
-        :index="group.letter"
-        :title="group.letter"
-      >
-        <view
-          v-for="contact in group.contacts"
-          :key="contact.id"
-          class="contact-item"
-          @click="onContactClick(contact)"
-        >
-          <view class="contact-avatar" :style="{ background: contact.color }">
-            {{ contact.avatar }}
-          </view>
-          <view class="contact-info">
-            <view class="contact-name">{{ contact.name }}</view>
-            <view class="contact-desc">{{ contact.phone }}</view>
-          </view>
-          <view class="contact-actions">
-            <view class="action-btn action-btn--call">📞</view>
-            <view class="action-btn action-btn--msg">💬</view>
-          </view>
-        </view>
-      </lk-index-anchor>
-    </lk-index-bar>
-  </view>
-</template>
-
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import LkIndexBar from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-bar.vue';
 import LkIndexAnchor from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-anchor.vue';
 
@@ -114,9 +73,16 @@ const contactGroups = computed(() => {
 
 // 索引列表
 const indexList = computed(() => contactGroups.value.map(g => g.letter));
+const contentScrollTop = ref(0);
+const contentScrollIntoView = ref('');
 
 function onSelect(letter: string) {
   console.log('选择索引:', letter);
+  contentScrollIntoView.value = `contact-group-${letter}`;
+}
+
+function onContentScroll(e: { detail: { scrollTop: number } }) {
+  contentScrollTop.value = e.detail.scrollTop;
 }
 
 function onContactClick(contact: Contact) {
@@ -127,6 +93,61 @@ function onContactClick(contact: Contact) {
 }
 </script>
 
+<template>
+  <view class="contacts-page">
+    <!-- 搜索栏 -->
+    <view class="search-bar">
+      <view class="search-input">
+        <text class="search-icon">🔍</text>
+        <text class="search-placeholder">搜索联系人</text>
+      </view>
+    </view>
+
+    <!-- 联系人列表 -->
+    <scroll-view
+      id="index-bar-content"
+      class="contacts-content"
+      scroll-y
+      scroll-with-animation
+      :scroll-into-view="contentScrollIntoView"
+      @scroll="onContentScroll"
+    >
+      <lk-index-bar
+        :index-list="indexList"
+        :scroll-top="contentScrollTop"
+        scroll-target="#index-bar-content"
+        @select="onSelect"
+      >
+        <lk-index-anchor
+          v-for="group in contactGroups"
+          :id="`contact-group-${group.letter}`"
+          :key="group.letter"
+          :index="group.letter"
+          :title="group.letter"
+        >
+          <view
+            v-for="contact in group.contacts"
+            :key="contact.id"
+            class="contact-item"
+            @click="onContactClick(contact)"
+          >
+            <view class="contact-avatar" :style="{ background: contact.color }">
+              {{ contact.avatar }}
+            </view>
+            <view class="contact-info">
+              <view class="contact-name">{{ contact.name }}</view>
+              <view class="contact-desc">{{ contact.phone }}</view>
+            </view>
+            <view class="contact-actions">
+              <view class="action-btn action-btn--call">📞</view>
+              <view class="action-btn action-btn--msg">💬</view>
+            </view>
+          </view>
+        </lk-index-anchor>
+      </lk-index-bar>
+    </scroll-view>
+  </view>
+</template>
 <style scoped lang="scss">
 .contacts-page {
   min-height: 100vh;
@@ -160,6 +181,10 @@ function onContactClick(contact: Contact) {
 .search-placeholder {
   font-size: 28rpx;
   color: var(--lk-color-text-tertiary);
+}
+
+.contacts-content {
+  height: 1200rpx;
 }
 
 .contact-item {

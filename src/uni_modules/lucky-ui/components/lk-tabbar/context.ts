@@ -1,5 +1,5 @@
 import type { ComputedRef, InjectionKey } from 'vue';
-import type { TabbarMode, TabbarItemConfig } from './tabbar.props';
+import type { TabbarMode } from './tabbar.props';
 
 export type TabbarValue = string | number;
 

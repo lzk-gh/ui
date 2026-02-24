@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const buttonLoading = ref(false);
+
+const showToast = (message: string) => {
+  uni.showToast({
+    title: message,
+    icon: 'none',
+    duration: 2000,
+  });
+};
+
+const triggerLoading = () => {
+  buttonLoading.value = true;
+  setTimeout(() => {
+    buttonLoading.value = false;
+    showToast('加载完成');
+  }, 2000);
+};
+</script>
+
 <template>
   <view class="component-demo">
     <!-- Button 按钮演示 -->
@@ -67,32 +92,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const buttonLoading = ref(false);
-
-const showToast = (message: string) => {
-  uni.showToast({
-    title: message,
-    icon: 'none',
-    duration: 2000,
-  });
-};
-
-const triggerLoading = () => {
-  buttonLoading.value = true;
-  setTimeout(() => {
-    buttonLoading.value = false;
-    showToast('加载完成');
-  }, 2000);
-};
-</script>
-
 <style scoped lang="scss">
 .component-demo {
   display: flex;

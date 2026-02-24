@@ -164,7 +164,7 @@ function trackTransform(digit: number) {
 </script>
 
 <template>
-  <view :class="classes" :style="[rollerStyle, props.customStyle]">
+  <view :class="classes" :style="[rollerStyle, props.customStyle as any]">
     <template v-for="segment in renderSegments" :key="segment.key">
       <view v-if="segment.type === 'digit'" class="lk-number-roller__segment">
         <view class="lk-number-roller__window">
