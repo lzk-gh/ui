@@ -1,361 +1,337 @@
-@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins/bem' as *;
 
-// ================================
-// Steps 步骤条容器
-// ================================
 @include b(steps) {
-  --_icon-size: 56rpx;
-  --_dot-size: 16rpx;
-  --_line-width: 4rpx;
-  --_spacing: var(--lk-spacing-lg);
-  --_color-active: var(--lk-color-primary);
-  --_color-finished: var(--lk-color-primary);
-  --_color-pending: var(--lk-fill-2);
-  --_color-line: var(--lk-color-border-light);
-  --_transition-timing: cubic-bezier(0.34, 1.56, 0.64, 1);
-
   position: relative;
   display: flex;
 
-  // ==================== 水平模式 ====================
-  @include m(horizontal) {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+  // ============================================================
+  // ==================== STORY 妯″紡 ====================
+  // ============================================================
+  @include m(story) {
+    --_story-radius: 32rpx;
+    --_story-bar-h: 6rpx;
+    --_story-bar-gap: 8rpx;
+    --_story-pad: 40rpx;
+    --_story-safe-top: 0px;
 
-    .lk-step {
-      flex: 1;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-
-      &__line {
-        position: absolute;
-        top: calc(var(--_icon-size) / 2);
-        left: calc(50% + var(--_icon-size) / 2 + 8rpx);
-        right: calc(-50% + var(--_icon-size) / 2 + 8rpx);
-        height: var(--_line-width);
-        background: var(--_color-line);
-        transform: translateY(-50%);
-        overflow: hidden;
-
-        &-fill {
-          width: 0%;
-          height: 100%;
-          background: var(--_color-finished);
-          transition: width 0.6s var(--_transition-timing);
-        }
-      }
-
-      &__content {
-        margin-top: var(--lk-spacing-sm);
-      }
-
-      &:last-child .lk-step__line {
-        display: none;
-      }
-
-      &.is-finished .lk-step__line-fill {
-        width: 100%;
-      }
-    }
-  }
-
-  // ==================== 垂直模式 ====================
-  @include m(vertical) {
     flex-direction: column;
-    align-items: stretch;
-
-    .lk-step {
-      flex-direction: row;
-      align-items: flex-start;
-      padding-bottom: var(--_spacing);
-
-      &__icon {
-        flex-shrink: 0;
-      }
-
-      &__line {
-        position: absolute;
-        left: calc(var(--_icon-size) / 2);
-        top: calc(var(--_icon-size) + 8rpx);
-        bottom: 8rpx;
-        width: var(--_line-width);
-        transform: translateX(-50%);
-        background: var(--_color-line);
-        overflow: hidden;
-
-        &-fill {
-          width: 100%;
-          height: 0%;
-          background: var(--_color-finished);
-          transition: height 0.6s var(--_transition-timing);
-        }
-      }
-
-      &__content {
-        margin-left: var(--lk-spacing-md);
-        padding-top: 6rpx;
-        text-align: left;
-      }
-
-      &:last-child {
-        padding-bottom: 0;
-
-        .lk-step__line {
-          display: none;
-        }
-      }
-
-      &.is-finished .lk-step__line-fill {
-        height: 100%;
-      }
-    }
-  }
-
-  // ==================== 进度条模式 ====================
-  @include m(progress) {
-    .lk-step__line {
-      display: none;
-    }
-  }
-
-  // 进度条轨道
-  @include e(track) {
-    position: absolute;
-    top: calc(var(--_icon-size) / 2);
-    left: calc(var(--_icon-size) / 2);
-    right: calc(var(--_icon-size) / 2);
-    height: var(--_line-width);
-    background: var(--_color-line);
-    border-radius: var(--lk-radius-pill);
-    transform: translateY(-50%);
-    overflow: hidden;
-    z-index: 0;
-  }
-
-  @include e(progress) {
-    height: 100%;
-    width: var(--steps-progress);
-    background: linear-gradient(90deg, var(--_color-finished), var(--_color-active));
-    border-radius: var(--lk-radius-pill);
-    transition: width 0.6s var(--_transition-timing);
-  }
-
-  // ==================== Dot 简洁模式 ====================
-  @include m(dot) {
-    --_icon-size: 32rpx;
-    --_dot-size: 12rpx;
-
-    .lk-step__circle {
-      width: var(--_icon-size);
-      height: var(--_icon-size);
-    }
-
-    .lk-step__number {
-      display: none;
-    }
-
-    .lk-step__dot {
-      display: block;
-    }
-  }
-}
-
-// ================================
-// Step 单个步骤
-// ================================
-@include b(step) {
-  position: relative;
-  display: flex;
-  z-index: 1;
-
-  // ==================== 图标区域 ====================
-  @include e(icon) {
     position: relative;
-    width: var(--_icon-size);
-    height: var(--_icon-size);
+    border-radius: var(--_story-radius);
+    overflow: hidden;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @include e(story-bars) {
+    position: absolute;
+    top: calc(var(--_story-pad) + var(--_story-safe-top));
+    left: var(--_story-pad);
+    right: var(--_story-pad);
+    z-index: 10;
+    display: flex;
+    gap: var(--_story-bar-gap);
+    align-items: center;
+  }
+
+  @include e(story-bar) {
+    flex: 1;
+    height: var(--_story-bar-h);
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 999rpx;
+    overflow: hidden;
+    backdrop-filter: blur(2px);
+  }
+
+  @include e(story-bar-fill) {
+    height: 100%;
+    background: #fff;
+    border-radius: 999rpx;
+    width: 0%;
+    transition: width 300ms linear;
+  }
+
+  @include e(story-card) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 800rpx;
+    height: 100%;
+    opacity: 0;
+    transform: translateX(100%);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 20%, rgba(0, 0, 0, 0.6) 100%);
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    @include when(active) {
+      opacity: 1;
+      transform: translateX(0);
+      position: absolute;
+    }
+
+    @include when(prev) {
+      transform: translateX(-100%);
+      position: absolute;
+    }
+  }
+
+  @include e(story-tag) {
+    position: absolute;
+    top: calc(var(--_story-pad) * 2 + 20rpx + var(--_story-safe-top));
+    left: var(--_story-pad);
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999rpx;
+    padding: 6rpx 20rpx;
+    backdrop-filter: blur(8px);
+
+    text {
+      font-size: var(--lk-font-size-xs);
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+
+  @include e(story-body) {
+    position: relative;
+    z-index: 2;
+    padding: var(--_story-pad);
+    padding-top: 80rpx;
+    display: flex;
+    flex-direction: column;
+    gap: 12rpx;
+  }
+
+  @include e(story-icon) {
+    margin-bottom: 8rpx;
+  }
+
+  @include e(story-title) {
+    font-size: var(--lk-font-size-xxl);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    letter-spacing: -0.5rpx;
+  }
+
+  @include e(story-subtitle) {
+    font-size: var(--lk-font-size-lg);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+  }
+
+  @include e(story-desc) {
+    font-size: var(--lk-font-size-sm);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-top: 4rpx;
+  }
+
+  @include e(story-nav) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  @include e(story-nav-prev) {
+    flex: 1;
+  }
+  @include e(story-nav-next) {
+    flex: 1;
+  }
+
+  @include e(story-footer) {
+    position: absolute;
+    bottom: 32rpx;
+    right: var(--_story-pad);
+    z-index: 10;
+  }
+
+  @include e(story-count) {
+    font-size: var(--lk-font-size-xs);
+    color: rgba(255, 255, 255, 0.6);
+    font-variant-numeric: tabular-nums;
+  }
+
+  // ============================================================
+  // ==================== STACK 妯″紡 ====================
+  // ============================================================
+  @include m(stack) {
+    --_stack-radius: 32rpx;
+    --_stack-shadow: 0 24rpx 64rpx rgba(0, 0, 0, 0.12), 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
+    --_stack-pad: 48rpx;
+
+    flex-direction: column;
+    position: relative;
+    min-height: 560rpx;
+    width: 100%;
+  }
+
+  @include e(stack-card) {
+    position: absolute;
+    inset: 0;
+    // 瀹屽叏涓嶉€忔槑鐨勭櫧鑹?涓婚瀹瑰櫒鑹诧紝閬垮厤鏂囧瓧鍥犺儗鏅€忔槑鑰岄噸鍙?    background: var(--lk-bg-container);
+    border-radius: var(--_stack-radius);
+    box-shadow: var(--_stack-shadow);
+    padding: var(--_stack-pad);
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+    transform-origin: top center;
+    transition:
+      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.4s ease;
+    will-change: transform;
+    overflow: hidden;
+
+    @include when(active) {
+      box-shadow:
+        0 32rpx 80rpx rgba(0, 0, 0, 0.15),
+        0 12rpx 32rpx rgba(0, 0, 0, 0.1);
+    }
+
+    @include when(leaving) {
+      animation: lk-stack-leave 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+  }
+
+  @include e(stack-header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @include e(stack-step) {
+    display: flex;
+    align-items: baseline;
+    gap: 8rpx;
+  }
+
+  @include e(stack-step-circle) {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 999rpx;
+    background: var(--lk-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
-  // 涟漪动画
-  @include e(ripple) {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--lk-radius-circle);
-    background: var(--_color-active);
-    opacity: 0.25;
-    animation: lk-step-ripple 1.5s ease-out infinite;
+  @include e(stack-step-num) {
+    font-size: var(--lk-font-size-sm);
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
   }
 
-  // 圆圈主体
-  @include e(circle) {
-    width: var(--_icon-size);
-    height: var(--_icon-size);
-    border-radius: var(--lk-radius-circle);
-    background: var(--_color-pending);
+  @include e(stack-step-total) {
+    font-size: var(--lk-font-size-xs);
+    color: var(--lk-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @include e(stack-icon) {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 16rpx;
+    background: var(--lk-color-primary-soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition:
-      transform 0.4s var(--_transition-timing),
-      background 0.3s ease,
-      box-shadow 0.3s ease;
-    position: relative;
-    z-index: 2;
+    color: var(--lk-color-primary);
   }
 
-  // 内部圆点
-  @include e(dot) {
-    width: var(--_dot-size);
-    height: var(--_dot-size);
-    background: var(--lk-text-tertiary);
-    border-radius: var(--lk-radius-circle);
-    transition:
-      transform 0.4s var(--_transition-timing),
-      background 0.3s ease;
-  }
-
-  // 步骤序号
-  @include e(number) {
-    font-size: var(--lk-font-size-sm);
-    font-weight: 600;
-    color: var(--lk-text-tertiary);
-    font-variant-numeric: tabular-nums;
-    transition: color 0.3s ease;
-  }
-
-  // 完成勾选图标
-  @include e(check) {
-    color: #fff;
-    animation: lk-step-check 0.4s var(--_transition-timing);
-  }
-
-  // 错误图标
-  @include e(error-icon) {
-    color: #fff;
-  }
-
-  // 自定义图标
-  @include e(custom-icon) {
-    color: var(--lk-text-tertiary);
-    transition: color 0.3s ease;
-  }
-
-  // ==================== 内容区域 ====================
-  @include e(content) {
+  @include e(stack-body) {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4rpx;
+    gap: 12rpx;
   }
 
-  @include e(title) {
-    font-size: var(--lk-font-size-sm);
-    font-weight: 500;
-    color: var(--lk-text-tertiary);
-    transition: color 0.3s ease;
-    line-height: 1.4;
-  }
-
-  @include e(sub) {
+  @include e(stack-tag) {
     font-size: var(--lk-font-size-xs);
-    color: var(--lk-text-placeholder);
+    color: var(--lk-color-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1rpx;
+  }
+
+  @include e(stack-title) {
+    font-size: var(--lk-font-size-xl);
+    font-weight: 700;
+    color: var(--lk-text-primary);
+    line-height: 1.35;
+    letter-spacing: -0.5rpx;
+  }
+
+  @include e(stack-subtitle) {
+    font-size: var(--lk-font-size-base);
+    font-weight: 500;
+    color: var(--lk-text-secondary);
     line-height: 1.4;
   }
 
-  // ==================== 激活态 ====================
-  @include when(active) {
-    @include e(circle) {
-      background: var(--_color-active);
-      transform: scale(1.1);
-      box-shadow:
-        0 4rpx 16rpx rgba(var(--lk-color-primary-rgb), 0.35),
-        0 0 0 6rpx rgba(var(--lk-color-primary-rgb), 0.12);
-    }
-
-    @include e(dot) {
-      background: #fff;
-      transform: scale(1.2);
-    }
-
-    @include e(number) {
-      color: #fff;
-    }
-
-    @include e(custom-icon) {
-      color: #fff;
-    }
-
-    @include e(title) {
-      color: var(--lk-text-primary);
-      font-weight: 600;
-    }
+  @include e(stack-desc) {
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-text-secondary);
+    line-height: 1.65;
   }
 
-  // ==================== 完成态 ====================
-  @include when(finished) {
-    @include e(circle) {
-      background: var(--_color-finished);
-    }
-
-    @include e(dot) {
-      background: #fff;
-    }
-
-    @include e(number) {
-      color: #fff;
-    }
-
-    @include e(custom-icon) {
-      color: #fff;
-    }
-
-    @include e(title) {
-      color: var(--lk-text-primary);
-    }
+  @include e(stack-progress) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6rpx;
+    background: var(--lk-fill-2);
+    border-radius: 0 0 var(--_stack-radius) var(--_stack-radius);
+    overflow: hidden;
   }
 
-  // ==================== 错误态 ====================
-  @include when(error) {
-    @include e(circle) {
-      background: var(--lk-color-danger);
-      box-shadow:
-        0 4rpx 16rpx rgba(var(--lk-color-danger-rgb), 0.35),
-        0 0 0 6rpx rgba(var(--lk-color-danger-rgb), 0.12);
-    }
+  @include e(stack-progress-fill) {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--lk-color-primary),
+      var(--lk-brand-400, var(--lk-color-primary))
+    );
+    border-radius: inherit;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
 
-    @include e(title) {
-      color: var(--lk-color-danger);
-    }
+  @include e(stack-actions) {
+    margin-top: auto;
+    padding-top: 8rpx;
   }
 }
 
-// ==================== 动画关键帧 ====================
-@keyframes lk-step-ripple {
+// ==================== Keyframes ====================
+@keyframes lk-stack-leave {
   0% {
-    transform: scale(1);
-    opacity: 0.25;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-
-@keyframes lk-step-check {
-  0% {
-    transform: scale(0) rotate(-45deg);
-    opacity: 0;
+    opacity: 1;
+    transform: scale(1) translateY(0) translateX(0);
   }
   60% {
-    transform: scale(1.2) rotate(0);
+    opacity: 0.6;
+    transform: scale(0.96) translateY(-40rpx) translateX(24rpx) rotate(3deg);
   }
   100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.9) translateY(-80rpx) translateX(48rpx) rotate(6deg);
   }
 }
