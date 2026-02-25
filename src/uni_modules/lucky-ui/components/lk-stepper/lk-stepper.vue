@@ -115,10 +115,14 @@ function onFocus(e: any) {
 
 // --- 长按处理 (简单实现) ---
 let longPressTimer: ReturnType<typeof setTimeout> | null = null;
+// 标记是否由 touch 事件处理过，用于阻止 PC 端重复触发 click
+let touchHandled = false;
 
 function onTouchStart(type: 'minus' | 'plus') {
-  if (!props.longPress) return;
+  touchHandled = true;
   handleChange(type); // 立即触发一次
+
+  if (!props.longPress) return;
 
   longPressTimer = setTimeout(() => {
     longPressTimer = setInterval(() => {
@@ -133,6 +137,16 @@ function onTouchEnd() {
     clearInterval(longPressTimer);
     longPressTimer = null;
   }
+  // 延迟重置，确保后续 click 事件能被正确屏蔽
+  setTimeout(() => {
+    touchHandled = false;
+  }, 300);
+}
+
+function onClick(type: 'minus' | 'plus') {
+  // 如果已由 touchstart 处理过，跳过（移动端会同时触发 touch 和 click）
+  if (touchHandled) return;
+  handleChange(type);
 }
 
 watch(
@@ -157,7 +171,7 @@ watch(
       @touchstart.passive="onTouchStart('minus')"
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
-      @click.stop="!longPress && handleChange('minus')"
+      @click.stop="onClick('minus')"
     />
 
     <input
@@ -177,7 +191,7 @@ watch(
       @touchstart.passive="onTouchStart('plus')"
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
-      @click.stop="!longPress && handleChange('plus')"
+      @click.stop="onClick('plus')"
     />
   </view>
 </template>
