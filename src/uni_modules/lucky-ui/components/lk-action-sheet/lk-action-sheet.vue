@@ -13,14 +13,27 @@ const emit = defineEmits(actionSheetEmits);
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<number | string>(-1);
 
+/**
+ * 监听 modelValue 变化，打开或关闭动作面板
+ */
 watch(
   () => props.modelValue,
   v => (v ? emit('open') : emit('close'))
 );
 
+/**
+ * 隐藏动作面板
+ */
 function hide() {
   emit('update:modelValue', false);
 }
+
+/**
+ * 选项点击事件
+ * @param act 选项
+ * @param idx 选项索引
+ * @param event 事件对象
+ */
 function onSelect(act: Action, idx: number, event: unknown) {
   if (act.disabled || act.loading) return;
 
@@ -30,6 +43,11 @@ function onSelect(act: Action, idx: number, event: unknown) {
   emit('select', { action: act, index: idx });
   if (props.closeOnClickAction) hide();
 }
+
+/**
+ * 取消按钮点击事件
+ * @param event 事件对象
+ */
 function cancel(event: unknown) {
   activeIndex.value = 'cancel';
   triggerRipple(event);
@@ -38,14 +56,16 @@ function cancel(event: unknown) {
   hide();
 }
 
-/* 通过 popup 的 update:modelValue 事件向上抛出，避免在子组件内对 prop 写入引发警告 */
+/**
+ * 监听 popup 的 modelValue 变化，向上抛出，避免在子组件内对 prop 写入引发警告
+ * @param v 是否显示
+ */
 function onPopupModelChange(v: boolean) {
   emit('update:modelValue', v);
 }
 </script>
 
 <template>
-  <!-- 不能直接 v-model="modelValue"（会尝试本地写入 prop） -->
   <lk-popup
     :model-value="modelValue"
     position="bottom"
