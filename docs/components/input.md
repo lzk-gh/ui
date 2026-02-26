@@ -7,6 +7,21 @@ phone: input
 
 单行文本输入框，支持清空、前缀图标、字数统计等常见功能。
 
+## 交互式调试
+
+<PropsPlayground
+  component="input"
+  :props-def="[
+    { key: 'size', type: 'enum', label: '尺寸', values: ['sm', 'md', 'lg'], default: 'md' },
+    { key: 'type', type: 'enum', label: '输入类型', values: ['text', 'password', 'number', 'tel', 'email'], default: 'text' },
+    { key: 'placeholder', type: 'string', label: '占位文本', default: '请输入' },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'readonly', type: 'boolean', label: '只读', default: false },
+    { key: 'clearable', type: 'boolean', label: '可清除', default: true },
+    { key: 'showCount', type: 'boolean', label: '字数统计', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

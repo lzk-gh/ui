@@ -7,6 +7,20 @@ phone: tag
 
 标注内容属性、元信息或操作状态的小型标签。
 
+## 交互式调试
+
+<PropsPlayground
+  component="tag"
+  :props-def="[
+    { key: 'type', type: 'enum', label: '标签类型', values: ['solid', 'outline', 'light'], default: 'light' },
+    { key: 'size', type: 'enum', label: '标签尺寸', values: ['sm', 'md', 'lg'], default: 'md' },
+    { key: 'closable', type: 'boolean', label: '可关闭', default: false },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'round', type: 'boolean', label: '圆角', default: true },
+  ]"
+  slot-content="标签"
+/>
+
 ## 基础用法
 
 ```vue

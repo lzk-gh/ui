@@ -7,6 +7,21 @@ phone: button
 
 用于触发操作的按钮，支持多种变体、尺寸与形状。
 
+## 交互式调试
+
+<PropsPlayground
+  component="button"
+  :props-def="[
+    { key: 'variant', type: 'enum', label: '按钮变体', values: ['solid', 'outline', 'text', 'soft'], default: 'solid' },
+    { key: 'size', type: 'enum', label: '按钮尺寸', values: ['sm', 'md', 'lg'], default: 'md' },
+    { key: 'shape', type: 'enum', label: '按钮形状', values: ['default', 'square', 'round', 'circle'], default: 'default' },
+    { key: 'loading', type: 'boolean', label: '加载状态', default: false },
+    { key: 'disabled', type: 'boolean', label: '禁用状态', default: false },
+    { key: 'block', type: 'boolean', label: '块级按钮', default: false },
+  ]"
+  slot-content="按钮文字"
+/>
+
 ## 基础用法
 
 ```vue

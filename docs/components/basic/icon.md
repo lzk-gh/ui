@@ -8,6 +8,17 @@ phone: icon
 `lk-icon` 基于字体图标方案，支持 **H5 / 微信小程序 / App** 统一渲染。
 项目内置了完整的 **SVG 图标库 → 字体图标** 构建链路，业务可直接扩展。
 
+## 交互式调试
+
+<PropsPlayground
+  component="icon"
+  :props-def="[
+    { key: 'name', type: 'string', label: '图标名称', default: 'heart' },
+    { key: 'size', type: 'string', label: '图标大小', default: '48' },
+    { key: 'color', type: 'string', label: '颜色', default: '' },
+  ]"
+/>
+
 ## Showtime：为什么这套方案很强
 
 - SVG 批量筛选与锁定（可控体积）

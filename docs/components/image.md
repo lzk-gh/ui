@@ -7,6 +7,22 @@ phone: image
 
 图片展示组件，支持占位与加载失败。
 
+## 交互式调试
+
+<PropsPlayground
+  component="image"
+  :props-def="[
+    { key: 'src', type: 'string', label: '图片地址', default: 'https://picsum.photos/200' },
+    { key: 'width', type: 'string', label: '宽度', default: '200rpx' },
+    { key: 'height', type: 'string', label: '高度', default: '200rpx' },
+    { key: 'fit', type: 'enum', label: '适应模式', values: ['cover', 'contain', 'fill', 'none', 'scale-down'], default: 'cover' },
+    { key: 'lazy', type: 'boolean', label: '懒加载', default: false },
+    { key: 'preview', type: 'boolean', label: '预览', default: false },
+    { key: 'showLoading', type: 'boolean', label: '加载占位', default: true },
+    { key: 'showError', type: 'boolean', label: '错误占位', default: true },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

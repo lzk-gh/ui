@@ -7,6 +7,21 @@ phone: stepper
 
 通过加减按钮调整数值。
 
+## 交互式调试
+
+<PropsPlayground
+  component="stepper"
+  :props-def="[
+    { key: 'size', type: 'enum', label: '尺寸', values: ['sm', 'md', 'lg'], default: 'md' },
+    { key: 'min', type: 'number', label: '最小值', default: 1 },
+    { key: 'max', type: 'number', label: '最大值', default: 99 },
+    { key: 'step', type: 'number', label: '步长', default: 1 },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'integer', type: 'boolean', label: '仅整数', default: false },
+    { key: 'disableInput', type: 'boolean', label: '禁用输入', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

@@ -7,6 +7,20 @@ phone: slider
 
 用于在数值区间内进行选择。
 
+## 交互式调试
+
+<PropsPlayground
+  component="slider"
+  :props-def="[
+    { key: 'min', type: 'number', label: '最小值', default: 0 },
+    { key: 'max', type: 'number', label: '最大值', default: 100 },
+    { key: 'step', type: 'number', label: '步长', default: 1 },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'showValue', type: 'boolean', label: '显示值', default: false },
+    { key: 'showStops', type: 'boolean', label: '显示刻度', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

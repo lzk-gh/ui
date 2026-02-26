@@ -7,6 +7,17 @@ phone: checkbox
 
 用于多选场景。
 
+## 交互式调试
+
+<PropsPlayground
+  component="checkbox"
+  :props-def="[
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'indeterminate', type: 'boolean', label: '半选中', default: false },
+  ]"
+  slot-content="复选框"
+/>
+
 ## 基础用法
 
 ```vue

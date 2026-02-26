@@ -13,6 +13,13 @@
         "navigationBarTitleText": "组件详情",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/playground/index",
+      "style": {
+        "navigationBarTitleText": "Playground",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "subPackages": [

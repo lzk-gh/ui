@@ -7,6 +7,18 @@ phone: rate
 
 用于评分的星级选择。
 
+## 交互式调试
+
+<PropsPlayground
+  component="rate"
+  :props-def="[
+    { key: 'count', type: 'number', label: '总数', default: 5 },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'readonly', type: 'boolean', label: '只读', default: false },
+    { key: 'allowClear', type: 'boolean', label: '允许清除', default: true },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

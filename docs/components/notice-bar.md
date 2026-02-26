@@ -7,6 +7,19 @@ phone: notice-bar
 
 滚动播放的通知信息。
 
+## 交互式调试
+
+<PropsPlayground
+  component="notice-bar"
+  :props-def="[
+    { key: 'text', type: 'string', label: '通知内容', default: '这是一条通知信息' },
+    { key: 'scrollable', type: 'boolean', label: '滚动', default: false },
+    { key: 'closeable', type: 'boolean', label: '可关闭', default: false },
+    { key: 'icon', type: 'string', label: '图标', default: '' },
+    { key: 'noBackground', type: 'boolean', label: '无背景', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

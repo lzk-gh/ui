@@ -7,6 +7,20 @@ phone: verify-code
 
 用于输入短信验证码、密码等场景，支持自动跳格、粘贴自动填充、倒计时发送等功能。
 
+## 交互式调试
+
+<PropsPlayground
+  component="verify-code"
+  :props-def="[
+    { key: 'length', type: 'number', label: '位数', default: 6 },
+    { key: 'type', type: 'enum', label: '输入类型', values: ['text', 'number'], default: 'number' },
+    { key: 'variant', type: 'enum', label: '变体', values: ['box', 'underline', 'rounded'], default: 'box' },
+    { key: 'mask', type: 'boolean', label: '密码模式', default: false },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'showCursor', type: 'boolean', label: '光标', default: true },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

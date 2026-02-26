@@ -7,6 +7,19 @@ phone: divider
 
 内容区块之间的视觉分隔，支持水平、垂直方向及中间插入文字。
 
+## 交互式调试
+
+<PropsPlayground
+  component="divider"
+  :props-def="[
+    { key: 'dashed', type: 'boolean', label: '虚线', default: false },
+    { key: 'vertical', type: 'boolean', label: '垂直方向', default: false },
+    { key: 'hairline', type: 'boolean', label: '极细线', default: true },
+    { key: 'textPosition', type: 'enum', label: '文字位置', values: ['left', 'center', 'right'], default: 'center' },
+  ]"
+  slot-content="分割线"
+/>
+
 ## 基础用法
 
 ```vue

@@ -7,6 +7,16 @@ phone: segmented
 
 在多个选项间快速切换。
 
+## 交互式调试
+
+<PropsPlayground
+  component="segmented"
+  :props-def="[
+    { key: 'size', type: 'enum', label: '尺寸', values: ['sm', 'md', 'lg'], default: 'md' },
+    { key: 'animated', type: 'boolean', label: '动画', default: true },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue
