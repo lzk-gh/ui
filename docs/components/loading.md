@@ -7,6 +7,18 @@ phone: loading
 
 用于展示加载状态。
 
+## 交互式调试
+
+<PropsPlayground
+  component="loading"
+  :props-def="[
+    { key: 'variant', type: 'enum', label: '类型', values: ['spinner', 'circular', 'dots'], default: 'spinner' },
+    { key: 'size', type: 'string', label: '尺寸', default: '40' },
+    { key: 'vertical', type: 'boolean', label: '垂直排列', default: false },
+    { key: 'text', type: 'string', label: '文本', default: '' },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

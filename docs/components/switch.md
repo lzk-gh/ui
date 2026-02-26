@@ -7,6 +7,17 @@ phone: switch
 
 用于开启或关闭某个功能状态，是替代 Checkbox 的更直观表单控件。
 
+## 交互式调试
+
+<PropsPlayground
+  component="switch"
+  :props-def="[
+    { key: 'size', type: 'enum', label: '尺寸', values: ['sm', 'md', 'lg'], default: 'md' },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'loading', type: 'boolean', label: '加载中', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

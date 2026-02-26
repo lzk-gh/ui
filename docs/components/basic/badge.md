@@ -7,6 +7,19 @@ phone: badge
 
 在图标、按钮或内容上标注通知数字或状态点。
 
+## 交互式调试
+
+<PropsPlayground
+  component="badge"
+  :props-def="[
+    { key: 'value', type: 'string', label: '徽标值', default: '' },
+    { key: 'max', type: 'number', label: '最大值', default: 99 },
+    { key: 'dot', type: 'boolean', label: '圆点模式', default: false },
+    { key: 'hidden', type: 'boolean', label: '隐藏', default: false },
+    { key: 'type', type: 'enum', label: '颜色类型', values: ['primary', 'success', 'warning', 'danger', 'info'], default: 'primary' },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

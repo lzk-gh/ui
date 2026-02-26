@@ -7,6 +7,21 @@ phone: textarea
 
 多行文本输入。
 
+## 交互式调试
+
+<PropsPlayground
+  component="textarea"
+  :props-def="[
+    { key: 'variant', type: 'enum', label: '变体', values: ['outline', 'filled', 'flush'], default: 'outline' },
+    { key: 'placeholder', type: 'string', label: '占位文本', default: '请输入内容' },
+    { key: 'maxlength', type: 'number', label: '最大长度', default: 140 },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'autoHeight', type: 'boolean', label: '自适应高度', default: false },
+    { key: 'showCount', type: 'boolean', label: '字数统计', default: false },
+    { key: 'clearable', type: 'boolean', label: '可清除', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

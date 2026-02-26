@@ -7,6 +7,17 @@ phone: space
 
 用于 Space 间距 的基础演示与配置说明。
 
+## 交互式调试
+
+<PropsPlayground
+  component="space"
+  :props-def="[
+    { key: 'direction', type: 'enum', label: '方向', values: ['horizontal', 'vertical'], default: 'horizontal' },
+    { key: 'wrap', type: 'boolean', label: '自动换行', default: false },
+    { key: 'fill', type: 'boolean', label: '填满', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

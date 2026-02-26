@@ -7,6 +7,22 @@ phone: cell
 
 列表中最常见的展示行，适用于设置页、信息列表等场景。
 
+## 交互式调试
+
+<PropsPlayground
+  component="cell"
+  :props-def="[
+    { key: 'title', type: 'string', label: '标题', default: '单元格' },
+    { key: 'label', type: 'string', label: '描述', default: '' },
+    { key: 'value', type: 'string', label: '内容', default: '详情' },
+    { key: 'icon', type: 'string', label: '图标', default: '' },
+    { key: 'arrow', type: 'boolean', label: '箭头', default: false },
+    { key: 'clickable', type: 'boolean', label: '可点击', default: false },
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+    { key: 'center', type: 'boolean', label: '居中', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

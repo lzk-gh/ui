@@ -7,6 +7,16 @@ phone: radio
 
 在一组选项中进行单项选择，通常配合 `RadioGroup` 使用。
 
+## 交互式调试
+
+<PropsPlayground
+  component="radio"
+  :props-def="[
+    { key: 'disabled', type: 'boolean', label: '禁用', default: false },
+  ]"
+  slot-content="单选框"
+/>
+
 ## 基础用法
 
 ```vue

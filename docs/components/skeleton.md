@@ -7,6 +7,20 @@ phone: skeleton
 
 用于页面加载时的占位内容。
 
+## 交互式调试
+
+<PropsPlayground
+  component="skeleton"
+  :props-def="[
+    { key: 'loading', type: 'boolean', label: '显示骨架', default: true },
+    { key: 'avatar', type: 'boolean', label: '头像', default: false },
+    { key: 'title', type: 'boolean', label: '标题', default: false },
+    { key: 'rows', type: 'number', label: '行数', default: 3 },
+    { key: 'animated', type: 'boolean', label: '动画', default: true },
+    { key: 'round', type: 'boolean', label: '圆角', default: false },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

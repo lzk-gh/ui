@@ -7,6 +7,18 @@ phone: number-roller
 
 用于 NumberRoller 数字翻牌 的基础演示与配置说明。
 
+## 交互式调试
+
+<PropsPlayground
+  component="number-roller"
+  :props-def="[
+    { key: 'value', type: 'number', label: '数值', default: 12345 },
+    { key: 'speed', type: 'number', label: '动画速度(ms)', default: 800 },
+    { key: 'digitHeight', type: 'number', label: '数字高度', default: 56 },
+    { key: 'grouping', type: 'boolean', label: '千分位', default: true },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

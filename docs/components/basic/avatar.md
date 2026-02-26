@@ -7,6 +7,18 @@ phone: avatar
 
 展示用户或实体头像，支持图片、文字、图标三种形式。
 
+## 交互式调试
+
+<PropsPlayground
+  component="avatar"
+  :props-def="[
+    { key: 'shape', type: 'enum', label: '形状', values: ['circle', 'square', 'rounded'], default: 'circle' },
+    { key: 'size', type: 'string', label: '尺寸', default: '48' },
+    { key: 'text', type: 'string', label: '文本', default: '' },
+    { key: 'src', type: 'string', label: '图片地址', default: '' },
+  ]"
+/>
+
 ## 基础用法
 
 ```vue

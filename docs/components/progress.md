@@ -7,6 +7,20 @@ phone: progress
 
 展示任务的当前进度。
 
+## 交互式调试
+
+<PropsPlayground
+  component="progress"
+  :props-def="[
+    { key: 'percentage', type: 'number', label: '百分比', default: 50 },
+    { key: 'strokeWidth', type: 'number', label: '线宽', default: 12 },
+    { key: 'showText', type: 'boolean', label: '显示文字', default: true },
+    { key: 'textInside', type: 'boolean', label: '文字内嵌', default: false },
+    { key: 'striped', type: 'boolean', label: '条纹', default: false },
+    { key: 'animated', type: 'boolean', label: '动画', default: false },
+  ]"
+/>
+
 ## 属性 (Props)
 
 | 参数 | 说明 | 类型 | 默认值 |

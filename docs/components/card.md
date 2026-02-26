@@ -7,6 +7,21 @@ phone: card
 
 将信息聚合在卡片容器中展示。
 
+## 交互式调试
+
+<PropsPlayground
+  component="card"
+  :props-def="[
+    { key: 'title', type: 'string', label: '标题', default: '卡片标题' },
+    { key: 'subTitle', type: 'string', label: '副标题', default: '' },
+    { key: 'shadow', type: 'enum', label: '阴影', values: ['none', 'never', 'sm', 'md', 'base', 'lg'], default: 'sm' },
+    { key: 'border', type: 'boolean', label: '边框', default: false },
+    { key: 'hoverable', type: 'boolean', label: '悬浮效果', default: false },
+    { key: 'transparent', type: 'boolean', label: '透明', default: false },
+  ]"
+  slot-content="卡片内容示例"
+/>
+
 ## 基础用法
 
 ```vue
