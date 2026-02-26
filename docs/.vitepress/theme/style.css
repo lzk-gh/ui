@@ -149,3 +149,13 @@ html.has-phone-preview .VPDoc .aside {
 .VPFeature .icon {
   font-size: 28px;
 }
+
+/* ── 自定义首页（layout: false）全宽布局修正 ── */
+.Layout > .VPContent.is-home {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+/* 隐藏首页的 footer，由 HomePage.vue 的 CTA 替代 */
+.Layout > .VPContent.is-home + .VPFooter {
+  display: none;
+}
