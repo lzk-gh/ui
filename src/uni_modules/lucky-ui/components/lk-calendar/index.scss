@@ -60,7 +60,7 @@
     border-radius: var(--lk-radius-full);
     background: var(--_accent-bg);
     color: var(--_accent);
-    font-size: var(--lk-font-size-xs);
+    font-size: var(--lk-font-size-sm);
     transition: all 0.2s;
 
     @include when(plain) {
