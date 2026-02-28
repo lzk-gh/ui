@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -11,8 +11,11 @@ defineOptions({ name: 'LkTooltip' });
 
 const props = defineProps(tooltipProps);
 const emit = defineEmits(tooltipEmits);
+const instance = getCurrentInstance();
+const popId = `lk-tooltip-pop-${instance?.uid ?? Math.floor(Math.random() * 1000000)}`;
 
 const innerOpen = ref(false);
+const resolvedPlacement = ref(props.placement);
 const open = computed({
   get: () => {
     if (props.always) return true;
@@ -66,8 +69,56 @@ watch(
   }
 );
 
+watch(
+  () => props.placement,
+  v => {
+    resolvedPlacement.value = v;
+  }
+);
+
+function getFallbackPlacement(current: string, rect: Record<string, number>, vw: number, vh: number) {
+  const edge = 12;
+  const overflowTop = rect.top < edge;
+  const overflowBottom = rect.bottom > vh - edge;
+  const overflowLeft = rect.left < edge;
+  const overflowRight = rect.right > vw - edge;
+
+  if (current === 'top' && overflowTop) return 'bottom';
+  if (current === 'bottom' && overflowBottom) return 'top';
+  if (current === 'left' && overflowLeft) return 'right';
+  if (current === 'right' && overflowRight) return 'left';
+
+  if (overflowTop && !overflowBottom) return 'bottom';
+  if (overflowBottom && !overflowTop) return 'top';
+  if (overflowLeft && !overflowRight) return 'right';
+  if (overflowRight && !overflowLeft) return 'left';
+
+  return current;
+}
+
+function adjustPlacementByViewport() {
+  if (!display.value) return;
+
+  nextTick(() => {
+    let query = (uni as any)?.createSelectorQuery?.();
+    if (!query) return;
+    if (query.in && instance?.proxy) query = query.in(instance.proxy);
+
+    query
+      .select(`#${popId}`)
+      .boundingClientRect((rect: any) => {
+        if (!rect) return;
+        const sys = uni.getSystemInfoSync();
+        const vw = sys.windowWidth || 375;
+        const vh = sys.windowHeight || 667;
+        resolvedPlacement.value = getFallbackPlacement(props.placement, rect, vw, vh) as any;
+      })
+      .exec();
+  });
+}
+
 // 计算方位 class 与偏移变量
-const placementClass = computed(() => `is-${props.placement}`);
+const placementClass = computed(() => `is-${resolvedPlacement.value}`);
 const popStyle = computed(() => {
   const style: Record<string, string | number> = {
     '--lk-tooltip-offset': `${props.offset}rpx`,
@@ -115,7 +166,7 @@ const transitionConfig = computed<TransitionConfig>(() => {
     };
   }
   return {
-    name: defaultByPlacement[props.placement] || 'fade',
+    name: defaultByPlacement[resolvedPlacement.value] || 'fade',
     duration: props.duration,
     delay: props.delay,
     easing: props.easing,
@@ -127,6 +178,21 @@ const {
   styles: tipStyles,
   display,
 } = useTransition(() => open.value, transitionConfig.value);
+
+watch(
+  () => display.value,
+  val => {
+    if (val) adjustPlacementByViewport();
+  },
+  { immediate: true }
+);
+
+watch(
+  () => open.value,
+  val => {
+    if (val) adjustPlacementByViewport();
+  }
+);
 </script>
 
 <template>
@@ -143,6 +209,7 @@ const {
 
     <view
       v-if="display"
+      :id="popId"
       class="lk-tooltip__pop lk-elevated"
       :class="placementClass"
       :style="{ ...popStyle, ...tipStyles }"

@@ -61,6 +61,12 @@ export const dropdownProps = {
   /** 选择后是否关闭 */
   closeOnSelect: LkProp.boolean(true),
 
+  /** 点击菜单外部区域是否关闭 */
+  closeOnClickOutside: LkProp.boolean(true),
+
+  /** 点击空白区域是否关闭 */
+  closeOnClickOutside: LkProp.boolean(true),
+
   /** 动画预设名称 */
   animation: {
     type: String as PropType<keyof typeof ANIMATION_PRESETS>,

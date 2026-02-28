@@ -294,7 +294,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
               :class="animationClasses[animation]"
               :style="animationStyles[animation]"
             >
-              <lk-icon name="check-circle" size="40" color="#fff" />
+              <lk-icon name="check-circle" size="40" color="var(--lk-color-text-inverse)" />
             </view>
           </view>
         </view>
@@ -328,7 +328,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
               :class="presetClasses[key]"
               :style="presetStyles[key]"
             >
-              <lk-icon name="star" size="40" color="#fff" />
+              <lk-icon name="star" size="40" color="var(--lk-color-text-inverse)" />
             </view>
           </view>
         </view>

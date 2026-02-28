@@ -166,6 +166,9 @@
       transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
       width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     z-index: 1;
+    will-change: transform, width;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   /* ── card 类型 ─────────────────────────────── */
@@ -255,10 +258,15 @@
   @include e(content) {
     width: 100%;
     box-sizing: border-box;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
   }
 }
 
 @include b(tab-pane) {
   width: 100%;
   box-sizing: border-box;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }

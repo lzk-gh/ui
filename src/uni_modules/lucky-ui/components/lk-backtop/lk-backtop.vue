@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { onPageScroll } from '@dcloudio/uni-app';
 import { backtopProps, backtopEmits } from './backtop.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 
 /**
  * Backtop 回到顶部
@@ -16,29 +17,37 @@ const props = defineProps(backtopProps);
 const emit = defineEmits(backtopEmits);
 
 const visible = ref(false);
+let framePending = false;
+let latestScrollTop = 0;
+
+function syncVisibleFromScrollTop(scrollTop: number) {
+  const next = scrollTop >= props.visibilityHeight;
+  if (next !== visible.value) {
+    visible.value = next;
+    emit('change:visible', next);
+  }
+}
+
 const computedVisible = computed(() => {
   return props.usePageScroll ? visible.value : props.scrollTop >= props.visibilityHeight;
 });
 
 if (props.usePageScroll) {
   onPageScroll(e => {
-    const next = e.scrollTop >= props.visibilityHeight;
-    if (next !== visible.value) {
-      visible.value = next;
-      emit('change:visible', next);
-    }
+    latestScrollTop = e.scrollTop;
+    if (framePending) return;
+    framePending = true;
+    setTimeout(() => {
+      framePending = false;
+      syncVisibleFromScrollTop(latestScrollTop);
+    }, 16);
   });
 } else {
   // 受控模式，根据外部传入的 scrollTop 判断显隐
   watch(
     () => props.scrollTop,
     st => {
-      const next = st >= props.visibilityHeight;
-      if (next !== visible.value) {
-        // 这里保留内部 visible 仅用于触发变更事件，实际显隐取决于 computedVisible
-        visible.value = next;
-        emit('change:visible', next);
-      }
+      syncVisibleFromScrollTop(st);
     },
     { immediate: true }
   );
@@ -55,8 +64,8 @@ function toTop() {
 }
 
 const wrapperStyle = computed(() => {
-  const r = typeof props.right === 'number' ? `${props.right}px` : `${props.right}`;
-  const b = typeof props.bottom === 'number' ? `${props.bottom}px` : `${props.bottom}`;
+  const r = addUnit(props.right) || '32rpx';
+  const b = addUnit(props.bottom) || '80rpx';
   return {
     right: r,
     bottom: b,

@@ -172,6 +172,7 @@ function updateLinePosition() {
 // ── 溢出检测 (渐变蒙层) ──────────────────────────
 const overflowLeft = ref(false);
 const overflowRight = ref(false);
+let overflowCheckTimer: ReturnType<typeof setTimeout> | null = null;
 
 function checkOverflow() {
   nextTick(() => {
@@ -225,7 +226,10 @@ onMounted(() => {
 
 // ── 滚动事件：实时刷新溢出蒙层 ────────────────────
 function onNavScroll() {
-  checkOverflow();
+  if (overflowCheckTimer) clearTimeout(overflowCheckTimer);
+  overflowCheckTimer = setTimeout(() => {
+    checkOverflow();
+  }, 16);
 }
 
 // ── Swipe 滑动切换逻辑 ────────────────────────────

@@ -305,20 +305,42 @@ let swipeStartX = 0;
 let swipeStartY = 0;
 let swipeLastX = 0;
 let swipeLastY = 0;
+let swipeDetectedAsGridDrag = false;
 
 function onSwipeStart(e: any) {
   swipeStartX = e.touches[0].clientX;
   swipeStartY = e.touches[0].clientY;
   swipeLastX = swipeStartX;
   swipeLastY = swipeStartY;
+  swipeDetectedAsGridDrag = false;
 }
 
 function onSwipeMove(e: any) {
+  if (isGridDragging.value) {
+    onGridDragMove(e);
+    return;
+  }
+
   swipeLastX = e.touches[0].clientX;
   swipeLastY = e.touches[0].clientY;
+
+  const dx = swipeLastX - swipeStartX;
+  const dy = swipeLastY - swipeStartY;
+  const absX = Math.abs(dx);
+  const absY = Math.abs(dy);
+
+  if (!swipeDetectedAsGridDrag && absY >= 10 && absY > absX * 1.25) {
+    swipeDetectedAsGridDrag = true;
+    onGridDragStart(e);
+  }
 }
 
 function onSwipeEnd() {
+  if (isGridDragging.value || swipeDetectedAsGridDrag) {
+    onGridDragEnd();
+    return;
+  }
+
   const dx = swipeLastX - swipeStartX;
   const dy = swipeLastY - swipeStartY;
   const absX = Math.abs(dx);

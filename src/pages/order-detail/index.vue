@@ -25,14 +25,14 @@
         </lk-card>
 
         <template v-else>
-          <!-- 订单状态步骤条 -->
+          <!-- 订单状态 -->
           <lk-card shadow="base">
-            <lk-steps :current="2" direction="horizontal">
-              <lk-step title="下单" description="2023-10-01 10:00" />
-              <lk-step title="付款" description="2023-10-01 10:05" />
-              <lk-step title="发货" description="2023-10-02 14:00" />
-              <lk-step title="收货" />
-            </lk-steps>
+            <lk-space justify="between" align="center" fill>
+              <text style="font-size: 28rpx; font-weight: 600; color: var(--lk-color-text-primary)"
+                >当前状态：运输中</text
+              >
+              <lk-tag type="solid" size="sm">已发货</lk-tag>
+            </lk-space>
           </lk-card>
 
           <!-- 商品信息 -->
@@ -209,8 +209,6 @@ import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
 import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkSteps from '@/uni_modules/lucky-ui/components/lk-steps/lk-steps.vue';
-import LkStep from '@/uni_modules/lucky-ui/components/lk-steps/lk-step.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
 import LkCollapse from '@/uni_modules/lucky-ui/components/lk-collapse/lk-collapse.vue';

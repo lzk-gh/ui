@@ -95,7 +95,6 @@ const categories = [
       { name: 'collapse', label: 'Collapse', desc: '折叠面板', icon: 'house' },
       { name: 'tabs', label: 'Tabs', desc: '标签页', icon: 'house' },
       { name: 'timeline', label: 'Timeline', desc: '时间轴', icon: 'hourglass-split' },
-      { name: 'steps', label: 'Steps', desc: '步骤条', icon: 'house' },
       { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
       { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
       { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'border' },

@@ -100,7 +100,7 @@ export const PRESET_COLORS = [
 
 export const useThemeStore = defineStore('theme', () => {
   // ======================== 主题状态 ========================
-  const theme = ref<Theme>('light');
+  const theme = ref<Theme>(loadTheme() ?? getSystemTheme());
 
   const isDark = computed(() => theme.value === 'dark');
   const themeClass = computed(() => `lk-theme-${theme.value}`);
@@ -179,7 +179,7 @@ export const useThemeStore = defineStore('theme', () => {
       color: isDark ? '#9ca3af' : '#6b7280',
       selectedColor: brandColor.value,
       backgroundColor: isDark ? '#1f2937' : '#ffffff',
-      fail: () => {},
+      fail: () => { },
     });
 
     // 设置导航栏颜色
@@ -187,10 +187,17 @@ export const useThemeStore = defineStore('theme', () => {
       frontColor: isDark ? '#ffffff' : '#000000',
       backgroundColor: bg,
       animation: {
-        duration: 200,
-        timingFunc: 'easeIn',
+        duration: 0,
+        timingFunc: 'linear',
       },
-      fail: () => {},
+      fail: () => { },
+    });
+
+    uni.setBackgroundColor?.({
+      backgroundColor: bg,
+      backgroundColorTop: bg,
+      backgroundColorBottom: bg,
+      fail: () => { },
     });
   }
 
@@ -283,7 +290,21 @@ export const useThemeStore = defineStore('theme', () => {
   function initTabbarMode() {
     try {
       const saved = uni.getStorageSync('lk-tabbar-mode') as TabbarMode;
-      if (['plain', 'block', 'flashlight'].includes(saved)) {
+      if (
+        [
+          'plain',
+          'block',
+          'flashlight',
+          'float',
+          'marker-top',
+          'marker-bottom',
+          'dot-slide',
+          'bubble',
+          'ripple',
+          'mask-fill',
+          'text-raise',
+        ].includes(saved)
+      ) {
         tabbarMode.value = saved;
       }
     } catch {

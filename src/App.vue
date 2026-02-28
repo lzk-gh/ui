@@ -4,6 +4,22 @@ import { useThemeStore } from '@/stores/theme';
 import { initLkIconsFont } from '@/uni_modules/lucky-ui/utils/init-lk-icons';
 import { LK_ICONS_TTF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/fonts/lk-icons.base64';
 
+// #ifdef H5
+try {
+  const saved = uni.getStorageSync('lk-theme');
+  const initialTheme = saved === 'dark' || saved === 'light' ? saved : 'light';
+  if (typeof document !== 'undefined') {
+    const root = document.documentElement;
+    root.classList.remove('lk-theme-light', 'lk-theme-dark');
+    root.classList.add(`lk-theme-${initialTheme}`);
+    root.setAttribute('data-theme', initialTheme);
+    root.style.colorScheme = initialTheme;
+  }
+} catch {
+  // ignore bootstrap theme errors
+}
+// #endif
+
 onLaunch(async () => {
   // 立即隐藏原生 tabBar，防止闪烁
   uni.hideTabBar({ animation: false, fail: () => {} });
