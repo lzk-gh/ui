@@ -10,6 +10,8 @@ const value6 = ref(true);
 const value7 = ref(true);
 const value8 = ref(true);
 const value9 = ref(false);
+const valueInline = ref(true);
+const valueHaptic = ref(false);
 
 // 异步切换示例
 const asyncValue = ref(false);
@@ -32,6 +34,24 @@ const handleAsyncChange = (): Promise<boolean> => {
       <view class="switch-row">
         <text>开关</text>
         <lk-switch v-model="value1" />
+      </view>
+    </demo-block>
+
+    <demo-block title="内嵌文字提示">
+      <view class="switch-row">
+        <text>显示 ON/OFF 文字</text>
+        <lk-switch v-model="valueInline" inline-prompt />
+      </view>
+      <view class="switch-row">
+        <text>自定义文字</text>
+        <lk-switch v-model="valueInline" inline-prompt active-text="开" inactive-text="关" />
+      </view>
+    </demo-block>
+
+    <demo-block title="触感反馈（仅移动端）">
+      <view class="switch-row">
+        <text>开启触感</text>
+        <lk-switch v-model="valueHaptic" haptic-feedback />
       </view>
     </demo-block>
 

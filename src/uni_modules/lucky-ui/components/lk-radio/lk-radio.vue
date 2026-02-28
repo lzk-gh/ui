@@ -2,13 +2,17 @@
 import { inject, computed } from 'vue';
 import { radioProps, radioEmits } from './radio.props';
 import { addUnit } from '../../core/src/utils/unit';
+import LkIcon from '../lk-icon/lk-icon.vue';
+
+// 使用 Symbol.for 保证跨模块一致性
+const LK_RADIO_GROUP_KEY = Symbol.for('LkRadioGroup');
 
 defineOptions({ name: 'LkRadio' });
 
 const props = defineProps(radioProps);
 const emit = defineEmits(radioEmits);
 
-const group = inject<any>('lkRadioGroup', null);
+const group = inject<any>(LK_RADIO_GROUP_KEY, null);
 
 const radioValue = computed(() => (props.name !== '' ? props.name : props.label));
 
@@ -88,7 +92,15 @@ function handleLabelClick() {
 </script>
 
 <template>
-  <view :class="radioClass" :style="customStyle as any" @tap="handleToggle">
+  <view
+    :class="radioClass"
+    :style="customStyle as any"
+    role="radio"
+    :aria-checked="isChecked"
+    :aria-disabled="isDisabled"
+    :aria-label="label"
+    @tap="handleToggle"
+  >
     <view class="lk-radio__icon-wrap">
       <slot name="icon" :checked="isChecked" :disabled="isDisabled">
         <view class="lk-radio__icon" :class="[`lk-radio__icon--${mergedShape}`]" :style="iconStyle">

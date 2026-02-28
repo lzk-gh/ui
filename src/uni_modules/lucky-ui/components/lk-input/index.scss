@@ -138,10 +138,38 @@
 
   @include when(disabled) {
     opacity: 0.6;
+    cursor: not-allowed;
   }
 
   @include when(readonly) {
     background: var(--lk-color-bg-disabled);
+  }
+
+  // 密码明暗切换按钮
+  @include e(password-toggle) {
+    display: flex;
+    align-items: center;
+    margin-left: var(--lk-spacing-xs);
+    color: var(--lk-text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: var(--lk-spacing-xxs);
+    border-radius: var(--lk-radius-sm);
+    transition: color var(--lk-transition-fast);
+
+    &:active {
+      color: var(--lk-color-primary);
+    }
+  }
+
+  // 输入内容对齐方式
+  @include e(inner) {
+    &--center {
+      text-align: center;
+    }
+    &--right {
+      text-align: right;
+    }
   }
 
   /* 表单错误态（父 .lk-form-item.is-error 加的类） */

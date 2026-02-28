@@ -4,12 +4,15 @@ import { checkboxProps, checkboxEmits } from './checkbox.props';
 import { addUnit } from '../../core/src/utils/unit';
 import LkIcon from '../lk-icon/lk-icon.vue';
 
+// 导入 Symbol key （同文件内定义）
+const LK_CHECKBOX_GROUP_KEY = Symbol.for('LkCheckboxGroup');
+
 defineOptions({ name: 'LkCheckbox' });
 
 const props = defineProps(checkboxProps);
 const emit = defineEmits(checkboxEmits);
 
-const group = inject<any>('lkCheckboxGroup', null);
+const group = inject<any>(LK_CHECKBOX_GROUP_KEY, null);
 
 const checkboxValue = computed(() => (props.name !== '' ? props.name : props.label));
 
@@ -91,7 +94,15 @@ function handleLabelClick() {
 </script>
 
 <template>
-  <view :class="checkboxClass" :style="customStyle as any" @tap="handleToggle">
+  <view
+    :class="checkboxClass"
+    :style="customStyle as any"
+    role="checkbox"
+    :aria-checked="isChecked"
+    :aria-disabled="isDisabled"
+    :aria-label="label"
+    @tap="handleToggle"
+  >
     <view class="lk-checkbox__icon-wrap">
       <slot
         name="icon"

@@ -7,7 +7,9 @@ const v1 = ref(30);
 const vStep = ref(20);
 const vStep2 = ref(15);
 const vRange = ref([20, 60]);
+const vRangeTooltip = ref([30, 70]);
 const v3 = ref(45);
+const vValue = ref(50);
 </script>
 
 <template>
@@ -15,6 +17,13 @@ const v3 = ref(45);
     <demo-block title="基础用法">
       <view class="demo-item">
         <lk-slider v-model="v1" />
+        <text class="value-text">当前：{{ v1 }}</text>
+      </view>
+    </demo-block>
+
+    <demo-block title="显示当前值（Tooltip）">
+      <view class="demo-item">
+        <lk-slider v-model="vValue" show-value />
       </view>
     </demo-block>
 
@@ -33,6 +42,11 @@ const v3 = ref(45);
       <view class="demo-item">
         <lk-slider v-model="vRange" range :max="100" />
         <text class="value-text">当前: {{ vRange.join(' - ') }}</text>
+      </view>
+      <view class="demo-item">
+        <text class="label">双滑块 + Tooltip</text>
+        <lk-slider v-model="vRangeTooltip" range show-value :max="100" />
+        <text class="value-text">当前: {{ vRangeTooltip.join(' - ') }}</text>
       </view>
     </demo-block>
 

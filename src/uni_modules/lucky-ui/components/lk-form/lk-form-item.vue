@@ -50,7 +50,8 @@ async function doValidate(trigger?: 'blur' | 'change') {
         val === undefined ||
         val === null ||
         (typeof val === 'string' && val.trim() === '') ||
-        (Array.isArray(val) && !val.length);
+        (Array.isArray(val) && !val.length) ||
+        (typeof val === 'number' && isNaN(val));
       if (empty) {
         errs.push({ field: props.prop, message: m, rule });
         continue;
@@ -61,6 +62,14 @@ async function doValidate(trigger?: 'blur' | 'change') {
       continue;
     }
     if (rule.max != null && typeof val === 'string' && val.length > rule.max) {
+      errs.push({ field: props.prop, message: m, rule });
+      continue;
+    }
+    if (rule.min != null && typeof val === 'number' && val < rule.min) {
+      errs.push({ field: props.prop, message: m, rule });
+      continue;
+    }
+    if (rule.max != null && typeof val === 'number' && val > rule.max) {
       errs.push({ field: props.prop, message: m, rule });
       continue;
     }
@@ -97,9 +106,19 @@ const itemCtx: FormItemContext = {
   reset() {
     if (props.prop && form) {
       const v = form.model[props.prop];
-      if (Array.isArray(v)) form.model[props.prop] = [];
-      else if (typeof v === 'number') form.model[props.prop] = 0;
-      else form.model[props.prop] = '';
+      // 按字段的当前类型正确还原初始值
+      if (Array.isArray(v)) {
+        form.model[props.prop] = [];
+      } else if (typeof v === 'boolean' || v === true || v === false) {
+        form.model[props.prop] = false;
+      } else if (typeof v === 'number') {
+        form.model[props.prop] = 0;
+      } else if (v === null || v === undefined) {
+        // null / undefined 字段保留为 null
+        form.model[props.prop] = null;
+      } else {
+        form.model[props.prop] = '';
+      }
     }
     status.value = 'idle';
     msg.value = '';
@@ -112,8 +131,9 @@ onMounted(() => {
 });
 onBeforeUnmount(() => form?.removeField(itemCtx));
 watch(
-  () => props.required,
-  () => (requiredMark.value = computeReq())
+  [() => props.required, () => form?.rules],
+  () => (requiredMark.value = computeReq()),
+  { deep: true }
 );
 
 const labelStyle = computed(() => {
@@ -121,10 +141,26 @@ const labelStyle = computed(() => {
   if (!w) return {};
   return { width: typeof w === 'number' ? `${w}rpx` : w };
 });
+
+// 继承表单的 labelAlign
+const resolvedLabelAlign = computed(() => props.labelAlign || form?.labelAlign || 'left');
+
+// 是否 top 布局
+const isTopLayout = computed(() => resolvedLabelAlign.value === 'top');
+
+defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: () => itemCtx.setValidateStatus('idle') });
 </script>
 
 <template>
-  <view class="lk-form-item" :class="[`is-${status}`]">
+  <view
+    class="lk-form-item"
+    :class="[
+      `is-${status}`,
+      `lk-form-item--${resolvedLabelAlign}`,
+      { 'lk-form-item--top': isTopLayout },
+    ]"
+    :data-prop="prop"
+  >
     <view v-if="label || $slots.label" class="lk-form-item__label" :style="labelStyle">
       <text v-if="requiredMark" class="lk-form-item__star">*</text>
       <slot name="label">{{ label }}</slot>
