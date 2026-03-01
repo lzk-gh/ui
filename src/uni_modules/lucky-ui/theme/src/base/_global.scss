@@ -14,7 +14,9 @@ page {
   color: var(--lk-text-primary);
 
   // --- 背景 ---
-  background-color: theme.$color-bg-body;
+  background-color: var(--lk-bg-page);
+  // 优化：小程序切换主题时的性能瓶颈往往在大量 CSS 变量重新应用
+  // 尽量减少全局 transition，必要时使用 will-change
 
   // --- 视觉优化 ---
   // 解释： 开启 Webkit 内核的字体平滑，让字体看起来更清晰舒适

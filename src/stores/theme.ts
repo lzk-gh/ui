@@ -174,6 +174,16 @@ export const useThemeStore = defineStore('theme', () => {
     const isDark = t === 'dark';
     const bg = isDark ? '#111827' : '#f5f5f7';
 
+    // 优化：小程序端同步设置全局背景色
+    // #ifdef MP
+    uni.setBackgroundColor?.({
+      backgroundColor: bg,
+      backgroundColorTop: bg, // 顶部窗口背景色
+      backgroundColorBottom: bg, // 底部窗口背景色
+      fail: () => {},
+    });
+    // #endif
+
     // 设置底部 Tabbar 颜色 (对于原生 TabBar，虽然我们隐藏了，但设置下无妨)
     uni.setTabBarStyle?.({
       color: isDark ? '#9ca3af' : '#6b7280',
@@ -199,10 +209,31 @@ export const useThemeStore = defineStore('theme', () => {
    */
   function setTheme(t: Theme) {
     if (theme.value === t) return;
-    theme.value = t;
-    applyThemeToDOM(t);
-    applySystemUI(t);
-    saveTheme(t);
+
+    // #ifdef MP
+    // 性能优化：在切换主题前显示加载提示。
+    // 这可以让用户感觉到系统正在处理，而不仅仅是界面的卡顿。
+    uni.showLoading({
+      title: '主题切换中...',
+      mask: true,
+    });
+    // #endif
+
+    // 使用延迟执行来确保 loading 提示能先显示出来，且减少连续触发
+    setTimeout(() => {
+      theme.value = t;
+
+      // 批量处理 DOM 和系统 UI 更新
+      applyThemeToDOM(t);
+      applySystemUI(t);
+      saveTheme(t);
+
+      // #ifdef MP
+      setTimeout(() => {
+        uni.hideLoading();
+      }, 300); // 略微延迟关闭，确保渲染完成
+      // #endif
+    }, 16); // 16ms 约等于一帧，给 UI 响应留出时间
   }
 
   /**
