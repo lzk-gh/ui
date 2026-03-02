@@ -24,10 +24,7 @@ function onError(e: any) {
 function onClick() {
   emit('click');
   if (props.preview && props.src) {
-    // 微信小程序支持
-    // #ifdef MP-WEIXIN
     uni.previewImage({ current: props.src, urls: [props.src] });
-    // #endif
   }
 }
 </script>

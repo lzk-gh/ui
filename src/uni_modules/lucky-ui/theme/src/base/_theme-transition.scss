@@ -17,7 +17,16 @@
 
 // 针对小程序端的特殊优化：
 // 在切换瞬间禁用所有复杂的过渡，等切换完成后再恢复
+/* #ifdef H5 */
 .lk-theme-switching * {
   transition: none !important;
   animation: none !important;
 }
+/* #endif */
+
+/* #ifndef H5 */
+.lk-theme-switching {
+  transition: none !important;
+  animation: none !important;
+}
+/* #endif */

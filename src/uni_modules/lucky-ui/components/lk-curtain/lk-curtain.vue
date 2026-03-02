@@ -95,9 +95,30 @@ function onClick() {
   emit('click');
   if (!props.link) return;
 
+  const isHttp = /^https?:\/\//.test(props.link);
+
   // #ifdef H5
-  if (props.link.startsWith('http')) {
+  if (isHttp) {
     window.location.href = props.link;
+    return;
+  }
+  // #endif
+
+  // #ifdef APP-PLUS
+  if (isHttp) {
+    const runtime = (globalThis as { plus?: { runtime?: { openURL?: (url: string) => void } } })
+      .plus?.runtime;
+    if (runtime && typeof runtime.openURL === 'function') {
+      runtime.openURL(props.link);
+      return;
+    }
+  }
+  // #endif
+
+  // #ifdef MP
+  if (isHttp) {
+    uni.setClipboardData({ data: props.link });
+    uni.showToast({ title: '链接已复制', icon: 'none' });
     return;
   }
   // #endif
