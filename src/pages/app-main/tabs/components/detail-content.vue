@@ -1,3 +1,50 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
+import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
+import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
+import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
+import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
+import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
+
+defineProps<{
+  contentHeight: string;
+  skipAnimation?: boolean;
+}>();
+
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
+
+const carouselImages = [
+  'https://picsum.photos/800/1000?random=10',
+  'https://picsum.photos/800/1000?random=11',
+  'https://picsum.photos/800/1000?random=12',
+];
+
+const quantity = ref(1);
+const sizes = ['S', 'M', 'L', 'XL'];
+const activeSize = ref('L');
+
+const colors = ['#8C8C8C', '#4A4A4A', '#1A1A1A'];
+const activeColor = ref(2);
+
+const showReviewPopup = ref(false);
+const showDescModal = ref(false);
+
+const goBack = () => {
+  uni.switchTab({ url: '/pages/tabbar/home/index' });
+};
+
+const addToCart = () => {
+  uni.switchTab({ url: '/pages/tabbar/cart/index' });
+};
+</script>
+
 <template>
   <scroll-view
     scroll-y
@@ -131,39 +178,41 @@
       height="90vh"
       draggable
       close-on-click-overlay
-      @touchmove.stop
     >
-      <view class="popup-header">
-        <text class="popup-title">All Reviews (7,932)</text>
-        <lk-icon name="x-lg" size="32" @click="showReviewPopup = false" />
-      </view>
-      <scroll-view scroll-y class="review-scroll">
-        <view v-for="i in 5" :key="i" class="review-list-item">
-          <lk-avatar :src="`https://picsum.photos/50/50?random=${i + 20}`" size="80" round />
-          <view class="review-body">
-            <view class="review-top">
-              <text class="u-name">User_{{ i }}</text>
-              <text class="u-date">2 days ago</text>
-            </view>
-            <lk-rate :model-value="5 - (i % 2)" size="24" readonly />
-            <text class="u-text"
-              >Amazing quality! Definitely worth the price. I will buy another color soon!</text
-            >
-            <view class="u-imgs">
-              <lk-image
-                v-for="j in 3"
-                :key="j"
-                :src="`https://picsum.photos/150/150?random=${i * 10 + j}`"
-                width="140rpx"
-                height="140rpx"
-                radius="16rpx"
-                fit="cover"
-                class="u-img"
-              />
+      <view class="review-popup-container">
+        <view class="popup-header">
+          <text class="popup-title">All Reviews (7,932)</text>
+          <lk-icon name="x-lg" size="32" @click="showReviewPopup = false" />
+        </view>
+        <scroll-view scroll-y class="review-scroll">
+          <view v-for="i in 10" :key="i" class="review-list-item">
+            <lk-avatar :src="`https://picsum.photos/50/50?random=${i + 20}`" size="80" round />
+            <view class="review-body">
+              <view class="review-top">
+                <text class="u-name">User_{{ i }}</text>
+                <text class="u-date">2 days ago</text>
+              </view>
+              <lk-rate :model-value="5 - (i % 2)" size="24" readonly />
+              <text class="u-text"
+                >Amazing quality! Definitely worth the price. I will buy another color soon!</text
+              >
+              <view class="u-imgs">
+                <lk-image
+                  v-for="j in 3"
+                  :key="j"
+                  :src="`https://picsum.photos/150/150?random=${i * 10 + j}`"
+                  width="140rpx"
+                  height="140rpx"
+                  radius="16rpx"
+                  fit="cover"
+                  class="u-img"
+                />
+              </view>
             </view>
           </view>
-        </view>
-      </scroll-view>
+          <view class="safe-area-bottom" />
+        </scroll-view>
+      </view>
     </lk-popup>
 
     <!-- 交互增强：详细描述对话框 -->
@@ -178,52 +227,7 @@
   </scroll-view>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
-import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 
-defineProps<{
-  contentHeight: string;
-  skipAnimation?: boolean;
-}>();
-
-const themeStore = useThemeStore();
-const themeClass = computed(() => themeStore.themeClass);
-
-const carouselImages = [
-  'https://picsum.photos/800/1000?random=10',
-  'https://picsum.photos/800/1000?random=11',
-  'https://picsum.photos/800/1000?random=12',
-];
-
-const quantity = ref(1);
-const sizes = ['S', 'M', 'L', 'XL'];
-const activeSize = ref('L');
-
-const colors = ['#8C8C8C', '#4A4A4A', '#1A1A1A'];
-const activeColor = ref(2);
-
-const showReviewPopup = ref(false);
-const showDescModal = ref(false);
-
-const goBack = () => {
-  uni.switchTab({ url: '/pages/tabbar/home/index' });
-};
-
-const addToCart = () => {
-  uni.switchTab({ url: '/pages/tabbar/cart/index' });
-};
-</script>
 
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
@@ -373,6 +377,12 @@ const addToCart = () => {
 }
 
 /* Popup Styles */
+.review-popup-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .popup-header {
   padding: 40rpx;
   display: flex;
@@ -388,14 +398,15 @@ const addToCart = () => {
 }
 
 .review-scroll {
-  height: calc(100% - 160rpx);
-  padding: 0 40rpx;
+  flex: 1;
+  height: 0;
+  min-height: 200rpx;
 }
 
 .review-list-item {
   display: flex;
   gap: 24rpx;
-  padding: 40rpx 0;
+  padding: 40rpx;
   border-bottom: 1px solid $test-border-color;
 
   .review-body {
