@@ -265,9 +265,17 @@ const panelStyle = computed(() => {
       </view>
 
       <!-- Content -->
+      <!-- #ifdef H5 -->
       <view class="lk-popup__content">
         <slot />
       </view>
+      <!-- #endif -->
+
+      <!-- #ifdef MP || APP-PLUS -->
+      <scroll-view class="lk-popup__content" scroll-y :show-scrollbar="false">
+        <slot />
+      </scroll-view>
+      <!-- #endif -->
 
       <view v-if="safeArea && position === 'bottom'" class="lk-popup__safe" />
     </view>
