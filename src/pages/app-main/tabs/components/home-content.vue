@@ -2,7 +2,7 @@
   <view class="home-content" :class="themeClass">
     <lk-waterfall
       :items="products"
-      height="100%"
+      :height="contentHeight"
       :gutter="16"
       :row-gap="20"
       :padding-x="20"

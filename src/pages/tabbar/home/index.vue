@@ -1,26 +1,3 @@
-<template>
-  <view
-    class="page-container"
-    :class="[themeClass, { 'page-container--ready': isReady }]"
-    :style="brandStyleVars"
-  >
-    <!-- 顶部导航栏 -->
-    <lk-navbar title="发现" :show-back="false">
-      <template #right>
-        <view class="theme-toggle" @click="toggleTheme">
-          <lk-icon :name="isDark ? 'sun' : 'moon'" size="28" />
-        </view>
-      </template>
-    </lk-navbar>
-
-    <!-- 页面内容 -->
-    <home-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
-
-    <!-- 底部 Tabbar -->
-    <custom-tabbar active="home" />
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
@@ -38,8 +15,12 @@ const brandStyleVars = computed(() => themeStore.brandStyleVars);
 const isDark = computed(() => themeStore.isDark);
 const toggleTheme = () => themeStore.toggleTheme();
 
-// 内容区高度（扣除 navbar + tabbar）
-const contentHeight = computed(() => '100%');
+// 内容区高度（扣除 navbar + tabbar，避免瀑布流 scroll-view 溢出触发页面原生滚动）
+const _sys = uni.getSystemInfoSync();
+const _statusBarH = _sys.statusBarHeight || 0;
+const _tabbarPx = uni.upx2px ? uni.upx2px(120) : 60;
+const _navbarPx = _statusBarH + 44; // 状态栏 + navbar 内容区
+const contentHeight = computed(() => `${_sys.windowHeight - _navbarPx - _tabbarPx}px`);
 
 // 页面缓存 - 用于判断是否首次访问，减少动画闪烁
 const { isFirstVisit, markRendered, hasRendered } = usePageCache({
@@ -65,12 +46,36 @@ onShow(() => {
 });
 </script>
 
+<template>
+  <view
+    class="page-container"
+    :class="[themeClass, { 'page-container--ready': isReady }]"
+    :style="brandStyleVars"
+  >
+    <!-- 顶部导航栏 -->
+    <lk-navbar title="发现" :show-back="false">
+      <template #right>
+        <view class="theme-toggle" @click="toggleTheme">
+          <lk-icon :name="isDark ? 'sun' : 'moon'" size="28" />
+        </view>
+      </template>
+    </lk-navbar>
+
+    <!-- 页面内容 -->
+    <home-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
+
+    <!-- 底部 Tabbar -->
+    <custom-tabbar active="home" />
+  </view>
+</template>
+
 <style lang="scss" scoped>
 @import url('@/styles/test-page.scss');
 
 .page-container {
   width: 100%;
   height: 100vh;
+  overflow: hidden; // 防止瀑布流加载期间原生页面可被滚动
   display: flex;
   flex-direction: column;
   background: $test-bg-page;

@@ -27,7 +27,9 @@ const contentHeight = computed(() => '100%');
       </template>
     </lk-navbar>
 
-    <home-content :content-height="contentHeight" />
+    <view class="tab-page__content">
+      <home-content :content-height="contentHeight" />
+    </view>
   </view>
 </template>
 
@@ -37,9 +39,16 @@ const contentHeight = computed(() => '100%');
 .tab-page {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: $test-bg-page;
+}
+
+.tab-page__content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .theme-toggle {
