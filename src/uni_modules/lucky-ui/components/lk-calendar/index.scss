@@ -156,12 +156,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--lk-spacing-md) 0 var(--lk-spacing-sm);
+    width: 100%;
+    min-height: 88rpx;
+    padding: var(--lk-spacing-sm) 0 var(--lk-spacing-sm);
+    margin-top: 6rpx;
+    touch-action: none;
   }
 
   @include e(drag-bar) {
-    width: 96rpx;
-    height: 8rpx;
+    width: 144rpx;
+    height: 10rpx;
     border-radius: var(--lk-radius-full);
     background: var(--lk-color-fill-tertiary);
   }

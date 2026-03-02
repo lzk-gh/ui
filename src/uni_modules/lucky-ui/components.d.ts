@@ -49,8 +49,6 @@ declare module '@vue/runtime-core' {
     LkDropdown: typeof import('./components/lk-dropdown/lk-dropdown.vue')['default']
     LkDropdownItem: typeof import('./components/lk-dropdown/lk-dropdown-item.vue')['default']
     LkNoticeBar: typeof import('./components/lk-notice-bar/lk-notice-bar.vue')['default']
-    LkSteps: typeof import('./components/lk-steps/lk-steps.vue')['default']
-    LkStep: typeof import('./components/lk-steps/lk-step.vue')['default']
     LkTimeline: typeof import('./components/lk-timeline/lk-timeline.vue')['default']
     LkTimelineItem: typeof import('./components/lk-timeline/lk-timeline-item.vue')['default']
     LkDivider: typeof import('./components/lk-divider/lk-divider.vue')['default']
@@ -86,4 +84,4 @@ declare module '@vue/runtime-core' {
   }
 }
 
-export {}
+export { }

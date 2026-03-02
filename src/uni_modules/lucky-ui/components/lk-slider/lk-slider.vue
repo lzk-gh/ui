@@ -255,18 +255,23 @@ onMounted(() => nextTick(() => measureTrack()));
       <!-- 滑块 1 -->
       <view class="lk-slider__thumb-wrapper" :style="getThumbStyle(0)">
         <slot name="button" :value="currentVal[0]">
-          <view class="lk-slider__thumb" :style="blockCustomStyle"></view>
+          <view class="lk-slider__thumb" :style="blockCustomStyle">
+            <view v-if="showValue" class="lk-slider__tooltip">{{ currentVal[0] }}</view>
+          </view>
         </slot>
       </view>
 
-      <!-- 滑块 2 -->
+      <!-- 滑块 2（range 模式） -->
       <view v-if="range" class="lk-slider__thumb-wrapper" :style="getThumbStyle(1)">
         <slot name="button" :value="currentVal[1]">
-          <view class="lk-slider__thumb" :style="blockCustomStyle"></view>
+          <view class="lk-slider__thumb" :style="blockCustomStyle">
+            <view v-if="showValue" class="lk-slider__tooltip">{{ currentVal[1] }}</view>
+          </view>
         </slot>
       </view>
     </view>
 
+    <!-- 单滑块独立值显示（range 模式下值已内嵌在 thumb tooltip 中）-->
     <text v-if="showValue && !range" class="lk-slider__value">{{ currentVal[0] }}</text>
   </view>
 </template>

@@ -35,14 +35,21 @@ export interface FormContext {
   model: Record<string, unknown>;
   rules: FormRules | undefined;
   labelWidth?: string | number;
+  /** 继承自表单的标签对齐方式 */
+  labelAlign?: string;
   showMessage: boolean;
   addField: (field: FormItemContext) => void;
   removeField: (field: FormItemContext) => void;
   validateField: (prop: string) => Promise<void>;
   emitFieldBlur: (prop: string) => void;
-  emitFieldChange: (prop: string, value: unknown) => void;
+  /** value 为可选，供需要做业务拦截的场景使用 */
+  emitFieldChange: (prop: string, value?: unknown) => void;
   validate: (opts?: FormValidateOptions) => Promise<void>;
   resetFields: (fields?: string[]) => void;
+  /** 仅清除验证状态，不重置字段值 */
+  clearValidate: (fields?: string[]) => void;
+  /** 滚动到指定字段 */
+  scrollToField: (prop: string) => void;
 }
 
 export interface FormItemContext {

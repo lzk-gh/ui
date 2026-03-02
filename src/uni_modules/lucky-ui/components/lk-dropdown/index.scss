@@ -4,7 +4,15 @@
   display: inline-block;
   position: relative;
 
+  @include e(mask) {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+  }
+
   @include e(trigger) {
+    position: relative;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
   }
@@ -21,6 +29,7 @@
     box-shadow: var(--lk-shadow-base);
     padding: var(--lk-spacing-xs) 0;
     z-index: 2400;
+    pointer-events: auto;
   }
 }
 

@@ -13,11 +13,20 @@ export const rateProps = {
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
 
-  /** 是否只读 */
+  /** 是否只读（能显示但不能交互） */
   readonly: LkProp.boolean(false),
 
-  /** 是否允许再次点击当前评分清零（类似 ant-design） */
+  /**
+   * 是否允许再次点击当前评分清零
+   * @default true
+   */
   allowClear: LkProp.boolean(true),
+
+  /**
+   * 是否支持半星选择
+   * @default false
+   */
+  allowHalf: LkProp.boolean(false),
 
   /** 图标大小（支持 number / string） */
   size: {
@@ -28,8 +37,17 @@ export const rateProps = {
   /** 选中时的颜色（不传走主题 warning 色） */
   color: LkProp.string(''),
 
+  /** 未选中时的颜色 */
+  colorVoid: LkProp.string(''),
+
   /** 自定义选中时的图标名（默认 star-fill） */
   icon: LkProp.string(''),
+
+  /** 未选中时的图标名（默认 star） */
+  iconVoid: LkProp.string(''),
+
+  /** 半星图标名（默认 star-half-fill） */
+  iconHalf: LkProp.string(''),
 
   /** 表单字段名 */
   prop: LkProp.string(''),

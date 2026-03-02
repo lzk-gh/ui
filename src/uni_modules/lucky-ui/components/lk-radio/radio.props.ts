@@ -1,6 +1,31 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
+export const RadioGroupDirection = {
+  Row: 'row',
+  Column: 'column',
+} as const;
+export type RadioGroupDirection = (typeof RadioGroupDirection)[keyof typeof RadioGroupDirection];
+
+export const RadioShape = {
+  Circle: 'circle',
+  Square: 'square',
+} as const;
+export type RadioShape = (typeof RadioShape)[keyof typeof RadioShape];
+
+export const RadioIconType = {
+  Dot: 'dot',
+  Check: 'check',
+} as const;
+export type RadioIconType = (typeof RadioIconType)[keyof typeof RadioIconType];
+
+export const RadioSize = {
+  Sm: 'sm',
+  Md: 'md',
+  Lg: 'lg',
+} as const;
+export type RadioSize = (typeof RadioSize)[keyof typeof RadioSize];
+
 export const radioGroupProps = {
   ...baseProps,
   /** 绑定值 */
@@ -9,44 +34,58 @@ export const radioGroupProps = {
     default: '',
   },
   /** 尺寸 sm | md | lg */
-  size: LkProp.string('md'),
+  size: LkProp.enum(Object.values(RadioSize), RadioSize.Md, 'RadioGroup.size'),
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
   /** 排列方向 row | column */
-  direction: LkProp.string('row'),
-  /** 图标颜色 */
+  direction: LkProp.enum(
+    Object.values(RadioGroupDirection),
+    RadioGroupDirection.Row,
+    'RadioGroup.direction'
+  ),
+  /** 选中时的颜色 */
   activeColor: LkProp.string(''),
   /** 形状 circle | square */
-  shape: LkProp.string('circle'),
+  shape: LkProp.enum(Object.values(RadioShape), RadioShape.Circle, 'RadioGroup.shape'),
   /** 图标类型 dot | check */
-  iconType: LkProp.string('dot'),
+  iconType: LkProp.enum(Object.values(RadioIconType), RadioIconType.Dot, 'RadioGroup.iconType'),
+  /** 表单字段名，用于表单验证联动 */
+  prop: LkProp.string(''),
+  /** 是否触发表单验证（默认 true） */
+  validateEvent: LkProp.boolean(true),
 } as const;
 
 export const radioProps = {
   ...baseProps,
-  /** 标识符 */
+  /** 在 group 中作为唯一标识符 */
   name: {
     type: [String, Number, Boolean] as PropType<any>,
     default: '',
   },
-  /** 形状 circle | square */
+  /** 形状，不设则继承 group */
   shape: LkProp.string(''),
-  /** 图标类型 dot | check */
+  /** 图标类型，不设则继承 group */
   iconType: LkProp.string(''),
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
-  /** 选中颜色 */
+  /** 选中颜色，不设则继承 group */
   activeColor: LkProp.string(''),
-  /** 大小，支持设置数字 */
+  /** 图标大小，支持数字和 rpx 字符串 */
   iconSize: LkProp.stringNumber(''),
-  /** 标签对应的内容 */
+  /** 标签文本 */
   label: LkProp.string(''),
-  /** 标签是否禁用点击 */
+  /** 是否禁用标签点击 */
   labelDisabled: LkProp.boolean(false),
 } as const;
 
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>;
 export type RadioProps = ExtractPropTypes<typeof radioProps>;
 
-export const radioGroupEmits = ['update:modelValue', 'change'];
-export const radioEmits = ['update:modelValue', 'change'];
+export const radioGroupEmits = {
+  'update:modelValue': (_val: any) => true,
+  change: (_val: any) => true,
+};
+export const radioEmits = {
+  'update:modelValue': (_val: any) => true,
+  change: (_val: any) => true,
+};

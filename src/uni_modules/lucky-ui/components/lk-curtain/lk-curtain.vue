@@ -110,6 +110,7 @@ function onClick() {
     class="lk-curtain"
     :class="customClass"
     :style="rootStyle"
+    @tap.stop
   >
     <lk-overlay
       v-if="display"
@@ -121,8 +122,9 @@ function onClick() {
       class="lk-curtain__content"
       :class="contentClasses"
       :style="[contentStyle, contentStyles]"
+      @tap.stop
     >
-      <view v-if="hasDefaultSlot" class="lk-curtain__slot" @click="onClick">
+      <view v-if="hasDefaultSlot" class="lk-curtain__slot" @tap="onClick">
         <slot />
       </view>
       <image
@@ -131,13 +133,13 @@ function onClick() {
         :src="imageUrl"
         :mode="imageMode"
         :style="{ width: '100%', height: '100%' }"
-        @click="onClick"
+        @tap="onClick"
       />
       <view
         class="lk-curtain__close"
         :class="['lk-curtain__close--' + closePosition]"
         :style="closeStyle"
-        @click="onClose"
+        @tap.stop="onClose"
       >
         <lk-icon name="x-lg" size="32" color="var(--lk-color-text-inverse)" />
       </view>
@@ -180,11 +182,12 @@ function onClick() {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 64rpx;
-    height: 64rpx;
+    width: 72rpx;
+    height: 72rpx;
     border: 2rpx solid var(--lk-color-text-inverse);
     border-radius: 50%;
     z-index: 1;
+    background: rgba(0, 0, 0, 0.3);
 
     &--top-left {
       left: 0;

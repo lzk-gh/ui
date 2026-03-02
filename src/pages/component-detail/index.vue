@@ -58,7 +58,6 @@
           <CollapseDemo v-else-if="componentName === 'collapse'" />
           <TabsDemo v-else-if="componentName === 'tabs'" />
           <TimelineDemo v-else-if="componentName === 'timeline'" />
-          <StepsDemo v-else-if="componentName === 'steps'" />
           <ProgressDemo v-else-if="componentName === 'progress'" />
           <LoadingDemo v-else-if="componentName === 'loading'" />
           <NumberRollerDemo v-else-if="componentName === 'number-roller'" />
@@ -305,12 +304,6 @@ const componentMap: Record<string, any> = {
     title: 'Timeline 时间轴',
     desc: '垂直时间轴组件',
     icon: 'clock-history',
-    color: 'warning',
-  },
-  steps: {
-    title: 'Steps 步骤条',
-    desc: '步骤流程组件',
-    icon: 'diagram-3-fill',
     color: 'warning',
   },
   progress: {
@@ -598,7 +591,6 @@ import CellDemo from '@/components/demos/cell-demo.vue';
 import CollapseDemo from '@/components/demos/collapse-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TimelineDemo from '@/components/demos/timeline-demo.vue';
-import StepsDemo from '@/components/demos/steps-demo.vue';
 import ProgressDemo from '@/components/demos/progress-demo.vue';
 import LoadingDemo from '@/components/demos/loading-demo.vue';
 import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
@@ -671,7 +663,6 @@ const demoComponentMap: Record<string, any> = {
   collapse: CollapseDemo,
   tabs: TabsDemo,
   timeline: TimelineDemo,
-  steps: StepsDemo,
   progress: ProgressDemo,
   loading: LoadingDemo,
   'number-roller': NumberRollerDemo,

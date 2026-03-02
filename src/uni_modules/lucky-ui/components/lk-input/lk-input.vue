@@ -7,13 +7,22 @@ import LkIcon from '../lk-icon/lk-icon.vue';
 defineOptions({ name: 'LkInput' });
 
 const props = defineProps(inputProps);
-
 const emit = defineEmits(inputEmits);
 
 const form = inject(formContextKey, null);
 
 const inner = ref<any>(props.modelValue);
 const composing = ref(false);
+// 密码明文切换状态
+const passwordVisible = ref(false);
+
+// 实际使用的 input type：密码切换时从 password 变为 text
+const realType = computed(() => {
+  if (props.type === 'password' && props.showPassword && passwordVisible.value) {
+    return 'text';
+  }
+  return props.type;
+});
 
 function commit(val: any, change = false) {
   inner.value = val;
@@ -40,6 +49,9 @@ function onBlur(e: any) {
 function onFocus(e: any) {
   emit('focus', e);
 }
+function onConfirm(e: any) {
+  emit('confirm', e);
+}
 function onCompositionStart() {
   composing.value = true;
 }
@@ -51,6 +63,11 @@ function clear() {
   if (props.disabled || props.readonly || !inner.value) return;
   commit('', true);
   emit('clear');
+}
+
+// 密码明暗切换
+function togglePassword() {
+  passwordVisible.value = !passwordVisible.value;
 }
 
 // 假输入框点击事件
@@ -80,6 +97,11 @@ const fakeDisplayText = computed(() => {
   return props.fakeText || props.placeholder || '';
 });
 
+// 是否显示密码切换按钮
+const showPasswordToggle = computed(() => {
+  return props.showPassword && props.type === 'password' && !props.disabled && !props.readonly && !props.fake;
+});
+
 watch(
   () => props.modelValue,
   v => (inner.value = v)
@@ -105,16 +127,24 @@ watch(
     <input
       v-else
       class="lk-input__inner"
+      :class="[`lk-input__inner--${inputAlign}`]"
       :value="inner"
-      :type="type"
+      :type="realType"
+      :password="type === 'password' && !passwordVisible"
       :placeholder="placeholder"
       :maxlength="maxlength > -1 ? maxlength : 140000"
       :disabled="disabled"
       :readonly="readonly"
       :focus="autofocus"
+      :confirm-type="confirmType"
+      :cursor-spacing="cursorSpacing"
+      :aria-disabled="disabled"
+      :aria-readonly="readonly"
+      :aria-label="placeholder"
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
+      @confirm="onConfirm"
       @compositionstart="onCompositionStart"
       @compositionend="onCompositionEnd"
     />
@@ -122,18 +152,31 @@ watch(
     <!-- 内嵌通知栏插槽 -->
     <slot name="notice"></slot>
 
-    <view v-if="$slots.suffix || suffixIcon" class="lk-input__suffix">
+    <!-- 清空按钮 -->
+    <view
+      v-if="clearable && !disabled && !readonly && inner && !fake"
+      class="lk-input__clear"
+      @click.stop="clear"
+    >
+      <lk-icon name="x-circle-fill" size="32" />
+    </view>
+
+    <!-- 密码明暗切换按钮 -->
+    <view
+      v-if="showPasswordToggle"
+      class="lk-input__password-toggle"
+      @click.stop="togglePassword"
+    >
+      <lk-icon :name="passwordVisible ? 'eye' : 'eye-slash'" size="36" />
+    </view>
+
+    <!-- 后缀图标/插槽 -->
+    <view v-if="($slots.suffix || suffixIcon) && !showPasswordToggle" class="lk-input__suffix">
       <slot name="suffix">
         <lk-icon v-if="suffixIcon" :name="suffixIcon" size="36" />
       </slot>
     </view>
 
-    <view
-      v-if="clearable && !disabled && !readonly && inner && !fake"
-      class="lk-input__clear"
-      @click="clear"
-      >×</view
-    >
     <view v-if="count && !fake" class="lk-input__count">{{ count }}</view>
   </view>
 </template>

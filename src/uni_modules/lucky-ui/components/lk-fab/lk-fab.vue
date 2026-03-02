@@ -257,6 +257,43 @@ const mainClass = computed(() => [
   },
 ]);
 
+const resolvedDirection = computed(() => {
+  const preferred = props.direction;
+  const gap = rpx2px(24);
+  const needed = (actionSizePx.value + gap) * Math.max(props.actions.length, 1);
+  const size = sizePx.value;
+
+  const spaces: Record<'up' | 'down' | 'left' | 'right', number> = {
+    up: Math.max(0, posY.value - (systemInfo.statusBarHeight || 0)),
+    down: Math.max(0, windowHeight - safeBottomPx.value - (posY.value + size)),
+    left: Math.max(0, posX.value),
+    right: Math.max(0, windowWidth - (posX.value + size)),
+  };
+
+  if (spaces[preferred] >= needed) {
+    return preferred;
+  }
+
+  const priorities: Record<'up' | 'down' | 'left' | 'right', Array<'up' | 'down' | 'left' | 'right'>> = {
+    up: ['up', 'down', 'left', 'right'],
+    down: ['down', 'up', 'left', 'right'],
+    left: ['left', 'right', 'up', 'down'],
+    right: ['right', 'left', 'up', 'down'],
+  };
+
+  for (const dir of priorities[preferred]) {
+    if (spaces[dir] >= needed) {
+      return dir;
+    }
+  }
+
+  return (Object.entries(spaces).sort((a, b) => b[1] - a[1])[0]?.[0] || preferred) as
+    | 'up'
+    | 'down'
+    | 'left'
+    | 'right';
+});
+
 // 子按钮位置计算
 function getActionStyle(index: number) {
   const gap = rpx2px(24);
@@ -268,7 +305,7 @@ function getActionStyle(index: number) {
   let x = offsetToCenter;
   let y = offsetToCenter;
 
-  switch (props.direction) {
+  switch (resolvedDirection.value) {
     case 'up':
       y = -distance + offsetToCenter;
       break;

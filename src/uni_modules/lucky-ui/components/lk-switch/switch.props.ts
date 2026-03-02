@@ -47,9 +47,33 @@ export const switchProps = {
 
   /** 切换前的拦截函数，返回 false 或 Promise<false> 阻止切换 */
   beforeChange: {
-    type: Function as PropType<(val: any) => boolean | Promise<boolean>>,
+    type: Function as PropType<(val: boolean | string | number) => boolean | Promise<boolean>>,
     default: null,
   },
+
+  /**
+   * 开关内显示文字（ON/OFF）
+   * @default false
+   */
+  inlinePrompt: LkProp.boolean(false),
+
+  /** 开启时内嵌文字 */
+  activeText: LkProp.string(''),
+
+  /** 关闭时内嵌文字 */
+  inactiveText: LkProp.string(''),
+
+  /**
+   * 是否开启轻震动反馈（需要用户授权）
+   * @default false
+   */
+  hapticFeedback: LkProp.boolean(false),
+
+  /** 表单字段名，用于表单验证联动 */
+  prop: LkProp.string(''),
+
+  /** 是否触发表单验证（默认 true） */
+  validateEvent: LkProp.boolean(true),
 } as const;
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;

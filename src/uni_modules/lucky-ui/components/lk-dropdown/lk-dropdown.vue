@@ -88,6 +88,13 @@ const {
 
 <template>
   <view class="lk-dropdown" @mouseenter="onTriggerEnter" @mouseleave="onTriggerLeave">
+    <view
+      v-if="display && trigger === 'click' && closeOnClickOutside"
+      class="lk-dropdown__mask"
+      :style="{ zIndex }"
+      @tap="toggle(false)"
+    />
+
     <view class="lk-dropdown__trigger" @click="onTriggerClick">
       <slot />
     </view>
@@ -95,7 +102,7 @@ const {
       v-if="display"
       class="lk-dropdown__menu lk-elevated"
       :class="menuClasses"
-      :style="[menuStyles, { zIndex }]"
+      :style="[menuStyles, { zIndex: zIndex + 2 }]"
     >
       <slot name="menu" />
     </view>

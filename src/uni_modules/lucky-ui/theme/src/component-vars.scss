@@ -218,6 +218,45 @@ page,
   --lk-input-border-hover: var(--lk-brand-600);
   --lk-input-border-focus: var(--lk-brand-600);
   --lk-input-shadow-focus: 0 0 0 4rpx var(--lk-brand-100);
+  --lk-input-border-radius: var(--lk-radius-lg);
+  --lk-input-border-error: var(--lk-color-danger);
+  --lk-input-shadow-error: 0 0 0 4rpx var(--lk-color-danger-soft);
+
+  /* === 表单 === */
+  --lk-form-item-gap: var(--lk-spacing-xl);
+  --lk-form-error-color: var(--lk-color-danger);
+  --lk-form-label-color: var(--lk-text-primary);
+  --lk-form-label-required-color: var(--lk-color-danger);
+
+  /* === 开关 === */
+  --lk-switch-size-sm: 40rpx;
+  --lk-switch-size-md: 52rpx;
+  --lk-switch-size-lg: 64rpx;
+  --lk-switch-color-on: var(--lk-color-primary);
+  --lk-switch-color-off: var(--lk-fill-tertiary);
+  --lk-switch-knob-color: #ffffff;
+
+  /* === 滑块 === */
+  --lk-slider-track-color: var(--lk-fill-tertiary);
+  --lk-slider-fill-color: var(--lk-color-primary);
+  --lk-slider-thumb-color: #ffffff;
+  --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+
+  /* === 评分 === */
+  --lk-rate-color-fill: var(--lk-color-warning);
+  --lk-rate-color-void: var(--lk-fill-tertiary);
+  --lk-rate-icon-size: 48rpx;
+  --lk-rate-gap: 8rpx;
+
+  /* === 复选框 === */
+  --lk-checkbox-border-color: var(--lk-color-border);
+  --lk-checkbox-checked-color: var(--lk-color-primary);
+  --lk-checkbox-check-color: #ffffff;
+
+  /* === 单选框 === */
+  --lk-radio-border-color: var(--lk-color-border);
+  --lk-radio-checked-color: var(--lk-color-primary);
+  --lk-radio-check-color: #ffffff;
 }
 
 /* =============================================================================
@@ -322,6 +361,45 @@ page,
   --lk-input-border-hover: var(--lk-brand-500);
   --lk-input-border-focus: var(--lk-brand-500);
   --lk-input-shadow-focus: 0 0 0 4rpx rgba(105, 101, 219, 0.25);
+  --lk-input-border-radius: var(--lk-radius-lg);
+  --lk-input-border-error: var(--lk-color-danger);
+  --lk-input-shadow-error: 0 0 0 4rpx var(--lk-color-danger-soft);
+
+  /* === 表单 === */
+  --lk-form-item-gap: var(--lk-spacing-xl);
+  --lk-form-error-color: var(--lk-color-danger);
+  --lk-form-label-color: var(--lk-text-primary);
+  --lk-form-label-required-color: var(--lk-color-danger);
+
+  /* === 开关 === */
+  --lk-switch-size-sm: 40rpx;
+  --lk-switch-size-md: 52rpx;
+  --lk-switch-size-lg: 64rpx;
+  --lk-switch-color-on: var(--lk-color-primary);
+  --lk-switch-color-off: var(--lk-fill-tertiary);
+  --lk-switch-knob-color: #ffffff;
+
+  /* === 滑块 === */
+  --lk-slider-track-color: var(--lk-fill-tertiary);
+  --lk-slider-fill-color: var(--lk-color-primary);
+  --lk-slider-thumb-color: #ffffff;
+  --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+
+  /* === 评分 === */
+  --lk-rate-color-fill: var(--lk-color-warning);
+  --lk-rate-color-void: var(--lk-fill-tertiary);
+  --lk-rate-icon-size: 48rpx;
+  --lk-rate-gap: 8rpx;
+
+  /* === 复选框 === */
+  --lk-checkbox-border-color: var(--lk-color-border);
+  --lk-checkbox-checked-color: var(--lk-color-primary);
+  --lk-checkbox-check-color: #ffffff;
+
+  /* === 单选框 === */
+  --lk-radio-border-color: var(--lk-color-border);
+  --lk-radio-checked-color: var(--lk-color-primary);
+  --lk-radio-check-color: #ffffff;
 }
 
 /* =============================================================================

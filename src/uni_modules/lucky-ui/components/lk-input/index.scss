@@ -5,7 +5,7 @@
   --_fs: var(--lk-control-font-size-md);
   --_px: var(--lk-control-padding-x-md);
   --_radius: var(--lk-radius-lg);
-  --_border: transparent;
+  --_border: var(--lk-color-border-light);
   --_border-hover: var(--lk-color-primary);
   --_border-active: var(--lk-color-primary);
   // 使用新的占位符颜色变量
@@ -45,7 +45,8 @@
     height: var(--_height);
     font-size: var(--_fs);
     background: transparent;
-    border: none;
+    border: 0 !important;
+    box-shadow: none !important;
     outline: none;
     padding: 0;
     // 使用新的中性文字颜色变量
@@ -137,10 +138,38 @@
 
   @include when(disabled) {
     opacity: 0.6;
+    cursor: not-allowed;
   }
 
   @include when(readonly) {
     background: var(--lk-color-bg-disabled);
+  }
+
+  // 密码明暗切换按钮
+  @include e(password-toggle) {
+    display: flex;
+    align-items: center;
+    margin-left: var(--lk-spacing-xs);
+    color: var(--lk-text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: var(--lk-spacing-xxs);
+    border-radius: var(--lk-radius-sm);
+    transition: color var(--lk-transition-fast);
+
+    &:active {
+      color: var(--lk-color-primary);
+    }
+  }
+
+  // 输入内容对齐方式
+  @include e(inner) {
+    &--center {
+      text-align: center;
+    }
+    &--right {
+      text-align: right;
+    }
   }
 
   /* 表单错误态（父 .lk-form-item.is-error 加的类） */

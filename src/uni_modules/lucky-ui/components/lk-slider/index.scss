@@ -80,12 +80,40 @@
   }
 
   @include e(thumb) {
+    position: relative;
     width: var(--lk-slider-thumb-size);
     height: var(--lk-slider-thumb-size);
     border-radius: 50%;
     background: #fff;
     box-shadow: var(--lk-slider-thumb-shadow);
     transition: transform 0.2s;
+    display: flex;
+    justify-content: center;
+  }
+
+  // thumb 上方的值提示 tooltip
+  @include e(tooltip) {
+    position: absolute;
+    bottom: calc(var(--lk-slider-thumb-size) + 10rpx);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--lk-color-primary);
+    color: #fff;
+    font-size: 22rpx;
+    padding: 4rpx 12rpx;
+    border-radius: var(--lk-radius-sm, 8rpx);
+    white-space: nowrap;
+    pointer-events: none;
+    // 小三角
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 8rpx solid transparent;
+      border-top-color: var(--lk-color-primary);
+    }
   }
 
   @include e(value) {

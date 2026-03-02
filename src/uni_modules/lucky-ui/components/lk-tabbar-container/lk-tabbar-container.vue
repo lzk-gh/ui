@@ -247,7 +247,7 @@ $tabbar-height: 120rpx;
 
 .lk-tabbar-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: $test-bg-page;
@@ -411,8 +411,8 @@ $tabbar-height: 120rpx;
     height: 120rpx;
     background: radial-gradient(
       ellipse at bottom,
-      rgba(var(--test-primary-rgb), 0.5) 0%,
-      rgba(var(--test-primary-rgb), 0.2) 40%,
+      rgba(var(--lk-brand-rgb, 105, 101, 219), 0.5) 0%,
+      rgba(var(--lk-brand-rgb, 105, 101, 219), 0.2) 40%,
       transparent 70%
     );
     filter: blur(8rpx);
@@ -470,7 +470,7 @@ $tabbar-height: 120rpx;
   }
 
   &.is-active {
-    color: var(--test-primary);
+    color: var(--lk-color-primary);
 
     // Common Icon Animations
     .tabbar-item__icon {
@@ -504,12 +504,12 @@ $tabbar-height: 120rpx;
       }
       .tabbar-item__label {
         transform: translateY(-20rpx) scale(1.2);
-        color: var(--test-primary);
+        color: var(--lk-color-primary);
       }
     }
 
     .lk-tabbar-container--float & {
-      color: var(--test-primary);
+      color: var(--lk-color-primary);
       .tabbar-item__icon-wrapper {
         transform: translateY(-30rpx);
         background: $test-primary;
@@ -524,7 +524,7 @@ $tabbar-height: 120rpx;
       }
       .tabbar-item__label {
         transform: translateY(0);
-        color: var(--test-primary);
+        color: var(--lk-color-primary);
       }
     }
 

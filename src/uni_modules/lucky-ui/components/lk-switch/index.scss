@@ -88,6 +88,20 @@
     opacity: 0.8;
   }
 
+  // 内嵌文字提示（ON / OFF）
+  @include e(prompt) {
+    font-size: calc(var(--switch-knob-size) * 0.4);
+    line-height: 1;
+    color: var(--switch-active-color);
+    font-weight: 600;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  &.is-checked .lk-switch__prompt {
+    color: var(--switch-inactive-color);
+  }
+
   // 按压反馈（非禁用/非加载时）
   &:active:not(.is-disabled):not(.is-loading) {
     .lk-switch__knob {

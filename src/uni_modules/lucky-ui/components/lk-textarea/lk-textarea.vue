@@ -1,17 +1,19 @@
-<script setup lang="ts">
-import { computed, ref } from 'vue';
+﻿<script setup lang="ts">
+import { computed, ref, inject } from 'vue';
 import { textareaProps, textareaEmits } from './textarea.props';
+import { formContextKey } from '../lk-form/context';
 
 defineOptions({ name: 'LkTextarea' });
 
 const props = defineProps(textareaProps);
 const emit = defineEmits(textareaEmits);
 
+const form = inject(formContextKey, null);
 const isFocused = ref(false);
 
 const cls = computed(() => [
   'lk-textarea',
-  `lk-textarea--${props.variant}`, // 动态变体类名
+  `lk-textarea--${props.variant}`,
   {
     'is-disabled': props.disabled,
     'is-focused': isFocused.value,
@@ -24,12 +26,9 @@ const currentCount = computed(() => String(props.modelValue || '').length);
 
 function onInput(e: any) {
   let val = e.detail.value;
-
-  // 手动处理 maxlength，确保在所有平台都生效
   if (props.maxlength !== -1 && val.length > props.maxlength) {
     val = val.substring(0, props.maxlength);
   }
-
   emit('update:modelValue', val);
   emit('input', val);
 }
@@ -45,6 +44,11 @@ function onBlur(e: any) {
   setTimeout(() => {
     isFocused.value = false;
     emit('blur', e);
+    // 失焦时触发 change 和表单验证
+    emit('change', props.modelValue);
+    if (props.validateEvent && props.prop) {
+      form?.emitFieldBlur(props.prop);
+    }
   }, 100);
 }
 
@@ -56,20 +60,16 @@ function onLineChange(e: any) {
   emit('linechange', e);
 }
 
-// 👑 极致的清空体验
 function onClear() {
   if (props.disabled) return;
-
-  // 1. 震动反馈 (提升高级感)
-  uni.vibrateShort({ success: () => {} });
-
-  // 2. 更新值
   emit('update:modelValue', '');
   emit('input', '');
+  emit('change', '');
   emit('clear');
-
-  // 3. 这里的逻辑是为了确保清空后，键盘尽可能保持
-  // 注意：在某些小程序平台，点击非 input 区域可能会收起键盘，这是原生限制
+  // 表单验证联动
+  if (props.validateEvent && props.prop) {
+    form?.emitFieldChange(props.prop, '');
+  }
 }
 </script>
 
@@ -100,19 +100,14 @@ function onClear() {
       />
 
       <!-- 清空按钮 -->
-      <!-- 逻辑：开启clearable && 有内容 && 非禁用 -->
-      <!-- 使用 transition 增加出现消失的动画 -->
       <view v-if="clearable || $slots.suffix" class="lk-textarea__suffix">
-        <transition name="fade">
-          <view
-            v-if="clearable && modelValue && !disabled"
-            class="lk-textarea__clear"
-            @tap.stop.prevent="onClear"
-          >
-            <!-- 推荐使用 SVG 图标或 font-icon，这里用 CSS 画一个优雅的叉 -->
-            <view class="lk-icon-close" />
-          </view>
-        </transition>
+        <view
+          v-if="clearable && modelValue && !disabled"
+          class="lk-textarea__clear"
+          @tap.stop.prevent="onClear"
+        >
+          <view class="lk-icon-close" />
+        </view>
         <slot name="suffix" />
       </view>
     </view>
@@ -129,16 +124,6 @@ function onClear() {
   </view>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use './index.scss';
-
-// 简单的过渡动画
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 </style>

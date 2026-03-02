@@ -3,21 +3,22 @@
 @include b(form) {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-xl);
+  gap: var(--lk-form-item-gap, var(--lk-spacing-xl));
 }
 
 @include b(form-item) {
   // =========================================
-  // 1. 定义组件级 CSS 变量
+  // 1. 定义组件级 CSS 变量（可通过主题覆盖）
   // =========================================
   --_gap-x: var(--lk-spacing-md);
-  --_label-color: var(--lk-color-text-secondary);
-  --_error-color: var(--lk-color-primary-active);
+  --_label-color: var(--lk-color-text-secondary, var(--lk-text-secondary));
+  // 错误色统一使用语义 danger 色
+  --_error-color: var(--lk-form-error-color, var(--lk-color-danger));
   --_label-fs: var(--lk-font-size-sm);
   --_error-fs: var(--lk-font-size-xs);
 
   // =========================================
-  // 2. 核心盒模型
+  // 2. 核心盒模型（left / right 对齐布局）
   // =========================================
   display: flex;
   align-items: flex-start;
@@ -35,12 +36,14 @@
   }
 
   @include e(star) {
-    color: var(--lk-color-primary);
+    // 必填标记使用 danger 色而非主色，视觉上更明确
+    color: var(--_error-color);
     margin-right: var(--lk-spacing-xxs);
   }
 
   @include e(content) {
     flex: 1;
+    min-width: 0; // 防止 flex 子项溢出
     display: flex;
     flex-direction: column;
     gap: var(--lk-spacing-xxs);
@@ -50,11 +53,64 @@
     font-size: var(--_error-fs);
     line-height: 1.3;
     color: var(--_error-color);
+    // 优雅地从上方滑入
+    animation: lk-form-error-in 0.2s ease;
   }
 
+  // =========================================
+  // 3. labelAlign: right
+  // =========================================
+  &.lk-form-item--right {
+    .lk-form-item__label {
+      justify-content: flex-end;
+      text-align: right;
+    }
+  }
+
+  // =========================================
+  // 4. labelAlign: top（标签在上方）
+  // =========================================
+  &.lk-form-item--top {
+    flex-direction: column;
+    gap: var(--lk-spacing-xxs);
+
+    .lk-form-item__label {
+      padding-top: 0;
+      min-width: unset;
+      width: 100%;
+    }
+
+    .lk-form-item__content {
+      width: 100%;
+    }
+  }
+
+  // =========================================
+  // 5. 错误态
+  // =========================================
   @include when(error) {
     @include e(label) {
       color: var(--_error-color);
     }
+  }
+
+  // =========================================
+  // 6. 验证中（可选：loading 动效）
+  // =========================================
+  @include when(validating) {
+    @include e(label) {
+      opacity: 0.7;
+    }
+  }
+}
+
+@keyframes lk-form-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

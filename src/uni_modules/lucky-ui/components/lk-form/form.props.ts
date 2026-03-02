@@ -44,6 +44,17 @@ export const formProps = {
 
   /** 是否显示错误信息 */
   showMessage: LkProp.boolean(true),
+
+  /**
+   * 验证失败后是否自动滚动到第一个错误字段
+   * @default false
+   */
+  scrollToError: LkProp.boolean(false),
+
+  /**
+   * 是否禁用本表单内所有控件
+   */
+  disabled: LkProp.boolean(false),
 } as const;
 
 export type FormProps = ExtractPropTypes<typeof formProps>;

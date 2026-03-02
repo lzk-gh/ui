@@ -54,6 +54,12 @@ const currentIcon = computed(() => {
   return props.icon;
 });
 
+const iconColor = computed(() => {
+  if (isBumpItem.value) return 'var(--lk-color-text-inverse)';
+  if (isActive.value) return tabbar?.activeColor.value || 'var(--lk-color-primary)';
+  return tabbar?.inactiveColor.value || 'var(--lk-color-text-secondary)';
+});
+
 // 点击处理
 function onTap() {
   tabbar?.setActive(props.name, itemIndex.value);
@@ -79,7 +85,7 @@ function onTap() {
       </template>
       <!-- lk-icon 内置图标 -->
       <template v-else-if="icon">
-        <lk-icon :name="currentIcon" :size="isBumpItem ? 52 : 44" />
+        <lk-icon :name="currentIcon" :size="isBumpItem ? 52 : 44" :color="iconColor" />
       </template>
 
       <!-- 小红点 -->

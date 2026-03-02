@@ -141,6 +141,12 @@ function isBumpItem(index: number) {
   const total = props.list.length || itemCount.value;
   return total % 2 === 1 && index === middleIndex.value;
 }
+
+function getItemIconColor(active: boolean, bump: boolean) {
+  if (bump) return 'var(--lk-color-text-inverse)';
+  if (active) return props.activeColor || 'var(--lk-color-primary)';
+  return props.inactiveColor || 'var(--lk-color-text-secondary)';
+}
 </script>
 
 <template>
@@ -195,6 +201,7 @@ function isBumpItem(index: number) {
               <lk-icon
                 :name="modelValue === index && item.selectedIcon ? item.selectedIcon : item.icon"
                 :size="isBumpItem(index) ? 52 : 44"
+                :color="getItemIconColor(modelValue === index, isBumpItem(index))"
               />
             </template>
 
