@@ -7,12 +7,11 @@ import type { TabConfig } from '@/uni_modules/lucky-ui/core/src/tabbar-container
 
 // 同步导入首页（首屏需要立即显示）
 import HomeTab from './tabs/home-tab.vue';
-// #ifdef MP-WEIXIN
+// 非 H5 平台不支持动态 import()（App 使用 iife 格式不兼容代码分包），统一静态导入
 import CartTab from './tabs/cart-tab.vue';
 import DetailTab from './tabs/detail-tab.vue';
 import MineTab from './tabs/mine-tab.vue';
 import OverviewTab from './tabs/overview-tab.vue';
-// #endif
 
 const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
@@ -53,13 +52,12 @@ const tabConfig: TabConfig[] = [
   },
 ];
 
-// #ifndef MP-WEIXIN
+// 所有平台统一使用静态导入，避免 App 端 iife 格式不兼容 code-splitting
 tabConfig[0].component = HomeTab;
-tabConfig[1].component = () => import('./tabs/cart-tab.vue');
-tabConfig[2].component = () => import('./tabs/detail-tab.vue');
-tabConfig[3].component = () => import('./tabs/mine-tab.vue');
-tabConfig[4].component = () => import('./tabs/overview-tab.vue');
-// #endif
+tabConfig[1].component = CartTab;
+tabConfig[2].component = DetailTab;
+tabConfig[3].component = MineTab;
+tabConfig[4].component = OverviewTab;
 
 const handleTabChange = (tabId: string) => {
   console.log('[App] Tab changed to:', tabId);
