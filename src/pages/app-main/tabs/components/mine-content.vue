@@ -1,3 +1,84 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
+import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
+import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
+import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
+import LkActionSheet from '@/uni_modules/lucky-ui/components/lk-action-sheet/lk-action-sheet.vue';
+import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
+import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
+import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
+import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
+
+defineProps<{
+  contentHeight: string;
+  skipAnimation?: boolean;
+}>();
+
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
+
+const stats = [
+  { value: '12', label: 'Wishlist' },
+  { value: '25', label: 'Coupons' },
+  { value: '1,204', label: 'Points' },
+];
+
+const orderStatuses = [
+  { label: 'Pending', icon: 'wallet2', count: 2 },
+  { label: 'Processing', icon: 'box-seam', count: 0 },
+  { label: 'Shipped', icon: 'app', count: 5 },
+  { label: 'Reviews', icon: 'chat-dots', count: 1 },
+];
+
+const showThemeSheet = ref(false);
+const themeActions = [
+  { name: 'Light Mode', value: 'light', icon: 'sun' },
+  { name: 'Dark Mode', value: 'dark', icon: 'moon' },
+];
+
+const handleThemeSelect = (payload: {
+  action: { name?: string; value?: string };
+  index: number;
+}) => {
+  const value = payload.action.value as 'light' | 'dark';
+  if (value) {
+    themeStore.setTheme(value);
+  }
+};
+
+const showLogoutModal = ref(false);
+const handleLogout = () => {
+  uni.showToast({ title: 'Logged out', icon: 'success' });
+  // 跳转到登录页（分包页面）
+  uni.navigateTo({ url: '/pages_sub/auth/index' });
+};
+
+const goToOrders = () => {
+  uni.showToast({ title: 'Orders page...', icon: 'none' });
+};
+
+const goToAnalytics = () => {
+  uni.navigateTo({ url: '/pages_sub/analytics/index' });
+};
+
+const goToCheckIn = () => {
+  uni.navigateTo({ url: '/pages_sub/check-in/index' });
+};
+
+const goToEditProfile = () => {
+  uni.navigateTo({ url: '/pages_sub/edit-profile/index' });
+};
+
+const goToSettings = () => {
+  uni.navigateTo({ url: '/pages_sub/settings/index' });
+};
+</script>
+
 <template>
   <scroll-view
     class="mine-content"
@@ -78,14 +159,13 @@
           <lk-cell-group>
             <lk-cell
               title="Edit Profile"
-              icon="person-gear"
+              icon="info-circle"
               clickable
               arrow
-              border
               @click="goToEditProfile"
             />
-            <lk-cell title="My Wishlist" icon="heart" clickable arrow border />
-            <lk-cell title="Shipping Addresses" icon="geo-alt" clickable arrow border />
+            <lk-cell title="My Wishlist" icon="heart" clickable arrow />
+            <lk-cell title="Shipping Addresses" icon="geo-alt" clickable arrow />
             <lk-cell title="Payment Methods" icon="credit-card" clickable arrow />
           </lk-cell-group>
         </lk-card>
@@ -94,13 +174,12 @@
           <lk-cell-group>
             <lk-cell
               title="Theme Management"
-              icon="palette"
+              icon="moon"
               clickable
               arrow
-              border
               @click="showThemeSheet = true"
             />
-            <lk-cell title="Privacy Policy" icon="shield-lock" clickable arrow border />
+            <lk-cell title="Privacy Policy" icon="shield-lock" clickable arrow />
             <lk-cell title="Settings" icon="gear" clickable arrow @click="goToSettings" />
           </lk-cell-group>
         </lk-card>
@@ -137,86 +216,7 @@
   </scroll-view>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkActionSheet from '@/uni_modules/lucky-ui/components/lk-action-sheet/lk-action-sheet.vue';
-import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 
-defineProps<{
-  contentHeight: string;
-  skipAnimation?: boolean;
-}>();
-
-const themeStore = useThemeStore();
-const themeClass = computed(() => themeStore.themeClass);
-
-const stats = [
-  { value: '12', label: 'Wishlist' },
-  { value: '25', label: 'Coupons' },
-  { value: '1,204', label: 'Points' },
-];
-
-const orderStatuses = [
-  { label: 'Pending', icon: 'wallet2', count: 2 },
-  { label: 'Processing', icon: 'box-seam', count: 0 },
-  { label: 'Shipped', icon: 'truck', count: 5 },
-  { label: 'Reviews', icon: 'chat-dots', count: 1 },
-];
-
-const showThemeSheet = ref(false);
-const themeActions = [
-  { name: 'Light Mode', value: 'light', icon: 'sun' },
-  { name: 'Dark Mode', value: 'dark', icon: 'moon' },
-];
-
-const handleThemeSelect = (payload: {
-  action: { name?: string; value?: string };
-  index: number;
-}) => {
-  const value = payload.action.value as 'light' | 'dark';
-  if (value) {
-    themeStore.setTheme(value);
-  }
-};
-
-const showLogoutModal = ref(false);
-const handleLogout = () => {
-  uni.showToast({ title: 'Logged out', icon: 'success' });
-  // 跳转到登录页（分包页面）
-  uni.navigateTo({ url: '/pages_sub/auth/index' });
-};
-
-const goToOrders = () => {
-  uni.showToast({ title: 'Orders page...', icon: 'none' });
-};
-
-const goToAnalytics = () => {
-  uni.navigateTo({ url: '/pages_sub/analytics/index' });
-};
-
-const goToCheckIn = () => {
-  uni.navigateTo({ url: '/pages_sub/check-in/index' });
-};
-
-const goToEditProfile = () => {
-  uni.navigateTo({ url: '/pages_sub/edit-profile/index' });
-};
-
-const goToSettings = () => {
-  uni.navigateTo({ url: '/pages_sub/settings/index' });
-};
-</script>
 
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;

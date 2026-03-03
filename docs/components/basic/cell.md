@@ -126,6 +126,8 @@ const notify = ref(true)
 | label | 标题下方描述 | `string` | `''` |
 | prefixIcon | 左侧图标名 | `string` | `''` |
 | arrow | 显示右侧箭头 | `boolean` | `false` |
+| arrowName | 自定义右侧箭头图标名 | `string` | `'chevron-right'` |
+| arrowColor | 自定义右侧箭头图标颜色 | `string` | — |
 | clickable | 开启点击高亮 | `boolean` | `false` |
 | required | 显示必填星号 | `boolean` | `false` |
 | valueColor | 右侧文字颜色 | `string` | — |

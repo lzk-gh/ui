@@ -19,6 +19,12 @@ export const cellProps = {
   /** 是否显示右侧箭头 */
   arrow: LkProp.boolean(false),
 
+  /** 右侧箭头图标名称 */
+  arrowName: LkProp.string('chevron-right'),
+
+  /** 右侧箭头图标颜色 */
+  arrowColor: LkProp.string(''),
+
   /** 是否可点击 */
   clickable: LkProp.boolean(false),
 

@@ -54,7 +54,13 @@ function onTap(e: unknown) {
           <slot name="value" />
         </view>
         <text v-else-if="value" class="lk-cell__value">{{ value }}</text>
-        <lk-icon v-if="arrow" name="arrow-right" size="30" class="lk-cell__arrow" />
+        <lk-icon
+          v-if="arrow"
+          :name="arrowName"
+          size="30"
+          :color="arrowColor"
+          class="lk-cell__arrow"
+        />
       </slot>
     </view>
     <view v-if="clickable && ripple" class="lk-ripple__wave" :style="rippleWaveStyle" />
