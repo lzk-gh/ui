@@ -117,7 +117,7 @@ watch(
         <slot name="header">
           <text class="lk-modal__title">{{ title }}</text>
         </slot>
-        <lk-icon v-if="showClose" name="x" size="40" class="lk-modal__close" @click="close" />
+        <lk-icon v-if="showClose" name="x" size="48" class="lk-modal__close" @click="close" />
       </view>
 
       <!-- Body -->
