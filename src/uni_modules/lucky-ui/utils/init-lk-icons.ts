@@ -4,6 +4,23 @@ export type InitFontOptions =
   | { source: 'base64'; data: string }; // 仅 base64 内容，不包含 data: 前缀
 
 let loaded = false;
+
+function hasReadyPage(): boolean {
+  try {
+    const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : [];
+    return Array.isArray(pages) && pages.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+async function waitForPageReady(maxRetry = 20, interval = 50): Promise<void> {
+  for (let i = 0; i < maxRetry; i += 1) {
+    if (hasReadyPage()) return;
+    await new Promise(resolve => setTimeout(resolve, interval));
+  }
+}
+
 export async function initLkIconsFont(opt: InitFontOptions) {
   if (loaded) return;
   const family = 'lk-icons';
@@ -18,6 +35,11 @@ export async function initLkIconsFont(opt: InitFontOptions) {
   }
 
   try {
+    // #ifndef H5
+    // 小程序 / App 启动早期可能还没有 page 实例，直接 global 加载会触发 $page undefined
+    await waitForPageReady();
+    // #endif
+
     await new Promise((resolve, reject) => {
       // @ts-ignore: uni API
       uni.loadFontFace({
@@ -34,6 +56,25 @@ export async function initLkIconsFont(opt: InitFontOptions) {
     // H5/App 端：不需要也无妨
     console.log('[lk-icons] font loaded');
   } catch (e) {
+    try {
+      // #ifndef H5
+      // 兜底：部分宿主对 global 参数兼容不稳定，退化为局部注入避免启动报错
+      await new Promise((resolve, reject) => {
+        // @ts-ignore: uni API
+        uni.loadFontFace({
+          family,
+          source,
+          success: resolve,
+          fail: reject,
+        });
+      });
+      loaded = true;
+      console.log('[lk-icons] font loaded (fallback)');
+      return;
+      // #endif
+    } catch {
+      // ignore fallback error
+    }
     console.warn('[lk-icons] font load failed', e);
   }
 }

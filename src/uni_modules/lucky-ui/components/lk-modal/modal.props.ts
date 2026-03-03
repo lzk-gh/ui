@@ -32,6 +32,12 @@ export const modalProps = {
   /** 是否显示底部 */
   showFooter: LkProp.boolean(true),
 
+  /** 确认按钮文本（兼容旧参数名） */
+  confirmText: LkProp.string('确定'),
+
+  /** 取消按钮文本（兼容旧参数名） */
+  cancelText: LkProp.string('取消'),
+
   /** 动画预设名称 */
   animation: {
     type: String as PropType<keyof typeof ANIMATION_PRESETS>,

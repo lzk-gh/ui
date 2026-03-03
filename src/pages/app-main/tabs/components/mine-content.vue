@@ -130,7 +130,7 @@ const goToSettings = () => {
               <text>Daily Check-in</text>
             </view>
             <view class="entry-item" @click="goToAnalytics">
-              <lk-icon name="pie-chart" size="40" color="#6366f1" />
+              <lk-icon name="reception-4" size="40" color="#6366f1" />
               <text>Data Insights</text>
             </view>
           </lk-grid>

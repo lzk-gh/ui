@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { skeletonProps } from './skeleton.props';
-defineOptions({ name: 'LkSkeleton' });
+defineOptions({ name: 'LkSkeleton', inheritAttrs: false });
 
 const props = defineProps(skeletonProps);
 
@@ -30,7 +30,7 @@ const hostStyle = computed(() => {
 </script>
 
 <template>
-  <view v-if="loading" class="lk-skeleton" :style="hostStyle">
+  <view v-if="loading" class="lk-skeleton" :style="hostStyle" v-bind="$attrs">
     <view
       v-if="avatar"
       class="lk-skeleton__avatar"
@@ -57,7 +57,9 @@ const hostStyle = computed(() => {
       />
     </view>
   </view>
-  <slot v-else />
+  <view v-else v-bind="$attrs">
+    <slot />
+  </view>
 </template>
 
 <style lang="scss">

@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import { popupProps, popupEmits } from './popup.props';
+import { addUnit } from '../../core/src/utils/unit';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -13,6 +14,11 @@ defineOptions({ name: 'LkPopup' });
 
 const props = defineProps(popupProps);
 const emit = defineEmits(popupEmits);
+const closeOnOverlayResolved = computed(() => {
+  return props.closeOnClickOverlay ?? props.closeOnOverlay;
+});
+const popupHeight = computed(() => addUnit(props.height) || '');
+const popupWidth = computed(() => addUnit(props.width) || '');
 
 // 根据 position 给出合理默认动画
 const defaultByPosition: Record<string, NonNullable<TransitionConfig['name']>> = {
@@ -74,7 +80,7 @@ const {
 
 function onOverlayClick() {
   emit('click-overlay');
-  if (props.closeOnOverlay) emit('update:modelValue', false);
+  if (closeOnOverlayResolved.value) emit('update:modelValue', false);
 }
 
 function onCloseClick() {
@@ -217,13 +223,18 @@ const panelStyle = computed(() => {
       ...transitionStyles.value,
       transform: `translateY(${translateY.value}px)`,
       transition: isDragging.value ? 'none' : 'transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)', // 弹性动画
-      height: '100vh', // 拖拽模式下占满全屏高度以便上拉
+      height: popupHeight.value || '100vh', // 拖拽模式下占满全屏高度以便上拉
+      ...(popupWidth.value ? { width: popupWidth.value } : {}),
       borderRadius: props.round
         ? `var(--lk-popup-radius, 24rpx) var(--lk-popup-radius, 24rpx) 0 0`
         : '0',
     };
   }
-  return transitionStyles.value;
+  return {
+    ...transitionStyles.value,
+    ...(popupHeight.value ? { height: popupHeight.value } : {}),
+    ...(popupWidth.value ? { width: popupWidth.value } : {}),
+  };
 });
 </script>
 
@@ -233,7 +244,7 @@ const panelStyle = computed(() => {
     :show="modelValue"
     :z-index="zIndex"
     :lock-scroll="lockScroll"
-    :close-on-click="closeOnOverlay"
+    :close-on-click="closeOnOverlayResolved"
     @click="onOverlayClick"
   />
   <view v-if="display" :class="wrapperClass" :style="wrapperStyle" @touchmove.stop>

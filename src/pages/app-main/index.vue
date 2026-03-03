@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, markRaw } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
 import LkTabbarContainer from '@/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue';
@@ -53,11 +53,11 @@ const tabConfig: TabConfig[] = [
 ];
 
 // 所有平台统一使用静态导入，避免 App 端 iife 格式不兼容 code-splitting
-tabConfig[0].component = HomeTab;
-tabConfig[1].component = CartTab;
-tabConfig[2].component = DetailTab;
-tabConfig[3].component = MineTab;
-tabConfig[4].component = OverviewTab;
+tabConfig[0].component = markRaw(HomeTab);
+tabConfig[1].component = markRaw(CartTab);
+tabConfig[2].component = markRaw(DetailTab);
+tabConfig[3].component = markRaw(MineTab);
+tabConfig[4].component = markRaw(OverviewTab);
 
 const handleTabChange = (tabId: string) => {
   console.log('[App] Tab changed to:', tabId);

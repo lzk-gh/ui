@@ -80,7 +80,7 @@ const categories = [
       { name: 'slider', label: 'Slider', desc: '滑块', icon: 'sliders' },
       { name: 'rate', label: 'Rate', desc: '评分', icon: 'star' },
       { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' },
-      { name: 'picker', label: 'Picker', desc: '选择器', icon: 'menu-button-wide' },
+      { name: 'picker', label: 'Picker', desc: '选择器', icon: 'sliders' },
       { name: 'keyboard', label: 'Keyboard', desc: '虚拟键盘', icon: 'keyboard' },
       { name: 'verify-code', label: 'VerifyCode', desc: '验证码', icon: 'shield-lock' },
     ],
@@ -97,19 +97,19 @@ const categories = [
       { name: 'timeline', label: 'Timeline', desc: '时间轴', icon: 'hourglass-split' },
       { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
       { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
-      { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'border' },
+      { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'list-ul' },
       { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'house' },
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
-      { name: 'number-roller', label: 'NumberRoller', desc: '数字翻牌', icon: 'speedometer' },
+      { name: 'number-roller', label: 'NumberRoller', desc: '数字翻牌', icon: 'reception-4' },
       {
         name: 'horizontal-scroll',
         label: 'HorizontalScroll',
         desc: '横向滚动',
-        icon: 'distribute-horizontal',
+        icon: 'arrows-expand',
       },
-      { name: 'chart-bar', label: 'ChartBar', desc: '柱状图', icon: 'bar-chart' },
-      { name: 'chart-line', label: 'ChartLine', desc: '折线图', icon: 'graph-up' },
-      { name: 'chart-pie', label: 'ChartPie', desc: '饼/环图', icon: 'pie-chart' },
+      { name: 'chart-bar', label: 'ChartBar', desc: '柱状图', icon: 'reception-4' },
+      { name: 'chart-line', label: 'ChartLine', desc: '折线图', icon: 'arrow-up-circle' },
+      { name: 'chart-pie', label: 'ChartPie', desc: '饼/环图', icon: 'record-circle' },
     ],
   },
   {
@@ -117,15 +117,15 @@ const categories = [
     icon: 'chat-square-dots',
     color: 'danger',
     components: [
-      { name: 'modal', label: 'Modal', desc: '对话框', icon: 'window' },
-      { name: 'popup', label: 'Popup', desc: '弹出层', icon: 'window-stack' },
+      { name: 'modal', label: 'Modal', desc: '对话框', icon: 'layout-text-window' },
+      { name: 'popup', label: 'Popup', desc: '弹出层', icon: 'layout-three-columns' },
       { name: 'toast', label: 'Toast', desc: '轻提示', icon: 'chat-right-text' },
       { name: 'action-sheet', label: 'ActionSheet', desc: '动作面板', icon: 'list-task' },
       { name: 'overlay', label: 'Overlay', desc: '遮罩', icon: 'house' },
       { name: 'tooltip', label: 'Tooltip', desc: '气泡提示', icon: 'chat-square-quote' },
       { name: 'dropdown', label: 'Dropdown', desc: '下拉菜单', icon: 'caret-down-square' },
-      { name: 'transition', label: 'Transition', desc: '过渡动画', icon: 'bezier2' },
-      { name: 'curtain', label: 'Curtain', desc: '幕帘', icon: 'aspect-ratio' },
+      { name: 'transition', label: 'Transition', desc: '过渡动画', icon: 'arrow-clockwise' },
+      { name: 'curtain', label: 'Curtain', desc: '幕帘', icon: 'grid-3x2' },
     ],
   },
   {
@@ -137,8 +137,8 @@ const categories = [
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
       { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' },
       { name: 'fab', label: 'Fab', desc: '悬浮按钮', icon: 'plus-circle-fill' },
-      { name: 'index-bar', label: 'IndexBar', desc: '字母索引', icon: 'sort-alpha-down' },
-      { name: 'anchor', label: 'Anchor', desc: '页面锚点', icon: 'hash' },
+      { name: 'index-bar', label: 'IndexBar', desc: '字母索引', icon: 'list-task' },
+      { name: 'anchor', label: 'Anchor', desc: '页面锚点', icon: 'signpost-split' },
       { name: 'sticky', label: 'Sticky', desc: '粘性布局', icon: 'pin-angle' },
     ],
   },
@@ -224,7 +224,7 @@ const navigateToDetail = (componentName: string) => {
       <!-- 主题色配置 -->
       <view class="theme-config-card">
         <view class="config-header">
-          <lk-icon name="palette" size="36" color="primary" />
+          <lk-icon name="sliders" size="36" color="primary" />
           <text class="config-title">品牌主题色</text>
         </view>
         <view class="color-presets">

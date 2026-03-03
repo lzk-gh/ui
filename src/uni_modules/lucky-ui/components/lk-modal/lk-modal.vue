@@ -162,10 +162,10 @@ watch(
             variant="soft"
             @click="cancel"
           >
-            取消
+            {{ cancelText }}
           </lk-button>
           <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="close">
-            确定
+            {{ confirmText }}
           </lk-button>
         </slot>
       </view>
