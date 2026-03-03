@@ -185,7 +185,7 @@ const categoryCount = computed(() => categories.length);
 // 跳转到详情页
 const navigateToDetail = (componentName: string) => {
   uni.navigateTo({
-    url: `/pages/component-detail/index?name=${componentName}`,
+    url: `/pages_sub/component-detail/index?name=${componentName}`,
   });
 };
 </script>

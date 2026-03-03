@@ -1,7 +1,7 @@
 // 在 App 启动时调用此方法（mp-weixin 真机关键）
 export type InitFontOptions =
   | { source: 'cdn'; url: string } // https 地址，需在 downloadFile 合法域名
-  | { source: 'base64'; data: string }; // 仅 base64 内容，不包含 data: 前缀
+  | { source: 'base64'; data: string; format?: 'woff' | 'truetype' }; // 仅 base64 内容，不包含 data: 前缀
 
 let loaded = false;
 
@@ -31,7 +31,9 @@ export async function initLkIconsFont(opt: InitFontOptions) {
     source = `url("${opt.url}")`;
   } else {
     // base64 数据：传入纯 base64 字符串，这里拼接成 data URL
-    source = `url("data:font/truetype;charset=utf-8;base64,${opt.data}") format("truetype")`;
+    const format = opt.format ?? 'woff';
+    const mime = format === 'woff' ? 'font/woff' : 'font/truetype';
+    source = `url("data:${mime};charset=utf-8;base64,${opt.data}") format("${format}")`;
   }
 
   try {

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { onLaunch } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
+// #ifndef H5
+// H5 通过 CSS @font-face 自动加载字体，无需 base64 注入；仅 MP/App 需要
 import { initLkIconsFont } from '@/uni_modules/lucky-ui/utils/init-lk-icons';
-import { LK_ICONS_TTF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/fonts/lk-icons.base64';
+import { LK_ICONS_WOFF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/fonts/lk-icons.base64';
+// #endif
 
 // #ifdef H5
 try {
@@ -24,8 +27,10 @@ onLaunch(async () => {
   // 立即隐藏原生 tabBar，防止闪烁
   uni.hideTabBar({ animation: false, fail: () => {} });
 
-  // 初始化图标字体
-  await initLkIconsFont({ source: 'base64', data: LK_ICONS_TTF_BASE64 });
+  // #ifndef H5
+  // 初始化图标字体（小程序 / App 通过 loadFontFace 加载，H5 由 CSS @font-face 负责）
+  await initLkIconsFont({ source: 'base64', data: LK_ICONS_WOFF_BASE64, format: 'woff' });
+  // #endif
 
   // 初始化主题 Store（恢复保存的主题和品牌色）
   const themeStore = useThemeStore();
