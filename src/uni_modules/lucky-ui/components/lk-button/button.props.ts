@@ -99,7 +99,7 @@ export const buttonProps = {
 } as const;
 
 export const buttonEmits = {
-  click: (event: MouseEvent) => event instanceof MouseEvent,
+  click: (event: unknown) => event !== undefined,
 };
 
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>;

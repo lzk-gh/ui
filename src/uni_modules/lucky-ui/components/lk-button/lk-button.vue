@@ -26,7 +26,7 @@ const cls = computed(() => [
   },
 ]);
 
-function onClick(e: MouseEvent) {
+function onClick(e: unknown) {
   if (props.disabled || props.loading) return;
   triggerRipple(e);
   emit('click', e);
