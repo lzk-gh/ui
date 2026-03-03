@@ -18,47 +18,48 @@ const cAF = (id: number): void =>
  */
 export type MaybeNumber = number | Ref<number> | (() => number);
 export type MaybeString = string | Ref<string> | (() => string);
+export type TransitionName =
+  | 'fade'
+  | 'fade-up'
+  | 'fade-down'
+  | 'fade-left'
+  | 'fade-right'
+  | 'fade-up-left'
+  | 'fade-up-right'
+  | 'fade-down-left'
+  | 'fade-down-right'
+  | 'slide-up'
+  | 'slide-down'
+  | 'slide-left'
+  | 'slide-right'
+  | 'zoom-in'
+  | 'zoom-in-up'
+  | 'zoom-in-down'
+  | 'zoom-in-left'
+  | 'zoom-in-right'
+  | 'zoom-out'
+  | 'zoom-out-up'
+  | 'zoom-out-down'
+  | 'zoom-out-left'
+  | 'zoom-out-right'
+  | 'flip-left'
+  | 'flip-right'
+  | 'flip-up'
+  | 'flip-down'
+  | 'bounce-in'
+  | 'bounce-in-up'
+  | 'bounce-in-down'
+  | 'bounce-in-left'
+  | 'bounce-in-right'
+  | 'rotate-in'
+  | 'rotate-in-up-left'
+  | 'rotate-in-up-right'
+  | 'rotate-in-down-left'
+  | 'rotate-in-down-right';
 
 export interface TransitionConfig {
   /** 动画名称 */
-  name?:
-    | 'fade'
-    | 'fade-up'
-    | 'fade-down'
-    | 'fade-left'
-    | 'fade-right'
-    | 'fade-up-left'
-    | 'fade-up-right'
-    | 'fade-down-left'
-    | 'fade-down-right'
-    | 'slide-up'
-    | 'slide-down'
-    | 'slide-left'
-    | 'slide-right'
-    | 'zoom-in'
-    | 'zoom-in-up'
-    | 'zoom-in-down'
-    | 'zoom-in-left'
-    | 'zoom-in-right'
-    | 'zoom-out'
-    | 'zoom-out-up'
-    | 'zoom-out-down'
-    | 'zoom-out-left'
-    | 'zoom-out-right'
-    | 'flip-left'
-    | 'flip-right'
-    | 'flip-up'
-    | 'flip-down'
-    | 'bounce-in'
-    | 'bounce-in-up'
-    | 'bounce-in-down'
-    | 'bounce-in-left'
-    | 'bounce-in-right'
-    | 'rotate-in'
-    | 'rotate-in-up-left'
-    | 'rotate-in-up-right'
-    | 'rotate-in-down-left'
-    | 'rotate-in-down-right';
+  name?: TransitionName | Ref<TransitionName> | (() => TransitionName);
   /** 动画持续时间(ms) */
   duration?: MaybeNumber;
   /** 动画延迟时间(ms) */
@@ -132,8 +133,6 @@ export function useTransition(
   config: TransitionConfig = {},
   callbacks: TransitionCallbacks = {}
 ) {
-  const { name = 'fade' } = config;
-
   // 工具函数: 解析动态/静态值
   const resolve = <T>(val: T | Ref<T> | (() => T) | undefined | null, fallback: T): T => {
     if (val == null) return fallback;
@@ -191,10 +190,11 @@ export function useTransition(
 
   // 计算类名
   const classes = computed(() => {
+    const currentName = resolve<TransitionName>(config.name as any, 'fade');
     const result: string[] = ['lk-transition'];
 
-    if (name) {
-      result.push(`lk-transition-${name}`);
+    if (currentName) {
+      result.push(`lk-transition-${currentName}`);
     }
 
     if (state.value.entering) {
@@ -421,7 +421,7 @@ export function useTransition(
  * 适用于不需要响应式控制的场景
  */
 export function getTransitionClass(
-  name: TransitionConfig['name'] = 'fade',
+  name: TransitionName = 'fade',
   active: boolean = false
 ): string {
   const classes = ['lk-transition', `lk-transition-${name}`];
@@ -485,7 +485,7 @@ export function getTransitionStyle(config: TransitionConfig = {}): CSSProperties
 /**
  * 导出动画类型定义
  */
-export type AnimationType = NonNullable<TransitionConfig['name']>;
+export type AnimationType = TransitionName;
 export type EasingType = NonNullable<TransitionConfig['easing']>;
 
 /**

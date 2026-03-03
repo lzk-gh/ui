@@ -8,6 +8,7 @@ import {
   useTransition,
   ANIMATION_PRESETS,
   type TransitionConfig,
+  type TransitionName,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
 
 defineOptions({ name: 'LkModal' });
@@ -38,13 +39,39 @@ const transitionConfig = computed<TransitionConfig>(() => {
   };
 });
 
+const transitionName = computed<TransitionName>(() => {
+  const name = transitionConfig.value.name;
+  if (typeof name === 'string') return name as TransitionName;
+  return 'fade';
+});
+
+const transitionDuration = computed<number>(() => {
+  const duration = transitionConfig.value.duration;
+  return typeof duration === 'number' ? duration : 300;
+});
+
+const transitionDelay = computed<number>(() => {
+  const delay = transitionConfig.value.delay;
+  return typeof delay === 'number' ? delay : 0;
+});
+
+const transitionEasing = computed<string>(() => {
+  const easing = transitionConfig.value.easing;
+  return typeof easing === 'string' ? easing : 'ease';
+});
+
 // ==================== useTransition ====================
 const {
   classes: transitionClasses,
   styles: transitionStyles,
   display,
   state,
-} = useTransition(() => props.modelValue, transitionConfig.value, {
+} = useTransition(() => props.modelValue, {
+  name: () => transitionName.value,
+  duration: () => transitionDuration.value,
+  delay: () => transitionDelay.value,
+  easing: () => transitionEasing.value,
+}, {
   onAfterEnter: () => emit('open'),
   onAfterLeave: () => emit('close'),
 });
@@ -55,8 +82,8 @@ async function close() {
   if (state.value.leaving) return;
 
   // 如果 confirm 返回 Promise，会等待 Promise 完成后再关闭
-  const result = emit('confirm');
-  if ((result as any) instanceof Promise) {
+  const result = emit('confirm') as unknown;
+  if (result instanceof Promise) {
     try {
       await result;
     } catch {
