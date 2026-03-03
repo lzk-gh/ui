@@ -184,6 +184,8 @@ const handlePay = () => {
   background-color: $test-bg-page;
   flex: 1;
   overflow: hidden;
+  padding-top: calc(env(safe-area-inset-top) + 12rpx);
+  box-sizing: border-box;
 }
 
 .checkout-content {

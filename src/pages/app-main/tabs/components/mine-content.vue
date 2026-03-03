@@ -225,6 +225,8 @@ const goToSettings = () => {
   background-color: $test-bg-page;
   position: relative;
   flex: 1;
+  padding-top: calc(env(safe-area-inset-top) + 20rpx);
+  box-sizing: border-box;
 }
 
 .profile-bg {

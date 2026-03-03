@@ -449,6 +449,8 @@ const goToDetail = (_item: WaterfallItem) => {
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(4rpx);
+      z-index: 5;
+      pointer-events: none;
     }
   }
 

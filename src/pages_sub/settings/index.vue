@@ -47,6 +47,7 @@ const goBack = () => {
     <lk-navbar title="Settings" @back="goBack" />
 
     <scroll-view class="settings-content" scroll-y>
+      <view class="settings-inner">
       <view class="section-title">App Theme</view>
       <lk-card shadow="sm" padding="0">
         <lk-cell-group>
@@ -108,6 +109,7 @@ const goBack = () => {
       </lk-card>
 
       <view class="demo-tip">Change settings to see immediate effect on the bottom tab bar.</view>
+      </view>
     </scroll-view>
   </view>
 </template>
@@ -125,6 +127,15 @@ const goBack = () => {
 .settings-content {
   flex: 1;
   padding: 0 30rpx 60rpx;
+  box-sizing: border-box;
+}
+
+.settings-inner {
+  width: 100%;
+  max-width: 690rpx;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 .section-title {

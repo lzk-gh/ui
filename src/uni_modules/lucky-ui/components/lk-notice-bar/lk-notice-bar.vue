@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated, watch } from 'vue';
 import { noticeBarProps } from './notice-bar.props';
 
 defineOptions({ name: 'LkNoticeBar' });
@@ -48,7 +48,9 @@ const displayMessages = computed(() => {
 const currentIndex = ref(0); // 当前可视的索引
 const verticalTimer = ref<number | ReturnType<typeof setInterval> | null>(null);
 const enableTransition = ref(true); // 用于无缝重置时临时关闭过渡
-const verticalListEl = ref<HTMLElement | null>(null);
+const verticalListEl = ref<any>(null);
+const resetTimer = ref<number | ReturnType<typeof setTimeout> | null>(null);
+const resumeTimer = ref<number | ReturnType<typeof setTimeout> | null>(null);
 
 // 竖向渲染列表（最后追加第一项以实现无缝滚动）
 const verticalList = computed(() => {
@@ -60,6 +62,14 @@ function stopVerticalLoop() {
   if (verticalTimer.value) {
     clearInterval(verticalTimer.value as number);
     verticalTimer.value = null;
+  }
+  if (resetTimer.value) {
+    clearTimeout(resetTimer.value as number);
+    resetTimer.value = null;
+  }
+  if (resumeTimer.value) {
+    clearTimeout(resumeTimer.value as number);
+    resumeTimer.value = null;
   }
 }
 
@@ -75,15 +85,17 @@ function startVerticalLoop() {
       enableTransition.value = true;
       currentIndex.value += 1;
       // 在过渡完成后立即无缝重置到真正的第一条
-      setTimeout(() => {
+      resetTimer.value = setTimeout(() => {
         enableTransition.value = false;
         currentIndex.value = 0;
-        // 强制重绘
+        // 强制重绘（仅 H5 需要，通过读取 offsetHeight 触发）
+        // #ifdef H5
         if (verticalListEl.value) {
-          void verticalListEl.value.offsetHeight;
+          void (verticalListEl.value as HTMLElement).offsetHeight;
         }
+        // #endif
         // 立即恢复过渡能力，为下一次步进做准备
-        setTimeout(() => {
+        resumeTimer.value = setTimeout(() => {
           enableTransition.value = true;
         }, 20);
       }, 300); // 与过渡时长一致
@@ -104,6 +116,14 @@ watch([scrollMode, () => props.speed, displayMessages], () => {
 
 onMounted(() => {
   startVerticalLoop();
+});
+
+onActivated(() => {
+  startVerticalLoop();
+});
+
+onDeactivated(() => {
+  stopVerticalLoop();
 });
 
 onBeforeUnmount(() => {
