@@ -52,14 +52,12 @@ const handlePay = () => {
 </script>
 
 <template>
-  <scroll-view
-    scroll-y
-    show-scrollbar="false"
-    class="checkout-content"
+  <view
+    class="checkout-wrapper"
     :class="themeClass"
     :style="{ height: contentHeight }"
   >
-    <!-- 自定义导航栏 -->
+    <!-- 固定导航栏（移出 scroll-view ，避免滚动时消失） -->
     <view class="nav-header">
       <view class="icon-btn" @click="goBack">
         <lk-icon name="chevron-left" size="40" color="var(--test-text-primary)" />
@@ -70,6 +68,12 @@ const handlePay = () => {
       </view>
     </view>
 
+    <!-- 可滚动内容区 -->
+    <scroll-view
+      scroll-y
+      show-scrollbar="false"
+      class="checkout-content"
+    >
     <!-- 交互增强：更多操作 -->
     <lk-popup v-model="showMorePopup" position="bottom" round height="45%">
       <view class="drag-handle"></view>
@@ -168,16 +172,27 @@ const handlePay = () => {
     </view>
 
     <view class="safe-area-bottom"></view>
-  </scroll-view>
+    </scroll-view>
+  </view>
 </template>
 <style lang="scss" scoped>
 @use '@/styles/test-page.scss' as *;
 
-.checkout-content {
+.checkout-wrapper {
+  display: flex;
+  flex-direction: column;
   background-color: $test-bg-page;
+  flex: 1;
+  overflow: hidden;
+  padding-top: calc(env(safe-area-inset-top) + 12rpx);
+  box-sizing: border-box;
+}
+
+.checkout-content {
+  flex: 1;
+  height: 0; // flex 布局中 scroll-view 需要 height:0 才能正确获得副本高度
   padding: 30rpx 40rpx 0;
   box-sizing: border-box;
-  flex: 1;
 }
 
 .nav-header {
@@ -185,7 +200,8 @@ const handlePay = () => {
   justify-content: space-between;
   align-items: center;
   height: 100rpx;
-  margin-bottom: 40rpx;
+  padding: 0 40rpx; // 与 scroll-view 内容区水平对齐
+  flex-shrink: 0;
 
   .nav-title {
     font-size: 34rpx;

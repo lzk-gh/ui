@@ -3,8 +3,15 @@ import { computed, watch } from 'vue';
 import { iconProps, iconEmits } from './icon.props';
 import { iconCharOf } from './codepoints';
 
-// 由 svgtofont 生成的 CSS
+// #ifdef H5
+// H5 使用 @font-face 静态加载字体（含所有字体格式引用）
 import './fonts/lk-icons.css';
+// #endif
+// #ifndef H5
+// 小程序 / App：仅导入 icon class 定义，字体文件通过 loadFontFace 加载
+// 避免 @font-face 导致 svg/ttf/woff 等字体文件被打包进主包（节省 ~1MB）
+import './fonts/lk-icons-definitions.css';
+// #endif
 
 defineOptions({ name: 'LkIcon' });
 

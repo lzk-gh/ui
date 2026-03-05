@@ -27,6 +27,7 @@ const hostStyle = computed(() => {
     '--lk-skel-ease': props.easing,
   } as any;
 });
+
 </script>
 
 <template>
@@ -57,7 +58,9 @@ const hostStyle = computed(() => {
       />
     </view>
   </view>
-  <slot v-else />
+  <view v-else>
+    <slot />
+  </view>
 </template>
 
 <style lang="scss">

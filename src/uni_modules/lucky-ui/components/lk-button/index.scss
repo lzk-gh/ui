@@ -79,7 +79,7 @@
 
   @include m(soft) {
     // 使用中性填充色背景，而不是品牌淡色
-    --_bg: var(--lk-fill-1);
+    --_bg: var(--lk-fill-2);
     // 使用中性文字颜色，而非品牌色
     --_color: var(--lk-text-primary);
   }

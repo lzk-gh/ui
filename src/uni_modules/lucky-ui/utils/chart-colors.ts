@@ -64,6 +64,11 @@ export function generateBrandShade(brandBaseHex: string, level: number): string 
 }
 
 export function getCssVarColor(varName: string): string | null {
+  // #ifndef H5
+  return null;
+  // #endif
+
+  // #ifdef H5
   try {
     if (typeof window === 'undefined' || typeof document === 'undefined') return null;
     const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
@@ -72,6 +77,7 @@ export function getCssVarColor(varName: string): string | null {
   } catch {
     return null;
   }
+  // #endif
 }
 
 export function resolveBrandBaseColor(): string {

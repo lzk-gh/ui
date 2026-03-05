@@ -6,6 +6,10 @@ import path from 'node:path';
 export default defineConfig({
   plugins: [uni()],
 
+  worker: {
+    format: 'es',
+  },
+
   css: {
     preprocessorOptions: {
       scss: {

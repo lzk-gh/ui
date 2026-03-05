@@ -157,7 +157,11 @@
 
   @include e(content) {
     flex: 1;
+    overflow: hidden;
+
+    /* #ifdef H5 */
     overflow: auto;
+    /* #endif */
   }
 
   @include e(safe) {

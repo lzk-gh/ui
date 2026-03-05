@@ -10,7 +10,11 @@ const themeStore = useThemeStore();
 
 const themeClass = computed(() => themeStore.themeClass);
 const brandStyleVars = computed(() => themeStore.brandStyleVars);
-const contentHeight = computed(() => '100%');
+
+// 内容区高度（扣除 tabbar，cart-content 内部自带导航栏）
+const _sys = uni.getSystemInfoSync();
+const _tabbarPx = uni.upx2px ? uni.upx2px(120) : 60;
+const contentHeight = computed(() => `${_sys.windowHeight - _tabbarPx}px`);
 
 // 页面缓存 - 用于判断是否首次访问
 const { isFirstVisit, markRendered, hasRendered } = usePageCache({
@@ -53,6 +57,7 @@ onShow(() => {
 .page-container {
   width: 100%;
   height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: $test-bg-page;

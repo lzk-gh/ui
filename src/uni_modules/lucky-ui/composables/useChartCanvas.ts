@@ -106,11 +106,13 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
       // ignore
     }
     // H5 fallback
+    // #ifdef H5
     try {
       if (typeof window !== 'undefined') return (window.devicePixelRatio as number) || 1;
     } catch {
       // ignore
     }
+    // #endif
     return 1;
   }
 
@@ -173,6 +175,7 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
           ctx.value = context;
 
           // H5 fallback：某些环境 fields({node:true}) 拿不到 node
+          // #ifdef H5
           if (!ctx.value) {
             try {
               if (typeof document !== 'undefined') {
@@ -186,6 +189,7 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
               // ignore
             }
           }
+          // #endif
           resolve();
         }
         )

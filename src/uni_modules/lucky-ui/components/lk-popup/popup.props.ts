@@ -64,11 +64,29 @@ export const popupProps = {
   /** 点击遮罩是否关闭 */
   closeOnOverlay: LkProp.boolean(true),
 
+  /** 点击遮罩是否关闭（兼容旧参数名） */
+  closeOnClickOverlay: {
+    type: Boolean,
+    default: undefined,
+  },
+
   /** 是否锁定滚动 */
   lockScroll: LkProp.boolean(true),
 
   /** 是否开启安全区域适配 */
   safeArea: LkProp.boolean(true),
+
+  /** 弹层高度（兼容旧参数） */
+  height: {
+    type: [String, Number] as PropType<string | number>,
+    default: '',
+  },
+
+  /** 弹层宽度（兼容旧参数） */
+  width: {
+    type: [String, Number] as PropType<string | number>,
+    default: '',
+  },
 
   /** 动画预设名称 */
   animation: {

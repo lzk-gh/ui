@@ -6,20 +6,6 @@
         "navigationBarTitleText": "Lucky UI",
         "navigationStyle": "custom"
       }
-    },
-    {
-      "path": "pages/component-detail/index",
-      "style": {
-        "navigationBarTitleText": "组件详情",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/playground/index",
-      "style": {
-        "navigationBarTitleText": "Playground",
-        "navigationStyle": "custom"
-      }
     }
   ],
   "subPackages": [
@@ -27,6 +13,20 @@
       "root": "pages_sub",
       "name": "sub-pages",
       "pages": [
+        {
+          "path": "component-detail/index",
+          "style": {
+            "navigationBarTitleText": "组件详情",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "playground/index",
+          "style": {
+            "navigationBarTitleText": "Playground",
+            "navigationStyle": "custom"
+          }
+        },
         {
           "path": "search/index",
           "style": {

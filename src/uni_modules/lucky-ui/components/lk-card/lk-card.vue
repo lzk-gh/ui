@@ -7,6 +7,10 @@ defineOptions({ name: 'LkCard' });
 
 const props = defineProps(cardProps);
 
+const emit = defineEmits<{
+  (e: 'click', event: unknown): void;
+}>();
+
 const cardClass = computed(() => {
   return [
     'lk-card',
@@ -41,10 +45,17 @@ const cardStyle = computed<CSSProperties>(() => {
 
   return style;
 });
+
+/**
+ * 处理点击事件
+ */
+function handleClick(e: unknown) {
+  emit('click', e);
+}
 </script>
 
 <template>
-  <view :class="cardClass" :style="cardStyle">
+  <view :class="cardClass" :style="cardStyle" @click="handleClick">
     <!-- 封面图插槽：贴边显示 -->
     <view v-if="$slots.cover" class="lk-card__cover">
       <slot name="cover" />

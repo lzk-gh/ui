@@ -1,167 +1,220 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import {
-  LkNavbar,
-  DemoBlock,
-  LkButton,
-  LkCurtain,
-  type CurtainClosePosition,
-} from '@/uni_modules/lucky-ui/components';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import type { CurtainClosePosition } from '@/uni_modules/lucky-ui/components/lk-curtain/curtain.props';
 
-const show1 = ref(false);
-const show2 = ref(false);
-const show3 = ref(false);
-const show4 = ref(false);
-const show5 = ref(false);
-const imageMode = ref<'aspectFit' | 'aspectFill'>('aspectFit');
-const closePosition = ref<CurtainClosePosition>('bottom');
-const closeOffset = ref('24rpx');
-const closeOffsetBottom = ref('36rpx');
+// 基础展示
+const showBasic = ref(false);
 
-const showTopLeft = () => {
-  closePosition.value = 'top-left';
-  show2.value = true;
-};
-const showTopRight = () => {
-  closePosition.value = 'top-right';
-  show2.value = true;
-};
-const showBottomLeft = () => {
-  closePosition.value = 'bottom-left';
-  show2.value = true;
-};
-const showBottomRight = () => {
-  closePosition.value = 'bottom-right';
-  show2.value = true;
+// 位置展示
+const showPosition = ref(false);
+const currentPosition = ref<CurtainClosePosition>('bottom');
+
+const openPosition = (pos: CurtainClosePosition) => {
+  currentPosition.value = pos;
+  showPosition.value = true;
 };
 
-const showFit = () => {
-  imageMode.value = 'aspectFit';
-  show4.value = true;
+// 遮罩关闭
+const showOverlayClose = ref(false);
+
+// 自定义内容 (插槽)
+const showCustom = ref(false);
+
+/**
+ * 这里的点击事件在小程序端需要注意：
+ * 幕帘内部点击通常会触发业务逻辑（跳转、领券等）
+ */
+const onCurtainClick = () => {
+  uni.showToast({
+    title: '点击幕帘内容',
+    icon: 'none'
+  });
 };
 
-const showFill = () => {
-  imageMode.value = 'aspectFill';
-  show4.value = true;
-};
-
-const setCloseNear = () => {
-  closeOffset.value = '12rpx';
-  closeOffsetBottom.value = '20rpx';
-};
-
-const setCloseFar = () => {
-  closeOffset.value = '36rpx';
-  closeOffsetBottom.value = '52rpx';
+const onReceive = () => {
+  showCustom.value = false;
+  uni.showToast({
+    title: '领取成功',
+    icon: 'success'
+  });
 };
 </script>
 
 <template>
   <view class="curtain-demo">
+    <!-- 固定导航栏 -->
     <lk-navbar title="Curtain 幕帘" />
-    <demo-block title="基础用法">
-      <lk-button @click="show1 = true">显示幕帘</lk-button>
-      <lk-curtain
-        v-model:show="show1"
-        image-url="https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg"
-      />
-    </demo-block>
 
-    <demo-block title="关闭按钮位置">
-      <view class="button-group">
-        <lk-button @click="showTopLeft">左上角</lk-button>
-        <lk-button @click="showTopRight">右上角</lk-button>
-        <lk-button @click="showBottomLeft">左下角</lk-button>
-        <lk-button @click="showBottomRight">右下角</lk-button>
-      </view>
-      <view class="button-group button-group--small-gap">
-        <lk-button size="sm" variant="soft" @click="setCloseNear">图标更贴近</lk-button>
-        <lk-button size="sm" variant="soft" @click="setCloseFar">图标更远</lk-button>
-      </view>
-      <lk-curtain
-        v-model:show="show2"
-        :close-position="closePosition"
-        :close-offset="closeOffset"
-        :close-offset-bottom="closeOffsetBottom"
-        image-url="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
-      />
-    </demo-block>
+    <view class="demo-container">
+      <!-- 基础用法 -->
+      <demo-block title="基础用法">
+        <view class="demo-p">最简单的图片幕帘展示。</view>
+        <lk-button block @click="showBasic = true">显示基础幕帘</lk-button>
+        <lk-curtain
+          v-model:show="showBasic"
+          image-url="https://img.yzcdn.cn/vant/apple-1.jpg"
+          @click="onCurtainClick"
+        />
+      </demo-block>
 
-    <demo-block title="点击遮罩关闭">
-      <lk-button @click="show3 = true">开启点击遮罩关闭</lk-button>
-      <lk-curtain
-        v-model:show="show3"
-        close-on-click-overlay
-        image-url="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg"
-      />
-    </demo-block>
-
-    <demo-block title="图片模式">
-      <view class="button-group">
-        <lk-button @click="showFit">aspectFit</lk-button>
-        <lk-button @click="showFill">aspectFill</lk-button>
-      </view>
-      <lk-curtain
-        v-model:show="show4"
-        :image-mode="imageMode"
-        width="620rpx"
-        height="680rpx"
-        image-url="https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg"
-      />
-    </demo-block>
-
-    <demo-block title="插槽自定义内容">
-      <lk-button @click="show5 = true">显示自定义幕帘</lk-button>
-      <lk-curtain v-model:show="show5" width="620rpx" height="460rpx">
-        <view class="slot-card">
-          <text class="slot-card__title">新人专享礼包</text>
-          <text class="slot-card__desc">限时 24 小时 · 下单立减</text>
-          <lk-button size="sm" @click.stop="show5 = false">立即领取</lk-button>
+      <!-- 位置展示 -->
+      <demo-block title="关闭按钮位置">
+        <view class="demo-p">设置 close-position 调整关闭图标位置。</view>
+        <view class="grid-buttons">
+          <lk-button size="sm" @click="openPosition('top-left')">左上角</lk-button>
+          <lk-button size="sm" @click="openPosition('top-right')">右上角</lk-button>
+          <lk-button size="sm" @click="openPosition('bottom-left')">左下角</lk-button>
+          <lk-button size="sm" @click="openPosition('bottom-right')">右下角</lk-button>
         </view>
-      </lk-curtain>
-    </demo-block>
+        <view style="margin-top: 10px;">
+          <lk-button block variant="soft" @click="openPosition('bottom')">正下方 (默认)</lk-button>
+        </view>
+        <lk-curtain
+          v-model:show="showPosition"
+          :close-position="currentPosition"
+          image-url="https://img.yzcdn.cn/vant/apple-2.jpg"
+        />
+      </demo-block>
+
+      <!-- 遮罩关闭 -->
+      <demo-block title="点击遮罩关闭">
+        <lk-button block variant="outline" @click="showOverlayClose = true">
+          开启遮罩层点击关闭
+        </lk-button>
+        <lk-curtain
+          v-model:show="showOverlayClose"
+          close-on-click-overlay
+          image-url="https://img.yzcdn.cn/vant/apple-3.jpg"
+        />
+      </demo-block>
+
+      <!-- 自定义内容 -->
+      <demo-block title="自定义插槽内容">
+        <view class="demo-p">使用默认插槽实现高度自定义的营销弹窗。</view>
+        <lk-button block type="primary" @click="showCustom = true">
+          领取新人大礼包
+        </lk-button>
+
+        <lk-curtain
+          v-model:show="showCustom"
+          width="580rpx"
+          height="800rpx"
+          close-position="bottom"
+          close-offset-bottom="80rpx"
+        >
+          <view class="coupon-card">
+            <view class="coupon-card__header">
+              <lk-icon name="gift" size="80" color="#ffffff" />
+              <text class="title">新人专享礼</text>
+            </view>
+            <view class="coupon-card__body">
+              <view class="amount">
+                <text class="symbol">¥</text>
+                <text class="value">50</text>
+              </view>
+              <text class="condition">满 200 元可用</text>
+              <text class="tips">全场通用 · 有效期 7 天</text>
+            </view>
+            <view class="coupon-card__footer">
+              <lk-button
+                round
+                block
+                type="error"
+                style="background: #ff4444; color: #fff;"
+                @click.stop="onReceive"
+              >
+                立即领取
+              </lk-button>
+            </view>
+          </view>
+        </lk-curtain>
+      </demo-block>
+    </view>
   </view>
 </template>
+
 <style lang="scss" scoped>
 .curtain-demo {
   min-height: 100vh;
-  background-color: #f7f8fa;
-  padding-bottom: 40rpx;
+  background-color: #f8f8f8;
 }
 
-.button-group {
-  display: flex;
-  flex-wrap: wrap;
+.demo-container {
+  padding: 30rpx;
+}
+
+.demo-p {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.grid-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20rpx;
-
-  &--small-gap {
-    margin-top: 16rpx;
-    gap: 12rpx;
-  }
 }
 
-.slot-card {
+/* 自定义优惠券卡片样式 */
+.coupon-card {
   width: 100%;
   height: 100%;
-  border-radius: 24rpx;
-  background: linear-gradient(135deg, #6965db 0%, #8b88ff 100%);
+  background: linear-gradient(180deg, #ff4444 0%, #ff8855 100%);
+  border-radius: 32rpx;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20rpx;
-  padding: 32rpx;
-  box-sizing: border-box;
+  overflow: hidden;
 
-  &__title {
-    font-size: 40rpx;
-    font-weight: 700;
-    color: #fff;
+  &__header {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40rpx;
+
+    .title {
+      color: #fff;
+      font-size: 44rpx;
+      font-weight: bold;
+      margin-top: 20rpx;
+    }
   }
 
-  &__desc {
-    font-size: 26rpx;
-    color: rgba(255, 255, 255, 0.9);
+  &__body {
+    background: #fff;
+    margin: 0 40rpx;
+    padding: 40rpx 0;
+    border-radius: 20rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .amount {
+      color: #ff4444;
+      font-weight: bold;
+
+      .symbol { font-size: 32rpx; }
+      .value { font-size: 80rpx; }
+    }
+
+    .condition {
+      font-size: 28rpx;
+      color: #333;
+      margin-top: 10rpx;
+    }
+
+    .tips {
+      font-size: 24rpx;
+      color: #999;
+      margin-top: 20rpx;
+    }
+  }
+
+  &__footer {
+    padding: 40rpx;
   }
 }
 </style>

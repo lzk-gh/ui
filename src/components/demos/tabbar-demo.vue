@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { markRaw, ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkTabbarContainer from '@/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue';
 import type { TabConfig } from '@/uni_modules/lucky-ui/core/src/tabbar-container';
@@ -24,18 +24,18 @@ const modeOptions: Array<{ label: string; value: TabbarMode }> = [
 ];
 
 const demoTabs: TabConfig[] = [
-  { id: 'home', label: '首页', icon: 'house', component: TabbarPreviewPane, keepAlive: true },
+  { id: 'home', label: '首页', icon: 'house', component: markRaw(TabbarPreviewPane), keepAlive: true },
   {
     id: 'cart',
     label: '购物车',
     icon: 'cart',
     badge: 2,
-    component: TabbarPreviewPane,
+    component: markRaw(TabbarPreviewPane),
     keepAlive: true,
   },
-  { id: 'detail', label: '详情', icon: 'list', component: TabbarPreviewPane, keepAlive: true },
-  { id: 'mine', label: '我的', icon: 'gear', component: TabbarPreviewPane, keepAlive: true },
-  { id: 'overview', label: '预览', icon: 'grid', component: TabbarPreviewPane, keepAlive: true },
+  { id: 'detail', label: '详情', icon: 'list', component: markRaw(TabbarPreviewPane), keepAlive: true },
+  { id: 'mine', label: '我的', icon: 'gear', component: markRaw(TabbarPreviewPane), keepAlive: true },
+  { id: 'overview', label: '预览', icon: 'grid', component: markRaw(TabbarPreviewPane), keepAlive: true },
 ];
 
 function changeMode(mode: TabbarMode) {

@@ -129,22 +129,40 @@ function onScroll(scrollTop: number, headerHeight: number = 0) {
 }
 
 function handleClick(href: string) {
-  activeHref.value = href;
+  const targetId = (href || '').replace(/^#/, '');
+  if (!targetId) return;
+
+  activeHref.value = targetId;
+  let handled = false;
+
   // #ifdef H5
   try {
-    const target = document.getElementById(href);
+    const target = document.getElementById(targetId);
     if (target && props.targetContainer) {
       const container = document.querySelector(props.targetContainer) as HTMLElement | null;
       if (container) {
         const top = target.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
         container.scrollTo({ top, behavior: 'smooth' });
+        handled = true;
       }
     }
   } catch {
     // ignore
   }
   // #endif
-  emit('click', href);
+
+  if (!handled) {
+    try {
+      uni.pageScrollTo({
+        selector: `#${targetId}`,
+        duration: 300,
+      });
+    } catch {
+      // ignore
+    }
+  }
+
+  emit('click', targetId);
 }
 
 watch(activeHref, val => {

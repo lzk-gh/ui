@@ -68,7 +68,7 @@ async function onSelect(e?: Event) {
   if (remainCount.value <= 0) return;
   emit('clickUpload', e as Event);
 
-  // #ifdef MP
+  // #ifdef MP || APP-PLUS
   chooseFileMp();
   // #endif
   // #ifdef H5

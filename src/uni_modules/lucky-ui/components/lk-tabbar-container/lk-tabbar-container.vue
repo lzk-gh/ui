@@ -152,10 +152,12 @@ watch(
     <view class="lk-tabbar-container__content">
       <!-- 使用 v-show 保持组件状态，避免重新渲染 -->
       <template v-for="tab in tabs" :key="tab.id">
-        <view
+        <scroll-view
           v-if="isVisited(tab.id) || tab.id === activeId"
           v-show="tab.id === activeId"
           class="lk-tabbar-container__panel"
+          scroll-y
+          :show-scrollbar="false"
         >
           <!-- 加载中状态 -->
           <view v-if="getTabInstance(tab.id)?.loading" class="lk-tabbar-container__loading">
@@ -171,7 +173,7 @@ watch(
           </view>
 
           <!-- Tab 内容组件 -->
-          <!-- #ifndef MP-WEIXIN -->
+          <!-- #ifdef H5 || APP-PLUS -->
           <component
             :is="getTabInstance(tab.id)!.component"
             v-else-if="getTabInstance(tab.id)?.component"
@@ -180,12 +182,12 @@ watch(
           />
           <!-- #endif -->
 
-          <!-- #ifdef MP-WEIXIN -->
+          <!-- #ifdef MP -->
           <view v-else class="lk-tabbar-container__slot">
             <slot :name="`tab-${tab.id}`" :tab-id="tab.id" :is-active="tab.id === activeId" />
           </view>
           <!-- #endif -->
-        </view>
+        </scroll-view>
       </template>
     </view>
 
@@ -265,8 +267,7 @@ $tabbar-height: 120rpx;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
   }
 
   &__loading,
@@ -312,7 +313,12 @@ $tabbar-height: 120rpx;
   }
 
   &__tabbar {
+    /* #ifdef H5 */
     position: fixed;
+    /* #endif */
+    /* #ifndef H5 */
+    position: absolute;
+    /* #endif */
     left: 0;
     right: 0;
     bottom: 0;

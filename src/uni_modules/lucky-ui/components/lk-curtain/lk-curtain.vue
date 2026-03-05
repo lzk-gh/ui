@@ -25,7 +25,10 @@ const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || 
 const hasDefaultSlot = computed(() => !!slots.default);
 const rootStyle = computed<(string | Record<string, string | number>)[]>(() => [
   (props.customStyle || '') as string,
-  { zIndex: props.zIndex },
+  {
+    zIndex: props.zIndex,
+    pointerEvents: props.show ? 'auto' : 'none',
+  },
 ]);
 
 const contentStyle = computed(() => {
@@ -37,21 +40,21 @@ const contentStyle = computed(() => {
 });
 
 const closeStyle = computed(() => {
+  const offset = ensureNegativeOffset(
+    props.closePosition === 'bottom' ? closeOffsetBottomStr.value : closeOffsetStr.value
+  );
+
   if (props.closePosition === 'bottom') {
-    return {
-      bottom: ensureNegativeOffset(closeOffsetBottomStr.value),
-    };
+    return { bottom: offset };
   }
 
-  if (props.closePosition === 'top-left' || props.closePosition === 'top-right') {
-    return {
-      top: ensureNegativeOffset(closeOffsetStr.value),
-    };
-  }
+  const styles: Record<string, string> = {};
+  if (props.closePosition.includes('top')) styles.top = offset;
+  if (props.closePosition.includes('bottom')) styles.bottom = offset;
+  if (props.closePosition.includes('left')) styles.left = offset;
+  if (props.closePosition.includes('right')) styles.right = offset;
 
-  return {
-    bottom: ensureNegativeOffset(closeOffsetStr.value),
-  };
+  return styles;
 });
 
 const transitionConfig = computed<TransitionConfig>(() => ({
@@ -67,7 +70,13 @@ const {
 } = useTransition(() => props.show, transitionConfig.value);
 
 function ensureNegativeOffset(value: string) {
-  return value.startsWith('-') ? value : `-${value}`;
+  // 移除可能存在的单位，转换为数值
+  const num = parseFloat(value);
+  const unit = value.replace(num.toString(), '');
+
+  // 确保偏移值是负数，这样关闭按钮才会溢出到内容区域外
+  const offset = Math.abs(num);
+  return `-${offset}${unit || 'rpx'}`;
 }
 
 function onOverlayClick() {
@@ -86,9 +95,30 @@ function onClick() {
   emit('click');
   if (!props.link) return;
 
+  const isHttp = /^https?:\/\//.test(props.link);
+
   // #ifdef H5
-  if (props.link.startsWith('http')) {
+  if (isHttp) {
     window.location.href = props.link;
+    return;
+  }
+  // #endif
+
+  // #ifdef APP-PLUS
+  if (isHttp) {
+    const runtime = (globalThis as { plus?: { runtime?: { openURL?: (url: string) => void } } })
+      .plus?.runtime;
+    if (runtime && typeof runtime.openURL === 'function') {
+      runtime.openURL(props.link);
+      return;
+    }
+  }
+  // #endif
+
+  // #ifdef MP
+  if (isHttp) {
+    uni.setClipboardData({ data: props.link });
+    uni.showToast({ title: '链接已复制', icon: 'none' });
     return;
   }
   // #endif
@@ -124,7 +154,12 @@ function onClick() {
       :style="[contentStyle, contentStyles]"
       @tap.stop
     >
-      <view v-if="hasDefaultSlot" class="lk-curtain__slot" @tap="onClick">
+      <view
+        v-if="hasDefaultSlot"
+        class="lk-curtain__slot"
+        style="width: 100%; height: 100%"
+        @tap="onClick"
+      >
         <slot />
       </view>
       <image
@@ -132,7 +167,7 @@ function onClick() {
         class="lk-curtain__image"
         :src="imageUrl"
         :mode="imageMode"
-        :style="{ width: '100%', height: '100%' }"
+        style="width: 100%; height: 100%"
         @tap="onClick"
       />
       <view
