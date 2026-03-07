@@ -313,12 +313,7 @@ $tabbar-height: 120rpx;
   }
 
   &__tabbar {
-    /* #ifdef H5 */
     position: fixed;
-    /* #endif */
-    /* #ifndef H5 */
-    position: absolute;
-    /* #endif */
     left: 0;
     right: 0;
     bottom: 0;

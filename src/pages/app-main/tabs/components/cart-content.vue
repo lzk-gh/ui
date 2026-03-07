@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useThemeStore } from '@/stores/theme';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
@@ -19,6 +19,7 @@ const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
 
 const showMorePopup = ref(false);
+const navHeaderPaddingTop = ref('0rpx');
 
 const goBack = () => {
   uni.switchTab({ url: '/pages/tabbar/home/index' });
@@ -49,6 +50,15 @@ const cartItems = ref([
 const handlePay = () => {
   uni.showToast({ title: '准备支付...', icon: 'loading' });
 };
+
+onMounted(() => {
+  // #ifdef MP-WEIXIN
+  const menuRect = uni.getMenuButtonBoundingClientRect?.();
+  if (menuRect && menuRect.bottom) {
+    navHeaderPaddingTop.value = `${menuRect.bottom + 8}px`;
+  }
+  // #endif
+});
 </script>
 
 <template>
@@ -58,7 +68,7 @@ const handlePay = () => {
     :style="{ height: contentHeight }"
   >
     <!-- 固定导航栏（移出 scroll-view ，避免滚动时消失） -->
-    <view class="nav-header">
+    <view class="nav-header" :style="{ paddingTop: navHeaderPaddingTop }">
       <view class="icon-btn" @click="goBack">
         <lk-icon name="chevron-left" size="40" color="var(--test-text-primary)" />
       </view>
@@ -184,7 +194,7 @@ const handlePay = () => {
   background-color: $test-bg-page;
   flex: 1;
   overflow: hidden;
-  padding-top: calc(env(safe-area-inset-top) + 12rpx);
+  padding-top: 0;
   box-sizing: border-box;
 }
 
@@ -199,7 +209,7 @@ const handlePay = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100rpx;
+  min-height: 100rpx;
   padding: 0 40rpx; // 与 scroll-view 内容区水平对齐
   flex-shrink: 0;
 

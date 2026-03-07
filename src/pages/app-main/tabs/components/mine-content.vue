@@ -130,7 +130,7 @@ const goToSettings = () => {
               <text>Daily Check-in</text>
             </view>
             <view class="entry-item" @click="goToAnalytics">
-              <lk-icon name="reception-4" size="40" color="#6366f1" />
+              <lk-icon name="reception-4" size="40" color="var(--test-primary)" />
               <text>Data Insights</text>
             </view>
           </lk-grid>
@@ -225,7 +225,7 @@ const goToSettings = () => {
   background-color: $test-bg-page;
   position: relative;
   flex: 1;
-  padding-top: calc(env(safe-area-inset-top) + 20rpx);
+  padding-top: 0;
   box-sizing: border-box;
 }
 
@@ -250,7 +250,7 @@ const goToSettings = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20rpx;
+  margin-top: calc(env(safe-area-inset-top) + 56rpx);
   margin-bottom: 40rpx;
 
   .user-name {
