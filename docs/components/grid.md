@@ -5,13 +5,57 @@ phone: grid
 
 # Grid 栅格
 
-用于 Grid 栅格 的基础演示与配置说明。
+用于将入口、菜单或快捷操作按照规则网格排布，支持静态宫格和分页轮播宫格两种模式。
+
+## 何时使用
+
+- 首页快捷入口区
+- 分类导航区
+- 需要图标 + 文本统一排列的操作面板
+- 需要分页展示大量入口时
 
 ## 基础用法
 
 ```vue
+<script setup lang="ts">
+const items = [
+  { icon: 'house', text: '首页' },
+  { icon: 'bag', text: '订单' },
+  { icon: 'person', text: '我的' },
+  { icon: 'gear', text: '设置' },
+]
+</script>
+
 <template>
-  <view class="demo-wrap">Grid 栅格 示例</view>
+  <lk-grid :columns="4" :items="items" />
+</template>
+```
+
+## 自定义间距
+
+```vue
+<lk-grid :columns="4" :gap="16" :item-gap="12" :items="items" />
+```
+
+## 轮播分页宫格
+
+当入口较多时，可开启 `carousel`，并结合 `columns` 与 `rows` 自动分页。
+
+```vue
+<lk-grid :columns="4" :rows="2" :carousel="true" :items="items" />
+```
+
+## 自定义内容
+
+如果不传 `items`，可以直接使用默认插槽自定义每一个栅格项。
+
+```vue
+<template>
+  <lk-grid :columns="3">
+    <view class="custom-item">自定义 1</view>
+    <view class="custom-item">自定义 2</view>
+    <view class="custom-item">自定义 3</view>
+  </lk-grid>
 </template>
 ```
 
@@ -43,13 +87,39 @@ import GridDemo from '@/components/demos/grid-demo.vue'
 
 ### Props
 
-- 组件参数较多，建议优先参考：`src/uni_modules/lucky-ui/components/lk-grid/`
-- 交互行为与默认值以 `*.props.ts` 为准
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| columns | 列数；不传时自动填充 | `number` | `undefined` |
+| gap | 栅格整体间距 | `number` | `undefined` |
+| itemGap | 单个栅格项内部图标与文本的间距 | `number` | `undefined` |
+| carousel | 是否启用轮播分页模式 | `boolean` | `false` |
+| rows | 轮播模式下每页行数 | `number` | `undefined` |
+| items | 宫格数据源 | `GridItem[]` | `[]` |
+
+### GridItem 结构
+
+| 字段 | 说明 | 类型 |
+|------|------|------|
+| text | 文本内容 | `string` |
+| icon | 图标名称 | `string` |
+| ...rest | 其他业务字段，便于外部自行扩展 | `any` |
 
 ### Events
 
-- 事件名称与参数说明以组件源码和对应 demo 为准
+当前组件未对外暴露事件。
 
 ### Slots
 
-- 插槽能力以组件模板实现为准（建议结合 demo 对照使用）
+| 插槽名 | 说明 |
+|--------|------|
+| default | 不传 `items` 时自定义栅格内容 |
+
+## 使用建议
+
+::: tip
+如果你的入口数量固定且主要用于导航，优先使用 `items` 数据驱动；如果每格结构复杂，优先使用默认插槽自定义。
+:::
+
+::: warning
+当前组件内部点击波纹已实现，但尚未对外抛出点击事件；如果需要导航行为，建议先用插槽自定义项或后续补充点击能力。
+:::

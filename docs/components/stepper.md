@@ -5,7 +5,7 @@ phone: stepper
 
 # Stepper 步进器
 
-通过加减按钮调整数值。
+用于通过加减按钮或直接输入的方式快速调整数值，常见于商品数量、库存、份数等场景。
 
 ## 交互式调试
 
@@ -25,7 +25,70 @@ phone: stepper
 ## 基础用法
 
 ```vue
-<lk-stepper v-model="count" />
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const count = ref(1)
+</script>
+
+<template>
+  <lk-stepper v-model="count" />
+</template>
+```
+
+## 范围与步长
+
+`min`、`max`、`step` 支持整数与小数。
+
+```vue
+<lk-stepper v-model="count" min="0" max="10" step="0.2" />
+```
+
+## 仅允许整数
+
+启用 `integer` 后，即使输入小数，失焦时也会自动修正为整数。
+
+```vue
+<lk-stepper v-model="count" integer />
+```
+
+## 禁用输入或组件
+
+```vue
+<template>
+  <lk-stepper :model-value="3" disabled />
+  <lk-stepper v-model="count" disable-input />
+</template>
+```
+
+## 自定义尺寸
+
+```vue
+<template>
+  <lk-stepper v-model="small" size="sm" />
+  <lk-stepper v-model="medium" size="md" />
+  <lk-stepper v-model="large" size="lg" />
+</template>
+```
+
+## 变更前拦截
+
+通过 `beforeChange` 可以接入库存校验、权限校验、异步确认等业务逻辑。
+
+```vue
+<script setup lang="ts">
+const beforeChange = async (value: number) => {
+  if (value > 5) {
+    uni.showToast({ title: '库存不足', icon: 'none' })
+    return false
+  }
+  return true
+}
+</script>
+
+<template>
+  <lk-stepper v-model="count" :before-change="beforeChange" />
+</template>
 ```
 
 ## 推荐示例
@@ -56,13 +119,41 @@ import StepperDemo from '@/components/demos/stepper-demo.vue'
 
 ### Props
 
-- 组件参数较多，建议优先参考：`src/uni_modules/lucky-ui/components/lk-stepper/`
-- 交互行为与默认值以 `*.props.ts` 为准
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| modelValue | 当前值 | `number \| string` | `0` |
+| min | 最小值 | `number \| string` | `1` |
+| max | 最大值 | `number \| string` | `Infinity` |
+| step | 步长 | `number \| string` | `1` |
+| integer | 是否只允许整数 | `boolean` | `false` |
+| disabled | 是否禁用 | `boolean` | `false` |
+| disableInput | 是否禁用输入框，仅允许按钮调整 | `boolean` | `false` |
+| longPress | 是否开启长按连续加减 | `boolean` | `true` |
+| size | 组件尺寸 | `sm \| md \| lg` | `md` |
+| inputWidth | 输入框宽度，数字按 `rpx` 处理 | `number \| string` | `''` |
+| buttonSize | 按钮宽度，数字按 `rpx` 处理 | `number \| string` | `''` |
+| beforeChange | 变更前拦截，返回 `false` 或 `Promise<false>` 可阻止更新 | `(value: number) => boolean \| Promise<boolean>` | `null` |
 
 ### Events
 
-- 事件名称与参数说明以组件源码和对应 demo 为准
+| 事件名 | 说明 | 参数 |
+|--------|------|------|
+| update:modelValue | 当前值变化 | `(value: number \| string) => void` |
+| change | 值变更完成时触发 | `(value: number \| string) => void` |
+| overlimit | 点击超出边界时触发 | `('minus' \| 'plus') => void` |
+| focus | 输入框聚焦 | `(event: unknown) => void` |
+| blur | 输入框失焦 | `(event: unknown) => void` |
 
 ### Slots
 
-- 插槽能力以组件模板实现为准（建议结合 demo 对照使用）
+无
+
+## 使用建议
+
+::: tip
+如果值必须与库存、价格、业务规则联动，优先使用 `beforeChange` 统一拦截，而不是在 `change` 后再回滚。
+:::
+
+::: warning
+组件内部会在失焦时自动修正范围与格式，因此不要依赖输入过程中的临时值作为最终业务值。
+:::

@@ -5,7 +5,7 @@ phone: image
 
 # Image 图片
 
-图片展示组件，支持占位与加载失败。
+用于展示网络图片，内置加载中占位、失败占位和点击预览能力，适合列表封面、头像区块、卡片头图等场景。
 
 ## 交互式调试
 
@@ -26,7 +26,53 @@ phone: image
 ## 基础用法
 
 ```vue
-<lk-image src="https://example.com/demo.jpg" />
+<lk-image src="https://example.com/demo.jpg" width="200rpx" height="200rpx" />
+```
+
+## 尺寸与圆角
+
+```vue
+<template>
+  <lk-image src="https://picsum.photos/200/200" width="160rpx" height="160rpx" />
+  <lk-image src="https://picsum.photos/200/200" width="160rpx" height="160rpx" radius="24rpx" />
+  <lk-image src="https://picsum.photos/200/200" width="160rpx" height="160rpx" radius="50%" />
+</template>
+```
+
+## 填充模式
+
+`fit` 直接映射到底层图片的展示模式。
+
+```vue
+<template>
+  <lk-image src="https://picsum.photos/400/300" width="200rpx" height="160rpx" fit="cover" />
+  <lk-image src="https://picsum.photos/400/300" width="200rpx" height="160rpx" fit="contain" />
+  <lk-image src="https://picsum.photos/400/300" width="200rpx" height="160rpx" fit="fill" />
+</template>
+```
+
+## 加载与错误占位
+
+默认情况下会展示加载中和加载失败状态，可按需关闭。
+
+```vue
+<template>
+  <lk-image src="https://invalid.example.com/demo.jpg" show-loading show-error />
+</template>
+```
+
+## 点击预览
+
+开启 `preview` 后，点击图片会调起系统图片预览。
+
+```vue
+<lk-image
+  src="https://picsum.photos/800/600"
+  width="240rpx"
+  height="180rpx"
+  radius="var(--lk-radius-md)"
+  preview
+/>
 ```
 
 ## 推荐示例
@@ -57,13 +103,36 @@ import ImageDemo from '@/components/demos/image-demo.vue'
 
 ### Props
 
-- 组件参数较多，建议优先参考：`src/uni_modules/lucky-ui/components/lk-image/`
-- 交互行为与默认值以 `*.props.ts` 为准
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| src | 图片地址 | `string` | `''` |
+| width | 容器宽度 | `string` | `'100%'` |
+| height | 容器高度 | `string` | `'auto'` |
+| radius | 圆角 | `string` | `'var(--lk-radius-md)'` |
+| fit | 填充模式 | `cover \| contain \| fill \| none \| scale-down` | `cover` |
+| lazy | 是否懒加载 | `boolean` | `false` |
+| showLoading | 是否显示加载中占位 | `boolean` | `true` |
+| showError | 是否显示失败占位 | `boolean` | `true` |
+| preview | 是否开启点击预览 | `boolean` | `false` |
 
 ### Events
 
-- 事件名称与参数说明以组件源码和对应 demo 为准
+| 事件名 | 说明 | 参数 |
+|--------|------|------|
+| load | 图片加载成功 | `(event: unknown) => void` |
+| error | 图片加载失败 | `(event: unknown) => void` |
+| click | 点击图片容器 | `() => void` |
 
 ### Slots
 
-- 插槽能力以组件模板实现为准（建议结合 demo 对照使用）
+无
+
+## 使用建议
+
+::: tip
+在列表场景中建议总是显式传入 `width` 和 `height`，这样加载前后布局更稳定。
+:::
+
+::: warning
+开启 `preview` 后，点击事件仍会先触发 `click`，如果业务中要阻止预览，需要在组件外自行控制是否传入 `preview`。
+:::
