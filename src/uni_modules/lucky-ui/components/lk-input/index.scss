@@ -8,9 +8,7 @@
   --_border: var(--lk-color-border-light);
   --_border-hover: var(--lk-color-primary);
   --_border-active: var(--lk-color-primary);
-  // 使用新的占位符颜色变量
   --_placeholder: var(--lk-text-placeholder);
-  // 优化输入框背景色，使用更干净的填充色
   --_bg: var(--lk-bg-input);
 
   position: relative;
@@ -25,6 +23,23 @@
     border-color var(--lk-transition-fast),
     box-shadow var(--lk-transition-fast),
     background-color var(--lk-transition-fast);
+
+  // No Border and Padding for Form Style (Tencent Style)
+  @include when(borderless) {
+    border-color: transparent !important;
+    background-color: transparent !important;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none !important;
+
+    .lk-input__inner {
+      text-align: left;
+    }
+
+    &:focus-within {
+      box-shadow: none !important;
+    }
+  }
 
   @include m(sm) {
     --_height: var(--lk-control-height-sm);

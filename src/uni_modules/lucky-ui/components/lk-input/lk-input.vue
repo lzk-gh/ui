@@ -88,6 +88,7 @@ const classes = computed(() => [
     'is-disabled': props.disabled,
     'is-readonly': props.readonly,
     'is-fake': props.fake,
+    'is-borderless': props.borderless,
     'has-count': !!count.value,
   },
 ]);

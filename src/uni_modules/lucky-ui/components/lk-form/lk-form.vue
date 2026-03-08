@@ -102,6 +102,14 @@ function scrollToField(prop: string) {
     .exec();
 }
 
+const classes = computed(() => [
+  'lk-form',
+  {
+    'lk-form--border': props.border,
+    'lk-form--card': props.card,
+  },
+]);
+
 // 响应式上下文：使用 computed 确保 rules/labelWidth/showMessage 变化时 FormItem 能感知
 const formContext = computed<FormContext>(() => ({
   model: props.model,          // 对象引用，天然响应式
@@ -109,6 +117,8 @@ const formContext = computed<FormContext>(() => ({
   labelWidth: props.labelWidth,
   labelAlign: props.labelAlign,
   showMessage: props.showMessage,
+  border: props.border,
+  card: props.card,
   addField,
   removeField,
   validateField,
@@ -133,7 +143,7 @@ defineExpose({
 </script>
 
 <template>
-  <view class="lk-form" :data-lk-form="true"><slot /></view>
+  <view :class="classes" :data-lk-form="true"><slot /></view>
 </template>
 
 <style lang="scss">

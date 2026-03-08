@@ -38,6 +38,8 @@ export interface FormContext {
   /** 继承自表单的标签对齐方式 */
   labelAlign?: string;
   showMessage: boolean;
+  border?: boolean;
+  card?: boolean;
   addField: (field: FormItemContext) => void;
   removeField: (field: FormItemContext) => void;
   validateField: (prop: string) => Promise<void>;

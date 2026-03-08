@@ -1,105 +1,133 @@
-@use '../../theme/src/mixins' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(form) {
   display: flex;
   flex-direction: column;
   gap: var(--lk-form-item-gap, var(--lk-spacing-xl));
+
+  @include m(border) {
+    gap: 0;
+    background: var(--lk-color-bg-container);
+  }
+
+  @include m(card) {
+    margin: var(--lk-spacing-md);
+    border-radius: var(--lk-radius-lg, 16rpx);
+    background: var(--lk-color-bg-container);
+    overflow: hidden;
+  }
 }
 
 @include b(form-item) {
-  // =========================================
-  // 1. 定义组件级 CSS 变量（可通过主题覆盖）
-  // =========================================
   --_gap-x: var(--lk-spacing-md);
-  --_label-color: var(--lk-color-text-secondary, var(--lk-text-secondary));
-  // 错误色统一使用语义 danger 色
-  --_error-color: var(--lk-form-error-color, var(--lk-color-danger));
-  --_label-fs: var(--lk-font-size-sm);
-  --_error-fs: var(--lk-font-size-xs);
+  --_label-color: var(--lk-text-primary);
+  --_error-color: var(--lk-color-danger);
+  --_label-fs: var(--lk-font-size-md, 28rpx);
+  --_error-fs: var(--lk-font-size-xs, 24rpx);
+  --_padding-y: var(--lk-spacing-lg, 32rpx);
+  --_padding-x: var(--lk-spacing-md, 32rpx);
 
-  // =========================================
-  // 2. 核心盒模型（left / right 对齐布局）
-  // =========================================
   display: flex;
-  align-items: flex-start;
-  gap: var(--_gap-x);
+  flex-direction: column;
+  position: relative;
+  transition: background-color 0.2s ease;
+
+  @include e(body) {
+    display: flex;
+    align-items: center;
+    padding: var(--_padding-y) var(--_padding-x);
+    min-height: 104rpx;
+    box-sizing: border-box;
+  }
 
   @include e(label) {
     flex-shrink: 0;
-    min-width: 140rpx;
+    min-width: 160rpx;
     font-size: var(--_label-fs);
-    line-height: 1.4;
-    padding-top: var(--lk-spacing-xs);
     color: var(--_label-color);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    margin-right: var(--_gap-x);
   }
 
   @include e(star) {
-    // 必填标记使用 danger 色而非主色，视觉上更明确
     color: var(--_error-color);
-    margin-right: var(--lk-spacing-xxs);
+    margin-right: 4rpx;
   }
 
   @include e(content) {
     flex: 1;
-    min-width: 0; // 防止 flex 子项溢出
+    min-width: 0;
     display: flex;
-    flex-direction: column;
-    gap: var(--lk-spacing-xxs);
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  @include e(arrow) {
+    margin-left: 8rpx;
+    color: var(--lk-text-placeholder);
+    opacity: 0.8;
   }
 
   @include e(error) {
+    padding: 0 var(--_padding-x) var(--lk-spacing-xs);
     font-size: var(--_error-fs);
-    line-height: 1.3;
     color: var(--_error-color);
-    // 优雅地从上方滑入
     animation: lk-form-error-in 0.2s ease;
   }
 
-  // =========================================
-  // 3. labelAlign: right
-  // =========================================
-  &.lk-form-item--right {
-    .lk-form-item__label {
-      justify-content: flex-end;
-      text-align: right;
+  @include m(border) {
+    background-color: var(--lk-color-bg-container);
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: var(--_padding-x);
+      right: 0;
+      height: 2rpx;
+      background: var(--lk-color-border-light);
+      z-index: 1;
+      transform: scaleY(0.5);
+    }
+    &:last-child::after {
+      display: none;
     }
   }
 
-  // =========================================
-  // 4. labelAlign: top（标签在上方）
-  // =========================================
-  &.lk-form-item--top {
-    flex-direction: column;
-    gap: var(--lk-spacing-xxs);
-
-    .lk-form-item__label {
-      padding-top: 0;
-      min-width: unset;
-      width: 100%;
+  @include m(link) {
+    &:active {
+      background-color: var(--lk-color-bg-active);
     }
+  }
 
+  ::v-deep .lk-input {
+    text-align: left;
+    .lk-input__inner {
+       text-align: left;
+    }
+  }
+
+  @include m(top) {
+    .lk-form-item__body {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .lk-form-item__label {
+      width: 100%;
+      margin-bottom: var(--lk-spacing-xs);
+      margin-right: 0;
+    }
     .lk-form-item__content {
       width: 100%;
+      justify-content: flex-start;
+      text-align: left;
     }
   }
 
-  // =========================================
-  // 5. 错误态
-  // =========================================
   @include when(error) {
-    @include e(label) {
+    .lk-form-item__label {
       color: var(--_error-color);
-    }
-  }
-
-  // =========================================
-  // 6. 验证中（可选：loading 动效）
-  // =========================================
-  @include when(validating) {
-    @include e(label) {
-      opacity: 0.7;
     }
   }
 }

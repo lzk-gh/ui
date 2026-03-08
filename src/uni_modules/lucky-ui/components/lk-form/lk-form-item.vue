@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { formItemProps } from './form.props';
+import LkIcon from '../lk-icon/lk-icon.vue';
 import {
   formContextKey,
   type FormContext,
@@ -82,8 +83,9 @@ async function doValidate(trigger?: 'blur' | 'change') {
         const r = await rule.validator(val, rule, form.model);
         if (r === false) errs.push({ field: props.prop, message: m, rule });
         else if (typeof r === 'string') errs.push({ field: props.prop, message: r, rule });
-      } catch (e: any) {
-        errs.push({ field: props.prop, message: e?.message || m, rule });
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : m;
+        errs.push({ field: props.prop, message: errorMessage || m, rule });
       }
     }
   }
@@ -146,7 +148,10 @@ const labelStyle = computed(() => {
 const resolvedLabelAlign = computed(() => props.labelAlign || form?.labelAlign || 'left');
 
 // 是否 top 布局
-const isTopLayout = computed(() => resolvedLabelAlign.value === 'top');
+const isTopLayout = computed(() => resolvedLabelAlign.value === 'top' || props.vertical);
+
+// 表单是否开启 border/card
+const hasBorder = computed(() => form?.border);
 
 defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: () => itemCtx.setValidateStatus('idle') });
 </script>
@@ -157,22 +162,33 @@ defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: (
     :class="[
       `is-${status}`,
       `lk-form-item--${resolvedLabelAlign}`,
-      { 'lk-form-item--top': isTopLayout },
+      {
+        'lk-form-item--top': isTopLayout,
+        'lk-form-item--border': hasBorder,
+        'lk-form-item--link': isLink,
+      },
     ]"
     :data-prop="prop"
   >
-    <view v-if="label || $slots.label" class="lk-form-item__label" :style="labelStyle">
-      <text v-if="requiredMark" class="lk-form-item__star">*</text>
-      <slot name="label">{{ label }}</slot>
-    </view>
-    <view class="lk-form-item__content">
-      <slot />
-      <view
-        v-if="(showMessage ?? form?.showMessage) !== false && status === 'error' && msg"
-        class="lk-form-item__error"
-      >
-        {{ msg }}
+    <view class="lk-form-item__body">
+      <view v-if="label || $slots.label" class="lk-form-item__label" :style="labelStyle">
+        <text v-if="requiredMark" class="lk-form-item__star">*</text>
+        <slot name="label">
+          <text class="lk-form-item__label-text">{{ label }}</text>
+        </slot>
       </view>
+      <view class="lk-form-item__content">
+        <slot />
+      </view>
+      <view v-if="isLink" class="lk-form-item__arrow">
+        <lk-icon name="chevron-right" size="32" />
+      </view>
+    </view>
+    <view
+      v-if="(showMessage ?? form?.showMessage) !== false && status === 'error' && msg"
+      class="lk-form-item__error"
+    >
+      {{ msg }}
     </view>
   </view>
 </template>

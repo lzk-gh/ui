@@ -55,6 +55,18 @@ export const formProps = {
    * 是否禁用本表单内所有控件
    */
   disabled: LkProp.boolean(false),
+
+  /**
+   * 是否显示单元格边框 (常用于列表布局)
+   * @default false
+   */
+  border: LkProp.boolean(false),
+
+  /**
+   * 是否为圆角卡片布局
+   * @default false
+   */
+  card: LkProp.boolean(false),
 } as const;
 
 export type FormProps = ExtractPropTypes<typeof formProps>;
@@ -88,6 +100,18 @@ export const formItemProps = {
     type: Boolean as PropType<boolean>,
     default: undefined,
   },
+
+  /**
+   * 是否显示右侧箭头 (用于选择器等点击跳转场景)
+   * @default false
+   */
+  isLink: LkProp.boolean(false),
+
+  /**
+   * 是否垂直布局 (标签居上，内容居下)
+   * @default false
+   */
+  vertical: LkProp.boolean(false),
 } as const;
 
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>;

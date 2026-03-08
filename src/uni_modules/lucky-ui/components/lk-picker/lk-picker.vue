@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import {
   pickerProps,
@@ -152,6 +152,7 @@ const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx
     <picker-view
       :value="selectedIndexes"
       class="lk-picker__view"
+      indicator-style="height: 100rpx;"
       :style="{ height: viewHeight }"
       @change="onChange"
     >
@@ -189,6 +190,7 @@ const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx
       <picker-view
         :value="selectedIndexes"
         class="lk-picker__view"
+        indicator-style="height: 100rpx;"
         :style="{ height: viewHeight }"
         @change="onChange"
       >
