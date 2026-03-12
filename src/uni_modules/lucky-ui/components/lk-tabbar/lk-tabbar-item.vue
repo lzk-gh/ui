@@ -46,6 +46,9 @@ const showBadge = computed(() => {
 
 const badgeText = computed(() => String(props.badge));
 
+const activeColor = computed(() => tabbar?.activeColor.value || 'var(--lk-color-primary)');
+const inactiveColor = computed(() => tabbar?.inactiveColor.value || 'var(--lk-color-text-secondary)');
+
 function resolveFillIconName(iconName: string) {
   if (!iconName || iconName.endsWith('-fill')) return iconName;
   return `${iconName}-fill`;
@@ -64,8 +67,13 @@ const currentIcon = computed(() => {
 
 const iconColor = computed(() => {
   if (isBumpItem.value) return 'var(--lk-color-text-inverse)';
-  if (isActive.value) return tabbar?.activeColor.value || 'var(--lk-color-primary)';
-  return tabbar?.inactiveColor.value || 'var(--lk-color-text-secondary)';
+  if (isActive.value) return activeColor.value;
+  return inactiveColor.value;
+});
+
+const labelStyle = computed(() => {
+  if (isBumpItem.value) return '';
+  return `color: ${isActive.value ? activeColor.value : inactiveColor.value}`;
 });
 
 // 点击处理
@@ -104,7 +112,7 @@ function onTap() {
       </view>
     </view>
 
-    <view v-if="label" class="lk-tabbar-item__label">{{ label }}</view>
+    <view v-if="label" class="lk-tabbar-item__label" :style="labelStyle">{{ label }}</view>
   </view>
 </template>
 

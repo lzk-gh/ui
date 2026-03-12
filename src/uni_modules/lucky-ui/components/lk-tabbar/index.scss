@@ -91,7 +91,6 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
       background: transparent !important;
 
       &.is-active {
-        color: var(--lk-tabbar-active-color, var(--lk-color-primary));
         background: transparent !important;
       }
     }
@@ -166,7 +165,6 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   // ============================================================================
   .lk-tabbar--fixed & {
     &.is-active {
-      color: var(--lk-tabbar-active-color, var(--lk-color-primary));
       background: transparent;
     }
   }
@@ -339,10 +337,8 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   }
 
   .lk-tabbar-item {
-    color: var(--lk-tabbar-inactive-color, #6b7280);
-
     &.is-active {
-      color: var(--lk-tabbar-active-color, var(--lk-color-primary));
+      // 激活颜色由内联样式 style 控制
     }
   }
 }
