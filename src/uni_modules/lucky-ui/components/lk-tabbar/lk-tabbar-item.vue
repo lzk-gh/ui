@@ -46,10 +46,18 @@ const showBadge = computed(() => {
 
 const badgeText = computed(() => String(props.badge));
 
+function resolveFillIconName(iconName: string) {
+  if (!iconName || iconName.endsWith('-fill')) return iconName;
+  return `${iconName}-fill`;
+}
+
 // 当前应该显示的图标
 const currentIcon = computed(() => {
   if (isActive.value && props.selectedIcon) {
     return props.selectedIcon;
+  }
+  if (isActive.value && props.activeIconFill) {
+    return resolveFillIconName(props.icon);
   }
   return props.icon;
 });

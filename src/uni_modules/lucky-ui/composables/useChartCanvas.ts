@@ -116,19 +116,14 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
     return 1;
   }
 
-  function measure(): Promise<ChartSize> {
-    const autoSize = options.autoSize !== false;
-    if (!autoSize) return Promise.resolve(size.value);
-
+  function queryRect(scoped = true): Promise<RectLike | null> {
     return new Promise(resolve => {
-      if (!instance) {
-        resolve(size.value);
-        return;
+      const query = uni.createSelectorQuery();
+      if (scoped && instance) {
+        (query as typeof query & { in: (ctx: unknown) => typeof query }).in(instance);
       }
 
-      uni
-        .createSelectorQuery()
-        .in(instance)
+      query
         .select(`#${options.wrapperId}`)
         .boundingClientRect(rect => {
           const rectObj = rect as RectLike | null;
@@ -138,63 +133,80 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
             typeof rectObj.width === 'number' &&
             typeof rectObj.height === 'number'
           ) {
-            wrapperRect.value = {
-              left: rectObj.left ?? 0,
-              top: rectObj.top ?? 0,
-              width: rectObj.width,
-              height: rectObj.height,
-            };
-            resolve({ width: rectObj.width, height: rectObj.height });
-          } else {
-            resolve(size.value);
+            resolve(rectObj);
+            return;
           }
+          resolve(null);
         })
         .exec();
     });
   }
 
-  function initCanvas2D(): Promise<void> {
+  function queryCanvasField(scoped = true): Promise<unknown> {
     return new Promise(resolve => {
-      if (!instance) {
-        resolve();
-        return;
+      const query = uni.createSelectorQuery();
+      if (scoped && instance) {
+        (query as typeof query & { in: (ctx: unknown) => typeof query }).in(instance);
       }
 
-      uni
-        .createSelectorQuery()
-        .in(instance)
+      query
         .select(`#${options.canvasId}`)
-        // node: true 用于小程序 type="2d" 获取 canvas node
-        .fields(
-          { node: true, size: true } as unknown as UniApp.NodeField,
-          (res: unknown) => {
-          const node = (res as { node?: CanvasNodeLike | null } | null)?.node || null;
-          canvasNode.value = node;
-
-          const context = node?.getContext ? node.getContext('2d') : null;
-          ctx.value = context;
-
-          // H5 fallback：某些环境 fields({node:true}) 拿不到 node
-          // #ifdef H5
-          if (!ctx.value) {
-            try {
-              if (typeof document !== 'undefined') {
-                const el = document.getElementById(options.canvasId) as HTMLCanvasElement | null;
-                if (el && typeof el.getContext === 'function') {
-                  canvasNode.value = el;
-                  ctx.value = el.getContext('2d');
-                }
-              }
-            } catch {
-              // ignore
-            }
-          }
-          // #endif
-          resolve();
-        }
-        )
+        .fields({ node: true, size: true } as unknown as UniApp.NodeField, res => {
+          resolve(res ?? null);
+        })
         .exec();
     });
+  }
+
+  function measure(): Promise<ChartSize> {
+    const autoSize = options.autoSize !== false;
+    if (!autoSize) return Promise.resolve(size.value);
+
+    return (async () => {
+      const rectObj = (instance ? await queryRect(true) : null) ?? (await queryRect(false));
+
+      if (rectObj) {
+        wrapperRect.value = {
+          left: rectObj.left ?? 0,
+          top: rectObj.top ?? 0,
+          width: rectObj.width,
+          height: rectObj.height,
+        };
+        return { width: rectObj.width, height: rectObj.height };
+      }
+
+      return size.value;
+    })();
+  }
+
+  function initCanvas2D(): Promise<void> {
+    return (async () => {
+      const scopedResult = instance ? await queryCanvasField(true) : null;
+      const result = scopedResult ?? (await queryCanvasField(false));
+
+      const node = (result as { node?: CanvasNodeLike | null } | null)?.node || null;
+      canvasNode.value = node;
+
+      const context = node?.getContext ? node.getContext('2d') : null;
+      ctx.value = context;
+
+      // H5 fallback：某些环境 fields({node:true}) 拿不到 node
+      // #ifdef H5
+      if (!ctx.value) {
+        try {
+          if (typeof document !== 'undefined') {
+            const el = document.getElementById(options.canvasId) as HTMLCanvasElement | null;
+            if (el && typeof el.getContext === 'function') {
+              canvasNode.value = el;
+              ctx.value = el.getContext('2d');
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
+      // #endif
+    })();
   }
 
   function resizeCanvas(targetSize: ChartSize) {

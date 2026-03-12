@@ -19,6 +19,12 @@ export const tabbarItemProps = {
     default: '',
   },
 
+  /** 选中时优先尝试 icon-fill 变体 */
+  activeIconFill: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+
   /** 文字标签 */
   label: {
     type: String as PropType<string>,

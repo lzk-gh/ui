@@ -1,6 +1,10 @@
 <template>
-  <view class="home-content" :class="themeClass">
+  <view
+    class="home-content"
+    :class="[themeClass, { 'home-content--no-list-animation': props.skipAnimation }]"
+  >
     <lk-waterfall
+      class="home-waterfall"
       :items="products"
       :height="contentHeight"
       :gutter="16"
@@ -183,6 +187,7 @@
   </view>
 </template>
 
+<!-- eslint-disable-next-line vue/block-order -->
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useThemeStore } from '@/stores/theme';
@@ -195,16 +200,20 @@ import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
 import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
 import LkChoice from '@/uni_modules/lucky-ui/components/lk-choice/lk-choice.vue';
 import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
 
-defineProps<{
-  contentHeight: string;
-  skipAnimation?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    contentHeight: string;
+    skipAnimation?: boolean;
+  }>(),
+  {
+    skipAnimation: false,
+  }
+);
 
 const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
@@ -380,24 +389,28 @@ const goToDetail = (_item: WaterfallItem) => {
 
 .search-section {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 20rpx;
   margin-bottom: 40rpx;
   flex-shrink: 0;
 
   .filter-trigger {
+    flex: 0 0 100rpx;
     width: 100rpx;
     height: 100rpx;
+    min-height: 100rpx;
     min-width: 100rpx;
     padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
   }
 
   .search-bar {
     flex: 1;
     height: 100rpx;
+    min-height: 100rpx;
     --_bg: #{$test-bg-card};
     --_border: #{$test-border-color};
     --_radius: 24rpx;
@@ -427,6 +440,12 @@ const goToDetail = (_item: WaterfallItem) => {
         color: $test-text-tertiary;
       }
     }
+  }
+}
+
+.home-content--no-list-animation {
+  :deep(.lk-waterfall__card) {
+    animation: none;
   }
 }
 

@@ -28,7 +28,7 @@ const contentHeight = computed(() => '100%');
     </lk-navbar>
 
     <view class="tab-page__content">
-      <home-content :content-height="contentHeight" />
+      <home-content :content-height="contentHeight" skip-animation />
     </view>
   </view>
 </template>

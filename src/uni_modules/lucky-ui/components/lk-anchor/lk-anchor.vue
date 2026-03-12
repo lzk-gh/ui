@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, provide, onMounted, nextTick, watch, computed } from 'vue';
+import { ref, provide, onMounted, onBeforeUnmount, nextTick, watch, computed } from 'vue';
 import { anchorProps } from './anchor.props';
 
 defineOptions({ name: 'LkAnchor' });
@@ -11,6 +11,11 @@ const children = ref<AnchorChild[]>([]);
 const activeHref = ref('');
 const scrollIntoViewId = ref('');
 const targets = ref<{ href: string; top: number; height: number }[]>([]);
+const pendingTargetHref = ref('');
+const isProgrammaticScrolling = ref(false);
+
+let scrollUnlockTimer: ReturnType<typeof setTimeout> | null = null;
+let scrollSettleTimer: ReturnType<typeof setTimeout> | null = null;
 
 const anchorStyle = computed(() => {
   const style: Record<string, string> = {};
@@ -42,6 +47,23 @@ function setTargets(nextTargets: Array<{ href: string; top: number; height?: num
 
   targets.value = normalized;
   resolveActiveByScroll(baseScrollTop);
+}
+
+function clearScrollTimers() {
+  if (scrollUnlockTimer) {
+    clearTimeout(scrollUnlockTimer);
+    scrollUnlockTimer = null;
+  }
+  if (scrollSettleTimer) {
+    clearTimeout(scrollSettleTimer);
+    scrollSettleTimer = null;
+  }
+}
+
+function finishProgrammaticScroll() {
+  clearScrollTimers();
+  isProgrammaticScrolling.value = false;
+  pendingTargetHref.value = '';
 }
 
 // 测量目标元素位置
@@ -122,9 +144,42 @@ function resolveActiveByScroll(scrollTop: number, headerHeight: number = 0) {
   }
 }
 
+function resolveProgrammaticScroll(scrollTop: number, headerHeight: number = 0) {
+  if (!isProgrammaticScrolling.value || !pendingTargetHref.value) return false;
+
+  const target = targets.value.find(item => item.href === pendingTargetHref.value);
+  if (!target) {
+    finishProgrammaticScroll();
+    return false;
+  }
+
+  const offset = Number(props.headerOffset) + headerHeight + 10;
+  const reached = scrollTop + offset >= Math.max(0, target.top - 6);
+
+  if (reached) {
+    if (activeHref.value !== target.href) {
+      activeHref.value = target.href;
+      emit('change', target.href);
+    }
+    clearScrollTimers();
+    scrollSettleTimer = setTimeout(() => {
+      finishProgrammaticScroll();
+    }, 120);
+    return true;
+  }
+
+  clearScrollTimers();
+  scrollUnlockTimer = setTimeout(() => {
+    finishProgrammaticScroll();
+    resolveActiveByScroll(scrollTop, headerHeight);
+  }, 900);
+  return true;
+}
+
 // 滚动监听逻辑
 function onScroll(scrollTop: number, headerHeight: number = 0) {
   // 移除了小程序每次滚动都重测位置的代码，解决高度计算错乱与高亮漂移
+  if (resolveProgrammaticScroll(scrollTop, headerHeight)) return;
   resolveActiveByScroll(scrollTop, headerHeight);
 }
 
@@ -132,16 +187,30 @@ function handleClick(href: string) {
   const targetId = (href || '').replace(/^#/, '');
   if (!targetId) return;
 
-  activeHref.value = targetId;
+  clearScrollTimers();
+  pendingTargetHref.value = targetId;
+  isProgrammaticScrolling.value = true;
+  if (activeHref.value !== targetId) {
+    activeHref.value = targetId;
+    emit('change', targetId);
+  }
   let handled = false;
+  const target = targets.value.find(item => item.href === targetId);
+  const offset = Number(props.headerOffset) || 0;
 
   // #ifdef H5
   try {
-    const target = document.getElementById(targetId);
-    if (target && props.targetContainer) {
+    const targetElement = document.getElementById(targetId);
+    if (targetElement && props.targetContainer) {
       const container = document.querySelector(props.targetContainer) as HTMLElement | null;
       if (container) {
-        const top = target.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
+        const measuredTop = targets.value.find(item => item.href === targetId)?.top;
+        const top =
+          typeof measuredTop === 'number'
+            ? Math.max(0, measuredTop - offset)
+            : targetElement.getBoundingClientRect().top -
+              container.getBoundingClientRect().top +
+              container.scrollTop;
         container.scrollTo({ top, behavior: 'smooth' });
         handled = true;
       }
@@ -153,10 +222,17 @@ function handleClick(href: string) {
 
   if (!handled) {
     try {
-      uni.pageScrollTo({
-        selector: `#${targetId}`,
-        duration: 300,
-      });
+      if (target) {
+        uni.pageScrollTo({
+          scrollTop: Math.max(0, target.top - offset),
+          duration: 300,
+        });
+      } else {
+        uni.pageScrollTo({
+          selector: `#${targetId}`,
+          duration: 300,
+        });
+      }
     } catch {
       // ignore
     }
@@ -196,6 +272,10 @@ defineExpose({ measureTargets, setTargets, onScroll, scrollTo: handleClick, acti
 
 onMounted(() => {
   setTimeout(() => measureTargets(), 500);
+});
+
+onBeforeUnmount(() => {
+  clearScrollTimers();
 });
 </script>
 

@@ -20,6 +20,10 @@ export interface TabConfig {
   label: string;
   /** Tab 图标 */
   icon: string;
+  /** 选中态图标 */
+  selectedIcon?: string;
+  /** 选中态优先尝试 fill 图标 */
+  activeIconFill?: boolean;
   /** Tab 内容组件（懒加载时为函数） */
   component?: Component | (() => Promise<{ default: Component }>);
   /** 是否保持状态（类似 keep-alive） */

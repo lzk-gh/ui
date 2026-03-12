@@ -97,6 +97,18 @@ const activeBgStyle = computed(() => {
   };
 });
 
+function resolveFillIconName(iconName: string) {
+  if (!iconName || iconName.endsWith('-fill')) return iconName;
+  return `${iconName}-fill`;
+}
+
+function resolveTabIcon(tab: TabConfig) {
+  if (tab.id !== activeId.value) return tab.icon;
+  if (tab.selectedIcon) return tab.selectedIcon;
+  if (tab.activeIconFill) return resolveFillIconName(tab.icon);
+  return tab.icon;
+}
+
 // 处理 Tab 点击
 async function handleTabClick(tab: TabConfig) {
   if (tab.id === activeId.value) return;
@@ -220,7 +232,7 @@ watch(
 
           <view class="tabbar-item__icon-wrapper">
             <view class="tabbar-item__icon">
-              <lk-icon :name="tab.icon" size="44" />
+              <lk-icon :name="resolveTabIcon(tab)" size="44" />
               <!-- 徽标 -->
               <view v-if="tab.badge && tab.badge > 0" class="tabbar-item__badge">
                 {{ tab.badge > 99 ? '99+' : tab.badge }}
@@ -562,11 +574,15 @@ $tabbar-height: 120rpx;
     min-width: 32rpx;
     height: 32rpx;
     padding: 0 8rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
     font-size: 20rpx;
     line-height: 32rpx;
     text-align: center;
     color: #fff;
-    background: #f56c6c;
+    background: var(--lk-color-danger);
     border-radius: 16rpx;
   }
 
@@ -576,7 +592,7 @@ $tabbar-height: 120rpx;
     right: -4rpx;
     width: 16rpx;
     height: 16rpx;
-    background: #f56c6c;
+    background: var(--lk-color-danger);
     border-radius: 50%;
   }
 

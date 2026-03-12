@@ -25,6 +25,8 @@ export interface TabbarItemConfig {
   icon: string;
   /** 选中态图标名称 */
   selectedIcon?: string;
+  /** 选中态优先使用 fill 图标 */
+  activeIconFill?: boolean;
   /** 文字标签 */
   text: string;
   /** 是否使用自定义图标（图片路径） */

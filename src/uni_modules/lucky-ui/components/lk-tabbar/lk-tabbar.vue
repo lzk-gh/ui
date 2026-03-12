@@ -147,6 +147,17 @@ function getItemIconColor(active: boolean, bump: boolean) {
   if (active) return props.activeColor || 'var(--lk-color-primary)';
   return props.inactiveColor || 'var(--lk-color-text-secondary)';
 }
+
+function resolveFillIconName(iconName: string) {
+  if (!iconName || iconName.endsWith('-fill')) return iconName;
+  return `${iconName}-fill`;
+}
+
+function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
+  if (active && item.selectedIcon) return item.selectedIcon;
+  if (active && item.activeIconFill) return resolveFillIconName(item.icon);
+  return item.icon;
+}
 </script>
 
 <template>
@@ -191,7 +202,7 @@ function getItemIconColor(active: boolean, bump: boolean) {
             <!-- 自定义图标(图片) -->
             <template v-if="item.customIcon">
               <image
-                :src="modelValue === index && item.selectedIcon ? item.selectedIcon : item.icon"
+                :src="resolveListItemIcon(item, modelValue === index)"
                 class="lk-tabbar-item__custom-icon"
                 mode="aspectFit"
               />
@@ -199,7 +210,7 @@ function getItemIconColor(active: boolean, bump: boolean) {
             <!-- lk-icon 内置图标 -->
             <template v-else>
               <lk-icon
-                :name="modelValue === index && item.selectedIcon ? item.selectedIcon : item.icon"
+                :name="resolveListItemIcon(item, modelValue === index)"
                 :size="isBumpItem(index) ? 52 : 44"
                 :color="getItemIconColor(modelValue === index, isBumpItem(index))"
               />
