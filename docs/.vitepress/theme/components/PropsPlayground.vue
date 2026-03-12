@@ -48,7 +48,7 @@ initValues()
 
 // iframe URL
 const frameUrl = computed(() => {
-  return `${BASE_URL}/#/pages/playground/index?component=${encodeURIComponent(props.component)}`
+  return `${BASE_URL}/#/pages_sub/playground/index?component=${encodeURIComponent(props.component)}`
 })
 
 // ── 生成代码 ──

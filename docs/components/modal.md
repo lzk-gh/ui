@@ -131,14 +131,20 @@ const form = ref({ name: '', phone: '' })
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
 | modelValue | 是否显示（v-model） | `boolean` | `false` |
+| zIndex | 层级 | `number` | `1500` |
 | title | 标题文字 | `string` | `''` |
 | width | 弹框宽度 | `string` | `600rpx` |
 | showClose | 显示右上角关闭按钮 | `boolean` | `true` |
 | closeOnOverlay | 点击遮罩关闭 | `boolean` | `true` |
 | showHeader | 是否显示标题栏 | `boolean` | `true` |
 | showFooter | 是否显示底部区域 | `boolean` | `true` |
+| confirmText | 默认确认按钮文字 | `string` | `确定` |
+| cancelText | 默认取消按钮文字 | `string` | `取消` |
 | animation | 动画预设 | `scale \| slide-up \| fade \| slide-down` | `scale` |
-| zIndex | 层级 | `number` | `1500` |
+| animationType | 自定义动画类型 | `TransitionConfig['name']` | `undefined` |
+| duration | 动画持续时间 | `number` | `undefined` |
+| delay | 动画延迟 | `number` | `undefined` |
+| easing | 动画缓动函数 | `TransitionConfig['easing']` | `undefined` |
 
 ### Events
 
@@ -157,3 +163,9 @@ const form = ref({ name: '', phone: '' })
 | default | 弹框主体内容 |
 | header | 自定义头部（会覆盖 title） |
 | footer | 自定义底部按钮区域 |
+
+## 使用建议
+
+::: tip
+如果只需要一个自定义浮层容器，请用 `lk-popup`；如果需要标准对话框结构与默认操作按钮，请用 `lk-modal`。
+:::

@@ -10,10 +10,10 @@ const props = defineProps<{
 const BASE_URL = 'http://localhost:5173'
 
 const frameUrl = computed(() => {
-  if (!props.src) return `${BASE_URL}/#/pages/component-detail/index`
+  if (!props.src) return `${BASE_URL}/#/pages_sub/component-detail/index`
   // 若 src 不含斜杠，视为组件名，拼接 component-detail 路由
   if (!props.src.includes('/')) {
-    return `${BASE_URL}/#/pages/component-detail/index?component=${encodeURIComponent(props.src)}`
+    return `${BASE_URL}/#/pages_sub/component-detail/index?component=${encodeURIComponent(props.src)}`
   }
   // 否则视为完整路径
   return `${BASE_URL}/#${props.src}`

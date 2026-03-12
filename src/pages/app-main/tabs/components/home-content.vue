@@ -39,7 +39,7 @@
                 />
               </view>
             </lk-input>
-            <lk-button @click="showFilter = true">
+            <lk-button class="filter-trigger" height="100" @click="showFilter = true">
               <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" />
             </lk-button>
           </view>
@@ -125,7 +125,7 @@
 
     <!-- 交互增强：筛选弹窗 -->
     <lk-popup v-model="showFilter" position="right" width="600rpx">
-      <view class="filter-panel" :class="themeClass">
+      <view class="filter-panel" :class="themeClass" :style="{ paddingTop: filterPanelTop }">
         <view class="filter-header">
           <text class="filter-title">Filters</text>
           <text class="reset-btn" @click="resetFilter">Reset</text>
@@ -134,13 +134,15 @@
         <scroll-view scroll-y class="filter-body">
           <view class="filter-group">
             <text class="group-title">Category</text>
-            <lk-choice
-              v-model="activeCategoryName"
-              :options="categories.map(c => ({ label: c.name, value: c.name }))"
-              size="md"
-              :gap="20"
-              class="tag-flex"
-            />
+            <scroll-view class="choice-scroll" scroll-x enable-flex show-scrollbar="false">
+              <lk-choice
+                v-model="activeCategoryName"
+                :options="categories.map(c => ({ label: c.name, value: c.name }))"
+                size="md"
+                :gap="20"
+                class="tag-flex"
+              />
+            </scroll-view>
           </view>
 
           <view class="filter-group">
@@ -154,18 +156,20 @@
 
           <view class="filter-group">
             <text class="group-title">Sort By</text>
-            <lk-choice
-              v-model="activeSort"
-              :options="
-                ['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular'].map(s => ({
-                  label: s,
-                  value: s,
-                }))
-              "
-              size="md"
-              :gap="20"
-              class="tag-flex"
-            />
+            <scroll-view class="choice-scroll" scroll-x enable-flex show-scrollbar="false">
+              <lk-choice
+                v-model="activeSort"
+                :options="
+                  ['Newest', 'Price: Low to High', 'Price: High to Low', 'Popular'].map(s => ({
+                    label: s,
+                    value: s,
+                  }))
+                "
+                size="md"
+                :gap="20"
+                class="tag-flex"
+              />
+            </scroll-view>
           </view>
         </scroll-view>
 
@@ -180,7 +184,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useThemeStore } from '@/stores/theme';
 import type { WaterfallItem } from '@/uni_modules/lucky-ui/components/lk-waterfall/waterfall.props';
 import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
@@ -206,10 +210,20 @@ const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
 
 const showFilter = ref(false);
+const filterPanelTop = ref('0rpx');
 const activeCategoryName = ref('All Items');
 const resetFilter = () => {
   activeCategoryName.value = 'All Items';
 };
+
+onMounted(() => {
+  // #ifdef MP-WEIXIN
+  const menuRect = uni.getMenuButtonBoundingClientRect?.();
+  if (menuRect && menuRect.bottom) {
+    filterPanelTop.value = `${menuRect.bottom + 12}px`;
+  }
+  // #endif
+});
 
 type ProductItem = WaterfallItem & {
   id: number;
@@ -370,6 +384,16 @@ const goToDetail = (_item: WaterfallItem) => {
   gap: 20rpx;
   margin-bottom: 40rpx;
   flex-shrink: 0;
+
+  .filter-trigger {
+    width: 100rpx;
+    height: 100rpx;
+    min-width: 100rpx;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .search-bar {
     flex: 1;
@@ -594,9 +618,22 @@ const goToDetail = (_item: WaterfallItem) => {
       }
 
       .tag-flex {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20rpx;
+        min-width: max-content;
+
+        :deep(.lk-choice) {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+        }
+
+        :deep(.lk-choice__item) {
+          white-space: nowrap;
+        }
+      }
+
+      .choice-scroll {
+        width: 100%;
+        white-space: nowrap;
       }
 
       .price-inputs {

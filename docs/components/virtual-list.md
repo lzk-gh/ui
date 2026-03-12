@@ -5,14 +5,77 @@ phone: virtual-list
 
 # Virtual List 虚拟列表
 
-在长列表中按需渲染可视区域，提升性能。
+用于渲染超长列表，通过只渲染可视区域附近的数据来减少节点数量，显著提升滚动性能，适合消息列表、商品列表、日志流等场景。
 
 ## 基础用法
 
 ```vue
-<lk-virtual-list :items="items" :item-height="60">
-  <template #default="{ item }">{{ item }}</template>
-</lk-virtual-list>
+<script setup lang="ts">
+const items = Array.from({ length: 1000 }, (_, i) => ({ id: i, text: `列表项 ${i + 1}` }))
+</script>
+
+<template>
+  <lk-virtual-list
+    :items="items"
+    :item-height="88"
+    :height="600"
+  >
+    <template #default="{ items, start }">
+      <view v-for="(item, i) in items" :key="item.id" style="height: 88px; display:flex; align-items:center; border-bottom:1px solid #eee">
+        {{ start + i + 1 }}. {{ item.text }}
+      </view>
+    </template>
+  </lk-virtual-list>
+</template>
+```
+
+## 无限加载
+
+```vue
+<lk-virtual-list
+  :items="list"
+  :item-height="50"
+  :height="400"
+  :prefetch-rows="30"
+  lower-threshold="120rpx"
+  @prefetch="loadNextPage"
+  @reach-bottom="loadNextPage"
+/>
+```
+
+## 动态缓冲，减少快速滚动白屏
+
+```vue
+<lk-virtual-list
+  :items="items"
+  :item-height="100"
+  :height="600"
+  :buffer="6"
+  :dynamic-overscan="true"
+  :max-overscan-rows="24"
+  :overscan-boost-factor="0.7"
+/>
+```
+
+## 滚动控制
+
+组件实例暴露了 `scrollToIndex()` 和 `scrollToTop()`，适合做“跳到某一条消息”“返回顶部”等场景。
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const listRef = ref()
+
+function jumpTo500() {
+  listRef.value?.scrollToIndex?.(499)
+}
+</script>
+
+<template>
+  <lk-button @click="jumpTo500">跳到第 500 项</lk-button>
+  <lk-virtual-list ref="listRef" :items="items" :item-height="88" :height="600" />
+</template>
 ```
 
 ## 推荐示例
@@ -43,13 +106,49 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue'
 
 ### Props
 
-- 组件参数较多，建议优先参考：`src/uni_modules/lucky-ui/components/lk-virtual-list/`
-- 交互行为与默认值以 `*.props.ts` 为准
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| items | 列表数据 | `Record<string, any>[]` | `[]` |
+| itemHeight | 单项固定高度 | `number` | `100` |
+| height | 列表容器高度 | `number` | `600` |
+| buffer | 基础缓冲行数 | `number` | `5` |
+| dynamicOverscan | 是否根据滚动速度动态增加缓冲 | `boolean` | `true` |
+| maxOverscanRows | 最大额外缓冲行数 | `number` | `30` |
+| overscanBoostFactor | 滚动速度到额外缓冲的增益系数 | `number` | `0.6` |
+| lowerThreshold | 触底阈值 | `number \| string` | `'80rpx'` |
+| prefetchRows | 距离尾部多少行时触发预取 | `number` | `0` |
+| reserveRows | 额外保留的尾部占位行数 | `number` | `0` |
+| positionStrategy | 渲染定位策略 | `transform \| absolute \| padding` | `transform` |
+| initialScrollIndex | 初始滚动索引 | `number` | `0` |
+| scrollWithAnimation | 设置滚动位置时是否启用动画 | `boolean` | `false` |
+| scrollAnchoring | 是否启用滚动锚定 | `boolean` | `true` |
+| enablePassive | 是否启用 passive 事件 | `boolean` | `true` |
+| enhanced | 是否启用增强模式 | `boolean` | `true` |
+| bounces | 是否启用回弹效果 | `boolean` | `false` |
 
 ### Events
 
-- 事件名称与参数说明以组件源码和对应 demo 为准
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| scroll | 列表滚动时触发 | `({ scrollTop, start, end })` |
+| reach-bottom | 触底时触发 | `()` |
+| prefetch | 接近尾部预取阈值时触发 | `()` |
 
 ### Slots
 
-- 插槽能力以组件模板实现为准（建议结合 demo 对照使用）
+| 插槽名 | 说明 |
+|--------|------|
+| default | 自定义可视区域内容，作用域参数为 `{ items, start, end, item-height }` |
+
+### Methods
+
+| 方法名 | 说明 |
+|--------|------|
+| scrollToIndex(index) | 滚动到指定索引 |
+| scrollToTop() | 滚动回顶部 |
+
+## 使用建议
+
+::: warning
+`lk-virtual-list` 假设每一项高度固定并由 `itemHeight` 控制。如果单项高度差异很大，建议先统一高度，或改用更适合不规则高度场景的方案。
+:::

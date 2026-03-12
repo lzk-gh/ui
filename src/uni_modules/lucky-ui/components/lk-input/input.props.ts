@@ -98,6 +98,12 @@ export const inputProps = {
   showPassword: LkProp.boolean(false),
 
   /**
+   * 是否无边框 (常用于列表 Cell 内部)
+   * @default false
+   */
+  borderless: LkProp.boolean(false),
+
+  /**
    * 输入内容对齐方式
    * @value left 左对齐
    * @value center 居中
