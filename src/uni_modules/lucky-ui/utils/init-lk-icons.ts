@@ -39,6 +39,9 @@ export async function initLkIconsFont(opt: InitFontOptions) {
   try {
     // #ifndef H5
     // 小程序 / App 启动早期可能还没有 page 实例，直接 global 加载会触发 $page undefined
+    // 在部分 App 极早期启动阶段，waitForPageReady 可能由于底层通讯未好而导致 Network Error
+    // 稍作延迟等待底层加载完毕
+    await new Promise(resolve => setTimeout(resolve, 200));
     await waitForPageReady();
     // #endif
 

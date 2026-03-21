@@ -3,13 +3,12 @@ import { computed, watch } from 'vue';
 import { iconProps, iconEmits } from './icon.props';
 import { iconCharOf } from './codepoints';
 
-// #ifdef H5
-// H5 使用 @font-face 静态加载字体（含所有字体格式引用）
+// #ifdef H5 || APP-PLUS
+// H5 / App 使用 @font-face 静态加载字体（本地文件，不依赖 loadFontFace）
 import './fonts/lk-icons.css';
 // #endif
-// #ifndef H5
-// 小程序 / App：仅导入 icon class 定义，字体文件通过 loadFontFace 加载
-// 避免 @font-face 导致 svg/ttf/woff 等字体文件被打包进主包（节省 ~1MB）
+// #ifdef MP-WEIXIN
+// 小程序端：仅导入 icon class 定义，字体文件通过 loadFontFace 动态加载
 import './fonts/lk-icons-definitions.css';
 // #endif
 
