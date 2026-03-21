@@ -83,7 +83,10 @@
     "navigationStyle": "custom",
     "navigationBarTitleText": "Lucky UI",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#F8F8F8",
+    "app-plus": {
+      "bounce": "none"
+    }
   },
   "preloadRule": {
     "pages/app-main/index": {
