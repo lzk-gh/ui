@@ -25,6 +25,20 @@
       </lk-navbar>
     </demo-block>
 
+    <demo-block title="自定义中间（屏幕居中）">
+      <lk-navbar>
+        <template #left>
+          <lk-icon name="house-fill" size="36" />
+        </template>
+        <template #center>
+          <text style="font-size: 32rpx; font-weight: 600;">居中标题</text>
+        </template>
+        <template #right>
+          <lk-icon name="search" size="36" />
+        </template>
+      </lk-navbar>
+    </demo-block>
+
     <demo-block title="自定义背景色">
       <lk-navbar title="标题" background="linear-gradient(to right, #667eea, #764ba2)" />
     </demo-block>

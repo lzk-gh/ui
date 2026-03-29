@@ -19,8 +19,10 @@
   }
 
   @include e(content) {
+    position: relative;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 var(--lk-spacing-lg);
     gap: var(--lk-spacing-xs);
   }
@@ -29,20 +31,28 @@
     display: flex;
     align-items: center;
     gap: var(--lk-spacing-xxs);
+    min-width: 0;
+    z-index: 1;
   }
 
   @include e(right) {
     display: flex;
     align-items: center;
     gap: var(--lk-spacing-xxs);
+    min-width: 0;
+    z-index: 1;
   }
 
   @include e(center) {
-    flex: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 70%;
     min-width: 0;
+    z-index: 0;
   }
 
   @include e(title) {

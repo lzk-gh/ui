@@ -157,8 +157,10 @@ function onRightClick(event: unknown) {
         <view class="lk-ripple__wave" :style="leftRippleStyle" />
       </view>
       <view class="lk-navbar__center">
-        <text v-if="title" class="lk-navbar__title">{{ title }}</text>
-        <slot />
+        <slot name="center">
+          <text v-if="title" class="lk-navbar__title">{{ title }}</text>
+          <slot />
+        </slot>
       </view>
       <view
         class="lk-navbar__right lk-ripple"

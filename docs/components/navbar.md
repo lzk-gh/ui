@@ -29,15 +29,20 @@ function handleBack() {
 </script>
 ```
 
-## 自定义左侧 / 右侧
+## 自定义左侧 / 中间 / 右侧
 
 ```vue
 <template>
-  <lk-navbar title="Lucky UI">
+  <lk-navbar>
     <template #left>
       <lk-button variant="text" size="sm" @click="goHome">
         <lk-icon name="house" :size="20" />
       </lk-button>
+    </template>
+    <template #center>
+      <view style="flex:1; text-align:center;">
+        <text class="lk-navbar__title">自定义标题</text>
+      </view>
     </template>
     <template #right>
       <view style="display:flex; gap:16rpx">
@@ -84,6 +89,7 @@ function handleBack() {
 
 | 插槽名 | 说明 |
 |--------|------|
-| default | 标题区域自定义内容 |
+| default | 标题区域自定义内容（兼容旧写法） |
 | left | 左侧区域自定义 |
+| center | 中间区域自定义（在屏幕中心显示，优先于 title） |
 | right | 右侧区域自定义 |
