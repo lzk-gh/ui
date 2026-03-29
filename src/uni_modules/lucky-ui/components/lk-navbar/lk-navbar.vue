@@ -147,7 +147,7 @@ function onRightClick(event: unknown) {
       >
         <lk-icon
           v-if="showBackComputed"
-          name="arrow-left"
+          name="chevron-left"
           size="36"
           class="lk-navbar__back"
           @tap.stop="onBackTap"
