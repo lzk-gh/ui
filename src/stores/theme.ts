@@ -189,6 +189,7 @@ export const useThemeStore = defineStore('theme', () => {
       color: isDark ? '#9ca3af' : '#6b7280',
       selectedColor: brandColor.value,
       backgroundColor: isDark ? '#1f2937' : '#ffffff',
+      borderStyle: isDark ? 'white' : 'black',
       fail: () => { },
     });
 
