@@ -31,7 +31,7 @@ const tabConfig: TabConfig[] = [
     icon: 'cart',
     activeIconFill: true,
     keepAlive: true,
-    badge: 3,
+    badge: 5,
   },
   {
     id: 'detail',
@@ -67,10 +67,10 @@ const handleTabChange = (tabId: string) => {
   console.log('[App] Tab changed to:', tabId);
 };
 
-onShow(() => {
-  // 隐藏原生 tabbar
-  uni.hideTabBar({ animation: false, fail: () => {} });
-});
+// onShow(() => {
+//   // 隐藏原生 tabbar
+//   uni.hideTabBar({ animation: false, fail: () => {} });
+// });
 </script>
 
 <template>
