@@ -7,7 +7,9 @@ const themeClass = computed(() => themeStore.themeClass);
 const brandStyleVars = computed(() => themeStore.brandStyleVars);
 
 const goBack = () => {
-  uni.navigateBack();
+  uni.reLaunch({
+    url: '/pages/app-main/index',
+  });
 };
 </script>
 
