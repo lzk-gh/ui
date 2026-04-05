@@ -37,7 +37,7 @@ const tabConfig: TabConfig[] = [
     id: 'detail',
     label: '详情',
     icon: 'list',
-    activeIconFill: true,
+    activeIconFill: false,
     keepAlive: true,
   },
   {
