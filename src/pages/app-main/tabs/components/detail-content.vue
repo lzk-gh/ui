@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
-import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 
 defineProps<{
   contentHeight: string;

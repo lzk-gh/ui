@@ -32,9 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const handleBack = () => {
   uni.showToast({

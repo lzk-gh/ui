@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { markRaw, ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkTabbarContainer from '@/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue';
 import type { TabConfig } from '@/uni_modules/lucky-ui/core/src/tabbar-container';
 import { useThemeStore, type TabbarMode } from '@/stores/theme';
 import TabbarPreviewPane from './tabbar-preview-pane.vue';

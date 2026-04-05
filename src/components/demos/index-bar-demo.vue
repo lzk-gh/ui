@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import LkIndexBar from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-bar.vue';
-import LkIndexAnchor from '@/uni_modules/lucky-ui/components/lk-index-bar/lk-index-anchor.vue';
 
 interface Contact {
   id: string;

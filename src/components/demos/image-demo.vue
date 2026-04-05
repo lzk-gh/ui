@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 </script>
 
 <template>

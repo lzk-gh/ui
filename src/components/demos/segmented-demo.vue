@@ -93,8 +93,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkSegmented from '@/uni_modules/lucky-ui/components/lk-segmented/lk-segmented.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 /* v-model refs */
 const v1 = ref('daily');

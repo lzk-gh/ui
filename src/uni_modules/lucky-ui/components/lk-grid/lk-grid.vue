@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { gridProps } from './grid.props';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
 defineOptions({ name: 'LkGrid' });

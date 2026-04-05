@@ -2,7 +2,6 @@
 import { computed, markRaw } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
-import LkTabbarContainer from '@/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue';
 import type { TabConfig } from '@/uni_modules/lucky-ui/core/src/tabbar-container';
 
 // 同步导入首页（首屏需要立即显示）

@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkCollapse from '@/uni_modules/lucky-ui/components/lk-collapse/lk-collapse.vue';
-import LkCollapseItem from '@/uni_modules/lucky-ui/components/lk-collapse/lk-collapse-item.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const activeNames1 = ref(['1']);
 const activeNames2 = ref('1');

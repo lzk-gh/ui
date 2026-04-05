@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const buttonLoading = ref(false);
 

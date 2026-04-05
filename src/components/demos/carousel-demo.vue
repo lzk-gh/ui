@@ -114,8 +114,6 @@
 </template>
 
 <script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 import { ref } from 'vue';
 
 // 模拟图片数据

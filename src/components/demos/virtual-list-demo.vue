@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import LkVirtualList from '@/uni_modules/lucky-ui/components/lk-virtual-list/lk-virtual-list.vue';
 
 // 真实分页模拟：首次加载一页，滚动到底或预取触发再加载下一页
 const list = ref<{ id: number; text: string }[]>([]);

@@ -55,9 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 </script>
 
 <style scoped lang="scss">

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
 
 const items = Array.from({ length: 14 }, (_, i) => ({
   text: `项目${i + 1}`,

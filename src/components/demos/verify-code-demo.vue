@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
 
 // 基础用法
 const code1 = ref('');

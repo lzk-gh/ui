@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 // 基础
 const v1 = ref(1);

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
 </script>
 
 <template>

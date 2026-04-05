@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useThemeStore, PRESET_COLORS, DEFAULT_BRAND_COLOR } from '@/stores/theme';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 // #ifdef H5
 import ThemeDebugger from '@/components/theme-debugger.vue';
 // #endif

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import { ICON_CODEPOINTS } from '@/uni_modules/lucky-ui/components/lk-icon/codepoints';
 
 const searchKeyword = ref('');

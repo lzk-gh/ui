@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useThemeStore, PRESET_COLORS, type TabbarMode } from '@/stores/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 
 const themeStore = useThemeStore();
 

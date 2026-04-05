@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const tags = ref({
   tag1: true,

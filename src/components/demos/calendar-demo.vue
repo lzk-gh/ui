@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkCalendar from '@/uni_modules/lucky-ui/components/lk-calendar/lk-calendar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const date1 = ref(new Date());
 const date2 = ref(new Date());

@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
 
 const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);

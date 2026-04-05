@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkToastManager from '@/uni_modules/lucky-ui/components/lk-toast/lk-toast-manager.vue';
 import { useToast } from '@/uni_modules/lucky-ui/components/lk-toast/toast-manager';
 
 const toast = useToast();

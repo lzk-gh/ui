@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { usePreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src/preload';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkPreloadDebugger from '@/uni_modules/lucky-ui/components/lk-preload-debugger/lk-preload-debugger.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const { stats, isLoading, isPaused, preloadPage, preloadImages, pause, resume, clear } = usePreload({
   autoStart: true,

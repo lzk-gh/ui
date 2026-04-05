@@ -192,18 +192,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useThemeStore } from '@/stores/theme';
 import type { WaterfallItem } from '@/uni_modules/lucky-ui/components/lk-waterfall/waterfall.props';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkWaterfall from '@/uni_modules/lucky-ui/components/lk-waterfall/lk-waterfall.vue';
-import LkNoticeBar from '@/uni_modules/lucky-ui/components/lk-notice-bar/lk-notice-bar.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkChoice from '@/uni_modules/lucky-ui/components/lk-choice/lk-choice.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
-import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
 
 const props = withDefaults(
   defineProps<{

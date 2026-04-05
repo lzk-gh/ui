@@ -36,11 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkDropdown from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown.vue';
-import LkDropdownItem from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown-item.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const handleSelect = (value: string) => {
   uni.showToast({

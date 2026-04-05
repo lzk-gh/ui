@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkActionSheet from '@/uni_modules/lucky-ui/components/lk-action-sheet/lk-action-sheet.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const visible1 = ref(false);
 const visible2 = ref(false);

@@ -206,22 +206,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkCollapse from '@/uni_modules/lucky-ui/components/lk-collapse/lk-collapse.vue';
-import LkCollapseItem from '@/uni_modules/lucky-ui/components/lk-collapse/lk-collapse-item.vue';
-import LkDivider from '@/uni_modules/lucky-ui/components/lk-divider/lk-divider.vue';
-import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
-import LkToast from '@/uni_modules/lucky-ui/components/lk-toast/lk-toast.vue';
-import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkTimeline from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline.vue';
-import LkTimelineItem from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline-item.vue';
 
 const { theme, themeClass, toggleTheme } = useTheme();
 const loading = ref(true);

@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkTimePicker from '@/uni_modules/lucky-ui/components/lk-time-picker/lk-time-picker.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const visible1 = ref('');
 const visible2 = ref('');

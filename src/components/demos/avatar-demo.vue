@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 </script>
 
 <template>

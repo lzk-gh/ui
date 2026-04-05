@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import { useTransition } from '@/uni_modules/lucky-ui/composables';
 import { addUnit, debounce, throttle, isH5, isMpWeixin } from '@/uni_modules/lucky-ui/core/src';
 

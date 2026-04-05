@@ -2,31 +2,6 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkDivider from '@/uni_modules/lucky-ui/components/lk-divider/lk-divider.vue';
-import LkProgress from '@/uni_modules/lucky-ui/components/lk-progress/lk-progress.vue';
-import LkLoading from '@/uni_modules/lucky-ui/components/lk-loading/lk-loading.vue';
-import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
-import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import LkCheckbox from '@/uni_modules/lucky-ui/components/lk-checkbox/lk-checkbox.vue';
-import LkRadio from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkSkeleton from '@/uni_modules/lucky-ui/components/lk-skeleton/lk-skeleton.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkNoticeBar from '@/uni_modules/lucky-ui/components/lk-notice-bar/lk-notice-bar.vue';
-import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
-import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
-import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
-import LkNumberRoller from '@/uni_modules/lucky-ui/components/lk-number-roller/lk-number-roller.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkSegmented from '@/uni_modules/lucky-ui/components/lk-segmented/lk-segmented.vue';
 
 // Suppress unused import warnings — components used in template
 void [

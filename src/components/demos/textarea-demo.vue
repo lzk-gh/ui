@@ -51,8 +51,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const v1 = ref('');
 const v2 = ref('');

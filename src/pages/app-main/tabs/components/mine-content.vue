@@ -1,18 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useThemeStore } from '@/stores/theme';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkActionSheet from '@/uni_modules/lucky-ui/components/lk-action-sheet/lk-action-sheet.vue';
-import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 
 defineProps<{
   contentHeight: string;

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkBacktop from '@/uni_modules/lucky-ui/components/lk-backtop/lk-backtop.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 import { ref } from 'vue';
 

@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, reactive, watch } from 'vue';
 import type { CSSProperties } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import {
   ANIMATION_CATEGORIES,

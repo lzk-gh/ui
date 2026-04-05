@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkProgress from '@/uni_modules/lucky-ui/components/lk-progress/lk-progress.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const percentage1 = ref(70);
 const percentage2 = ref(50);

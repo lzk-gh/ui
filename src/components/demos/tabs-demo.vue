@@ -319,10 +319,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkTabs from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tabs.vue';
-import LkTabPane from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tab-pane.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 // ── 基础 demos ───────────────────────────────
 const activeTab1 = ref('1');

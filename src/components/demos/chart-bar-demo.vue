@@ -1,11 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import LkChartBar from '@/uni_modules/lucky-ui/components/lk-chart-bar/lk-chart-bar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
-import LkSegmented from '@/uni_modules/lucky-ui/components/lk-segmented/lk-segmented.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 
 type Item = { label: string; value: number; color?: string };
 

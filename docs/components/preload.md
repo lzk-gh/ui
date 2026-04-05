@@ -157,10 +157,12 @@ console.log(isPreloaded('settings'));
 </template>
 
 <script setup lang="ts">
-import LkPreloadDebugger from '@/uni_modules/lucky-ui/components/lk-preload-debugger/lk-preload-debugger.vue';
-
 const isDev = import.meta.env.DEV;
 </script>
+
+<!--
+  说明：`lk-preload-debugger` 属于 lucky-ui 组件，使用 easycom 时无需手动导入。
+-->
 ```
 
 **Props**

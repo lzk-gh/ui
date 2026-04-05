@@ -278,35 +278,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
-import LkGrid from '@/uni_modules/lucky-ui/components/lk-grid/lk-grid.vue';
-import LkCheckbox from '@/uni_modules/lucky-ui/components/lk-checkbox/lk-checkbox.vue';
-import LkTag from '@/uni_modules/lucky-ui/components/lk-tag/lk-tag.vue';
-import LkProgress from '@/uni_modules/lucky-ui/components/lk-progress/lk-progress.vue';
-import LkDivider from '@/uni_modules/lucky-ui/components/lk-divider/lk-divider.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkDropdown from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown.vue';
-import LkDropdownItem from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown-item.vue';
-import LkForm from '@/uni_modules/lucky-ui/components/lk-form/lk-form.vue';
-import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
-import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkRadioGroup from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio-group.vue';
-import LkRadio from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio.vue';
-import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkDatePicker from '@/uni_modules/lucky-ui/components/lk-date-picker/lk-date-picker.vue';
-import LkToast from '@/uni_modules/lucky-ui/components/lk-toast/lk-toast.vue';
-import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue';
-import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
-import LkTooltip from '@/uni_modules/lucky-ui/components/lk-tooltip/lk-tooltip.vue';
-import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
-import LkCurtain from '@/uni_modules/lucky-ui/components/lk-curtain/lk-curtain.vue';
 
 const { theme, themeClass, toggleTheme } = useTheme();
 const searchQuery = ref('');

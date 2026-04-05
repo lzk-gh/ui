@@ -38,11 +38,14 @@ phone: tabbar
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue';
-import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
 
 const active = ref('home');
 </script>
+
+<!--
+  说明：如果你使用本工程或本地 lucky-ui 源码，uni-app 会自动通过 easycom 注册
+  `lk-tabbar` / `lk-tabbar-item`，因此无需在 script 中手动 import 组件。
+-->
 ```
 
 如果你在自己的项目里使用 `lucky-ui` 包，则导入路径可能为 `lucky-ui/components/lk-tabbar/lk-tabbar.vue` 和 `lucky-ui/components/lk-tabbar/lk-tabbar-item.vue`。

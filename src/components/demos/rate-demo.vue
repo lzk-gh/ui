@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const value1 = ref(3);
 const value2 = ref(3.5);

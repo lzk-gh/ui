@@ -1,11 +1,5 @@
 ﻿<script setup lang="ts">
 import { ref, reactive } from 'vue';
-import LkForm from '@/uni_modules/lucky-ui/components/lk-form/lk-form.vue';
-import LkFormItem from '@/uni_modules/lucky-ui/components/lk-form/lk-form-item.vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkPicker from '@/uni_modules/lucky-ui/components/lk-picker/lk-picker.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const cardFormRef = ref();
 const cardData = reactive({

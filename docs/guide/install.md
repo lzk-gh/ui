@@ -1,106 +1,96 @@
 # 安装与引入
 
-## 方式一：自动引入（最推荐 - uni-app 官方支持）
+## 推荐方式：easycom 自动引入
 
-Lucky UI 完全遵循 uni-app 的 `easycom` 规范。当你把 `lucky-ui` 目录放在 `src/uni_modules/` 下时，uni-app 会 **自动解析并注册** 所有 `<lk-...>` 组件，无需你在任何地方 `import` 或声明。
+Lucky UI 完全遵循 `uni-app` 的 `easycom` 规范，因此只要把 `lucky-ui` 放在项目的 `src/uni_modules/` 下，`<lk-...>` 组件就可以直接在模板中使用，**无需任何组件级导入**。
 
-```vue
-<!-- src/pages/demo/index.vue -->
-<template>
-  <view>
-    <!-- 直接在模板里写，无需 import LkButton 或 LkInput -->
-    <lk-input v-model="keyword" placeholder="搜索..." />
-    <lk-button @click="search">搜索</lk-button>
-  </view>
-</template>
+### 1. 将组件库放入项目目录
 
-<script setup lang="ts">
-const search = () => {}
-// 你只在需要工具函数时，才按需引入：
-import { useRipple, addUnit, useTheme } from '@/uni_modules/lucky-ui'
-</script>
+```
+src/uni_modules/lucky-ui/
 ```
 
-> **注意：** 自动引入不影响 Tree-shaking，uni-app 会在打包时将你未使用的组件自动剔除。这种方式体积最小，体验最好。
+### 2. 引入主题样式
 
-同时在 `App.vue` 或全局 scss 文件中引入主题样式以生效：
+在全局样式文件（例如 `src/uni.scss`）中引入 Lucky UI 主题：
 
 ```scss
-// src/uni.scss
 @use '@/uni_modules/lucky-ui/theme/src/index.scss' as *;
 ```
 
-## 方式二：全局注册（可选）
-
-如果你更希望像传统组件库那样一次性注册所有组件，可以在 `main.ts` 使用根插件：
-
-```ts
-// src/main.ts
-import { createSSRApp } from 'vue'
-import App from './App.vue'
-import LuckyUI from './uni_modules/lucky-ui'
-
-export function createApp() {
-  const app = createSSRApp(App)
-  app.use(LuckyUI)
-  return { app }
-}
-```
-
-这个方式兼容旧习惯，但不作为默认推荐。
-
-如果你只想局部使用某个组件，或者你想显式声明依赖，也可以直接从入口或单个文件按需导入：
+### 3. 在页面模板中直接使用组件
 
 ```vue
-<script setup lang="ts">
-// 方式 A：从根入口导入
-import { LkButton, LkInput } from '@/uni_modules/lucky-ui'
-
-// 方式 B：从源文件导入（体积绝对最小）
-// import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
-</script>
-
 <template>
-  <view>
-    <lk-input v-model="keyword" placeholder="搜索..." />
-    <lk-button @click="search">搜索</lk-button>
+  <view class="page-shell">
+    <lk-navbar title="发现" :show-back="false" />
+    <view class="page-body">
+      <lk-input v-model="keyword" placeholder="搜索..." clearable />
+      <lk-button @click="search">搜索</lk-button>
+    </view>
   </view>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const keyword = ref('');
+const search = () => {
+  console.log('搜索关键词', keyword.value);
+};
+</script>
 ```
 
-## 类型支持
+### 4. 仅在需要工具函数时才按需导入
 
-在 `tsconfig.json` 中确保 `src` 路径已包含：
+如果你需要使用 Lucky UI 的工具函数、主题钩子、或者可复用 API，请按需导入：
 
-```json
-{
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+```ts
+import { useRipple, addUnit, useTheme } from '@/uni_modules/lucky-ui';
+```
+
+> 这里的 `import` 只用于函数、hooks、工具库，不用于模板组件。
+
+## 额外说明
+
+- 如果你使用的是本地开发仓库，推荐保留 `src/uni_modules/lucky-ui/` 路径；
+- 如果你在 npm 包里使用 Lucky UI，则路径可能会变为 `lucky-ui/components/...`；
+- `easycom` 自动解析会在 uni-app 打包时识别 `<lk-...>` 标签，不需要你手动注册组件；
+- 如果你希望显式注册组件，可使用 `app.use(LuckyUI)`，但这不是必需的。
+
+## 兼容方式：可选全局注册
+
+如果你更习惯一次性注册组件库，可以在 `src/main.ts` 中按以下方式注册：
+
+```ts
+import { createSSRApp } from 'vue';
+import App from './App.vue';
+import LuckyUI from './uni_modules/lucky-ui';
+
+export function createApp() {
+  const app = createSSRApp(App);
+  app.use(LuckyUI);
+  return { app };
 }
 ```
 
-组件库自带 `components.d.ts`，IDE 可自动识别所有 `lk-*` 组件的 props 类型。
+该方式与 easycom 兼容，但并非必要。
 
-## 快速验证
+## 运行验证
 
-新建一个页面，放入以下代码，运行 `pnpm run dev:h5` 确认正常显示：
+新建一个页面，运行 `pnpm run dev:h5`，应可直接使用 `<lk-button>`、`<lk-input>`、`<lk-tag>` 等组件而无需手动导入。
 
 ```vue
 <script setup lang="ts">
-// 无需引入组件！直接编写逻辑即可
+const keyword = '';
 </script>
 
 <template>
-  <view style="padding: 32rpx; display: flex; flex-direction: column; gap: 16rpx">
+  <view style="padding: 32rpx; display: flex; flex-direction: column; gap: 16rpx;">
     <lk-button>默认按钮</lk-button>
     <lk-button variant="outline">描边按钮</lk-button>
     <lk-tag type="success">安装成功</lk-tag>
   </view>
 </template>
 ```
-
-> 说明：在 uni-app 工程中，`src/uni_modules/` 下组件已由 easycom 自动解析，通常不需要额外的自动导入插件。
 ```

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import LkTimeline from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline.vue';
-import LkTimelineItem from '@/uni_modules/lucky-ui/components/lk-timeline/lk-timeline-item.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 </script>
 
 <template>

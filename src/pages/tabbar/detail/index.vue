@@ -25,8 +25,6 @@
 import { computed, ref, onMounted, nextTick } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import DetailContent from './components/detail-content.vue';
 import CustomTabbar from '@/components/custom-tabbar.vue';
 import { usePageCache } from '@/uni_modules/lucky-ui/core/src/cache';

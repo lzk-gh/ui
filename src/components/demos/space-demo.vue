@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 </script>
 
 <template>

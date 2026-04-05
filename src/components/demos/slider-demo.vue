@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const v1 = ref(30);
 const vStep = ref(20);

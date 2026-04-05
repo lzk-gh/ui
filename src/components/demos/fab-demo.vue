@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkFab from '@/uni_modules/lucky-ui/components/lk-fab/lk-fab.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import type { FabAction } from '@/uni_modules/lucky-ui/components/lk-fab/fab.props';
 
 const expanded = ref(false);

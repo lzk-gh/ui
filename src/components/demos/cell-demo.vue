@@ -41,10 +41,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const notification = ref(true);
 const sound = ref(false);

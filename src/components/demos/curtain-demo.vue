@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import type { CurtainClosePosition } from '@/uni_modules/lucky-ui/components/lk-curtain/curtain.props';
 
 // 基础展示

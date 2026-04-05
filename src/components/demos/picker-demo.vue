@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkPicker from '@/uni_modules/lucky-ui/components/lk-picker/lk-picker.vue';
 
 // 单列选择器
 const show = ref(false);

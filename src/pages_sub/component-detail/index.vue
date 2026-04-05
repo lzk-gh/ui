@@ -112,8 +112,6 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import { onLoad, onShow } from '@dcloudio/uni-app';
-import LkNavbar from '@/uni_modules/lucky-ui/components/lk-navbar/lk-navbar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 
 import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
 import ChartLineDemo from '@/components/demos/chart-line-demo.vue';

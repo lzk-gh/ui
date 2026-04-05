@@ -108,10 +108,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkRadioGroup from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio-group.vue';
-import LkRadio from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const value1 = ref('1');
 const value2 = ref('1');

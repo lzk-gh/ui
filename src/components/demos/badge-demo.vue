@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkBadge from '@/uni_modules/lucky-ui/components/lk-badge/lk-badge.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkAvatar from '@/uni_modules/lucky-ui/components/lk-avatar/lk-avatar.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const badgeCount = ref(5);
 

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import type { UploadFile } from '@/uni_modules/lucky-ui/components/lk-upload/upload.props';
 
 /* ── 基础用法 ── */

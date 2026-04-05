@@ -2,7 +2,6 @@
 import { ref, computed, watch } from 'vue';
 import { onPageScroll } from '@dcloudio/uni-app';
 import { backtopProps, backtopEmits } from './backtop.props';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 
 /**

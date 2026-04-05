@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import LkLoading from '@/uni_modules/lucky-ui/components/lk-loading/lk-loading.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 </script>
 
 <template>

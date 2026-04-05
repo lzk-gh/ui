@@ -1,8 +1,5 @@
 ﻿<script setup lang="ts">
 import { ref } from 'vue';
-import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const value1 = ref('');
 const value2 = ref('');

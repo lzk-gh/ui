@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue';
 </script>
 
 <template>

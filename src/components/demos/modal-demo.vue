@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const visible1 = ref(false);
 const visible2 = ref(false);
