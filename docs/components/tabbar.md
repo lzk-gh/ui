@@ -16,6 +16,37 @@ phone: tabbar
 - 🔢 **徽标支持**：数字徽标、小红点、脉冲动画
 - 🎯 **跟随品牌色**：默认使用系统品牌色，支持自定义
 
+## 在页面中使用
+
+`lk-tabbar` 通常放在 Uni-app 页面组件的模板底部，例如 `src/pages/app-main/index.vue`、`src/pages/home/index.vue` 等。该组件本身并不是 `pages.json` 的配置项，必须写在页面 `.vue` 文件内。
+
+下面是一个最小可运行的页面示例：
+
+```vue
+<template>
+  <view class="page-shell">
+    <view class="page-content">页面主体内容</view>
+
+    <lk-tabbar v-model="active" mode="fixed">
+      <lk-tabbar-item name="home" icon="house-fill" label="首页" />
+      <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
+      <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" :badge="3" />
+      <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+    </lk-tabbar>
+  </view>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkTabbar from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar.vue';
+import LkTabbarItem from '@/uni_modules/lucky-ui/components/lk-tabbar/lk-tabbar-item.vue';
+
+const active = ref('home');
+</script>
+```
+
+如果你在自己的项目里使用 `lucky-ui` 包，则导入路径可能为 `lucky-ui/components/lk-tabbar/lk-tabbar.vue` 和 `lucky-ui/components/lk-tabbar/lk-tabbar-item.vue`。
+
 ## 基础用法 - Fixed 模式
 
 简约风格，仅颜色渐变过渡，默认模式。
