@@ -1,0 +1,21 @@
+{
+  "name": "lucky-ui",
+  "version": "0.0.0",
+  "description": "Lucky UI for uni-app",
+  "keywords": [
+    "uni-app",
+    "easycom",
+    "vue3",
+    "component-library",
+    "lucky-ui"
+  ],
+  "main": "index.ts",
+  "types": "components.d.ts",
+  "sideEffects": [
+    "theme/src/**/*.scss",
+    "components/**/*.vue",
+    "composables/**/*.ts",
+    "core/src/**/*.ts",
+    "utils/**/*.ts"
+  ]
+}
