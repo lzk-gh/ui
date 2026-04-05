@@ -75,7 +75,7 @@ Lucky UI 共收录 **65+** 个组件，按功能分为以下几类。
 | 组件 | 说明 |
 |------|------|
 | [Navbar 导航栏](./navbar) | 自定义顶部导航栏，适配安全区 |
-| [Tabbar 底部导航](./tabbar) | 底部 Tab 栏，图标/徽标支持 |
+| [Tabbar 底部导航](./tabbar) | 单页多 Tab 主框架（lk-tabbar-container），懒加载与底栏一体 |
 | [Tabs 选项卡](./tabs) | 多 Tab 内容切换 |
 | [Segmented 分段器](./segmented) | 紧凑分段控制 |
 | [Anchor 锚点导航](./anchor) | 页面内区块快速跳转 |

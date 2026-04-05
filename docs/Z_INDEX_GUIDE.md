@@ -102,7 +102,7 @@ $z-index-top: 9999;
 | 组件              | 默认 zIndex | 说明                   |
 | ----------------- | ----------- | ---------------------- |
 | `lk-navbar`       | 200         | 顶部导航栏             |
-| `lk-tabbar`       | 300         | 底部标签栏             |
+| `lk-tabbar-container` | 300（默认，可由 `z-index` 覆盖） | 底部 Tab 容器栏 |
 | `lk-overlay`      | 900         | 遮罩层                 |
 | `lk-popup`        | 1000        | 弹出层（面板 +1）      |
 | `lk-action-sheet` | 1000        | 动作面板（继承 popup） |

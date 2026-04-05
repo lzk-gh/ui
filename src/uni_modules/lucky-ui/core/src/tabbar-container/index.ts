@@ -12,6 +12,23 @@
 import { ref, computed, markRaw, type ComputedRef } from 'vue';
 import type { Component } from 'vue';
 
+/** lk-tabbar-container 底部栏视觉模式（唯一合法取值列表，供校验与遍历） */
+export const TABBAR_VISUAL_MODES = [
+  'plain',
+  'block',
+  'flashlight',
+  'float',
+  'marker-top',
+  'marker-bottom',
+  'dot-slide',
+  'bubble',
+  'ripple',
+  'mask-fill',
+  'text-raise',
+] as const;
+
+export type TabbarVisualMode = (typeof TABBAR_VISUAL_MODES)[number];
+
 /** Tab 配置项 */
 export interface TabConfig {
   /** Tab 唯一标识 */

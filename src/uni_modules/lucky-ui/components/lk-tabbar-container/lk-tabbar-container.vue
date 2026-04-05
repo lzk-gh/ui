@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
-import { useThemeStore } from '@/stores/theme';
+
+defineOptions({ name: 'LkTabbarContainer' });
 import LkLoading from '../lk-loading/lk-loading.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import {
@@ -8,9 +9,8 @@ import {
   initTabbarContainer,
   setTabbarDebug,
   type TabConfig,
+  type TabbarVisualMode,
 } from '../../core/src/tabbar-container';
-
-const themeStore = useThemeStore();
 
 const props = withDefaults(
   defineProps<{
@@ -20,19 +20,14 @@ const props = withDefaults(
     defaultTab?: string;
     /** 是否开启调试模式 */
     debug?: boolean;
-    /** Tabbar 模式 */
-    mode?:
-      | 'plain'
-      | 'block'
-      | 'flashlight'
-      | 'float'
-      | 'marker-top'
-      | 'marker-bottom'
-      | 'dot-slide'
-      | 'bubble'
-      | 'ripple'
-      | 'mask-fill'
-      | 'text-raise';
+    /** 底部栏视觉模式 */
+    mode?: TabbarVisualMode;
+    /** 底部栏顶部是否显示分隔线 */
+    border?: boolean;
+    /** 底部栏毛玻璃背景 */
+    glassBg?: boolean;
+    /** 底部栏 z-index */
+    zIndex?: number;
     /** 自定义类名 */
     customClass?: string;
     /** 自定义样式 */
@@ -46,6 +41,9 @@ const props = withDefaults(
     defaultTab: '',
     debug: false,
     mode: undefined,
+    border: true,
+    glassBg: false,
+    zIndex: 300,
     customClass: '',
     customStyle: '',
     preloadDelay: 2000,
@@ -60,7 +58,8 @@ const emit = defineEmits<{
 
 const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
 
-const activeMode = computed(() => props.mode || themeStore.tabbarMode);
+/** 未传 mode 时使用 block，与历史默认一致；宿主可通过 :mode 绑定全局状态 */
+const activeMode = computed(() => props.mode ?? 'block');
 
 const containerClass = computed(() => [
   'lk-tabbar-container',
@@ -76,6 +75,9 @@ const containerStyle = computed(() => {
     .map(([k, v]) => `${k}: ${v}`)
     .join('; ');
 });
+
+/** 底部固定栏样式（层级可覆盖） */
+const tabbarBarStyle = computed(() => ({ zIndex: props.zIndex }));
 
 const activeIndex = computed(() => {
   return props.tabs.findIndex(tab => tab.id === activeId.value);
@@ -204,7 +206,14 @@ watch(
     </view>
 
     <!-- 底部 Tabbar -->
-    <view class="lk-tabbar-container__tabbar">
+    <view
+      class="lk-tabbar-container__tabbar"
+      :class="{
+        'lk-tabbar-container__tabbar--no-border': !border,
+        'lk-tabbar-container__tabbar--glass': glassBg,
+      }"
+      :style="tabbarBarStyle"
+    >
       <view class="tabbar-wrapper">
         <!-- 激活项背景 (滑动指示器类模式) -->
         <view
@@ -255,8 +264,6 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
-
 $tabbar-height: 120rpx;
 
 .lk-tabbar-container {
@@ -264,7 +271,7 @@ $tabbar-height: 120rpx;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: $test-bg-page;
+  background: var(--lk-bg-page);
   overflow: hidden;
 
   &__content {
@@ -289,7 +296,7 @@ $tabbar-height: 120rpx;
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: $test-text-secondary;
+    color: var(--lk-text-secondary);
   }
 
   &__slot {
@@ -314,12 +321,12 @@ $tabbar-height: 120rpx;
       margin-top: 32rpx;
       padding: 16rpx 48rpx;
       font-size: 28rpx;
-      color: $test-primary;
-      border: 1px solid $test-primary;
+      color: var(--lk-color-primary);
+      border: 1px solid var(--lk-color-primary);
       border-radius: 40rpx;
 
       &:active {
-        background: $test-primary-soft;
+        background: var(--lk-color-primary-soft);
       }
     }
   }
@@ -330,10 +337,25 @@ $tabbar-height: 120rpx;
     right: 0;
     bottom: 0;
     z-index: 300;
-    background: $test-bg-card;
-    border-top: 1px solid $test-border-color;
+    background: var(--lk-color-bg-container);
+    border-top: 1px solid var(--lk-color-border);
     padding-bottom: env(safe-area-inset-bottom);
     overflow: visible;
+
+    &--no-border {
+      border-top: none;
+    }
+
+    /* 毛玻璃；暗色依赖祖先 .lk-theme-dark（与页面主题 class 一致） */
+    &--glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      .lk-theme-dark & {
+        background: rgba(30, 30, 30, 0.85);
+      }
+    }
   }
 
   &__placeholder {
@@ -362,29 +384,29 @@ $tabbar-height: 120rpx;
   &.is-block {
     top: 15rpx;
     bottom: 15rpx;
-    background: $test-primary;
+    background: var(--lk-color-primary);
     border-radius: 40rpx;
     margin: 0 12rpx;
     width: calc(var(--item-width) - 24rpx);
     left: calc(var(--item-left) + 12rpx);
-    box-shadow: 0 8rpx 20rpx rgba(var(--test-primary-rgb), 0.3);
+    box-shadow: 0 8rpx 20rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.3);
     opacity: 0.85; // Lighten it slightly as requested
   }
 
   &.is-marker-top {
     height: 6rpx;
-    background: $test-primary;
+    background: var(--lk-color-primary);
     border-radius: 0 0 6rpx 6rpx;
-    box-shadow: 0 4rpx 15rpx rgba(var(--test-primary-rgb), 0.6);
+    box-shadow: 0 4rpx 15rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.6);
   }
 
   &.is-marker-bottom {
     top: auto;
     bottom: 0;
     height: 8rpx;
-    background: $test-primary;
+    background: var(--lk-color-primary);
     border-radius: 8rpx 8rpx 0 0;
-    box-shadow: 0 -4rpx 15rpx rgba(var(--test-primary-rgb), 0.6);
+    box-shadow: 0 -4rpx 15rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.6);
   }
 
   &.is-dot-slide {
@@ -392,11 +414,11 @@ $tabbar-height: 120rpx;
     bottom: 12rpx;
     height: 12rpx;
     width: 12rpx;
-    background: $test-primary;
+    background: var(--lk-color-primary);
     border-radius: 50%;
     left: var(--active-center);
     transform: translateX(-50%);
-    box-shadow: 0 0 15rpx $test-primary;
+    box-shadow: 0 0 15rpx var(--lk-color-primary);
   }
 }
 
@@ -408,7 +430,7 @@ $tabbar-height: 120rpx;
   flex: 1;
   height: $tabbar-height;
   min-width: 0;
-  color: $test-text-secondary;
+  color: var(--lk-text-secondary);
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -441,7 +463,7 @@ $tabbar-height: 120rpx;
     left: 50%;
     width: 120rpx;
     height: 120rpx;
-    background: $test-primary-soft;
+    background: var(--lk-color-primary-soft);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
@@ -455,7 +477,7 @@ $tabbar-height: 120rpx;
     right: 0;
     bottom: 0;
     height: 0;
-    background: linear-gradient(to top, rgba(var(--test-primary-rgb), 0.2), transparent);
+    background: linear-gradient(to top, rgba(var(--lk-brand-rgb, 105, 101, 219), 0.2), transparent);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: -1;
   }
@@ -466,7 +488,7 @@ $tabbar-height: 120rpx;
     left: 50%;
     width: 60rpx;
     height: 60rpx;
-    border: 3rpx solid $test-primary;
+    border: 3rpx solid var(--lk-color-primary);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
@@ -525,14 +547,14 @@ $tabbar-height: 120rpx;
       color: var(--lk-color-primary);
       .tabbar-item__icon-wrapper {
         transform: translateY(-30rpx);
-        background: $test-primary;
+        background: var(--lk-color-primary);
         width: 100rpx;
         height: 100rpx;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 10rpx 25rpx rgba(var(--test-primary-rgb), 0.5);
+        box-shadow: 0 10rpx 25rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.5);
         color: #ffffff !important;
       }
       .tabbar-item__label {

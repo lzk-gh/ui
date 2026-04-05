@@ -286,7 +286,7 @@ const resetForm = () => {
 
 ### 第一阶段:基础组件 (已完成)
 - ✅ 创建富应用架构
-- ✅ 使用 lk-tabbar 实现页面切换
+- ✅ 使用 lk-tabbar-container 实现单页多 Tab
 - ✅ HomePage 基础框架
 
 ### 第二阶段:完善演示内容
@@ -336,7 +336,7 @@ const resetForm = () => {
 
 当前已完成:
 - ✅ 富应用架构(使用 v-show 切换页面)
-- ✅ lk-tabbar 集成(带 FAB 按钮)
+- ✅ lk-tabbar-container 集成（带 FAB 按钮）
 - ✅ HomePage / DiscoverPage / MessagePage / MinePage 基础框架
 
 下一步:

@@ -366,7 +366,7 @@ export declare module '@vue/runtime-core' {
 
 ### 列表/导航类
 
-参考 `lk-tabs`、`lk-tabbar`、`lk-collapse`：
+参考 `lk-tabs`、`lk-tabbar-container`、`lk-collapse`：
 1. 父子组件使用 `provide/inject` 通信
 2. 父组件暴露 `register/unregister` 方法
 

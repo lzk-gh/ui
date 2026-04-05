@@ -399,8 +399,8 @@ const componentMap: Record<string, any> = {
     color: 'primary',
   },
   tabbar: {
-    title: 'Tabbar 标签栏',
-    desc: '底部标签栏组件',
+    title: 'Tabbar 底部导航',
+    desc: '单页多 Tab 容器 lk-tabbar-container',
     icon: 'menu-button-wide',
     color: 'success',
   },

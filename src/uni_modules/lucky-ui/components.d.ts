@@ -39,8 +39,6 @@ declare module '@vue/runtime-core' {
     LkCell: typeof import('./components/lk-cell/lk-cell.vue')['default']
     LkCellGroup: typeof import('./components/lk-cell/lk-cell-group.vue')['default']
     LkNavbar: typeof import('./components/lk-navbar/lk-navbar.vue')['default']
-    LkTabbar: typeof import('./components/lk-tabbar/lk-tabbar.vue')['default']
-    LkTabbarItem: typeof import('./components/lk-tabbar/lk-tabbar-item.vue')['default']
     LkTabbarContainer: typeof import('./components/lk-tabbar-container/lk-tabbar-container.vue')['default']
     LkCollapse: typeof import('./components/lk-collapse/lk-collapse.vue')['default']
     LkCollapseItem: typeof import('./components/lk-collapse/lk-collapse-item.vue')['default']

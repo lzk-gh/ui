@@ -6,18 +6,12 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
 export type Theme = 'light' | 'dark';
-export type TabbarMode =
-  | 'plain'
-  | 'block'
-  | 'flashlight'
-  | 'float'
-  | 'marker-top'
-  | 'marker-bottom'
-  | 'dot-slide'
-  | 'bubble'
-  | 'ripple'
-  | 'mask-fill'
-  | 'text-raise';
+import {
+  TABBAR_VISUAL_MODES,
+  type TabbarVisualMode,
+} from '@/uni_modules/lucky-ui/core/src/tabbar-container';
+
+export type TabbarMode = TabbarVisualMode;
 
 // 色阶常量
 const LEVELS = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
@@ -320,23 +314,9 @@ export const useThemeStore = defineStore('theme', () => {
    */
   function initTabbarMode() {
     try {
-      const saved = uni.getStorageSync('lk-tabbar-mode') as TabbarMode;
-      if (
-        [
-          'plain',
-          'block',
-          'flashlight',
-          'float',
-          'marker-top',
-          'marker-bottom',
-          'dot-slide',
-          'bubble',
-          'ripple',
-          'mask-fill',
-          'text-raise',
-        ].includes(saved)
-      ) {
-        tabbarMode.value = saved;
+      const saved = uni.getStorageSync('lk-tabbar-mode') as string;
+      if ((TABBAR_VISUAL_MODES as readonly string[]).includes(saved)) {
+        tabbarMode.value = saved as TabbarMode;
       }
     } catch {
       // ignore

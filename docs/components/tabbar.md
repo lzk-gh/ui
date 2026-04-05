@@ -5,206 +5,124 @@ phone: tabbar
 
 # Tabbar 底部导航
 
-页面底部的导航切换栏，支持三种视觉风格模式，配备丝滑的动画效果。
+Lucky UI 仅提供 **`lk-tabbar-container`**：在**单个页面**内同时承载「底部 Tab 栏 + 多面板内容」，支持懒加载、状态保持、多组视觉模式（block、手电筒、浮动等），适合 App 主壳、电商首页等多 Tab 单页场景。
 
-## 特性
+若你需要 **uni-app 原生多页面 + `switchTab`**，请使用 `pages.json` 的 **原生 `tabBar`** 配置；本组件面向**自定义 Tab 容器**架构，与原生 tabBar 二选一即可。
 
-- 🎨 **三种模式**：Fixed（简约）、Slider（滑块）、Bump（中间凸起）
-- ✨ **丝滑动画**：使用 `cubic-bezier` 贝塞尔曲线，点击有缩放回弹效果
-- 📱 **安全区适配**：完美适配 iPhone X 等机型的底部安全区域
-- 🎭 **毛玻璃效果**：支持 `glassBg` 实现磨砂玻璃质感
-- 🔢 **徽标支持**：数字徽标、小红点、脉冲动画
-- 🎯 **跟随品牌色**：默认使用系统品牌色，支持自定义
+## 引入方式
 
-## 在页面中使用
+将 `lucky-ui` 置于 `src/uni_modules/` 后，模板中直接使用 `<lk-tabbar-container>`（[easycom / 安装说明](/guide/install)）。类型与常量可自包入口按需导入：
 
-`lk-tabbar` 通常放在 Uni-app 页面组件的模板底部，例如 `src/pages/app-main/index.vue`、`src/pages/home/index.vue` 等。该组件本身并不是 `pages.json` 的配置项，必须写在页面 `.vue` 文件内。
+```ts
+import type { TabConfig, TabbarVisualMode } from '@/uni_modules/lucky-ui';
+import { TABBAR_VISUAL_MODES } from '@/uni_modules/lucky-ui';
+```
 
-下面是一个最小可运行的页面示例：
+npm 包场景将 `@/uni_modules/lucky-ui` 换为 `lucky-ui` 即可。
+
+## 平台说明
+
+- **H5 / App**：在 `TabConfig` 上为每个 Tab 配置 `component`（`markRaw(同步组件)` 或 `() => import('...')` 异步），由容器内动态组件渲染。
+- **小程序**：使用具名插槽 **`#tab-{id}`**（`id` 与 `tabs[].id` 一致）编写各 Tab 内容。
+
+## 基础示例（H5 / App）
 
 ```vue
-<template>
-  <view class="page-shell">
-    <view class="page-content">页面主体内容</view>
-
-    <lk-tabbar v-model="active" mode="fixed">
-      <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-      <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
-      <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" :badge="3" />
-      <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
-    </lk-tabbar>
-  </view>
-</template>
-
 <script setup lang="ts">
-import { ref } from 'vue';
+import { markRaw } from 'vue';
+import type { TabConfig } from '@/uni_modules/lucky-ui';
+import PageHome from './pages/home.vue';
+import PageMine from './pages/mine.vue';
 
-const active = ref('home');
-</script>
-
-<!--
-  说明：如果你使用本工程或本地 lucky-ui 源码，uni-app 会自动通过 easycom 注册
-  `lk-tabbar` / `lk-tabbar-item`，因此无需在 script 中手动 import 组件。
--->
-```
-
-如果你在自己的项目里使用 `lucky-ui` 包，则导入路径可能为 `lucky-ui/components/lk-tabbar/lk-tabbar.vue` 和 `lucky-ui/components/lk-tabbar/lk-tabbar-item.vue`。
-
-## 基础用法 - Fixed 模式
-
-简约风格，仅颜色渐变过渡，默认模式。
-
-```vue
-<template>
-  <lk-tabbar v-model="active" mode="fixed">
-    <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-    <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
-    <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" :badge="3" />
-    <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
-  </lk-tabbar>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-const active = ref('home');
-</script>
-```
-
-## Slider 模式 - 滑块风格
-
-Tabbar 背景有一个半透明滑块，切换时平滑移动到目标位置。
-
-```vue
-<template>
-  <lk-tabbar v-model="active" mode="slider">
-    <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-    <lk-tabbar-item name="discover" icon="compass-fill" label="发现" />
-    <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" dot />
-    <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
-  </lk-tabbar>
-</template>
-```
-
-## Bump 模式 - 中间凸起风格
-
-中间按钮悬浮突出（适合奇数个 Tab），点击有缩放回弹效果。
-
-```vue
-<template>
-  <lk-tabbar v-model="active" mode="bump" :border="false">
-    <lk-tabbar-item name="home" icon="house-fill" label="首页" />
-    <lk-tabbar-item name="discover" icon="compass-fill" label="发现" />
-    <lk-tabbar-item name="add" icon="plus-lg" label="" />
-    <lk-tabbar-item name="message" icon="chat-dots-fill" label="消息" />
-    <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
-  </lk-tabbar>
-</template>
-```
-
-## List 配置模式
-
-通过 `list` 属性传入配置数组，无需使用 slot。
-
-```vue
-<template>
-  <lk-tabbar v-model="active" mode="slider" :list="tabbarList" />
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const active = ref(0);
-const tabbarList = [
-  { icon: 'house-fill', text: '首页' },
-  { icon: 'compass-fill', text: '发现' },
-  { icon: 'chat-dots-fill', text: '消息', badge: 12 },
-  { icon: 'person-fill', text: '我的' },
+const tabs: TabConfig[] = [
+  { id: 'home', label: '首页', icon: 'house', component: markRaw(PageHome), keepAlive: true },
+  { id: 'mine', label: '我的', icon: 'gear', component: markRaw(PageMine), keepAlive: true },
 ];
 </script>
+
+<template>
+  <view class="shell">
+    <lk-tabbar-container :tabs="tabs" default-tab="home" mode="block" />
+  </view>
+</template>
 ```
 
-## 毛玻璃效果
-
-开启 `glassBg` 呈现磨砂玻璃质感。
+## 小程序插槽示例
 
 ```vue
-<lk-tabbar v-model="active" glass-bg :border="false">
-  <!-- items -->
-</lk-tabbar>
+<lk-tabbar-container :tabs="tabs" default-tab="home">
+  <!-- #ifdef MP -->
+  <template #tab-home>
+    <home-panel />
+  </template>
+  <template #tab-mine>
+    <mine-panel />
+  </template>
+  <!-- #endif -->
+</lk-tabbar-container>
 ```
 
-## 选中态图标切换
+## 底部栏外观
 
-支持未选中/选中使用不同图标。
+- **`mode`**：`plain` | `block` | `flashlight` | `float` | `marker-top` | `marker-bottom` | `dot-slide` | `bubble` | `ripple` | `mask-fill` | `text-raise`。未传时默认为 `block`。
+- **`border`**：是否显示底栏顶部分隔线（默认 `true`）。
+- **`glass-bg`**：底栏毛玻璃背景（默认 `false`）；暗色需页面根节点带 `.lk-theme-dark` 等主题 class。
+- **`z-index`**：底栏层级（默认 `300`）。
 
-```vue
-<lk-tabbar-item 
-  name="home" 
-  icon="house" 
-  selected-icon="house-fill" 
-  label="首页" 
-/>
-```
+可与业务全局状态联动，例如 `:mode="themeStore.tabbarMode"`。
 
-## LkTabbar Props
+## Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| v-model | 当前激活项的索引或 name | `string \| number` | `0` |
-| mode | 模式：`fixed` / `slider` / `bump` | `string` | `'fixed'` |
-| list | 导航项配置数组（简化用法） | `TabbarItemConfig[]` | `[]` |
-| fixed | 是否固定在底部 | `boolean` | `true` |
-| safeArea | 是否适配底部安全区域 | `boolean` | `true` |
-| border | 是否显示顶部边框线 | `boolean` | `true` |
-| activeColor | 激活项颜色（默认品牌色） | `string` | - |
-| inactiveColor | 未激活项颜色 | `string` | `#909399` |
-| bgColor | 背景颜色 | `string` | - |
-| glassBg | 是否启用毛玻璃效果 | `boolean` | `false` |
-| switchPage | 点击是否跳转页面 | `boolean` | `false` |
-| zIndex | 层级 | `number` | `300` |
-
-## LkTabbarItem Props
-
-| 属性 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| name | 唯一标识（必填） | `string \| number` | - |
-| icon | 图标名称 | `string` | - |
-| selectedIcon | 选中态图标名称 | `string` | - |
-| label | 文字标签 | `string` | - |
-| customIcon | 是否使用自定义图标（图片路径） | `boolean` | `false` |
-| badge | 徽标数字 | `string \| number` | - |
-| dot | 是否显示小红点 | `boolean` | `false` |
-
-## TabbarItemConfig 类型
-
-```typescript
-interface TabbarItemConfig {
-  pagePath?: string;       // 页面路径
-  icon: string;            // 图标名称
-  selectedIcon?: string;   // 选中态图标
-  text: string;            // 文字标签
-  customIcon?: boolean;    // 是否自定义图标
-  badge?: string | number; // 徽标
-  dot?: boolean;           // 小红点
-}
-```
+| tabs | Tab 配置 | `TabConfig[]` | （必填） |
+| default-tab | 默认激活的 Tab `id` | `string` | `''`（取第一项） |
+| mode | 底栏视觉模式 | `TabbarVisualMode` | `block` |
+| border | 底栏顶部分隔线 | `boolean` | `true` |
+| glass-bg | 底栏毛玻璃 | `boolean` | `false` |
+| z-index | 底栏 `z-index` | `number` | `300` |
+| debug | 调试日志 | `boolean` | `false` |
+| custom-class | 根节点 class | `string` | `''` |
+| custom-style | 根节点样式 | `string \| Record<string, string>` | `''` |
+| preload-delay | 预加载其余 Tab 前的延迟（ms） | `number` | `2000` |
+| preload-all | 是否预加载其它 Tab | `boolean` | `true` |
 
 ## Events
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| change | 切换选中项时触发 | `(value, item?)` |
+| before-change | 切换前 | `(tabId, oldTabId)` |
+| change | 切换完成 | `(tabId)` |
 
-## 动画说明
+## TabConfig
 
-所有动画使用 Material Design 标准曲线：
+```ts
+interface TabConfig {
+  id: string;
+  label: string;
+  icon: string;
+  selectedIcon?: string;
+  activeIconFill?: boolean;
+  component?: Component | (() => Promise<{ default: Component }>);
+  keepAlive?: boolean;
+  badge?: number;
+  dot?: boolean;
+}
+```
 
-- **颜色过渡**：`cubic-bezier(0.4, 0, 0.2, 1)` - 0.3s
-- **滑块移动**：`cubic-bezier(0.4, 0, 0.2, 1)` - 0.35s
-- **点击缩放**：`cubic-bezier(0.34, 1.56, 0.64, 1)` - 0.2s（回弹效果）
-- **小红点脉冲**：2s 无限循环
+## 主题
+
+颜色使用 Lucky UI 的 **`--lk-*`** 变量（如 `--lk-bg-page`、`--lk-color-primary`）。接入方引入主题 SCSS 后即可随亮暗切换。
+
+## 从旧版 `lk-tabbar` 迁移
+
+此前独立的 **`lk-tabbar` / `lk-tabbar-item` 已移除**。请改为：
+
+1. 使用 **`lk-tabbar-container`** + **`tabs` 配置**（及 H5/App 的 `component` 或小程序插槽）。
+2. 原 `fixed` / `slider` / `bump` 等模式与本容器 `mode` 体系不同，请按上表重新选择视觉模式。
+3. 需要 **原生页面跳转** 时，请使用 `pages.json` tabBar 或自行在 Tab 内容里 `uni.switchTab`，不再由底栏组件内置。
 
 ## 参考
 
-- 组件演示：`src/components/demos/tabbar-demo.vue`
-
+- 核心逻辑：`uni_modules/lucky-ui/core/src/tabbar-container`
+- 本仓库示例：`src/pages/app-main/index.vue`、`src/components/demos/tabbar-demo.vue`
