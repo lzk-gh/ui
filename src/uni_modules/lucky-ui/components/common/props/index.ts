@@ -1,5 +1,7 @@
 import type { PropType, ExtractPropTypes } from 'vue';
 
+import '../../../theme/src/runtime.scss';
+
 export const baseProps = {
   /**
    * 组件唯一id (表单联动、动画锚点、测试定位..)

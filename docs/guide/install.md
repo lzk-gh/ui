@@ -12,13 +12,15 @@ Lucky UI 完全遵循 `uni-app` 的 `easycom` 规范，因此只要把 `lucky-ui
 src/uni_modules/lucky-ui/
 ```
 
-### 2. 引入主题样式
+### 2. 直接在页面使用组件（pure easycom）
 
-在全局样式文件（例如 `src/uni.scss`）中引入 Lucky UI 主题：
+在 pure easycom 模式下，不需要 `app.use(LuckyUI)`。
 
-```scss
-@use '@/uni_modules/lucky-ui/theme/src/index.scss' as *;
-```
+当页面使用 `<lk-...>` 组件时：
+
+- 组件样式来自组件自身的 `<style>`（如 `@use './index.scss'`）；
+- 运行时主题层（变量 / 动画 / ripple）会自动注入；
+- 无需在 `App.vue` 或 `uni.scss` 手动全局 `@use` 主题文件。
 
 ### 3. 在页面模板中直接使用组件
 
@@ -76,7 +78,7 @@ import { useRipple, addUnit, useTheme } from '@/uni_modules/lucky-ui';
 - 如果你在 npm 包里使用 Lucky UI，则路径可能会变为 `lucky-ui/components/...`；
 - `easycom` 自动解析会在 uni-app 打包时识别 `<lk-...>` 标签，不需要你手动注册组件；
 - `easycom` 识别的是组件目录结构，不会因为多了一个 `package.json` 就自动工作；
-- 如果你希望显式注册组件，可使用 `app.use(LuckyUI)`，但这不是必需的。
+- pure easycom 默认无需 `app.use(LuckyUI)`。
 
 ## 兼容方式：可选全局注册
 
@@ -94,7 +96,7 @@ export function createApp() {
 }
 ```
 
-该方式与 easycom 兼容，但并非必要。
+该方式与 easycom 兼容，但对 pure easycom 并非必需。
 
 ## 运行验证
 

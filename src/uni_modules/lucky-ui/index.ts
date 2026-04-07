@@ -1,5 +1,7 @@
 import type { App, Component } from 'vue';
 
+import './theme/src/runtime.scss';
+
 import * as LuckyComponents from './components';
 
 function isComponentExport(value: unknown): value is Component & { name: string } {
