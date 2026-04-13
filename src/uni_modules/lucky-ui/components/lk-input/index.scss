@@ -95,7 +95,7 @@
 
   @include e(clear) {
     margin-left: var(--lk-spacing-xs);
-    font-size: 32rpx;
+    font-size: var(--lk-font-size-lg);
     padding: var(--lk-spacing-xxs);
     // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
@@ -110,7 +110,7 @@
 
   @include e(count) {
     margin-left: var(--lk-spacing-xs);
-    font-size: 22rpx;
+    font-size: var(--lk-font-size-xs);
     // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
   }

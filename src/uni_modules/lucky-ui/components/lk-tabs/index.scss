@@ -115,8 +115,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 24rpx 32rpx;
-    font-size: var(--lk-tabs-font-size);
+    padding: var(--lk-spacing-sm) var(--lk-spacing-md);
+    font-size: var(--lk-font-size-base);
     color: var(--lk-tabs-text-color);
     cursor: pointer;
     transition:

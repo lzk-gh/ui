@@ -42,7 +42,7 @@
     gap: var(--lk-spacing-sm);
     min-width: 200rpx;
     max-width: 80vw;
-    padding: 24rpx 40rpx;
+    padding: var(--lk-spacing-sm) var(--lk-spacing-md);
     border-radius: var(--lk-border-radius-base); // Medium radius
     background: var(--lk-bg-container);
     box-shadow: var(--lk-shadow-lg);

@@ -22,7 +22,7 @@
 
   @include e(header) {
     padding: var(--lk-spacing-lg) var(--lk-spacing-lg) var(--lk-spacing-md);
-    font-size: 32rpx;
+    font-size: var(--lk-font-size-lg);
     font-weight: 600;
     position: relative;
     /* 去掉分割线 */
@@ -57,7 +57,7 @@
 
   @include e(body) {
     padding: var(--lk-spacing-lg) var(--lk-spacing-lg);
-    font-size: 28rpx;
+    font-size: var(--lk-font-size-base);
     line-height: 1.6;
     flex: 1;
   }

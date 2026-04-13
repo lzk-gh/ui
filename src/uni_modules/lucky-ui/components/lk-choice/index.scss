@@ -19,16 +19,16 @@
     border: 2rpx solid transparent;
 
     @include m(sm) {
-      padding: 8rpx 20rpx;
-      font-size: 24rpx;
+      padding: var(--lk-spacing-xxs) var(--lk-spacing-sm);
+      font-size: var(--lk-font-size-sm);
     }
     @include m(md) {
-      padding: 16rpx 32rpx;
-      font-size: 28rpx;
+      padding: var(--lk-spacing-xs) var(--lk-spacing-md);
+      font-size: var(--lk-font-size-base);
     }
     @include m(lg) {
-      padding: 20rpx 40rpx;
-      font-size: 32rpx;
+      padding: var(--lk-spacing-sm) var(--lk-spacing-lg);
+      font-size: var(--lk-font-size-lg);
     }
 
     @include when(selected) {

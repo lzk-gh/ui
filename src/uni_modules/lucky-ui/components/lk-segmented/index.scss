@@ -36,23 +36,23 @@
   }
 
   @include m(sm) {
-    font-size: 22rpx;
+    font-size: var(--lk-font-size-sm);
     .lk-segmented__item {
       min-height: 60rpx;
-      padding: var(--lk-spacing-xs) var(--lk-spacing-md);
+      padding: var(--lk-spacing-xxs) var(--lk-spacing-sm);
     }
   }
   @include m(md) {
-    font-size: 24rpx;
+    font-size: var(--lk-font-size-base);
     .lk-segmented__item {
       min-height: 72rpx;
     }
   }
   @include m(lg) {
-    font-size: 28rpx;
+    font-size: var(--lk-font-size-lg);
     .lk-segmented__item {
       min-height: 88rpx;
-      padding: var(--lk-spacing-md) var(--lk-spacing-xl);
+      padding: var(--lk-spacing-xs) var(--lk-spacing-lg);
     }
   }
 

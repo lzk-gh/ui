@@ -11,7 +11,7 @@
   }
 
   @include e(header) {
-    padding: 24rpx 32rpx;
+    padding: var(--lk-spacing-sm) var(--lk-spacing-md);
     border-bottom: 2rpx solid var(--lk-color-border-light);
   }
 
@@ -32,7 +32,7 @@
   }
 
   @include e(btn) {
-    padding: 16rpx 24rpx;
+    padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
     font-size: var(--lk-font-size-base);
     background: transparent;
     border: none;
@@ -62,7 +62,7 @@
     justify-content: center;
     font-size: var(--lk-font-size-base);
     color: var(--lk-color-text);
-    padding: 0 16rpx;
+    padding: 0 var(--lk-spacing-xs);
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;

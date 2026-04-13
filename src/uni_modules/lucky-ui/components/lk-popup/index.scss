@@ -117,13 +117,13 @@
 
   @include e(header) {
     position: relative;
-    padding: 32rpx 48rpx;
+    padding: var(--lk-spacing-md) var(--lk-spacing-lg);
     flex-shrink: 0;
     border-bottom: 1rpx solid var(--lk-color-border-light);
   }
 
   @include e(title) {
-    font-size: 32rpx;
+    font-size: var(--lk-font-size-lg);
     font-weight: 600;
     color: var(--lk-color-text);
     text-align: center;
