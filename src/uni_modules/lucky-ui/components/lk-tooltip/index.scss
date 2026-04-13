@@ -14,7 +14,7 @@
 
   @include e(pop) {
     position: absolute;
-    z-index: 2000;
+    z-index: var(--lk-z-index-tooltip);
     padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     border: 1px solid var(--lk-color-border-light);

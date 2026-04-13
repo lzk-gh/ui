@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: var(--lk-z-index-toast);
     box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
     animation: lk-index-bar-indicator-in 0.15s ease-out;
   }
@@ -40,7 +40,7 @@
     padding: 8rpx 4rpx;
     background: rgba(0, 0, 0, 0.04);
     border-radius: 32rpx;
-    z-index: 100;
+    z-index: var(--lk-z-index-sticky);
     transition: all 0.2s ease;
 
     &.is-non-sticky {

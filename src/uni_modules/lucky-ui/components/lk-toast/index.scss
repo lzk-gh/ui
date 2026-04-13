@@ -4,7 +4,7 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 4000;
+  z-index: var(--lk-z-index-toast);
   pointer-events: none;
 
   @include m(center) {
@@ -44,34 +44,32 @@
     max-width: 80vw;
     padding: 24rpx 40rpx;
     border-radius: var(--lk-border-radius-base); // Medium radius
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    box-shadow:
-      0 8rpx 24rpx rgba(0, 0, 0, 0.12),
-      0 2rpx 8rpx rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
-  }
+    background: var(--lk-bg-container);
+    box-shadow: var(--lk-shadow-lg);
+    border: 1px solid var(--lk-color-border-light);
+    }
 
-  @include e(text) {
+    @include e(text) {
     font-size: var(--lk-font-size-md);
-    color: var(--lk-color-text, #333);
+    color: var(--lk-text-primary);
     font-weight: 500;
     line-height: 1.5;
     text-align: center;
-  }
-}
+    }
+    }
 
-@include b(toast-manager) {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 4500;
-}
+    @include b(toast-manager) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: var(--lk-z-index-toast);
+    }
 
-@include b(toast-mgr) {
-  @include e(item) {
+    @include b(toast-mgr) {
+    @include e(item) {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -87,9 +85,9 @@
     &.pos-bottom {
       bottom: 8%;
     }
-  }
+    }
 
-  @include e(inner) {
+    @include e(inner) {
     pointer-events: auto;
     display: inline-flex;
     align-items: center;
@@ -99,13 +97,12 @@
     max-width: 80vw;
     padding: 20rpx 32rpx;
     border-radius: 999px;
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    box-shadow:
-      0 8rpx 24rpx rgba(0, 0, 0, 0.12),
-      0 2rpx 8rpx rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
-  }
-}
+    background: var(--lk-bg-container);
+    box-shadow: var(--lk-shadow-lg);
+    border: 1px solid var(--lk-color-border-light);
+    }
+    }
+
 
 @keyframes lk-slide-up-fade {
   0% {

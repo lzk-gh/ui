@@ -63,7 +63,7 @@
     left: 0;
     background: linear-gradient(
       to right,
-      var(--lk-color-bg-container, #ffffff) 0%,
+      var(--lk-bg-container) 0%,
       transparent 100%
     );
 
@@ -76,7 +76,7 @@
     right: 0;
     background: linear-gradient(
       to left,
-      var(--lk-color-bg-container, #ffffff) 0%,
+      var(--lk-bg-container) 0%,
       transparent 100%
     );
 
@@ -227,7 +227,7 @@
       transition: all 0.25s ease;
 
       @include when(active) {
-        background-color: var(--lk-color-bg-container, #ffffff);
+        background-color: var(--lk-bg-container);
         color: var(--lk-tabs-active-text-color);
         box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
       }

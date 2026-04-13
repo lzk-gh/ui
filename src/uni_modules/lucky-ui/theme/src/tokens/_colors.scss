@@ -63,6 +63,33 @@ $color-brand-900: generate-color-shade($color-brand-base, 900);
 $color-brand-1000: generate-color-shade($color-brand-base, 1000); // 暗夜色
 
 // =============================================================================
+// 语义色基础值
+// =============================================================================
+$color-success-base: #52c41a !default;
+$color-warning-base: #faad14 !default;
+$color-danger-base: #ff4d4f !default;
+$color-info-base: #1890ff !default;
+
+// =============================================================================
+// 语义色色阶 (自动生成)
+// =============================================================================
+$color-success-100: generate-color-shade($color-success-base, 100);
+$color-success-600: $color-success-base;
+$color-success-700: generate-color-shade($color-success-base, 700);
+
+$color-warning-100: generate-color-shade($color-warning-base, 100);
+$color-warning-600: $color-warning-base;
+$color-warning-700: generate-color-shade($color-warning-base, 700);
+
+$color-danger-100: generate-color-shade($color-danger-base, 100);
+$color-danger-600: $color-danger-base;
+$color-danger-700: generate-color-shade($color-danger-base, 700);
+
+$color-info-100: generate-color-shade($color-info-base, 100);
+$color-info-600: $color-info-base;
+$color-info-700: generate-color-shade($color-info-base, 700);
+
+// =============================================================================
 // 中性色 (灰色色阶)
 // =============================================================================
 $color-gray-100: #f5f6f7;
@@ -156,3 +183,14 @@ $color-bg-mask: color.change($color-black, $alpha: 0.7); // 遮罩层背景
 // 边框 / 分割线颜色
 $color-border-primary: $color-gray-400; // 主要边框/分割线
 $color-border-secondary: $color-gray-300; // 次要、更弱的边框
+
+// =============================================================================
+// 骨架屏 & 加载 (Skeleton & Loading)
+// =============================================================================
+$color-skeleton-start-light: $color-gray-100;
+$color-skeleton-end-light: $color-gray-200;
+$color-skeleton-start-dark: #2c2c2c;
+$color-skeleton-end-dark: #3d3d3d;
+
+$color-loading-spinner-light: $color-gray-500;
+$color-loading-spinner-dark: #5d5d5d;

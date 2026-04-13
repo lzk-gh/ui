@@ -49,13 +49,11 @@
     height: var(--lk-slider-track-height);
     width: var(--lk-slider-track-height); // 正方形点，或者是 height 的 100%
     border-radius: 50%;
-    background-color: var(--lk-color-text-inverse, #fff);
+    background-color: var(--lk-text-inverse);
     opacity: 0.6;
     transform: translateX(-50%); // 居中
     pointer-events: none; // 不影响点击
-    z-index: 0; // 在 bar 之下，track 之上? 通常需要在 bar 之上显示出来才明显，或者反色
-    // 如果想要类似 ElementUI 那种效果 (未激活是圆点，激活被覆盖)
-    // 简单做法：设为背景色的对比色
+    z-index: 0;
   }
   // -----------------------
 
@@ -84,7 +82,7 @@
     width: var(--lk-slider-thumb-size);
     height: var(--lk-slider-thumb-size);
     border-radius: 50%;
-    background: #fff;
+    background: var(--lk-bg-container);
     box-shadow: var(--lk-slider-thumb-shadow);
     transition: transform 0.2s;
     display: flex;
@@ -98,10 +96,10 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--lk-color-primary);
-    color: #fff;
+    color: var(--lk-text-inverse);
     font-size: 22rpx;
     padding: 4rpx 12rpx;
-    border-radius: var(--lk-radius-sm, 8rpx);
+    border-radius: var(--lk-radius-sm);
     white-space: nowrap;
     pointer-events: none;
     // 小三角

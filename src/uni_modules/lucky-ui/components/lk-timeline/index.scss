@@ -42,7 +42,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 // ── 条目 ──────────────────────────────────────────────────────────────────────
 
 .lk-timeline-item {
-  --lk-ti-accent: var(--lk-color-primary, #007aff);
+  --lk-ti-accent: var(--lk-color-primary);
 
   display: flex;
   position: relative;
@@ -135,7 +135,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__time {
   font-size: 26rpx;
   font-weight: 500;
-  color: var(--lk-color-text, #1c1c1e);
+  color: var(--lk-text-primary);
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
 }
@@ -167,8 +167,8 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   justify-content: center;
   overflow: hidden;       // 防止内部文字溢出撑大
   position: relative;
-  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity 200ms ease;
+  transition: transform var(--lk-transition-fast) cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity var(--lk-transition-fast) ease;
   z-index: 2;
 
   // ── filled（默认：实心）──
@@ -178,7 +178,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 
   // ── outlined（空心描边）──
   &--outlined {
-    background-color: var(--lk-color-bg, #fff);
+    background-color: var(--lk-color-bg-container);
     border: 4rpx solid var(--lk-ti-accent);
   }
 
@@ -225,7 +225,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__dot-symbol {
   font-size: 16rpx;
   font-weight: 700;
-  color: #fff;
+  color: var(--lk-text-inverse);
   line-height: 1;
   text-align: center;
   pointer-events: none;
@@ -242,15 +242,15 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   bottom: 0;
   left: 23rpx; // ($track-width 48 / 2) - ($line-width 2 / 2)
   width: $line-width;
-  background-color: var(--lk-color-border, #e5e5ea);
-  border-radius: 999rpx;
+  background-color: var(--lk-color-border-light);
+  border-radius: var(--lk-radius-full);
   z-index: 1;
   display: block;
-  transition: background-color 200ms ease;
+  transition: background-color var(--lk-transition-fast) ease;
 
   // FIX2: 完成连接线不再变绿
   .is-completed & {
-    background-color: var(--lk-color-border, #e5e5ea);
+    background-color: var(--lk-color-border-light);
   }
 }
 
@@ -276,7 +276,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__title {
   font-size: 32rpx;
   font-weight: 600;
-  color: var(--lk-color-text, #1c1c1e);
+  color: var(--lk-text-primary);
   line-height: 1.3;
   letter-spacing: -0.01em;
 
@@ -285,7 +285,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   }
 
   .is-pending & {
-    color: var(--lk-color-text-tertiary, #aeaeb2);
+    color: var(--lk-text-placeholder);
   }
 }
 
@@ -298,7 +298,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 
 .lk-timeline-item__subtitle {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary, #8e8e93);
+  color: var(--lk-text-secondary);
   line-height: 1.4;
 }
 
@@ -310,20 +310,20 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 
 .lk-timeline-item__desc {
   font-size: 28rpx;
-  color: var(--lk-color-text-secondary, #636366);
+  color: var(--lk-text-secondary);
   line-height: 1.6;
 
   .is-pending & {
-    color: var(--lk-color-text-tertiary, #aeaeb2);
+    color: var(--lk-text-placeholder);
   }
 }
 
 // ── extra 插槽区（图片预览 / 自定义卡片）────────────────────────────────────
 
 .lk-timeline-item__body > .lk-timeline-item-preview {
-  margin-top: 8rpx;
+  margin-top: var(--lk-spacing-xs);
   display: flex;
-  gap: 12rpx;
+  gap: var(--lk-spacing-sm);
   flex-wrap: wrap;
 }
 
@@ -331,9 +331,9 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-preview-img {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 16rpx;
+  border-radius: var(--lk-radius-md);
   overflow: hidden;
-  background: var(--lk-color-bg-weak, #f2f2f7);
+  background: var(--lk-fill-1);
   flex-shrink: 0;
 }
 
@@ -341,18 +341,18 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-preview-card {
   display: flex;
   align-items: flex-start;
-  gap: 16rpx;
-  margin-top: 8rpx;
-  padding: 16rpx;
-  background: var(--lk-color-bg-surface, #f2f2f7);
-  border-radius: 20rpx;
+  gap: var(--lk-spacing-md);
+  margin-top: var(--lk-spacing-xs);
+  padding: var(--lk-spacing-md);
+  background: var(--lk-fill-1);
+  border-radius: var(--lk-radius-lg);
 
   &__image {
     width: 100rpx;
     height: 100rpx;
-    border-radius: 14rpx;
+    border-radius: var(--lk-radius-sm);
     flex-shrink: 0;
-    background: var(--lk-color-bg-weak, #e5e5ea);
+    background: var(--lk-fill-2);
   }
 
   &__info {
@@ -365,13 +365,13 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   &__name {
     font-size: 26rpx;
     font-weight: 600;
-    color: var(--lk-color-text, #1c1c1e);
+    color: var(--lk-text-primary);
     line-height: 1.3;
   }
 
   &__meta {
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary, #8e8e93);
+    color: var(--lk-text-secondary);
     line-height: 1.4;
   }
 }

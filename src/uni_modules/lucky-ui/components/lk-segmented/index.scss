@@ -64,9 +64,7 @@
     left: var(--lk-seg-inset); // 修掉右偏（基础是 inset）
     background: var(--lk-seg-slider-bg);
     border-radius: var(--lk-seg-radius);
-    box-shadow:
-      0 2rpx 8rpx rgba(0, 0, 0, 0.06),
-      0 1rpx 2rpx rgba(0, 0, 0, 0.04);
+    box-shadow: var(--lk-shadow-sm);
     z-index: 1;
     pointer-events: none;
     will-change: width, transform;

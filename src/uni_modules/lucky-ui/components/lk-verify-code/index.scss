@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins' as *;
 
 // =============================================
 // 验证码输入框 - Apple 风格
@@ -32,7 +32,7 @@
     align-items: center;
     justify-content: center;
     background: var(--lk-color-bg-container);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--lk-transition-base) cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
   }
@@ -43,14 +43,14 @@
     align-items: center;
     justify-content: center;
     font-weight: 500;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     animation: verifyCodePopIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   // 密码圆点
   @include e(dot) {
     font-size: 48rpx;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     line-height: 1;
   }
 
@@ -59,51 +59,47 @@
     width: 4rpx;
     height: 40%;
     background: var(--lk-color-primary);
-    border-radius: 2rpx;
+    border-radius: var(--lk-radius-full);
     animation: verifyCodeBlink 1s ease-in-out infinite;
   }
 
   // 提示信息容器
   @include e(message) {
-    margin-top: 16rpx;
+    margin-top: var(--lk-spacing-md);
     text-align: center;
-    font-size: 24rpx;
+    font-size: var(--lk-font-size-sm);
     line-height: 1.4;
   }
 
   // 错误文字
   @include e(error) {
-    color: #ff3b30;
+    color: var(--lk-color-danger);
   }
 
   // 提示文字
   @include e(tips) {
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 
   // 倒计时容器
   @include e(countdown) {
-    margin-top: 32rpx;
+    margin-top: var(--lk-spacing-xl);
     text-align: center;
   }
 
   // 倒计时按钮
   @include e(countdown-btn) {
     display: inline-flex;
-    padding: 16rpx 32rpx;
-    font-size: 28rpx;
+    padding: var(--lk-spacing-md) var(--lk-spacing-xl);
+    font-size: var(--lk-font-size-base);
     color: var(--lk-color-primary);
     background: transparent;
     border-radius: var(--lk-radius-lg);
-    transition: all 0.2s ease;
-
-    &:active {
-      opacity: 0.7;
-      transform: scale(0.98);
-    }
+    
+    @include active-opacity;
 
     &.is-disabled {
-      color: var(--lk-color-text-placeholder);
+      color: var(--lk-text-placeholder);
       pointer-events: none;
     }
   }
@@ -118,7 +114,7 @@
 
       &.is-active {
         border-color: var(--lk-color-primary);
-        box-shadow: 0 0 0 4rpx rgba(var(--lk-color-primary-rgb, 0, 122, 255), 0.12);
+        box-shadow: 0 0 0 4rpx var(--lk-color-primary-soft);
       }
 
       &.is-filled {
@@ -184,11 +180,11 @@
   // 错误状态
   &.is-error {
     .lk-verify-code__cell {
-      border-color: #ff3b30 !important;
+      border-color: var(--lk-color-danger) !important;
       animation: verifyCodeShake 0.4s ease;
 
       &.is-active {
-        box-shadow: 0 0 0 4rpx rgba(255, 59, 48, 0.12);
+        box-shadow: 0 0 0 4rpx var(--lk-color-danger-soft);
       }
     }
   }
@@ -196,12 +192,12 @@
   // 成功状态
   &.is-success {
     .lk-verify-code__cell {
-      border-color: #34c759 !important;
-      background: rgba(52, 199, 89, 0.08);
+      border-color: var(--lk-color-success) !important;
+      background: var(--lk-color-success-soft);
 
       &.is-filled {
         .lk-verify-code__value {
-          color: #34c759;
+          color: var(--lk-color-success);
         }
       }
     }
@@ -209,13 +205,13 @@
 
   // 禁用状态
   &.is-disabled {
-    opacity: 0.5;
-    pointer-events: none;
+    @include disabled;
 
     .lk-verify-code__cell {
-      background: var(--lk-color-fill-quaternary);
+      background: var(--lk-fill-quaternary);
     }
   }
+
 }
 
 // =============================================

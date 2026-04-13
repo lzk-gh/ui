@@ -8,7 +8,7 @@
   overflow: hidden;
   position: relative;
   // 侧边栏整体背景：浅灰，与右侧内容形成层次对比
-  background-color: var(--lk-anchor-bg-sidebar, #f4f5f7);
+  background-color: var(--lk-fill-1);
 
   @include e(scroll) {
     height: 100%;
@@ -23,21 +23,21 @@
   justify-content: center;
   position: relative;
   min-height: 96rpx;
-  padding: 24rpx 12rpx;
-  background-color: var(--lk-anchor-bg-sidebar, #f4f5f7);
+  padding: var(--lk-spacing-md) var(--lk-spacing-sm);
+  background-color: var(--lk-fill-1);
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.18s ease;
+  transition: background-color var(--lk-transition-base) ease;
 
   // 点击按压反馈（非激活状态）
   &:active {
-    background-color: var(--lk-anchor-bg-sidebar-pressed, #ebebed);
+    background-color: var(--lk-bg-active);
   }
 
   // ── 菜单文字 ──
   @include e(title) {
-    font-size: 26rpx;
-    color: var(--lk-anchor-text-color, #888);
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-text-secondary);
     line-height: 1.5;
     text-align: center;
     word-break: break-all;
@@ -56,7 +56,7 @@
     width: 6rpx;
     height: 0;
     border-radius: 0 4rpx 4rpx 0;
-    background-color: var(--lk-anchor-active-color, var(--lk-color-primary, #2979ff));
+    background-color: var(--lk-color-primary);
     transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 3;
   }
@@ -64,11 +64,11 @@
   // ─── 激活状态 ───────────────────────────────────────────────
   @include m(active) {
     // 关键：激活项背景与右侧内容容器背景色一致，形成融合视觉
-    background-color: var(--lk-anchor-bg-active, var(--lk-color-bg-container, #fff));
+    background-color: var(--lk-bg-container);
 
     // 按压时保持激活背景，不产生额外反馈
     &:active {
-      background-color: var(--lk-anchor-bg-active, var(--lk-color-bg-container, #fff));
+      background-color: var(--lk-bg-container);
     }
 
     // 激活项上方「切角」伪元素：左下圆角覆盖，产生侧边栏色→白色的过渡凹角
@@ -81,7 +81,7 @@
       height: 16rpx;
       border-radius: 0 0 16rpx 0;
       background-color: transparent;
-      box-shadow: 4rpx 4rpx 0 4rpx var(--lk-anchor-bg-active, var(--lk-color-bg-container, #fff));
+      box-shadow: 4rpx 4rpx 0 4rpx var(--lk-bg-container);
       z-index: 1;
     }
 
@@ -95,13 +95,13 @@
       height: 16rpx;
       border-radius: 0 16rpx 0 0;
       background-color: transparent;
-      box-shadow: 4rpx -4rpx 0 4rpx var(--lk-anchor-bg-active, var(--lk-color-bg-container, #fff));
+      box-shadow: 4rpx -4rpx 0 4rpx var(--lk-bg-container);
       z-index: 1;
     }
 
     @include e(title) {
       font-weight: 700;
-      color: var(--lk-anchor-active-color, var(--lk-color-primary, #2979ff));
+      color: var(--lk-color-primary);
     }
 
     @include e(indicator) {

@@ -28,14 +28,11 @@
   }
 
   @include when(clickable) {
-    transition: background-color 0.2s ease;
-    &:active {
-      background-color: var(--lk-color-bg-active);
-    }
+    @include active-overlay;
   }
 
   @include when(disabled) {
-    opacity: 0.5;
+    @include disabled;
   }
 
   @include e(left) {

@@ -47,7 +47,7 @@
     height: var(--switch-knob-size);
     background: var(--switch-knob-color);
     border-radius: 50%;
-    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.15);
+    box-shadow: var(--lk-shadow-sm);
     transition:
       transform var(--switch-duration) ease,
       width var(--switch-duration) ease;
@@ -57,7 +57,7 @@
   @include e(spinner) {
     width: 50%;
     height: 50%;
-    border: 3rpx solid rgba(0, 0, 0, 0.1);
+    border: 3rpx solid var(--lk-color-border-light);
     border-top-color: var(--switch-active-color);
     border-radius: 50%;
     animation: lk-switch-spin 0.8s linear infinite;

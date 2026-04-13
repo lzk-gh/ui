@@ -20,10 +20,8 @@
     align-items: center;
     justify-content: center;
     background: var(--fab-color, var(--lk-color-primary));
-    color: #fff;
-    box-shadow:
-      0 4rpx 16rpx rgba(0, 0, 0, 0.15),
-      0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+    color: var(--lk-text-inverse);
+    box-shadow: var(--lk-shadow-base);
     transition:
       transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
       box-shadow 0.3s ease;
@@ -34,20 +32,16 @@
     }
 
     @include when(expanded) {
-      box-shadow:
-        0 6rpx 24rpx rgba(0, 0, 0, 0.2),
-        0 12rpx 48rpx rgba(0, 0, 0, 0.15);
+      box-shadow: var(--lk-shadow-lg);
     }
 
     @include when(dragging) {
       transform: scale(1.05);
-      box-shadow:
-        0 8rpx 32rpx rgba(0, 0, 0, 0.25),
-        0 16rpx 64rpx rgba(0, 0, 0, 0.2);
+      box-shadow: var(--lk-shadow-lg);
     }
 
     @include when(blur) {
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--lk-color-bg-mask);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
 
@@ -79,11 +73,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--lk-color-bg-elevated);
-    color: var(--lk-color-text);
-    box-shadow:
-      0 2rpx 12rpx rgba(0, 0, 0, 0.12),
-      0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+    background: var(--lk-bg-container);
+    color: var(--lk-text-primary);
+    box-shadow: var(--lk-shadow-base);
     transition:
       transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
       opacity 0.3s ease;
@@ -100,14 +92,10 @@
     }
 
     @include when(blur) {
-      background: rgba(255, 255, 255, 0.7);
+      background: var(--lk-bg-container);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-
-      // 暗色模式适配
-      @media (prefers-color-scheme: dark) {
-        background: rgba(40, 40, 40, 0.7);
-      }
+      opacity: 0.85;
     }
   }
 
@@ -116,10 +104,10 @@
     right: calc(100% + 16rpx);
     white-space: nowrap;
     font-size: var(--lk-font-size-sm);
-    color: var(--lk-color-text);
-    background: var(--lk-color-bg-elevated);
+    color: var(--lk-text-primary);
+    background: var(--lk-bg-container);
     padding: 8rpx 16rpx;
     border-radius: var(--lk-radius-md);
-    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+    box-shadow: var(--lk-shadow-sm);
   }
 }

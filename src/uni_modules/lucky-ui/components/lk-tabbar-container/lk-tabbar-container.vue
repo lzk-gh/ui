@@ -339,6 +339,7 @@ $tabbar-height: 120rpx;
     z-index: 300;
     background: var(--lk-color-bg-container);
     border-top: 1px solid var(--lk-color-border);
+    padding-bottom: constant(safe-area-inset-bottom);
     padding-bottom: env(safe-area-inset-bottom);
     overflow: visible;
 
@@ -359,6 +360,7 @@ $tabbar-height: 120rpx;
   }
 
   &__placeholder {
+    height: calc(#{$tabbar-height} + constant(safe-area-inset-bottom));
     height: calc(#{$tabbar-height} + env(safe-area-inset-bottom));
     flex-shrink: 0;
   }

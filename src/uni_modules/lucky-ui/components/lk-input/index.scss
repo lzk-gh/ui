@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(input) {
   --_height: var(--lk-control-height-md);
@@ -100,12 +100,11 @@
     // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
     border-radius: var(--lk-radius-sm);
-    transition:
-      background var(--lk-transition-fast),
-      color var(--lk-transition-fast);
+    
+    @include active-opacity;
 
     &:active {
-      background: var(--lk-color-bg-active);
+      background: var(--lk-bg-active);
     }
   }
 
@@ -132,10 +131,7 @@
   // 假输入框状态
   @include when(fake) {
     cursor: pointer;
-
-    &:active {
-      background: var(--lk-bg-active);
-    }
+    @include active-overlay;
   }
 
   &:hover:not(.is-disabled):not(.is-readonly):not(.is-fake) {
@@ -152,8 +148,7 @@
   }
 
   @include when(disabled) {
-    opacity: 0.6;
-    cursor: not-allowed;
+    @include disabled;
   }
 
   @include when(readonly) {
@@ -170,10 +165,12 @@
     flex-shrink: 0;
     padding: var(--lk-spacing-xxs);
     border-radius: var(--lk-radius-sm);
-    transition: color var(--lk-transition-fast);
+    
+    @include active-opacity;
 
     &:active {
       color: var(--lk-color-primary);
+      background: var(--lk-bg-active);
     }
   }
 

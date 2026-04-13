@@ -28,7 +28,7 @@
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-base);
     padding: var(--lk-spacing-xs) 0;
-    z-index: 2400;
+    z-index: var(--lk-z-index-dropdown);
     pointer-events: auto;
   }
 }

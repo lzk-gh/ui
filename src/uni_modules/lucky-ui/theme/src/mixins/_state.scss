@@ -5,9 +5,53 @@
 // --- 禁用状态 ---
 // 解释：为元素添加一个视觉上的禁用效果
 @mixin disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+// --- 点击态（透明度风格） ---
+// 解释：通过降低透明度来模拟按压反馈，适用于图标按钮、纯文字按钮等
+@mixin active-opacity {
+  transition: opacity var(--lk-transition-fast);
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+// --- 点击态（覆盖层风格） ---
+// 解释：通过伪元素叠加一层半透明色来模拟按压反馈，适用于 Cell、List 等容器类组件
+// 不会改变元素本身的透明度，视觉表现更稳重
+@mixin active-overlay {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--lk-bg-active);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--lk-transition-fast);
+  }
+
+  &:active::after {
+    opacity: 1;
+  }
+}
+
+// --- 点击态（缩放风格） ---
+// 解释：通过微小的缩放提供灵动的触感回馈
+@mixin active-scale {
+  transition: transform var(--lk-transition-fast);
+
+  &:active {
+    transform: scale(0.96);
+  }
 }
 
 // --- 可点击区域扩展 ---

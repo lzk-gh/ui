@@ -64,10 +64,10 @@ function toTop() {
 
 const wrapperStyle = computed(() => {
   const r = addUnit(props.right) || '32rpx';
-  const b = addUnit(props.bottom) || '80rpx';
+  const b = addUnit(props.bottom) || '160rpx';
   return {
     right: r,
-    bottom: b,
+    bottom: `calc(${b} + env(safe-area-inset-bottom))`,
     zIndex: String(props.zIndex),
   } as Record<string, string>;
 });

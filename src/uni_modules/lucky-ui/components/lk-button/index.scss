@@ -31,18 +31,17 @@
   cursor: pointer;
   user-select: none;
   transition:
-    opacity 0.2s,
-    background-color 0.2s,
-    transform 0.1s;
+    opacity var(--lk-transition-base),
+    background-color var(--lk-transition-base),
+    transform var(--lk-transition-fast);
 
   &::after {
     border: none;
   }
 
-  // &:active:not(.is-disabled):not(.is-loading) {
-  //   transform: scale(0.97);
-  //   opacity: 0.9;
-  // }
+  &:not(.is-disabled):not(.is-loading) {
+    @include active-scale;
+  }
 
   @include m(sm) {
     --_h: var(--lk-control-height-sm);
@@ -128,8 +127,8 @@
   }
 
   @include when(disabled) {
+    @include disabled;
     opacity: var(--_opacity-disabled);
-    cursor: not-allowed;
 
     &:active {
       transform: none;

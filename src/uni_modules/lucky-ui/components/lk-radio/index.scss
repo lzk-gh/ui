@@ -10,6 +10,8 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
+  @include active-scale;
+
   @include m(sm) {
     font-size: var(--lk-font-size-sm);
     .lk-radio__icon {
@@ -81,7 +83,7 @@
       content: '';
       width: 50%;
       height: 50%;
-      background-color: #fff;
+      background-color: var(--lk-text-inverse);
       border-radius: 50%;
     }
   }

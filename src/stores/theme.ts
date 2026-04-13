@@ -94,10 +94,34 @@ export const PRESET_COLORS = [
 
 export const useThemeStore = defineStore('theme', () => {
   // ======================== 主题状态 ========================
-  const theme = ref<Theme>(loadTheme() ?? getSystemTheme());
+  const followSystem = ref<boolean>(loadFollowSystem() ?? true);
+  const theme = ref<Theme>('light');
 
   const isDark = computed(() => theme.value === 'dark');
   const themeClass = computed(() => `lk-theme-${theme.value}`);
+
+  /**
+   * 加载跟随系统设置
+   */
+  function loadFollowSystem(): boolean | null {
+    try {
+      const v = uni.getStorageSync('lk-follow-system');
+      return typeof v === 'boolean' ? v : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * 设置是否跟随系统
+   */
+  function setFollowSystem(v: boolean) {
+    followSystem.value = v;
+    uni.setStorageSync('lk-follow-system', v);
+    if (v) {
+      setTheme(getSystemTheme());
+    }
+  }
 
   /**
    * 读取持久化的主题
