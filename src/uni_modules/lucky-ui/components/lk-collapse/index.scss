@@ -1,9 +1,10 @@
 ﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(collapse) {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-xs);
+  @include col-gap(var(--lk-spacing-xs));
 }
 
 @include b(collapse-item) {
@@ -46,7 +47,7 @@
       display: flex;
       align-items: center;
       width: 100%;
-      gap: var(--lk-spacing-sm);
+      @include row-gap(var(--lk-spacing-sm));
     }
   }
 

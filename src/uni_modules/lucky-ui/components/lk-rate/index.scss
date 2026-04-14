@@ -1,9 +1,10 @@
 @use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(rate) {
   display: inline-flex;
   align-items: center;
-  gap: var(--lk-spacing-xs); /* 星之间的间距 */
+  @include row-gap(var(--lk-spacing-xs)); /* 星之间的间距 */
 
   @include when(disabled) {
     opacity: 0.5;

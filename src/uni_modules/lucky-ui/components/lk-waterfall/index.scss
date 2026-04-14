@@ -129,7 +129,7 @@
     padding: var(--lk-spacing-md);
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-xs);
+    @include col-gap(var(--lk-spacing-xs));
     background: var(--lk-bg-container);
   }
 
@@ -202,7 +202,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--lk-spacing-xs);
+    @include row-gap(var(--lk-spacing-xs));
     padding: var(--lk-spacing-md);
   }
 

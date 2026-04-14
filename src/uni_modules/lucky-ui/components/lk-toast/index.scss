@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(toast) {
   position: fixed;
@@ -39,7 +39,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--lk-spacing-sm);
+    @include row-gap(var(--lk-spacing-sm));
     min-width: 200rpx;
     max-width: 80vw;
     padding: var(--lk-spacing-sm) var(--lk-spacing-md);
@@ -92,7 +92,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--lk-spacing-sm);
+    @include row-gap(var(--lk-spacing-sm));
     min-width: 180rpx;
     max-width: 80vw;
     padding: 20rpx 32rpx;

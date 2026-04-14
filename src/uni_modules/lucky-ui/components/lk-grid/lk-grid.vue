@@ -12,10 +12,8 @@ const activeIndex = ref<string | number>(-1);
 
 const gridStyle = computed(() => {
   return {
-    gridTemplateColumns: props.columns
-      ? `repeat(${props.columns}, 1fr)`
-      : 'repeat(auto-fill, minmax(100px, 1fr))',
-    gap: props.gap ? `${props.gap}rpx` : '12rpx',
+    '--lk-grid-columns': props.columns || 4,
+    '--lk-grid-gap': props.gap ? `${props.gap}rpx` : '12rpx',
   };
 });
 
@@ -58,7 +56,7 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
           :key="idx"
           class="lk-grid__item lk-ripple"
           :class="{ 'lk-ripple--active': rippleActive && activeIndex === `${pageIndex}-${idx}` }"
-          :style="{ gap: (itemGap || 8) + 'rpx' }"
+          :style="{ '--lk-grid-item-gap': (props.itemGap || 8) + 'rpx' }"
           @tap="onItemClick(it, Number(idx), Number(pageIndex), $event)"
         >
           <lk-icon v-if="it.icon" :name="it.icon" size="36" />
@@ -76,7 +74,7 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
         :key="index"
         class="lk-grid__item lk-ripple"
         :class="{ 'lk-ripple--active': rippleActive && activeIndex === `0-${index}` }"
-        :style="{ gap: (itemGap || 8) + 'rpx' }"
+        :style="{ '--lk-grid-item-gap': (props.itemGap || 8) + 'rpx' }"
         @tap="onItemClick(item, index, 0, $event)"
       >
         <lk-icon v-if="item.icon" :name="item.icon" size="36" />

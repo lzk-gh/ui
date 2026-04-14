@@ -24,6 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    @include row-gap(var(--lk-verify-code-gap, 0));
   }
 
   // 单个单元格

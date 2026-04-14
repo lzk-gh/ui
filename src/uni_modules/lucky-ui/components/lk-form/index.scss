@@ -3,10 +3,10 @@
 @include b(form) {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-form-item-gap, var(--lk-spacing-xl));
+  @include col-gap(var(--lk-form-item-gap, var(--lk-spacing-xl)));
 
   @include m(border) {
-    gap: 0;
+    @include col-gap(0);
     background: var(--lk-color-bg-container);
   }
 

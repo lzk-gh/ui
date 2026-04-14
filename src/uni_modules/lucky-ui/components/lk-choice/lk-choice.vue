@@ -43,7 +43,7 @@ function handleSelect(option: any) {
 }
 
 const containerStyle = computed(() => ({
-  gap: `${props.gap}rpx`,
+  '--lk-choice-gap': `${props.gap}rpx`,
   ...(typeof props.customStyle === 'object' ? props.customStyle : {}),
 }));
 

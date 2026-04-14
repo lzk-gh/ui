@@ -1,4 +1,5 @@
 ﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(dropdown) {
   display: inline-block;
@@ -47,7 +48,7 @@
   // =========================================
   display: flex;
   align-items: center;
-  gap: var(--_gap);
+  @include row-gap(var(--_gap));
   padding: var(--_py) var(--_px);
   font-size: var(--_fs);
   color: var(--lk-color-text);

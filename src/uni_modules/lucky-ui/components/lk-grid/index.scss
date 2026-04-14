@@ -1,22 +1,25 @@
 @use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(grid) {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  grid-auto-rows: 1fr;
-  // text-align: center;
+  @include gap(var(--lk-grid-gap, 0));
 
   @include e(item) {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: juctify;
+    justify-content: center;
+    @include col-gap(var(--lk-grid-item-gap, 8rpx));
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
     overflow: hidden;
-
-    // 去掉整块点击态背景，保留波纹效果
+    // 在 flex 布局下，需要根据列数设置宽度
+    width: calc((100% - var(--lk-grid-gap, 0) * (var(--lk-grid-columns, 4) - 1)) / var(--lk-grid-columns, 4));
+    box-sizing: border-box;
   }
 
   @include e(item-text) {

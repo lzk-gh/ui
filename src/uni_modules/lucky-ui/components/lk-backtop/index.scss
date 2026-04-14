@@ -1,4 +1,5 @@
 ﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(backtop) {
   // =========================================
@@ -17,7 +18,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--lk-spacing-xs);
+  @include row-gap(var(--lk-spacing-xs));
   width: var(--_size);
   height: var(--_size);
   border-radius: var(--_radius);

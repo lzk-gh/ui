@@ -1,6 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lk-timeline  ·  Apple Design Language  v2
 // ─────────────────────────────────────────────────────────────────────────────
+
+@use '../../theme/src/mixins/gap' as *;
+
 // 修复点：
 //   1. 连接线高度与右侧内容严格对齐（align-items: stretch + flex:1 line）
 //   2. 统一品牌色 —— 全部使用 primary，pending 降透明，error 用描边方式
@@ -118,7 +121,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   justify-content: flex-start;
   padding-top: 4rpx;      // 与节点圆中心微对齐
   padding-right: 16rpx;
-  gap: 4rpx;
+  @include col-gap(4rpx);
 }
 
 // 左侧列 date 标签
@@ -263,7 +266,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   padding-top: 2rpx;  // 与节点圆中心对齐
   display: flex;
   flex-direction: column;
-  gap: 6rpx;
+  @include col-gap(6rpx);
 }
 
 // ── 标题 ─────────────────────────────────────────────────────────────────────
@@ -323,7 +326,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__body > .lk-timeline-item-preview {
   margin-top: var(--lk-spacing-xs);
   display: flex;
-  gap: var(--lk-spacing-sm);
+  @include gap(var(--lk-spacing-sm));
   flex-wrap: wrap;
 }
 
@@ -341,7 +344,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-preview-card {
   display: flex;
   align-items: flex-start;
-  gap: var(--lk-spacing-md);
+  @include row-gap(var(--lk-spacing-md));
   margin-top: var(--lk-spacing-xs);
   padding: var(--lk-spacing-md);
   background: var(--lk-fill-1);
@@ -359,7 +362,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4rpx;
+    @include col-gap(4rpx);
   }
 
   &__name {

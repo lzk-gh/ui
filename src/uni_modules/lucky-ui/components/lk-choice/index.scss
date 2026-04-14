@@ -1,15 +1,17 @@
 @use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(choice) {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  @include row-gap(var(--lk-choice-gap, 0));
 
   @include e(item) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12rpx;
+    @include row-gap(12rpx);
     padding: 16rpx 32rpx;
     background: var(--lk-fill-1);
     color: var(--lk-text-primary);

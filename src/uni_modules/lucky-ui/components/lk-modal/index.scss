@@ -1,4 +1,5 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(modal) {
   position: fixed;
@@ -82,7 +83,7 @@
     }
 
     /* 恢复使用 gap，简洁且适配现代浏览器 */
-    gap: var(--lk-spacing-md);
+    @include row-gap(var(--lk-spacing-md));
 
     @include e(footer-btn) {
       @include m(cancel) {

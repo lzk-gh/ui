@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+﻿@use '../../theme/src/mixins' as *;
 
 @include b(time-picker) {
   min-height: var(--lk-control-height-md);
@@ -38,12 +38,12 @@
     padding: var(--lk-spacing-sm);
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-sm);
+    @include col-gap(var(--lk-spacing-sm));
   }
 
   @include e(columns) {
     display: flex;
-    gap: var(--lk-spacing-xs);
+    @include row-gap(var(--lk-spacing-xs));
     height: 480rpx;
   }
 

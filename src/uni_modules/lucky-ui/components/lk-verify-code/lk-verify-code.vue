@@ -31,7 +31,7 @@ const cellStyle = computed(() => ({
 }));
 
 const containerStyle = computed(() => ({
-  gap: `${props.gap}rpx`,
+  '--lk-verify-code-gap': `${props.gap}rpx`,
 }));
 
 // 倒计时显示文字

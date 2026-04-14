@@ -1,4 +1,5 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(tag) {
   --_fs: 24rpx;
@@ -8,7 +9,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--lk-spacing-xs);
+  @include row-gap(var(--lk-spacing-xs));
   font-size: var(--_fs);
   padding: var(--_py) var(--_px);
   line-height: 1.4;

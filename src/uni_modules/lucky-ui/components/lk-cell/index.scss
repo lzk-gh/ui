@@ -1,4 +1,5 @@
 ﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(cell) {
   // =========================================
@@ -39,7 +40,7 @@
     display: flex;
     align-items: center;
     flex: 1;
-    gap: var(--_gap);
+    @include row-gap(var(--_gap));
     position: relative;
     z-index: 1;
   }
@@ -51,7 +52,7 @@
   @include e(titles) {
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-xxs);
+    @include col-gap(var(--lk-spacing-xxs));
   }
 
   @include e(title) {
@@ -70,7 +71,7 @@
   @include e(right) {
     display: flex;
     align-items: center;
-    gap: var(--lk-spacing-xs);
+    @include row-gap(var(--lk-spacing-xs));
     font-size: var(--_value-fs);
     // 使用新的中性文字颜色变量
     color: var(--lk-text-regular);

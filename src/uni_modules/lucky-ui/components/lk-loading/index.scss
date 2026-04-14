@@ -1,9 +1,10 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(loading) {
   display: inline-flex;
   align-items: center;
-  gap: var(--lk-spacing-xs);
+  @include row-gap(var(--lk-spacing-xs));
   color: var(--lk-color-text-secondary);
   // 默认使用中性灰色，而不是品牌色
   --_color: var(--lk-loading-spinner);
@@ -24,7 +25,7 @@
   @include e(dots) {
     display: inline-flex;
     align-items: center;
-    gap: 10rpx;
+    @include row-gap(10rpx);
 
     .dot {
       width: 16rpx;
@@ -66,7 +67,7 @@
   @include e(bounce) {
     display: inline-flex;
     align-items: center;
-    gap: var(--lk-spacing-xxs);
+    @include row-gap(var(--lk-spacing-xxs));
 
     .bounce-ball {
       width: 20rpx;
@@ -88,7 +89,7 @@
   @include e(wave) {
     display: inline-flex;
     align-items: flex-end;
-    gap: 6rpx;
+    @include row-gap(6rpx);
 
     .wave-bar {
       width: 12rpx;
@@ -127,7 +128,7 @@
   @include e(ellipsis) {
     display: inline-flex;
     align-items: center;
-    gap: var(--lk-spacing-xxs);
+    @include row-gap(var(--lk-spacing-xxs));
 
     .ellipsis-dot {
       width: 12rpx;
@@ -169,6 +170,6 @@
 
   @include when(vertical) {
     flex-direction: column;
-    gap: var(--lk-spacing-xxs);
+    @include col-gap(var(--lk-spacing-xxs));
   }
 }

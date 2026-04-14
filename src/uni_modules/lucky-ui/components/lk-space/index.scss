@@ -1,10 +1,11 @@
 @use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/gap' as *;
 
 @include b(space) {
   display: inline-flex;
 
-  // gap 属性由 Vue 组件通过 style 动态注入，此处无需定义默认值
-  // 现代浏览器、微信小程序、UniApp App-NVUE(Yoga) 均支持 gap
+  // 使用 margin 模拟 gap，以提高在旧版本小程序环境下的兼容性
+  @include gap(var(--lk-space-row-gap), var(--lk-space-col-gap));
 
   @include m(fill) {
     display: flex;
@@ -13,10 +14,26 @@
 
   @include m(horizontal) {
     flex-direction: row;
+
+    // 当不换行且是水平方向时，可以关闭顶部的负外边距以保持对齐（可选）
+    &:not(.lk-space--wrap) {
+      margin-top: 0;
+      & > * {
+        margin-top: 0;
+      }
+    }
   }
 
   @include m(vertical) {
     flex-direction: column;
+
+    // 当不换行且是垂直方向时，可以关闭左侧的负外边距以保持对齐（可选）
+    &:not(.lk-space--wrap) {
+      margin-left: 0;
+      & > * {
+        margin-left: 0;
+      }
+    }
   }
 
   @include m(align-start) {

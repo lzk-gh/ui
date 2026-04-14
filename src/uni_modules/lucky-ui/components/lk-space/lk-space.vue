@@ -37,8 +37,8 @@ const style = computed(() => {
   }
 
   return {
-    // CSS gap 标准语法: row-gap column-gap
-    gap: `${rowGap} ${colGap}`,
+    '--lk-space-row-gap': rowGap,
+    '--lk-space-col-gap': colGap,
   };
 });
 
