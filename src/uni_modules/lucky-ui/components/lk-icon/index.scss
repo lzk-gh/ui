@@ -9,7 +9,7 @@
   justify-content: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* 继承父容器颜色（如按钮、列表等），保证在有背景色的容器内自动匹配 */
-  /* 如果用户传了 color prop，会通过内联样式覆盖 */
+  /* 缁ф壙鐖跺鍣ㄩ鑹诧紙濡傛寜閽€佸垪琛ㄧ瓑锛夛紝淇濊瘉鍦ㄦ湁鑳屾櫙鑹茬殑瀹瑰櫒鍐呰嚜鍔ㄥ尮閰?*/
+  /* 濡傛灉鐢ㄦ埛浼犱簡 color prop锛屼細閫氳繃鍐呰仈鏍峰紡瑕嗙洊 */
   color: inherit;
 }

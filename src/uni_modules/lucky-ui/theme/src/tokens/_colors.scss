@@ -109,84 +109,68 @@ $color-white: #ffffff;
 $color-black: #000000;
 
 // =============================================================================
-// 语义化颜色令牌
-// 解释：组件应该消费这些颜色变量，它们提供业务含义和设计意图
+// 品牌色 & 交互态 (Sass 变量定义)
 // =============================================================================
+$color-brand-primary-internal: $color-brand-600;
+$color-brand-primary-light-internal: $color-brand-100;
+$color-brand-primary-hover-internal: $color-brand-700;
+$color-brand-primary-active-internal: $color-brand-800;
 
-// 品牌色 & 交互态
-$color-brand-primary: $color-brand-600;
-$color-brand-primary-light: $color-brand-100;
-$color-brand-primary-hover: $color-brand-700;
-$color-brand-primary-active: $color-brand-800;
-
-// =============================================================================
-// 中性文字颜色（与品牌色解耦，支持亮色/暗色主题）
-// =============================================================================
-// 亮色主题下的中性文字颜色
-$color-text-primary-light: #090909; // 主要文字，如标题、正文（默认改为 #090909）
-$color-text-regular-light: #090909; // 常规内容文字（默认与主要文字一致）
-$color-text-secondary-light: #909399; // 次要文字，如元数据、说明（保留较浅色以保持层次）
-$color-text-placeholder-light: #a8abb2; // 占位符文字
-$color-text-inverse-light: #ffffff; // 反色文字（用于深色背景）
-
-// 暗色主题下的中性文字颜色
-$color-text-primary-dark: #e1e1e1; // 主要文字
-$color-text-regular-dark: #b0b0b0; // 常规内容文字
-$color-text-secondary-dark: #808080; // 次要文字
-$color-text-placeholder-dark: #606266; // 占位符文字
-$color-text-inverse-dark: #000000; // 反色文字（用于浅色背景）
+// 品牌色 Sass 变量改为优先消费 CSS 变量
+$color-brand-primary: var(--lk-brand-600, #{$color-brand-primary-internal});
+$color-brand-primary-light: var(--lk-brand-100, #{$color-brand-primary-light-internal});
+$color-brand-primary-hover: var(--lk-brand-700, #{$color-brand-primary-hover-internal});
+$color-brand-primary-active: var(--lk-brand-800, #{$color-brand-primary-active-internal});
 
 // =============================================================================
-// 语义化文字颜色（向后兼容，保留旧变量名）
+// 中性文字颜色 (Sass 变量定义)
 // =============================================================================
-// 注意：这些变量在 component-vars.scss 中会根据主题动态映射到对应的中性色
-$color-text-primary: $color-text-primary-light; // 默认使用亮色主题值（向后兼容）
+$color-text-primary-light: #090909; 
+$color-text-regular-light: #090909; 
+$color-text-secondary-light: #909399; 
+$color-text-placeholder-light: #a8abb2; 
+$color-text-inverse-light: #ffffff; 
+
+$color-text-primary-dark: #e1e1e1; 
+$color-text-regular-dark: #b0b0b0; 
+$color-text-secondary-dark: #808080; 
+$color-text-placeholder-dark: #606266; 
+$color-text-inverse-dark: #000000; 
+
+// =============================================================================
+// 中性背景颜色 (Sass 变量定义)
+// =============================================================================
+$color-bg-page-light: #f7f7f7; 
+$color-bg-container-light: #ffffff; 
+$color-fill-1-light: #f7f7f7; 
+$color-fill-2-light: #e6e8eb; 
+$color-bg-input-light: #f7f7f7;
+
+$color-bg-page-dark: #000000; 
+$color-bg-container-dark: #1a1a1a; 
+$color-fill-1-dark: #2c2c2c; 
+$color-fill-2-dark: #3d3d3d; 
+$color-bg-input-dark: #1c1c1e;
+
+// =============================================================================
+// 语义化变量 (向后兼容)
+// =============================================================================
+$color-text-primary: $color-text-primary-light;
 $color-text-secondary: $color-text-secondary-light;
 $color-text-placeholder: $color-text-placeholder-light;
-$color-text-disabled: $color-gray-500; // 禁用状态文字（保持原值）
+$color-text-disabled: $color-gray-500;
 $color-text-inverse: $color-text-inverse-light;
-$color-text-link: $color-brand-primary; // 链接文字（使用品牌色，这是合理的）
+$color-text-link: $color-brand-primary;
 
-// =============================================================================
-// 中性背景颜色（与品牌色解耦，支持亮色/暗色主题）
-// =============================================================================
-// 亮色主题下的中性背景颜色
-$color-bg-page-light: #f7f7f7; // 应用页面背景（定制为 #f7f7f7）
-$color-bg-container-light: #ffffff; // 卡片、弹窗等容器背景（卡片保持白色）
-$color-fill-1-light: #f7f7f7; // 搜索框、输入框、通用标签背景（默认使用 #f7f7f7）
-$color-fill-2-light: #e6e8eb; // 悬停状态或更深的填充背景（保留原值以保持层次）
+$color-bg-body: $color-bg-page-light;
+$color-bg-container: $color-bg-container-light;
+$color-bg-container-active: $color-gray-200;
+$color-bg-mask: color.change($color-black, $alpha: 0.7);
 
-// =============================================================================
-// 表单控件填充颜色（Apple 风格 - 统一的输入类控件背景）
-// =============================================================================
-// 亮色主题下的控件填充颜色
-$color-bg-input-light: #f7f7f7; // iOS 标准输入框/搜索框背景（改为 #f7f7f7）
+$color-border-primary: $color-gray-400;
+$color-border-secondary: $color-gray-300;
 
-// 暗色主题下的控件填充颜色
-$color-bg-input-dark: #1c1c1e; // iOS 暗色模式输入框背景
-
-// 暗色主题下的中性背景颜色
-$color-bg-page-dark: #000000; // 应用页面背景
-$color-bg-container-dark: #1a1a1a; // 卡片、弹窗等容器背景
-$color-fill-1-dark: #2c2c2c; // 搜索框、输入框、通用标签背景
-$color-fill-2-dark: #3d3d3d; // 悬停状态或更深的填充背景
-
-// =============================================================================
-// 语义化背景颜色（向后兼容，保留旧变量名）
-// =============================================================================
-// 注意：这些变量在 component-vars.scss 中会根据主题动态映射到对应的中性色
-$color-bg-body: $color-bg-page-light; // 页面整体背景（向后兼容）
-$color-bg-container: $color-bg-container-light; // 卡片、弹窗等容器背景（向后兼容）
-$color-bg-container-active: $color-gray-200; // 容器按压态背景
-$color-bg-mask: color.change($color-black, $alpha: 0.7); // 遮罩层背景
-
-// 边框 / 分割线颜色
-$color-border-primary: $color-gray-400; // 主要边框/分割线
-$color-border-secondary: $color-gray-300; // 次要、更弱的边框
-
-// =============================================================================
-// 骨架屏 & 加载 (Skeleton & Loading)
-// =============================================================================
+// 骨架屏
 $color-skeleton-start-light: $color-gray-100;
 $color-skeleton-end-light: $color-gray-200;
 $color-skeleton-start-dark: #2c2c2c;
@@ -194,3 +178,43 @@ $color-skeleton-end-dark: #3d3d3d;
 
 $color-loading-spinner-light: $color-gray-500;
 $color-loading-spinner-dark: #5d5d5d;
+
+// =============================================================================
+// CSS 变量运行映射 (Runtime Mapping)
+// 必须放在最后，确保所有 Sass 变量已定义
+// =============================================================================
+:root, .lk-theme-light {
+  --lk-color-primary: var(--lk-brand-600, #{$color-brand-primary-internal});
+  --lk-color-success: #{$color-success-600};
+  --lk-color-warning: #{$color-warning-600};
+  --lk-color-danger: #{$color-danger-600};
+  --lk-color-info: #{$color-info-600};
+
+  --lk-text-primary: #{$color-text-primary-light};
+  --lk-text-regular: #{$color-text-regular-light};
+  --lk-text-secondary: #{$color-text-secondary-light};
+  --lk-text-placeholder: #{$color-text-placeholder-light};
+  --lk-text-inverse: #{$color-text-inverse-light};
+  
+  --lk-bg-page: #{$color-bg-page-light};
+  --lk-bg-container: #{$color-bg-container-light};
+  --lk-bg-input: #{$color-bg-input-light};
+}
+
+.lk-theme-dark {
+  --lk-color-primary: var(--lk-brand-600, #{$color-brand-primary-internal});
+  --lk-color-success: #{$color-success-700};
+  --lk-color-warning: #{$color-warning-700};
+  --lk-color-danger: #{$color-danger-700};
+  --lk-color-info: #{$color-info-700};
+
+  --lk-text-primary: #{$color-text-primary-dark};
+  --lk-text-regular: #{$color-text-regular-dark};
+  --lk-text-secondary: #{$color-text-secondary-dark};
+  --lk-text-placeholder: #{$color-text-placeholder-dark};
+  --lk-text-inverse: #{$color-text-inverse-dark};
+  
+  --lk-bg-page: #{$color-bg-page-dark};
+  --lk-bg-container: #{$color-bg-container-dark};
+  --lk-bg-input: #{$color-bg-input-dark};
+}

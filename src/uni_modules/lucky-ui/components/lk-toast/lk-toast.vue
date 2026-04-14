@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, computed, onUnmounted } from 'vue';
-import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
+import { useTransition } from '../../composables/useTransition';
 import { toastProps, toastEmits } from './toast.props';
 
 defineOptions({ name: 'LkToast' });

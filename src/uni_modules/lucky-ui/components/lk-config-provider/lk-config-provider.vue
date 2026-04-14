@@ -1,44 +1,65 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
+import { computed, toRef } from 'vue';
+import { 
+  provideConfig, 
+  generateBrandVars, 
+  serializeVars, 
+  serializeThemeVars, 
+  type LkConfig 
+} from '../../composables/useConfig';
 import { configProviderProps } from './config-provider.props';
 
 /**
  * LkConfigProvider 全局配置容器
  * - 核心功能：自动处理主题切换（lk-theme-light / lk-theme-dark）
  * - 核心功能：自动注入品牌色 CSS 变量
+ * - 核心功能：支持通过 themeVars 注入自定义设计令牌
+ * - 核心功能：通过 provideConfig 向下传递配置
  */
 
 defineOptions({ name: 'LkConfigProvider' });
 
 const props = defineProps(configProviderProps);
-const themeStore = useThemeStore();
+
+// 将 props 转换为 LkConfig 格式并 provide
+const config = computed<LkConfig>(() => ({
+  theme: props.theme,
+  brandColor: props.brandColor,
+  themeVars: props.themeVars,
+  safeAreaInsetBottom: props.safeAreaInsetBottom,
+  customStyle: props.customStyle,
+  customClass: props.customClass
+}));
+
+provideConfig(toRef(config));
 
 // 计算最终应用的主题类名
 const activeThemeClass = computed(() => {
-  if (props.theme) return `lk-theme-${props.theme}`;
-  return themeStore.themeClass;
+  return props.theme ? `lk-theme-${props.theme}` : '';
 });
 
 // 计算最终应用的样式变量
 const activeStyle = computed(() => {
-  const styles: Record<string, string> = {};
+  let styleStr = '';
   
-  // 处理自定义品牌色
-  if (props.brandColor || themeStore.brandColor) {
-    // 这里我们可以根据需要注入特定的 CSS 变量
-    // 由于 themeStore 已经自动处理了全局 HTML 注入，
-    // 此处主要是为了在组件树局部覆盖或者确保局部生效
+  // 1. 处理品牌色并生成色阶
+  if (props.brandColor) {
+    styleStr += serializeVars(generateBrandVars(props.brandColor));
   }
 
-  // 合并用户传入的 customStyle
+  // 2. 处理自定义主题变量 (优先级高于默认令牌)
+  if (props.themeVars && Object.keys(props.themeVars).length > 0) {
+    styleStr += (styleStr ? '; ' : '') + serializeThemeVars(props.themeVars);
+  }
+
+  // 3. 合并用户传入的 customStyle
   const baseStyle = typeof props.customStyle === 'string' 
     ? props.customStyle 
     : Object.entries(props.customStyle || {})
         .map(([k, v]) => `${k}: ${v}`)
         .join('; ');
 
-  return baseStyle;
+  return `${styleStr}${styleStr && baseStyle ? '; ' : ''}${baseStyle}`;
 });
 
 const classes = computed(() => [

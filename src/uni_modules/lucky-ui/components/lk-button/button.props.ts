@@ -96,10 +96,55 @@ export const buttonProps = {
     ButtonNativeType.Button,
     'Button.nativeType'
   ),
+
+  /** 开放能力，具体请看 uniapp 文档 */
+  openType: LkProp.string(''),
+  /** 指定按下的样式类 */
+  hoverClass: LkProp.string('button-hover'),
+  /** 按住后多久出现点击态，单位毫秒 */
+  hoverStartTime: LkProp.number(20),
+  /** 手指松开后点击态保留时间，单位毫秒 */
+  hoverStayTime: LkProp.number(70),
+  /** 返回用户信息的接口 */
+  getUserInfo: LkProp.string(''),
+  /** 微信开放能力 getPhoneNumber 的回调 */
+  getPhoneNumber: LkProp.string(''),
+  /** 支付宝开放能力 getAuthorize 的回调 */
+  getAuthorize: LkProp.string(''),
+  /** 开发能力成功回调 */
+  contact: LkProp.string(''),
+  /** 客服消息失败回调 */
+  error: LkProp.string(''),
+  /** 打开 APP 成功回调 */
+  launchApp: LkProp.string(''),
+  /** 打开授权设置页成功回调 */
+  openSetting: LkProp.string(''),
+  /** 群 ID */
+  groupId: LkProp.string(''),
+  /** 会话来源 */
+  sessionFrom: LkProp.string(''),
+  /** 发送消息标题 */
+  sendMessageTitle: LkProp.string(''),
+  /** 发送消息路径 */
+  sendMessagePath: LkProp.string(''),
+  /** 发送消息图片 */
+  sendMessageImg: LkProp.string(''),
+  /** 展示分享卡片 */
+  showMessageCard: LkProp.boolean(false),
+  /** 隐私协议授权回调 */
+  agreePrivacyAuthorization: LkProp.string(''),
 } as const;
 
 export const buttonEmits = {
   click: (event: unknown) => event !== undefined,
+  getuserinfo: (event: any) => !!event,
+  contact: (event: any) => !!event,
+  getphonenumber: (event: any) => !!event,
+  error: (event: any) => !!event,
+  opensetting: (event: any) => !!event,
+  launchapp: (event: any) => !!event,
+  chooseavatar: (event: any) => !!event,
+  agreeprivacyauthorization: (event: any) => !!event,
 };
 
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>;

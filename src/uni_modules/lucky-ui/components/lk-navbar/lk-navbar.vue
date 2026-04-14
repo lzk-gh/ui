@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
 import { navbarProps, navbarEmits } from './navbar.props';
-import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { useRipple } from '../../composables/useRipple';
 
 defineOptions({ name: 'LkNavbar' });
 

@@ -1,7 +1,7 @@
 @use '../../theme/src/mixins' as *;
 
 // =============================================
-// 验证码输入框 - Apple 风格
+// 楠岃瘉鐮佽緭鍏ユ - Apple 椋庢牸
 // =============================================
 
 @include b(verify-code) {
@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
 
-  // 隐藏的真实输入框
+  // 闅愯棌鐨勭湡瀹炶緭鍏ユ
   @include e(input) {
     position: absolute;
     left: -9999rpx;
@@ -19,7 +19,7 @@
     height: 0;
   }
 
-  // 单元格容器
+  // 鍗曞厓鏍煎鍣?
   @include e(cells) {
     display: flex;
     justify-content: center;
@@ -27,7 +27,7 @@
     @include row-gap(var(--lk-verify-code-gap, 0));
   }
 
-  // 单个单元格
+  // 鍗曚釜鍗曞厓鏍?
   @include e(cell) {
     display: flex;
     align-items: center;
@@ -38,7 +38,7 @@
     overflow: hidden;
   }
 
-  // 输入值
+  // 杈撳叆鍊?
   @include e(value) {
     display: flex;
     align-items: center;
@@ -48,14 +48,14 @@
     animation: verifyCodePopIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  // 密码圆点
+  // 瀵嗙爜鍦嗙偣
   @include e(dot) {
     font-size: 48rpx;
     color: var(--lk-text-primary);
     line-height: 1;
   }
 
-  // 光标
+  // 鍏夋爣
   @include e(cursor) {
     width: 4rpx;
     height: 40%;
@@ -64,7 +64,7 @@
     animation: verifyCodeBlink 1s ease-in-out infinite;
   }
 
-  // 提示信息容器
+  // 鎻愮ず淇℃伅瀹瑰櫒
   @include e(message) {
     margin-top: var(--lk-spacing-md);
     text-align: center;
@@ -72,23 +72,23 @@
     line-height: 1.4;
   }
 
-  // 错误文字
+  // 閿欒鏂囧瓧
   @include e(error) {
     color: var(--lk-color-danger);
   }
 
-  // 提示文字
+  // 鎻愮ず鏂囧瓧
   @include e(tips) {
     color: var(--lk-text-secondary);
   }
 
-  // 倒计时容器
+  // 鍊掕鏃跺鍣?
   @include e(countdown) {
     margin-top: var(--lk-spacing-xl);
     text-align: center;
   }
 
-  // 倒计时按钮
+  // 鍊掕鏃舵寜閽?
   @include e(countdown-btn) {
     display: inline-flex;
     padding: var(--lk-spacing-md) var(--lk-spacing-xl);
@@ -106,7 +106,7 @@
   }
 
   // =============================================
-  // 变体：方框样式 (默认)
+  // 鍙樹綋锛氭柟妗嗘牱寮?(榛樿)
   // =============================================
   @include m(box) {
     .lk-verify-code__cell {
@@ -126,7 +126,7 @@
   }
 
   // =============================================
-  // 变体：下划线样式
+  // 鍙樹綋锛氫笅鍒掔嚎鏍峰紡
   // =============================================
   @include m(underline) {
     .lk-verify-code__cell {
@@ -146,7 +146,7 @@
   }
 
   // =============================================
-  // 变体：圆角样式
+  // 鍙樹綋锛氬渾瑙掓牱寮?
   // =============================================
   @include m(rounded) {
     .lk-verify-code__cell {
@@ -168,17 +168,17 @@
   }
 
   // =============================================
-  // 状态样式
+  // 鐘舵€佹牱寮?
   // =============================================
 
-  // 聚焦状态
+  // 鑱氱劍鐘舵€?
   &.is-focus {
     .lk-verify-code__cell.is-active {
       border-color: var(--lk-color-primary);
     }
   }
 
-  // 错误状态
+  // 閿欒鐘舵€?
   &.is-error {
     .lk-verify-code__cell {
       border-color: var(--lk-color-danger) !important;
@@ -190,7 +190,7 @@
     }
   }
 
-  // 成功状态
+  // 鎴愬姛鐘舵€?
   &.is-success {
     .lk-verify-code__cell {
       border-color: var(--lk-color-success) !important;
@@ -204,7 +204,7 @@
     }
   }
 
-  // 禁用状态
+  // 绂佺敤鐘舵€?
   &.is-disabled {
     @include disabled;
 
@@ -216,10 +216,10 @@
 }
 
 // =============================================
-// 动画
+// 鍔ㄧ敾
 // =============================================
 
-// 光标闪烁
+// 鍏夋爣闂儊
 @keyframes verifyCodeBlink {
   0%,
   50% {
@@ -231,7 +231,7 @@
   }
 }
 
-// 值弹入
+// 鍊煎脊鍏?
 @keyframes verifyCodePopIn {
   0% {
     transform: scale(0.5);
@@ -246,7 +246,7 @@
   }
 }
 
-// 错误抖动
+// 閿欒鎶栧姩
 @keyframes verifyCodeShake {
   0%,
   100% {

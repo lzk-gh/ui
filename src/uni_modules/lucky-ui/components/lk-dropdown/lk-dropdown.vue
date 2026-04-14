@@ -5,7 +5,7 @@ import {
   useTransition,
   ANIMATION_PRESETS,
   type TransitionConfig,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
+} from '../../composables/useTransition';
 
 defineOptions({ name: 'LkDropdown' });
 

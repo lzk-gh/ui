@@ -2,7 +2,7 @@
 import { watch, ref } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import { actionSheetProps, actionSheetEmits, type Action } from './action-sheet.props';
-import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { useRipple } from '../../composables/useRipple';
 
 defineOptions({ name: 'LkActionSheet' });
 

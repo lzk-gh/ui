@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
+import { useTransition } from '../../composables/useTransition';
 import { toastStore, type ToastItem } from './toast-manager';
 
 defineOptions({ name: 'LkToastItem' });

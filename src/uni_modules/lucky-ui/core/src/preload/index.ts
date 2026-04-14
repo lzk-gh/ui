@@ -4,7 +4,7 @@
  *
  * @example
  * ```ts
- * import { usePreload, useTabbarPreload, PreloadPriority } from '@/uni_modules/lucky-ui/core/src/preload';
+ * import { usePreload, useTabbarPreload, PreloadPriority } from '../../../core/src/preload';
  *
  * // 基础使用
  * const { preloadPage, preloadImages, stats } = usePreload();

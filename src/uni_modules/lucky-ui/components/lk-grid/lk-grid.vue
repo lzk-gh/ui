@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { gridProps } from './grid.props';
-import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { useRipple } from '../../composables/useRipple';
 
 defineOptions({ name: 'LkGrid' });
 

@@ -9,7 +9,7 @@ import {
   ANIMATION_PRESETS,
   type TransitionConfig,
   type TransitionName,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
+} from '../../composables/useTransition';
 
 defineOptions({ name: 'LkModal' });
 

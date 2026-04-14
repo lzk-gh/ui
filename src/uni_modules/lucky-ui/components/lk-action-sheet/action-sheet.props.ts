@@ -3,7 +3,7 @@ import { baseProps, LkProp } from '../common/props';
 import type {
   ANIMATION_PRESETS,
   TransitionConfig,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
+} from '../../composables/useTransition';
 
 export interface Action {
   name: string;

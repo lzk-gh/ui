@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { onPageScroll } from '@dcloudio/uni-app';
 import { backtopProps, backtopEmits } from './backtop.props';
-import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
+import { addUnit } from '../../core/src/utils/unit';
 
 /**
  * Backtop 回到顶部

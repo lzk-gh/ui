@@ -2,7 +2,7 @@
 // lk-timeline  ·  Apple Design Language  v2
 // ─────────────────────────────────────────────────────────────────────────────
 
-@use '../../theme/src/mixins/gap' as *;
+@use '../../theme/src/mixins' as *;
 
 // 修复点：
 //   1. 连接线高度与右侧内容严格对齐（align-items: stretch + flex:1 line）

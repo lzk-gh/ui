@@ -1,10 +1,9 @@
-@use '../../theme/src/mixins/bem' as *;
-@use '../../theme/src/mixins/gap' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(space) {
   display: inline-flex;
 
-  // 使用 margin 模拟 gap，以提高在旧版本小程序环境下的兼容性
+  // 浣跨敤 margin 妯℃嫙 gap锛屼互鎻愰珮鍦ㄦ棫鐗堟湰灏忕▼搴忕幆澧冧笅鐨勫吋瀹规€?
   @include gap(var(--lk-space-row-gap), var(--lk-space-col-gap));
 
   @include m(fill) {
@@ -15,7 +14,7 @@
   @include m(horizontal) {
     flex-direction: row;
 
-    // 当不换行且是水平方向时，可以关闭顶部的负外边距以保持对齐（可选）
+    // 褰撲笉鎹㈣涓旀槸姘村钩鏂瑰悜鏃讹紝鍙互鍏抽棴椤堕儴鐨勮礋澶栬竟璺濅互淇濇寔瀵归綈锛堝彲閫夛級
     &:not(.lk-space--wrap) {
       margin-top: 0;
       & > * {
@@ -27,7 +26,7 @@
   @include m(vertical) {
     flex-direction: column;
 
-    // 当不换行且是垂直方向时，可以关闭左侧的负外边距以保持对齐（可选）
+    // 褰撲笉鎹㈣涓旀槸鍨傜洿鏂瑰悜鏃讹紝鍙互鍏抽棴宸︿晶鐨勮礋澶栬竟璺濅互淇濇寔瀵归綈锛堝彲閫夛級
     &:not(.lk-space--wrap) {
       margin-left: 0;
       & > * {

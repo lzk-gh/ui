@@ -75,6 +75,13 @@
             "navigationBarTitleText": "设置",
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "theme-studio/index",
+          "style": {
+            "navigationBarTitleText": "主题实验室",
+            "navigationStyle": "custom"
+          }
         }
       ]
     }

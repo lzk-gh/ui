@@ -271,13 +271,13 @@ page,
 
   /* === 语义色（暗色适配）=== */
   --lk-color-success: #{colors.$color-success-600};
-  --lk-color-success-soft: #{rgba($color-success-base, 0.15)};
+  --lk-color-success-soft: #{rgba(colors.$color-success-base, 0.15)};
   --lk-color-warning: #{colors.$color-warning-600};
-  --lk-color-warning-soft: #{rgba($color-warning-base, 0.15)};
+  --lk-color-warning-soft: #{rgba(colors.$color-warning-base, 0.15)};
   --lk-color-danger: #{colors.$color-danger-600};
-  --lk-color-danger-soft: #{rgba($color-danger-base, 0.15)};
+  --lk-color-danger-soft: #{rgba(colors.$color-danger-base, 0.15)};
   --lk-color-info: #{colors.$color-info-600};
-  --lk-color-info-soft: #{rgba($color-info-base, 0.15)};
+  --lk-color-info-soft: #{rgba(colors.$color-info-base, 0.15)};
 
   /* === 文字（中性色，与品牌色解耦）=== */
   /* 主要文字颜色变量 */

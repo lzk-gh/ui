@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(demo-block) {
   background: var(--lk-color-bg-container);

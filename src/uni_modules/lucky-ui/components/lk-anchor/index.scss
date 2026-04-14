@@ -1,13 +1,13 @@
 @use '../../theme/src/mixins' as *;
 
-// ─── lk-anchor 侧边栏容器 ───────────────────────────────────────
+// 鈹€鈹€鈹€ lk-anchor 渚ц竟鏍忓鍣?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 @include b(anchor) {
   display: block;
   width: 100%;
   height: 100%;
   overflow: hidden;
   position: relative;
-  // 侧边栏整体背景：浅灰，与右侧内容形成层次对比
+  // 渚ц竟鏍忔暣浣撹儗鏅細娴呯伆锛屼笌鍙充晶鍐呭褰㈡垚灞傛瀵规瘮
   background-color: var(--lk-fill-1);
 
   @include e(scroll) {
@@ -16,7 +16,7 @@
   }
 }
 
-// ─── lk-anchor-link 菜单项 ─────────────────────────────────────
+// 鈹€鈹€鈹€ lk-anchor-link 鑿滃崟椤?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 @include b(anchor-link) {
   display: flex;
   align-items: center;
@@ -29,12 +29,12 @@
   user-select: none;
   transition: background-color var(--lk-transition-base) ease;
 
-  // 点击按压反馈（非激活状态）
+  // 鐐瑰嚮鎸夊帇鍙嶉锛堥潪婵€娲荤姸鎬侊級
   &:active {
     background-color: var(--lk-bg-active);
   }
 
-  // ── 菜单文字 ──
+  // 鈹€鈹€ 鑿滃崟鏂囧瓧 鈹€鈹€
   @include e(title) {
     font-size: var(--lk-font-size-sm);
     color: var(--lk-text-secondary);
@@ -47,7 +47,7 @@
     max-width: 100%;
   }
 
-  // ── 左侧彩色指示条 ──
+  // 鈹€鈹€ 宸︿晶褰╄壊鎸囩ず鏉?鈹€鈹€
   @include e(indicator) {
     position: absolute;
     left: 0;
@@ -61,17 +61,17 @@
     z-index: 3;
   }
 
-  // ─── 激活状态 ───────────────────────────────────────────────
+  // 鈹€鈹€鈹€ 婵€娲荤姸鎬?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   @include m(active) {
-    // 关键：激活项背景与右侧内容容器背景色一致，形成融合视觉
+    // 鍏抽敭锛氭縺娲婚」鑳屾櫙涓庡彸渚у唴瀹瑰鍣ㄨ儗鏅壊涓€鑷达紝褰㈡垚铻嶅悎瑙嗚
     background-color: var(--lk-bg-container);
 
-    // 按压时保持激活背景，不产生额外反馈
+    // 鎸夊帇鏃朵繚鎸佹縺娲昏儗鏅紝涓嶄骇鐢熼澶栧弽棣?
     &:active {
       background-color: var(--lk-bg-container);
     }
 
-    // 激活项上方「切角」伪元素：左下圆角覆盖，产生侧边栏色→白色的过渡凹角
+    // 婵€娲婚」涓婃柟銆屽垏瑙掋€嶄吉鍏冪礌锛氬乏涓嬪渾瑙掕鐩栵紝浜х敓渚ц竟鏍忚壊鈫掔櫧鑹茬殑杩囨浮鍑硅
     &::before {
       content: '';
       position: absolute;
@@ -85,7 +85,7 @@
       z-index: 1;
     }
 
-    // 激活项下方「切角」伪元素
+    // 婵€娲婚」涓嬫柟銆屽垏瑙掋€嶄吉鍏冪礌
     &::after {
       content: '';
       position: absolute;

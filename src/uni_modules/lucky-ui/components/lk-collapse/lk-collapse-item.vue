@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { useRipple } from '../../composables/useRipple';
 
 defineOptions({ name: 'LkCollapseItem' });
 

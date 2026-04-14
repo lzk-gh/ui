@@ -6,14 +6,14 @@
 $spacing-base-unit: 4rpx;
 
 // --- 间距阶梯 ---
-$spacing-xxs: $spacing-base-unit * 1; // 4rpx
-$spacing-xs: $spacing-base-unit * 2; // 8rpx
-$spacing-sm: $spacing-base-unit * 3; // 12rpx
-$spacing-md: $spacing-base-unit * 4; // 16rpx
-$spacing-lg: $spacing-base-unit * 5; // 20rpx
-$spacing-xl: $spacing-base-unit * 6; // 24rpx
-$spacing-xxl: $spacing-base-unit * 8; // 32rpx
-$spacing-xxxl: $spacing-base-unit * 12; // 48rpx
+$spacing-xxs: var(--lk-spacing-xxs, 4rpx); 
+$spacing-xs: var(--lk-spacing-xs, 8rpx); 
+$spacing-sm: var(--lk-spacing-sm, 12rpx); 
+$spacing-md: var(--lk-spacing-md, 16rpx); 
+$spacing-lg: var(--lk-spacing-lg, 20rpx); 
+$spacing-xl: var(--lk-spacing-xl, 24rpx); 
+$spacing-xxl: var(--lk-spacing-xxl, 32rpx); 
+$spacing-xxxl: var(--lk-spacing-xxxl, 48rpx); 
 
 // --- 语义化间距 ---
 $spacing-padding-h-sm: $spacing-sm; // 12rpx

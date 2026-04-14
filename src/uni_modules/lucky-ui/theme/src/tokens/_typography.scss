@@ -9,18 +9,18 @@ $font-family-base:
 $font-family-code: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 
 // --- 字重 ---
-$font-weight-light: 300;
-$font-weight-regular: 400; // 常规
-$font-weight-medium: 500; // 中等 (在 iOS 和 Android 上表现更佳)
-$font-weight-bold: 600; // 加粗 (600 在很多中文字体中比 700/bold 效果更好)
+$font-weight-light: var(--lk-font-weight-light, 300);
+$font-weight-regular: var(--lk-font-weight-regular, 400); 
+$font-weight-medium: var(--lk-font-weight-medium, 500); 
+$font-weight-bold: var(--lk-font-weight-bold, 600); 
 
 // --- 字号 ---
-$font-size-xs: 20rpx; // 用于标签、徽标等极小文字
-$font-size-sm: 24rpx; // 用于辅助信息
-$font-size-base: 28rpx; // 基础字号，用于大部分正文内容
-$font-size-lg: 32rpx; // 用于次级标题 (例如 h3, h4)
-$font-size-xl: 36rpx; // 用于主标题 (例如 h2)
-$font-size-xxl: 44rpx; // 用于页面大标题 (例如 h1)
+$font-size-xs: var(--lk-font-size-xs, 20rpx); 
+$font-size-sm: var(--lk-font-size-sm, 24rpx); 
+$font-size-base: var(--lk-font-size-base, 28rpx); 
+$font-size-lg: var(--lk-font-size-lg, 32rpx); 
+$font-size-xl: var(--lk-font-size-xl, 36rpx); 
+$font-size-xxl: var(--lk-font-size-xxl, 44rpx); 
 
 // --- 行高 (使用无单位的行高，便于继承和计算) ---
 $line-height-base: 1.5; // 用于正文

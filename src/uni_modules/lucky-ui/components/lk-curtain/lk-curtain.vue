@@ -7,7 +7,7 @@ import LkIcon from '../lk-icon/lk-icon.vue';
 import {
   useTransition,
   type TransitionConfig,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
+} from '../../composables/useTransition';
 import { addUnit } from '../../core/src/utils/unit';
 import { curtainProps, curtainEmits } from './curtain.props';
 

@@ -1,4 +1,4 @@
-@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(switch) {
   // 基础变量
