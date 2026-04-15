@@ -1,23 +1,20 @@
 <script setup lang="ts">
+/**
+ * Timeline 时间轴演示
+ */
 </script>
 
 <template>
-  <view class="demo-page">
-
-    <!-- ① 左侧时间 + 右侧图片信息预览（重点演示） -->
-    <demo-block title="左侧时间 · 右侧图片预览">
+  <view class="timeline-demo">
+    <demo-block title="基础工作流">
       <lk-timeline>
         <lk-timeline-item title="拍摄：海岸日落" subtitle="Malibu Beach · CA" status="completed">
-          <template #left>
-            <text class="time-label">09:14</text>
-            <text class="date-label">Today</text>
-          </template>
           <template #extra>
             <view class="lk-timeline-preview-card">
               <image
-                class="lk-timeline-preview-card__image"
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=80"
+                src="https://picsum.photos/200/200?random=1"
                 mode="aspectFill"
+                class="lk-timeline-preview-card__image"
               />
               <view class="lk-timeline-preview-card__info">
                 <text class="lk-timeline-preview-card__name">sunset_malibu_01.jpg</text>
@@ -29,16 +26,12 @@
         </lk-timeline-item>
 
         <lk-timeline-item title="拍摄：城市夜景" subtitle="Downtown LA · 21F" status="active">
-          <template #left>
-            <text class="time-label">21:40</text>
-            <text class="date-label">Today</text>
-          </template>
           <template #extra>
             <view class="lk-timeline-preview-card">
               <image
-                class="lk-timeline-preview-card__image"
-                src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=200&q=80"
+                src="https://picsum.photos/200/200?random=2"
                 mode="aspectFill"
+                class="lk-timeline-preview-card__image"
               />
               <view class="lk-timeline-preview-card__info">
                 <text class="lk-timeline-preview-card__name">nightscape_dtla_03.jpg</text>
@@ -50,196 +43,176 @@
         </lk-timeline-item>
 
         <lk-timeline-item title="后期处理" subtitle="Lightroom · 导出" status="pending" desc="色调统一，等待导出完成。">
-          <template #left>
-            <text class="time-label">23:00</text>
-            <text class="date-label">Today</text>
+          <template #extra>
+            <view class="lk-timeline-item-preview">
+              <image src="https://picsum.photos/100/100?random=3" class="lk-timeline-preview-img" />
+              <image src="https://picsum.photos/100/100?random=4" class="lk-timeline-preview-img" />
+            </view>
           </template>
         </lk-timeline-item>
       </lk-timeline>
     </demo-block>
 
-    <!-- ② 节点状态（统一品牌色） -->
-    <demo-block title="节点状态 · 统一品牌色">
+    <demo-block title="带时间列 (左侧插槽)">
       <lk-timeline>
         <lk-timeline-item
-          :index="0"
+          time="09:00"
+          date="Today"
+          title="晨会"
+          desc="讨论 Lucky UI 第四轮重构方案。"
           status="completed"
-          title="需求确认"
-          desc="完成范围梳理与用户故事评审。"
-          time="Day 1"
         />
         <lk-timeline-item
-          :index="1"
+          time="14:30"
+          title="代码评审"
+          desc="审核分发版组件解耦逻辑。"
           status="active"
-          title="开发进行中"
-          desc="接口联调，组件拆分迭代。"
-          time="Day 3"
         />
         <lk-timeline-item
-          :index="2"
+          time="18:00"
+          date="Tomorrow"
+          title="发布版本"
           status="pending"
-          title="测试验收"
-          desc="等待开发完成后回归测试。"
-          time="Day 5"
-        />
-        <lk-timeline-item
-          :index="3"
-          status="error"
-          title="上线发布"
-          desc="CI/CD 流水线异常，待修复。"
-          time="Day 6"
         />
       </lk-timeline>
     </demo-block>
 
-    <!-- ③ 空心节点 outlined -->
-    <demo-block title="空心节点 outlined">
+    <demo-block title="节点变体 (Outlined / Numbered)">
       <lk-timeline dot-variant="outlined">
         <lk-timeline-item
-          title="提交 PR"
-          subtitle="feat/timeline-v2"
-          desc="新增苹果风格时间轴组件。"
-          time="10:02"
+          title="提交申请"
+          desc="2024-04-14 10:00"
+          status="completed"
         />
         <lk-timeline-item
-          title="Code Review"
-          subtitle="@senior"
-          desc="补充注释与边界处理。"
-          time="11:15"
+          title="部门审核"
+          desc="审核中"
           status="active"
         />
         <lk-timeline-item
-          title="合并主干"
-          subtitle="main"
-          desc="通过全量 CI 检查。"
-          time="13:40"
+          title="完成"
           status="pending"
         />
       </lk-timeline>
-    </demo-block>
 
-    <!-- ④ 数字序号节点 numbered -->
-    <demo-block title="数字序号节点 numbered">
+      <view style="height: 40rpx"></view>
+
       <lk-timeline dot-variant="numbered">
         <lk-timeline-item :index="0" title="账户验证" desc="输入手机号完成验证。" />
-        <lk-timeline-item :index="1" title="补充信息" desc="填写姓名与企业名称。" />
-        <lk-timeline-item :index="2" title="上传证件" desc="身份证正反面拍照。" />
-        <lk-timeline-item
-          :index="3"
-          title="等待审核"
-          desc="通常 1 个工作日完成。"
-          status="pending"
-        />
+        <lk-timeline-item :index="1" title="设置密码" desc="请设置 8-16 位安全密码。" />
+        <lk-timeline-item :index="2" title="注册成功" />
       </lk-timeline>
     </demo-block>
 
-    <!-- ⑤ activeIndex 激活高亮 -->
-    <demo-block title="activeIndex 激活高亮">
-      <lk-timeline :active-index="1">
-        <lk-timeline-item :index="0" title="已完成" desc="Step 1 done." time="09:00" status="completed" />
-        <lk-timeline-item :index="1" title="进行中" desc="Step 2 in progress." time="10:00" />
-        <lk-timeline-item :index="2" title="待开始" desc="Step 3 pending." time="11:00" status="pending" />
+    <demo-block title="自定义节点与样式 (New)">
+      <lk-timeline :custom-style="{ '--lk-timeline-line-color': 'var(--lk-color-success)' }">
+        <lk-timeline-item title="使用图标">
+          <template #dot>
+            <view class="custom-dot">
+              <lk-icon name="check-circle-fill" color="var(--lk-color-success)" size="40" />
+            </view>
+          </template>
+          自定义 dot 插槽可以放入任何内容。
+        </lk-timeline-item>
+        <lk-timeline-item title="自定义样式" color="#7c3aed">
+          <template #dot>
+            <view class="custom-dot-pulse" />
+          </template>
+          通过 CSS 变量修改连接线颜色。
+        </lk-timeline-item>
       </lk-timeline>
     </demo-block>
 
-    <!-- ⑥ 水平时间轴 -->
-    <demo-block title="水平时间轴 horizontal">
+    <demo-block title="水平滚动模式">
       <lk-timeline direction="horizontal">
-        <lk-timeline-item date="Mon" title="Kickoff" desc="项目启动" />
-        <lk-timeline-item date="Wed" title="Design" desc="视觉稿评审" status="active" />
-        <lk-timeline-item date="Fri" title="Dev" desc="开发联调" status="pending" />
-        <lk-timeline-item date="Next Mon" title="Launch" desc="上线发布" status="pending" />
+        <lk-timeline-item title="步骤 1" desc="初始化" status="completed" />
+        <lk-timeline-item title="步骤 2" desc="处理中" status="active" />
+        <lk-timeline-item title="步骤 3" desc="待开始" status="pending" />
+        <lk-timeline-item title="步骤 4" desc="完成" status="pending" />
       </lk-timeline>
     </demo-block>
-
-    <!-- ⑦ 自定义 extra 插槽 -->
-    <demo-block title="自定义 extra 插槽">
-      <lk-timeline>
-        <lk-timeline-item
-          date="Feb 20"
-          time="15:30"
-          title="App Store 审核通过"
-          subtitle="v2.3.1"
-        >
-          <template #extra>
-            <view class="badge-row">
-              <text class="badge badge--primary">iOS</text>
-              <text class="badge badge--soft">macOS</text>
-            </view>
-          </template>
-        </lk-timeline-item>
-        <lk-timeline-item
-          date="Feb 18"
-          time="11:00"
-          title="提交审核"
-          subtitle="包含 5 项新功能"
-          status="pending"
-        >
-          <template #extra>
-            <view class="badge-row">
-              <text class="badge badge--soft">Pending Review</text>
-            </view>
-          </template>
-        </lk-timeline-item>
-      </lk-timeline>
-    </demo-block>
-
   </view>
 </template>
 
-<style scoped lang="scss">
-.demo-page {
-  padding: 32rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 32rpx;
-  background: var(--lk-color-bg, #f2f2f7);
+<style lang="scss" scoped>
+.timeline-demo {
+  padding-bottom: 60rpx;
 }
 
-// 左侧时间列（demo 用）
-.time-label {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: var(--lk-color-text, #1c1c1e);
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-  line-height: 1.2;
-}
-
-.date-label {
-  font-size: 20rpx;
-  font-weight: 600;
-  color: var(--lk-color-primary, #007aff);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  text-align: right;
-  line-height: 1.2;
-}
-
-// 徽章（演示用）
-.badge-row {
+.custom-dot {
+  background: white;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 10rpx;
-  margin-top: 10rpx;
+  justify-content: center;
 }
 
-.badge {
-  font-size: 20rpx;
-  font-weight: 600;
-  padding: 6rpx 18rpx;
-  border-radius: 999rpx;
-  letter-spacing: 0.03em;
+.custom-dot-pulse {
+  width: 20rpx;
+  height: 20rpx;
+  background: #7c3aed;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
 
-  &--primary {
-    background: rgba(0, 122, 255, 0.12);
-    color: var(--lk-color-primary, #007aff);
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #7c3aed;
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+// 模拟 demo 中的图片列表
+.lk-timeline-item-preview {
+  margin-top: 16rpx;
+  display: flex;
+  gap: 12rpx;
+}
+
+.lk-timeline-preview-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+}
+
+.lk-timeline-preview-card {
+  display: flex;
+  padding: 20rpx;
+  background: var(--lk-fill-1);
+  border-radius: 16rpx;
+  margin-top: 16rpx;
+  gap: 20rpx;
+
+  &__image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 8rpx;
   }
 
-  &--soft {
-    background: var(--lk-color-bg-weak, #e5e5ea);
-    color: var(--lk-color-text-secondary, #8e8e93);
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__name {
+    font-size: 26rpx;
+    font-weight: bold;
+    color: var(--lk-text-primary);
+  }
+
+  &__meta {
+    font-size: 22rpx;
+    color: var(--lk-text-secondary);
   }
 }
 </style>
-

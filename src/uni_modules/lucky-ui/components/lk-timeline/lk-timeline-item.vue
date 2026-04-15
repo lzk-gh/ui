@@ -87,24 +87,26 @@ function onTap(ev: Event) {
     <!-- 轨道列：节点圆 + 连接线 -->
     <view class="lk-timeline-item__track">
       <!-- 节点圆 -->
-      <view
-        class="lk-timeline-item__dot"
-        :class="[
-          `lk-timeline-item__dot--${dotVariant}`,
-          isActive && 'is-active',
-        ]"
-      >
-        <!-- numbered 变体显示序号 -->
-        <text v-if="dotVariant === 'numbered' && displayNumber" class="lk-timeline-item__dot-num">
-          {{ displayNumber }}
-        </text>
-        <!-- icon 插槽 -->
-        <text v-else-if="icon" class="lk-icon" :class="`lk-icon-${icon}`" />
-        <!-- 已完成 checkmark -->
-        <text v-else-if="isCompleted" class="lk-timeline-item__dot-symbol">✓</text>
-        <!-- error 叉 -->
-        <text v-else-if="isError" class="lk-timeline-item__dot-symbol">✕</text>
-      </view>
+      <slot name="dot">
+        <view
+          class="lk-timeline-item__dot"
+          :class="[
+            `lk-timeline-item__dot--${dotVariant}`,
+            isActive && 'is-active',
+          ]"
+        >
+          <!-- numbered 变体显示序号 -->
+          <text v-if="dotVariant === 'numbered' && displayNumber" class="lk-timeline-item__dot-num">
+            {{ displayNumber }}
+          </text>
+          <!-- icon 插槽 -->
+          <text v-else-if="icon" class="lk-icon" :class="`lk-icon-${icon}`" />
+          <!-- 已完成 checkmark -->
+          <text v-else-if="isCompleted" class="lk-timeline-item__dot-symbol">✓</text>
+          <!-- error 叉 -->
+          <text v-else-if="isError" class="lk-timeline-item__dot-symbol">✕</text>
+        </view>
+      </slot>
 
       <!-- 连接线 -->
       <view v-if="ctx.showLine && !last" class="lk-timeline-item__line" />
