@@ -1,31 +1,23 @@
-@use 'sass:math';
-
 // =============================================================================
 // 混入: 间距 (Gap)
 // =============================================================================
 
 /**
- * 模拟 flex/grid 的 gap 属性
- * 适用于支持 flex-wrap 的布局
- * 注意：父容器可能需要配合 overflow: hidden 或额外的包裹层来消除负外边距的影响
+ * 统一的间距管理混入
+ * - 核心方案：基于邻接子项选择器，避免负边距导致的容器溢出和对齐失效
+ * - 支持：Flex / 普通块级布局
  */
-@mixin gap($row-gap, $column-gap: $row-gap) {
-  margin-top: calc(-1 * #{$row-gap});
-  margin-left: calc(-1 * #{$column-gap});
-
-  & > * {
-    margin-top: $row-gap;
-    margin-left: $column-gap;
-  }
-}
 
 /**
  * 水平方向间距 (Flex Row)
  * 适用于不换行的水平布局
  */
 @mixin row-gap($gap) {
-  & > *:not(:last-child) {
-    margin-right: $gap;
+  display: flex;
+  flex-direction: row;
+  
+  & > *:not(:first-child) {
+    margin-left: $gap;
   }
 }
 
@@ -34,7 +26,32 @@
  * 适用于垂直布局
  */
 @mixin col-gap($gap) {
-  & > *:not(:last-child) {
-    margin-bottom: $gap;
+  display: flex;
+  flex-direction: column;
+
+  & > *:not(:first-child) {
+    margin-top: $gap;
   }
+}
+
+/**
+ * 模拟 gap 属性 (支持换行的布局)
+ * 方案：优先使用原生 gap 属性，如果存在兼容性问题，则手动在子项上加间距
+ */
+@mixin gap($row-gap, $column-gap: $row-gap) {
+  // 现代方案
+  gap: $row-gap $column-gap;
+
+  // 针对极其老旧环境的降级逻辑（可选，通常现代小程序均已支持 gap）
+  /*
+  @supports not (gap: 1rpx) {
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(-1 * #{$row-gap} / 2) calc(-1 * #{$column-gap} / 2);
+    
+    & > * {
+      margin: calc(#{$row-gap} / 2) calc(#{$column-gap} / 2);
+    }
+  }
+  */
 }

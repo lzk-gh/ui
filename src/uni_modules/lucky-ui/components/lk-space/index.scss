@@ -2,60 +2,57 @@
 
 @include b(space) {
   display: inline-flex;
+  // 基础布局：默认不换行，不溢出
+  box-sizing: border-box;
 
-  // 浣跨敤 margin 妯℃嫙 gap锛屼互鎻愰珮鍦ㄦ棫鐗堟湰灏忕▼搴忕幆澧冧笅鐨勫吋瀹规€?
-  @include gap(var(--lk-space-row-gap), var(--lk-space-col-gap));
+  // 垂直间距 (行间距)
+  @include e(item) {
+    display: block;
+    box-sizing: border-box;
+  }
 
   @include m(fill) {
     display: flex;
     width: 100%;
   }
 
+  // =============================================
+  // 水平方向 (Horizontal)
+  // =============================================
   @include m(horizontal) {
     flex-direction: row;
 
-    // 褰撲笉鎹㈣涓旀槸姘村钩鏂瑰悜鏃讹紝鍙互鍏抽棴椤堕儴鐨勮礋澶栬竟璺濅互淇濇寔瀵归綈锛堝彲閫夛級
+    // 当不换行时，直接使用邻接选择器加 margin-left
     &:not(.lk-space--wrap) {
-      margin-top: 0;
-      & > * {
-        margin-top: 0;
+      & > *:not(:first-child) {
+        margin-left: var(--lk-space-col-gap, 16rpx);
       }
+    }
+
+    // 当换行时，使用正向 gap 属性（现代方案）
+    &.lk-space--wrap {
+      flex-wrap: wrap;
+      @include gap(var(--lk-space-row-gap, 16rpx), var(--lk-space-col-gap, 16rpx));
     }
   }
 
+  // =============================================
+  // 垂直方向 (Vertical)
+  // =============================================
   @include m(vertical) {
     flex-direction: column;
 
-    // 褰撲笉鎹㈣涓旀槸鍨傜洿鏂瑰悜鏃讹紝鍙互鍏抽棴宸︿晶鐨勮礋澶栬竟璺濅互淇濇寔瀵归綈锛堝彲閫夛級
-    &:not(.lk-space--wrap) {
-      margin-left: 0;
-      & > * {
-        margin-left: 0;
-      }
+    & > *:not(:first-child) {
+      margin-top: var(--lk-space-row-gap, 16rpx);
     }
   }
 
-  @include m(align-start) {
-    align-items: flex-start;
-  }
-
-  @include m(align-center) {
-    align-items: center;
-  }
-
-  @include m(align-end) {
-    align-items: flex-end;
-  }
-
-  @include m(align-baseline) {
-    align-items: baseline;
-  }
-
-  @include m(align-stretch) {
-    align-items: stretch;
-  }
-
-  @include m(wrap) {
-    flex-wrap: wrap;
-  }
+  // =============================================
+  // 对齐方式 (Alignment)
+  // =============================================
+  @include m(align-start) { align-items: flex-start; }
+  @include m(align-center) { align-items: center; }
+  @include m(align-end) { align-items: flex-end; }
+  @include m(align-baseline) { align-items: baseline; }
+  @include m(align-stretch) { align-items: stretch; }
 }
