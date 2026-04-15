@@ -2,51 +2,81 @@
 
 @include b(divider) {
   // =========================================
-  // 1. 定义组件级 CSS 变量
+  // 1. 组件级 CSS 变量 (支持 themeVars 覆盖)
   // =========================================
-  --_color: var(--lk-color-border-light);
-  --_text-color: var(--lk-text-secondary);
-  // 使用正确的背景变量，自动适配亮暗主题
-  --_text-bg: var(--lk-bg-container);
-  --_text-fs: var(--lk-font-size-sm);
-  --_margin: var(--lk-spacing-xl);
+  --lk-divider-color: var(--lk-color-border-light);
+  --lk-divider-text-color: var(--lk-text-secondary);
+  --lk-divider-font-size: var(--lk-font-size-sm);
+  --lk-divider-margin: var(--lk-spacing-xl);
+  --lk-divider-thickness: 2rpx;
+  --lk-divider-content-padding: var(--lk-spacing-md);
 
   // =========================================
-  // 2. 核心盒模型
+  // 2. 基础布局 (Flexbox)
   // =========================================
-  position: relative;
-  height: 2rpx;
-  background: var(--_color);
-  margin: var(--_margin) 0;
+  display: flex;
+  align-items: center;
+  margin: var(--lk-divider-margin) 0;
+  color: var(--lk-divider-text-color);
+  font-size: var(--lk-divider-font-size);
 
-  @include when(hairline) {
-    height: 1rpx;
+  // =========================================
+  // 3. 结构与对齐: 左中右 3-View 拼接
+  // =========================================
+  @include e(left) {
+    flex: 1;
+    box-sizing: border-box;
+    height: 1px;
+    border-top: var(--lk-divider-thickness) solid var(--lk-divider-color);
   }
 
-  @include when(dashed) {
-    background: none;
-    border-top: 2rpx dashed var(--_color);
+  @include e(right) {
+    flex: 1;
+    box-sizing: border-box;
+    height: 1px;
+    border-top: var(--lk-divider-thickness) solid var(--lk-divider-color);
   }
 
-  @include when(vertical) {
-    width: 2rpx;
-    height: 1em;
-    background: var(--_color);
-    margin: 0 var(--lk-spacing-md);
-    display: inline-block;
-    vertical-align: middle;
-    position: static;
-    transform: none;
-  }
-
-  @include e(text) {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--_text-bg);
-    padding: 0 var(--lk-spacing-sm);
-    font-size: var(--_text-fs);
-    color: var(--_text-color);
+  @include e(content) {
+    padding: 0 var(--lk-divider-content-padding);
     white-space: nowrap;
+  }
+
+  // 偏移对齐
+  @include when(has-text) {
+    @include m(left) {
+      .lk-divider__left { flex: 0 0 var(--lk-spacing-xl); }
+    }
+    @include m(right) {
+      .lk-divider__right { flex: 0 0 var(--lk-spacing-xl); }
+    }
+  }
+
+  // =========================================
+  // 4. 变体与状态
+  // =========================================
+  
+  // 虚线模式
+  @include when(dashed) {
+    .lk-divider__left,
+    .lk-divider__right {
+      border-top-style: dashed;
+    }
+  }
+
+  // 细线模式
+  @include when(hairline) {
+    --lk-divider-thickness: 1rpx;
+  }
+
+  // 纵向模式 (Vertical)
+  @include when(vertical) {
+    display: inline-block;
+    width: var(--lk-divider-thickness);
+    height: 0.9em;
+    margin: 0 var(--lk-spacing-sm);
+    vertical-align: middle;
+    background-color: var(--lk-divider-color);
+    flex: none;
   }
 }
