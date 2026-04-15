@@ -295,6 +295,20 @@ const resolvedDirection = computed(() => {
 });
 
 // 子按钮位置计算
+const labelPosition = computed(() => {
+  const dir = resolvedDirection.value;
+  const centerX = posX.value + sizePx.value / 2;
+  const centerY = posY.value + sizePx.value / 2;
+
+  if (dir === 'up' || dir === 'down') {
+    // 纵向展开时，如果在屏幕左侧，标签显示在右侧
+    return centerX < windowWidth / 2 ? 'right' : 'left';
+  } else {
+    // 横向展开时，如果在屏幕上半部，标签显示在下方
+    return centerY < windowHeight / 2 ? 'bottom' : 'top';
+  }
+});
+
 function getActionStyle(index: number) {
   const gap = rpx2px(24);
   const distance = (actionSizePx.value + gap) * (index + 1);
@@ -370,7 +384,7 @@ const currentIcon = computed(() => {
         v-for="(action, index) in actions"
         :key="action.key"
         class="lk-fab__action"
-        :class="{ 'is-disabled': action.disabled, 'is-blur': blur }"
+        :class="[{ 'is-disabled': action.disabled, 'is-blur': blur }, `is-label-${labelPosition}`]"
         :style="getActionStyle(index)"
         @click.stop="handleActionClick(action)"
       >

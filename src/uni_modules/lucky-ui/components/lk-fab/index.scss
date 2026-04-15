@@ -97,11 +97,43 @@
       -webkit-backdrop-filter: blur(16px);
       opacity: 0.85;
     }
+
+    // 动态标签定位
+    @include when(label-left) {
+      .lk-fab__action-label {
+        right: calc(100% + 20rpx);
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    @include when(label-right) {
+      .lk-fab__action-label {
+        left: calc(100% + 20rpx);
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    @include when(label-top) {
+      .lk-fab__action-label {
+        bottom: calc(100% + 20rpx);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    @include when(label-bottom) {
+      .lk-fab__action-label {
+        top: calc(100% + 20rpx);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
   }
 
   @include e(action-label) {
     position: absolute;
-    right: calc(100% + 16rpx);
     white-space: nowrap;
     font-size: var(--lk-font-size-sm);
     color: var(--lk-text-primary);
