@@ -12,6 +12,16 @@ const props = defineProps({
 const collapse = inject<any>('LkCollapse');
 const open = computed(() => collapse.active.value.includes(props.name));
 
+const itemClasses = computed(() => [
+  'lk-collapse-item',
+  `lk-collapse-item--${collapse.type || 'separate'}`,
+  {
+    'is-open': open.value,
+    'is-disabled': props.disabled,
+    'has-border': collapse.border
+  }
+]);
+
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
 function toggle() {
@@ -27,7 +37,7 @@ function onHeaderTap(e: unknown) {
 </script>
 
 <template>
-  <view class="lk-collapse-item" :class="{ 'is-open': open, 'is-disabled': disabled }">
+  <view :class="itemClasses">
     <view
       class="lk-collapse-item__header lk-ripple"
       :class="{ 'lk-ripple--active': rippleActive }"

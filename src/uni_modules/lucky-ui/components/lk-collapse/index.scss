@@ -3,16 +3,28 @@
 @include b(collapse) {
   display: flex;
   flex-direction: column;
-  @include col-gap(var(--lk-spacing-xs));
+  
+  // 分离模式：有间距
+  @include m(separate) {
+    @include col-gap(var(--lk-spacing-sm));
+  }
+
+  // 整体模式：作为大容器
+  @include m(unified) {
+    background: var(--lk-bg-container);
+    border-radius: var(--lk-radius-lg);
+    overflow: hidden;
+
+    @include when(has-border) {
+      border: 2rpx solid var(--lk-color-border-light);
+    }
+  }
 }
 
 @include b(collapse-item) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-container);
-  --_radius: var(--lk-radius-lg);
-  --_border-color: var(--lk-color-border-light);
   --_header-py: var(--lk-spacing-lg);
   --_header-px: var(--lk-spacing-xl);
   --_header-fs: var(--lk-font-size-lg);
@@ -21,12 +33,10 @@
   --_body-fs: var(--lk-font-size-sm);
 
   // =========================================
-  // 2. 核心盒模型
+  // 2. 基础布局与 header
   // =========================================
-  background: var(--_bg);
-  border-radius: var(--_radius);
-  border: 2rpx solid var(--_border-color);
   overflow: hidden;
+  transition: all var(--lk-transition-base);
 
   @include e(header) {
     display: flex;
@@ -52,12 +62,12 @@
 
   @include e(title) {
     flex: 1;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
   }
 
   @include e(arrow) {
     transition: transform var(--lk-transition-fast);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     flex: none;
 
     @include when(open) {
@@ -69,20 +79,59 @@
     padding: 0 var(--_body-px) var(--_body-pb);
     font-size: var(--_body-fs);
     line-height: 1.6;
-    color: var(--lk-color-text-secondary);
-    // 更平滑的展开动画
+    color: var(--lk-text-regular);
+    // 展开动画
     animation: lk-collapse-expand 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // =========================================
+  // 3. 视觉模式适配
+  // =========================================
+
+  // 分离模式：独立卡片
+  @include m(separate) {
+    background: var(--lk-bg-container);
+    border-radius: var(--lk-radius-lg);
+    
+    @include when(has-border) {
+      border: 2rpx solid var(--lk-color-border-light);
+    }
+  }
+
+  // 整体模式：无外部边距，内部加分割线
+  @include m(unified) {
+    background: transparent;
+    border-radius: 0;
+    border: none;
+
+    // 内部邻接分割线
+    &:not(:first-child) {
+      position: relative;
+      @include when(has-border) {
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: var(--_header-px);
+          right: 0;
+          height: 1rpx;
+          background: var(--lk-color-border-light);
+          z-index: 1;
+        }
+      }
+    }
   }
 
   @include when(disabled) {
     opacity: 0.5;
+    pointer-events: none;
   }
 }
 
 @keyframes lk-collapse-expand {
   from {
     opacity: 0;
-    transform: translateY(-12rpx);
+    transform: translateY(-10rpx);
     max-height: 0;
   }
   to {

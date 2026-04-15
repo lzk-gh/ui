@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, provide } from 'vue';
+import { ref, watch, provide, computed } from 'vue';
 import { collapseProps, collapseEmits } from './collapse.props';
 
 defineOptions({ name: 'LkCollapse' });
@@ -36,11 +36,26 @@ function toggle(name: any) {
   emit('change', props.accordion ? active.value[0] : active.value);
 }
 
-provide('LkCollapse', { active, accordion: props.accordion, toggle });
+const classes = computed(() => [
+  'lk-collapse',
+  `lk-collapse--${props.type}`,
+  {
+    'has-border': props.border
+  },
+  props.customClass
+]);
+
+provide('LkCollapse', { 
+  active, 
+  accordion: props.accordion, 
+  type: props.type,
+  border: props.border,
+  toggle 
+});
 </script>
 
 <template>
-  <view class="lk-collapse">
+  <view :class="classes" :style="props.customStyle">
     <slot />
   </view>
 </template>
