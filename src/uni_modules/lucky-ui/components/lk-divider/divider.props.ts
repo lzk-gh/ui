@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
 /**
@@ -32,12 +32,12 @@ export const dividerProps = {
    * @value left 左侧
    * @value center 居中
    * @value right 右侧
+   * @value 其他 支持百分比(如 '20%', 20) 或 具体像素(如 '50px', '100rpx')
    */
-  textPosition: LkProp.enum(
-    Object.values(DividerTextPosition),
-    DividerTextPosition.Center,
-    'Divider.textPosition'
-  ),
+  textPosition: {
+    type: [String, Number] as PropType<DividerTextPosition | string | number>,
+    default: DividerTextPosition.Center,
+  },
 } as const;
 
 export type DividerProps = ExtractPropTypes<typeof dividerProps>;
