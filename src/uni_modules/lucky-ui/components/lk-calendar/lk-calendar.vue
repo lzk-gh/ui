@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, toRef, nextTick, onMounted, getCurrentInstance } from 'vue';
 import { calendarProps, calendarEmits } from './calendar.props';
+import { getLunar } from '../../utils/lunar';
 defineOptions({ name: 'LkCalendar' });
 
 type DateLike = Date | string | null | undefined;
@@ -153,7 +154,19 @@ const days = computed(() => {
     const multiSelected =
       isInMultipleMode() && internalMultiple.value.some(x => formatDate(x) === ds);
 
-    arr.push({
+    // 农历 & 节日
+    let lunar: any = null;
+    if (props.showLunar || props.showHoliday) {
+      lunar = getLunar(date);
+    }
+
+    // 标记点
+    const dayMarkers = props.markers?.filter(m => {
+      const md = parseDate(m.date);
+      return md && formatDate(md) === ds;
+    }) || [];
+
+    let dayData: any = {
       d,
       date,
       isToday: ds === tstr,
@@ -163,7 +176,16 @@ const days = computed(() => {
       rangeStart,
       rangeEnd,
       multiSelected,
-    });
+      lunar,
+      markers: dayMarkers,
+    };
+
+    // 格式化
+    if (typeof props.formatter === 'function') {
+      dayData = props.formatter(dayData);
+    }
+
+    arr.push(dayData);
   }
   return arr;
 });
@@ -242,7 +264,7 @@ const rowHeightPx = computed(() => {
   if (gridHeightPx.value && totalRows.value > 0) {
     return gridHeightPx.value / totalRows.value;
   }
-  return uni.upx2px(92);
+  return uni.upx2px(100);
 });
 
 const isCollapsed = computed(() => gridHeightCurrent.value <= rowHeightPx.value + 1);
@@ -575,7 +597,26 @@ const accentStyle = computed(() => {
           @click="select(d)"
         >
           <template v-if="d">
+            <text v-if="d.topText" class="lk-calendar__top-text">{{ d.topText }}</text>
             <text class="lk-calendar__day-text">{{ d.d }}</text>
+            <text
+              v-if="(showLunar || showHoliday) && d.lunar"
+              class="lk-calendar__lunar-text"
+              :class="{ 'is-holiday': d.lunar.festival || d.lunar.lunarFestival || d.lunar.solarTerm }"
+            >
+              {{ d.lunar.fullLunarName }}
+            </text>
+            <text v-if="d.bottomText" class="lk-calendar__bottom-text">{{ d.bottomText }}</text>
+
+            <view v-if="d.markers && d.markers.length > 0" class="lk-calendar__markers">
+              <view
+                v-for="(m, mi) in d.markers.slice(0, 3)"
+                :key="mi"
+                class="lk-calendar__marker"
+                :class="[`is-${m.type || 'dot'}`]"
+                :style="{ backgroundColor: m.color || 'var(--lk-calendar-accent)' }"
+              />
+            </view>
           </template>
         </view>
       </view>

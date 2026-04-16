@@ -64,6 +64,22 @@ export const calendarProps = {
   ),
   /** 值格式化 */
   valueFormat: LkProp.string('YYYY-MM-DD'),
+  /** 是否显示农历 */
+  showLunar: LkProp.boolean(false),
+  /** 是否显示节假日/气 */
+  showHoliday: LkProp.boolean(false),
+  /** 日期标记点 */
+  markers: LkProp.array<{
+    date: Date | string;
+    color?: string;
+    type?: 'dot' | 'bar';
+    label?: string;
+  }>(),
+  /** 日期自定义格式化 */
+  formatter: {
+    type: Function as PropType<(day: any) => any>,
+    default: undefined,
+  },
 } as const;
 
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>;
