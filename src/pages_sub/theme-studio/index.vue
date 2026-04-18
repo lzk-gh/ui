@@ -35,14 +35,14 @@ function toggleTheme() {
 </script>
 
 <template>
-  <lk-config-provider 
-    :theme="isDark ? 'dark' : 'light'" 
+  <lk-config-provider
+    :theme="isDark ? 'dark' : 'light'"
     :brand-color="brandColor"
     :theme-vars="themeVars"
     class="theme-studio"
   >
     <lk-navbar title="主题实验室" back />
-    
+
     <scroll-view scroll-y class="content">
       <!-- 预览区 -->
       <view class="section preview-card">
@@ -65,7 +65,7 @@ function toggleTheme() {
       <!-- 控制区 -->
       <view class="section controls">
         <view class="section-title">全局调整</view>
-        
+
         <lk-cell title="深色模式">
           <template #right-icon>
             <lk-switch :model-value="isDark" @update:model-value="isDark = $event" />
@@ -75,10 +75,10 @@ function toggleTheme() {
         <view class="control-item">
           <text class="label">品牌颜色</text>
           <view class="color-presets">
-            <view 
-              v-for="c in presets" 
-              :key="c" 
-              class="color-dot" 
+            <view
+              v-for="c in presets"
+              :key="c"
+              class="color-dot"
               :style="{ backgroundColor: c, border: brandColor === c ? '4rpx solid #333' : 'none' }"
               @tap="brandColor = c"
             />
@@ -110,7 +110,7 @@ function toggleTheme() {
 
       <!-- 局部覆盖演示 -->
       <view class="section">
-        <view class="section-title">局部覆盖演示 (Nested Provider)</text>
+        <view class="section-title">局部覆盖演示 (Nested Provider)</view>
         <view class="desc">下面的卡片被嵌套的 ConfigProvider 包裹，强制使用直角。</view>
         <lk-config-provider :theme-vars="{ 'radius-base': '0rpx' }">
           <lk-card title="我是硬派直角卡片" status="不受全局圆角控制" />
@@ -138,7 +138,7 @@ function toggleTheme() {
 
 .section {
   margin-bottom: 40rpx;
-  
+
   &-title {
     font-size: 32rpx;
     font-weight: bold;
@@ -168,18 +168,18 @@ function toggleTheme() {
 
 .control-item {
   margin: 30rpx 0;
-  
+
   .label-row {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15rpx;
   }
-  
+
   .label {
     font-size: 28rpx;
     color: var(--lk-text-regular);
   }
-  
+
   .value {
     font-size: 24rpx;
     color: var(--lk-color-primary);
