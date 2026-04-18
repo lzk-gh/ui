@@ -2,37 +2,35 @@
 
 @include b(space) {
   display: inline-flex;
-  // 基础布局：默认不换行，不溢出
   box-sizing: border-box;
 
-  // 垂直间距 (行间距)
-  @include e(item) {
-    display: block;
-    box-sizing: border-box;
-  }
-
-  @include m(fill) {
-    display: flex;
-    width: 100%;
-  }
+  // 常用标签和组件列表
+  $tags: (
+    'view', 'text', 'image', 'button', 'navigator', 
+    'lk-icon', 'lk-button', 'lk-tag', 'lk-badge', 'lk-space-item'
+  );
 
   // =============================================
   // 水平方向 (Horizontal)
   // =============================================
   @include m(horizontal) {
     flex-direction: row;
+    margin-right: calc(-1 * var(--lk-space-col-gap, 16rpx));
 
-    // 当不换行时，直接使用邻接选择器加 margin-left
-    &:not(.lk-space--wrap) {
-      & > *:not(:first-child) {
-        margin-left: var(--lk-space-col-gap, 16rpx);
+    @each $tag in $tags {
+      & > #{$tag} {
+        margin-right: var(--lk-space-col-gap, 16rpx);
       }
     }
 
-    // 当换行时，使用正向 gap 属性（现代方案）
     &.lk-space--wrap {
       flex-wrap: wrap;
-      @include gap(var(--lk-space-row-gap, 16rpx), var(--lk-space-col-gap, 16rpx));
+      margin-bottom: calc(-1 * var(--lk-space-row-gap, 16rpx));
+      @each $tag in $tags {
+        & > #{$tag} {
+          margin-bottom: var(--lk-space-row-gap, 16rpx);
+        }
+      }
     }
   }
 
@@ -41,10 +39,18 @@
   // =============================================
   @include m(vertical) {
     flex-direction: column;
+    margin-bottom: calc(-1 * var(--lk-space-row-gap, 16rpx));
 
-    & > *:not(:first-child) {
-      margin-top: var(--lk-space-row-gap, 16rpx);
+    @each $tag in $tags {
+      & > #{$tag} {
+        margin-bottom: var(--lk-space-row-gap, 16rpx);
+      }
     }
+  }
+
+  @include m(fill) {
+    display: flex;
+    width: 100%;
   }
 
   // =============================================
@@ -56,3 +62,5 @@
   @include m(align-baseline) { align-items: baseline; }
   @include m(align-stretch) { align-items: stretch; }
 }
+
+

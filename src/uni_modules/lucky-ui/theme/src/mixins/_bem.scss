@@ -75,3 +75,15 @@ $B: null;
   $selector-string: meta.inspect($selector);
   @return string.index($selector-string, $keyword);
 }
+
+// 辅助函数：字符串分割
+@function split-str($string, $separator) {
+  $index: string.index($string, $separator);
+  @if $index {
+    @return join(
+      string.slice($string, 1, $index - 1),
+      split-str(string.slice($string, $index + string.length($separator)), $separator)
+    );
+  }
+  @return ($string);
+}

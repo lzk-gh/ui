@@ -8,50 +8,59 @@
  * - 支持：Flex / 普通块级布局
  */
 
+// 常用标签和组件列表，用于精准打击间距逻辑
+$lk-spacing-tags: (
+  'view', 'text', 'image', 'button', 'navigator', 'scroll-view', 'swiper', 
+  'lk-button', 'lk-icon', 'lk-tag', 'lk-badge', 'lk-space-item', 'lk-avatar', 
+  'lk-checkbox', 'lk-radio', 'lk-switch', 'lk-stepper', 'lk-input'
+);
+
 /**
  * 水平方向间距 (Flex Row)
- * 适用于不换行的水平布局
+ * 采用负外边距方案，全端兼容
  */
 @mixin row-gap($gap) {
   display: flex;
   flex-direction: row;
   
-  & > *:not(:first-child) {
-    margin-left: $gap;
+  // 给父容器设置负外边距，抵消子项最后一个多出的间距
+  margin-right: calc(-1 * #{$gap});
+
+  @each $tag in $lk-spacing-tags {
+    & > #{$tag} {
+      margin-right: $gap;
+    }
   }
 }
 
 /**
  * 垂直方向间距 (Flex Column)
- * 适用于垂直布局
  */
 @mixin col-gap($gap) {
   display: flex;
   flex-direction: column;
+  margin-bottom: calc(-1 * #{$gap});
 
-  & > *:not(:first-child) {
-    margin-top: $gap;
+  @each $tag in $lk-spacing-tags {
+    & > #{$tag} {
+      margin-bottom: $gap;
+    }
   }
 }
 
 /**
- * 模拟 gap 属性 (支持换行的布局)
- * 方案：优先使用原生 gap 属性，如果存在兼容性问题，则手动在子项上加间距
+ * 通用间距 (Grid/Wrap)
  */
 @mixin gap($row-gap, $column-gap: $row-gap) {
-  // 现代方案
-  gap: $row-gap $column-gap;
+  // 针对不支持原生 gap 的环境，这种方式比 gap 更稳
+  // 注意：在 wrap 模式下，负外边距是唯一能完美处理最后一项的方式
+  margin-right: calc(-1 * #{$column-gap});
+  margin-bottom: calc(-1 * #{$row-gap});
 
-  // 针对极其老旧环境的降级逻辑（可选，通常现代小程序均已支持 gap）
-  /*
-  @supports not (gap: 1rpx) {
-    display: flex;
-    flex-wrap: wrap;
-    margin: calc(-1 * #{$row-gap} / 2) calc(-1 * #{$column-gap} / 2);
-    
-    & > * {
-      margin: calc(#{$row-gap} / 2) calc(#{$column-gap} / 2);
+  @each $tag in $lk-spacing-tags {
+    & > #{$tag} {
+      margin-right: $column-gap;
+      margin-bottom: $row-gap;
     }
   }
-  */
 }
