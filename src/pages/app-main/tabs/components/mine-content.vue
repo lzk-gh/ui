@@ -65,6 +65,10 @@ const goToEditProfile = () => {
 const goToSettings = () => {
   uni.navigateTo({ url: '/pages_sub/settings/index' });
 };
+
+const goToThemeStudio = () => {
+  uni.navigateTo({ url: '/pages_sub/theme-studio/index' });
+};
 </script>
 
 <template>
@@ -166,6 +170,14 @@ const goToSettings = () => {
               clickable
               arrow
               @click="showThemeSheet = true"
+            />
+            <lk-cell
+              title="Theme Studio"
+              icon="palette"
+              label="Global Config Provider"
+              clickable
+              arrow
+              @click="goToThemeStudio"
             />
             <lk-cell title="Privacy Policy" icon="shield-lock" clickable arrow />
             <lk-cell title="Settings" icon="gear" clickable arrow @click="goToSettings" />

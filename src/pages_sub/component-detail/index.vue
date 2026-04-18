@@ -26,7 +26,8 @@
         <!-- 演示区域 -->
         <view class="demo-area">
           <!-- 动态加载对应的演示组件（小程序不支持 <component :is>，改用 v-if 静态切换） -->
-          <ButtonDemo v-if="componentName === 'button'" />
+          <ConfigProviderDemo v-if="componentName === 'config-provider'" />
+          <ButtonDemo v-else-if="componentName === 'button'" />
           <IconDemo v-else-if="componentName === 'icon'" />
           <TagDemo v-else-if="componentName === 'tag'" />
           <BadgeDemo v-else-if="componentName === 'badge'" />
@@ -120,6 +121,12 @@ import ChartPieDemo from '@/components/demos/chart-pie-demo.vue';
 // 组件信息映射
 const componentMap: Record<string, any> = {
   // 基础组件
+  'config-provider': {
+    title: 'ConfigProvider 配置容器',
+    desc: '全局配置容器，用于统一设置主题、品牌色等',
+    icon: 'sliders',
+    color: 'primary',
+  },
   button: {
     title: 'Button 按钮',
     desc: '用于触发操作的交互元素',
@@ -556,6 +563,7 @@ onBeforeUnmount(() => {
 // 导入所有演示组件
 // 基础组件
 import ButtonDemo from '@/components/demos/button-demo.vue';
+import ConfigProviderDemo from '@/components/demos/config-provider-demo.vue';
 import IconDemo from '@/components/demos/icon-demo.vue';
 import TagDemo from '@/components/demos/tag-demo.vue';
 import BadgeDemo from '@/components/demos/badge-demo.vue';
@@ -627,6 +635,7 @@ import PreloadDemo from '@/components/demos/preload-demo.vue';
 // 演示组件映射
 const demoComponentMap: Record<string, any> = {
   // 基础组件
+  'config-provider': ConfigProviderDemo,
   button: ButtonDemo,
   icon: IconDemo,
   tag: TagDemo,

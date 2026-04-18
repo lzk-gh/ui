@@ -30,11 +30,6 @@ export const configProviderProps = {
    * 是否开启底部安全区适配
    */
   safeAreaInsetBottom: LkProp.boolean(false),
-
-  /**
-   * 容器标签
-   */
-  tag: LkProp.string('view'),
 } as const;
 
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>;

@@ -71,13 +71,12 @@ const classes = computed(() => [
 </script>
 
 <template>
-  <component 
-    :is="tag" 
+  <view 
     :class="classes" 
     :style="activeStyle"
   >
     <slot />
-  </component>
+  </view>
 </template>
 
 <style lang="scss">

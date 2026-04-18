@@ -52,6 +52,7 @@ const categories = [
     icon: 'box-seam',
     color: 'primary',
     components: [
+      { name: 'config-provider', label: 'ConfigProvider', desc: '配置容器', icon: 'sliders' },
       { name: 'button', label: 'Button', desc: '按钮', icon: 'app-indicator' },
       { name: 'icon', label: 'Icon', desc: '图标', icon: 'house' },
       { name: 'tag', label: 'Tag', desc: '标签', icon: 'tag' },
