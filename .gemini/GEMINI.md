@@ -335,13 +335,14 @@ lucky-ui-test/                     # 功能验证项目
 ```
 
 ### 样式设计
-```
-- 统一使用 BEM mixin：@include b(组件名) / @include e(元素) / @include m(修饰) / @include when(状态)
-- 组件内部状态变量用 --_xxx 命名（双横线+下划线前缀），与 button 样式保持一致
-- 尺寸 / 颜色全部使用 CSS 变量 Token（--lk-xxx），不硬编码
-- rpx 单位用于固定尺寸（如 border: 2rpx），百分比或 em 用于相对尺寸
-- 避免使用 * 通配符选择器
-- 点击态 / 激活态统一用 :active:not(.is-disabled):not(.is-loading) 保护
+- 样式设计
+  - 统一使用 BEM mixin：@include b(组件名) / @include e(元素) / @include m(修饰) / @include when(状态)
+  - 组件内部状态变量用 --_xxx 命名（双横线+下划线前缀），与 button 样式保持一致
+  - 尺寸 / 颜色全部使用 CSS 变量 Token（--lk-xxx），不硬编码
+  - rpx 单位用于固定尺寸（如 border: 2rpx），百分比或 em 用于相对尺寸
+  - 避免使用 * 通配符选择器
+  - 点击态 / 激活态统一用 :active:not(.is-disabled):not(.is-loading) 保护
+  - **跨端样式稳定性：在 `:style` 注入 CSS 变量时，若小程序端存在变量解析回退（渲染为默认值或空白），请为变量显式提供兜底值（如 `:style="{ '--_bg': bgColor || 'var(--lk-color-danger)' }"`），确保小程序环境渲染的一致性。**
 ```
 
 ### 跨端兼容
