@@ -73,6 +73,18 @@ const val = ref('')
 </template>
 ```
 
+## 输入框变体
+
+```vue
+<template>
+  <view class="demo-col">
+    <lk-input variant="default" placeholder="默认风格" />
+    <lk-input variant="underline" placeholder="下划线风格" />
+    <lk-input variant="underline" borderless placeholder="下划线无边框风格" />
+  </view>
+</template>
+```
+
 ## 可清空 & 字数统计
 
 ```vue
@@ -152,6 +164,8 @@ async function submit() {
 | modelValue | 绑定值（v-model） | `string \| number` | `''` |
 | type | 输入类型 | `text \| password \| number \| tel \| email` | `text` |
 | size | 尺寸 | `sm \| md \| lg` | `md` |
+| variant | 输入框变体 | `default \| underline` | `default` |
+| borderless | 是否无边框 | `boolean` | `false` |
 | placeholder | 占位文字 | `string` | `''` |
 | disabled | 是否禁用 | `boolean` | `false` |
 | readonly | 是否只读 | `boolean` | `false` |

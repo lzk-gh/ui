@@ -12,7 +12,8 @@
   --_bg: var(--lk-bg-input);
 
   position: relative;
-  display: inline-flex;
+  display: flex;
+  box-sizing: border-box;
   align-items: center;
   width: 100%;
   background: var(--_bg);
@@ -24,19 +25,31 @@
     box-shadow var(--lk-transition-fast),
     background-color var(--lk-transition-fast);
 
-  // No Border and Padding for Form Style (Tencent Style)
+  // 无边框风格：使用浅灰色背景，不显示边框，保留内边距
   @include when(borderless) {
     border-color: transparent !important;
-    background-color: transparent !important;
-    padding-left: 0;
-    padding-right: 0;
+    background-color: var(--lk-bg-input) !important;
     box-shadow: none !important;
 
-    .lk-input__inner {
-      text-align: left;
+    &:focus-within {
+      box-shadow: none !important;
     }
+  }
+
+  // Underline Style
+  &--underline {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 2rpx solid var(--_border);
+    box-shadow: none !important;
 
     &:focus-within {
+      border-bottom-color: var(--_border-active);
       box-shadow: none !important;
     }
   }

@@ -98,6 +98,13 @@ export const inputProps = {
   showPassword: LkProp.boolean(false),
 
   /**
+   * 输入框变体
+   * @value default 默认
+   * @value underline 下划线
+   */
+  variant: LkProp.enum(['default', 'underline'] as const, 'default', 'Input.variant'),
+
+  /**
    * 是否无边框 (常用于列表 Cell 内部)
    * @default false
    */

@@ -16,13 +16,9 @@ const composing = ref(false);
 // 密码明文切换状态
 const passwordVisible = ref(false);
 
-// 实际使用的 input type：密码切换时从 password 变为 text
-const realType = computed(() => {
-  if (props.type === 'password' && props.showPassword && passwordVisible.value) {
-    return 'text';
-  }
-  return props.type;
-});
+// 实际使用的 input type
+const realType = computed(() => (passwordVisible.value ? 'text' : props.type));
+const isPassword = computed(() => props.type === 'password');
 
 function commit(val: any, change = false) {
   inner.value = val;
@@ -84,6 +80,7 @@ const count = computed(() => {
 const classes = computed(() => [
   'lk-input',
   `lk-input--${props.size}`,
+  `lk-input--${props.variant}`,
   {
     'is-disabled': props.disabled,
     'is-readonly': props.readonly,

@@ -27,8 +27,10 @@ function onConfirm() {
 
 <template>
   <view class="component-demo">
-    <demo-block title="基础用法">
-      <lk-input v-model="value1" placeholder="请输入内容" />
+    <demo-block title="输入框变体">
+      <lk-input v-model="value1" placeholder="默认风格" />
+      <lk-input v-model="value2" variant="underline" placeholder="下划线风格" style="margin-top: 16rpx" />
+      <lk-input v-model="value3" variant="underline" borderless placeholder="下划线无边框风格" style="margin-top: 16rpx" />
     </demo-block>
 
     <demo-block title="输入类型">
