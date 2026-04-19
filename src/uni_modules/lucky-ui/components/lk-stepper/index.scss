@@ -2,15 +2,15 @@
 
 @include b(stepper) {
   // --- 基础变量 ---
-  --stepper-height: var(--lk-control-height-md);
-  --stepper-btn-size: var(--lk-control-height-md); // 按钮宽=高
-  --stepper-input-width: 64rpx;
+  --stepper-height: 56rpx;
+  --stepper-btn-size: 56rpx; // 按钮宽=高
+  --stepper-input-width: 80rpx;
   // 使用统一的控件填充色（Apple 风格），与 Input 保持一致
   --stepper-bg: var(--lk-bg-input);
   --stepper-active-bg: var(--lk-bg-active);
   --stepper-color: var(--lk-text-primary);
   --stepper-radius: var(--lk-radius-sm);
-  --stepper-gap: var(--lk-spacing-xxs);
+  --stepper-gap: 4rpx;
 
   display: inline-flex;
   align-items: center;
@@ -18,15 +18,15 @@
 
   // --- 尺寸修饰符 ---
   @include m(sm) {
-    --stepper-height: 44rpx;
-    --stepper-btn-size: 44rpx;
-    --stepper-input-width: 56rpx;
+    --stepper-height: 48rpx;
+    --stepper-btn-size: 48rpx;
+    --stepper-input-width: 72rpx;
   }
 
   @include m(lg) {
-    --stepper-height: 68rpx;
-    --stepper-btn-size: 68rpx;
-    --stepper-input-width: 80rpx;
+    --stepper-height: 64rpx;
+    --stepper-btn-size: 64rpx;
+    --stepper-input-width: 96rpx;
   }
 
   // --- 按钮通用样式 ---

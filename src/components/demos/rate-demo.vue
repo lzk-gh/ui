@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 
 const value1 = ref(3);
-const value2 = ref(3.5);
 const value3 = ref(4);
 const value4 = ref(2);
 const value5 = ref(5);
@@ -16,23 +15,6 @@ const valueClear = ref(3);
     <demo-block title="基础用法">
       <lk-rate v-model="value1" />
       <text class="demo-tip">当前值：{{ value1 }}</text>
-    </demo-block>
-
-    <demo-block title="半星评分">
-      <lk-rate v-model="value2" allow-half />
-      <text class="demo-tip">当前值：{{ value2 }}</text>
-    </demo-block>
-
-    <demo-block title="半星 + 自定义空星图标">
-      <lk-rate
-        v-model="value7"
-        allow-half
-        icon="star-fill"
-        icon-half="star-half"
-        icon-void="star"
-        color="#f5a623"
-        color-void="#ddd"
-      />
     </demo-block>
 
     <demo-block title="可清除（再次点击清零）">

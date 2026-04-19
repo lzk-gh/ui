@@ -82,8 +82,8 @@
     width: var(--lk-slider-thumb-size);
     height: var(--lk-slider-thumb-size);
     border-radius: 50%;
-    background: var(--lk-bg-container);
-    box-shadow: var(--lk-slider-thumb-shadow);
+    background: #ffffff;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
     display: flex;
     justify-content: center;

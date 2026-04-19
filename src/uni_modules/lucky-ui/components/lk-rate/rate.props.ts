@@ -22,12 +22,6 @@ export const rateProps = {
    */
   allowClear: LkProp.boolean(true),
 
-  /**
-   * 是否支持半星选择
-   * @default false
-   */
-  allowHalf: LkProp.boolean(false),
-
   /** 图标大小（支持 number / string） */
   size: {
     type: [String, Number] as PropType<string | number>,
@@ -45,9 +39,6 @@ export const rateProps = {
 
   /** 未选中时的图标名（默认 star） */
   iconVoid: LkProp.string(''),
-
-  /** 半星图标名（默认 star-half-fill） */
-  iconHalf: LkProp.string(''),
 
   /** 表单字段名 */
   prop: LkProp.string(''),

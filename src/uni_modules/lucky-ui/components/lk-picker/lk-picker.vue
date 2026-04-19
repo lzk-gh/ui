@@ -106,17 +106,10 @@ function onChange(e: { detail: { value: number[] } }) {
 
   selectedIndexes.value = idxs;
 
-  // 计算选中的值
-  let value: string | number | (string | number)[];
-  if (props.mode === 'single') {
-    value = cols[0]?.[idxs[0]]?.value ?? '';
-  } else {
-    value = cols.map((col, i) => col[idxs[i]]?.value ?? '');
-    innerValue.value = value as (string | number)[];
+  // 滚动过程中仅更新内部缓存值，不触发外部更新
+  if (props.mode !== 'single') {
+    innerValue.value = cols.map((col, i) => col[idxs[i]]?.value ?? '');
   }
-
-  emit('update:modelValue', value);
-  emit('change', value);
 }
 
 function onCancel() {
@@ -135,6 +128,8 @@ function onConfirm() {
     value = cols.map((col, i) => col[idxs[i]]?.value ?? '');
   }
 
+  emit('update:modelValue', value);
+  emit('change', value);
   emit('confirm', value);
   emit('update:visible', false);
 }
