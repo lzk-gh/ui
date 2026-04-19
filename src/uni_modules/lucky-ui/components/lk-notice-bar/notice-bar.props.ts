@@ -35,8 +35,8 @@ export const noticeBarProps = {
   icon: LkProp.string(''),
 
   /** 文字颜色 */
-  // 默认使用警告色（橙色/黄色），而不是品牌色
-  color: LkProp.string('var(--lk-color-warning)'),
+  // 默认使用文本主色，不再使用警告色
+  color: LkProp.string('var(--lk-color-text)'),
 
   /** 背景颜色 */
   // 默认使用中性填充色，而不是品牌淡色

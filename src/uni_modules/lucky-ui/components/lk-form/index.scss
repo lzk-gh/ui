@@ -50,6 +50,13 @@
     margin-right: var(--_gap-x);
   }
 
+  // 右对齐逻辑
+  &--right {
+    .lk-form-item__label {
+      justify-content: flex-end;
+    }
+  }
+
   @include e(star) {
     color: var(--_error-color);
     margin-right: 4rpx;
@@ -61,7 +68,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    text-align: left;
   }
 
   @include e(arrow) {
@@ -101,10 +107,10 @@
     }
   }
 
+  // 移除强制的 text-align: left，由组件内部布局决定
   ::v-deep .lk-input {
-    text-align: left;
     .lk-input__inner {
-       text-align: left;
+       text-align: inherit;
     }
   }
 
