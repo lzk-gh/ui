@@ -23,8 +23,8 @@ const displayValue = computed(() => {
       :style="{
         right: (offset as [number, number])[0] + 'rpx',
         top: (offset as [number, number])[1] + 'rpx',
-        '--_color': color || undefined,
-        '--_bg': bgColor || undefined,
+        '--_color': color || '#ffffff',
+        '--_bg': bgColor || 'var(--lk-color-danger)',
       }"
     >
       <text v-if="!dot">{{ displayValue }}</text>
