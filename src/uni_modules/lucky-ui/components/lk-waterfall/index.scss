@@ -129,8 +129,11 @@
     padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
     background: var(--lk-color-bg-elevated, #fff);
+
+    & > view:not(:first-child) {
+      margin-top: 8px;
+    }
   }
 
   // ======================== 默认卡片 ========================
@@ -202,8 +205,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
     padding: 16px;
+
+    & > view:not(:first-child) {
+      margin-left: 6px;
+    }
   }
 
   @include e(loading-dot) {

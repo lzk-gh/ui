@@ -14,7 +14,10 @@
 
   display: inline-flex;
   align-items: center;
-  gap: var(--stepper-gap); // 使用 gap 控制间隙
+
+  & > view:not(:first-child) {
+    margin-left: var(--stepper-gap);
+  }
 
   // --- 尺寸修饰符 ---
   @include m(sm) {

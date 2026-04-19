@@ -3,19 +3,12 @@
 @include b(rate) {
   display: inline-flex;
   align-items: center;
-  gap: var(--lk-spacing-xs); /* 星之间的间距 */
-
-  @include when(disabled) {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
-  @include when(readonly) {
-    pointer-events: none;
-  }
 
   @include e(item) {
     cursor: pointer;
     line-height: 1;
+
+    &:not(:first-child) {
+      margin-left: var(--lk-spacing-xs);
+    }
   }
-}

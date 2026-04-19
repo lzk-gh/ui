@@ -3,7 +3,6 @@
 @include b(progress) {
   display: flex;
   align-items: center;
-  gap: var(--lk-spacing-sm);
   width: 100%;
 
   @include e(track) {
@@ -96,6 +95,7 @@
     color: var(--lk-color-text-secondary);
     min-width: 80rpx;
     text-align: right;
+    margin-left: var(--lk-spacing-sm);
   }
 
   @include e(text-in) {

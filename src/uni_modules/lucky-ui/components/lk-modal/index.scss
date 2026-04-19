@@ -79,10 +79,11 @@
       justify-content: center;
       width: 100%;
       border-radius: var(--lk-radius-lg);
-    }
 
-    /* 恢复使用 gap，简洁且适配现代浏览器 */
-    gap: var(--lk-spacing-md);
+      &:not(:first-child) {
+        margin-left: var(--lk-spacing-md);
+      }
+    }
 
     @include e(footer-btn) {
       @include m(cancel) {

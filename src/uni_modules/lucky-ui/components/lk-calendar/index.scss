@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(calendar) {
   // =========================================
@@ -17,8 +17,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-md);
   font-size: var(--_fs);
+
+  & > view:not(:first-child) {
+    margin-top: var(--lk-spacing-md);
+  }
 
   @include e(header) {
     display: flex;
@@ -52,10 +55,11 @@
   @include e(shortcuts) {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--lk-spacing-sm);
+    margin: calc(var(--lk-spacing-sm) * -0.5);
   }
 
   @include e(chip) {
+    margin: calc(var(--lk-spacing-sm) * 0.5);
     padding: var(--lk-spacing-xxs) var(--lk-spacing-md);
     border-radius: var(--lk-radius-full);
     background: var(--_accent-bg);
@@ -83,9 +87,9 @@
   }
 
   @include e(grid) {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: var(--lk-spacing-xs);
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(var(--lk-spacing-xs) * -0.5);
     transition: transform 0.25s ease;
   }
 
@@ -97,6 +101,8 @@
 
   @include e(cell) {
     position: relative;
+    width: calc(14.285% - var(--lk-spacing-xs));
+    margin: calc(var(--lk-spacing-xs) * 0.5);
     height: 84rpx;
     display: flex;
     align-items: center;
@@ -105,6 +111,7 @@
     background: transparent;
     color: var(--lk-color-text);
     transition: all 0.2s;
+    box-sizing: border-box;
 
     @include when(empty) {
       background: transparent;

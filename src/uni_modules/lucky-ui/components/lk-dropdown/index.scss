@@ -47,13 +47,22 @@
   // =========================================
   display: flex;
   align-items: center;
-  gap: var(--_gap);
   padding: var(--_py) var(--_px);
   font-size: var(--_fs);
   color: var(--lk-color-text);
   transition:
     background var(--lk-transition-fast),
     color var(--lk-transition-fast);
+
+  & > view:not(:first-child),
+  & > lk-icon:not(:first-child) {
+    margin-left: var(--_gap);
+  }
+
+  // 针对 lk-icon 在不同端可能渲染为不同标签的情况
+  :deep(.lk-icon) + .lk-dropdown-item__label {
+    margin-left: var(--_gap);
+  }
 
   &:active:not(.is-disabled) {
     background: var(--lk-color-bg-active);

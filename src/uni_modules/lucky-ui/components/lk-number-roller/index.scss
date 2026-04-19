@@ -3,7 +3,6 @@
 @include b(number-roller) {
   display: inline-flex;
   align-items: center;
-  gap: 4rpx;
   font-weight: 600;
   font-size: var(--lk-number-roller-digit-height);
   line-height: var(--lk-number-roller-digit-height);
@@ -15,6 +14,10 @@
   font-feature-settings:
     'tnum' 1,
     'lnum' 1;
+
+  & > view:not(:first-child) {
+    margin-left: 4rpx;
+  }
 
   @include e(segment) {
     display: inline-flex;

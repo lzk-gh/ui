@@ -1,9 +1,10 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(upload) {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--lk-spacing-md);
+  // 移除 gap，使用负 margin 方案
+  margin: calc(var(--lk-spacing-md) * -0.5);
 
   @include when(disabled) {
     opacity: 0.55;
@@ -21,6 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: calc(var(--lk-spacing-md) * 0.5);
   }
 
   @include e(img) {
@@ -37,8 +39,11 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    gap: 8rpx;
     color: var(--lk-color-text-secondary);
+
+    .lk-icon {
+      margin-bottom: 8rpx;
+    }
   }
 
   @include e(file-name) {
@@ -59,8 +64,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8rpx;
     color: #fff;
+
+    & > view:first-child {
+      margin-bottom: 8rpx;
+    }
 
     &--fail {
       background: rgba(0, 0, 0, 0.6);
@@ -141,11 +149,15 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: var(--lk-spacing-xs);
     color: var(--lk-color-text-secondary);
     font-size: var(--lk-font-size-sm);
     border: 2rpx dashed var(--lk-color-border);
     transition: all 0.2s ease;
+    margin: calc(var(--lk-spacing-md) * 0.5);
+
+    .lk-icon {
+      margin-bottom: var(--lk-spacing-xs);
+    }
 
     &:active {
       background: var(--lk-color-fill-secondary);
@@ -164,4 +176,9 @@
     color: var(--lk-color-text-tertiary);
     margin-top: 4rpx;
   }
+}
+
+.lk-upload-wrapper {
+  overflow: hidden;
+  width: 100%;
 }

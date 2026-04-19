@@ -1,15 +1,25 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(loading) {
   display: inline-flex;
   align-items: center;
-  gap: var(--lk-spacing-xs);
   color: var(--lk-color-text-secondary);
-  // 默认使用中性灰色，而不是品牌色
   --_color: var(--lk-loading-spinner);
+
+  // 通用间距逻辑：如果后面有文本，则给动画容器加间距
+  & > view:first-child {
+    margin-right: var(--lk-spacing-xs);
+  }
+
+  // 如果没有文本，清除间距（例如只有图标时）
+  &:empty,
+  & > view:last-child:first-child {
+    margin-right: 0;
+  }
 
   @include e(text) {
     font-size: 24rpx;
+    // 移除 margin-left，由前面的元素控制 margin-right
   }
 
   @include e(spinner) {
@@ -19,12 +29,13 @@
     animation: lk-spin 0.8s linear infinite;
     display: inline-block;
     box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   @include e(dots) {
     display: inline-flex;
     align-items: center;
-    gap: 10rpx;
+    flex-shrink: 0;
 
     .dot {
       width: 16rpx;
@@ -32,6 +43,10 @@
       border-radius: 50%;
       background: var(--_color);
       animation: lk-dots 0.9s ease-in-out infinite;
+
+      &:not(:first-child) {
+        margin-left: 10rpx;
+      }
 
       &:nth-child(2) {
         animation-delay: 0.15s;
@@ -50,6 +65,7 @@
     border-radius: 12rpx;
     overflow: hidden;
     width: 160rpx;
+    flex-shrink: 0;
 
     .bar-indicator {
       position: absolute;
@@ -66,7 +82,7 @@
   @include e(bounce) {
     display: inline-flex;
     align-items: center;
-    gap: var(--lk-spacing-xxs);
+    flex-shrink: 0;
 
     .bounce-ball {
       width: 20rpx;
@@ -74,6 +90,10 @@
       border-radius: 50%;
       background: var(--_color);
       animation: lk-bounce 1.2s ease-in-out infinite;
+
+      &:not(:first-child) {
+        margin-left: var(--lk-spacing-xxs);
+      }
 
       &:nth-child(2) {
         animation-delay: 0.1s;
@@ -88,7 +108,7 @@
   @include e(wave) {
     display: inline-flex;
     align-items: flex-end;
-    gap: 6rpx;
+    flex-shrink: 0;
 
     .wave-bar {
       width: 12rpx;
@@ -96,6 +116,10 @@
       background: var(--_color);
       border-radius: 6rpx;
       animation: lk-wave 1.2s ease-in-out infinite;
+
+      &:not(:first-child) {
+        margin-left: 6rpx;
+      }
 
       &:nth-child(2) {
         animation-delay: 0.1s;
@@ -122,12 +146,13 @@
     animation: lk-spin 0.8s linear infinite;
     display: inline-block;
     box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   @include e(ellipsis) {
     display: inline-flex;
     align-items: center;
-    gap: var(--lk-spacing-xxs);
+    flex-shrink: 0;
 
     .ellipsis-dot {
       width: 12rpx;
@@ -135,6 +160,10 @@
       border-radius: 50%;
       background: var(--_color);
       animation: lk-ellipsis 1.4s ease-in-out infinite;
+
+      &:not(:first-child) {
+        margin-left: var(--lk-spacing-xxs);
+      }
 
       &:nth-child(2) {
         animation-delay: 0.16s;
@@ -147,6 +176,7 @@
   }
 
   @include e(text-shine) {
+    flex-shrink: 0;
     .loading-text {
       font-size: 32rpx;
       font-weight: 600;
@@ -169,6 +199,14 @@
 
   @include when(vertical) {
     flex-direction: column;
-    gap: var(--lk-spacing-xxs);
+    
+    & > view:first-child {
+      margin-right: 0;
+      margin-bottom: var(--lk-spacing-xxs);
+    }
+
+    @include e(text) {
+      margin-left: 0;
+    }
   }
 }

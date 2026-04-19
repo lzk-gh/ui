@@ -8,7 +8,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--lk-spacing-xs);
   font-size: var(--_fs);
   padding: var(--_py) var(--_px);
   line-height: 1.4;
@@ -75,7 +74,7 @@
     font-size: 28rpx;
     line-height: 1;
     padding: 4rpx;
-    margin-left: 4rpx;
+    margin-left: var(--lk-spacing-xs);
     border-radius: var(--lk-radius-sm);
     &:active {
       background: var(--lk-fill-2);

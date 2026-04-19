@@ -19,3 +19,5 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+src/uni_modules/wot-design-uni

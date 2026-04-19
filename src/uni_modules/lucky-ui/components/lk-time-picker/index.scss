@@ -38,13 +38,19 @@
     padding: var(--lk-spacing-sm);
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-sm);
+
+    & > view:not(:first-child) {
+      margin-top: var(--lk-spacing-sm);
+    }
   }
 
   @include e(columns) {
     display: flex;
-    gap: var(--lk-spacing-xs);
     height: 480rpx;
+
+    & > view:not(:first-child) {
+      margin-left: var(--lk-spacing-xs);
+    }
   }
 
   @include e(col) {
@@ -72,6 +78,9 @@
   @include e(actions) {
     display: flex;
     justify-content: flex-end;
-    gap: var(--lk-spacing-xs);
+    
+    & > view:not(:first-child) {
+      margin-left: var(--lk-spacing-xs);
+    }
   }
 }

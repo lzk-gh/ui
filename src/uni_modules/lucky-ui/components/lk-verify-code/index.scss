@@ -24,6 +24,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    & > .lk-verify-code__cell:not(:first-child) {
+      margin-left: var(--lk-verify-code-gap, 12rpx);
+    }
   }
 
   // 单个单元格

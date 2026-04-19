@@ -8,7 +8,11 @@
   border: 2rpx solid var(--lk-color-border-light);
   display: flex;
   flex-direction: column;
-  gap: 32rpx;
+
+  & > view:not(:first-child),
+  & > text:not(:first-child) {
+    margin-top: 32rpx;
+  }
 
   @include e(title) {
     font-size: 36rpx;
@@ -32,7 +36,11 @@
   @include e(body) {
     display: flex;
     flex-direction: column;
-    gap: 28rpx;
+
+    & > view:not(:first-child),
+    & > text:not(:first-child) {
+      margin-top: 28rpx;
+    }
 
     @include when(no-pad) {
       padding: 0;

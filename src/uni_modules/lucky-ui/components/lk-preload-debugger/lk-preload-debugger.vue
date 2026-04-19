@@ -134,26 +134,28 @@ onUnmounted(() => {
 
     <view v-if="isExpanded" class="lk-preload-debugger__body">
       <!-- 统计信息 -->
-      <view class="lk-preload-debugger__stats">
-        <view class="stat-item">
-          <text class="stat-label">总任务</text>
-          <text class="stat-value">{{ stats.total }}</text>
-        </view>
-        <view class="stat-item stat-item--running">
-          <text class="stat-label">运行中</text>
-          <text class="stat-value">{{ stats.running }}</text>
-        </view>
-        <view class="stat-item stat-item--pending">
-          <text class="stat-label">等待中</text>
-          <text class="stat-value">{{ stats.pending }}</text>
-        </view>
-        <view class="stat-item stat-item--completed">
-          <text class="stat-label">已完成</text>
-          <text class="stat-value">{{ stats.completed }}</text>
-        </view>
-        <view class="stat-item stat-item--failed">
-          <text class="stat-label">失败</text>
-          <text class="stat-value">{{ stats.failed }}</text>
+      <view class="lk-preload-debugger__stats-wrapper">
+        <view class="lk-preload-debugger__stats">
+          <view class="stat-item">
+            <text class="stat-label">总任务</text>
+            <text class="stat-value">{{ stats.total }}</text>
+          </view>
+          <view class="stat-item stat-item--running">
+            <text class="stat-label">运行中</text>
+            <text class="stat-value">{{ stats.running }}</text>
+          </view>
+          <view class="stat-item stat-item--pending">
+            <text class="stat-label">等待中</text>
+            <text class="stat-value">{{ stats.pending }}</text>
+          </view>
+          <view class="stat-item stat-item--completed">
+            <text class="stat-label">已完成</text>
+            <text class="stat-value">{{ stats.completed }}</text>
+          </view>
+          <view class="stat-item stat-item--failed">
+            <text class="stat-label">失败</text>
+            <text class="stat-value">{{ stats.failed }}</text>
+          </view>
         </view>
       </view>
 
@@ -249,21 +251,31 @@ onUnmounted(() => {
 
   &__body {
     padding: 16rpx;
+
+    & > view:not(:first-child) {
+      margin-top: 16rpx;
+    }
+  }
+
+  &__stats-wrapper {
+    width: 100%;
+    overflow: hidden;
   }
 
   &__stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 12rpx;
-    margin-bottom: 16rpx;
+    margin: -6rpx;
 
     .stat-item {
       flex: 1;
       min-width: 80rpx;
       text-align: center;
       padding: 12rpx 8rpx;
+      margin: 6rpx;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 8rpx;
+      box-sizing: border-box;
 
       &--running {
         background: rgba(16, 185, 129, 0.2);
@@ -298,13 +310,13 @@ onUnmounted(() => {
 
   &__actions {
     display: flex;
-    gap: 12rpx;
-    margin-bottom: 16rpx;
+    margin: 0 -6rpx;
 
     .action-btn {
       flex: 1;
       text-align: center;
       padding: 12rpx;
+      margin: 0 6rpx;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 8rpx;
       transition: all 0.2s;
@@ -329,11 +341,11 @@ onUnmounted(() => {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8rpx;
     padding: 8rpx;
+    box-sizing: border-box;
 
     .log-item {
       display: flex;
       align-items: flex-start;
-      gap: 12rpx;
       padding: 8rpx;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
@@ -370,6 +382,7 @@ onUnmounted(() => {
       flex-shrink: 0;
       color: rgba(255, 255, 255, 0.4);
       font-size: 20rpx;
+      margin-right: 12rpx;
     }
 
     .log-message {

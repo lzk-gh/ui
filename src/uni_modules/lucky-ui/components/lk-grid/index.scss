@@ -2,21 +2,23 @@
 
 @include b(grid) {
   display: grid;
-  width: 100%;
+  width: auto; // 重要：让负 margin 正常工作
   grid-auto-rows: 1fr;
-  // text-align: center;
+
+  &-container {
+    width: 100%;
+    overflow: hidden;
+  }
 
   @include e(item) {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: juctify;
+    justify-content: center;
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
     overflow: hidden;
-
-    // 去掉整块点击态背景，保留波纹效果
   }
 
   @include e(item-text) {

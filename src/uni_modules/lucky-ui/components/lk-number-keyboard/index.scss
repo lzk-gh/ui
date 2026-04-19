@@ -10,8 +10,11 @@
 
   @include e(row) {
     display: flex;
-    gap: var(--lk-spacing-xs);
     margin-bottom: var(--lk-spacing-xs);
+
+    & > view:not(:first-child) {
+      margin-left: var(--lk-spacing-xs);
+    }
   }
 
   @include e(key) {

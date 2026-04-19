@@ -1,14 +1,25 @@
 @use '../../theme/src/mixins/bem' as *;
 
+.lk-space-container {
+  width: 100%;
+  overflow: hidden;
+}
+
 @include b(space) {
   display: inline-flex;
+  // 基础变量由 Vue 注入: --lk-space-row-gap, --lk-space-col-gap
 
-  // gap 属性由 Vue 组件通过 style 动态注入，此处无需定义默认值
-  // 现代浏览器、微信小程序、UniApp App-NVUE(Yoga) 均支持 gap
+  /* 
+     使用 ::v-deep 给所有直接子元素注入 margin。
+     这种方案比 gap 兼容性更好，且能处理 wrap 场景。
+  */
+  & > ::v-deep * {
+    margin: calc(var(--lk-space-row-gap) * 0.5) calc(var(--lk-space-col-gap) * 0.5) !important;
+  }
 
   @include m(fill) {
     display: flex;
-    width: 100%;
+    width: auto; // 配合容器的 100% 和负 margin
   }
 
   @include m(horizontal) {

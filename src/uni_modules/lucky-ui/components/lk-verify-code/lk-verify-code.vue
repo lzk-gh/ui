@@ -30,9 +30,12 @@ const cellStyle = computed(() => ({
   fontSize: `${props.fontSize}rpx`,
 }));
 
-const containerStyle = computed(() => ({
-  gap: `${props.gap}rpx`,
-}));
+const containerStyle = computed(() => {
+  const g = props.gap || 0;
+  return {
+    '--lk-verify-code-gap': `${g}rpx`,
+  };
+});
 
 // 倒计时显示文字
 const countdownDisplayText = computed(() => {

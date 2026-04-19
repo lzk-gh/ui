@@ -22,8 +22,8 @@ function formatGap(val: string | number): string {
 }
 
 const style = computed(() => {
-  let rowGap = '0'; // 垂直间距 (行间距)
-  let colGap = '0'; // 水平间距 (列间距)
+  let rowGap = '0px'; // 垂直间距 (行间距)
+  let colGap = '0px'; // 水平间距 (列间距)
 
   if (Array.isArray(props.gap)) {
     // 数组模式: [水平间距, 垂直间距]
@@ -37,8 +37,12 @@ const style = computed(() => {
   }
 
   return {
-    // CSS gap 标准语法: row-gap column-gap
-    gap: `${rowGap} ${colGap}`,
+    // 使用负 margin 抵消子项的 margin
+    // 注意：如果是 wrap 模式，负 margin 是必须的
+    margin: `calc(${rowGap} * -0.5) calc(${colGap} * -0.5)`,
+    // 注入变量给子项使用
+    '--lk-space-row-gap': rowGap,
+    '--lk-space-col-gap': colGap,
   };
 });
 
@@ -60,8 +64,10 @@ const klass = computed(() => [
 </script>
 
 <template>
-  <view :class="klass" :style="style">
-    <slot />
+  <view class="lk-space-container">
+    <view :class="klass" :style="style">
+      <slot />
+    </view>
   </view>
 </template>
 

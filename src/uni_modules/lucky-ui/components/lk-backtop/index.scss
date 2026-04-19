@@ -17,9 +17,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--lk-spacing-xs);
   width: var(--_size);
   height: var(--_size);
+
+  & > view:not(:first-child),
+  & > text:not(:first-child) {
+    margin-left: var(--lk-spacing-xs);
+  }
   border-radius: var(--_radius);
   background: var(--_bg);
   color: var(--lk-color-text-inverse);

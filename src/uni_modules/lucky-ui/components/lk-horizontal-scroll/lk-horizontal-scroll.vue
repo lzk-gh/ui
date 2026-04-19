@@ -11,7 +11,7 @@ const containerStyle = computed(() => {
   const gap = addUnit(props.gap);
   const padding = addUnit(props.padding);
   return {
-    gap,
+    '--lk-hs-gap': gap,
     paddingLeft: padding,
     paddingRight: padding,
   };
@@ -58,6 +58,11 @@ const containerStyle = computed(() => {
     box-sizing: border-box;
     margin: 0;
     border: 0;
+
+    & > ::v-deep view:not(:first-child),
+    & > ::v-deep *:not(:first-child) {
+      margin-left: var(--lk-hs-gap);
+    }
   }
 }
 </style>

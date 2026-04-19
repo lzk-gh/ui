@@ -1,17 +1,23 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(date-picker) {
   @include e(panel) {
     padding: var(--lk-spacing-md) var(--lk-spacing-md) var(--lk-spacing-xl);
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-md);
+
+    & > view:not(:first-child) {
+      margin-top: var(--lk-spacing-md);
+    }
   }
 
   @include e(header) {
     display: flex;
     align-items: center;
-    gap: var(--lk-spacing-sm);
+
+    & > view:not(.lk-date-picker__spacer):not(:first-child) {
+      margin-left: var(--lk-spacing-sm);
+    }
 
     @include e(spacer) {
       flex: 1;
@@ -27,7 +33,10 @@
   @include e(ym) {
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-sm);
+
+    & > view:not(:first-child) {
+      margin-top: var(--lk-spacing-sm);
+    }
 
     @include e(ym-head) {
       display: flex;
@@ -57,12 +66,14 @@
     }
 
     @include e(ym-grid) {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--lk-spacing-xs);
+      display: flex;
+      flex-wrap: wrap;
+      margin: calc(var(--lk-spacing-xs) * -0.5);
     }
 
     @include e(ym-cell) {
+      width: calc(33.33% - var(--lk-spacing-xs));
+      margin: calc(var(--lk-spacing-xs) * 0.5);
       height: 96rpx;
       display: flex;
       align-items: center;
@@ -71,6 +82,7 @@
       background: var(--lk-color-fill-tertiary);
       color: var(--lk-color-text);
       transition: all var(--lk-transition-fast);
+      box-sizing: border-box;
 
       @include when(active) {
         background: var(--lk-color-primary);
@@ -87,7 +99,10 @@
   @include e(time) {
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-xs);
+
+    & > view:not(:first-child) {
+      margin-top: var(--lk-spacing-xs);
+    }
 
     @include e(time-card) {
       border-radius: var(--lk-radius-md);
@@ -96,7 +111,10 @@
       padding: var(--lk-spacing-sm);
       display: flex;
       flex-direction: column;
-      gap: var(--lk-spacing-xs);
+
+      & > view:not(:first-child) {
+        margin-top: var(--lk-spacing-xs);
+      }
     }
 
     @include e(time-head) {
@@ -118,15 +136,21 @@
 
     @include e(time-grid) {
       display: flex;
-      gap: var(--lk-spacing-xs);
+      
+      & > view:not(:first-child) {
+        margin-left: var(--lk-spacing-xs);
+      }
     }
 
     @include e(time-unit) {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8rpx;
       align-items: center;
+
+      & > view:not(:first-child) {
+        margin-top: 8rpx;
+      }
     }
 
     @include e(time-unit-label) {

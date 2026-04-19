@@ -39,7 +39,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--lk-spacing-sm);
     min-width: 200rpx;
     max-width: 80vw;
     padding: 24rpx 40rpx;
@@ -49,6 +48,9 @@
       0 8rpx 24rpx rgba(0, 0, 0, 0.12),
       0 2rpx 8rpx rgba(0, 0, 0, 0.04);
     border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
+
+    // 如果未来加入图标，可以在此处对文本或图标进行 margin 设置
+    // 例如：.lk-toast__icon { margin-right: var(--lk-spacing-sm); }
   }
 
   @include e(text) {
@@ -94,7 +96,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--lk-spacing-sm);
     min-width: 180rpx;
     max-width: 80vw;
     padding: 20rpx 32rpx;

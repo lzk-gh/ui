@@ -362,7 +362,8 @@ defineExpose({
 </script>
 
 <template>
-  <view class="lk-upload" :class="{ 'is-disabled': disabled }">
+  <view class="lk-upload-wrapper">
+    <view class="lk-upload" :class="{ 'is-disabled': disabled }">
     <!-- 已选文件列表 -->
     <view
       v-for="(f, i) in fileList"
@@ -431,6 +432,7 @@ defineExpose({
     >
       <text>确定要删除该文件吗？</text>
     </lk-modal>
+    </view>
   </view>
 </template>
 

@@ -137,11 +137,14 @@
   // 键盘行
   @include e(row) {
     display: flex;
-    gap: var(--kb-gap);
     margin-bottom: var(--kb-gap);
 
     &:last-child {
       margin-bottom: 0;
+    }
+
+    & > view:not(:first-child) {
+      margin-left: var(--kb-gap);
     }
   }
 

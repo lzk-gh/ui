@@ -21,7 +21,11 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-xs);
+
+    & > view:not(:first-child),
+    & > text:not(:first-child) {
+      margin-top: var(--lk-spacing-xs);
+    }
   }
 
   @include e(title) {
@@ -56,9 +60,13 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--lk-spacing-xs);
     background: var(--_bg);
     transition: background-color 0.2s;
+
+    & > view:not(:first-child),
+    & > text:not(:first-child) {
+      margin-top: var(--lk-spacing-xs);
+    }
 
     & + & {
       border-top: 2rpx solid var(--lk-color-border-light);

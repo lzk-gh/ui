@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(tabs) {
   display: flex;
@@ -126,7 +126,12 @@
       transform 0.15s ease;
     flex-shrink: 0;
     box-sizing: border-box;
-    gap: var(--lk-tabs-item-gap);
+
+    // 处理内部图标与文字间距
+    & > .lk-icon + .lk-tabs__label,
+    & > .lk-tabs__label + .lk-icon {
+      margin-left: var(--lk-tabs-item-gap);
+    }
 
     &:active {
       transform: scale(0.97);
@@ -179,7 +184,6 @@
 
     @include e(nav-wrap) {
       padding: 16rpx 24rpx;
-      gap: 16rpx;
     }
 
     @include e(nav-item) {
@@ -188,6 +192,10 @@
       background-color: var(--lk-fill-1, rgba(0, 0, 0, 0.04));
       border-radius: var(--lk-radius-md, 12rpx);
       transition: all 0.25s ease;
+
+      &:not(:first-child) {
+        margin-left: 16rpx;
+      }
 
       @include when(active) {
         background-color: var(--lk-tabs-active-color);
@@ -213,7 +221,6 @@
 
     @include e(nav-wrap) {
       padding: 12rpx 24rpx;
-      gap: 12rpx;
       background: var(--lk-fill-1, rgba(0, 0, 0, 0.04));
       border-radius: var(--lk-radius-full, 999rpx);
       margin: 16rpx 24rpx;
@@ -225,6 +232,10 @@
       border-radius: var(--lk-radius-full, 999rpx);
       background: transparent;
       transition: all 0.25s ease;
+
+      &:not(:first-child) {
+        margin-left: 12rpx;
+      }
 
       @include when(active) {
         background-color: var(--lk-color-bg-container, #ffffff);
