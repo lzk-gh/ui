@@ -49,7 +49,7 @@ export const imageProps = {
   showError: LkProp.boolean(true),
 
   /** 是否开启预览 */
-  preview: LkProp.boolean(false),
+  preview: LkProp.boolean(true),
 } as const;
 
 export type ImageProps = ExtractPropTypes<typeof imageProps>;
