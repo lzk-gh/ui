@@ -13,7 +13,8 @@
      使用 ::v-deep 给所有直接子元素注入 margin。
      这种方案比 gap 兼容性更好，且能处理 wrap 场景。
   */
-  & > ::v-deep * {
+  & > ::v-deep view,
+  & > ::v-deep text {
     margin: calc(var(--lk-space-row-gap) * 0.5) calc(var(--lk-space-col-gap) * 0.5) !important;
   }
 

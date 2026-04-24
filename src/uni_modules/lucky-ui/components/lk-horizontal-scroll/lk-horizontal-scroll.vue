@@ -60,7 +60,7 @@ const containerStyle = computed(() => {
     border: 0;
 
     & > ::v-deep view:not(:first-child),
-    & > ::v-deep *:not(:first-child) {
+    & > ::v-deep text:not(:first-child) {
       margin-left: var(--lk-hs-gap);
     }
   }
