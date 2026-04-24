@@ -4,6 +4,15 @@
   display: inline-flex;
   align-items: center;
 
+  @include when(disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @include when(readonly) {
+    pointer-events: none;
+  }
+
   @include e(item) {
     cursor: pointer;
     line-height: 1;
@@ -12,3 +21,4 @@
       margin-left: var(--lk-spacing-xs);
     }
   }
+}

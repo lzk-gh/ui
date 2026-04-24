@@ -28,11 +28,14 @@
 
     <demo-block title="垂直分割线">
       <view class="vertical-box">
-        <text>文本</text>
+        <text>普通</text>
         <lk-divider vertical />
-        <text>链接</text>
-        <lk-divider vertical />
-        <text>按钮</text>
+        <text>细线</text>
+        <lk-divider vertical hairline />
+        <text>虚线</text>
+        <lk-divider vertical dashed />
+        <text>变高</text>
+        <lk-divider vertical :custom-style="{ height: '1.5em' }" />
       </view>
     </demo-block>
 

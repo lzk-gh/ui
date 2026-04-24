@@ -71,12 +71,18 @@
 
   // 纵向模式 (Vertical)
   @include when(vertical) {
-    display: inline-block;
-    width: var(--lk-divider-thickness);
-    height: 0.9em;
-    margin: 0 var(--lk-spacing-sm);
+    display: inline-flex;
+    width: 0;
+    height: 1em;
+    margin: 0 var(--lk-spacing-md);
     vertical-align: middle;
-    background-color: var(--lk-divider-color);
+    border-left: var(--lk-divider-thickness) solid var(--lk-divider-color);
+    position: relative;
+    top: -1rpx; // 视觉微调
     flex: none;
+
+    @include when(dashed) {
+      border-left-style: dashed;
+    }
   }
 }
