@@ -48,8 +48,8 @@ export const imageProps = {
   /** 是否显示加载失败状态 */
   showError: LkProp.boolean(true),
 
-  /** 是否开启预览 */
-  preview: LkProp.boolean(false),
+  /** 是否开启预览（默认点击可预览） */
+  preview: LkProp.boolean(true),
 } as const;
 
 export type ImageProps = ExtractPropTypes<typeof imageProps>;

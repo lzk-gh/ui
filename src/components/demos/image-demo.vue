@@ -93,22 +93,23 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
           width="200rpx"
           height="150rpx"
           radius="var(--lk-radius-md)"
-          preview
         />
         <lk-image
           src="https://picsum.photos/800/600?random=11"
           width="200rpx"
           height="150rpx"
           radius="var(--lk-radius-md)"
-          preview
         />
         <lk-image
           src="https://picsum.photos/800/600?random=12"
           width="200rpx"
           height="150rpx"
           radius="var(--lk-radius-md)"
-          preview
+          :preview="false"
         />
+      </view>
+      <view class="preview-tip">
+        <text>前两张默认点击可预览，第三张关闭预览。</text>
       </view>
     </demo-block>
 
@@ -145,6 +146,15 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   align-items: center;
   flex-wrap: wrap;
   gap: 16rpx;
+}
+
+.preview-tip {
+  margin-top: 12rpx;
+
+  text {
+    font-size: 22rpx;
+    color: var(--lk-color-text-secondary);
+  }
 }
 
 .image-demo-item {
