@@ -141,6 +141,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 4rpx;
   height: $tabbar-item-height;
   margin: 18rpx 10rpx;
   min-width: 0;

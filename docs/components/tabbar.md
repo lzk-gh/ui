@@ -7,6 +7,18 @@ phone: tabbar
 
 页面底部的导航切换栏，支持三种视觉风格模式，配备丝滑的动画效果。
 
+## lk-tabbar 与 lk-tabbar-container：怎么选？
+
+两者都带「底部 Tab 栏」，但职责不同：
+
+| 需求 | 推荐 |
+|------|------|
+| 只要底部导航条，**上面内容由你自己**用 `v-if`、`lk-tabs`、路由等控制 | 使用 **lk-tabbar**（配合 **lk-tabbar-item** 或 `list`） |
+| 使用 `pages.json` 里多个 `switchTab` 页面，底部栏样式统一 | 使用 **lk-tabbar**，可开启 `switch-page` 配合 `pagePath` |
+| **单个页面**里要做「多 Tab 主框架」：懒加载各 Tab 子组件、`v-show` 保活、避免整页重绘闪烁 | 使用 **[lk-tabbar-container](./tabbar-container)** |
+
+**引入方式（给其它项目用）**：不要依赖本仓库的 `src/...` 路径。把 `lucky-ui` 放到 `src/uni_modules/` 后，模板里直接写 `<lk-tabbar>` 即可（easycom）；需要类型或 `TabConfig` 时再按需 `import`。npm 包场景见 [安装与引入](/guide/install)。
+
 ## 特性
 
 - 🎨 **三种模式**：Fixed（简约）、Slider（滑块）、Bump（中间凸起）
@@ -15,6 +27,40 @@ phone: tabbar
 - 🎭 **毛玻璃效果**：支持 `glassBg` 实现磨砂玻璃质感
 - 🔢 **徽标支持**：数字徽标、小红点、脉冲动画
 - 🎯 **跟随品牌色**：默认使用系统品牌色，支持自定义
+
+## 在页面中使用
+
+`lk-tabbar` 通常放在 Uni-app 页面组件的模板底部，例如 `src/pages/app-main/index.vue`、`src/pages/home/index.vue` 等。该组件本身并不是 `pages.json` 的配置项，必须写在页面 `.vue` 文件内。
+
+下面是一个最小可运行的页面示例：
+
+```vue
+<template>
+  <view class="page-shell">
+    <view class="page-content">页面主体内容</view>
+
+    <lk-tabbar v-model="active" mode="fixed">
+      <lk-tabbar-item name="home" icon="house-fill" label="首页" />
+      <lk-tabbar-item name="category" icon="grid-3x3-gap-fill" label="分类" />
+      <lk-tabbar-item name="cart" icon="cart-fill" label="购物车" :badge="3" />
+      <lk-tabbar-item name="profile" icon="person-fill" label="我的" />
+    </lk-tabbar>
+  </view>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const active = ref('home');
+</script>
+
+<!--
+  说明：如果你使用本工程或本地 lucky-ui 源码，uni-app 会自动通过 easycom 注册
+  `lk-tabbar` / `lk-tabbar-item`，因此无需在 script 中手动 import 组件。
+-->
+```
+
+如果你在自己的项目里使用 `lucky-ui` 包，则导入路径可能为 `lucky-ui/components/lk-tabbar/lk-tabbar.vue` 和 `lucky-ui/components/lk-tabbar/lk-tabbar-item.vue`。
 
 ## 基础用法 - Fixed 模式
 
@@ -173,4 +219,5 @@ interface TabbarItemConfig {
 ## 参考
 
 - 组件演示：`src/components/demos/tabbar-demo.vue`
+- 单页多 Tab 容器（另一种场景）：[Tabbar 容器 tabbar-container](./tabbar-container)
 

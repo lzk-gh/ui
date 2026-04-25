@@ -2,7 +2,6 @@
 import { computed, markRaw } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
-import LkTabbarContainer from '@/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue';
 import type { TabConfig } from '@/uni_modules/lucky-ui/core/src/tabbar-container';
 
 // 同步导入首页（首屏需要立即显示）
@@ -32,7 +31,7 @@ const tabConfig: TabConfig[] = [
     icon: 'cart',
     activeIconFill: true,
     keepAlive: true,
-    badge: 3,
+    badge: 5,
   },
   {
     id: 'detail',
@@ -68,15 +67,20 @@ const handleTabChange = (tabId: string) => {
   console.log('[App] Tab changed to:', tabId);
 };
 
-onShow(() => {
-  // 隐藏原生 tabbar
-  uni.hideTabBar({ animation: false, fail: () => {} });
-});
+// onShow(() => {
+//   // 隐藏原生 tabbar
+//   uni.hideTabBar({ animation: false, fail: () => {} });
+// });
 </script>
 
 <template>
   <view class="app-main" :class="themeClass" :style="brandStyleVars">
-    <lk-tabbar-container :tabs="tabConfig" default-tab="home" @change="handleTabChange">
+    <lk-tabbar-container
+      :tabs="tabConfig"
+      :mode="themeStore.tabbarMode"
+      default-tab="home"
+      @change="handleTabChange"
+    >
       <!-- #ifdef MP-WEIXIN -->
       <template #tab-home>
         <home-tab />

@@ -117,6 +117,7 @@ export default defineConfig({
           items: [
             { text: 'Navbar 导航栏', link: '/components/navbar' },
             { text: 'Tabbar 底部导航', link: '/components/tabbar' },
+            { text: 'Tabbar 容器', link: '/components/tabbar-container' },
             { text: 'Tabs 选项卡', link: '/components/tabs' },
             { text: 'Segmented 分段器', link: '/components/segmented' },
             { text: 'Anchor 锚点导航', link: '/components/anchor' },
