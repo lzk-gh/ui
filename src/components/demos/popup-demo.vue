@@ -116,25 +116,6 @@
       </lk-popup>
     </demo-block>
 
-    <demo-block title="复杂内容示例">
-      <lk-button type="primary" @click="visibleComplex = true">复杂内容弹窗</lk-button>
-      <lk-popup
-        v-model="visibleComplex"
-        position="bottom"
-        round
-        title="选择城市"
-        closable
-        close-icon-position="top-right"
-      >
-        <view class="popup-content-complex">
-          <view class="city-list">
-            <view v-for="city in cities" :key="city" class="city-item" @click="selectCity(city)">
-              {{ city }}
-            </view>
-          </view>
-        </view>
-      </lk-popup>
-    </demo-block>
   </view>
 </template>
 
@@ -160,9 +141,7 @@ const visibleWithTitle = ref(false);
 const visibleWithClose = ref(false);
 const visibleWithBoth = ref(false);
 const visibleCustomTitle = ref(false);
-const visibleComplex = ref(false);
-
-const cities = ['北京', '上海', '广州', '深圳', '杭州', '成都', '重庆', '武汉'];
+ 
 
 const showPopup1 = () => {
   visible1.value = true;
@@ -188,13 +167,6 @@ const showRight = () => {
   visibleRight.value = true;
 };
 
-const selectCity = (city: string) => {
-  uni.showToast({
-    title: `已选择：${city}`,
-    icon: 'none',
-  });
-  visibleComplex.value = false;
-};
 </script>
 
 <style scoped lang="scss">
@@ -212,8 +184,8 @@ const selectCity = (city: string) => {
 .popup-content {
   padding: 40rpx;
   font-size: 32rpx;
-  color: #333;
-  background-color: #fff;
+  color: var(--lk-color-text);
+  background-color: var(--lk-color-bg-container);
   min-width: 200rpx;
   min-height: 100rpx;
   display: flex;
@@ -230,11 +202,11 @@ const selectCity = (city: string) => {
   justify-content: center;
   height: 100%;
   font-size: 32rpx;
-  color: #333;
+  color: var(--lk-color-text);
 
   .desc {
     font-size: 24rpx;
-    color: #999;
+    color: var(--lk-color-text-secondary);
   }
 }
 
@@ -251,50 +223,23 @@ const selectCity = (city: string) => {
 .popup-content-large {
   padding: 0 40rpx 40rpx;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--lk-color-bg-container);
 
   .desc {
     font-size: 28rpx;
-    color: #666;
+    color: var(--lk-color-text-secondary);
     margin-bottom: 30rpx;
     line-height: 1.6;
-    background: #f5f5f5;
+    background: var(--lk-fill-tertiary);
     padding: 20rpx;
     border-radius: 12rpx;
   }
 
   .list-item {
     padding: 30rpx 0;
-    border-bottom: 1rpx solid #eee;
+    border-bottom: 1rpx solid var(--lk-color-border-light);
     font-size: 30rpx;
   }
 }
 
-.popup-content-complex {
-  padding: 20rpx 0;
-  max-height: 600rpx;
-  overflow-y: auto;
-
-  .city-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20rpx;
-    padding: 20rpx 40rpx;
-  }
-
-  .city-item {
-    padding: 20rpx 40rpx;
-    background: #f5f5f5;
-    border-radius: 12rpx;
-    font-size: 28rpx;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:active {
-      background: var(--lk-color-primary-light);
-      color: var(--lk-color-primary);
-    }
-  }
-}
 </style>
