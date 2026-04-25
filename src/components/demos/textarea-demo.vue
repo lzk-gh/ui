@@ -67,7 +67,7 @@ const v5 = ref('');
   flex-direction: column;
   gap: 32rpx;
   padding: 30rpx;
-  background-color: #f9f9f9; // 模拟页面背景
+  background-color: var(--lk-color-bg-page);
 }
 
 .demo-col {
@@ -78,7 +78,7 @@ const v5 = ref('');
 
 .tips {
   font-size: 24rpx;
-  color: #909399;
+  color: var(--lk-color-text-secondary);
   margin-bottom: 12rpx;
 }
 
@@ -89,7 +89,7 @@ const v5 = ref('');
   .tag {
     font-size: 22rpx;
     color: var(--lk-color-primary, #2979ff);
-    background: rgba(41, 121, 255, 0.1);
+    background: var(--lk-color-primary-bg-soft, var(--lk-color-primary-soft));
     padding: 4rpx 12rpx;
     border-radius: 8rpx;
   }
