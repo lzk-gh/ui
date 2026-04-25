@@ -7,10 +7,9 @@
   --switch-duration: 0.25s;
 
   // 颜色（可通过 style 覆盖）
-  --switch-active-color: var(--lk-color-primary);
-  --switch-inactive-color: var(--lk-color-border);
-  // 滑块颜色默认白色，支持自定义
-  --switch-knob-color: var(--lk-color-bg-container);
+  --switch-active-color: var(--lk-switch-color-on);
+  --switch-inactive-color: var(--lk-switch-color-off);
+  --switch-knob-color: var(--lk-switch-knob-color);
 
   // 计算属性
   --switch-width: calc(var(--switch-height) * 1.8);
