@@ -5,7 +5,7 @@ phone: rate
 
 # Rate 评分
 
-用于通过星级或自定义图标表达评分结果，支持交互评分、只读展示、半星评分等场景。
+用于通过星级或自定义图标表达评分结果，支持交互评分、只读展示等场景。
 
 ## 交互式调试
 
@@ -33,12 +33,6 @@ const score = ref(3)
 </template>
 ```
 
-## 半星评分
-
-```vue
-<lk-rate v-model="score" allow-half />
-```
-
 ## 再次点击清零
 
 启用 `allowClear` 后，点击当前已选值可直接清零。
@@ -61,9 +55,7 @@ const score = ref(3)
 ```vue
 <lk-rate
   v-model="score"
-  allow-half
   icon="star-fill"
-  icon-half="star-half"
   icon-void="star"
   color="#f5a623"
   color-void="#d4d4d8"
@@ -113,13 +105,11 @@ import RateDemo from '@/components/demos/rate-demo.vue'
 | disabled | 是否禁用 | `boolean` | `false` |
 | readonly | 是否只读 | `boolean` | `false` |
 | allowClear | 点击当前值时是否允许清零 | `boolean` | `true` |
-| allowHalf | 是否支持半星选择 | `boolean` | `false` |
 | size | 图标尺寸，数字按 `rpx` 处理 | `string \| number` | `48` |
 | color | 选中颜色 | `string` | `''` |
 | colorVoid | 未选中颜色 | `string` | `''` |
 | icon | 选中图标名 | `string` | `''` |
 | iconVoid | 未选中图标名 | `string` | `''` |
-| iconHalf | 半星图标名 | `string` | `''` |
 | prop | 表单字段名 | `string` | `''` |
 
 ### Events
@@ -139,6 +129,3 @@ import RateDemo from '@/components/demos/rate-demo.vue'
 展示历史评分或服务评分结果时，优先使用 `readonly`，避免用户误以为仍可编辑。
 :::
 
-::: warning
-半星能力依赖点击图标左半区或右半区判断，若自定义外层缩放样式，需确认点击区域与视觉区域一致。
-:::
