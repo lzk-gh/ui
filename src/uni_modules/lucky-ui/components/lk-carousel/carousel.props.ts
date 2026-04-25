@@ -69,7 +69,11 @@ export const carouselProps = {
     'Carousel.indicatorAlign'
   ),
   indicatorClickable: { type: Boolean, default: undefined },
+  /** 指示器非激活颜色（优先级高于 indicatorColor） */
+  indicatorInactiveColor: LkProp.string(''),
+  /** 指示器非激活颜色（兼容旧字段） */
   indicatorColor: LkProp.string(''),
+  /** 指示器激活颜色 */
   indicatorActiveColor: LkProp.string(''),
   card: { type: Boolean, default: undefined },
   cardPrevMargin: LkProp.string(''),

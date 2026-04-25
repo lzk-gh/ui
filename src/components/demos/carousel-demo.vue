@@ -9,6 +9,9 @@
         :circular="true"
         @click="handleClick"
       />
+      <view class="tip-text">
+        <text>默认指示器颜色会随亮暗主题反相。</text>
+      </view>
     </demo-block>
 
     <!-- 2. 指示器样式升级 -->
@@ -18,7 +21,7 @@
         :carousel-list="imageList"
         indicator-type="bars"
         indicator-active-color="#fff"
-        indicator-color="rgba(255,255,255,0.4)"
+        indicator-inactive-color="rgba(255,255,255,0.4)"
       />
     </demo-block>
 
@@ -154,6 +157,15 @@ const handleClick = (item: any, index: number) => {
   /* 给卡片模式加个背景，凸显阴影效果 */
   padding: 20rpx 0;
   // background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.tip-text {
+  margin-top: 12rpx;
+
+  text {
+    font-size: 22rpx;
+    color: var(--lk-color-text-secondary);
+  }
 }
 
 .custom-content {

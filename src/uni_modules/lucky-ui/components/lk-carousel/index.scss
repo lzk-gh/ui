@@ -161,7 +161,8 @@
   /* --- 指示器单点 (样式优化：更圆润饱满) --- */
   @include e(indicator) {
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    background-color: var(--lk-color-border-light);
+    // 默认颜色与亮暗主题反相：亮主题偏深、暗主题偏浅
+    background-color: var(--lk-text-primary);
     opacity: 0.4;
 
     /* 圆点：稍微大一点 */
@@ -180,7 +181,7 @@
 
     @include when(active) {
       opacity: 1;
-      background-color: var(--lk-color-text-inverse);
+      background-color: var(--lk-text-primary);
 
       @include when(dot) {
         transform: scale(1.2);
@@ -189,7 +190,7 @@
       @include when(bar) {
         width: 44rpx; /* 激活时变长，更有张力 */
         height: 8rpx;
-        background-color: var(--lk-color-text-inverse);
+        background-color: var(--lk-text-primary);
       }
     }
   }

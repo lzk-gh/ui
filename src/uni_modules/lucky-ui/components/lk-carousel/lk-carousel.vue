@@ -30,6 +30,7 @@ const showIndicators = computed(
   () => props.showIndicators && props.indicatorType !== 'none' && length.value > 1
 );
 const indicatorOutside = computed(() => !props.indicatorOverlay && showIndicators.value);
+const indicatorInactiveColor = computed(() => props.indicatorInactiveColor || props.indicatorColor || undefined);
 
 // Margin 处理
 const previousMargin = computed(() => {
@@ -267,7 +268,7 @@ onMounted(() => {
             backgroundColor:
               index === innerCurrent
                 ? indicatorActiveColor || undefined
-                : indicatorColor || undefined,
+                : indicatorInactiveColor,
           }"
           @click.stop="indicatorClickable ? setActive(index) : undefined"
         ></view>
@@ -305,7 +306,7 @@ onMounted(() => {
             backgroundColor:
               index === innerCurrent
                 ? indicatorActiveColor || undefined
-                : indicatorColor || undefined,
+                : indicatorInactiveColor,
           }"
           @click.stop="indicatorClickable ? setActive(index) : undefined"
         ></view>
