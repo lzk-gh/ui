@@ -6,12 +6,12 @@
 
 @include b(keyboard) {
   // CSS Variables
-  --kb-bg: rgba(209, 213, 219, 0.95);
-  --kb-key-bg: #fff;
-  --kb-key-bg-active: #c5c8cc;
-  --kb-key-text: #1c1c1e;
-  --kb-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.25);
-  --kb-special-bg: #adb3bc;
+  --kb-bg: var(--lk-keyboard-bg);
+  --kb-key-bg: var(--lk-keyboard-key-bg);
+  --kb-key-bg-active: var(--lk-keyboard-key-bg-active);
+  --kb-key-text: var(--lk-keyboard-key-text);
+  --kb-key-shadow: var(--lk-keyboard-key-shadow);
+  --kb-special-bg: var(--lk-keyboard-special-bg);
   --kb-accent: var(--lk-color-primary);
   --kb-radius: 10rpx;
   --kb-key-height: 84rpx;
@@ -37,19 +37,19 @@
 
   // 深色主题
   @include m(dark) {
-    --kb-bg: rgba(44, 44, 46, 0.95);
-    --kb-key-bg: #636366;
-    --kb-key-bg-active: #48484a;
-    --kb-key-text: #fff;
-    --kb-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.5);
-    --kb-special-bg: #48484a;
+    --kb-bg: var(--lk-keyboard-bg);
+    --kb-key-bg: var(--lk-keyboard-key-bg);
+    --kb-key-bg-active: var(--lk-keyboard-key-bg-active);
+    --kb-key-text: var(--lk-keyboard-key-text);
+    --kb-key-shadow: var(--lk-keyboard-key-shadow);
+    --kb-special-bg: var(--lk-keyboard-special-bg);
   }
 
   // 遮罩
   @include e(overlay) {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--lk-keyboard-overlay-bg);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -69,7 +69,7 @@
     height: 88rpx;
     padding: 0 var(--lk-spacing-md);
     background: var(--kb-bg);
-    border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1rpx solid var(--lk-keyboard-header-border);
   }
 
   @include e(header-left) {
@@ -123,7 +123,7 @@
   @include e(indicator-bar) {
     width: 72rpx;
     height: 8rpx;
-    background: rgba(0, 0, 0, 0.15);
+    background: var(--lk-keyboard-indicator-bg);
     border-radius: 4rpx;
   }
 
@@ -180,7 +180,7 @@
     // 确认键
     @include m(confirm) {
       background: var(--kb-accent);
-      color: #fff;
+      color: var(--lk-color-text-inverse);
 
       &:active {
         filter: brightness(0.9);

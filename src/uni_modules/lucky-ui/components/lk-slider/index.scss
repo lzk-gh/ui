@@ -11,7 +11,7 @@
 
   --lk-slider-track-height: 6rpx;
   --lk-slider-thumb-size: 32rpx;
-  --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+  --lk-slider-thumb-shadow: var(--lk-shadow-sm);
   --lk-slider-active-bg: var(--lk-color-primary);
   --lk-slider-inactive-bg: var(--lk-color-fill-tertiary);
 
@@ -49,7 +49,7 @@
     height: var(--lk-slider-track-height);
     width: var(--lk-slider-track-height); // 正方形点，或者是 height 的 100%
     border-radius: 50%;
-    background-color: var(--lk-color-text-inverse, #fff);
+    background-color: var(--lk-color-text-inverse);
     opacity: 0.6;
     transform: translateX(-50%); // 居中
     pointer-events: none; // 不影响点击
@@ -84,7 +84,7 @@
     width: var(--lk-slider-thumb-size);
     height: var(--lk-slider-thumb-size);
     border-radius: 50%;
-    background: #fff;
+    background: var(--lk-color-bg-container);
     box-shadow: var(--lk-slider-thumb-shadow);
     transition: transform 0.2s;
     display: flex;
@@ -98,7 +98,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--lk-color-primary);
-    color: #fff;
+    color: var(--lk-color-text-inverse);
     font-size: 22rpx;
     padding: 4rpx 12rpx;
     border-radius: var(--lk-radius-sm, 8rpx);

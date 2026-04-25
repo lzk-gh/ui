@@ -766,6 +766,12 @@ const loadDemoComponent = async (name: string) => {
 .demo-area {
   min-height: 400rpx;
   margin-bottom: 24rpx;
+  // 统一 Demo 预览背景：与组件默认容器色区分，避免视觉叠色误判
+  --lk-demo-block-bg: var(--lk-fill-1);
+  --lk-demo-block-border: var(--lk-color-border);
+  padding: 20rpx;
+  border-radius: $test-border-radius;
+  background: var(--lk-bg-page);
 }
 
 // 开发中提示（测试页面样式）

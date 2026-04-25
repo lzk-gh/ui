@@ -363,7 +363,7 @@ $tabbar-height: 120rpx;
     margin: 0 12rpx;
     width: calc(var(--item-width) - 24rpx);
     left: calc(var(--item-left) + 12rpx);
-    box-shadow: 0 8rpx 20rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.3);
+    box-shadow: 0 8rpx 20rpx rgba(var(--lk-brand-rgb), 0.3);
     opacity: 0.85; // Lighten it slightly as requested
   }
 
@@ -371,7 +371,7 @@ $tabbar-height: 120rpx;
     height: 6rpx;
     background: var(--lk-color-primary);
     border-radius: 0 0 6rpx 6rpx;
-    box-shadow: 0 4rpx 15rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.6);
+    box-shadow: 0 4rpx 15rpx rgba(var(--lk-brand-rgb), 0.6);
   }
 
   &.is-marker-bottom {
@@ -380,7 +380,7 @@ $tabbar-height: 120rpx;
     height: 8rpx;
     background: var(--lk-color-primary);
     border-radius: 8rpx 8rpx 0 0;
-    box-shadow: 0 -4rpx 15rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.6);
+    box-shadow: 0 -4rpx 15rpx rgba(var(--lk-brand-rgb), 0.6);
   }
 
   &.is-dot-slide {
@@ -420,8 +420,8 @@ $tabbar-height: 120rpx;
     height: 120rpx;
     background: radial-gradient(
       ellipse at bottom,
-      rgba(var(--lk-brand-rgb, 105, 101, 219), 0.5) 0%,
-      rgba(var(--lk-brand-rgb, 105, 101, 219), 0.2) 40%,
+      rgba(var(--lk-brand-rgb), 0.5) 0%,
+      rgba(var(--lk-brand-rgb), 0.2) 40%,
       transparent 70%
     );
     filter: blur(8rpx);
@@ -451,7 +451,7 @@ $tabbar-height: 120rpx;
     right: 0;
     bottom: 0;
     height: 0;
-    background: linear-gradient(to top, rgba(var(--lk-brand-rgb, 105, 101, 219), 0.2), transparent);
+    background: linear-gradient(to top, rgba(var(--lk-brand-rgb), 0.2), transparent);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: -1;
   }
@@ -528,8 +528,8 @@ $tabbar-height: 120rpx;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 10rpx 25rpx rgba(var(--lk-brand-rgb, 105, 101, 219), 0.5);
-        color: #ffffff !important;
+        box-shadow: 0 10rpx 25rpx rgba(var(--lk-brand-rgb), 0.5);
+        color: var(--lk-color-text-inverse) !important;
       }
       .tabbar-item__label {
         transform: translateY(0);
@@ -538,10 +538,10 @@ $tabbar-height: 120rpx;
     }
 
     .lk-tabbar-container--block & {
-      color: #ffffff;
+      color: var(--lk-color-text-inverse);
       .tabbar-item__icon,
       .tabbar-item__label {
-        color: #ffffff !important;
+        color: var(--lk-color-text-inverse) !important;
       }
     }
   }
@@ -577,7 +577,7 @@ $tabbar-height: 120rpx;
     font-size: 20rpx;
     line-height: 32rpx;
     text-align: center;
-    color: #fff;
+    color: var(--lk-color-text-inverse);
     background: var(--lk-color-danger);
     border-radius: 16rpx;
   }

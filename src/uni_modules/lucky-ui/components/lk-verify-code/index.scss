@@ -77,7 +77,7 @@
 
   // 错误文字
   @include e(error) {
-    color: #ff3b30;
+    color: var(--lk-color-danger);
   }
 
   // 提示文字
@@ -122,7 +122,7 @@
 
       &.is-active {
         border-color: var(--lk-color-primary);
-        box-shadow: 0 0 0 4rpx rgba(var(--lk-color-primary-rgb, 0, 122, 255), 0.12);
+        box-shadow: 0 0 0 4rpx rgba(var(--lk-brand-rgb), 0.12);
       }
 
       &.is-filled {
@@ -164,7 +164,7 @@
       &.is-active {
         border-color: var(--lk-color-primary);
         background: var(--lk-color-bg-container);
-        box-shadow: 0 0 0 4rpx rgba(var(--lk-color-primary-rgb, 0, 122, 255), 0.12);
+        box-shadow: 0 0 0 4rpx rgba(var(--lk-brand-rgb), 0.12);
       }
 
       &.is-filled {
@@ -188,11 +188,11 @@
   // 错误状态
   &.is-error {
     .lk-verify-code__cell {
-      border-color: #ff3b30 !important;
+      border-color: var(--lk-color-danger) !important;
       animation: verifyCodeShake 0.4s ease;
 
       &.is-active {
-        box-shadow: 0 0 0 4rpx rgba(255, 59, 48, 0.12);
+        box-shadow: 0 0 0 4rpx var(--lk-color-danger-soft);
       }
     }
   }
@@ -200,12 +200,12 @@
   // 成功状态
   &.is-success {
     .lk-verify-code__cell {
-      border-color: #34c759 !important;
-      background: rgba(52, 199, 89, 0.08);
+      border-color: var(--lk-color-success) !important;
+      background: var(--lk-color-success-soft);
 
       &.is-filled {
         .lk-verify-code__value {
-          color: #34c759;
+          color: var(--lk-color-success);
         }
       }
     }

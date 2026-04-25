@@ -23,7 +23,7 @@
   }
 
   @include e(spinner) {
-    border: 6rpx solid rgba(0, 0, 0, 0.06);
+    border: 6rpx solid var(--lk-color-border-light);
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
@@ -140,7 +140,7 @@
   }
 
   @include e(ring) {
-    border: 4rpx solid rgba(0, 0, 0, 0.06);
+    border: 4rpx solid var(--lk-color-border-light);
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
@@ -182,11 +182,11 @@
       font-weight: 600;
       background: linear-gradient(
         120deg,
-        #452d8f 20%,
-        #a18ae7 30%,
-        #ffffff 40%,
-        #a18ae7 50%,
-        #452d8f 60%
+        var(--lk-color-primary-active) 20%,
+        var(--lk-color-primary-hover) 30%,
+        var(--lk-color-text-inverse) 40%,
+        var(--lk-color-primary-hover) 50%,
+        var(--lk-color-primary-active) 60%
       );
       background-clip: text;
       -webkit-background-clip: text;

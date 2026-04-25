@@ -222,7 +222,7 @@ function onClick() {
     border: 2rpx solid var(--lk-color-text-inverse);
     border-radius: 50%;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--lk-overlay-bg);
 
     &--top-left {
       left: 0;

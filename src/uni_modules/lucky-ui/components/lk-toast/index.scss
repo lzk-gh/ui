@@ -26,7 +26,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.01);
+    background: var(--lk-fill-quaternary);
     pointer-events: auto;
 
     @include when(lock) {
@@ -44,10 +44,8 @@
     padding: 24rpx 40rpx;
     border-radius: var(--lk-border-radius-base); // Medium radius
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    box-shadow:
-      0 8rpx 24rpx rgba(0, 0, 0, 0.12),
-      0 2rpx 8rpx rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
+    box-shadow: var(--lk-shadow-base);
+    border: 1px solid var(--lk-color-border-light);
 
     // 如果未来加入图标，可以在此处对文本或图标进行 margin 设置
     // 例如：.lk-toast__icon { margin-right: var(--lk-spacing-sm); }
@@ -55,7 +53,7 @@
 
   @include e(text) {
     font-size: var(--lk-font-size-md);
-    color: var(--lk-color-text, #333);
+    color: var(--lk-color-text);
     font-weight: 500;
     line-height: 1.5;
     text-align: center;
@@ -101,10 +99,8 @@
     padding: 20rpx 32rpx;
     border-radius: 999px;
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    box-shadow:
-      0 8rpx 24rpx rgba(0, 0, 0, 0.12),
-      0 2rpx 8rpx rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--lk-color-border-light, rgba(0, 0, 0, 0.06));
+    box-shadow: var(--lk-shadow-base);
+    border: 1px solid var(--lk-color-border-light);
   }
 }
 

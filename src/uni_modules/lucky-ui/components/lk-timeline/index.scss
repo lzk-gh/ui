@@ -36,7 +36,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 // ── 条目 ──────────────────────────────────────────────────────────────────────
 
 .lk-timeline-item {
-  --lk-ti-accent: var(--lk-color-primary, #007aff);
+  --lk-ti-accent: var(--lk-color-primary);
 
   display: flex;
   position: relative;
@@ -133,7 +133,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__time {
   font-size: 26rpx;
   font-weight: 500;
-  color: var(--lk-color-text, #1c1c1e);
+  color: var(--lk-color-text);
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
 }
@@ -173,7 +173,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   }
 
   &--outlined {
-    background-color: var(--lk-color-bg, #fff);
+    background-color: var(--lk-color-bg);
     border: 4rpx solid var(--lk-ti-accent);
   }
 
@@ -214,7 +214,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__dot-symbol {
   font-size: 16rpx;
   font-weight: 700;
-  color: #fff;
+  color: var(--lk-color-text-inverse);
   line-height: 1;
   text-align: center;
   pointer-events: none;
@@ -230,14 +230,14 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   bottom: 0;
   left: 23rpx;
   width: $line-width;
-  background-color: var(--lk-color-border, #e5e5ea);
+  background-color: var(--lk-color-border);
   border-radius: 999rpx;
   z-index: 1;
   display: block;
   transition: background-color 200ms ease;
 
   .is-completed & {
-    background-color: var(--lk-color-border, #e5e5ea);
+    background-color: var(--lk-color-border);
   }
 }
 
@@ -267,7 +267,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 .lk-timeline-item__title {
   font-size: 32rpx;
   font-weight: 600;
-  color: var(--lk-color-text, #1c1c1e);
+  color: var(--lk-color-text);
   line-height: 1.3;
   letter-spacing: -0.01em;
 
@@ -276,7 +276,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   }
 
   .is-pending & {
-    color: var(--lk-color-text-tertiary, #aeaeb2);
+    color: var(--lk-color-text-tertiary);
   }
 }
 
@@ -289,7 +289,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 
 .lk-timeline-item__subtitle {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary, #8e8e93);
+  color: var(--lk-color-text-secondary);
   line-height: 1.4;
 }
 
@@ -301,11 +301,11 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
 
 .lk-timeline-item__desc {
   font-size: 28rpx;
-  color: var(--lk-color-text-secondary, #636366);
+  color: var(--lk-color-text-secondary);
   line-height: 1.6;
 
   .is-pending & {
-    color: var(--lk-color-text-tertiary, #aeaeb2);
+    color: var(--lk-color-text-tertiary);
   }
 }
 
@@ -327,7 +327,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   height: 120rpx;
   border-radius: 16rpx;
   overflow: hidden;
-  background: var(--lk-color-bg-weak, #f2f2f7);
+  background: var(--lk-color-bg-weak);
   flex-shrink: 0;
 }
 
@@ -337,7 +337,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   align-items: flex-start;
   margin-top: 8rpx;
   padding: 16rpx;
-  background: var(--lk-color-bg-surface, #f2f2f7);
+  background: var(--lk-color-bg-surface);
   border-radius: 20rpx;
 
   & > .lk-timeline-preview-card__info {
@@ -349,7 +349,7 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
     height: 100rpx;
     border-radius: 14rpx;
     flex-shrink: 0;
-    background: var(--lk-color-bg-weak, #e5e5ea);
+    background: var(--lk-color-bg-weak);
   }
 
   &__info {
@@ -366,13 +366,13 @@ $line-offset-top: 38rpx; // dot(32) + 间距(6)
   &__name {
     font-size: 26rpx;
     font-weight: 600;
-    color: var(--lk-color-text, #1c1c1e);
+    color: var(--lk-color-text);
     line-height: 1.3;
   }
 
   &__meta {
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary, #8e8e93);
+    color: var(--lk-color-text-secondary);
     line-height: 1.4;
   }
 }

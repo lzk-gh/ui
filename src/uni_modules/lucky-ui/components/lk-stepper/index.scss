@@ -8,7 +8,7 @@
   // 使用步进器专用灰色主题变量，便于统一定制
   --stepper-bg: var(--lk-stepper-bg, var(--lk-bg-input));
   --stepper-active-bg: var(--lk-color-bg-active);
-  --stepper-color: var(--lk-color-text, #323233);
+  --stepper-color: var(--lk-color-text);
   --stepper-radius: 8rpx;
   --stepper-gap: 4rpx;
 
@@ -76,8 +76,8 @@
     }
 
     &.is-disabled {
-      color: var(--lk-color-text-disabled, #c8c9cc);
-      background-color: var(--lk-color-bg-disabled, #f7f8fa);
+      color: var(--lk-color-text-disabled);
+      background-color: var(--lk-color-bg-disabled);
       cursor: not-allowed;
     }
   }
@@ -100,8 +100,8 @@
     -webkit-appearance: none; // iOS 消除阴影
 
     &.is-disabled {
-      color: var(--lk-color-text-disabled, #c8c9cc);
-      background-color: var(--lk-color-bg-disabled, #f7f8fa);
+      color: var(--lk-color-text-disabled);
+      background-color: var(--lk-color-bg-disabled);
     }
   }
 

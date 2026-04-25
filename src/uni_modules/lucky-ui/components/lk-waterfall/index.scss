@@ -60,8 +60,8 @@
   @include e(card) {
     width: 100%;
     overflow: hidden;
-    background: var(--lk-color-bg-elevated, #fff);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    background: var(--lk-color-bg-elevated);
+    box-shadow: var(--lk-shadow-sm);
     transition:
       transform 0.2s ease,
       box-shadow 0.2s ease;
@@ -70,7 +70,7 @@
 
     &:active {
       transform: scale(0.98);
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--lk-shadow-sm);
     }
 
     @include m(loading) {
@@ -96,8 +96,8 @@
   @include e(skeleton-card) {
     width: 100%;
     overflow: hidden;
-    background: var(--lk-color-bg-elevated, #fff);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    background: var(--lk-color-bg-elevated);
+    box-shadow: var(--lk-shadow-sm);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -117,9 +117,9 @@
     min-height: 100px;
     background: linear-gradient(
       90deg,
-      var(--lk-color-fill-tertiary, #f5f5f5) 25%,
-      var(--lk-color-fill-secondary, #e8e8e8) 50%,
-      var(--lk-color-fill-tertiary, #f5f5f5) 75%
+      var(--lk-color-fill-tertiary) 25%,
+      var(--lk-color-fill-secondary) 50%,
+      var(--lk-color-fill-tertiary) 75%
     );
     background-size: 200% 100%;
     animation: lk-waterfall-skeleton-shimmer 1.5s infinite linear;
@@ -129,7 +129,7 @@
     padding: 16px;
     display: flex;
     flex-direction: column;
-    background: var(--lk-color-bg-elevated, #fff);
+    background: var(--lk-color-bg-elevated);
 
     & > view:not(:first-child) {
       margin-top: 8px;
@@ -153,13 +153,13 @@
 
   @include e(default-content) {
     padding: 12px;
-    background: var(--lk-color-bg-elevated, #fff);
+    background: var(--lk-color-bg-elevated);
   }
 
   @include e(default-title) {
     font-size: var(--lk-font-size-sm, 14px);
     font-weight: 500;
-    color: var(--lk-color-text, #333);
+    color: var(--lk-color-text);
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -170,7 +170,7 @@
 
   @include e(default-desc) {
     font-size: var(--lk-font-size-xs, 12px);
-    color: var(--lk-color-text-secondary, #999);
+    color: var(--lk-color-text-secondary);
     margin-top: 4px;
     line-height: 1.3;
   }
@@ -182,7 +182,7 @@
     align-items: center;
     justify-content: center;
     padding: 48px 24px;
-    color: var(--lk-color-text-tertiary, #bbb);
+    color: var(--lk-color-text-tertiary);
   }
 
   @include e(empty-icon) {
@@ -216,7 +216,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--lk-color-primary, #007aff);
+    background: var(--lk-color-primary);
     animation: lk-waterfall-dot-bounce 1.4s infinite ease-in-out both;
 
     &:nth-child(1) {

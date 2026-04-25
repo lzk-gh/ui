@@ -18,7 +18,7 @@
   --lk-tabs-font-size: var(--lk-font-size-base);
   --lk-tabs-padding: 0 24rpx;
   --lk-tabs-item-gap: 8rpx;
-  --lk-tabs-header-border: 1px solid var(--lk-border-color-light, rgba(0, 0, 0, 0.06));
+  --lk-tabs-header-border: 1px solid var(--lk-border-color-light, var(--lk-color-border-light));
   --lk-tabs-fade-width: 48rpx;
 
   /* ── header (Tab 栏容器) ────────────────────── */
@@ -63,7 +63,7 @@
     left: 0;
     background: linear-gradient(
       to right,
-      var(--lk-color-bg-container, #ffffff) 0%,
+      var(--lk-color-bg-container) 0%,
       transparent 100%
     );
 
@@ -76,7 +76,7 @@
     right: 0;
     background: linear-gradient(
       to left,
-      var(--lk-color-bg-container, #ffffff) 0%,
+      var(--lk-color-bg-container) 0%,
       transparent 100%
     );
 
@@ -189,7 +189,7 @@
     @include e(nav-item) {
       padding: 16rpx 36rpx;
       margin-right: 0;
-      background-color: var(--lk-fill-1, rgba(0, 0, 0, 0.04));
+      background-color: var(--lk-fill-1);
       border-radius: var(--lk-radius-md, 12rpx);
       transition: all 0.25s ease;
 
@@ -199,8 +199,8 @@
 
       @include when(active) {
         background-color: var(--lk-tabs-active-color);
-        color: #ffffff;
-        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+        color: var(--lk-color-text-inverse);
+        box-shadow: var(--lk-shadow-sm);
       }
     }
 
@@ -221,7 +221,7 @@
 
     @include e(nav-wrap) {
       padding: 12rpx 24rpx;
-      background: var(--lk-fill-1, rgba(0, 0, 0, 0.04));
+      background: var(--lk-fill-1);
       border-radius: var(--lk-radius-full, 999rpx);
       margin: 16rpx 24rpx;
     }
@@ -238,9 +238,9 @@
       }
 
       @include when(active) {
-        background-color: var(--lk-color-bg-container, #ffffff);
+        background-color: var(--lk-color-bg-container);
         color: var(--lk-tabs-active-text-color);
-        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+        box-shadow: var(--lk-shadow-sm);
       }
     }
 

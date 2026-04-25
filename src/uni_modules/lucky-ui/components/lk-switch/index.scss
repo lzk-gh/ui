@@ -7,10 +7,10 @@
   --switch-duration: 0.25s;
 
   // 颜色（可通过 style 覆盖）
-  --switch-active-color: var(--lk-color-primary, #409eff);
-  --switch-inactive-color: var(--lk-color-border, #dcdfe6);
+  --switch-active-color: var(--lk-color-primary);
+  --switch-inactive-color: var(--lk-color-border);
   // 滑块颜色默认白色，支持自定义
-  --switch-knob-color: #ffffff;
+  --switch-knob-color: var(--lk-color-bg-container);
 
   // 计算属性
   --switch-width: calc(var(--switch-height) * 1.8);
@@ -47,7 +47,7 @@
     height: var(--switch-knob-size);
     background: var(--switch-knob-color);
     border-radius: 50%;
-    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.15);
+    box-shadow: var(--lk-shadow-sm);
     transition:
       transform var(--switch-duration) ease,
       width var(--switch-duration) ease;
@@ -57,7 +57,7 @@
   @include e(spinner) {
     width: 50%;
     height: 50%;
-    border: 3rpx solid rgba(0, 0, 0, 0.1);
+    border: 3rpx solid var(--lk-color-border-light);
     border-top-color: var(--switch-active-color);
     border-radius: 50%;
     animation: lk-switch-spin 0.8s linear infinite;

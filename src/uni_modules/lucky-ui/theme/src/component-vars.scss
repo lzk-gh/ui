@@ -196,6 +196,7 @@ page,
   --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
   --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
+  --lk-overlay-bg: rgba(0, 0, 0, 0.55);
 
   /* === 交互效果（中性色，与品牌色解耦）=== */
   /* 点击叠加色（使用透明度，适用于任何背景） */
@@ -250,6 +251,29 @@ page,
 
   /* === 步进器 === */
   --lk-stepper-bg: #{colors.$color-gray-100};
+
+  /* === 键盘 === */
+  --lk-keyboard-bg: rgba(209, 213, 219, 0.95);
+  --lk-keyboard-key-bg: #ffffff;
+  --lk-keyboard-key-bg-active: #c5c8cc;
+  --lk-keyboard-key-text: #1c1c1e;
+  --lk-keyboard-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.25);
+  --lk-keyboard-special-bg: #adb3bc;
+  --lk-keyboard-overlay-bg: rgba(0, 0, 0, 0.3);
+  --lk-keyboard-header-border: rgba(0, 0, 0, 0.1);
+  --lk-keyboard-indicator-bg: rgba(0, 0, 0, 0.15);
+
+  /* === 预加载调试器 === */
+  --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
+  --lk-preload-debugger-text: #ffffff;
+  --lk-preload-debugger-text-muted: rgba(255, 255, 255, 0.6);
+  --lk-preload-debugger-text-faint: rgba(255, 255, 255, 0.4);
+  --lk-preload-debugger-border: rgba(255, 255, 255, 0.1);
+  --lk-preload-debugger-item-bg: rgba(255, 255, 255, 0.1);
+  --lk-preload-debugger-btn-bg: rgba(255, 255, 255, 0.15);
+  --lk-preload-debugger-btn-bg-active: rgba(255, 255, 255, 0.25);
+  --lk-preload-debugger-log-bg: rgba(0, 0, 0, 0.3);
+  --lk-preload-debugger-log-border: rgba(255, 255, 255, 0.05);
 
   /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
@@ -341,6 +365,7 @@ page,
   --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
   --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
+  --lk-overlay-bg: rgba(0, 0, 0, 0.6);
 
   /* === 交互效果（中性色，与品牌色解耦）=== */
   /* 点击叠加色（使用透明度，适用于任何背景） */
@@ -396,6 +421,29 @@ page,
 
   /* === 步进器 === */
   --lk-stepper-bg: rgba(255, 255, 255, 0.08);
+
+  /* === 键盘 === */
+  --lk-keyboard-bg: rgba(44, 44, 46, 0.95);
+  --lk-keyboard-key-bg: #636366;
+  --lk-keyboard-key-bg-active: #48484a;
+  --lk-keyboard-key-text: #ffffff;
+  --lk-keyboard-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.5);
+  --lk-keyboard-special-bg: #48484a;
+  --lk-keyboard-overlay-bg: rgba(0, 0, 0, 0.3);
+  --lk-keyboard-header-border: rgba(255, 255, 255, 0.12);
+  --lk-keyboard-indicator-bg: rgba(255, 255, 255, 0.25);
+
+  /* === 预加载调试器 === */
+  --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
+  --lk-preload-debugger-text: #ffffff;
+  --lk-preload-debugger-text-muted: rgba(255, 255, 255, 0.7);
+  --lk-preload-debugger-text-faint: rgba(255, 255, 255, 0.45);
+  --lk-preload-debugger-border: rgba(255, 255, 255, 0.16);
+  --lk-preload-debugger-item-bg: rgba(255, 255, 255, 0.12);
+  --lk-preload-debugger-btn-bg: rgba(255, 255, 255, 0.2);
+  --lk-preload-debugger-btn-bg-active: rgba(255, 255, 255, 0.3);
+  --lk-preload-debugger-log-bg: rgba(0, 0, 0, 0.4);
+  --lk-preload-debugger-log-border: rgba(255, 255, 255, 0.08);
 
   /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);

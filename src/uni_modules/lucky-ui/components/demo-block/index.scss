@@ -1,11 +1,12 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(demo-block) {
-  background: var(--lk-color-bg-container);
+  // Demo 预览底色默认使用弱填充，避免与组件容器默认白底重叠
+  background: var(--lk-demo-block-bg, var(--lk-fill-tertiary));
   border-radius: var(--lk-radius-lg);
   padding: 40rpx 36rpx 44rpx;
   box-shadow: var(--lk-shadow-sm);
-  border: 2rpx solid var(--lk-color-border-light);
+  border: 2rpx solid var(--lk-demo-block-border, var(--lk-color-border-light));
   display: flex;
   flex-direction: column;
 

@@ -52,13 +52,13 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
   // 毛玻璃效果
   &--glass {
-    background: rgba(255, 255, 255, 0.72);
+    background: var(--lk-color-bg-elevated);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 
     // 暗色主题下的毛玻璃
     .lk-theme-dark & {
-      background: rgba(30, 30, 30, 0.85);
+      background: var(--lk-color-bg-elevated);
     }
   }
 
@@ -145,7 +145,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   height: $tabbar-item-height;
   margin: 18rpx 10rpx;
   min-width: 0;
-  color: var(--lk-tabbar-inactive-color, #909399);
+  color: var(--lk-tabbar-inactive-color, var(--lk-text-secondary));
   font-size: 20rpx;
   line-height: 1;
   cursor: pointer;
@@ -188,7 +188,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     margin: 0;
     margin-top: -50rpx; // 向上突出
     z-index: 10;
-    color: var(--lk-color-text-inverse, #fff);
+    color: var(--lk-color-text-inverse);
     border-radius: 50%;
 
     // 凸起项始终显示为激活态颜色
@@ -200,7 +200,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     .lk-tabbar-item__label {
       position: relative;
       z-index: 2;
-      color: var(--lk-color-text-inverse, #fff);
+      color: var(--lk-color-text-inverse);
     }
 
     // 点击缩放回弹效果
@@ -221,9 +221,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
       bottom: 0;
       background: var(--lk-tabbar-active-color, var(--lk-color-primary));
       border-radius: 50%;
-      box-shadow:
-        0 8rpx 24rpx rgba(0, 0, 0, 0.15),
-        0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+      box-shadow: var(--lk-shadow-base);
       z-index: 1;
       transition: transform 0.2s $tabbar-transition-bounce;
     }
@@ -231,9 +229,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     // 激活状态增强
     &.is-active {
       .lk-tabbar-item__bump-bg {
-        box-shadow:
-          0 12rpx 32rpx rgba(0, 0, 0, 0.2),
-          0 6rpx 12rpx rgba(0, 0, 0, 0.15);
+        box-shadow: var(--lk-shadow-lg);
       }
     }
   }
@@ -332,7 +328,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     }
 
     &--glass {
-      background: rgba(30, 30, 30, 0.85);
+      background: var(--lk-color-bg-elevated);
     }
   }
 

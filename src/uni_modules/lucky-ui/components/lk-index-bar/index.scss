@@ -19,14 +19,14 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
+    box-shadow: var(--lk-shadow-lg);
     animation: lk-index-bar-indicator-in 0.15s ease-out;
   }
 
   @include e(indicator-text) {
     font-size: 80rpx;
     font-weight: 700;
-    color: #fff;
+    color: var(--lk-color-text-inverse);
   }
 
   @include e(sidebar) {
@@ -38,7 +38,7 @@
     flex-direction: column;
     align-items: center;
     padding: 8rpx 4rpx;
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--lk-fill-tertiary);
     border-radius: 32rpx;
     z-index: 100;
     transition: all 0.2s ease;
@@ -49,7 +49,7 @@
     }
 
     @include when(touching) {
-      background: rgba(0, 0, 0, 0.08);
+      background: var(--lk-fill-secondary);
       transform: translateY(-50%) scale(1.1);
     }
   }
@@ -67,7 +67,7 @@
     border-radius: 50%;
 
     @include when(active) {
-      color: #fff;
+      color: var(--lk-color-text-inverse);
       background: var(--_highlight-color);
       transform: scale(1.2);
       font-weight: 600;

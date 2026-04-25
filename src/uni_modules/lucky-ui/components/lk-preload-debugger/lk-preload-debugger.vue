@@ -189,13 +189,13 @@ onUnmounted(() => {
 .lk-preload-debugger {
   position: fixed;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--lk-preload-debugger-bg);
   border-radius: 16rpx;
-  color: #fff;
+  color: var(--lk-preload-debugger-text);
   font-size: 24rpx;
   min-width: 280rpx;
   max-width: 600rpx;
-  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.3);
+  box-shadow: var(--lk-shadow-lg);
 
   &--top-left {
     top: calc(env(safe-area-inset-top) + 20rpx);
@@ -222,7 +222,7 @@ onUnmounted(() => {
     align-items: center;
     justify-content: space-between;
     padding: 20rpx 24rpx;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--lk-preload-debugger-border);
   }
 
   &__title {
@@ -236,16 +236,16 @@ onUnmounted(() => {
     font-size: 20rpx;
 
     &--running {
-      background: #10b981;
+      background: var(--lk-color-success);
       animation: pulse 1.5s infinite;
     }
 
     &--pending {
-      background: #f59e0b;
+      background: var(--lk-color-warning);
     }
 
     &--idle {
-      background: #6b7280;
+      background: var(--lk-text-secondary);
     }
   }
 
@@ -273,31 +273,31 @@ onUnmounted(() => {
       text-align: center;
       padding: 12rpx 8rpx;
       margin: 6rpx;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--lk-preload-debugger-item-bg);
       border-radius: 8rpx;
       box-sizing: border-box;
 
       &--running {
-        background: rgba(16, 185, 129, 0.2);
+        background: var(--lk-color-success-soft);
       }
 
       &--pending {
-        background: rgba(245, 158, 11, 0.2);
+        background: var(--lk-color-warning-soft);
       }
 
       &--completed {
-        background: rgba(59, 130, 246, 0.2);
+        background: var(--lk-color-info-soft);
       }
 
       &--failed {
-        background: rgba(239, 68, 68, 0.2);
+        background: var(--lk-color-danger-soft);
       }
     }
 
     .stat-label {
       display: block;
       font-size: 20rpx;
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--lk-preload-debugger-text-muted);
       margin-bottom: 4rpx;
     }
 
@@ -317,28 +317,28 @@ onUnmounted(() => {
       text-align: center;
       padding: 12rpx;
       margin: 0 6rpx;
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--lk-preload-debugger-btn-bg);
       border-radius: 8rpx;
       transition: all 0.2s;
 
       &:active {
         transform: scale(0.95);
-        background: rgba(255, 255, 255, 0.25);
+        background: var(--lk-preload-debugger-btn-bg-active);
       }
 
       &--active {
-        background: #10b981;
+        background: var(--lk-color-success);
       }
 
       &--danger {
-        background: rgba(239, 68, 68, 0.5);
+        background: var(--lk-color-danger);
       }
     }
   }
 
   &__logs {
     max-height: 300rpx;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--lk-preload-debugger-log-bg);
     border-radius: 8rpx;
     padding: 8rpx;
     box-sizing: border-box;
@@ -347,7 +347,7 @@ onUnmounted(() => {
       display: flex;
       align-items: flex-start;
       padding: 8rpx;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid var(--lk-preload-debugger-log-border);
 
       &:last-child {
         border-bottom: none;
@@ -355,32 +355,32 @@ onUnmounted(() => {
 
       &--start {
         .log-message {
-          color: #a78bfa;
+          color: var(--lk-color-primary-soft);
         }
       }
 
       &--complete {
         .log-message {
-          color: #34d399;
+          color: var(--lk-color-success);
         }
       }
 
       &--error {
         .log-message {
-          color: #f87171;
+          color: var(--lk-color-danger);
         }
       }
 
       &--info {
         .log-message {
-          color: #60a5fa;
+          color: var(--lk-color-info);
         }
       }
     }
 
     .log-time {
       flex-shrink: 0;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--lk-preload-debugger-text-faint);
       font-size: 20rpx;
       margin-right: 12rpx;
     }
@@ -394,7 +394,7 @@ onUnmounted(() => {
     .log-empty {
       text-align: center;
       padding: 24rpx;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--lk-preload-debugger-text-faint);
     }
   }
 }
