@@ -5,8 +5,8 @@
   --stepper-height: 56rpx;
   --stepper-btn-size: 56rpx; // 按钮宽=高
   --stepper-input-width: 64rpx;
-  // 使用统一的控件填充色（Apple 风格），与 Input 保持一致
-  --stepper-bg: var(--lk-bg-input);
+  // 使用步进器专用灰色主题变量，便于统一定制
+  --stepper-bg: var(--lk-stepper-bg, var(--lk-bg-input));
   --stepper-active-bg: var(--lk-color-bg-active);
   --stepper-color: var(--lk-color-text, #323233);
   --stepper-radius: 8rpx;
@@ -15,7 +15,7 @@
   display: inline-flex;
   align-items: center;
 
-  & > view:not(:first-child) {
+  & > *:not(:first-child) {
     margin-left: var(--stepper-gap);
   }
 

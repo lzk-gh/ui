@@ -248,6 +248,9 @@ page,
   --lk-rate-icon-size: 48rpx;
   --lk-rate-gap: 8rpx;
 
+  /* === 步进器 === */
+  --lk-stepper-bg: #{colors.$color-gray-100};
+
   /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
   --lk-checkbox-checked-color: var(--lk-color-primary);
@@ -390,6 +393,9 @@ page,
   --lk-rate-color-void: var(--lk-fill-tertiary);
   --lk-rate-icon-size: 48rpx;
   --lk-rate-gap: 8rpx;
+
+  /* === 步进器 === */
+  --lk-stepper-bg: rgba(255, 255, 255, 0.08);
 
   /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
