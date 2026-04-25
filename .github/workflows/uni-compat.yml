@@ -1,0 +1,55 @@
+name: uni-compat
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  compat-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Compatibility Check
+        run: pnpm run compat-check
+
+      - name: ESLint
+        run: pnpm run lint:eslint
+
+      - name: Stylelint
+        run: pnpm run lint:stylelint
+
+      - name: Type Check
+        run: pnpm run type-check
+
+      - name: Build H5
+        run: pnpm run build:h5
+
+      - name: Build MP Weixin
+        run: pnpm run build:mp-weixin
+
+      - name: Export Showcase Report
+        run: pnpm run report:showcase
+
+      - name: Upload Showcase Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: showcase-cases-report
+          path: artifacts/showcase-cases-report.json

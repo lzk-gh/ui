@@ -4,6 +4,7 @@ import tsParser from '@typescript-eslint/parser';
 import vuePlugin from 'eslint-plugin-vue';
 import vueParser from 'vue-eslint-parser';
 import prettierConfig from 'eslint-config-prettier';
+import noUnsupportedTagsRule from './eslint-rules/no-unsupported-tags.js';
 
 export default [
   // 忽略的文件和目录
@@ -121,6 +122,11 @@ export default [
     plugins: {
       vue: vuePlugin,
       '@typescript-eslint': tsPlugin,
+      'uni-compat': {
+        rules: {
+          'no-unsupported-tags': noUnsupportedTagsRule,
+        },
+      },
     },
     rules: {
       // Vue 规则
@@ -180,6 +186,7 @@ export default [
         },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
+      'uni-compat/no-unsupported-tags': 'warn',
     },
   },
 
@@ -212,7 +219,7 @@ export default [
 
   // Node 脚本配置
   {
-    files: ['src/uni_modules/lucky-ui/scripts/**/*.js'],
+    files: ['src/uni_modules/lucky-ui/scripts/**/*.js', 'scripts/**/*.js', 'tests/miniprogram/**/*.js'],
     languageOptions: {
       globals: {
         process: 'readonly',

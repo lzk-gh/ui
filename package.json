@@ -2,6 +2,7 @@
   "name": "uni-preset-vue",
   "version": "0.0.0",
   "scripts": {
+    "compat-check": "node scripts/compat-check.js",
     "dev:custom": "uni -p",
     "dev:h5": "uni",
     "dev:h5:ssr": "uni --ssr",
@@ -32,6 +33,8 @@
     "build:quickapp-webview": "uni build -p quickapp-webview",
     "build:quickapp-webview-huawei": "uni build -p quickapp-webview-huawei",
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union",
+    "predev:h5": "pnpm run compat-check",
+    "predev:mp-weixin": "pnpm run compat-check",
     "type-check": "vue-tsc --noEmit",
     "lint": "pnpm run lint:eslint && pnpm run lint:stylelint",
     "lint:eslint": "eslint --ext .js,.ts,.vue src",
@@ -47,7 +50,10 @@
     "icons:all": "pnpm run icons:prepare && pnpm run icons:build",
     "docs:dev": "vitepress dev docs --port 4173",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "report:showcase": "node scripts/export-showcase-report.js",
+    "test:visual": "playwright test tests/visual",
+    "test:mp": "node tests/miniprogram/run-miniprogram-tests.js"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-4030620241128001",
@@ -77,6 +83,7 @@
     "@dcloudio/uni-stacktracey": "3.0.0-4030620241128001",
     "@dcloudio/vite-plugin-uni": "3.0.0-4030620241128001",
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.59.1",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
     "@vue/runtime-core": "^3.4.21",
@@ -86,7 +93,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-vue": "^10.5.1",
+    "miniprogram-simulate": "^1.6.1",
     "postcss-html": "^1.8.0",
+    "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "sass": "^1.89.2",
     "stylelint": "^16.25.0",
@@ -100,5 +109,10 @@
     "vitepress": "^1.5.0",
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^1.0.24"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.6"
+    }
   }
 }

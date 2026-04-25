@@ -57,6 +57,13 @@ module.exports = {
     // 选择器相关
     'selector-class-pattern': null, // 关闭类名命名规则检查
     'selector-id-pattern': null, // 关闭 ID 命名规则检查
+    'selector-max-universal': 0, // 小程序不支持通配符选择器
+    'selector-max-type': [
+      0,
+      {
+        severity: 'warning',
+      },
+    ], // 标签选择器在小程序 scoped 下存在兼容风险
     'selector-not-notation': null, // 允许简单和复杂的 :not() 选择器
     'selector-pseudo-class-no-unknown': [
       true,
