@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import LkButton from '../lk-button/lk-button.vue';
@@ -104,23 +104,6 @@ function cancel() {
   close();
 }
 
-// ==================== 同步外部 v-model 变化 ====================
-watch(
-  () => props.modelValue,
-  val => {
-    // 外部强制关闭时，如果正在进入中，也要走离开动画
-    if (!val && state.value.entering) {
-      // 手动触发 leave
-      setTimeout(() => {
-        if (state.value.entering) {
-          state.value.entering = false;
-          state.value.leaving = true;
-          // ... 正常 leave 流程会被 watch 触发
-        }
-      }, 0);
-    }
-  }
-);
 </script>
 
 <template>

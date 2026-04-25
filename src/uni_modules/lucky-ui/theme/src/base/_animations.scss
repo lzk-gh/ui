@@ -315,57 +315,84 @@
   /* ========== Bounce 弹跳 ========== */
 
   &.lk-transition-bounce-in {
+    // Bounce 使用 keyframes 驱动，避免与基础 transition 叠加导致闪烁
+    transition: none;
+
     &.lk-transition-entering {
       animation: lk-bounce-in var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-out);
+      animation-fill-mode: both;
     }
     &.lk-transition-leaving {
+      // 离场首帧保持可见，避免被 :not(.lk-transition-active) 提前置为 0
+      opacity: 1;
       animation: lk-bounce-out var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-in);
+      animation-fill-mode: both;
     }
   }
 
   &.lk-transition-bounce-in-up {
+    transition: none;
+
     &.lk-transition-entering {
       animation: lk-bounce-in-up var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-out);
+      animation-fill-mode: both;
     }
     &.lk-transition-leaving {
+      opacity: 1;
       animation: lk-bounce-out-down var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-in);
+      animation-fill-mode: both;
     }
   }
 
   &.lk-transition-bounce-in-down {
+    transition: none;
+
     &.lk-transition-entering {
       animation: lk-bounce-in-down var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-out);
+      animation-fill-mode: both;
     }
     &.lk-transition-leaving {
+      opacity: 1;
       animation: lk-bounce-out-up var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-in);
+      animation-fill-mode: both;
     }
   }
 
   &.lk-transition-bounce-in-left {
+    transition: none;
+
     &.lk-transition-entering {
       animation: lk-bounce-in-left var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-out);
+      animation-fill-mode: both;
     }
     &.lk-transition-leaving {
+      opacity: 1;
       animation: lk-bounce-out-right var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-in);
+      animation-fill-mode: both;
     }
   }
 
   &.lk-transition-bounce-in-right {
+    transition: none;
+
     &.lk-transition-entering {
       animation: lk-bounce-in-right var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-out);
+      animation-fill-mode: both;
     }
     &.lk-transition-leaving {
+      opacity: 1;
       animation: lk-bounce-out-left var(--lk-transition-duration, 0.3s)
         var(--lk-transition-easing, ease-in);
+      animation-fill-mode: both;
     }
   }
 
