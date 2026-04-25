@@ -71,8 +71,14 @@ const resetBadge = () => {
         <lk-badge :value="8" type="success">
           <lk-button>成功</lk-button>
         </lk-badge>
+        <lk-badge :value="8" type="warning" color="#000">
+          <lk-button>告警</lk-button>
+        </lk-badge>
         <lk-badge :value="8" type="danger">
           <lk-button>危险</lk-button>
+        </lk-badge>
+        <lk-badge :value="8" type="info">
+          <lk-button>信息</lk-button>
         </lk-badge>
       </view>
     </demo-block>
