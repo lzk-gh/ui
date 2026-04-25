@@ -12,6 +12,7 @@
   --lk-slider-track-height: var(--lk-rpx-6);
   --lk-slider-thumb-size: var(--lk-rpx-32);
   --lk-slider-thumb-shadow: var(--lk-shadow-sm);
+  --lk-slider-thumb-bg: #fff;
   --lk-slider-active-bg: var(--lk-color-primary);
   --lk-slider-inactive-bg: var(--lk-color-fill-tertiary);
 
@@ -84,7 +85,7 @@
     width: var(--lk-slider-thumb-size);
     height: var(--lk-slider-thumb-size);
     border-radius: 50%;
-    background: var(--lk-color-bg-container);
+    background: var(--lk-slider-thumb-bg);
     box-shadow: var(--lk-slider-thumb-shadow);
     transition: transform 0.2s;
     display: flex;
