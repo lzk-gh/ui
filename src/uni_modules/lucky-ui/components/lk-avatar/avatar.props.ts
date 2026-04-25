@@ -26,8 +26,8 @@ export const avatarProps = {
    */
   shape: LkProp.enum(Object.values(AvatarShape), AvatarShape.Circle, 'Avatar.shape'),
 
-  /** 头像尺寸 - 单位 rpx */
-  size: LkProp.string('48'),
+  /** 头像尺寸，默认中等（64），数字默认按 rpx 处理，也可传 32px/2rem 等 */
+  size: LkProp.stringNumber(64),
 
   /** 头像图片地址 */
   src: LkProp.string(''),
@@ -35,8 +35,11 @@ export const avatarProps = {
   /** 图片加载失败时显示的替代文本 */
   alt: LkProp.string(''),
 
-  /** 头像背景颜色 */
+  /** 头像背景（支持纯色/渐变，如 linear-gradient(...)） */
   bg: LkProp.string(''),
+
+  /** 自定义圆角大小，数字默认按 rpx 处理 */
+  radius: LkProp.stringNumber(''),
 
   /** 头像文字 */
   text: LkProp.string(''),

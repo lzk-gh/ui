@@ -26,6 +26,8 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
     <demo-block title="头像尺寸">
       <view class="demo-row" style="align-items: flex-end">
+        <!-- 默认尺寸已调整为中等（64） -->
+        <lk-avatar text="默认" />
         <lk-avatar text="S" size="48" />
         <lk-avatar text="M" size="64" />
         <lk-avatar text="L" size="88" />
@@ -39,6 +41,19 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
         <lk-avatar text="主" color="var(--lk-color-primary)" />
         <lk-avatar text="成" color="var(--lk-color-success)" />
         <lk-avatar text="警" color="var(--lk-color-warning)" />
+      </view>
+    </demo-block>
+
+    <demo-block title="背景与圆角">
+      <view class="demo-row">
+        <!-- 默认背景：使用公共主题变量 --lk-fill-2 -->
+        <lk-avatar text="默" />
+        <!-- 纯色背景 -->
+        <lk-avatar text="蓝" bg="var(--lk-color-primary)" color="#fff" />
+        <!-- 渐变背景 -->
+        <lk-avatar text="渐" bg="linear-gradient(135deg, #1677ff, #7a5cff)" color="#fff" />
+        <!-- 自定义圆角 -->
+        <lk-avatar text="圆" shape="square" :radius="24" bg="#34c759" color="#fff" />
       </view>
     </demo-block>
 

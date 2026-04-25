@@ -1,14 +1,10 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(avatar) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_size: 80rpx;
-  // 使用更柔和的填充色，亮暗主题下自动适配
-  --_bg: var(--lk-bg-input);
   --_color: var(--lk-text-secondary);
-  --_radius: var(--lk-radius-md);
   --_fs: var(--lk-control-font-size-md);
 
   // =========================================
@@ -19,23 +15,23 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--_size);
-  height: var(--_size);
-  background: var(--_bg);
+  width: 80rpx;
+  height: 80rpx;
+  background: var(--lk-fill-2);
   color: var(--_color);
   font-size: var(--_fs);
-  border-radius: var(--_radius);
+  border-radius: var(--lk-radius-md);
 
   @include m(circle) {
-    --_radius: 50%;
+    border-radius: 50%;
   }
 
   @include m(square) {
-    --_radius: var(--lk-radius-xs);
+    border-radius: var(--lk-radius-xs);
   }
 
   @include m(rounded) {
-    --_radius: var(--lk-radius-lg);
+    border-radius: var(--lk-radius-lg);
   }
 
   @include e(img) {
