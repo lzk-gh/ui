@@ -131,7 +131,7 @@
 
   @include when(border) {
     .lk-cell + .lk-cell {
-      border-top: 2rpx solid var(--lk-color-border-light);
+      border-top: var(--lk-rpx-2) solid var(--lk-color-border-light);
     }
   }
 }

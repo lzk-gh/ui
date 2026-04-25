@@ -19,7 +19,7 @@
 
   @include e(key) {
     flex: 1;
-    height: 96rpx;
+    height: var(--lk-rpx-96);
     border-radius: var(--lk-radius-md);
     background: var(--lk-color-bg-elevated);
     border: none;
@@ -40,7 +40,7 @@
   }
 
   @include e(confirm) {
-    width: 200rpx;
+    width: var(--lk-rpx-200);
     margin: var(--lk-spacing-xs) var(--lk-spacing-xs) var(--lk-spacing-xs) 0;
     background: var(--lk-color-primary);
     color: var(--lk-color-text-inverse);

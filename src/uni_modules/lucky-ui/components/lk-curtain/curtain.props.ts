@@ -70,11 +70,11 @@ export const curtainProps = {
   /**
    * 图片宽度
    */
-  width: LkProp.stringNumber('600rpx'),
+  width: LkProp.stringNumber('var(--lk-rpx-600)'),
   /**
    * 图片高度
    */
-  height: LkProp.stringNumber('800rpx'),
+  height: LkProp.stringNumber('var(--lk-rpx-800)'),
   /**
    * 关闭按钮位置
    * @default 'bottom'
@@ -87,11 +87,11 @@ export const curtainProps = {
   /**
    * 关闭按钮偏移距离（角位）
    */
-  closeOffset: LkProp.stringNumber('24rpx'),
+  closeOffset: LkProp.stringNumber('var(--lk-rpx-24)'),
   /**
    * 关闭按钮偏移距离（底部位）
    */
-  closeOffsetBottom: LkProp.stringNumber('36rpx'),
+  closeOffsetBottom: LkProp.stringNumber('var(--lk-rpx-36)'),
   /**
    * 点击遮罩层是否关闭
    */

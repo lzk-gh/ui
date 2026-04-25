@@ -32,7 +32,7 @@ export const dividerProps = {
    * @value left 左侧
    * @value center 居中
    * @value right 右侧
-   * @value 其他 支持百分比(如 '20%', 20) 或 具体像素(如 '50px', '100rpx')
+   * @value 其他 支持百分比(如 '20%', 20) 或 具体像素(如 '50px', 'var(--lk-rpx-100)')
    */
   textPosition: {
     type: [String, Number] as PropType<DividerTextPosition | string | number>,

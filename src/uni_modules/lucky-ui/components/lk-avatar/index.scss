@@ -15,8 +15,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 80rpx;
-  height: 80rpx;
+  width: var(--lk-rpx-80);
+  height: var(--lk-rpx-80);
   background: var(--lk-fill-2);
   color: var(--_color);
   font-size: var(--_fs);
@@ -42,6 +42,6 @@
 
   @include when(fallback) {
     font-weight: 600;
-    letter-spacing: 1rpx;
+    letter-spacing: var(--lk-rpx-1);
   }
 }

@@ -8,9 +8,9 @@
   @include e(track) {
     position: relative;
     flex: 1;
-    height: 12rpx;
+    height: var(--lk-rpx-12);
     background: var(--lk-color-fill-tertiary);
-    border-radius: 100rpx;
+    border-radius: var(--lk-rpx-100);
     overflow: hidden;
     /* #ifdef H5 */
     transform: translateZ(0);
@@ -28,7 +28,7 @@
     align-items: center;
     justify-content: center;
     color: var(--lk-color-text-inverse);
-    font-size: 20rpx;
+    font-size: var(--lk-rpx-20);
     transition: width var(--lk-transition-base);
     backface-visibility: hidden;
 
@@ -73,7 +73,7 @@
           transparent 75%,
           transparent
         );
-        background-size: 80rpx 80rpx;
+        background-size: var(--lk-rpx-80) var(--lk-rpx-80);
         opacity: 1;
         display: block;
       }
@@ -91,15 +91,15 @@
   }
 
   @include e(text) {
-    font-size: 24rpx;
+    font-size: var(--lk-rpx-24);
     color: var(--lk-color-text-secondary);
-    min-width: 80rpx;
+    min-width: var(--lk-rpx-80);
     text-align: right;
     margin-left: var(--lk-spacing-sm);
   }
 
   @include e(text-in) {
-    font-size: 20rpx;
+    font-size: var(--lk-rpx-20);
     color: var(--lk-color-text-inverse);
     padding: 0 var(--lk-spacing-xxs);
     white-space: nowrap;
@@ -108,7 +108,7 @@
 
 @keyframes lk-progress-move {
   0% {
-    background-position: 80rpx 0;
+    background-position: var(--lk-rpx-80) 0;
   }
   100% {
     background-position: 0 0;

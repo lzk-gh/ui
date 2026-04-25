@@ -190,50 +190,50 @@ onUnmounted(() => {
   position: fixed;
   z-index: 9999;
   background: var(--lk-preload-debugger-bg);
-  border-radius: 16rpx;
+  border-radius: var(--lk-radius-md);
   color: var(--lk-preload-debugger-text);
-  font-size: 24rpx;
-  min-width: 280rpx;
-  max-width: 600rpx;
+  font-size: var(--lk-font-size-xs);
+  min-width: calc(var(--lk-control-height-lg) * 2.9);
+  max-width: calc(var(--lk-control-height-lg) * 6.25);
   box-shadow: var(--lk-shadow-lg);
 
   &--top-left {
-    top: calc(env(safe-area-inset-top) + 20rpx);
-    left: 20rpx;
+    top: calc(env(safe-area-inset-top) + var(--lk-spacing-md));
+    left: var(--lk-spacing-md);
   }
 
   &--top-right {
-    top: calc(env(safe-area-inset-top) + 20rpx);
-    right: 20rpx;
+    top: calc(env(safe-area-inset-top) + var(--lk-spacing-md));
+    right: var(--lk-spacing-md);
   }
 
   &--bottom-left {
-    bottom: calc(env(safe-area-inset-bottom) + 140rpx);
-    left: 20rpx;
+    bottom: calc(env(safe-area-inset-bottom) + calc(var(--lk-control-height-lg) + var(--lk-spacing-xxl)));
+    left: var(--lk-spacing-md);
   }
 
   &--bottom-right {
-    bottom: calc(env(safe-area-inset-bottom) + 140rpx);
-    right: 20rpx;
+    bottom: calc(env(safe-area-inset-bottom) + calc(var(--lk-control-height-lg) + var(--lk-spacing-xxl)));
+    right: var(--lk-spacing-md);
   }
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20rpx 24rpx;
+    padding: var(--lk-spacing-sm) var(--lk-spacing-lg);
     border-bottom: 1px solid var(--lk-preload-debugger-border);
   }
 
   &__title {
     font-weight: 600;
-    font-size: 26rpx;
+    font-size: var(--lk-font-size-sm);
   }
 
   &__badge {
-    padding: 4rpx 16rpx;
-    border-radius: 20rpx;
-    font-size: 20rpx;
+    padding: var(--lk-spacing-xxs) var(--lk-spacing-md);
+    border-radius: var(--lk-radius-lg);
+    font-size: var(--lk-font-size-xs);
 
     &--running {
       background: var(--lk-color-success);
@@ -250,10 +250,10 @@ onUnmounted(() => {
   }
 
   &__body {
-    padding: 16rpx;
+    padding: var(--lk-spacing-md);
 
     & > view:not(:first-child) {
-      margin-top: 16rpx;
+      margin-top: var(--lk-spacing-md);
     }
   }
 
@@ -265,16 +265,17 @@ onUnmounted(() => {
   &__stats {
     display: flex;
     flex-wrap: wrap;
-    margin: -6rpx;
+    margin: calc(var(--lk-spacing-xxs) * -1);
 
     .stat-item {
       flex: 1;
-      min-width: 80rpx;
+      min-width: var(--lk-control-height-md);
       text-align: center;
-      padding: 12rpx 8rpx;
-      margin: 6rpx;
+      padding: var(--lk-spacing-sm) var(--lk-spacing-xs);
+      
+      margin: var(--lk-spacing-xxs);
       background: var(--lk-preload-debugger-item-bg);
-      border-radius: 8rpx;
+      border-radius: var(--lk-radius-sm);
       box-sizing: border-box;
 
       &--running {
@@ -296,29 +297,29 @@ onUnmounted(() => {
 
     .stat-label {
       display: block;
-      font-size: 20rpx;
+      font-size: var(--lk-font-size-xs);
       color: var(--lk-preload-debugger-text-muted);
-      margin-bottom: 4rpx;
+      margin-bottom: var(--lk-spacing-xxs);
     }
 
     .stat-value {
       display: block;
-      font-size: 28rpx;
+      font-size: var(--lk-font-size-base);
       font-weight: 600;
     }
   }
 
   &__actions {
     display: flex;
-    margin: 0 -6rpx;
+    margin: 0 calc(var(--lk-spacing-xxs) * -1);
 
     .action-btn {
       flex: 1;
       text-align: center;
-      padding: 12rpx;
-      margin: 0 6rpx;
+      padding: var(--lk-spacing-sm);
+      margin: 0 var(--lk-spacing-xxs);
       background: var(--lk-preload-debugger-btn-bg);
-      border-radius: 8rpx;
+      border-radius: var(--lk-radius-sm);
       transition: all 0.2s;
 
       &:active {
@@ -337,16 +338,16 @@ onUnmounted(() => {
   }
 
   &__logs {
-    max-height: 300rpx;
+    max-height: calc(var(--lk-control-height-md) * 3.75);
     background: var(--lk-preload-debugger-log-bg);
-    border-radius: 8rpx;
-    padding: 8rpx;
+    border-radius: var(--lk-radius-sm);
+    padding: var(--lk-spacing-xs);
     box-sizing: border-box;
 
     .log-item {
       display: flex;
       align-items: flex-start;
-      padding: 8rpx;
+      padding: var(--lk-rpx-8);
       border-bottom: 1px solid var(--lk-preload-debugger-log-border);
 
       &:last-child {
@@ -381,19 +382,19 @@ onUnmounted(() => {
     .log-time {
       flex-shrink: 0;
       color: var(--lk-preload-debugger-text-faint);
-      font-size: 20rpx;
-      margin-right: 12rpx;
+      font-size: var(--lk-font-size-xs);
+      margin-right: var(--lk-spacing-sm);
     }
 
     .log-message {
       flex: 1;
       word-break: break-all;
-      font-size: 22rpx;
+      font-size: var(--lk-font-size-sm);
     }
 
     .log-empty {
       text-align: center;
-      padding: 24rpx;
+      padding: var(--lk-spacing-lg);
       color: var(--lk-preload-debugger-text-faint);
     }
   }

@@ -34,12 +34,12 @@ const indicatorInactiveColor = computed(() => props.indicatorInactiveColor || pr
 
 // Margin 处理
 const previousMargin = computed(() => {
-  if (props.card) return props.cardPrevMargin || '60rpx';
+  if (props.card) return props.cardPrevMargin || 'var(--lk-rpx-60)';
   if (props.peek) return props.peekPrevMargin;
   return '0';
 });
 const nextMargin = computed(() => {
-  if (props.card) return props.cardNextMargin || '60rpx';
+  if (props.card) return props.cardNextMargin || 'var(--lk-rpx-60)';
   if (props.peek) return props.peekNextMargin;
   return '0';
 });
@@ -50,16 +50,16 @@ const indicatorHeightPx = ref<number>(0);
 const instance = getCurrentInstance();
 
 const heightProp = computed(() => {
-  if (!props.height) return '320rpx';
+  if (!props.height) return 'var(--lk-rpx-320)';
   return typeof props.height === 'number' ? `${props.height}px` : props.height;
 });
 
 // 指示器占位
 const indicatorSpaceRpx = computed(() => {
-  if (!indicatorOutside.value) return '0rpx';
+  if (!indicatorOutside.value) return 'var(--lk-rpx-0)';
   const type = props.indicatorType;
-  if (type === 'number') return '50rpx';
-  return '40rpx';
+  if (type === 'number') return 'var(--lk-rpx-50)';
+  return 'var(--lk-rpx-40)';
 });
 
 // 外层容器样式
@@ -67,7 +67,7 @@ const outerStyle = computed(() => {
   if (props.autoHeight) {
     const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
     return {
-      height: total > 0 ? `${total}px` : '200rpx',
+      height: total > 0 ? `${total}px` : 'var(--lk-rpx-200)',
       transition: 'height 0.3s ease',
     };
   }
@@ -93,8 +93,8 @@ const cardStyleVars = computed(() => {
   if (!props.card) return {};
   return {
     '--lk-card-scale': props.cardScale ? String(props.cardScale) : '0.9',
-    '--lk-card-radius': props.cardRadius || '16rpx',
-    '--lk-card-shadow': props.cardShadow || '0 8rpx 24rpx rgba(0,0,0,0.12)',
+    '--lk-card-radius': props.cardRadius || 'var(--lk-rpx-16)',
+    '--lk-card-shadow': props.cardShadow || '0 var(--lk-rpx-8) var(--lk-rpx-24) rgba(0,0,0,0.12)',
   };
 });
 

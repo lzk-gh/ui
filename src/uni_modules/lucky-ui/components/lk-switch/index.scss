@@ -2,8 +2,8 @@
 
 @include b(switch) {
   // 基础变量
-  --switch-height: 52rpx;
-  --switch-gap: 4rpx;
+  --switch-height: var(--lk-rpx-52);
+  --switch-gap: var(--lk-rpx-4);
   --switch-duration: 0.25s;
 
   // 颜色（可通过 style 覆盖）
@@ -32,10 +32,10 @@
 
   // 尺寸
   @include m(sm) {
-    --switch-height: 40rpx;
+    --switch-height: var(--lk-rpx-40);
   }
   @include m(lg) {
-    --switch-height: 64rpx;
+    --switch-height: var(--lk-rpx-64);
   }
 
   // 滑块
@@ -57,7 +57,7 @@
   @include e(spinner) {
     width: 50%;
     height: 50%;
-    border: 3rpx solid var(--lk-color-border-light);
+    border: var(--lk-rpx-3) solid var(--lk-color-border-light);
     border-top-color: var(--switch-active-color);
     border-radius: 50%;
     animation: lk-switch-spin 0.8s linear infinite;
@@ -105,11 +105,11 @@
   // 按压反馈（非禁用/非加载时）
   &:active:not(.is-disabled):not(.is-loading) {
     .lk-switch__knob {
-      width: calc(var(--switch-knob-size) + 8rpx);
+      width: calc(var(--switch-knob-size) + var(--lk-rpx-8));
     }
 
     &.is-checked .lk-switch__knob {
-      transform: translateX(calc(var(--switch-translate) - 8rpx));
+      transform: translateX(calc(var(--switch-translate) - var(--lk-rpx-8)));
     }
   }
 }

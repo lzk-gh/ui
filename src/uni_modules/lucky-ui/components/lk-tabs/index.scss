@@ -5,7 +5,7 @@
   flex-direction: column;
   width: 100%;
   background-color: var(--lk-color-bg-container);
-  border-radius: var(--lk-radius-lg, 16rpx);
+  border-radius: var(--lk-radius-lg);
   overflow: hidden;
 
   /* ── 设计令牌 ─────────────────────────────── */
@@ -13,13 +13,13 @@
   --lk-tabs-active-color: var(--lk-color-primary);
   --lk-tabs-text-color: var(--lk-text-secondary);
   --lk-tabs-active-text-color: var(--lk-color-primary);
-  --lk-tabs-line-height: 6rpx;
+  --lk-tabs-line-height: var(--lk-spacing-xxs);
   --lk-tabs-line-radius: var(--lk-radius-full);
   --lk-tabs-font-size: var(--lk-font-size-base);
-  --lk-tabs-padding: 0 24rpx;
-  --lk-tabs-item-gap: 8rpx;
+  --lk-tabs-padding: 0 var(--lk-spacing-lg);
+  --lk-tabs-item-gap: var(--lk-spacing-xs);
   --lk-tabs-header-border: 1px solid var(--lk-border-color-light, var(--lk-color-border-light));
-  --lk-tabs-fade-width: 48rpx;
+  --lk-tabs-fade-width: var(--lk-control-height-xs);
 
   /* ── header (Tab 栏容器) ────────────────────── */
   @include e(header) {
@@ -37,14 +37,14 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    padding-left: 24rpx;
+    padding-left: var(--lk-spacing-lg);
   }
 
   @include e(suffix) {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    padding-right: 24rpx;
+    padding-right: var(--lk-spacing-lg);
   }
 
   /* ── 渐变蒙层 (溢出提示) ───────────────────── */
@@ -115,7 +115,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 24rpx 32rpx;
+    padding: var(--lk-spacing-lg) var(--lk-spacing-xl);
     font-size: var(--lk-tabs-font-size);
     color: var(--lk-tabs-text-color);
     cursor: pointer;
@@ -183,18 +183,18 @@
     }
 
     @include e(nav-wrap) {
-      padding: 16rpx 24rpx;
+      padding: var(--lk-spacing-md) var(--lk-spacing-lg);
     }
 
     @include e(nav-item) {
-      padding: 16rpx 36rpx;
+      padding: var(--lk-spacing-md) var(--lk-spacing-xxl);
       margin-right: 0;
       background-color: var(--lk-fill-1);
-      border-radius: var(--lk-radius-md, 12rpx);
+      border-radius: var(--lk-radius-md);
       transition: all 0.25s ease;
 
       &:not(:first-child) {
-        margin-left: 16rpx;
+        margin-left: var(--lk-spacing-md);
       }
 
       @include when(active) {
@@ -220,21 +220,21 @@
     }
 
     @include e(nav-wrap) {
-      padding: 12rpx 24rpx;
+      padding: var(--lk-spacing-sm) var(--lk-spacing-lg);
       background: var(--lk-fill-1);
-      border-radius: var(--lk-radius-full, 999rpx);
-      margin: 16rpx 24rpx;
+      border-radius: var(--lk-radius-full);
+      margin: var(--lk-spacing-md) var(--lk-spacing-lg);
     }
 
     @include e(nav-item) {
-      padding: 14rpx 36rpx;
+      padding: var(--lk-spacing-sm) var(--lk-spacing-xxl);
       margin-right: 0;
-      border-radius: var(--lk-radius-full, 999rpx);
+      border-radius: var(--lk-radius-full);
       background: transparent;
       transition: all 0.25s ease;
 
       &:not(:first-child) {
-        margin-left: 12rpx;
+        margin-left: var(--lk-spacing-sm);
       }
 
       @include when(active) {

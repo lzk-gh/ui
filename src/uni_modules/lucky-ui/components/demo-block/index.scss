@@ -4,32 +4,32 @@
   // Demo 预览底色默认使用弱填充，避免与组件容器默认白底重叠
   background: var(--lk-demo-block-bg, var(--lk-fill-tertiary));
   border-radius: var(--lk-radius-lg);
-  padding: 40rpx 36rpx 44rpx;
+  padding: var(--lk-rpx-40) var(--lk-rpx-36) var(--lk-rpx-44);
   box-shadow: var(--lk-shadow-sm);
-  border: 2rpx solid var(--lk-demo-block-border, var(--lk-color-border-light));
+  border: var(--lk-rpx-2) solid var(--lk-demo-block-border, var(--lk-color-border-light));
   display: flex;
   flex-direction: column;
 
   & > view:not(:first-child),
   & > text:not(:first-child) {
-    margin-top: 32rpx;
+    margin-top: var(--lk-rpx-32);
   }
 
   @include e(title) {
-    font-size: 36rpx;
+    font-size: var(--lk-rpx-36);
     font-weight: 600;
     position: relative;
-    padding-left: 28rpx;
+    padding-left: var(--lk-rpx-28);
     line-height: 1.2;
 
     &::before {
       content: '';
       position: absolute;
       left: 0;
-      top: 8rpx;
-      bottom: 8rpx;
-      width: 12rpx;
-      border-radius: 6rpx;
+      top: var(--lk-rpx-8);
+      bottom: var(--lk-rpx-8);
+      width: var(--lk-rpx-12);
+      border-radius: var(--lk-rpx-6);
       background: linear-gradient(180deg, var(--lk-color-primary), var(--lk-color-primary-active));
     }
   }
@@ -40,7 +40,7 @@
 
     & > view:not(:first-child),
     & > text:not(:first-child) {
-      margin-top: 28rpx;
+      margin-top: var(--lk-rpx-28);
     }
 
     @include when(no-pad) {

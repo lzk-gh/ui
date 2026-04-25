@@ -7,8 +7,8 @@
 // ============================================================================
 // 变量定义
 // ============================================================================
-$tabbar-height: 120rpx;
-$tabbar-item-height: 84rpx;
+$tabbar-height: var(--lk-control-height-lg);
+$tabbar-item-height: var(--lk-control-height-sm);
 $tabbar-transition: cubic-bezier(0.4, 0, 0.2, 1); // Material Design 标准曲线
 $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
@@ -67,7 +67,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   // ============================================================================
   &__slider {
     position: absolute;
-    top: 18rpx;
+    top: var(--lk-spacing-sm);
     height: $tabbar-item-height;
     transition:
       left 0.35s $tabbar-transition,
@@ -76,11 +76,11 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     pointer-events: none;
 
     &-inner {
-      width: calc(100% - 20rpx);
+      width: calc(100% - var(--lk-spacing-xl));
       height: 100%;
-      margin: 0 10rpx;
+      margin: 0 var(--lk-spacing-sm);
       background: var(--lk-tabbar-active-color, var(--lk-color-primary));
-      border-radius: 42rpx;
+      border-radius: var(--lk-radius-full);
       opacity: 0.12;
     }
   }
@@ -141,17 +141,17 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4rpx;
+  gap: var(--lk-spacing-xxs);
   height: $tabbar-item-height;
-  margin: 18rpx 10rpx;
+  margin: var(--lk-spacing-sm) var(--lk-spacing-sm);
   min-width: 0;
   color: var(--lk-tabbar-inactive-color, var(--lk-text-secondary));
-  font-size: 20rpx;
+  font-size: var(--lk-font-size-xs);
   line-height: 1;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  border-radius: 42rpx;
+  border-radius: var(--lk-radius-full);
   z-index: 1;
 
   // 核心过渡动画 - 使用贝塞尔曲线
@@ -183,10 +183,10 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   &--bump {
     position: relative;
     flex: none;
-    width: 120rpx;
-    height: 120rpx;
+    width: var(--lk-control-height-lg);
+    height: var(--lk-control-height-lg);
     margin: 0;
-    margin-top: -50rpx; // 向上突出
+    margin-top: calc(var(--lk-control-height-xs) * -1); // 向上突出
     z-index: 10;
     color: var(--lk-color-text-inverse);
     border-radius: 50%;
@@ -240,10 +240,10 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48rpx;
-    height: 48rpx;
+    width: var(--lk-control-height-xs);
+    height: var(--lk-control-height-xs);
     flex-shrink: 0;
-    margin-bottom: 4rpx;
+    margin-bottom: var(--lk-spacing-xxs);
 
     // 图标过渡
     transition: transform 0.2s $tabbar-transition-bounce;
@@ -251,19 +251,19 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
   // 自定义图标（图片）
   &__custom-icon {
-    width: 48rpx;
-    height: 48rpx;
+    width: var(--lk-control-height-xs);
+    height: var(--lk-control-height-xs);
   }
 
   // 文字标签
   &__label {
     max-width: 100%;
-    padding: 0 8rpx;
+    padding: 0 var(--lk-spacing-xs);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    height: 28rpx;
-    line-height: 28rpx;
+    min-height: calc(var(--lk-font-size-sm) + var(--lk-spacing-xs));
+    line-height: var(--lk-line-height-base);
     transition: color 0.3s $tabbar-transition;
   }
 
@@ -271,9 +271,9 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   &__dot {
     position: absolute;
     top: 0;
-    right: -4rpx;
-    width: 16rpx;
-    height: 16rpx;
+    right: calc(var(--lk-rpx-4) * -1);
+    width: var(--lk-spacing-md);
+    height: var(--lk-spacing-md);
     background-color: var(--lk-color-danger);
     border-radius: 50%;
     animation: lk-dot-pulse 2s infinite;
@@ -282,21 +282,21 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
   // 徽标数字
   &__badge {
     position: absolute;
-    top: -8rpx;
-    right: -16rpx;
-    min-width: 32rpx;
-    height: 32rpx;
-    padding: 0 8rpx;
+    top: calc(var(--lk-rpx-8) * -1);
+    right: calc(var(--lk-rpx-16) * -1);
+    min-width: calc(var(--lk-spacing-md) * 2);
+    height: calc(var(--lk-spacing-md) * 2);
+    padding: 0 var(--lk-rpx-8);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20rpx;
+    font-size: var(--lk-font-size-xs);
     font-weight: 500;
-    line-height: 32rpx;
+    line-height: calc(var(--lk-spacing-md) * 2);
     text-align: center;
     color: var(--lk-color-text-inverse);
     background-color: var(--lk-color-danger);
-    border-radius: 16rpx;
+    border-radius: var(--lk-radius-md);
     box-sizing: border-box;
   }
 }

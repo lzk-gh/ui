@@ -24,7 +24,7 @@ const customStyle = computed<CSSProperties>(() => {
 
   if (props.bgColor) {
     if (props.type === 'outline') {
-      style.boxShadow = `inset 0 0 0 2rpx ${props.bgColor}`;
+      style.boxShadow = `inset 0 0 0 var(--lk-rpx-2) ${props.bgColor}`;
       style.background = 'transparent';
     } else {
       style.background = props.bgColor;

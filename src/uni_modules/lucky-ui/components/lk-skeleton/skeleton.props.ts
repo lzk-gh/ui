@@ -11,7 +11,7 @@ export const skeletonProps = {
   avatar: LkProp.boolean(false),
 
   /** 头像大小 */
-  avatarSize: LkProp.string('72rpx'),
+  avatarSize: LkProp.string('var(--lk-rpx-72)'),
 
   /** 是否显示标题 */
   title: LkProp.boolean(false),
@@ -20,7 +20,7 @@ export const skeletonProps = {
   titleWidth: LkProp.string('40%'),
 
   /** 标题高度 */
-  titleHeight: LkProp.string('32rpx'),
+  titleHeight: LkProp.string('var(--lk-rpx-32)'),
 
   /** 行数 */
   rows: LkProp.number(3),
@@ -34,7 +34,7 @@ export const skeletonProps = {
   /** 行高度 */
   rowHeight: {
     type: [String, Array] as PropType<string | string[]>,
-    default: '32rpx',
+    default: 'var(--lk-rpx-32)',
   },
 
   /** 是否开启动画 */

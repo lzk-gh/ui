@@ -22,7 +22,7 @@
 
   @include e(header) {
     padding: var(--lk-spacing-lg) var(--lk-spacing-lg) var(--lk-spacing-md);
-    font-size: 32rpx;
+    font-size: var(--lk-rpx-32);
     font-weight: 600;
     position: relative;
     /* 去掉分割线 */
@@ -44,8 +44,8 @@
     cursor: pointer;
 
     /* 更合适的触控区域和居中 */
-    width: 44rpx;
-    height: 44rpx;
+    width: var(--lk-rpx-44);
+    height: var(--lk-rpx-44);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -57,7 +57,7 @@
 
   @include e(body) {
     padding: var(--lk-spacing-lg) var(--lk-spacing-lg);
-    font-size: 28rpx;
+    font-size: var(--lk-rpx-28);
     line-height: 1.6;
     flex: 1;
   }

@@ -18,11 +18,11 @@
 
   // 3. 边框
   --lk-ta-border-color: var(--lk-border-color, var(--lk-color-border));
-  --lk-ta-border-radius: var(--lk-radius-md, 12rpx);
+  --lk-ta-border-radius: var(--lk-radius-md, var(--lk-rpx-12));
 
   // 4. 尺寸
-  --lk-ta-fs: var(--lk-control-font-size-md, 28rpx);
-  --lk-ta-padding: 24rpx;
+  --lk-ta-fs: var(--lk-control-font-size-md, var(--lk-rpx-28));
+  --lk-ta-padding: var(--lk-rpx-24);
 
   position: relative;
   display: flex;
@@ -38,20 +38,20 @@
   // 1. Outline (默认描边)
   @include m(outline) {
     background-color: var(--lk-ta-bg);
-    border: 2rpx solid var(--lk-ta-border-color);
+    border: var(--lk-rpx-2) solid var(--lk-ta-border-color);
     border-radius: var(--lk-ta-border-radius);
 
     @include when(focused) {
       border-color: var(--lk-ta-color-primary);
       // 可选：添加光晕
-      box-shadow: 0 0 0 4rpx rgb(var(--lk-brand-rgb) / 15%);
+      box-shadow: 0 0 0 var(--lk-rpx-4) rgb(var(--lk-brand-rgb) / 15%);
     }
   }
 
   // 2. Filled (填充风格 - 现代感强，无边框)
   @include m(filled) {
     background-color: var(--lk-ta-bg-filled);
-    border: 2rpx solid transparent; // 预留边框位防抖动
+    border: var(--lk-rpx-2) solid transparent; // 预留边框位防抖动
     border-radius: var(--lk-ta-border-radius);
 
     @include when(focused) {
@@ -64,7 +64,7 @@
   @include m(flush) {
     background-color: transparent;
     border: none;
-    border-bottom: 2rpx solid var(--lk-ta-border-color);
+    border-bottom: var(--lk-rpx-2) solid var(--lk-ta-border-color);
     border-radius: 0;
     padding-left: 0;
     padding-right: 0;
@@ -86,11 +86,11 @@
   // --- 内部元素 ---
 
   @include e(label) {
-    margin-bottom: 12rpx;
-    font-size: 26rpx;
+    margin-bottom: var(--lk-rpx-12);
+    font-size: var(--lk-rpx-26);
     font-weight: 500;
     color: var(--lk-ta-text-color);
-    padding: 0 8rpx; // 对齐视觉
+    padding: 0 var(--lk-rpx-8); // 对齐视觉
   }
 
   @include e(wrapper) {
@@ -109,7 +109,7 @@
     font-size: inherit;
     line-height: 1.5;
     color: inherit;
-    min-height: 48rpx;
+    min-height: var(--lk-rpx-48);
     padding: 0;
   }
 
@@ -122,12 +122,12 @@
   @include e(suffix) {
     display: flex;
     align-items: flex-start; // 靠上对齐
-    margin-left: 16rpx;
+    margin-left: var(--lk-rpx-16);
   }
 
   @include e(clear) {
-    width: 40rpx;
-    height: 40rpx;
+    width: var(--lk-rpx-40);
+    height: var(--lk-rpx-40);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -143,8 +143,8 @@
     // 纯CSS绘制关闭图标 (建议替换为 <lk-icon>)
     .lk-icon-close {
       position: relative;
-      width: 16rpx;
-      height: 16rpx;
+      width: var(--lk-rpx-16);
+      height: var(--lk-rpx-16);
       &::before,
       &::after {
         content: '';
@@ -152,7 +152,7 @@
         top: 50%;
         left: 50%;
         width: 100%;
-        height: 2rpx;
+        height: var(--lk-rpx-2);
         background-color: var(--lk-text-secondary);
         transform: translate(-50%, -50%) rotate(45deg);
       }
@@ -167,12 +167,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 var(--lk-ta-padding) 16rpx;
-    margin-top: -8rpx; // 拉近一点距离
+    padding: 0 var(--lk-ta-padding) var(--lk-rpx-16);
+    margin-top: calc(var(--lk-rpx-8) * -1); // 拉近一点距离
   }
 
   @include e(count) {
-    font-size: 22rpx;
+    font-size: var(--lk-rpx-22);
     // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
     margin-left: auto; // 挤到最右边

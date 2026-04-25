@@ -8,7 +8,7 @@
   --lk-divider-text-color: var(--lk-text-secondary);
   --lk-divider-font-size: var(--lk-font-size-sm);
   --lk-divider-margin: var(--lk-spacing-xl);
-  --lk-divider-thickness: 2rpx;
+  --lk-divider-thickness: var(--lk-rpx-2);
   --lk-divider-content-padding: var(--lk-spacing-md);
 
   // =========================================
@@ -66,7 +66,7 @@
 
   // 细线模式
   @include when(hairline) {
-    --lk-divider-thickness: 1rpx;
+    --lk-divider-thickness: var(--lk-rpx-1);
   }
 
   // 纵向模式 (Vertical)
@@ -78,7 +78,7 @@
     vertical-align: middle;
     border-left: var(--lk-divider-thickness) solid var(--lk-divider-color);
     position: relative;
-    top: -1rpx; // 视觉微调
+    top: calc(var(--lk-rpx-1) * -1); // 视觉微调
     flex: none;
 
     @include when(dashed) {

@@ -18,12 +18,12 @@
   }
 
   @include e(text) {
-    font-size: 24rpx;
+    font-size: var(--lk-rpx-24);
     // 移除 margin-left，由前面的元素控制 margin-right
   }
 
   @include e(spinner) {
-    border: 6rpx solid var(--lk-color-border-light);
+    border: var(--lk-rpx-6) solid var(--lk-color-border-light);
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
@@ -38,14 +38,14 @@
     flex-shrink: 0;
 
     .dot {
-      width: 16rpx;
-      height: 16rpx;
+      width: var(--lk-rpx-16);
+      height: var(--lk-rpx-16);
       border-radius: 50%;
       background: var(--_color);
       animation: lk-dots 0.9s ease-in-out infinite;
 
       &:not(:first-child) {
-        margin-left: 10rpx;
+        margin-left: var(--lk-rpx-10);
       }
 
       &:nth-child(2) {
@@ -60,11 +60,11 @@
 
   @include e(bar) {
     position: relative;
-    height: 12rpx;
+    height: var(--lk-rpx-12);
     background: var(--lk-color-fill-tertiary);
-    border-radius: 12rpx;
+    border-radius: var(--lk-rpx-12);
     overflow: hidden;
-    width: 160rpx;
+    width: var(--lk-rpx-160);
     flex-shrink: 0;
 
     .bar-indicator {
@@ -85,8 +85,8 @@
     flex-shrink: 0;
 
     .bounce-ball {
-      width: 20rpx;
-      height: 20rpx;
+      width: var(--lk-rpx-20);
+      height: var(--lk-rpx-20);
       border-radius: 50%;
       background: var(--_color);
       animation: lk-bounce 1.2s ease-in-out infinite;
@@ -111,14 +111,14 @@
     flex-shrink: 0;
 
     .wave-bar {
-      width: 12rpx;
+      width: var(--lk-rpx-12);
       height: 100%;
       background: var(--_color);
-      border-radius: 6rpx;
+      border-radius: var(--lk-rpx-6);
       animation: lk-wave 1.2s ease-in-out infinite;
 
       &:not(:first-child) {
-        margin-left: 6rpx;
+        margin-left: var(--lk-rpx-6);
       }
 
       &:nth-child(2) {
@@ -140,7 +140,7 @@
   }
 
   @include e(ring) {
-    border: 4rpx solid var(--lk-color-border-light);
+    border: var(--lk-rpx-4) solid var(--lk-color-border-light);
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
@@ -155,8 +155,8 @@
     flex-shrink: 0;
 
     .ellipsis-dot {
-      width: 12rpx;
-      height: 12rpx;
+      width: var(--lk-rpx-12);
+      height: var(--lk-rpx-12);
       border-radius: 50%;
       background: var(--_color);
       animation: lk-ellipsis 1.4s ease-in-out infinite;
@@ -178,7 +178,7 @@
   @include e(text-shine) {
     flex-shrink: 0;
     .loading-text {
-      font-size: 32rpx;
+      font-size: var(--lk-rpx-32);
       font-weight: 600;
       background: linear-gradient(
         120deg,

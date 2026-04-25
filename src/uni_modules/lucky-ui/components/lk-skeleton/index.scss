@@ -54,7 +54,7 @@
   }
 
   @include e(row) {
-    height: 28rpx;
+    height: var(--lk-rpx-28);
     border-radius: var(--lk-radius-md);
     background-image: linear-gradient(
       120deg,

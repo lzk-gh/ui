@@ -11,7 +11,7 @@ export const cardProps = {
   subTitle: LkProp.string(''),
 
   /** 内边距 */
-  padding: LkProp.string('32rpx'),
+  padding: LkProp.string('var(--lk-rpx-32)'),
 
   /** 是否显示边框 */
   border: LkProp.boolean(false),

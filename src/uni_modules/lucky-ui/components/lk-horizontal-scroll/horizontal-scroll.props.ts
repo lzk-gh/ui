@@ -6,11 +6,11 @@ export const horizontalScrollProps = {
   /**
    * 列表项间隙
    */
-  gap: LkProp.stringNumber('20rpx'),
+  gap: LkProp.stringNumber('var(--lk-rpx-20)'),
   /**
    * 容器内边距
    */
-  padding: LkProp.stringNumber('0rpx'),
+  padding: LkProp.stringNumber('var(--lk-rpx-0)'),
   /**
    * 是否隐藏滚动条
    */

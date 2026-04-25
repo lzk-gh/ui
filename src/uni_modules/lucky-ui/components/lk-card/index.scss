@@ -6,7 +6,7 @@
   // =========================================
   --_bg: var(--test-bg-card, var(--lk-color-bg-container));
   --_radius: var(--lk-radius-lg);
-  --_title-fs: 34rpx;
+  --_title-fs: var(--lk-rpx-34);
   --_subtitle-fs: var(--lk-font-size-sm);
   --_body-fs: var(--lk-control-font-size-md);
   --_footer-fs: var(--lk-font-size-sm);
@@ -28,12 +28,12 @@
     transform var(--lk-transition-fast);
 
   @include when(border) {
-    border: 2rpx solid var(--test-border-color, var(--lk-color-border-light));
+    border: var(--lk-rpx-2) solid var(--test-border-color, var(--lk-color-border-light));
   }
 
   @include when(hover) {
     &:active {
-      transform: translateY(2rpx);
+      transform: translateY(var(--lk-rpx-2));
       box-shadow: var(--lk-shadow-sm);
     }
   }

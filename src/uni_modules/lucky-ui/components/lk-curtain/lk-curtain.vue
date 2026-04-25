@@ -20,8 +20,8 @@ const slots = useSlots();
 
 const widthStr = computed(() => addUnit(props.width));
 const heightStr = computed(() => addUnit(props.height));
-const closeOffsetStr = computed(() => addUnit(props.closeOffset) || '24rpx');
-const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || '36rpx');
+const closeOffsetStr = computed(() => addUnit(props.closeOffset) || 'var(--lk-rpx-24)');
+const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || 'var(--lk-rpx-36)');
 const hasDefaultSlot = computed(() => !!slots.default);
 const rootStyle = computed<(string | Record<string, string | number>)[]>(() => [
   (props.customStyle || '') as string,
@@ -217,9 +217,9 @@ function onClick() {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 72rpx;
-    height: 72rpx;
-    border: 2rpx solid var(--lk-color-text-inverse);
+    width: var(--lk-rpx-72);
+    height: var(--lk-rpx-72);
+    border: var(--lk-rpx-2) solid var(--lk-color-text-inverse);
     border-radius: 50%;
     z-index: 1;
     background: var(--lk-overlay-bg);

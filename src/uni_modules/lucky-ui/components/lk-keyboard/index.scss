@@ -13,10 +13,10 @@
   --kb-key-shadow: var(--lk-keyboard-key-shadow);
   --kb-special-bg: var(--lk-keyboard-special-bg);
   --kb-accent: var(--lk-color-primary);
-  --kb-radius: 10rpx;
-  --kb-key-height: 84rpx;
-  --kb-gap: 12rpx;
-  --kb-padding: 12rpx;
+  --kb-radius: var(--lk-radius-sm);
+  --kb-key-height: var(--lk-control-height-sm);
+  --kb-gap: var(--lk-spacing-sm);
+  --kb-padding: var(--lk-spacing-sm);
 
   position: fixed;
   left: 0;
@@ -66,10 +66,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 88rpx;
+    height: calc(var(--lk-control-height-sm) + var(--lk-spacing-xs));
     padding: 0 var(--lk-spacing-md);
     background: var(--kb-bg);
-    border-bottom: 1rpx solid var(--lk-keyboard-header-border);
+    border-bottom: var(--lk-rpx-1) solid var(--lk-keyboard-header-border);
   }
 
   @include e(header-left) {
@@ -93,7 +93,7 @@
   }
 
   @include e(close) {
-    padding: 8rpx 16rpx;
+    padding: var(--lk-spacing-xs) var(--lk-spacing-md);
   }
 
   @include e(close-text) {
@@ -103,7 +103,7 @@
   }
 
   @include e(done) {
-    padding: 8rpx 16rpx;
+    padding: var(--lk-spacing-xs) var(--lk-spacing-md);
   }
 
   @include e(done-text) {
@@ -116,15 +116,15 @@
   @include e(indicator) {
     display: flex;
     justify-content: center;
-    padding: 12rpx 0 8rpx;
+    padding: var(--lk-spacing-sm) 0 var(--lk-spacing-xs);
     background: var(--kb-bg);
   }
 
   @include e(indicator-bar) {
-    width: 72rpx;
-    height: 8rpx;
+    width: calc(var(--lk-control-height-xs) + var(--lk-spacing-lg));
+    height: var(--lk-spacing-xs);
     background: var(--lk-keyboard-indicator-bg);
-    border-radius: 4rpx;
+    border-radius: var(--lk-radius-xs);
   }
 
   // 键盘主体
@@ -218,7 +218,7 @@
 
   // 按键文字
   @include e(key-text) {
-    font-size: 44rpx;
+    font-size: var(--lk-font-size-xl);
     font-weight: 400;
     color: var(--kb-key-text);
     line-height: 1;
@@ -230,12 +230,12 @@
   // ============================================
   @include m(plate) {
     .lk-keyboard__key {
-      --kb-key-height: 72rpx;
-      --kb-radius: 8rpx;
+      --kb-key-height: var(--lk-rpx-72);
+      --kb-radius: var(--lk-radius-sm);
     }
 
     .lk-keyboard__key-text {
-      font-size: 32rpx;
+      font-size: var(--lk-font-size-lg);
     }
 
     .lk-keyboard__row {
@@ -245,7 +245,7 @@
     .lk-keyboard__key {
       flex: 0 0 auto;
       width: calc((100% - var(--kb-gap) * 9) / 10);
-      min-width: 56rpx;
+      min-width: var(--lk-control-height-xs);
     }
 
     .lk-keyboard__key--extra,

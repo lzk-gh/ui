@@ -31,8 +31,8 @@
   }
 
   @include e(nav) {
-    width: 64rpx;
-    height: 64rpx;
+    width: var(--lk-rpx-64);
+    height: var(--lk-rpx-64);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,7 @@
     @include when(plain) {
       background: transparent;
       color: var(--_text-secondary);
-      border: 2rpx solid var(--_accent-bg);
+      border: var(--lk-rpx-2) solid var(--_accent-bg);
     }
 
     &:active {
@@ -103,7 +103,7 @@
     position: relative;
     width: calc(14.285% - var(--lk-spacing-xs));
     margin: calc(var(--lk-spacing-xs) * 0.5);
-    height: 84rpx;
+    height: var(--lk-rpx-84);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -123,7 +123,7 @@
     }
 
     @include when(today) {
-      box-shadow: 0 0 0 2rpx var(--_accent);
+      box-shadow: 0 0 0 var(--lk-rpx-2) var(--_accent);
     }
 
     @include when(selected) {
@@ -164,15 +164,15 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 88rpx;
+    min-height: var(--lk-rpx-88);
     padding: var(--lk-spacing-sm) 0 var(--lk-spacing-sm);
-    margin-top: 6rpx;
+    margin-top: var(--lk-rpx-6);
     touch-action: none;
   }
 
   @include e(drag-bar) {
-    width: 144rpx;
-    height: 10rpx;
+    width: var(--lk-rpx-144);
+    height: var(--lk-rpx-10);
     border-radius: var(--lk-radius-full);
     background: var(--lk-color-fill-tertiary);
   }

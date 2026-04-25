@@ -5,26 +5,26 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 60rpx;
+  height: var(--lk-rpx-60);
   user-select: none;
   touch-action: none;
 
-  --lk-slider-track-height: 6rpx;
-  --lk-slider-thumb-size: 32rpx;
+  --lk-slider-track-height: var(--lk-rpx-6);
+  --lk-slider-thumb-size: var(--lk-rpx-32);
   --lk-slider-thumb-shadow: var(--lk-shadow-sm);
   --lk-slider-active-bg: var(--lk-color-primary);
   --lk-slider-inactive-bg: var(--lk-color-fill-tertiary);
 
   // 小号
   @include m(small) {
-    --lk-slider-track-height: 4rpx;
-    --lk-slider-thumb-size: 24rpx;
+    --lk-slider-track-height: var(--lk-rpx-4);
+    --lk-slider-thumb-size: var(--lk-rpx-24);
   }
 
   // 大号
   @include m(large) {
-    --lk-slider-track-height: 10rpx;
-    --lk-slider-thumb-size: 44rpx;
+    --lk-slider-track-height: var(--lk-rpx-10);
+    --lk-slider-thumb-size: var(--lk-rpx-44);
   }
 
   @include e(track-container) {
@@ -94,14 +94,14 @@
   // thumb 上方的值提示 tooltip
   @include e(tooltip) {
     position: absolute;
-    bottom: calc(var(--lk-slider-thumb-size) + 10rpx);
+    bottom: calc(var(--lk-slider-thumb-size) + var(--lk-rpx-10));
     left: 50%;
     transform: translateX(-50%);
     background: var(--lk-color-primary);
     color: var(--lk-color-text-inverse);
-    font-size: 22rpx;
-    padding: 4rpx 12rpx;
-    border-radius: var(--lk-radius-sm, 8rpx);
+    font-size: var(--lk-rpx-22);
+    padding: var(--lk-rpx-4) var(--lk-rpx-12);
+    border-radius: var(--lk-radius-sm, var(--lk-rpx-8));
     white-space: nowrap;
     pointer-events: none;
     // 小三角
@@ -111,14 +111,14 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      border: 8rpx solid transparent;
+      border: var(--lk-rpx-8) solid transparent;
       border-top-color: var(--lk-color-primary);
     }
   }
 
   @include e(value) {
-    margin-left: 24rpx;
-    font-size: 26rpx;
+    margin-left: var(--lk-rpx-24);
+    font-size: var(--lk-rpx-26);
     color: var(--lk-color-text-secondary);
   }
 

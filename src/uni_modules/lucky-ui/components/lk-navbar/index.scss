@@ -63,13 +63,13 @@
   }
 
   @include e(title) {
-    font-size: 32rpx;
+    font-size: var(--lk-rpx-32);
     font-weight: 600;
     color: var(--lk-text-primary);
   }
 
   @include e(text) {
-    font-size: 26rpx;
+    font-size: var(--lk-rpx-26);
     color: var(--lk-text-secondary);
   }
 

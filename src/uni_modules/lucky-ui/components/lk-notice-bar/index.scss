@@ -5,8 +5,8 @@
   align-items: center;
   // 调整内边距使通知栏高度更适当
   padding: var(--lk-spacing-sm) var(--lk-spacing-md);
-  min-height: 72rpx;
-  font-size: 26rpx;
+  min-height: var(--lk-rpx-72);
+  font-size: var(--lk-rpx-26);
   line-height: 1.5;
   overflow: hidden;
   border-radius: var(--lk-radius-lg);

@@ -30,7 +30,7 @@
 
     /* 卡片模式 */
     @include when(card) {
-      border-radius: var(--lk-card-radius, 12rpx);
+      border-radius: var(--lk-card-radius, var(--lk-radius-sm));
       overflow: hidden;
       backface-visibility: hidden;
       transform-origin: center center;
@@ -45,7 +45,7 @@
       @include when(active) {
         transform: scale(1) translateZ(0);
         opacity: 1;
-        box-shadow: var(--lk-card-shadow, 0 8rpx 24rpx rgba(0, 0, 0, 0.12));
+        box-shadow: var(--lk-card-shadow, var(--lk-shadow-base));
         z-index: 1;
       }
     }
@@ -60,7 +60,7 @@
     pointer-events: none;
 
     & > view:not(:first-child) {
-      margin-left: 12rpx;
+      margin-left: var(--lk-spacing-sm);
     }
 
     view {
@@ -73,7 +73,7 @@
 
       & > view:not(:first-child) {
         margin-left: 0;
-        margin-top: 12rpx;
+        margin-top: var(--lk-spacing-sm);
       }
     }
 
@@ -82,25 +82,25 @@
     /* 1. 底部居中 (默认) */
     @include m(pos-bottom) {
       left: 50%;
-      bottom: 24rpx;
+      bottom: var(--lk-spacing-lg);
       transform: translateX(-50%);
     }
     /* 2. 顶部居中 */
     @include m(pos-top) {
       left: 50%;
-      top: 24rpx;
+      top: var(--lk-spacing-lg);
       transform: translateX(-50%);
     }
     /* 3. 左侧垂直居中 */
     @include m(pos-left) {
-      left: 24rpx;
+      left: var(--lk-spacing-lg);
       top: 50%;
       transform: translateY(-50%);
       flex-direction: column; /* 左侧默认垂直排列指示点 */
     }
     /* 4. 右侧垂直居中 */
     @include m(pos-right) {
-      right: 24rpx;
+      right: var(--lk-spacing-lg);
       top: 50%;
       transform: translateY(-50%);
       flex-direction: column; /* 右侧默认垂直排列指示点 */
@@ -108,23 +108,23 @@
 
     /* 5. 左下角 */
     @include m(pos-bottom-left) {
-      left: 24rpx;
-      bottom: 24rpx;
+      left: var(--lk-spacing-lg);
+      bottom: var(--lk-spacing-lg);
     }
     /* 6. 右下角 */
     @include m(pos-bottom-right) {
-      right: 24rpx;
-      bottom: 24rpx;
+      right: var(--lk-spacing-lg);
+      bottom: var(--lk-spacing-lg);
     }
     /* 7. 左上角 */
     @include m(pos-top-left) {
-      left: 24rpx;
-      top: 24rpx;
+      left: var(--lk-spacing-lg);
+      top: var(--lk-spacing-lg);
     }
     /* 8. 右上角 */
     @include m(pos-top-right) {
-      right: 24rpx;
-      top: 24rpx;
+      right: var(--lk-spacing-lg);
+      top: var(--lk-spacing-lg);
     }
 
     /* --- 外部模式 (Outside) --- */
@@ -135,11 +135,11 @@
       right: auto;
       top: auto;
       bottom: auto;
-      margin-top: 20rpx;
+      margin-top: var(--lk-spacing-md);
       justify-content: center;
 
       @include when(vertical) {
-        margin: 0 0 0 20rpx;
+        margin: 0 0 0 var(--lk-spacing-md);
         height: 100%;
         justify-content: center;
       }
@@ -147,12 +147,12 @@
 
     /* 数字样式 */
     @include e(indicator-number) {
-      padding: 6rpx 18rpx;
+      padding: var(--lk-spacing-xxs) var(--lk-spacing-sm);
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       color: var(--lk-color-text-inverse);
-      border-radius: 100rpx;
-      font-size: 24rpx;
+      border-radius: var(--lk-radius-full);
+      font-size: var(--lk-font-size-xs);
       font-weight: 500;
       letter-spacing: 1px;
     }
@@ -167,16 +167,16 @@
 
     /* 圆点：稍微大一点 */
     @include when(dot) {
-      width: 14rpx;
-      height: 14rpx;
+      width: var(--lk-rpx-14);
+      height: var(--lk-rpx-14);
       border-radius: 50%;
     }
 
     /* 条形：更厚实，不要太扁 */
     @include when(bar) {
-      width: 26rpx;
-      height: 8rpx; /* 高度增加 */
-      border-radius: 100rpx;
+      width: var(--lk-rpx-26);
+      height: var(--lk-rpx-8); /* 高度增加 */
+      border-radius: var(--lk-rpx-100);
     }
 
     @include when(active) {
@@ -188,8 +188,8 @@
       }
 
       @include when(bar) {
-        width: 44rpx; /* 激活时变长，更有张力 */
-        height: 8rpx;
+        width: var(--lk-rpx-44); /* 激活时变长，更有张力 */
+        height: var(--lk-rpx-8);
         background-color: var(--lk-text-primary);
       }
     }

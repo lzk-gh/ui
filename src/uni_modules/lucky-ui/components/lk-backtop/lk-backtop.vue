@@ -64,8 +64,8 @@ function toTop() {
 }
 
 const wrapperStyle = computed(() => {
-  const r = addUnit(props.right) || '32rpx';
-  const b = addUnit(props.bottom) || '80rpx';
+  const r = addUnit(props.right) || 'var(--lk-rpx-32)';
+  const b = addUnit(props.bottom) || 'var(--lk-rpx-80)';
   return {
     right: r,
     bottom: b,

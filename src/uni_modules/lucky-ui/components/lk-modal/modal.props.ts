@@ -18,7 +18,7 @@ export const modalProps = {
   title: LkProp.string(''),
 
   /** 宽度 */
-  width: LkProp.string('600rpx'),
+  width: LkProp.string('var(--lk-rpx-600)'),
 
   /** 是否显示关闭按钮 */
   showClose: LkProp.boolean(true),

@@ -74,7 +74,7 @@
     --_bg: transparent;
     // 使用中性文字颜色，而非品牌色
     --_color: var(--lk-text-primary);
-    --_border: 2rpx solid var(--lk-color-primary);
+    --_border: var(--lk-rpx-2) solid var(--lk-color-primary);
   }
 
   @include m(soft) {
@@ -149,7 +149,7 @@
     margin-right: var(--lk-spacing-xs);
     width: 1em;
     height: 1em;
-    border: 2rpx solid currentColor;
+    border: var(--lk-rpx-2) solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: lk-spin 1s linear infinite;

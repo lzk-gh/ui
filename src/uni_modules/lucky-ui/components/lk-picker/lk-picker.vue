@@ -152,7 +152,7 @@ const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx
     <picker-view
       :value="selectedIndexes"
       class="lk-picker__view"
-      indicator-style="height: 100rpx;"
+      indicator-style="height: var(--lk-rpx-100);"
       :style="{ height: viewHeight }"
       @change="onChange"
     >
@@ -190,7 +190,7 @@ const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx
       <picker-view
         :value="selectedIndexes"
         class="lk-picker__view"
-        indicator-style="height: 100rpx;"
+        indicator-style="height: var(--lk-rpx-100);"
         :style="{ height: viewHeight }"
         @change="onChange"
       >

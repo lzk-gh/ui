@@ -67,7 +67,7 @@ const navbarContentHeight = computed(() => {
     return capsuleHeight + (capsuleTop - statusBarHeight) * 2;
   }
   // #endif
-  // H5 或无胶囊信息时使用默认高度 44px (约 88rpx)
+  // H5 或无胶囊信息时使用默认高度 44px (约 var(--lk-rpx-88))
   return 44;
 });
 

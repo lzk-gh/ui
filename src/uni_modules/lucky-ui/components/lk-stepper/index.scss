@@ -2,15 +2,15 @@
 
 @include b(stepper) {
   // --- 基础变量 ---
-  --stepper-height: 56rpx;
-  --stepper-btn-size: 56rpx; // 按钮宽=高
-  --stepper-input-width: 64rpx;
+  --stepper-height: var(--lk-rpx-56);
+  --stepper-btn-size: var(--lk-rpx-56); // 按钮宽=高
+  --stepper-input-width: var(--lk-rpx-64);
   // 使用步进器专用灰色主题变量，便于统一定制
   --stepper-bg: var(--lk-stepper-bg, var(--lk-bg-input));
   --stepper-active-bg: var(--lk-color-bg-active);
   --stepper-color: var(--lk-color-text);
-  --stepper-radius: 8rpx;
-  --stepper-gap: 4rpx;
+  --stepper-radius: var(--lk-rpx-8);
+  --stepper-gap: var(--lk-rpx-4);
 
   display: inline-flex;
   align-items: center;
@@ -21,15 +21,15 @@
 
   // --- 尺寸修饰符 ---
   @include m(sm) {
-    --stepper-height: 44rpx;
-    --stepper-btn-size: 44rpx;
-    --stepper-input-width: 56rpx;
+    --stepper-height: var(--lk-rpx-44);
+    --stepper-btn-size: var(--lk-rpx-44);
+    --stepper-input-width: var(--lk-rpx-56);
   }
 
   @include m(lg) {
-    --stepper-height: 68rpx;
-    --stepper-btn-size: 68rpx;
-    --stepper-input-width: 80rpx;
+    --stepper-height: var(--lk-rpx-68);
+    --stepper-btn-size: var(--lk-rpx-68);
+    --stepper-input-width: var(--lk-rpx-80);
   }
 
   // --- 按钮通用样式 ---
@@ -56,18 +56,18 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      border-radius: 2rpx;
+      border-radius: var(--lk-rpx-2);
     }
 
     // 横线 (Minus & Plus 都有)
     &::before {
       width: 50%;
-      height: 4rpx;
+      height: var(--lk-rpx-4);
     }
 
     // 竖线 (只有 Plus 有)
     &.lk-stepper__plus::after {
-      width: 4rpx;
+      width: var(--lk-rpx-4);
       height: 50%;
     }
 
@@ -90,7 +90,7 @@
     margin: 0;
     padding: 0;
     color: var(--stepper-color);
-    font-size: 28rpx;
+    font-size: var(--lk-rpx-28);
     text-align: center;
     vertical-align: middle;
     background-color: var(--stepper-bg);

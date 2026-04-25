@@ -226,7 +226,7 @@ const panelStyle = computed(() => {
       height: popupHeight.value || '100vh', // 拖拽模式下占满全屏高度以便上拉
       ...(popupWidth.value ? { width: popupWidth.value } : {}),
       borderRadius: props.round
-        ? `var(--lk-popup-radius, 24rpx) var(--lk-popup-radius, 24rpx) 0 0`
+        ? `var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0`
         : '0',
     };
   }

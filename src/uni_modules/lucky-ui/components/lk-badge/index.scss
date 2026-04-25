@@ -13,8 +13,8 @@
   --_bg: var(--lk-color-danger);
   --_color: var(--lk-color-text-inverse);
   --_fs: var(--lk-font-size-xs);
-  --_h: 36rpx;
-  --_dot-size: 16rpx;
+  --_h: var(--lk-rpx-36);
+  --_dot-size: var(--lk-rpx-16);
 
   // =========================================
   // 2. 核心盒模型

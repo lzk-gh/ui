@@ -45,8 +45,8 @@
     }
 
     @include e(nav) {
-      width: 64rpx;
-      height: 64rpx;
+      width: var(--lk-rpx-64);
+      height: var(--lk-rpx-64);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -74,7 +74,7 @@
     @include e(ym-cell) {
       width: calc(33.33% - var(--lk-spacing-xs));
       margin: calc(var(--lk-spacing-xs) * 0.5);
-      height: 96rpx;
+      height: var(--lk-rpx-96);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -106,7 +106,7 @@
 
     @include e(time-card) {
       border-radius: var(--lk-radius-md);
-      border: 1rpx solid var(--lk-color-border-light);
+      border: var(--lk-rpx-1) solid var(--lk-color-border-light);
       background: var(--lk-color-fill-tertiary);
       padding: var(--lk-spacing-sm);
       display: flex;
@@ -149,7 +149,7 @@
       align-items: center;
 
       & > view:not(:first-child) {
-        margin-top: 8rpx;
+        margin-top: var(--lk-rpx-8);
       }
     }
 
@@ -164,13 +164,13 @@
       width: 100%;
       border-radius: var(--lk-radius-sm);
       background: var(--lk-color-bg-container);
-      border: 1rpx solid var(--lk-color-border-light);
+      border: var(--lk-rpx-1) solid var(--lk-color-border-light);
       overflow: hidden;
     }
 
     @include e(time-btn) {
-      width: 64rpx;
-      height: 64rpx;
+      width: var(--lk-rpx-64);
+      height: var(--lk-rpx-64);
       display: flex;
       align-items: center;
       justify-content: center;

@@ -34,13 +34,13 @@ export const backtopProps = {
   /** 距离右侧距离 */
   right: {
     type: [String, Number] as PropType<string | number>,
-    default: '32rpx',
+    default: 'var(--lk-rpx-32)',
   },
 
   /** 距离底部距离 */
   bottom: {
     type: [String, Number] as PropType<string | number>,
-    default: '80rpx',
+    default: 'var(--lk-rpx-80)',
   },
 
   /** 返回顶部动画持续时间（毫秒） */

@@ -20,7 +20,7 @@ watch(
   }
 );
 
-// 尺寸归一化µ支持 40 / '40' / '40rpx'）
+// 尺寸归一化µ支持 40 / '40' / 'var(--lk-rpx-40)'）
 const iconSize = computed(() => {
   const s = props.size;
   if (typeof s === 'number') return `${s}rpx`;

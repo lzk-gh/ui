@@ -28,7 +28,7 @@
   // =========================================
   background: var(--_bg);
   border-radius: var(--_radius);
-  border: 2rpx solid var(--_border-color);
+  border: var(--lk-rpx-2) solid var(--_border-color);
   overflow: hidden;
 
   @include e(header) {
@@ -89,12 +89,12 @@
 @keyframes lk-collapse-expand {
   from {
     opacity: 0;
-    transform: translateY(-12rpx);
+    transform: translateY(calc(var(--lk-rpx-12) * -1));
     max-height: 0;
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    max-height: 2000rpx;
+    max-height: var(--lk-rpx-2000);
   }
 }

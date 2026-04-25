@@ -132,7 +132,7 @@ export const uploadProps = {
   disabled: LkProp.boolean(false),
 
   /** 预览图片尺寸 */
-  previewSize: LkProp.stringNumber('180rpx'),
+  previewSize: LkProp.stringNumber('var(--lk-rpx-180)'),
 
   /** 是否可删除 */
   deletable: LkProp.boolean(true),

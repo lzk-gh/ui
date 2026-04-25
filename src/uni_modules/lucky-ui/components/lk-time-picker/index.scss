@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   background: var(--lk-input-bg);
-  border: 2rpx solid var(--lk-input-border-color);
+  border: var(--lk-rpx-2) solid var(--lk-input-border-color);
   border-radius: var(--lk-radius-lg);
   font-size: var(--lk-font-size-base);
   color: var(--lk-color-text);
@@ -21,8 +21,8 @@
 
   @include e(clear) {
     margin-left: auto;
-    font-size: 36rpx;
-    padding: 8rpx;
+    font-size: var(--lk-rpx-36);
+    padding: var(--lk-rpx-8);
     color: var(--lk-color-text-secondary);
   }
 
@@ -46,7 +46,7 @@
 
   @include e(columns) {
     display: flex;
-    height: 480rpx;
+    height: var(--lk-rpx-480);
 
     & > view:not(:first-child) {
       margin-left: var(--lk-spacing-xs);
@@ -54,16 +54,16 @@
   }
 
   @include e(col) {
-    width: 160rpx;
+    width: var(--lk-rpx-160);
   }
 
   @include e(item) {
-    height: 84rpx;
+    height: var(--lk-rpx-84);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--lk-radius-md);
-    margin-bottom: 8rpx;
+    margin-bottom: var(--lk-rpx-8);
     background: var(--lk-color-fill-tertiary);
     font-size: var(--lk-font-size-base);
     color: var(--lk-color-text);

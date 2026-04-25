@@ -11,18 +11,18 @@
   }
 
   @include e(header) {
-    padding: 24rpx 32rpx;
-    border-bottom: 2rpx solid var(--lk-color-border-light);
+    padding: var(--lk-rpx-24) var(--lk-rpx-32);
+    border-bottom: var(--lk-rpx-2) solid var(--lk-color-border-light);
   }
 
   @include e(toolbar) {
     // 增加工具栏高度
-    height: 108rpx;
+    height: var(--lk-rpx-108);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--lk-spacing-lg);
-    border-bottom: 2rpx solid var(--lk-color-border-light);
+    border-bottom: var(--lk-rpx-2) solid var(--lk-color-border-light);
   }
 
   @include e(title) {
@@ -32,7 +32,7 @@
   }
 
   @include e(btn) {
-    padding: 16rpx 24rpx;
+    padding: var(--lk-rpx-16) var(--lk-rpx-24);
     font-size: var(--lk-font-size-base);
     background: transparent;
     border: none;
@@ -62,7 +62,7 @@
     justify-content: center;
     font-size: var(--lk-font-size-base);
     color: var(--lk-color-text);
-    padding: 0 16rpx;
+    padding: 0 var(--lk-rpx-16);
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;

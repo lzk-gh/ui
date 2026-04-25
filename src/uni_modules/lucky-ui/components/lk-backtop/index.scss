@@ -4,7 +4,7 @@
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_size: 88rpx;
+  --_size: var(--lk-rpx-88);
   --_radius: 50%;
   --_bg: var(--lk-color-primary);
   --_bg-active: var(--lk-color-primary-active);
@@ -30,7 +30,7 @@
   box-shadow: var(--_shadow);
   -webkit-tap-highlight-color: transparent;
   opacity: 0;
-  transform: translateY(12rpx);
+  transform: translateY(var(--lk-rpx-12));
   transition:
     opacity var(--lk-transition-fast),
     transform var(--lk-transition-fast),

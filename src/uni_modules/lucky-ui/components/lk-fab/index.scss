@@ -105,12 +105,12 @@
 
   @include e(action-label) {
     position: absolute;
-    right: calc(100% + 16rpx);
+    right: calc(100% + var(--lk-rpx-16));
     white-space: nowrap;
     font-size: var(--lk-font-size-sm);
     color: var(--lk-color-text);
     background: var(--lk-color-bg-elevated);
-    padding: 8rpx 16rpx;
+    padding: var(--lk-rpx-8) var(--lk-rpx-16);
     border-radius: var(--lk-radius-md);
     box-shadow: var(--lk-shadow-sm);
   }

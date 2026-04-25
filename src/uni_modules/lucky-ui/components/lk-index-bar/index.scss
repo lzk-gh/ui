@@ -11,8 +11,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 160rpx;
-    height: 160rpx;
+    width: var(--lk-rpx-160);
+    height: var(--lk-rpx-160);
     background: var(--_highlight-color);
     border-radius: var(--lk-radius-lg);
     display: flex;
@@ -24,22 +24,22 @@
   }
 
   @include e(indicator-text) {
-    font-size: 80rpx;
+    font-size: var(--lk-rpx-80);
     font-weight: 700;
     color: var(--lk-color-text-inverse);
   }
 
   @include e(sidebar) {
     position: fixed;
-    right: 8rpx;
+    right: var(--lk-rpx-8);
     top: calc(50% + var(--lk-index-bar-sticky-top, 0px) / 2);
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8rpx 4rpx;
+    padding: var(--lk-rpx-8) var(--lk-rpx-4);
     background: var(--lk-fill-tertiary);
-    border-radius: 32rpx;
+    border-radius: var(--lk-rpx-32);
     z-index: 100;
     transition: all 0.2s ease;
 
@@ -55,12 +55,12 @@
   }
 
   @include e(item) {
-    width: 40rpx;
-    height: 40rpx;
+    width: var(--lk-rpx-40);
+    height: var(--lk-rpx-40);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20rpx;
+    font-size: var(--lk-rpx-20);
     font-weight: 500;
     color: var(--lk-color-text-tertiary);
     transition: all 0.15s ease;
@@ -79,10 +79,10 @@
   @include e(title) {
     display: flex;
     align-items: center;
-    padding: 16rpx 32rpx;
+    padding: var(--lk-rpx-16) var(--lk-rpx-32);
     background: var(--lk-color-fill-quaternary);
     color: var(--lk-color-text-secondary);
-    font-size: 26rpx;
+    font-size: var(--lk-rpx-26);
     font-weight: 600;
     position: sticky;
     top: var(--lk-index-bar-sticky-top, 0px);

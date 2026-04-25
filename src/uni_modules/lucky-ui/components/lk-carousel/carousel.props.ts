@@ -88,7 +88,7 @@ export const carouselProps = {
   autoHeight: { type: Boolean, default: undefined },
 
   // 保持默认高度，防止坍塌
-  height: { type: [String, Number] as PropType<string | number>, default: '320rpx' },
+  height: { type: [String, Number] as PropType<string | number>, default: 'var(--lk-rpx-320)' },
 
   indicatorOverlay: LkProp.boolean(true),
   loop: LkProp.boolean(true),

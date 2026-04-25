@@ -39,9 +39,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 200rpx;
+    min-width: var(--lk-rpx-200);
     max-width: 80vw;
-    padding: 24rpx 40rpx;
+    padding: var(--lk-rpx-24) var(--lk-rpx-40);
     border-radius: var(--lk-border-radius-base); // Medium radius
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     box-shadow: var(--lk-shadow-base);
@@ -94,9 +94,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 180rpx;
+    min-width: var(--lk-rpx-180);
     max-width: 80vw;
-    padding: 20rpx 32rpx;
+    padding: var(--lk-rpx-20) var(--lk-rpx-32);
     border-radius: 999px;
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     box-shadow: var(--lk-shadow-base);

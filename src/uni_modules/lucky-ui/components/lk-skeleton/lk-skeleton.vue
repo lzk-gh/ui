@@ -14,7 +14,7 @@ function getRowWidth(i: number): string {
 
 function getRowHeight(i: number): string {
   if (Array.isArray(props.rowHeight)) {
-    return String(props.rowHeight[i] || props.rowHeight[props.rowHeight.length - 1] || '32rpx');
+    return String(props.rowHeight[i] || props.rowHeight[props.rowHeight.length - 1] || 'var(--lk-rpx-32)');
   }
   return String(props.rowHeight);
 }

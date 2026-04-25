@@ -253,7 +253,7 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-$tabbar-height: 120rpx;
+$tabbar-height: var(--lk-control-height-lg);
 
 .lk-tabbar-container {
   width: 100%;
@@ -295,24 +295,24 @@ $tabbar-height: 120rpx;
 
   &__loading {
     .loading-text {
-      margin-top: 24rpx;
-      font-size: 28rpx;
+      margin-top: var(--lk-spacing-lg);
+      font-size: var(--lk-font-size-base);
     }
   }
 
   &__error {
     .error-text {
-      margin-top: 24rpx;
-      font-size: 28rpx;
+      margin-top: var(--lk-spacing-lg);
+      font-size: var(--lk-font-size-base);
     }
 
     .error-retry {
-      margin-top: 32rpx;
-      padding: 16rpx 48rpx;
-      font-size: 28rpx;
+      margin-top: var(--lk-spacing-xl);
+      padding: var(--lk-spacing-md) var(--lk-spacing-xxl);
+      font-size: var(--lk-font-size-base);
       color: var(--lk-color-primary);
       border: 1px solid var(--lk-color-primary);
-      border-radius: 40rpx;
+      border-radius: var(--lk-radius-full);
 
       &:active {
         background: var(--lk-color-primary-soft);
@@ -356,43 +356,46 @@ $tabbar-height: 120rpx;
   z-index: 0;
 
   &.is-block {
-    top: 15rpx;
-    bottom: 15rpx;
+    top: var(--lk-spacing-sm);
+    bottom: var(--lk-spacing-sm);
     background: var(--lk-color-primary);
-    border-radius: 40rpx;
-    margin: 0 12rpx;
-    width: calc(var(--item-width) - 24rpx);
-    left: calc(var(--item-left) + 12rpx);
-    box-shadow: 0 8rpx 20rpx rgba(var(--lk-brand-rgb), 0.3);
+    border-radius: var(--lk-radius-full);
+    margin: 0 var(--lk-spacing-sm);
+    width: calc(var(--item-width) - var(--lk-spacing-lg));
+    left: calc(var(--item-left) + var(--lk-spacing-sm));
+    box-shadow: 0 var(--lk-spacing-xs) calc(var(--lk-spacing-md) + var(--lk-spacing-xs))
+      rgba(var(--lk-brand-rgb), 0.3);
     opacity: 0.85; // Lighten it slightly as requested
   }
 
   &.is-marker-top {
-    height: 6rpx;
+    height: var(--lk-spacing-xxs);
     background: var(--lk-color-primary);
-    border-radius: 0 0 6rpx 6rpx;
-    box-shadow: 0 4rpx 15rpx rgba(var(--lk-brand-rgb), 0.6);
+    border-radius: 0 0 var(--lk-radius-xs) var(--lk-radius-xs);
+    box-shadow: 0 var(--lk-spacing-xxs) calc(var(--lk-spacing-sm) + var(--lk-spacing-xxs))
+      rgba(var(--lk-brand-rgb), 0.6);
   }
 
   &.is-marker-bottom {
     top: auto;
     bottom: 0;
-    height: 8rpx;
+    height: var(--lk-spacing-xs);
     background: var(--lk-color-primary);
-    border-radius: 8rpx 8rpx 0 0;
-    box-shadow: 0 -4rpx 15rpx rgba(var(--lk-brand-rgb), 0.6);
+    border-radius: var(--lk-radius-xs) var(--lk-radius-xs) 0 0;
+    box-shadow: 0 calc(var(--lk-spacing-xxs) * -1) calc(var(--lk-spacing-sm) + var(--lk-spacing-xxs))
+      rgba(var(--lk-brand-rgb), 0.6);
   }
 
   &.is-dot-slide {
     top: auto;
-    bottom: 12rpx;
-    height: 12rpx;
-    width: 12rpx;
+    bottom: var(--lk-spacing-sm);
+    height: var(--lk-spacing-sm);
+    width: var(--lk-spacing-sm);
     background: var(--lk-color-primary);
     border-radius: 50%;
     left: var(--active-center);
     transform: translateX(-50%);
-    box-shadow: 0 0 15rpx var(--lk-color-primary);
+    box-shadow: 0 0 calc(var(--lk-spacing-sm) + var(--lk-spacing-xxs)) var(--lk-color-primary);
   }
 }
 
@@ -413,18 +416,18 @@ $tabbar-height: 120rpx;
 
   &__flashlight {
     position: absolute;
-    bottom: -20rpx;
+    bottom: calc(var(--lk-spacing-md) * -1);
     left: 50%;
     transform: translateX(-50%) scale(0);
-    width: 200rpx;
-    height: 120rpx;
+    width: calc(var(--lk-control-height-lg) * 2 + var(--lk-spacing-xs));
+    height: calc(var(--lk-control-height-lg) + var(--lk-spacing-lg));
     background: radial-gradient(
       ellipse at bottom,
       rgba(var(--lk-brand-rgb), 0.5) 0%,
       rgba(var(--lk-brand-rgb), 0.2) 40%,
       transparent 70%
     );
-    filter: blur(8rpx);
+    filter: blur(var(--lk-spacing-xs));
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     opacity: 0;
     z-index: -1;
@@ -435,8 +438,8 @@ $tabbar-height: 120rpx;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 120rpx;
-    height: 120rpx;
+    width: calc(var(--lk-control-height-lg) + var(--lk-spacing-lg));
+    height: calc(var(--lk-control-height-lg) + var(--lk-spacing-lg));
     background: var(--lk-color-primary-soft);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
@@ -460,9 +463,9 @@ $tabbar-height: 120rpx;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 60rpx;
-    height: 60rpx;
-    border: 3rpx solid var(--lk-color-primary);
+    width: calc(var(--lk-control-height-xs) + var(--lk-spacing-xs));
+    height: calc(var(--lk-control-height-xs) + var(--lk-spacing-xs));
+    border: var(--lk-rpx-3) solid var(--lk-color-primary);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
@@ -483,14 +486,14 @@ $tabbar-height: 120rpx;
 
     // Common Icon Animations
     .tabbar-item__icon {
-      transform: translateY(-2rpx);
+      transform: translateY(calc(var(--lk-rpx-2) * -1));
     }
 
     // Mode Specifics
     .lk-tabbar-container--flashlight & .tabbar-item__flashlight {
       opacity: 1;
       transform: translateX(-50%) scale(1);
-      bottom: -10rpx;
+      bottom: calc(var(--lk-spacing-sm) * -1);
     }
 
     .lk-tabbar-container--bubble & .tabbar-item__bubble {
@@ -508,11 +511,11 @@ $tabbar-height: 120rpx;
 
     .lk-tabbar-container--text-raise & {
       .tabbar-item__icon {
-        transform: translateY(-50rpx);
+        transform: translateY(calc(var(--lk-rpx-50) * -1));
         opacity: 0;
       }
       .tabbar-item__label {
-        transform: translateY(-20rpx) scale(1.2);
+        transform: translateY(calc(var(--lk-rpx-20) * -1)) scale(1.2);
         color: var(--lk-color-primary);
       }
     }
@@ -520,15 +523,16 @@ $tabbar-height: 120rpx;
     .lk-tabbar-container--float & {
       color: var(--lk-color-primary);
       .tabbar-item__icon-wrapper {
-        transform: translateY(-30rpx);
+        transform: translateY(calc(var(--lk-spacing-xxl) * -1));
         background: var(--lk-color-primary);
-        width: 100rpx;
-        height: 100rpx;
+        width: calc(var(--lk-control-height-lg) + var(--lk-spacing-xxs));
+        height: calc(var(--lk-control-height-lg) + var(--lk-spacing-xxs));
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 10rpx 25rpx rgba(var(--lk-brand-rgb), 0.5);
+        box-shadow: 0 calc(var(--lk-spacing-xs) + var(--lk-spacing-xxs))
+          calc(var(--lk-spacing-lg) + var(--lk-spacing-xxs)) rgba(var(--lk-brand-rgb), 0.5);
         color: var(--lk-color-text-inverse) !important;
       }
       .tabbar-item__label {
@@ -551,8 +555,8 @@ $tabbar-height: 120rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44rpx;
-    height: 44rpx;
+    width: calc(var(--lk-control-height-xs) - var(--lk-spacing-xxs));
+    height: calc(var(--lk-control-height-xs) - var(--lk-spacing-xxs));
     flex-shrink: 0;
     color: inherit;
     transform: translateZ(0);
@@ -565,38 +569,38 @@ $tabbar-height: 120rpx;
 
   &__badge {
     position: absolute;
-    top: -8rpx;
-    right: -20rpx;
-    min-width: 32rpx;
-    height: 32rpx;
-    padding: 0 8rpx;
+    top: calc(var(--lk-spacing-xs) * -1);
+    right: calc(var(--lk-spacing-md) * -1 + var(--lk-spacing-xxs));
+    min-width: calc(var(--lk-spacing-md) * 2);
+    height: calc(var(--lk-spacing-md) * 2);
+    padding: 0 var(--lk-spacing-xs);
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    font-size: 20rpx;
-    line-height: 32rpx;
+    font-size: var(--lk-font-size-xs);
+    line-height: calc(var(--lk-spacing-md) * 2);
     text-align: center;
     color: var(--lk-color-text-inverse);
     background: var(--lk-color-danger);
-    border-radius: 16rpx;
+    border-radius: var(--lk-radius-md);
   }
 
   &__dot {
     position: absolute;
     top: 0;
-    right: -4rpx;
-    width: 16rpx;
-    height: 16rpx;
+    right: calc(var(--lk-spacing-xxs) * -1);
+    width: var(--lk-spacing-md);
+    height: var(--lk-spacing-md);
     background: var(--lk-color-danger);
     border-radius: 50%;
   }
 
   &__label {
-    margin-top: 4rpx;
-    font-size: 22rpx;
-    line-height: 28rpx;
-    height: 28rpx;
+    margin-top: var(--lk-spacing-xxs);
+    font-size: var(--lk-font-size-sm);
+    line-height: var(--lk-line-height-base);
+    height: auto;
     white-space: nowrap;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);

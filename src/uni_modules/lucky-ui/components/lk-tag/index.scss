@@ -1,9 +1,9 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(tag) {
-  --_fs: 24rpx;
-  --_px: 20rpx;
-  --_py: 8rpx;
+  --_fs: var(--lk-rpx-24);
+  --_px: var(--lk-rpx-20);
+  --_py: var(--lk-rpx-8);
   --_radius: var(--lk-radius-full);
   display: inline-flex;
   align-items: center;
@@ -23,19 +23,19 @@
   transition: all var(--lk-transition-fast);
 
   @include m(sm) {
-    --_fs: 22rpx;
-    --_px: 12rpx;
-    --_py: 4rpx;
+    --_fs: var(--lk-rpx-22);
+    --_px: var(--lk-rpx-12);
+    --_py: var(--lk-rpx-4);
   }
   @include m(md) {
-    --_fs: 26rpx;
-    --_px: 20rpx;
-    --_py: 12rpx;
+    --_fs: var(--lk-rpx-26);
+    --_px: var(--lk-rpx-20);
+    --_py: var(--lk-rpx-12);
   }
   @include m(lg) {
-    --_fs: 28rpx;
-    --_px: 36rpx;
-    --_py: 20rpx;
+    --_fs: var(--lk-rpx-28);
+    --_px: var(--lk-rpx-36);
+    --_py: var(--lk-rpx-20);
   }
 
   @include m(light) {
@@ -51,7 +51,7 @@
   @include m(outline) {
     background: transparent;
     color: var(--lk-text-regular);
-    box-shadow: inset 0 0 0 2rpx var(--lk-color-border);
+    box-shadow: inset 0 0 0 var(--lk-rpx-2) var(--lk-color-border);
   }
 
   @include when(disabled) {
@@ -71,9 +71,9 @@
   }
 
   @include e(close) {
-    font-size: 28rpx;
+    font-size: var(--lk-rpx-28);
     line-height: 1;
-    padding: 4rpx;
+    padding: var(--lk-rpx-4);
     margin-left: var(--lk-spacing-xs);
     border-radius: var(--lk-radius-sm);
     &:active {

@@ -3,7 +3,7 @@
 import { ref, watch, nextTick, getCurrentInstance, computed, onMounted } from 'vue';
 import { segmentedProps, segmentedEmits, type SegmentedOption } from './segmented.props';
 
-/* 工具：把 16rpx / 20px -> 真实 px */
+/* 工具：把 var(--lk-rpx-16) / 20px -> 真实 px */
 function toPx(v: string | number) {
   if (typeof v === 'number') return v;
   return /rpx$/.test(v) ? uni.upx2px(parseFloat(v)) : parseFloat(v);

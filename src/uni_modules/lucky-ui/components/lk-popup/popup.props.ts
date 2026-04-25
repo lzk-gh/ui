@@ -41,7 +41,7 @@ export const popupProps = {
   round: LkProp.boolean(true),
 
   /** 圆角大小 */
-  radius: LkProp.string('24rpx'),
+  radius: LkProp.string('var(--lk-rpx-24)'),
 
   /** 是否开启拖拽（仅 bottom 模式有效） */
   draggable: LkProp.boolean(false),

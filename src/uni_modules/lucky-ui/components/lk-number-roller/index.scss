@@ -7,7 +7,7 @@
   font-size: var(--lk-number-roller-digit-height);
   line-height: var(--lk-number-roller-digit-height);
   color: var(--lk-color-text);
-  --lk-number-roller-digit-height: 56rpx;
+  --lk-number-roller-digit-height: var(--lk-rpx-56);
   --lk-number-roller-speed: 800ms;
   --lk-number-roller-easing: cubic-bezier(0.33, 1, 0.68, 1);
   font-variant-numeric: tabular-nums;
@@ -16,7 +16,7 @@
     'lnum' 1;
 
   & > view:not(:first-child) {
-    margin-left: 4rpx;
+    margin-left: var(--lk-rpx-4);
   }
 
   @include e(segment) {
@@ -28,7 +28,7 @@
     position: relative;
     overflow: hidden;
     height: var(--lk-number-roller-digit-height);
-    min-width: 44rpx;
+    min-width: var(--lk-rpx-44);
   }
 
   @include e(track) {
@@ -54,7 +54,7 @@
     align-items: center;
     font-size: 0.72em;
     color: var(--lk-color-text-secondary);
-    padding: 0 4rpx;
+    padding: 0 var(--lk-rpx-4);
     line-height: var(--lk-number-roller-digit-height);
   }
 }

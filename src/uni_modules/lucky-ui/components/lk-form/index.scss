@@ -16,7 +16,7 @@
 
   @include m(card) {
     margin: var(--lk-spacing-md);
-    border-radius: var(--lk-radius-lg, 16rpx);
+    border-radius: var(--lk-radius-lg, var(--lk-rpx-16));
     background: var(--lk-color-bg-container);
     overflow: hidden;
   }
@@ -26,10 +26,10 @@
   --_gap-x: var(--lk-spacing-md);
   --_label-color: var(--lk-text-primary);
   --_error-color: var(--lk-color-danger);
-  --_label-fs: var(--lk-font-size-md, 28rpx);
-  --_error-fs: var(--lk-font-size-xs, 24rpx);
-  --_padding-y: var(--lk-spacing-lg, 32rpx);
-  --_padding-x: var(--lk-spacing-md, 32rpx);
+  --_label-fs: var(--lk-font-size-md, var(--lk-rpx-28));
+  --_error-fs: var(--lk-font-size-xs, var(--lk-rpx-24));
+  --_padding-y: var(--lk-spacing-lg, var(--lk-rpx-32));
+  --_padding-x: var(--lk-spacing-md, var(--lk-rpx-32));
 
   display: flex;
   flex-direction: column;
@@ -40,13 +40,13 @@
     display: flex;
     align-items: center;
     padding: var(--_padding-y) var(--_padding-x);
-    min-height: 104rpx;
+    min-height: var(--lk-rpx-104);
     box-sizing: border-box;
   }
 
   @include e(label) {
     flex-shrink: 0;
-    min-width: 160rpx;
+    min-width: var(--lk-rpx-160);
     font-size: var(--_label-fs);
     color: var(--_label-color);
     display: flex;
@@ -56,7 +56,7 @@
 
   @include e(star) {
     color: var(--_error-color);
-    margin-right: 4rpx;
+    margin-right: var(--lk-rpx-4);
   }
 
   @include e(content) {
@@ -69,7 +69,7 @@
   }
 
   @include e(arrow) {
-    margin-left: 8rpx;
+    margin-left: var(--lk-rpx-8);
     color: var(--lk-text-placeholder);
     opacity: 0.8;
   }
@@ -89,7 +89,7 @@
       bottom: 0;
       left: var(--_padding-x);
       right: 0;
-      height: 2rpx;
+      height: var(--lk-rpx-2);
       background: var(--lk-color-border-light);
       z-index: 1;
       transform: scaleY(0.5);
@@ -139,7 +139,7 @@
 @keyframes lk-form-error-in {
   from {
     opacity: 0;
-    transform: translateY(-4rpx);
+    transform: translateY(calc(var(--lk-rpx-4) * -1));
   }
   to {
     opacity: 1;

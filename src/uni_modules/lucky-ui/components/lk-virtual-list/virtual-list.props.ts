@@ -31,7 +31,7 @@ export const virtualListProps = {
   /** 触底阈值 */
   lowerThreshold: {
     type: [Number, String] as PropType<number | string>,
-    default: '80rpx',
+    default: 'var(--lk-rpx-80)',
   },
   /** 预取行数 */
   prefetchRows: LkProp.number(0),
