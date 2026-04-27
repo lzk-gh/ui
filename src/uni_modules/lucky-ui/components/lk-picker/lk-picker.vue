@@ -12,6 +12,8 @@ defineOptions({ name: 'LkPicker' });
 const props = defineProps(pickerProps);
 const emit = defineEmits(pickerEmits);
 
+type PickerValue = string | number | (string | number)[];
+
 // 当前选中的索引数组
 const selectedIndexes = ref<number[]>([]);
 // 内部值
@@ -73,23 +75,49 @@ function initIndexes() {
   }
 }
 
+function syncInnerValueFromModel() {
+  if (props.mode === 'cascade' || props.mode === 'multi') {
+    innerValue.value = Array.isArray(props.modelValue)
+      ? (props.modelValue as (string | number)[]).slice()
+      : [];
+  }
+}
+
+function getValueByIndexes(indexes: number[]): PickerValue {
+  const cols = computedColumns.value;
+
+  if (props.mode === 'single') {
+    return cols[0]?.[indexes[0]]?.value ?? '';
+  }
+
+  return cols.map((col, i) => col[indexes[i]]?.value ?? '');
+}
+
+function resetDraftSelection() {
+  syncInnerValueFromModel();
+  initIndexes();
+}
+
 watch(
   () => [props.modelValue, props.columns, props.mode],
   () => {
-    if (props.mode === 'cascade' || props.mode === 'multi') {
-      innerValue.value = Array.isArray(props.modelValue)
-        ? (props.modelValue as (string | number)[]).slice()
-        : [];
-    }
-    initIndexes();
+    resetDraftSelection();
   },
   { immediate: true, deep: true }
 );
 
+watch(
+  () => props.visible,
+  visible => {
+    if (visible && !props.inline) {
+      resetDraftSelection();
+    }
+  }
+);
+
 // picker-view change 事件
 function onChange(e: { detail: { value: number[] } }) {
-  const idxs = e?.detail?.value || [];
-  const cols = computedColumns.value;
+  const idxs = [...(e?.detail?.value || [])];
 
   // 检测是否级联列变化
   if (props.mode === 'cascade') {
@@ -106,41 +134,43 @@ function onChange(e: { detail: { value: number[] } }) {
 
   selectedIndexes.value = idxs;
 
-  // 计算选中的值
-  let value: string | number | (string | number)[];
-  if (props.mode === 'single') {
-    value = cols[0]?.[idxs[0]]?.value ?? '';
-  } else {
-    value = cols.map((col, i) => col[idxs[i]]?.value ?? '');
-    innerValue.value = value as (string | number)[];
+  // 滚动时只更新内部草稿，避免频繁触发 v-model 与 change。
+  if (props.mode !== 'single') {
+    innerValue.value = getValueByIndexes(idxs) as (string | number)[];
   }
-
-  emit('update:modelValue', value);
-  emit('change', value);
 }
 
 function onCancel() {
+  resetDraftSelection();
   emit('cancel');
   emit('update:visible', false);
 }
 
 function onConfirm() {
-  const cols = computedColumns.value;
-  const idxs = selectedIndexes.value;
+  const value = getValueByIndexes(selectedIndexes.value);
 
-  let value: string | number | (string | number)[];
-  if (props.mode === 'single') {
-    value = cols[0]?.[idxs[0]]?.value ?? '';
-  } else {
-    value = cols.map((col, i) => col[idxs[i]]?.value ?? '');
-  }
-
+  emit('update:modelValue', value);
+  emit('change', value);
   emit('confirm', value);
   emit('update:visible', false);
 }
 
 // 计算 picker-view 高度
-const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx`);
+const viewHeight = computed(() => `${props.itemHeight * props.visibleCount}rpx`);
+const viewWrapStyle = computed(() => `--lk-picker-item-height: ${props.itemHeight}rpx;`);
+const indicatorStyle = computed(() => [
+  `height: ${props.itemHeight}rpx`,
+  'background: transparent',
+  'border-top: var(--lk-rpx-2) solid var(--lk-picker-indicator-border)',
+  'border-bottom: var(--lk-rpx-2) solid var(--lk-picker-indicator-border)',
+].join(';'));
+// ⚠️可能存在平台差异：picker-view 的遮罩层由各端原生实现，需通过 mask-style 覆盖默认浅色渐隐。
+const maskStyle = computed(() => [
+  'background-image: linear-gradient(to bottom, var(--lk-picker-bg), transparent), linear-gradient(to top, var(--lk-picker-bg), transparent)',
+  'background-position: top, bottom',
+  'background-size: 100% 50%',
+  'background-repeat: no-repeat',
+].join(';'));
 </script>
 
 <template>
@@ -149,48 +179,13 @@ const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx
     <view v-if="title" class="lk-picker__header">
       <text class="lk-picker__title">{{ title }}</text>
     </view>
-    <picker-view
-      :value="selectedIndexes"
-      class="lk-picker__view"
-      indicator-style="height: var(--lk-rpx-100);"
-      :style="{ height: viewHeight }"
-      @change="onChange"
-    >
-      <picker-view-column v-for="(col, ci) in computedColumns" :key="ci">
-        <view
-          v-for="(opt, oi) in col"
-          :key="oi"
-          class="lk-picker__item"
-          :style="{ height: itemHeight + 'rpx', lineHeight: itemHeight + 'rpx' }"
-        >
-          {{ opt.label }}
-        </view>
-      </picker-view-column>
-    </picker-view>
-  </view>
-
-  <!-- 弹出模式 -->
-  <lk-popup
-    v-else
-    :model-value="visible"
-    position="bottom"
-    :round="round"
-    @update:model-value="(v: boolean) => emit('update:visible', v)"
-  >
-    <view class="lk-picker">
-      <view class="lk-picker__toolbar">
-        <view class="lk-picker__btn lk-picker__btn--cancel" @click="onCancel">
-          {{ cancelText }}
-        </view>
-        <view class="lk-picker__title">{{ title }}</view>
-        <view class="lk-picker__btn lk-picker__btn--confirm" @click="onConfirm">
-          {{ confirmText }}
-        </view>
-      </view>
+    <view class="lk-picker__view-wrap" :style="viewWrapStyle">
+      <view class="lk-picker__selection" />
       <picker-view
         :value="selectedIndexes"
         class="lk-picker__view"
-        indicator-style="height: var(--lk-rpx-100);"
+        :indicator-style="indicatorStyle"
+        :mask-style="maskStyle"
         :style="{ height: viewHeight }"
         @change="onChange"
       >
@@ -205,6 +200,49 @@ const viewHeight = computed(() => `${props.itemHeight * props.visibleCount  }rpx
           </view>
         </picker-view-column>
       </picker-view>
+    </view>
+  </view>
+
+  <!-- 弹出模式 -->
+  <lk-popup
+    v-else
+    :model-value="visible"
+    position="bottom"
+    :round="round"
+    @update:model-value="(v: boolean) => emit('update:visible', v)"
+  >
+    <view class="lk-picker">
+      <view class="lk-picker__toolbar">
+        <view class="lk-picker__btn lk-picker__btn--cancel" @tap="onCancel">
+          {{ cancelText }}
+        </view>
+        <view class="lk-picker__title">{{ title }}</view>
+        <view class="lk-picker__btn lk-picker__btn--confirm" @tap="onConfirm">
+          {{ confirmText }}
+        </view>
+      </view>
+      <view class="lk-picker__view-wrap" :style="viewWrapStyle">
+        <view class="lk-picker__selection" />
+        <picker-view
+          :value="selectedIndexes"
+          class="lk-picker__view"
+          :indicator-style="indicatorStyle"
+          :mask-style="maskStyle"
+          :style="{ height: viewHeight }"
+          @change="onChange"
+        >
+          <picker-view-column v-for="(col, ci) in computedColumns" :key="ci">
+            <view
+              v-for="(opt, oi) in col"
+              :key="oi"
+              class="lk-picker__item"
+              :style="{ height: itemHeight + 'rpx', lineHeight: itemHeight + 'rpx' }"
+            >
+              {{ opt.label }}
+            </view>
+          </picker-view-column>
+        </picker-view>
+      </view>
     </view>
   </lk-popup>
 </template>

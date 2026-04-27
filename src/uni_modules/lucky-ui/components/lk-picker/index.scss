@@ -1,9 +1,18 @@
 ﻿@use '../../theme/src/mixins/bem' as *;
 
 @include b(picker) {
+  --lk-picker-bg: var(--lk-color-bg-container);
+  --lk-picker-header-border: var(--lk-color-border-light);
+  --lk-picker-title-color: var(--lk-color-text);
+  --lk-picker-cancel-color: var(--lk-color-text-secondary);
+  --lk-picker-confirm-color: var(--lk-color-primary);
+  --lk-picker-item-color: var(--lk-color-text);
+  --lk-picker-indicator-bg: var(--lk-color-fill-secondary);
+  --lk-picker-indicator-border: var(--lk-color-border-light);
+  --lk-picker-item-height: var(--lk-rpx-100);
+
   width: 100%;
-  // 使用主题变量自动适配亮暗模式
-  background: var(--lk-bg-container);
+  background: var(--lk-picker-bg);
 
   @include m(inline) {
     border-radius: var(--lk-radius-lg);
@@ -11,38 +20,37 @@
   }
 
   @include e(header) {
-    padding: var(--lk-rpx-24) var(--lk-rpx-32);
-    border-bottom: var(--lk-rpx-2) solid var(--lk-color-border-light);
+    padding: var(--lk-rpx-28) var(--lk-rpx-36);
+    border-bottom: var(--lk-rpx-2) solid var(--lk-picker-header-border);
   }
 
   @include e(toolbar) {
-    // 增加工具栏高度
-    height: var(--lk-rpx-108);
+    height: calc(var(--lk-rpx-100) + var(--lk-rpx-20));
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--lk-spacing-lg);
-    border-bottom: var(--lk-rpx-2) solid var(--lk-color-border-light);
+    padding: 0 var(--lk-rpx-36);
+    border-bottom: var(--lk-rpx-2) solid var(--lk-picker-header-border);
   }
 
   @include e(title) {
-    font-size: var(--lk-font-size-md);
+    font-size: var(--lk-font-size-lg);
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-picker-title-color);
   }
 
   @include e(btn) {
-    padding: var(--lk-rpx-16) var(--lk-rpx-24);
-    font-size: var(--lk-font-size-base);
+    padding: var(--lk-rpx-18) var(--lk-rpx-28);
+    font-size: var(--lk-font-size-lg);
     background: transparent;
     border: none;
 
     @include m(cancel) {
-      color: var(--lk-color-text-secondary);
+      color: var(--lk-picker-cancel-color);
     }
 
     @include m(confirm) {
-      color: var(--lk-color-primary);
+      color: var(--lk-picker-confirm-color);
       font-weight: 500;
     }
 
@@ -51,21 +59,50 @@
     }
   }
 
+  @include e(view-wrap) {
+    position: relative;
+    overflow: hidden;
+    background: var(--lk-picker-bg);
+  }
+
+  @include e(selection) {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: var(--lk-picker-item-height);
+    background: var(--lk-picker-indicator-bg);
+    border-top: var(--lk-rpx-2) solid var(--lk-picker-indicator-border);
+    border-bottom: var(--lk-rpx-2) solid var(--lk-picker-indicator-border);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
   @include e(view) {
+    position: relative;
     width: 100%;
-    background: var(--lk-color-bg-container);
+    background: var(--lk-picker-bg);
   }
 
   @include e(item) {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--lk-font-size-base);
-    color: var(--lk-color-text);
-    padding: 0 var(--lk-rpx-16);
+    font-size: var(--lk-font-size-lg);
+    color: var(--lk-picker-item-color);
+    padding: 0 var(--lk-rpx-24);
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  // ⚠️可能存在平台差异：H5 的 picker-view indicator 背景层会盖住选中项文字。
+  // #ifdef H5
+  .uni-picker-view-indicator,
+  .uni-picker-view-indicator::before,
+  .uni-picker-view-indicator::after {
+    background: transparent !important;
+  }
+  // #endif
 }

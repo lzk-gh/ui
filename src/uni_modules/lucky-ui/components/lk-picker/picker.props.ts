@@ -54,7 +54,7 @@ export const pickerProps = {
   visibleCount: LkProp.number(5),
 
   /** 选项高度 (rpx) */
-  itemHeight: LkProp.number(88),
+  itemHeight: LkProp.number(100),
 } as const;
 
 export type PickerProps = ExtractPropTypes<typeof pickerProps>;
