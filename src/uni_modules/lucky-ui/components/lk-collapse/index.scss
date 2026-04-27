@@ -1,44 +1,71 @@
 ﻿@use '../../theme/src/mixins' as *;
 
 @include b(collapse) {
+  --lk-collapse-gap: var(--lk-spacing-sm);
+  --lk-collapse-bg: var(--lk-color-bg-container);
+  --lk-collapse-bg-soft: var(--lk-color-fill-tertiary);
+  --lk-collapse-border-color: var(--lk-color-border-light);
+  --lk-collapse-radius: var(--lk-radius-lg);
+  --lk-collapse-header-py: var(--lk-spacing-lg);
+  --lk-collapse-header-px: var(--lk-spacing-xl);
+  --lk-collapse-title-size: var(--lk-font-size-lg);
+  --lk-collapse-body-px: var(--lk-spacing-xl);
+  --lk-collapse-body-pb: var(--lk-spacing-xl);
+  --lk-collapse-body-size: var(--lk-font-size-sm);
+
   display: flex;
   flex-direction: column;
-  
-  & > .lk-collapse-item:not(:first-child) {
-    margin-top: var(--lk-spacing-xs);
+
+  @include m(group) {
+    overflow: hidden;
+    border-radius: var(--lk-collapse-radius);
+    background: var(--lk-collapse-bg);
+
+    @include when(bordered) {
+      border: var(--lk-rpx-1) solid var(--lk-collapse-border-color);
+    }
+  }
+
+  @include m(card) {
+    row-gap: var(--lk-collapse-gap);
+  }
+
+  @include m(ghost) {
+    row-gap: var(--lk-collapse-gap);
   }
 }
 
 @include b(collapse-item) {
-  // =========================================
-  // 1. 定义组件级 CSS 变量
-  // =========================================
-  --_bg: var(--lk-color-bg-container);
-  --_radius: var(--lk-radius-lg);
-  --_border-color: var(--lk-color-border-light);
-  --_header-py: var(--lk-spacing-lg);
-  --_header-px: var(--lk-spacing-xl);
-  --_header-fs: var(--lk-font-size-lg);
-  --_body-px: var(--lk-spacing-xl);
-  --_body-pb: var(--lk-spacing-xl);
-  --_body-fs: var(--lk-font-size-sm);
-
-  // =========================================
-  // 2. 核心盒模型
-  // =========================================
-  background: var(--_bg);
-  border-radius: var(--_radius);
-  border: var(--lk-rpx-2) solid var(--_border-color);
+  background: var(--lk-collapse-bg);
+  border-radius: var(--lk-collapse-radius);
   overflow: hidden;
 
+  .lk-collapse--card.is-bordered & {
+    border: var(--lk-rpx-1) solid var(--lk-collapse-border-color);
+  }
+
+  .lk-collapse--group & {
+    border-radius: 0;
+    box-shadow: 0 var(--lk-rpx-1) 0 var(--lk-collapse-border-color);
+  }
+
+  .lk-collapse--ghost & {
+    background: transparent;
+    border-radius: var(--lk-collapse-radius);
+  }
+
+  .lk-collapse--ghost.is-bordered & {
+    border: var(--lk-rpx-1) solid var(--lk-collapse-border-color);
+  }
+
   @include e(header) {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--_header-py) var(--_header-px);
-    font-size: var(--_header-fs);
+    padding: var(--lk-collapse-header-py) var(--lk-collapse-header-px);
+    font-size: var(--lk-collapse-title-size);
     font-weight: 500;
-    position: relative;
     transition: background var(--lk-transition-fast);
 
     &:active {
@@ -49,12 +76,15 @@
       display: flex;
       align-items: center;
       width: 100%;
-
-      & > view:not(:first-child),
-      & > lk-icon:not(:first-child) {
-        margin-left: var(--lk-spacing-sm);
-      }
     }
+
+    .lk-collapse-item__arrow {
+      margin-left: var(--lk-spacing-sm);
+    }
+  }
+
+  .lk-collapse--ghost &__header {
+    background: var(--lk-collapse-bg-soft);
   }
 
   @include e(title) {
@@ -73,11 +103,10 @@
   }
 
   @include e(body) {
-    padding: 0 var(--_body-px) var(--_body-pb);
-    font-size: var(--_body-fs);
+    padding: 0 var(--lk-collapse-body-px) var(--lk-collapse-body-pb);
+    font-size: var(--lk-collapse-body-size);
     line-height: 1.6;
     color: var(--lk-color-text-secondary);
-    // 更平滑的展开动画
     animation: lk-collapse-expand 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 

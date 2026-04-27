@@ -1,19 +1,48 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes, InjectionKey, PropType, Ref } from 'vue';
 import { baseProps, LkProp } from '../common/props';
+
+export type CollapseName = string | number;
+
+export const CollapseVariant = {
+  Group: 'group',
+  Card: 'card',
+  Ghost: 'ghost',
+} as const;
+export type CollapseVariant = (typeof CollapseVariant)[keyof typeof CollapseVariant];
 
 export const collapseProps = {
   ...baseProps,
 
   /** 当前展开的面板 */
   modelValue: {
-    type: [Array, String, Number] as PropType<any[] | string | number>,
+    type: [Array, String, Number] as PropType<CollapseName[] | CollapseName>,
     default: () => [],
   },
 
   /** 是否手风琴模式 */
   accordion: LkProp.boolean(false),
+
+  /** 折叠面板布局风格 */
+  variant: LkProp.enum(Object.values(CollapseVariant), CollapseVariant.Group, 'Collapse.variant'),
+
+  /** 分离卡片模式下的项目间距 */
+  gap: LkProp.stringNumber('var(--lk-spacing-sm)'),
+
+  /** 是否显示边框 */
+  bordered: LkProp.boolean(true),
 } as const;
 
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>;
 
-export const collapseEmits = ['update:modelValue', 'change'];
+export const collapseEmits = {
+  'update:modelValue': (_value: CollapseName[] | CollapseName) => true,
+  change: (_value: CollapseName[] | CollapseName | undefined) => true,
+};
+
+export interface CollapseContext {
+  active: Ref<CollapseName[]>;
+  accordion: boolean;
+  toggle: (name: CollapseName) => void;
+}
+
+export const collapseInjectionKey = Symbol('LkCollapse') as InjectionKey<CollapseContext>;

@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
+import type { PropType } from 'vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { collapseInjectionKey, type CollapseName } from './collapse.props';
 
 defineOptions({ name: 'LkCollapseItem' });
 
 const props = defineProps({
-  name: { type: [String, Number], required: true },
+  name: { type: [String, Number] as PropType<CollapseName>, required: true },
   title: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
 });
-const collapse = inject<any>('LkCollapse');
-const open = computed(() => collapse.active.value.includes(props.name));
+const collapse = inject(collapseInjectionKey);
+const open = computed(() => collapse?.active.value.includes(props.name) ?? false);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
 function toggle() {
   if (props.disabled) return;
-  collapse.toggle(props.name);
+  collapse?.toggle(props.name);
 }
 
 function onHeaderTap(e: unknown) {

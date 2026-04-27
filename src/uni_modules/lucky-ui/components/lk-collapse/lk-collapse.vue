@@ -1,24 +1,32 @@
 <script setup lang="ts">
-import { ref, watch, provide } from 'vue';
-import { collapseProps, collapseEmits } from './collapse.props';
+import { computed, provide, ref, watch, type StyleValue } from 'vue';
+import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
+import {
+  collapseEmits,
+  collapseInjectionKey,
+  collapseProps,
+  type CollapseName,
+} from './collapse.props';
 
 defineOptions({ name: 'LkCollapse' });
 
 const props = defineProps(collapseProps);
 const emit = defineEmits(collapseEmits);
 
-const active = ref<any[]>([]);
+const active = ref<CollapseName[]>([]);
 watch(() => props.modelValue, sync, { immediate: true });
 
 function sync() {
   if (props.accordion) {
-    active.value = props.modelValue ? [props.modelValue] : [];
+    const value = Array.isArray(props.modelValue) ? props.modelValue[0] : props.modelValue;
+    active.value = value === '' || value === undefined ? [] : [value];
   } else {
     active.value = Array.isArray(props.modelValue) ? [...props.modelValue] : [];
   }
 }
-function toggle(name: any) {
-  let next: any;
+
+function toggle(name: CollapseName) {
+  let next: CollapseName[];
   if (props.accordion) {
     next = active.value[0] === name ? [] : [name];
     emit('update:modelValue', next[0] ?? '');
@@ -36,11 +44,27 @@ function toggle(name: any) {
   emit('change', props.accordion ? active.value[0] : active.value);
 }
 
-provide('LkCollapse', { active, accordion: props.accordion, toggle });
+const rootClass = computed(() => [
+  'lk-collapse',
+  `lk-collapse--${props.variant}`,
+  props.customClass,
+  {
+    'is-bordered': props.bordered,
+  },
+]);
+
+const rootStyle = computed<StyleValue>(() => [
+  props.customStyle as StyleValue,
+  {
+    '--lk-collapse-gap': addUnit(props.gap),
+  },
+]);
+
+provide(collapseInjectionKey, { active, accordion: props.accordion, toggle });
 </script>
 
 <template>
-  <view class="lk-collapse">
+  <view :id="id" :class="rootClass" :style="rootStyle">
     <slot />
   </view>
 </template>
