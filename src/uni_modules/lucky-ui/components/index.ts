@@ -103,6 +103,8 @@ export { default as LkVirtualList } from './lk-virtual-list/lk-virtual-list.vue'
 export * from './lk-virtual-list/virtual-list.props';
 export { default as LkWaterfall } from './lk-waterfall/lk-waterfall.vue';
 export * from './lk-waterfall/waterfall.props';
+export { default as LkWatermark } from './lk-watermark/lk-watermark.vue';
+export * from './lk-watermark/watermark.props';
 
 export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
 export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';

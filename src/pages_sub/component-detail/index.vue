@@ -85,6 +85,7 @@
           <CalendarDemo v-else-if="componentName === 'calendar'" />
           <DatePickerDemo v-else-if="componentName === 'date-picker'" />
           <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
+          <WatermarkDemo v-else-if="componentName === 'watermark'" />
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />
           <CurtainDemo v-else-if="componentName === 'curtain'" />
           <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
@@ -460,6 +461,12 @@ const componentMap: Record<string, any> = {
     icon: 'grid-3x2-gap',
     color: 'primary',
   },
+  watermark: {
+    title: 'Watermark 水印',
+    desc: '页面或容器级防复制水印',
+    icon: 'shield-check',
+    color: 'primary',
+  },
   curtain: {
     title: 'Curtain 幕帘',
     desc: '全屏广告或公告幕帘',
@@ -619,6 +626,7 @@ import StickyDemo from '@/components/demos/sticky-demo.vue';
 import CalendarDemo from '@/components/demos/calendar-demo.vue';
 import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
+import WatermarkDemo from '@/components/demos/watermark-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
 import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
@@ -691,6 +699,7 @@ const demoComponentMap: Record<string, any> = {
   calendar: CalendarDemo,
   'date-picker': DatePickerDemo,
   'virtual-list': VirtualListDemo,
+  watermark: WatermarkDemo,
   waterfall: WaterfallDemo,
   curtain: CurtainDemo,
   'horizontal-scroll': HorizontalScrollDemo,
