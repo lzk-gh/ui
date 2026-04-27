@@ -15,7 +15,8 @@
   display: inline-flex;
   align-items: center;
 
-  & > *:not(:first-child) {
+  .lk-stepper__btn + .lk-stepper__input,
+  .lk-stepper__input + .lk-stepper__btn {
     margin-left: var(--stepper-gap);
   }
 
