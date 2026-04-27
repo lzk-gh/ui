@@ -2,9 +2,20 @@
 
 @include b(navbar) {
   position: relative;
-  background: var(--lk-color-bg-container);
-  color: var(--lk-text-primary);
-  box-shadow: var(--lk-shadow-sm);
+  --lk-navbar-bg: var(--lk-color-bg-container);
+  --lk-navbar-bg-soft: var(--lk-color-fill-tertiary);
+  --lk-navbar-text: var(--lk-color-text);
+  --lk-navbar-text-secondary: var(--lk-color-text-secondary);
+  --lk-navbar-border: var(--lk-color-border-light);
+  --lk-navbar-active-bg: var(--lk-color-bg-active);
+  --lk-navbar-shadow: var(--lk-shadow-sm);
+
+  background: var(--lk-navbar-bg);
+  color: var(--lk-navbar-text);
+  transition:
+    background-color var(--lk-transition-base),
+    box-shadow var(--lk-transition-base),
+    border-color var(--lk-transition-base);
 
   @include when(fixed) {
     position: fixed;
@@ -13,9 +24,55 @@
     right: 0;
   }
 
+  @include when(border) {
+    border-bottom: var(--lk-rpx-1) solid var(--lk-navbar-border);
+  }
+
+  @include when(shadow) {
+    box-shadow: var(--lk-navbar-shadow);
+  }
+
+  @include when(has-background) {
+    color: var(--lk-color-text-inverse);
+
+    .lk-navbar__title,
+    .lk-navbar__subtitle,
+    .lk-navbar__text,
+    .lk-navbar__back {
+      color: currentcolor;
+    }
+  }
+
+  @include m(frosted) {
+    background: var(--lk-navbar-bg);
+    border-bottom-color: var(--lk-navbar-border);
+  }
+
+  @include m(transparent) {
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
+  @include m(elevated) {
+    margin: var(--lk-spacing-sm) var(--lk-spacing-md) 0;
+    border: var(--lk-rpx-1) solid var(--lk-navbar-border);
+    border-radius: var(--lk-radius-xl);
+    box-shadow: var(--lk-navbar-shadow);
+    overflow: hidden;
+
+    &.is-fixed {
+      left: var(--lk-spacing-md);
+      right: var(--lk-spacing-md);
+      width: auto;
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+
   @include e(status-bar) {
     width: 100%;
-    background: var(--lk-color-bg-container);
+    background: inherit;
   }
 
   @include e(content) {
@@ -23,30 +80,53 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--lk-spacing-lg);
+    padding: 0 var(--lk-spacing-md);
   }
 
   @include e(left) {
     display: flex;
     align-items: center;
-    min-width: 0;
+    min-width: var(--lk-rpx-112);
+    min-height: var(--lk-rpx-72);
     z-index: 1;
+    border-radius: var(--lk-radius-full);
+    transition:
+      background-color var(--lk-transition-fast),
+      opacity var(--lk-transition-fast),
+      transform var(--lk-transition-fast);
 
     & > view:not(:first-child),
     & > text:not(:first-child) {
       margin-left: var(--lk-spacing-xxs);
+    }
+
+    &:active {
+      background: var(--lk-navbar-active-bg);
+      transform: scale(0.98);
     }
   }
 
   @include e(right) {
     display: flex;
     align-items: center;
-    min-width: 0;
+    justify-content: flex-end;
+    min-width: var(--lk-rpx-112);
+    min-height: var(--lk-rpx-72);
     z-index: 1;
+    border-radius: var(--lk-radius-full);
+    transition:
+      background-color var(--lk-transition-fast),
+      opacity var(--lk-transition-fast),
+      transform var(--lk-transition-fast);
 
     & > view:not(:first-child),
     & > text:not(:first-child) {
       margin-left: var(--lk-spacing-xxs);
+    }
+
+    &:active {
+      background: var(--lk-navbar-active-bg);
+      transform: scale(0.98);
     }
   }
 
@@ -57,20 +137,66 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 58%;
     min-width: 0;
     z-index: 0;
+    pointer-events: none;
+  }
+
+  @include m(title-left) {
+    .lk-navbar__center {
+      position: static;
+      flex: 1;
+      justify-content: flex-start;
+      width: auto;
+      transform: none;
+      margin-left: var(--lk-spacing-xs);
+      margin-right: var(--lk-spacing-xs);
+    }
+  }
+
+  @include e(title-wrap) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+  }
+
+  @include m(title-left) {
+    .lk-navbar__title-wrap {
+      align-items: flex-start;
+    }
   }
 
   @include e(title) {
-    font-size: var(--lk-rpx-32);
-    font-weight: 600;
-    color: var(--lk-text-primary);
+    max-width: 100%;
+    font-size: var(--lk-font-size-lg);
+    font-weight: 700;
+    color: var(--lk-navbar-text);
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include e(subtitle) {
+    max-width: 100%;
+    margin-top: var(--lk-rpx-4);
+    font-size: var(--lk-font-size-xs);
+    color: var(--lk-navbar-text-secondary);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @include e(text) {
-    font-size: var(--lk-rpx-26);
-    color: var(--lk-text-secondary);
+    font-size: var(--lk-font-size-sm);
+    color: var(--lk-navbar-text-secondary);
+  }
+
+  @include e(back) {
+    color: var(--lk-navbar-text);
   }
 
   @include e(placeholder) {

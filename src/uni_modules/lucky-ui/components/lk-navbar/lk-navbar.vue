@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
+import { computed, useSlots, type StyleValue } from 'vue';
 import { navbarProps, navbarEmits } from './navbar.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
@@ -36,10 +36,25 @@ const showBackComputed = computed(() => {
   return typeof props.leftArrow === 'boolean' ? props.leftArrow : props.showBack;
 });
 
-const rootStyle = computed(() => {
+const rootClass = computed(() => [
+  'lk-navbar',
+  `lk-navbar--${props.variant}`,
+  `lk-navbar--title-${props.titleAlign}`,
+  props.customClass,
+  {
+    'is-fixed': props.fixed,
+    'is-border': props.border,
+    'is-shadow': props.shadow,
+    'has-background': !!props.background,
+  },
+]);
+
+const mergedStyle = computed<StyleValue>(() => {
   const style: Record<string, string | number> = { zIndex: props.zIndex };
   if (props.background) style.background = props.background;
-  return style;
+  if (!props.customStyle) return style;
+  if (typeof props.customStyle === 'string') return [style, props.customStyle];
+  return [style, props.customStyle as StyleValue];
 });
 
 type MenuButtonInfoLike = {
@@ -121,9 +136,8 @@ function onRightClick(event: unknown) {
 <template>
   <view
     :id="id"
-    class="lk-navbar"
-    :class="[customClass, { 'is-fixed': fixed }]"
-    :style="[rootStyle, customStyle as any]"
+    :class="rootClass"
+    :style="mergedStyle"
   >
     <!-- 状态栏占位 -->
     <view
@@ -147,7 +161,7 @@ function onRightClick(event: unknown) {
       >
         <lk-icon
           v-if="showBackComputed"
-          name="chevron-left"
+          :name="backIcon"
           size="36"
           class="lk-navbar__back"
           @tap.stop="onBackTap"
@@ -158,7 +172,10 @@ function onRightClick(event: unknown) {
       </view>
       <view class="lk-navbar__center">
         <slot name="center">
-          <text v-if="title" class="lk-navbar__title">{{ title }}</text>
+          <view class="lk-navbar__title-wrap">
+            <text v-if="title" class="lk-navbar__title">{{ title }}</text>
+            <text v-if="subtitle" class="lk-navbar__subtitle">{{ subtitle }}</text>
+          </view>
           <slot />
         </slot>
       </view>
