@@ -68,7 +68,7 @@ const isScrollView = computed(() => currentView.value === CalendarView.Scroll);
 const holidayMap = computed(() => createHolidayMap(props.holidayData, props.useBuiltinHoliday));
 const extraMap = computed(() => {
   const map = new Map<string, (typeof props.extraData)[number]>();
-  props.extraData.forEach(item => map.set(item.date, item));
+  props.extraData?.forEach(item => map.set(item.date, item));
   return map;
 });
 
@@ -449,7 +449,7 @@ const scrollStyle = computed<StyleValue>(() => ({
 
 <template>
   <view :class="['lk-calendar', customClass]" :style="mergedStyle">
-    <view v-if="showHeader" class="lk-calendar__header">
+    <view v-if="props.showHeader" class="lk-calendar__header">
       <view class="lk-calendar__nav" @tap="changeMonth(-1)">‹</view>
       <view class="lk-calendar__title">
         <text class="lk-calendar__ym">{{ panelYear }}年{{ panelMonth }}月</text>
@@ -460,7 +460,7 @@ const scrollStyle = computed<StyleValue>(() => ({
       <view class="lk-calendar__nav" @tap="changeMonth(1)">›</view>
     </view>
 
-    <view v-if="showViewToggle" class="lk-calendar__view-switch">
+    <view v-if="props.showViewToggle" class="lk-calendar__view-switch">
       <view
         class="lk-calendar__switch-item"
         :class="{ 'is-active': currentView === 'month' }"
@@ -484,7 +484,7 @@ const scrollStyle = computed<StyleValue>(() => ({
       </view>
     </view>
 
-    <view v-if="showShortcuts" class="lk-calendar__shortcuts">
+    <view v-if="props.showShortcuts" class="lk-calendar__shortcuts">
       <view class="lk-calendar__chip" @tap="applyShortcut('today')">今天</view>
       <view class="lk-calendar__chip" @tap="applyShortcut('tomorrow')">明天</view>
       <view class="lk-calendar__chip" @tap="applyShortcut('thisWeek')">本周</view>
@@ -516,16 +516,16 @@ const scrollStyle = computed<StyleValue>(() => ({
               day.extra?.className,
               {
                 'is-muted': day.monthOffset !== 0,
-                'is-today': showToday && day.isToday,
+                'is-today': props.showToday && day.isToday,
                 'is-weekend': day.isWeekend,
                 'is-disabled': day.isDisabled,
                 'is-selected': day.isSelected,
                 'is-in-range': day.isInRange,
                 'is-range-start': day.isRangeStart,
                 'is-range-end': day.isRangeEnd,
-                'is-holiday': showHoliday && day.isHoliday,
-                'is-workday': showHoliday && day.isWorkday,
-                'is-hidden-adjacent': day.monthOffset !== 0 && !showAdjacentDays,
+                'is-holiday': props.showHoliday && day.isHoliday,
+                'is-workday': props.showHoliday && day.isWorkday,
+                'is-hidden-adjacent': day.monthOffset !== 0 && !props.showAdjacentDays,
               },
             ]"
             @tap="selectDay(day)"
@@ -533,7 +533,7 @@ const scrollStyle = computed<StyleValue>(() => ({
             <slot name="day" :day="day">
               <view class="lk-calendar__day-main">
                 <text class="lk-calendar__day-text">{{ day.day }}</text>
-                <text v-if="showHoliday && (day.isHoliday || day.isWorkday)" class="lk-calendar__tag">
+                <text v-if="props.showHoliday && (day.isHoliday || day.isWorkday)" class="lk-calendar__tag">
                   {{ day.isWorkday ? '班' : '休' }}
                 </text>
               </view>
@@ -565,16 +565,16 @@ const scrollStyle = computed<StyleValue>(() => ({
           day.extra?.className,
           {
             'is-muted': day.monthOffset !== 0,
-            'is-today': showToday && day.isToday,
+            'is-today': props.showToday && day.isToday,
             'is-weekend': day.isWeekend,
             'is-disabled': day.isDisabled,
             'is-selected': day.isSelected,
             'is-in-range': day.isInRange,
             'is-range-start': day.isRangeStart,
             'is-range-end': day.isRangeEnd,
-            'is-holiday': showHoliday && day.isHoliday,
-            'is-workday': showHoliday && day.isWorkday,
-            'is-hidden-adjacent': day.monthOffset !== 0 && !showAdjacentDays,
+            'is-holiday': props.showHoliday && day.isHoliday,
+            'is-workday': props.showHoliday && day.isWorkday,
+            'is-hidden-adjacent': day.monthOffset !== 0 && !props.showAdjacentDays,
           },
         ]"
         @tap="selectDay(day)"
@@ -582,7 +582,7 @@ const scrollStyle = computed<StyleValue>(() => ({
         <slot name="day" :day="day">
           <view class="lk-calendar__day-main">
             <text class="lk-calendar__day-text">{{ day.day }}</text>
-            <text v-if="showHoliday && (day.isHoliday || day.isWorkday)" class="lk-calendar__tag">
+            <text v-if="props.showHoliday && (day.isHoliday || day.isWorkday)" class="lk-calendar__tag">
               {{ day.isWorkday ? '班' : '休' }}
             </text>
           </view>

@@ -1,383 +1,601 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
-import LkPopup from '../lk-popup/lk-popup.vue';
+import { computed, ref, watch, type StyleValue } from 'vue';
 import LkCalendar from '../lk-calendar/lk-calendar.vue';
-import LkButton from '../lk-button/lk-button.vue';
-import { datePickerProps, datePickerEmits } from './date-picker.props';
+import {
+  CalendarMode,
+  CalendarValueType,
+  type CalendarDateInput,
+  type CalendarModelValue,
+} from '../lk-calendar/calendar.props';
+import {
+  formatDate,
+  getMonthLength,
+  outputDate,
+  pad2,
+  parseDate,
+  startOfDay,
+} from '../lk-calendar/utils/date';
+import LkPopup from '../lk-popup/lk-popup.vue';
+import {
+  DatePickerDisplayMode,
+  DatePickerType,
+  datePickerEmits,
+  datePickerProps,
+  type DatePickerDateInput,
+  type DatePickerValue,
+} from './date-picker.props';
 
 defineOptions({ name: 'LkDatePicker' });
 
 type RangeValue = [Date | null, Date | null];
+type TimeTarget = 'start' | 'end';
+type TimeUnit = 'hour' | 'minute' | 'second';
+type TimeParts = {
+  hour: number;
+  minute: number;
+  second: number;
+};
+type WheelOption = {
+  label: string;
+  value: number;
+};
 
 const props = defineProps(datePickerProps);
-
 const emit = defineEmits(datePickerEmits);
 
-const visible = ref<boolean>(props.modelValue);
-watch(
-  () => props.modelValue,
-  v => (visible.value = v)
-);
-watch(visible, v => emit('update:modelValue', v));
-
-// 内部暂存选择值
+const now = new Date();
+const popupVisible = ref(getControlledVisible());
 const draftSingle = ref<Date | null>(null);
 const draftRange = ref<RangeValue>([null, null]);
 const draftMultiple = ref<Date[]>([]);
+const startTime = ref<TimeParts>(getTimeParts(now));
+const endTime = ref<TimeParts>(getTimeParts(now));
+const dateWheelIndexes = ref<number[]>([0, 0, 0]);
+const rootClass = computed(() => ['lk-date-picker', props.customClass]);
+const rootStyle = computed(() => props.customStyle as StyleValue);
 
-// 日期时间模式下的时间部分
-const h1 = ref<number>(new Date().getHours());
-const m1 = ref<number>(new Date().getMinutes());
-const s1 = ref<number>(0);
-const h2 = ref<number>(new Date().getHours());
-const m2 = ref<number>(new Date().getMinutes());
-const s2 = ref<number>(0);
-
-const isDateTime = computed(() => props.type === 'date-time' || props.type === 'range-date-time');
-const isRangeLike = computed(() => props.type === 'range' || props.type === 'range-date-time');
-const isMultiple = computed(() => props.type === 'multiple');
+const isRangeType = computed(
+  () => props.type === DatePickerType.Range || props.type === DatePickerType.RangeDateTime
+);
+const isMultipleType = computed(() => props.type === DatePickerType.Multiple);
+const isDateTimeType = computed(
+  () => props.type === DatePickerType.DateTime || props.type === DatePickerType.RangeDateTime
+);
+const isTimeOnly = computed(() => props.type === DatePickerType.Time);
+const isYearMonth = computed(() => props.type === DatePickerType.YearMonth);
+const resolvedMode = computed(() => {
+  if (props.pickerMode !== DatePickerDisplayMode.Auto) return props.pickerMode;
+  if (isYearMonth.value || isTimeOnly.value) return DatePickerDisplayMode.Wheel;
+  return DatePickerDisplayMode.Calendar;
+});
+const showDateWheel = computed(
+  () =>
+    resolvedMode.value === DatePickerDisplayMode.Wheel &&
+    !isRangeType.value &&
+    !isMultipleType.value &&
+    !isTimeOnly.value
+);
+const showCalendar = computed(
+  () =>
+    !isTimeOnly.value &&
+    !isYearMonth.value &&
+    (!showDateWheel.value || isRangeType.value || isMultipleType.value)
+);
+const showTimeWheel = computed(() => isTimeOnly.value || isDateTimeType.value);
+const showEndTimeWheel = computed(() => props.type === DatePickerType.RangeDateTime);
+const calendarMode = computed<CalendarMode>(() => {
+  if (isMultipleType.value) return CalendarMode.Multiple;
+  if (isRangeType.value) return CalendarMode.Range;
+  return CalendarMode.Single;
+});
+const calendarModelValue = computed<CalendarModelValue>(() => {
+  if (isMultipleType.value) return draftMultiple.value;
+  if (isRangeType.value) return draftRange.value;
+  return draftSingle.value;
+});
 const confirmDisabled = computed(() => {
-  if (props.type === 'range' || props.type === 'range-date-time') {
-    return !(draftRange.value[0] && draftRange.value[1]);
-  }
-  if (props.type === 'multiple') return false;
-  if (props.type === 'year-month') return false;
+  if (isRangeType.value) return !(draftRange.value[0] && draftRange.value[1]);
+  if (isMultipleType.value || isTimeOnly.value || isYearMonth.value) return false;
   return !draftSingle.value;
 });
 
-// 同步外部 value 到内部
-function parseDate(val: any): Date | null {
-  if (!val) return null;
-  if (val instanceof Date) return new Date(val.getFullYear(), val.getMonth(), val.getDate());
-  const d = new Date(val);
-  return isNaN(+d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function syncTimeFromDate(target: 'start' | 'end', val: any) {
-  if (!(val instanceof Date) || isNaN(+val)) return;
-  if (target === 'start') {
-    h1.value = val.getHours();
-    m1.value = val.getMinutes();
-    s1.value = val.getSeconds();
-    return;
-  }
-  h2.value = val.getHours();
-  m2.value = val.getMinutes();
-  s2.value = val.getSeconds();
-}
-
-function syncFromValue() {
-  if (props.type === 'range' || props.type === 'range-date-time') {
-    if (Array.isArray(props.value)) {
-      draftRange.value = [parseDate(props.value[0]), parseDate(props.value[1])];
-      if (props.type === 'range-date-time') {
-        syncTimeFromDate('start', props.value[0]);
-        syncTimeFromDate('end', props.value[1]);
-      }
-    } else {
-      draftRange.value = [null, null];
-    }
-  } else if (props.type === 'year-month') {
-    const d = parseDate(props.value as any);
-    if (d) {
-      ymYear.value = d.getFullYear();
-      ymMonth.value = d.getMonth() + 1;
-    }
-    draftSingle.value = d;
-  } else if (props.type === 'multiple') {
-    draftMultiple.value = Array.isArray(props.value)
-      ? ((props.value as any[]).map(v => parseDate(v)).filter(Boolean) as Date[])
-      : [];
-  } else {
-    draftSingle.value = parseDate(props.value as any);
-    if (props.type === 'date-time') {
-      syncTimeFromDate('start', props.value);
-    }
-  }
-}
-
-watch(
-  () => props.value,
-  () => {
-    if (visible.value) syncFromValue();
-  }
-);
-watch(visible, v => {
-  if (v) syncFromValue();
+const minDateValue = computed(() => parseDate(props.minDate));
+const maxDateValue = computed(() => parseDate(props.maxDate));
+const minYear = computed(() => minDateValue.value?.getFullYear() ?? now.getFullYear() - 80);
+const maxYear = computed(() => maxDateValue.value?.getFullYear() ?? now.getFullYear() + 20);
+const yearOptions = computed(() => createNumberOptions(minYear.value, maxYear.value, '年'));
+const monthOptions = computed(() => createNumberOptions(1, 12, '月'));
+const dayOptions = computed(() => {
+  const date = draftSingle.value ?? now;
+  const maxDay = getMonthLength(date.getFullYear(), date.getMonth() + 1);
+  return createNumberOptions(1, maxDay, '日');
 });
-
-// 年月模式
-const ymYear = ref<number>(new Date().getFullYear());
-const ymMonth = ref<number>(new Date().getMonth() + 1); // 1-12
-function ymChangeYear(delta: number) {
-  ymYear.value += delta;
-}
-function ymSelectMonth(m: number) {
-  ymMonth.value = m;
-}
-
-const months = computed(() => [
-  { m: 1, label: '1月' },
-  { m: 2, label: '2月' },
-  { m: 3, label: '3月' },
-  { m: 4, label: '4月' },
-  { m: 5, label: '5月' },
-  { m: 6, label: '6月' },
-  { m: 7, label: '7月' },
-  { m: 8, label: '8月' },
-  { m: 9, label: '9月' },
-  { m: 10, label: '10月' },
-  { m: 11, label: '11月' },
-  { m: 12, label: '12月' },
-]);
-function isMonthDisabled(y: number, m: number) {
-  const min = props.minDate ? parseDate(props.minDate as any) : null;
-  const max = props.maxDate ? parseDate(props.maxDate as any) : null;
-  const start = new Date(y, m - 1, 1);
-  const end = new Date(y, m, 0);
-  if (min && end < min) return true;
-  if (max && start > max) return true;
-  return false;
-}
-
-function onCalendarChange(val: any) {
-  if (isRangeLike.value) {
-    draftRange.value = val as RangeValue;
-  } else if (isMultiple.value) {
-    draftMultiple.value = Array.isArray(val) ? (val as Date[]) : [];
-  } else {
-    draftSingle.value = val as Date | null;
-  }
-}
-
-function close() {
-  visible.value = false;
-  emit('cancel');
-}
-
-type TimeUnit = 'hour' | 'minute' | 'second';
-type TimeTarget = 'start' | 'end';
-
+const dateWheelColumns = computed(() => {
+  if (isYearMonth.value) return [yearOptions.value, monthOptions.value];
+  return [yearOptions.value, monthOptions.value, dayOptions.value];
+});
 const timeUnits = computed(() => {
-  const units: Array<{ key: TimeUnit; label: string; max: number }> = [
-    { key: 'hour', label: '时', max: 23 },
+  const units: Array<{ key: TimeUnit; label: string; step: number; max: number }> = [
+    { key: 'hour', label: '时', step: props.stepHour, max: 23 },
   ];
   if (props.timePrecision !== 'hour') {
-    units.push({ key: 'minute', label: '分', max: 59 });
+    units.push({ key: 'minute', label: '分', step: props.stepMinute, max: 59 });
   }
   if (props.timePrecision === 'second') {
-    units.push({ key: 'second', label: '秒', max: 59 });
+    units.push({ key: 'second', label: '秒', step: props.stepSecond, max: 59 });
   }
   return units;
 });
+const timePresets = computed(() => {
+  const current = getTimeParts(new Date());
+  return [
+    { label: '现在', value: current },
+    { label: '09:00', value: { hour: 9, minute: 0, second: 0 } },
+    { label: '12:00', value: { hour: 12, minute: 0, second: 0 } },
+    { label: '18:00', value: { hour: 18, minute: 0, second: 0 } },
+  ];
+});
+
+watch(
+  () => props.modelValue,
+  () => {
+    if (props.show === undefined) syncVisibleFromProps();
+  }
+);
+watch(
+  () => props.show,
+  () => syncVisibleFromProps()
+);
+watch(
+  () => props.value,
+  () => {
+    if (popupVisible.value) syncFromValue();
+  },
+  { deep: true }
+);
+watch(
+  () => [props.type, props.minDate, props.maxDate, props.timePrecision],
+  () => {
+    if (popupVisible.value) syncFromValue();
+  }
+);
+
+function getControlledVisible() {
+  return props.show ?? props.modelValue;
+}
+
+function syncVisibleFromProps() {
+  popupVisible.value = getControlledVisible();
+  if (popupVisible.value) syncFromValue();
+}
+
+function setVisible(visible: boolean) {
+  if (popupVisible.value === visible) return;
+  popupVisible.value = visible;
+  emit('update:modelValue', visible);
+  emit('update:show', visible);
+  if (visible) {
+    emit('open');
+  } else {
+    emit('close');
+  }
+  if (visible) syncFromValue();
+}
+
+function getTimeParts(date: Date): TimeParts {
+  return {
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    second: date.getSeconds(),
+  };
+}
+
+function parseDateTime(input: DatePickerDateInput | null | undefined): Date | null {
+  if (input === null || input === undefined || input === '') return null;
+  if (input instanceof Date) return Number.isNaN(input.getTime()) ? null : new Date(input);
+  const date = new Date(input);
+  return Number.isNaN(date.getTime()) ? parseDate(input) : date;
+}
+
+function syncFromValue() {
+  if (isRangeType.value) {
+    const range = Array.isArray(props.value) ? props.value : [];
+    const start = parseDateTime(range[0] as DatePickerDateInput | null | undefined);
+    const end = parseDateTime(range[1] as DatePickerDateInput | null | undefined);
+    draftRange.value = [start ? startOfDay(start) : null, end ? startOfDay(end) : null];
+    if (start) startTime.value = getTimeParts(start);
+    if (end) endTime.value = getTimeParts(end);
+  } else if (isMultipleType.value) {
+    draftMultiple.value = Array.isArray(props.value)
+      ? props.value
+          .map(item => parseDate(item as CalendarDateInput))
+          .filter((item): item is Date => item !== null)
+      : [];
+  } else if (isTimeOnly.value) {
+    const date = parseDateTime(props.value as DatePickerDateInput | null);
+    startTime.value = date ? getTimeParts(date) : parseTimeString(props.value);
+  } else {
+    const date = parseDateTime(props.value as DatePickerDateInput | null);
+    draftSingle.value = date ? startOfDay(date) : startOfDay(now);
+    if (date) startTime.value = getTimeParts(date);
+  }
+  syncWheelIndexes();
+}
+
+function parseTimeString(value: DatePickerValue): TimeParts {
+  if (typeof value !== 'string') return getTimeParts(now);
+  const matched = value.match(/^(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?$/);
+  if (!matched) return getTimeParts(now);
+  return {
+    hour: clamp(Number(matched[1]), 0, 23),
+    minute: clamp(Number(matched[2] ?? 0), 0, 59),
+    second: clamp(Number(matched[3] ?? 0), 0, 59),
+  };
+}
+
+function syncWheelIndexes() {
+  const date = draftSingle.value ?? startOfDay(now);
+  dateWheelIndexes.value = [
+    findOptionIndex(yearOptions.value, date.getFullYear()),
+    findOptionIndex(monthOptions.value, date.getMonth() + 1),
+    findOptionIndex(dayOptions.value, date.getDate()),
+  ];
+}
+
+function createNumberOptions(start: number, end: number, unit: string): WheelOption[] {
+  const options: WheelOption[] = [];
+  for (let value = start; value <= end; value += 1) {
+    options.push({ label: `${value}${unit}`, value });
+  }
+  return options;
+}
+
+function findOptionIndex(options: WheelOption[], value: number) {
+  return Math.max(
+    0,
+    options.findIndex(option => option.value === value)
+  );
+}
+
+function clamp(value: number, min: number, max: number) {
+  if (Number.isNaN(value)) return min;
+  return Math.min(max, Math.max(min, value));
+}
+
+function onCalendarChange(value: CalendarModelValue | null) {
+  if (isRangeType.value) {
+    const range = Array.isArray(value) ? value : [];
+    draftRange.value = [
+      parseDate(range[0] as CalendarDateInput | null | undefined),
+      parseDate(range[1] as CalendarDateInput | null | undefined),
+    ];
+  } else if (isMultipleType.value) {
+    draftMultiple.value = Array.isArray(value)
+      ? value
+          .map(item => parseDate(item as CalendarDateInput))
+          .filter((item): item is Date => item !== null)
+      : [];
+  } else {
+    draftSingle.value = parseDate(value as CalendarDateInput | null | undefined);
+    syncWheelIndexes();
+  }
+  if (props.confirmOnSelect && !confirmDisabled.value) confirm();
+}
+
+function onDateWheelChange(event: { detail: { value: number[] } }) {
+  const indexes = event.detail.value;
+  const year = yearOptions.value[indexes[0]]?.value ?? now.getFullYear();
+  const month = monthOptions.value[indexes[1]]?.value ?? 1;
+  const maxDay = getMonthLength(year, month);
+  const currentDay = dayOptions.value[indexes[2]]?.value ?? 1;
+  const day = isYearMonth.value ? 1 : Math.min(currentDay, maxDay);
+  draftSingle.value = startOfDay(new Date(year, month - 1, day));
+  dateWheelIndexes.value = [
+    findOptionIndex(yearOptions.value, year),
+    findOptionIndex(monthOptions.value, month),
+    findOptionIndex(dayOptions.value, day),
+  ];
+}
 
 function getTimeValue(target: TimeTarget, unit: TimeUnit) {
-  if (target === 'start') {
-    if (unit === 'hour') return h1.value;
-    if (unit === 'minute') return m1.value;
-    return s1.value;
-  }
-  if (unit === 'hour') return h2.value;
-  if (unit === 'minute') return m2.value;
-  return s2.value;
+  const source = target === 'start' ? startTime.value : endTime.value;
+  return source[unit];
 }
 
 function setTimeValue(target: TimeTarget, unit: TimeUnit, value: number) {
-  const normalized = Math.max(0, value);
+  const source = target === 'start' ? startTime.value : endTime.value;
+  const next = { ...source, [unit]: value };
   if (target === 'start') {
-    if (unit === 'hour') h1.value = Math.min(23, normalized);
-    if (unit === 'minute') m1.value = Math.min(59, normalized);
-    if (unit === 'second') s1.value = Math.min(59, normalized);
+    startTime.value = next;
     return;
   }
-  if (unit === 'hour') h2.value = Math.min(23, normalized);
-  if (unit === 'minute') m2.value = Math.min(59, normalized);
-  if (unit === 'second') s2.value = Math.min(59, normalized);
+  endTime.value = next;
 }
 
-function stepTime(target: TimeTarget, unit: TimeUnit, max: number, step: number) {
+function getEventValue(event: unknown) {
+  if (!event || typeof event !== 'object') return '';
+  const source = event as {
+    detail?: { value?: unknown };
+    target?: { value?: unknown };
+  };
+  const value = source.detail?.value ?? source.target?.value;
+  return typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+}
+
+function inputTime(target: TimeTarget, unit: TimeUnit, max: number, event: unknown) {
+  const raw = getEventValue(event).replace(/\D/g, '');
+  if (!raw) {
+    setTimeValue(target, unit, 0);
+    return;
+  }
+  setTimeValue(target, unit, clamp(Number(raw), 0, max));
+}
+
+function stepTime(target: TimeTarget, unit: TimeUnit, max: number, step: number, direction: 1 | -1) {
+  const safeStep = Math.max(1, step);
   const current = getTimeValue(target, unit);
-  const next = (current + step + max + 1) % (max + 1);
+  const next = (current + safeStep * direction + max + 1) % (max + 1);
   setTimeValue(target, unit, next);
 }
 
-function format2(value: number) {
-  return `${value}`.padStart(2, '0');
+function applyTimePreset(target: TimeTarget, value: TimeParts) {
+  const next = { ...value };
+  if (target === 'start') {
+    startTime.value = next;
+    return;
+  }
+  endTime.value = next;
 }
 
-function getTimePreview(target: TimeTarget) {
-  const h = format2(getTimeValue(target, 'hour'));
-  if (props.timePrecision === 'hour') return `${h}:00`;
-  const m = format2(getTimeValue(target, 'minute'));
-  if (props.timePrecision === 'minute') return `${h}:${m}`;
-  const s = format2(getTimeValue(target, 'second'));
-  return `${h}:${m}:${s}`;
+function close() {
+  emit('cancel');
+  setVisible(false);
 }
 
 function confirm() {
-  let value: Date | [Date, Date] | Date[] | null = null;
-  if (props.type === 'range') {
-    const [s, e] = draftRange.value;
-    value = s && e ? [s, e] : null;
-  } else if (props.type === 'year-month') {
-    value = new Date(ymYear.value, ymMonth.value - 1, 1);
-  } else if (props.type === 'multiple') {
-    value = draftMultiple.value.slice();
-  } else if (props.type === 'date-time') {
-    const d = draftSingle.value;
-    if (d) {
-      value = new Date(
-        d.getFullYear(),
-        d.getMonth(),
-        d.getDate(),
-        h1.value,
-        m1.value,
-        props.timePrecision === 'second' ? s1.value : 0
-      );
-    } else value = null;
-  } else if (props.type === 'range-date-time') {
-    const [s, e] = draftRange.value;
-    if (s && e) {
-      const sdt = new Date(
-        s.getFullYear(),
-        s.getMonth(),
-        s.getDate(),
-        h1.value,
-        m1.value,
-        props.timePrecision === 'second' ? s1.value : 0
-      );
-      const edt = new Date(
-        e.getFullYear(),
-        e.getMonth(),
-        e.getDate(),
-        h2.value,
-        m2.value,
-        props.timePrecision === 'second' ? s2.value : 0
-      );
-      value = sdt <= edt ? [sdt, edt] : [edt, sdt];
-    } else value = null;
-  } else {
-    value = draftSingle.value || null;
-  }
+  const value = buildOutputValue();
+  emit('update:value', value);
+  emit('change', value);
   emit('confirm', value);
-  visible.value = false;
+  setVisible(false);
 }
+
+function buildOutputValue(): DatePickerValue {
+  if (props.type === DatePickerType.Range) {
+    const [start, end] = normalizeRange(draftRange.value[0], draftRange.value[1]);
+    return start && end ? [toOutputDate(start), toOutputDate(end)] : null;
+  }
+  if (props.type === DatePickerType.RangeDateTime) {
+    const [startDate, endDate] = normalizeRange(draftRange.value[0], draftRange.value[1]);
+    if (!startDate || !endDate) return null;
+    const start = mergeDateTime(startDate, startTime.value);
+    const end = mergeDateTime(endDate, endTime.value);
+    const range = start.getTime() <= end.getTime() ? [start, end] : [end, start];
+    return [toOutputDate(range[0]), toOutputDate(range[1])];
+  }
+  if (props.type === DatePickerType.Multiple) {
+    return draftMultiple.value.map(item => toOutputDate(item));
+  }
+  if (props.type === DatePickerType.Time) {
+    return formatTime(startTime.value);
+  }
+  if (props.type === DatePickerType.DateTime) {
+    return draftSingle.value ? toOutputDate(mergeDateTime(draftSingle.value, startTime.value)) : null;
+  }
+  if (props.type === DatePickerType.YearMonth) {
+    return draftSingle.value ? toOutputDate(new Date(draftSingle.value.getFullYear(), draftSingle.value.getMonth(), 1)) : null;
+  }
+  return draftSingle.value ? toOutputDate(draftSingle.value) : null;
+}
+
+function normalizeRange(start: Date | null, end: Date | null): RangeValue {
+  if (!start || !end) return [start, end];
+  return start.getTime() <= end.getTime() ? [start, end] : [end, start];
+}
+
+function mergeDateTime(date: Date, time: TimeParts) {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    time.hour,
+    props.timePrecision === 'hour' ? 0 : time.minute,
+    props.timePrecision === 'second' ? time.second : 0
+  );
+}
+
+function toOutputDate(date: Date): DatePickerDateInput {
+  if (props.valueType === CalendarValueType.String) return formatDateTime(date, resolvedValueFormat());
+  return outputDate(date, props.valueType, resolvedValueFormat()) as DatePickerDateInput;
+}
+
+function resolvedValueFormat() {
+  if (props.valueFormat !== 'YYYY-MM-DD') return props.valueFormat;
+  if (props.type === DatePickerType.YearMonth) return 'YYYY-MM';
+  if (props.type === DatePickerType.Time) return props.timePrecision === 'second' ? 'HH:mm:ss' : 'HH:mm';
+  if (isDateTimeType.value) {
+    return props.timePrecision === 'second' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm';
+  }
+  return props.valueFormat;
+}
+
+function formatDateTime(date: Date, format: string) {
+  return formatDate(date, format)
+    .replace('HH', pad2(date.getHours()))
+    .replace('mm', pad2(date.getMinutes()))
+    .replace('ss', pad2(date.getSeconds()));
+}
+
+function formatTime(time: TimeParts) {
+  const hour = pad2(time.hour);
+  if (props.timePrecision === 'hour') return `${hour}:00`;
+  const minute = pad2(time.minute);
+  if (props.timePrecision === 'minute') return `${hour}:${minute}`;
+  return `${hour}:${minute}:${pad2(time.second)}`;
+}
+
+syncFromValue();
 </script>
 
 <template>
-  <lk-popup v-model="visible" position="bottom">
-    <view class="lk-date-picker__panel">
+  <lk-popup
+    :model-value="popupVisible"
+    position="bottom"
+    round
+    @update:model-value="setVisible"
+  >
+    <view :class="rootClass" :style="rootStyle">
       <view class="lk-date-picker__header">
+        <view class="lk-date-picker__action lk-date-picker__action--cancel" @tap="close">
+          取消
+        </view>
         <text class="lk-date-picker__title">{{ title }}</text>
-        <view class="lk-date-picker__spacer" />
-        <lk-button variant="text" @click="close">取消</lk-button>
-        <lk-button :disabled="confirmDisabled" @click="confirm">确定</lk-button>
+        <view
+          class="lk-date-picker__action lk-date-picker__action--confirm"
+          :class="{ 'is-disabled': confirmDisabled }"
+          @tap="!confirmDisabled && confirm()"
+        >
+          确定
+        </view>
       </view>
 
-      <template v-if="type !== 'year-month'">
+      <view class="lk-date-picker__body">
         <lk-calendar
-          :type="
-            type === 'multiple'
-              ? 'multiple'
-              : type === 'range' || type === 'range-date-time'
-                ? 'range'
-                : 'single'
-          "
+          v-if="showCalendar"
+          :model-value="calendarModelValue"
+          :mode="calendarMode"
+          :view="view"
           :color="color"
           :first-day="firstDay"
+          :show-view-toggle="showViewToggle"
           :show-shortcuts="showShortcuts"
+          :show-lunar="showLunar"
+          :show-festival="showFestival"
+          :show-solar-term="showSolarTerm"
+          :show-holiday="showHoliday"
+          :use-builtin-holiday="useBuiltinHoliday"
+          :holiday-data="holidayData"
+          :extra-data="extraData"
           :disabled-date="disabledDate"
-          :min-date="minDate as any"
-          :max-date="maxDate as any"
-          :model-value="
-            type === 'multiple'
-              ? (draftMultiple as any)
-              : type === 'range' || type === 'range-date-time'
-                ? (draftRange as any)
-                : (draftSingle as any)
-          "
+          :disabled-week-days="disabledWeekDays"
+          :min-date="minDate"
+          :max-date="maxDate"
+          :max-count="maxCount"
+          :min-range="minRange"
+          :max-range="maxRange"
+          :visible-month-count="visibleMonthCount"
+          :scroll-height="scrollHeight"
+          value-type="date"
           @update:model-value="onCalendarChange"
         />
 
-        <template v-if="isDateTime">
-          <view class="lk-date-picker__time">
-            <view v-if="type === 'date-time'" class="lk-date-picker__time-card">
-              <view class="lk-date-picker__time-head">
-                <text class="lk-date-picker__time-label">时间</text>
-                <text class="lk-date-picker__time-value">{{ getTimePreview('start') }}</text>
-              </view>
-              <view class="lk-date-picker__time-grid">
-                <view v-for="unit in timeUnits" :key="'single-' + unit.key" class="lk-date-picker__time-unit">
-                  <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
-                  <view class="lk-date-picker__time-unit-main">
-                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, -1)">-</view>
-                    <view class="lk-date-picker__time-num">{{ format2(getTimeValue('start', unit.key)) }}</view>
-                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, 1)">+</view>
-                  </view>
-                </view>
-              </view>
-            </view>
-
-            <view v-if="type === 'range-date-time'" class="lk-date-picker__time-card">
-              <view class="lk-date-picker__time-head">
-                <text class="lk-date-picker__time-label">开始时间</text>
-                <text class="lk-date-picker__time-value">{{ getTimePreview('start') }}</text>
-              </view>
-              <view class="lk-date-picker__time-grid">
-                <view v-for="unit in timeUnits" :key="'start-' + unit.key" class="lk-date-picker__time-unit">
-                  <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
-                  <view class="lk-date-picker__time-unit-main">
-                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, -1)">-</view>
-                    <view class="lk-date-picker__time-num">{{ format2(getTimeValue('start', unit.key)) }}</view>
-                    <view class="lk-date-picker__time-btn" @click="stepTime('start', unit.key, unit.max, 1)">+</view>
-                  </view>
-                </view>
-              </view>
-            </view>
-
-            <view v-if="type === 'range-date-time'" class="lk-date-picker__time-card">
-              <view class="lk-date-picker__time-head">
-                <text class="lk-date-picker__time-label">结束时间</text>
-                <text class="lk-date-picker__time-value">{{ getTimePreview('end') }}</text>
-              </view>
-              <view class="lk-date-picker__time-grid">
-                <view v-for="unit in timeUnits" :key="'end-' + unit.key" class="lk-date-picker__time-unit">
-                  <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
-                  <view class="lk-date-picker__time-unit-main">
-                    <view class="lk-date-picker__time-btn" @click="stepTime('end', unit.key, unit.max, -1)">-</view>
-                    <view class="lk-date-picker__time-num">{{ format2(getTimeValue('end', unit.key)) }}</view>
-                    <view class="lk-date-picker__time-btn" @click="stepTime('end', unit.key, unit.max, 1)">+</view>
-                  </view>
-                </view>
-              </view>
-            </view>
+        <view v-if="showDateWheel" class="lk-date-picker__wheel-card">
+          <view class="lk-date-picker__section-head">
+            <text class="lk-date-picker__section-title">
+              {{ isYearMonth ? '选择年月' : '选择日期' }}
+            </text>
           </view>
-        </template>
-      </template>
-
-      <template v-else>
-        <view class="lk-date-picker__ym">
-          <view class="lk-date-picker__ym-head">
-            <view class="lk-date-picker__nav" @click="ymChangeYear(-1)">‹</view>
-            <text class="lk-date-picker__ym-text">{{ ymYear }} 年</text>
-            <view class="lk-date-picker__nav" @click="ymChangeYear(1)">›</view>
-          </view>
-          <view class="lk-date-picker__ym-grid">
-            <view
-              v-for="mm in months"
-              :key="mm.m"
-              class="lk-date-picker__ym-cell"
-              :class="{
-                'is-active': ymMonth === mm.m,
-                'is-disabled': isMonthDisabled(ymYear, mm.m),
-              }"
-              @click="!isMonthDisabled(ymYear, mm.m) && ymSelectMonth(mm.m)"
+          <picker-view
+            class="lk-date-picker__wheel"
+            :value="dateWheelIndexes"
+            indicator-class="lk-date-picker__wheel-indicator"
+            @change="onDateWheelChange"
+          >
+            <picker-view-column
+              v-for="(column, columnIndex) in dateWheelColumns"
+              :key="columnIndex"
             >
-              {{ mm.label }}
+              <view
+                v-for="option in column"
+                :key="option.value"
+                class="lk-date-picker__wheel-item"
+              >
+                {{ option.label }}
+              </view>
+            </picker-view-column>
+          </picker-view>
+        </view>
+
+        <view v-if="showTimeWheel" class="lk-date-picker__time">
+          <view class="lk-date-picker__time-card">
+            <view class="lk-date-picker__section-head">
+              <text class="lk-date-picker__section-title">
+                {{ showEndTimeWheel ? '开始时间' : '选择时间' }}
+              </text>
+              <text class="lk-date-picker__section-value">{{ formatTime(startTime) }}</text>
+            </view>
+            <view class="lk-date-picker__time-preview">{{ formatTime(startTime) }}</view>
+            <view class="lk-date-picker__time-grid">
+              <view v-for="unit in timeUnits" :key="'start-' + unit.key" class="lk-date-picker__time-unit">
+                <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
+                <view class="lk-date-picker__time-stepper">
+                  <view class="lk-date-picker__time-step" @tap="stepTime('start', unit.key, unit.max, unit.step, -1)">
+                    -
+                  </view>
+                  <input
+                    class="lk-date-picker__time-num"
+                    type="number"
+                    maxlength="2"
+                    :value="pad2(getTimeValue('start', unit.key))"
+                    @input="inputTime('start', unit.key, unit.max, $event)"
+                  />
+                  <view class="lk-date-picker__time-step" @tap="stepTime('start', unit.key, unit.max, unit.step, 1)">
+                    +
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="lk-date-picker__time-presets">
+              <view
+                v-for="preset in timePresets"
+                :key="'start-' + preset.label"
+                class="lk-date-picker__time-preset"
+                @tap="applyTimePreset('start', preset.value)"
+              >
+                {{ preset.label }}
+              </view>
+            </view>
+          </view>
+
+          <view v-if="showEndTimeWheel" class="lk-date-picker__time-card">
+            <view class="lk-date-picker__section-head">
+              <text class="lk-date-picker__section-title">结束时间</text>
+              <text class="lk-date-picker__section-value">{{ formatTime(endTime) }}</text>
+            </view>
+            <view class="lk-date-picker__time-preview">{{ formatTime(endTime) }}</view>
+            <view class="lk-date-picker__time-grid">
+              <view v-for="unit in timeUnits" :key="'end-' + unit.key" class="lk-date-picker__time-unit">
+                <text class="lk-date-picker__time-unit-label">{{ unit.label }}</text>
+                <view class="lk-date-picker__time-stepper">
+                  <view class="lk-date-picker__time-step" @tap="stepTime('end', unit.key, unit.max, unit.step, -1)">
+                    -
+                  </view>
+                  <input
+                    class="lk-date-picker__time-num"
+                    type="number"
+                    maxlength="2"
+                    :value="pad2(getTimeValue('end', unit.key))"
+                    @input="inputTime('end', unit.key, unit.max, $event)"
+                  />
+                  <view class="lk-date-picker__time-step" @tap="stepTime('end', unit.key, unit.max, unit.step, 1)">
+                    +
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="lk-date-picker__time-presets">
+              <view
+                v-for="preset in timePresets"
+                :key="'end-' + preset.label"
+                class="lk-date-picker__time-preset"
+                @tap="applyTimePreset('end', preset.value)"
+              >
+                {{ preset.label }}
+              </view>
             </view>
           </view>
         </view>
-      </template>
+      </view>
     </view>
   </lk-popup>
 </template>

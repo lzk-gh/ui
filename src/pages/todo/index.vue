@@ -257,8 +257,10 @@
     <!-- 日期选择器 -->
     <lk-date-picker
       v-model:show="showDatePicker"
+      :value="formModel.dueDate"
       type="date"
       title="选择截止日期"
+      value-type="string"
       @confirm="handleDateConfirm"
     />
 
@@ -307,6 +309,7 @@ import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.v
 import LkTooltip from '@/uni_modules/lucky-ui/components/lk-tooltip/lk-tooltip.vue';
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
 import LkCurtain from '@/uni_modules/lucky-ui/components/lk-curtain/lk-curtain.vue';
+import type { DatePickerValue } from '@/uni_modules/lucky-ui/components/lk-date-picker/date-picker.props';
 
 const { theme, themeClass, toggleTheme } = useTheme();
 const searchQuery = ref('');
@@ -428,8 +431,8 @@ const handleStatusChange = (item: any) => {
   }
 };
 
-const handleDateConfirm = (e: any) => {
-  formModel.value.dueDate = e.value;
+const handleDateConfirm = (value: DatePickerValue) => {
+  formModel.value.dueDate = typeof value === 'string' ? value : '';
   showDatePicker.value = false;
 };
 
