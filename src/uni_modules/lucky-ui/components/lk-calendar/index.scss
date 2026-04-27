@@ -1,23 +1,26 @@
 @use '../../theme/src/mixins' as *;
 
 @include b(calendar) {
-  // =========================================
-  // 1. 定义组件级 CSS 变量
-  // =========================================
-  --_accent: var(--lk-color-primary);
-  --_accent-bg: var(--lk-color-fill-tertiary);
-  --_text-inverse: var(--lk-color-text-inverse);
-  --_text-secondary: var(--lk-color-text-secondary);
-  --_radius: var(--lk-radius-md);
-  --_fs: var(--lk-control-font-size-sm);
+  --lk-calendar-bg: var(--lk-color-bg-container);
+  --lk-calendar-cell-bg: transparent;
+  --lk-calendar-cell-hover-bg: var(--lk-color-fill-quaternary);
+  --lk-calendar-cell-range-bg: var(--lk-color-primary-bg-soft);
+  --lk-calendar-cell-selected-bg: var(--lk-calendar-accent, var(--lk-color-primary));
+  --lk-calendar-cell-border: var(--lk-color-border-light);
+  --lk-calendar-text: var(--lk-color-text);
+  --lk-calendar-text-secondary: var(--lk-color-text-secondary);
+  --lk-calendar-text-muted: var(--lk-color-text-placeholder);
+  --lk-calendar-text-inverse: var(--lk-color-text-inverse);
+  --lk-calendar-holiday-color: var(--lk-color-danger);
+  --lk-calendar-workday-color: var(--lk-color-warning);
 
-  // =========================================
-  // 2. 核心盒模型
-  // =========================================
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-size: var(--_fs);
+  padding: var(--lk-spacing-md);
+  border-radius: var(--lk-radius-lg);
+  background: var(--lk-calendar-bg);
+  box-sizing: border-box;
 
   & > view:not(:first-child) {
     margin-top: var(--lk-spacing-md);
@@ -27,54 +30,85 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 600;
   }
 
-  @include e(nav) {
-    width: var(--lk-rpx-64);
-    height: var(--lk-rpx-64);
+  @include e(title) {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: var(--_accent-bg);
-    color: var(--_accent);
-    border-radius: var(--lk-radius-full);
-    transition: all 0.2s;
-
-    &:active {
-      background: var(--_accent);
-      color: var(--_text-inverse);
-    }
   }
 
   @include e(ym) {
+    color: var(--lk-calendar-text);
+    font-size: var(--lk-font-size-lg);
     font-weight: 700;
-    color: var(--lk-color-text);
+  }
+
+  @include e(subtitle) {
+    margin-top: var(--lk-rpx-4);
+    color: var(--lk-calendar-text-secondary);
+    font-size: var(--lk-font-size-xs);
+  }
+
+  @include e(nav) {
+    width: var(--lk-rpx-72);
+    height: var(--lk-rpx-72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--lk-radius-full);
+    background: var(--lk-color-fill-tertiary);
+    color: var(--lk-calendar-text);
+    font-size: var(--lk-font-size-xl);
+    transition: background var(--lk-transition-fast);
+
+    &:active {
+      background: var(--lk-color-bg-active);
+    }
+  }
+
+  @include e(view-switch) {
+    display: flex;
+    padding: var(--lk-rpx-4);
+    border-radius: var(--lk-radius-full);
+    background: var(--lk-color-fill-tertiary);
+  }
+
+  @include e(switch-item) {
+    flex: 1;
+    height: var(--lk-rpx-56);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--lk-radius-full);
+    color: var(--lk-calendar-text-secondary);
+    font-size: var(--lk-font-size-sm);
+
+    @include when(active) {
+      background: var(--lk-calendar-bg);
+      color: var(--lk-calendar-text);
+      font-weight: 600;
+    }
   }
 
   @include e(shortcuts) {
     display: flex;
     flex-wrap: wrap;
-    margin: calc(var(--lk-spacing-sm) * -0.5);
+    margin: calc(var(--lk-spacing-xs) * -0.5);
   }
 
   @include e(chip) {
-    margin: calc(var(--lk-spacing-sm) * 0.5);
-    padding: var(--lk-spacing-xxs) var(--lk-spacing-md);
+    margin: calc(var(--lk-spacing-xs) * 0.5);
+    padding: var(--lk-rpx-10) var(--lk-rpx-20);
     border-radius: var(--lk-radius-full);
-    background: var(--_accent-bg);
-    color: var(--_accent);
+    background: var(--lk-color-fill-tertiary);
+    color: var(--lk-calendar-text);
     font-size: var(--lk-font-size-sm);
-    transition: all 0.2s;
 
     @include when(plain) {
       background: transparent;
-      color: var(--_text-secondary);
-      border: var(--lk-rpx-2) solid var(--_accent-bg);
-    }
-
-    &:active {
-      filter: brightness(0.95);
+      color: var(--lk-calendar-text-secondary);
+      border: var(--lk-rpx-2) solid var(--lk-calendar-cell-border);
     }
   }
 
@@ -82,98 +116,205 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
+    color: var(--lk-calendar-text-secondary);
     font-size: var(--lk-font-size-xs);
-    color: var(--_text-secondary);
   }
 
   @include e(grid) {
-    display: flex;
-    flex-wrap: wrap;
-    margin: calc(var(--lk-spacing-xs) * -0.5);
-    transition: transform 0.25s ease;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--lk-rpx-8);
+
+    @include when(week) {
+      grid-template-rows: repeat(1, var(--lk-rpx-104));
+    }
   }
 
-  @include e(grid-wrapper) {
+  @include e(scroll) {
     overflow: hidden;
-    border-radius: var(--_radius);
-    transition: height 0.25s ease;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar,
+    & ::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
+
+  @include e(month-section) {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--lk-spacing-lg);
+
+    & + .lk-calendar__month-section {
+      padding-top: var(--lk-spacing-md);
+      border-top: var(--lk-rpx-2) solid var(--lk-calendar-cell-border);
+    }
+  }
+
+  @include e(month-title) {
+    margin-bottom: var(--lk-spacing-sm);
+    color: var(--lk-calendar-text);
+    font-size: var(--lk-font-size-md);
+    font-weight: 700;
+    text-align: center;
   }
 
   @include e(cell) {
     position: relative;
-    width: calc(14.285% - var(--lk-spacing-xs));
-    margin: calc(var(--lk-spacing-xs) * 0.5);
-    height: var(--lk-rpx-84);
+    min-height: var(--lk-rpx-108);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: var(--_radius);
-    background: transparent;
-    color: var(--lk-color-text);
-    transition: all 0.2s;
+    border-radius: var(--lk-radius-md);
+    background: var(--lk-calendar-cell-bg);
+    color: var(--lk-calendar-text);
     box-sizing: border-box;
+    padding: var(--lk-rpx-6) var(--lk-rpx-4);
+    overflow: hidden;
 
-    @include when(empty) {
-      background: transparent;
+    @include when(muted) {
+      color: var(--lk-calendar-text-muted);
     }
 
-    @include when(disabled) {
-      opacity: 0.4;
-      cursor: not-allowed;
+    @include when(hidden-adjacent) {
+      visibility: hidden;
+    }
+
+    @include when(weekend) {
+      .lk-calendar__day-text {
+        color: var(--lk-calendar-holiday-color);
+      }
     }
 
     @include when(today) {
-      box-shadow: 0 0 0 var(--lk-rpx-2) var(--_accent);
-    }
-
-    @include when(selected) {
-      background: var(--_accent);
-      color: var(--_text-inverse);
-      font-weight: 600;
-    }
-
-    @include when(multi-selected) {
-      background: var(--_accent);
-      color: var(--_text-inverse);
-      font-weight: 600;
+      box-shadow: inset 0 0 0 var(--lk-rpx-2) var(--lk-calendar-cell-selected-bg);
     }
 
     @include when(in-range) {
-      background: var(--lk-color-bg-active);
+      background: var(--lk-calendar-cell-range-bg);
+    }
+
+    @include when(selected) {
+      background: var(--lk-calendar-cell-selected-bg);
+      color: var(--lk-calendar-text-inverse);
+      font-weight: 600;
+
+      .lk-calendar__day-text,
+      .lk-calendar__day-sub,
+      .lk-calendar__extra,
+      .lk-calendar__badge,
+      .lk-calendar__tag {
+        color: var(--lk-calendar-text-inverse);
+      }
     }
 
     @include when(range-start) {
-      background: var(--_accent);
-      color: var(--_text-inverse);
-      font-weight: 600;
+      border-top-right-radius: var(--lk-radius-sm);
+      border-bottom-right-radius: var(--lk-radius-sm);
     }
 
     @include when(range-end) {
-      background: var(--_accent);
-      color: var(--_text-inverse);
-      font-weight: 600;
+      border-top-left-radius: var(--lk-radius-sm);
+      border-bottom-left-radius: var(--lk-radius-sm);
     }
 
-    &:active:not(.is-empty):not(.is-disabled) {
-      filter: brightness(0.92);
+    @include when(disabled) {
+      opacity: 0.38;
+    }
+
+    @include when(holiday) {
+      .lk-calendar__tag {
+        color: var(--lk-calendar-holiday-color);
+      }
+    }
+
+    @include when(workday) {
+      .lk-calendar__tag {
+        color: var(--lk-calendar-workday-color);
+      }
+    }
+
+    &:active:not(.is-disabled):not(.is-hidden-adjacent) {
+      background: var(--lk-calendar-cell-hover-bg);
     }
   }
 
-  @include e(drag-handle) {
+  @include e(day-main) {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    min-height: var(--lk-rpx-88);
-    padding: var(--lk-spacing-sm) 0 var(--lk-spacing-sm);
-    margin-top: var(--lk-rpx-6);
-    touch-action: none;
+    min-height: var(--lk-rpx-34);
   }
 
-  @include e(drag-bar) {
-    width: var(--lk-rpx-144);
-    height: var(--lk-rpx-10);
+  @include e(day-text) {
+    color: inherit;
+    font-size: var(--lk-font-size-lg);
+    line-height: 1.15;
+  }
+
+  @include e(day-sub) {
+    max-width: 100%;
+    margin-top: var(--lk-rpx-2);
+    color: var(--lk-calendar-text-secondary);
+    font-size: var(--lk-font-size-xs);
+    line-height: 1.15;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include e(extra-row) {
+    max-width: 100%;
+    margin-top: var(--lk-rpx-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  @include e(extra) {
+    min-width: 0;
+    color: var(--lk-calendar-text-secondary);
+    font-size: var(--lk-rpx-20);
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include e(tag) {
+    position: absolute;
+    top: calc(var(--lk-rpx-16) * -1);
+    right: calc(var(--lk-rpx-20) * -1);
+    color: var(--lk-calendar-holiday-color);
+    font-size: var(--lk-rpx-18);
+    font-weight: 600;
+  }
+
+  @include e(dot) {
+    width: var(--lk-rpx-8);
+    height: var(--lk-rpx-8);
+    margin-top: var(--lk-rpx-4);
     border-radius: var(--lk-radius-full);
-    background: var(--lk-color-fill-tertiary);
+    background: var(--lk-calendar-cell-selected-bg);
+  }
+
+  @include e(badge) {
+    flex: none;
+    min-width: var(--lk-rpx-22);
+    height: var(--lk-rpx-22);
+    margin-right: var(--lk-rpx-4);
+    padding: 0 var(--lk-rpx-4);
+    border-radius: var(--lk-radius-full);
+    background: var(--lk-color-danger);
+    color: var(--lk-calendar-text-inverse);
+    font-size: var(--lk-rpx-16);
+    line-height: var(--lk-rpx-22);
+    text-align: center;
   }
 }
