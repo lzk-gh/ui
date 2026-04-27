@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { imageProps, imageEmits } from './image.props';
 
 defineOptions({ name: 'LkImage' });
@@ -12,11 +12,20 @@ const state = reactive({
   error: false,
 });
 
-function onLoad(e: any) {
+watch(
+  () => props.src,
+  () => {
+    state.loading = true;
+    state.error = false;
+  }
+);
+
+function onLoad(e: unknown) {
   state.loading = false;
   emit('load', e);
 }
-function onError(e: any) {
+
+function onError(e: unknown) {
   state.loading = false;
   state.error = true;
   emit('error', e);
@@ -30,7 +39,7 @@ function onClick() {
 </script>
 
 <template>
-  <view class="lk-image" :style="{ width, height, borderRadius: radius }" @click="onClick">
+  <view class="lk-image" :style="{ width, height, borderRadius: radius }" @tap="onClick">
     <image
       v-if="!state.error"
       class="lk-image__inner"
@@ -40,9 +49,10 @@ function onClick() {
       @load="onLoad"
       @error="onError"
     />
-    <view v-if="showLoading && state.loading" class="lk-image__placeholder">
-      <lk-loading variant="spinner" size="40" />
-    </view>
+    <view
+      v-if="showLoading && state.loading"
+      class="lk-image__placeholder lk-image__placeholder--loading"
+    />
     <view v-else-if="showError && state.error" class="lk-image__placeholder">
       <lk-icon name="image" size="44" />
       <text class="lk-image__text">加载失败</text>
