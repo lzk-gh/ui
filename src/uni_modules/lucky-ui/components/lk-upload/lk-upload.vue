@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { computed, ref, watch, type StyleValue } from 'vue';
+import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 import {
   uploadProps,
   uploadEmits,
@@ -52,6 +53,33 @@ const remainCount = computed(() => Math.max(0, props.maxCount - fileList.value.l
 const showAddBtn = computed(
   () => props.showUpload && fileList.value.length < props.maxCount && !props.disabled,
 );
+
+const rootClass = computed(() => [
+  'lk-upload',
+  props.customClass,
+  {
+    'is-disabled': props.disabled,
+  },
+]);
+
+const rootStyle = computed<StyleValue>(() => [
+  props.customStyle as StyleValue,
+  {
+    '--lk-upload-preview-size': addUnit(props.previewSize),
+  },
+]);
+
+function getItemClass(file: UploadFile) {
+  const isImage = isImageUrl(file.url);
+  return [
+    'lk-upload__item',
+    `is-${file.status}`,
+    {
+      'is-image': isImage,
+      'is-file': !isImage,
+    },
+  ];
+}
 
 /* ───────────── 同步外部 ───────────── */
 
@@ -362,76 +390,78 @@ defineExpose({
 </script>
 
 <template>
-  <view class="lk-upload-wrapper">
-    <view class="lk-upload" :class="{ 'is-disabled': disabled }">
-    <!-- 已选文件列表 -->
-    <view
-      v-for="(f, i) in fileList"
-      :key="f.uid"
-      class="lk-upload__item"
-      @click="onPreview(i)"
-    >
-      <!-- 预览图 -->
-      <image
-        v-if="isImageUrl(f.url)"
-        :src="f.thumb || f.url"
-        :mode="imageFit"
-        class="lk-upload__img"
-      />
-      <view v-else class="lk-upload__file">
-        <lk-icon name="file-earmark" size="44" />
-        <text class="lk-upload__file-name">{{ f.name }}</text>
-      </view>
-
-      <!-- 上传中遮罩 -->
-      <view v-if="f.status === 'uploading'" class="lk-upload__mask">
-        <view class="lk-upload__progress">
-          <view class="lk-upload__progress-bar" :style="{ width: (f.progress || 0) + '%' }" />
-        </view>
-        <text class="lk-upload__mask-text">{{ f.progress || 0 }}%</text>
-      </view>
-
-      <!-- 上传失败遮罩 -->
-      <view v-if="f.status === 'fail'" class="lk-upload__mask lk-upload__mask--fail" @click.stop="retryUpload(i)">
-        <lk-icon name="arrow-clockwise" size="36" />
-        <text class="lk-upload__mask-text">{{ f.message || '上传失败' }}</text>
-      </view>
-
-      <!-- 删除按钮 -->
+  <view :id="id" class="lk-upload-wrapper">
+    <view :class="rootClass" :style="rootStyle">
+      <!-- 已选文件列表 -->
       <view
-        v-if="deletable && !disabled && f.status !== 'uploading'"
-        class="lk-upload__del"
-        @click.stop="removeFile(i)"
+        v-for="(f, i) in fileList"
+        :key="f.uid"
+        :class="getItemClass(f)"
+        @tap="onPreview(i)"
       >
-        <lk-icon name="x" size="24" color="var(--lk-upload-del-icon-color, var(--lk-color-text-inverse))" />
+        <!-- 预览图 -->
+        <image
+          v-if="isImageUrl(f.url)"
+          :src="f.thumb || f.url"
+          :mode="imageFit"
+          class="lk-upload__img"
+        />
+        <view v-else class="lk-upload__file">
+          <view class="lk-upload__file-icon">
+            <lk-icon name="file-earmark" size="44" />
+          </view>
+          <text class="lk-upload__file-name">{{ f.name }}</text>
+        </view>
+
+        <!-- 上传中遮罩 -->
+        <view v-if="f.status === 'uploading'" class="lk-upload__mask">
+          <view class="lk-upload__progress">
+            <view class="lk-upload__progress-bar" :style="{ width: (f.progress || 0) + '%' }" />
+          </view>
+          <text class="lk-upload__mask-text">{{ f.progress || 0 }}%</text>
+        </view>
+
+        <!-- 上传失败遮罩 -->
+        <view v-if="f.status === 'fail'" class="lk-upload__mask lk-upload__mask--fail" @tap.stop="retryUpload(i)">
+          <lk-icon name="arrow-clockwise" size="36" color="var(--lk-upload-mask-text)" />
+          <text class="lk-upload__mask-text">{{ f.message || '上传失败' }}</text>
+        </view>
+
+        <!-- 删除按钮 -->
+        <view
+          v-if="deletable && !disabled && f.status !== 'uploading'"
+          class="lk-upload__del"
+          @tap.stop="removeFile(i)"
+        >
+          <lk-icon name="x" size="20" color="var(--lk-upload-del-icon-color)" />
+        </view>
+
+        <!-- 成功角标 -->
+        <view v-if="f.status === 'success'" class="lk-upload__status-icon">
+          <lk-icon name="check" size="22" color="var(--lk-upload-status-icon-color)" />
+        </view>
       </view>
 
-      <!-- 成功角标 -->
-      <view v-if="f.status === 'success'" class="lk-upload__status-icon">
-        <lk-icon name="check" size="22" color="#fff" />
+      <!-- 上传按钮 -->
+      <view v-if="showAddBtn" class="lk-upload__add" @tap="onSelect">
+        <slot name="trigger">
+          <lk-icon :name="uploadIcon" size="44" />
+          <text v-if="uploadText" class="lk-upload__add-text">{{ uploadText }}</text>
+        </slot>
+        <text v-if="maxCount < 99" class="lk-upload__count">
+          {{ fileList.length }}/{{ maxCount }}
+        </text>
       </view>
-    </view>
 
-    <!-- 上传按钮 -->
-    <view v-if="showAddBtn" class="lk-upload__add" @click="onSelect">
-      <slot name="trigger">
-        <lk-icon :name="uploadIcon" size="44" />
-        <text v-if="uploadText" class="lk-upload__add-text">{{ uploadText }}</text>
-      </slot>
-      <text v-if="maxCount < 99" class="lk-upload__count">
-        {{ fileList.length }}/{{ maxCount }}
-      </text>
-    </view>
-
-    <!-- 内置删除确认弹窗 -->
-    <lk-modal
-      v-model="deleteConfirmVisible"
-      title="删除确认"
-      @confirm="onDeleteConfirm"
-      @cancel="onDeleteCancel"
-    >
-      <text>确定要删除该文件吗？</text>
-    </lk-modal>
+      <!-- 内置删除确认弹窗 -->
+      <lk-modal
+        v-model="deleteConfirmVisible"
+        title="删除确认"
+        @confirm="onDeleteConfirm"
+        @cancel="onDeleteCancel"
+      >
+        <text>确定要删除该文件吗？</text>
+      </lk-modal>
     </view>
   </view>
 </template>

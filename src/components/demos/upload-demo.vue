@@ -33,19 +33,43 @@ const fileList8 = ref<UploadFile[]>([
   {
     uid: 'init-1',
     name: 'demo.jpg',
-    url: 'https://picsum.photos/200/200?random=1',
+    url: 'https://picsum.photos/200/200.jpg?random=1',
     status: 'success',
   },
   {
     uid: 'init-2',
     name: 'demo2.jpg',
-    url: 'https://picsum.photos/200/200?random=2',
+    url: 'https://picsum.photos/200/200.jpg?random=2',
     status: 'success',
   },
 ]);
 
 /* ── 自定义上传函数（演示 customRequest） ── */
 const fileList9 = ref<UploadFile[]>([]);
+
+/* ── 状态与反色展示 ── */
+const fileList10 = ref<UploadFile[]>([
+  {
+    uid: 'state-1',
+    name: 'success.jpg',
+    url: 'https://picsum.photos/200/200.jpg?random=11',
+    status: 'success',
+  },
+  {
+    uid: 'state-2',
+    name: 'uploading.jpg',
+    url: 'https://picsum.photos/200/200.jpg?random=12',
+    status: 'uploading',
+    progress: 62,
+  },
+  {
+    uid: 'state-3',
+    name: 'failed.jpg',
+    url: 'https://picsum.photos/200/200.jpg?random=13',
+    status: 'fail',
+    message: '重试',
+  },
+]);
 
 /* ── 回调函数 ── */
 
@@ -213,6 +237,16 @@ const mockCustomRequest: InstanceType<typeof LkUpload>['$props']['customRequest'
         @change="handleChange"
       />
     </demo-block>
+
+    <demo-block title="状态与反色" desc="上传中、失败和成功状态在亮暗主题下保持清晰对比">
+      <lk-upload
+        v-model="fileList10"
+        :max-count="4"
+        :preview-size="168"
+        upload-text="继续添加"
+        @change="handleChange"
+      />
+    </demo-block>
   </view>
 </template>
 
@@ -220,11 +254,12 @@ const mockCustomRequest: InstanceType<typeof LkUpload>['$props']['customRequest'
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: var(--lk-spacing-lg);
 }
 
 .upload-custom-text {
-  font-size: 22rpx;
-  margin-top: 8rpx;
+  margin-top: var(--lk-spacing-xs);
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-sm);
 }
 </style>

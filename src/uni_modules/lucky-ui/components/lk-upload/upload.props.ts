@@ -34,7 +34,7 @@ export interface UploadFile {
   /** 上传失败提示 */
   message?: string;
   /** 服务端响应数据 */
-  response?: any;
+  response?: unknown;
   /** H5 端原始 File 对象 */
   file?: File;
 }
@@ -106,7 +106,7 @@ export const uploadProps = {
 
   /** 上传附带数据 */
   data: {
-    type: Object as PropType<Record<string, any>>,
+    type: Object as PropType<Record<string, unknown>>,
     default: () => ({}),
   },
 
@@ -214,7 +214,7 @@ export const uploadEmits = {
   /** 上传进度 */
   progress: (_file: UploadFile, _detail: { progress: number }) => true,
   /** 单个文件上传成功 */
-  success: (_file: UploadFile, _detail: { response: any }) => true,
+  success: (_file: UploadFile, _detail: { response: unknown }) => true,
   /** 单个文件上传失败 */
-  fail: (_file: UploadFile, _detail: { error: any }) => true,
+  fail: (_file: UploadFile, _detail: { error: unknown }) => true,
 };
