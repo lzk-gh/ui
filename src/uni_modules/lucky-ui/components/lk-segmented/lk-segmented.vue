@@ -102,7 +102,7 @@ onMounted(() => setTimeout(updateSlider, 50));
       :key="opt.value"
       class="lk-segmented__item"
       :class="{ 'is-active': opt.value === active, 'is-disabled': opt.disabled }"
-      @click="select(opt)"
+      @tap="select(opt)"
     >
       <!-- 默认插槽 (可被自定义) -->
       <slot name="item" :option="opt" :active="opt.value === active">

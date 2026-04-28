@@ -29,6 +29,6 @@ export const segmentedProps = {
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>;
 
 export const segmentedEmits = {
-  'update:modelValue': (_: any) => true,
-  change: (_: any) => true,
+  'update:modelValue': (_: SegmentedOption['value']) => true,
+  change: (_: SegmentedOption['value']) => true,
 };

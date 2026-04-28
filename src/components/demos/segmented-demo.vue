@@ -1,9 +1,56 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkSegmented from '@/uni_modules/lucky-ui/components/lk-segmented/lk-segmented.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+/* v-model refs */
+const v1 = ref('daily');
+const v2 = ref('daily');
+const v3 = ref('1');
+const v4 = ref('rec');
+const v5 = ref('a');
+const v6 = ref('daily');
+const v7 = ref('nearby');
+const v8 = ref('daily');
+
+const hVal = ref('weekly');
+const slotVal = ref('1');
+const slotOpts = [
+  { label: 'A', value: '1' },
+  { label: 'B', value: '2' },
+  { label: 'C', value: '3' },
+];
+
+/* options */
+const baseOptions = [
+  { label: '每日精选', value: 'daily' },
+  { label: '周榜', value: 'weekly' },
+  { label: '月榜', value: 'monthly' },
+];
+const simpleOptions = [
+  { label: 'Map', value: '1' },
+  { label: 'Transit', value: '2' },
+  { label: 'Satellite', value: '3' },
+];
+const variedOptions = [
+  { label: '推荐', value: 'rec' },
+  { label: '附近的人', value: 'nearby' },
+  { label: '关注', value: 'follow' },
+];
+const disabledOptions = [
+  { label: '启用 A', value: 'a' },
+  { label: '禁用 B', value: 'b', disabled: true },
+  { label: '启用 C', value: 'c' },
+];
+</script>
+
 <template>
   <view class="demo-container">
     <!-- 基础用法 ------------------------------------------------------->
     <demo-block title="基础用法">
       <view class="sub-title">磁吸滑块效果，点击切换</view>
       <lk-segmented v-model="v1" :options="baseOptions" />
+      <view class="tip-text">移动端使用 tap 事件切换，避免 click 在部分端响应不稳定。</view>
     </demo-block>
 
     <!-- 通栏 Block ----------------------------------------------------->
@@ -80,62 +127,16 @@
     <demo-block title="插槽自定义">
       <lk-segmented v-model="slotVal" :options="slotOpts">
         <template #item="{ option, active }">
-          <view :style="{ padding: '0 24rpx', fontWeight: active ? 600 : 500 }">
+          <view class="slot-item" :class="{ 'is-active': active }">
             <!-- 可以放图标、徽章等 -->
             <text>{{ option.label }}</text>
-            <text v-if="active" style="color: #f56c6c; margin-left: 4rpx">★</text>
+            <text v-if="active" class="slot-item__mark">★</text>
           </view>
         </template>
       </lk-segmented>
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkSegmented from '@/uni_modules/lucky-ui/components/lk-segmented/lk-segmented.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-/* v-model refs */
-const v1 = ref('daily');
-const v2 = ref('daily');
-const v3 = ref('1');
-const v4 = ref('rec');
-const v5 = ref('a');
-const v6 = ref('daily');
-const v7 = ref('nearby');
-const v8 = ref('daily');
-
-const hVal = ref('weekly');
-const slotVal = ref('1');
-const slotOpts = [
-  { label: 'A', value: '1' },
-  { label: 'B', value: '2' },
-  { label: 'C', value: '3' },
-];
-
-/* options */
-const baseOptions = [
-  { label: '每日精选', value: 'daily' },
-  { label: '周榜', value: 'weekly' },
-  { label: '月榜', value: 'monthly' },
-];
-const simpleOptions = [
-  { label: 'Map', value: '1' },
-  { label: 'Transit', value: '2' },
-  { label: 'Satellite', value: '3' },
-];
-const variedOptions = [
-  { label: '推荐', value: 'rec' },
-  { label: '附近的人', value: 'nearby' },
-  { label: '关注', value: 'follow' },
-];
-const disabledOptions = [
-  { label: '启用 A', value: 'a' },
-  { label: '禁用 B', value: 'b', disabled: true },
-  { label: '启用 C', value: 'c' },
-];
-</script>
 
 <style scoped lang="scss">
 .demo-container {
@@ -147,11 +148,31 @@ const disabledOptions = [
 
 .sub-title {
   font-size: 24rpx;
-  color: #909399;
+  color: var(--lk-color-text-secondary);
   margin-bottom: 16rpx;
+}
+
+.tip-text {
+  margin-top: 12rpx;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-xs);
 }
 
 .row {
   margin-bottom: 20rpx;
+}
+
+.slot-item {
+  padding: 0 24rpx;
+  font-weight: 500;
+}
+
+.slot-item.is-active {
+  font-weight: 600;
+}
+
+.slot-item__mark {
+  margin-left: 4rpx;
+  color: var(--lk-color-danger);
 }
 </style>
