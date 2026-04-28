@@ -175,24 +175,33 @@ function reset() {
         </view>
       </view>
 
-      <view class="chart-wrap">
-        <lk-chart-line
-          :data="data"
-          :height="360"
-          :tooltip="tooltip"
-          :tooltip-always="tooltipAlways"
-          :auto-tooltip="autoTooltip"
-          :auto-tooltip-interval="autoTooltipInterval"
-          :animation-duration="duration"
-          :padding="padding"
-          :line-width="lineWidth"
-          :gradient="gradient"
-          :area-gradient="areaGradient"
-          :show-axis="showAxis"
-          :y-axis-ticks="yAxisTicks"
-          :show-x-axis-label="showXAxisLabel"
-          :highlight-pulse="highlightPulse"
-        />
+      <view class="chart-card">
+        <view class="chart-card__head">
+          <view>
+            <text class="eyebrow">Energy Trend</text>
+            <text class="metric">86</text>
+          </view>
+          <text class="trend">Live</text>
+        </view>
+        <view class="chart-wrap">
+          <lk-chart-line
+            :data="data"
+            :height="360"
+            :tooltip="tooltip"
+            :tooltip-always="tooltipAlways"
+            :auto-tooltip="autoTooltip"
+            :auto-tooltip-interval="autoTooltipInterval"
+            :animation-duration="duration"
+            :padding="padding"
+            :line-width="lineWidth"
+            :gradient="gradient"
+            :area-gradient="areaGradient"
+            :show-axis="showAxis"
+            :y-axis-ticks="yAxisTicks"
+            :show-x-axis-label="showXAxisLabel"
+            :highlight-pulse="highlightPulse"
+          />
+        </view>
       </view>
     </demo-block>
   </view>
@@ -202,24 +211,25 @@ function reset() {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: var(--lk-spacing-lg);
 }
 
 .panel {
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
-  padding: 24rpx;
-  background: var(--lk-color-bg-surface);
-  border: 1rpx solid var(--lk-color-border-weak);
-  border-radius: 16rpx;
+  gap: var(--lk-spacing-md);
+  padding: var(--lk-spacing-lg);
+  background: var(--lk-chart-card-bg);
+  border: var(--lk-rpx-2) solid var(--lk-chart-card-border);
+  border-radius: var(--lk-radius-xl);
+  box-shadow: var(--lk-chart-card-shadow);
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16rpx;
+  gap: var(--lk-spacing-md);
 }
 
 .row--slider {
@@ -232,17 +242,58 @@ function reset() {
 }
 
 .label {
-  font-size: 26rpx;
-  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-sm);
+  color: var(--lk-chart-label);
   flex: 0 0 auto;
 }
 
 .btns {
   display: flex;
-  gap: 16rpx;
+  gap: var(--lk-spacing-md);
+}
+
+.chart-card {
+  padding: var(--lk-spacing-lg);
+  background: var(--lk-chart-card-bg);
+  border: var(--lk-rpx-2) solid var(--lk-chart-card-border);
+  border-radius: var(--lk-radius-xl);
+  box-shadow: var(--lk-chart-card-shadow);
+}
+
+.chart-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lk-spacing-md);
+  margin-bottom: var(--lk-spacing-md);
+}
+
+.eyebrow {
+  display: block;
+  color: var(--lk-chart-label);
+  font-size: var(--lk-font-size-xs);
+  line-height: 1.4;
+}
+
+.metric {
+  display: block;
+  margin-top: var(--lk-rpx-4);
+  color: var(--lk-color-text);
+  font-size: var(--lk-rpx-48);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.trend {
+  padding: var(--lk-rpx-8) var(--lk-rpx-14);
+  color: var(--lk-chart-primary);
+  font-size: var(--lk-font-size-xs);
+  font-weight: 700;
+  background: var(--lk-chart-primary-soft);
+  border-radius: var(--lk-radius-full);
 }
 
 .chart-wrap {
-  padding: 24rpx;
+  padding-top: var(--lk-spacing-xs);
 }
 </style>

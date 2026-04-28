@@ -532,6 +532,18 @@ page,
   /* 主色 */
   --lk-color-primary-bg-soft: var(--lk-color-primary-soft);
 
+  /* 图表 */
+  --lk-chart-primary: var(--lk-color-primary);
+  --lk-chart-primary-soft: var(--lk-color-primary-bg-soft);
+  --lk-chart-track: var(--lk-color-border-light);
+  --lk-chart-grid: var(--lk-color-border-light);
+  --lk-chart-label: var(--lk-color-text-secondary);
+  --lk-chart-card-bg: var(--lk-color-bg-container);
+  --lk-chart-card-border: var(--lk-color-border-light);
+  --lk-chart-card-shadow: var(--lk-shadow-sm);
+  --lk-chart-tooltip-bg: var(--lk-color-text);
+  --lk-chart-tooltip-color: var(--lk-color-text-inverse);
+
   /* 圆角 */
   --lk-radius-pill: var(--lk-radius-full);
 }

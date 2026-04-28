@@ -64,25 +64,29 @@ export function generateBrandShade(brandBaseHex: string, level: number): string 
 }
 
 export function getCssVarColor(varName: string): string | null {
-  // #ifndef H5
-  return null;
-  // #endif
+  let result: string | null = null;
 
+  // ⚠️可能存在平台差异：只有 H5 可以读取 document 上的 CSS 变量，小程序端返回 null 走默认色阶。
   // #ifdef H5
   try {
-    if (typeof window === 'undefined' || typeof document === 'undefined') return null;
-    const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-    if (!val) return null;
-    return val;
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+      result = val || null;
+    }
   } catch {
-    return null;
+    result = null;
   }
   // #endif
+
+  return result;
 }
 
 export function resolveBrandBaseColor(): string {
   // H5: 尝试读取真实主题色；其他端 fallback 到设计令牌默认品牌基色
-  const css = getCssVarColor('--color-brand-primary') || getCssVarColor('--lk-color-primary');
+  const css =
+    getCssVarColor('--lk-chart-primary') ||
+    getCssVarColor('--color-brand-primary') ||
+    getCssVarColor('--lk-color-primary');
   const rgb = css ? css.trim() : '';
   // 只在能解析成 hex 时才用（避免返回 rgb()/var() 导致 canvas 不识别）
   if (rgb && rgb.startsWith('#')) return rgb;
