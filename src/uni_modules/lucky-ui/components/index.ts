@@ -113,15 +113,19 @@ export { default as LkBacktop } from './lk-backtop/lk-backtop.vue';
 export * from './lk-backtop/backtop.props';
 
 // Charts
+export { default as LkChartArea } from './lk-chart-area/lk-chart-area.vue';
 export { default as LkChartBar } from './lk-chart-bar/lk-chart-bar.vue';
 export { default as LkChartLine } from './lk-chart-line/lk-chart-line.vue';
 export { default as LkChartPie } from './lk-chart-pie/lk-chart-pie.vue';
+export { default as LkChartRadarLite } from './lk-chart-radar-lite/lk-chart-radar-lite.vue';
 export { default as LkChartRing } from './lk-chart-ring/lk-chart-ring.vue';
 export { default as LkChartSparkline } from './lk-chart-sparkline/lk-chart-sparkline.vue';
 export { default as LkChartStatCard } from './lk-chart-stat-card/lk-chart-stat-card.vue';
+export * from './lk-chart-area/chart-area.props';
 export * from './lk-chart-bar/chart-bar.props';
 export * from './lk-chart-line/chart-line.props';
 export * from './lk-chart-pie/chart-pie.props';
+export * from './lk-chart-radar-lite/chart-radar-lite.props';
 export * from './lk-chart-ring/chart-ring.props';
 export * from './lk-chart-sparkline/chart-sparkline.props';
 export * from './lk-chart-stat-card/chart-stat-card.props';

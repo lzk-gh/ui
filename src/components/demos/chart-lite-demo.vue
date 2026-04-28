@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import LkChartArea from '@/uni_modules/lucky-ui/components/lk-chart-area/lk-chart-area.vue';
+import LkChartRadarLite from '@/uni_modules/lucky-ui/components/lk-chart-radar-lite/lk-chart-radar-lite.vue';
 import LkChartRing from '@/uni_modules/lucky-ui/components/lk-chart-ring/lk-chart-ring.vue';
 import LkChartSparkline from '@/uni_modules/lucky-ui/components/lk-chart-sparkline/lk-chart-sparkline.vue';
 import LkChartStatCard from '@/uni_modules/lucky-ui/components/lk-chart-stat-card/lk-chart-stat-card.vue';
 import type { LiteChartPoint } from '@/uni_modules/lucky-ui/core/src/chart';
+import type { RadarLiteItem } from '@/uni_modules/lucky-ui/components/lk-chart-radar-lite/chart-radar-lite.props';
 import type { RingChartSegment } from '@/uni_modules/lucky-ui/components/lk-chart-ring/chart-ring.props';
 
 const steps: LiteChartPoint[] = [
@@ -41,6 +44,25 @@ const activitySegments: RingChartSegment[] = [
   { label: 'Move', value: 52 },
   { label: 'Exercise', value: 28 },
   { label: 'Stand', value: 20 },
+];
+
+const marketTrend: LiteChartPoint[] = [
+  { label: '09:30', value: 62 },
+  { label: '10:00', value: 66 },
+  { label: '10:30', value: 64 },
+  { label: '11:00', value: 73 },
+  { label: '13:00', value: 76 },
+  { label: '14:00', value: 82 },
+  { label: '15:00', value: 88 },
+];
+
+const wellness: RadarLiteItem[] = [
+  { label: '睡眠', value: 88 },
+  { label: '活力', value: 76 },
+  { label: '专注', value: 82 },
+  { label: '恢复', value: 72 },
+  { label: '压力', value: 62 },
+  { label: '运动', value: 91 },
 ];
 </script>
 
@@ -84,6 +106,22 @@ const activitySegments: RingChartSegment[] = [
       </view>
     </demo-block>
 
+    <demo-block title="Area 面积趋势">
+      <view class="area-panel">
+        <view class="spark-copy">
+          <text class="spark-title">Stock-like Intraday</text>
+          <text class="spark-value">+8.6%</text>
+          <text class="spark-desc">保留 Apple Stocks 风格的大面积渐变与轻网格，触摸可查看点位。</text>
+        </view>
+        <lk-chart-area
+          :data="marketTrend"
+          :height="300"
+          :default-index="marketTrend.length - 1"
+          show-x-axis-label
+        />
+      </view>
+    </demo-block>
+
     <demo-block title="Ring 轻量环图">
       <view class="ring-card">
         <view class="ring-chart">
@@ -100,6 +138,19 @@ const activitySegments: RingChartSegment[] = [
             <text class="ring-label">{{ item.label }}</text>
             <text class="ring-value">{{ item.value }}%</text>
           </view>
+        </view>
+      </view>
+    </demo-block>
+
+    <demo-block title="RadarLite 能力雷达">
+      <view class="radar-card">
+        <view class="radar-chart">
+          <lk-chart-radar-lite :data="wellness" :height="320" />
+        </view>
+        <view class="radar-copy">
+          <text class="spark-title">Wellness Score</text>
+          <text class="spark-value">82</text>
+          <text class="spark-desc">适合健康维度、能力模型、评分分布等移动端轻量展示。</text>
         </view>
       </view>
     </demo-block>
@@ -124,6 +175,8 @@ const activitySegments: RingChartSegment[] = [
 }
 
 .spark-panel,
+.area-panel,
+.radar-card,
 .ring-card {
   padding: var(--lk-spacing-lg);
   border: var(--lk-rpx-2) solid var(--lk-color-border-light);
@@ -159,8 +212,26 @@ const activitySegments: RingChartSegment[] = [
   gap: var(--lk-spacing-lg);
 }
 
+.radar-card {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-spacing-lg);
+}
+
 .ring-chart {
   flex: 0 0 var(--lk-rpx-280);
+}
+
+.radar-chart {
+  flex: 0 0 var(--lk-rpx-340);
+}
+
+.radar-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-rpx-8);
 }
 
 .ring-list {
