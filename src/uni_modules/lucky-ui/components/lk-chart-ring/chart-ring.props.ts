@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue';
+import { LiteChartEffect } from '../../core/src/chart';
 import { baseProps, LkProp } from '../common/props';
 
 export interface RingChartSegment {
@@ -34,6 +35,10 @@ export const chartRingProps = {
   showCenter: LkProp.boolean(true),
   /** 动画时长 */
   animationDuration: LkProp.number(700),
+  /** 图表特效等级 */
+  effect: LkProp.enum(Object.values(LiteChartEffect), LiteChartEffect.Premium, 'ChartRing.effect'),
+  /** 图表特效周期 */
+  effectDuration: LkProp.number(2600),
 } as const;
 
 export type ChartRingProps = ExtractPropTypes<typeof chartRingProps>;

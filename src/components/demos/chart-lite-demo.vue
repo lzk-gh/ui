@@ -111,7 +111,9 @@ const wellness: RadarLiteItem[] = [
         <view class="spark-copy">
           <text class="spark-title">Stock-like Intraday</text>
           <text class="spark-value">+8.6%</text>
-          <text class="spark-desc">保留 Apple Stocks 风格的大面积渐变与轻网格，触摸可查看点位。</text>
+          <text class="spark-desc"
+            >保留 Apple Stocks 风格的大面积渐变与轻网格，触摸可查看点位。</text
+          >
         </view>
         <lk-chart-area
           :data="marketTrend"
@@ -183,6 +185,7 @@ const wellness: RadarLiteItem[] = [
   border-radius: var(--lk-radius-xl);
   background: var(--lk-color-bg-container);
   box-shadow: var(--lk-shadow-sm);
+  animation: chart-lite-card-in 420ms ease-out both;
 }
 
 .spark-copy {
@@ -210,20 +213,34 @@ const wellness: RadarLiteItem[] = [
   display: flex;
   align-items: center;
   gap: var(--lk-spacing-lg);
+  animation-delay: 120ms;
 }
 
 .radar-card {
   display: flex;
   align-items: center;
   gap: var(--lk-spacing-lg);
+  animation-delay: 180ms;
+}
+
+.spark-panel {
+  animation-delay: 40ms;
+}
+
+.area-panel {
+  animation-delay: 80ms;
 }
 
 .ring-chart {
-  flex: 0 0 var(--lk-rpx-280);
+  flex: none;
+  width: 280rpx;
+  height: 260rpx;
 }
 
 .radar-chart {
-  flex: 0 0 var(--lk-rpx-340);
+  flex: none;
+  width: 340rpx;
+  height: 320rpx;
 }
 
 .radar-copy {
@@ -246,11 +263,48 @@ const wellness: RadarLiteItem[] = [
   justify-content: space-between;
   padding-bottom: var(--lk-spacing-xs);
   border-bottom: var(--lk-rpx-2) solid var(--lk-color-border-light);
+  animation: chart-lite-fade-up 520ms ease-out both;
+}
+
+.ring-row:nth-child(1) {
+  animation-delay: 240ms;
+}
+
+.ring-row:nth-child(2) {
+  animation-delay: 320ms;
+}
+
+.ring-row:nth-child(3) {
+  animation-delay: 400ms;
 }
 
 .ring-value {
   color: var(--lk-color-text);
   font-size: var(--lk-font-size-sm);
   font-weight: 700;
+}
+
+@keyframes chart-lite-card-in {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--lk-rpx-18)) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chart-lite-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--lk-rpx-10));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

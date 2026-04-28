@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
-import { computed, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
+import { LiteChartEffect, movingWindow, oscillate } from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
 import { chartRingProps, type RingChartSegment } from './chart-ring.props';
 
@@ -17,6 +18,7 @@ function uid(prefix: string) {
 
 const wrapperId = computed(() => props.id || uid('lk-chart-ring'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
+const effectPhase = ref(0);
 
 const heightStyle = computed(() => {
   const height = props.height;
@@ -45,10 +47,12 @@ const normalizedSegments = computed<RingChartSegment[]>(() => {
     return props.segments.filter(item => Number.isFinite(item.value) && item.value > 0);
   }
   const max = Math.max(1, props.max);
-  return [{
-    label: props.title || 'Progress',
-    value: Math.max(0, Math.min(props.value, max)),
-  }];
+  return [
+    {
+      label: props.title || 'Progress',
+      value: Math.max(0, Math.min(props.value, max)),
+    },
+  ];
 });
 
 const centerTitle = computed(() => {
@@ -57,17 +61,27 @@ const centerTitle = computed(() => {
     const total = normalizedSegments.value.reduce((sum, item) => sum + item.value, 0);
     return `${Math.round(total)}`;
   }
-  const percent = Math.round((Math.max(0, Math.min(props.value, props.max)) / Math.max(1, props.max)) * 100);
+  const percent = Math.round(
+    (Math.max(0, Math.min(props.value, props.max)) / Math.max(1, props.max)) * 100
+  );
   return `${percent}%`;
 });
 
-const centerSubtitle = computed(() => props.subtitle || (props.segments.length ? 'Total' : 'Completed'));
+const centerSubtitle = computed(
+  () => props.subtitle || (props.segments.length ? 'Total' : 'Completed')
+);
 
 function resolveSegmentColor(segment: RingChartSegment, index: number) {
   if (segment.color) return segment.color;
   const palette = buildBrandPalette(resolveBrandBaseColor());
   const colors = [palette.brand600, palette.brand400, palette.brand700, palette.brand300];
   return colors[index % colors.length];
+}
+
+function getEffectStrength() {
+  if (props.effect === LiteChartEffect.None) return 0;
+  if (props.effect === LiteChartEffect.Subtle) return 0.65;
+  return 1;
 }
 
 chart.setRenderer((info, progress) => {
@@ -80,6 +94,7 @@ chart.setRenderer((info, progress) => {
   const radius = Math.max(1, Math.min(size.width, size.height) / 2 - padding - strokeWidth / 2);
   const segments = normalizedSegments.value;
   if (!segments.length) return;
+  const effectStrength = getEffectStrength();
 
   ctx.save();
   ctx.lineWidth = strokeWidth;
@@ -96,14 +111,49 @@ chart.setRenderer((info, progress) => {
     ? segments.reduce((sum, item) => sum + item.value, 0)
     : Math.max(1, props.max);
   let start = -Math.PI / 2;
+  const pulse = effectStrength > 0 ? oscillate(effectPhase.value) * effectStrength : 0;
 
   segments.forEach((segment, index) => {
-    const sweep = (segment.value / total) * Math.PI * 2 * progress;
-    ctx.strokeStyle = resolveSegmentColor(segment, index);
+    const fullSweep = (segment.value / total) * Math.PI * 2;
+    const sweep = fullSweep * progress;
+    const color = resolveSegmentColor(segment, index);
+    ctx.strokeStyle = color;
     ctx.beginPath();
     ctx.arc(cx, cy, radius, start, start + sweep);
     ctx.stroke();
-    start += (segment.value / total) * Math.PI * 2;
+
+    const endAngle = start + sweep;
+    const endX = cx + Math.cos(endAngle) * radius;
+    const endY = cy + Math.sin(endAngle) * radius;
+    const highlight = movingWindow(
+      effectPhase.value,
+      (start + fullSweep / 2 + Math.PI / 2) / (Math.PI * 2),
+      0.22
+    );
+    ctx.save();
+    ctx.fillStyle = rgbaFromHex(color, 0.16 + highlight * 0.14 + pulse * 0.08);
+    ctx.beginPath();
+    ctx.arc(endX, endY, strokeWidth * (0.48 + highlight * 0.18 + pulse * 0.14), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(endX, endY, strokeWidth * 0.18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    if (effectStrength > 0) {
+      const sweepAngle = start + fullSweep * effectPhase.value;
+      const sweepX = cx + Math.cos(sweepAngle) * radius;
+      const sweepY = cy + Math.sin(sweepAngle) * radius;
+      ctx.save();
+      ctx.fillStyle = rgbaFromHex(color, 0.1 + effectStrength * 0.08);
+      ctx.beginPath();
+      ctx.arc(sweepX, sweepY, strokeWidth * (0.2 + effectStrength * 0.08), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    start += fullSweep;
   });
 
   ctx.restore();
@@ -128,6 +178,21 @@ function renderWithAnimation() {
   });
 }
 
+function syncEffectLoop() {
+  chart.stopLoop();
+  if (props.effect === LiteChartEffect.None) {
+    effectPhase.value = 0;
+    chart.scheduleRender(1);
+    return;
+  }
+  if (!chart.ready.value || !normalizedSegments.value.length) return;
+
+  chart.startLoop(props.effectDuration, frame => {
+    effectPhase.value = frame.phase;
+    chart.scheduleRender(1);
+  });
+}
+
 watch(
   () => [
     props.value,
@@ -140,20 +205,36 @@ watch(
     props.title,
     props.subtitle,
     props.showCenter,
+    props.effect,
+    props.effectDuration,
   ],
-  () => renderWithAnimation(),
+  () => {
+    renderWithAnimation();
+    syncEffectLoop();
+  },
   { deep: true }
 );
+
+watch(
+  () => [chart.ready.value, normalizedSegments.value.length] as const,
+  ([ready, length]) => {
+    if (!ready || length <= 0) {
+      chart.stopLoop();
+      return;
+    }
+    syncEffectLoop();
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  chart.stopLoop();
+});
 </script>
 
 <template>
   <view :id="wrapperId" :class="classes" :style="rootStyle">
-    <canvas
-      :id="canvasId"
-      class="lk-chart-ring__canvas"
-      type="2d"
-      :canvas-id="canvasId"
-    />
+    <canvas :id="canvasId" class="lk-chart-ring__canvas" type="2d" :canvas-id="canvasId" />
   </view>
 </template>
 

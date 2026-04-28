@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { LiteChartPoint } from '../../core/src/chart';
+import { LiteChartEffect, type LiteChartPoint } from '../../core/src/chart';
 import { baseProps, LkProp } from '../common/props';
 
 export type SparklinePoint = LiteChartPoint;
@@ -27,6 +27,14 @@ export const chartSparklineProps = {
   tooltip: LkProp.boolean(true),
   /** 动画时长 */
   animationDuration: LkProp.number(560),
+  /** 图表特效等级 */
+  effect: LkProp.enum(
+    Object.values(LiteChartEffect),
+    LiteChartEffect.Premium,
+    'ChartSparkline.effect'
+  ),
+  /** 图表特效周期 */
+  effectDuration: LkProp.number(2400),
 } as const;
 
 export type ChartSparklineProps = ExtractPropTypes<typeof chartSparklineProps>;

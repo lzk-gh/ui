@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useChartCanvas, type MaybeCanvas2DContext } from '../../composables/useChartCanvas';
-import { getLiteChartPositions, getNearestPointIndex } from '../../core/src/chart';
+import {
+  getLiteChartPositions,
+  getNearestPointIndex,
+  LiteChartEffect,
+  oscillate,
+} from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
 import { chartSparklineEmits, chartSparklineProps } from './chart-sparkline.props';
 
@@ -20,6 +25,7 @@ function uid(prefix: string) {
 const wrapperId = computed(() => props.id || uid('lk-chart-sparkline'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const hoverIndex = ref(-1);
+const effectPhase = ref(0);
 
 const heightStyle = computed(() => {
   const height = props.height;
@@ -64,6 +70,12 @@ function drawLine(ctx: MaybeCanvas2DContext, points: Array<{ x: number; y: numbe
   }
 }
 
+function getEffectStrength() {
+  if (props.effect === LiteChartEffect.None) return 0;
+  if (props.effect === LiteChartEffect.Subtle) return 0.65;
+  return 1;
+}
+
 chart.setRenderer((info, progress) => {
   const { ctx, size } = info;
   const data = props.data || [];
@@ -74,6 +86,7 @@ chart.setRenderer((info, progress) => {
 
   const color = resolveColor();
   const palette = buildBrandPalette(resolveBrandBaseColor());
+  const effectStrength = getEffectStrength();
   const animatedPoints = points.map(point => ({
     ...point,
     y: size.height - padding - (size.height - padding - point.y) * progress,
@@ -103,6 +116,27 @@ chart.setRenderer((info, progress) => {
   ctx.stroke();
   ctx.restore();
 
+  if (effectStrength > 0) {
+    const sweepGradient = ctx.createLinearGradient(padding, 0, size.width - padding, 0);
+    const center = effectPhase.value;
+    const left = Math.max(0, center - 0.18);
+    const right = Math.min(1, center + 0.18);
+    sweepGradient.addColorStop(0, rgbaFromHex(color, 0));
+    sweepGradient.addColorStop(left, rgbaFromHex(color, 0));
+    sweepGradient.addColorStop(center, rgbaFromHex(palette.brand100, 0.95 * effectStrength));
+    sweepGradient.addColorStop(right, rgbaFromHex(color, 0));
+    sweepGradient.addColorStop(1, rgbaFromHex(color, 0));
+
+    ctx.save();
+    ctx.lineWidth = lineWidth * (1.08 + effectStrength * 0.2);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = sweepGradient;
+    drawLine(ctx, animatedPoints);
+    ctx.stroke();
+    ctx.restore();
+  }
+
   const activeIndex =
     hoverIndex.value >= 0 && hoverIndex.value < animatedPoints.length
       ? hoverIndex.value
@@ -112,10 +146,11 @@ chart.setRenderer((info, progress) => {
 
   if (activeIndex >= 0) {
     const active = animatedPoints[activeIndex];
+    const pulse = effectStrength > 0 ? oscillate(effectPhase.value) * effectStrength : 0;
     ctx.save();
-    ctx.fillStyle = rgbaFromHex(palette.brand800, 0.12);
+    ctx.fillStyle = rgbaFromHex(palette.brand800, 0.12 + pulse * 0.06);
     ctx.beginPath();
-    ctx.arc(active.x, active.y, lineWidth * 1.8, 0, Math.PI * 2);
+    ctx.arc(active.x, active.y, lineWidth * (1.8 + pulse * 0.7), 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -156,6 +191,21 @@ function clearHover() {
   chart.scheduleRender(1);
 }
 
+function syncEffectLoop() {
+  chart.stopLoop();
+  if (props.effect === LiteChartEffect.None) {
+    effectPhase.value = 0;
+    chart.scheduleRender(1);
+    return;
+  }
+  if (!chart.ready.value || (props.data || []).length < 2) return;
+
+  chart.startLoop(props.effectDuration, frame => {
+    effectPhase.value = frame.phase;
+    chart.scheduleRender(1);
+  });
+}
+
 watch(
   () => [
     props.data,
@@ -165,10 +215,28 @@ watch(
     props.color,
     props.area,
     props.showEndPoint,
+    props.effect,
+    props.effectDuration,
   ],
-  () => renderWithAnimation(),
+  () => {
+    renderWithAnimation();
+    syncEffectLoop();
+  },
   { deep: true }
 );
+
+watch(
+  () => chart.ready.value,
+  ready => {
+    if (!ready) return;
+    syncEffectLoop();
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  chart.stopLoop();
+});
 </script>
 
 <template>
@@ -180,12 +248,7 @@ watch(
     @touchmove="updateHover"
     @touchend="clearHover"
   >
-    <canvas
-      :id="canvasId"
-      class="lk-chart-sparkline__canvas"
-      type="2d"
-      :canvas-id="canvasId"
-    />
+    <canvas :id="canvasId" class="lk-chart-sparkline__canvas" type="2d" :canvas-id="canvasId" />
   </view>
 </template>
 

@@ -64,6 +64,12 @@ export interface UseChartCanvasOptions {
   autoSize?: boolean;
 }
 
+export interface ChartLoopFrame {
+  elapsedMs: number;
+  deltaMs: number;
+  phase: number;
+}
+
 export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions) {
   const instance = getCurrentInstance()?.proxy as unknown;
 
@@ -86,7 +92,10 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
 
   let rafId: number | undefined;
   let animRafId: number | undefined;
+  let loopRafId: number | undefined;
   let retryTimer: ReturnType<typeof setTimeout> | null = null;
+  let loopStartTime = 0;
+  let lastLoopTime = 0;
 
   function px(rpx: number) {
     // rpx -> px
@@ -311,6 +320,39 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
     animRafId = rAF(tick);
   }
 
+  function stopLoop() {
+    if (loopRafId) {
+      cAF(loopRafId);
+      loopRafId = undefined;
+    }
+    loopStartTime = 0;
+    lastLoopTime = 0;
+  }
+
+  function startLoop(durationMs: number, onFrame: (frame: ChartLoopFrame) => void) {
+    stopLoop();
+    const duration = Math.max(240, durationMs);
+
+    const tick = () => {
+      const now = Date.now();
+      if (!loopStartTime) {
+        loopStartTime = now;
+        lastLoopTime = now;
+      }
+      const elapsedMs = now - loopStartTime;
+      const deltaMs = now - lastLoopTime;
+      lastLoopTime = now;
+      onFrame({
+        elapsedMs,
+        deltaMs,
+        phase: (elapsedMs % duration) / duration,
+      });
+      loopRafId = rAF(tick);
+    };
+
+    loopRafId = rAF(tick);
+  }
+
   function setRenderer(fn: ChartRenderer<TExtra>) {
     renderer.value = fn;
   }
@@ -364,6 +406,7 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
   onUnmounted(() => {
     if (rafId) cAF(rafId);
     if (animRafId) cAF(animRafId);
+    stopLoop();
     clearRetryTimer();
   });
 
@@ -377,6 +420,8 @@ export function useChartCanvas<TExtra = unknown>(options: UseChartCanvasOptions)
     render,
     scheduleRender,
     animateTo,
+    startLoop,
+    stopLoop,
 
     measure,
     init,

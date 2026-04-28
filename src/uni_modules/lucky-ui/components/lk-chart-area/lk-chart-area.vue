@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useChartCanvas, type MaybeCanvas2DContext } from '../../composables/useChartCanvas';
 import {
   formatCompactNumber,
   getLiteChartPositions,
   getNearestPointIndex,
+  LiteChartEffect,
+  movingWindow,
+  oscillate,
   type LiteChartPosition,
 } from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
@@ -25,6 +28,7 @@ function uid(prefix: string) {
 const wrapperId = computed(() => props.id || uid('lk-chart-area'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const hoverIndex = ref(-1);
+const effectPhase = ref(0);
 
 const heightStyle = computed(() => {
   const height = props.height;
@@ -105,6 +109,12 @@ function drawTooltip(
   ctx.restore();
 }
 
+function getEffectStrength() {
+  if (props.effect === LiteChartEffect.None) return 0;
+  if (props.effect === LiteChartEffect.Subtle) return 0.65;
+  return 1;
+}
+
 chart.setRenderer((info, progress) => {
   const { ctx, size } = info;
   const data = props.data || [];
@@ -117,6 +127,7 @@ chart.setRenderer((info, progress) => {
 
   const color = resolveColor();
   const palette = buildBrandPalette(resolveBrandBaseColor());
+  const effectStrength = getEffectStrength();
   const bottom = plotHeight - padding;
   const animatedPoints = points.map(point => ({
     ...point,
@@ -162,6 +173,24 @@ chart.setRenderer((info, progress) => {
   ctx.stroke();
   ctx.restore();
 
+  if (effectStrength > 0) {
+    const sweepCenter = padding + (size.width - padding * 2) * effectPhase.value;
+    const sweepWidth = Math.max(lineWidth * 8, size.width * 0.22);
+    const sweepGradient = ctx.createLinearGradient(
+      sweepCenter - sweepWidth,
+      0,
+      sweepCenter + sweepWidth,
+      0
+    );
+    sweepGradient.addColorStop(0, rgbaFromHex(color, 0));
+    sweepGradient.addColorStop(0.5, rgbaFromHex(palette.brand100, 0.32 * effectStrength));
+    sweepGradient.addColorStop(1, rgbaFromHex(color, 0));
+    ctx.save();
+    ctx.fillStyle = sweepGradient;
+    ctx.fillRect(sweepCenter - sweepWidth, padding, sweepWidth * 2, bottom - padding);
+    ctx.restore();
+  }
+
   const activeIndex =
     hoverIndex.value >= 0 && hoverIndex.value < animatedPoints.length
       ? hoverIndex.value
@@ -171,6 +200,7 @@ chart.setRenderer((info, progress) => {
 
   if (activeIndex >= 0) {
     const active = animatedPoints[activeIndex];
+    const pulse = effectStrength > 0 ? oscillate(effectPhase.value) * effectStrength : 0;
     ctx.save();
     ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.12);
     ctx.lineWidth = 1;
@@ -178,9 +208,9 @@ chart.setRenderer((info, progress) => {
     ctx.moveTo(active.x, padding);
     ctx.lineTo(active.x, bottom);
     ctx.stroke();
-    ctx.fillStyle = rgbaFromHex(palette.brand100, 1);
+    ctx.fillStyle = rgbaFromHex(palette.brand100, 0.94);
     ctx.beginPath();
-    ctx.arc(active.x, active.y, lineWidth * 1.55, 0, Math.PI * 2);
+    ctx.arc(active.x, active.y, lineWidth * (1.55 + pulse * 0.8), 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -200,6 +230,20 @@ chart.setRenderer((info, progress) => {
     const last = points[points.length - 1];
     ctx.fillText(first.label || '', first.x, size.height - labelHeight / 2);
     ctx.fillText(last.label || '', last.x, size.height - labelHeight / 2);
+    ctx.restore();
+  }
+
+  if (effectStrength > 0) {
+    ctx.save();
+    animatedPoints.forEach(point => {
+      const glow =
+        movingWindow(effectPhase.value, point.x / Math.max(1, size.width), 0.16) * effectStrength;
+      if (glow <= 0.02) return;
+      ctx.fillStyle = rgbaFromHex(color, glow * 0.14);
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, lineWidth * (1.6 + glow * 1.2), 0, Math.PI * 2);
+      ctx.fill();
+    });
     ctx.restore();
   }
 });
@@ -236,6 +280,21 @@ function clearHover() {
   chart.scheduleRender(1);
 }
 
+function syncEffectLoop() {
+  chart.stopLoop();
+  if (props.effect === LiteChartEffect.None) {
+    effectPhase.value = 0;
+    chart.scheduleRender(1);
+    return;
+  }
+  if (!chart.ready.value || (props.data || []).length < 2) return;
+
+  chart.startLoop(props.effectDuration, frame => {
+    effectPhase.value = frame.phase;
+    chart.scheduleRender(1);
+  });
+}
+
 watch(
   () => [
     props.data,
@@ -246,10 +305,28 @@ watch(
     props.showGrid,
     props.showXAxisLabel,
     props.defaultIndex,
+    props.effect,
+    props.effectDuration,
   ],
-  () => renderWithAnimation(),
+  () => {
+    renderWithAnimation();
+    syncEffectLoop();
+  },
   { deep: true }
 );
+
+watch(
+  () => chart.ready.value,
+  ready => {
+    if (!ready) return;
+    syncEffectLoop();
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  chart.stopLoop();
+});
 </script>
 
 <template>
