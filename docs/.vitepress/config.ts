@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress';
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -109,6 +109,7 @@ export default defineConfig({
             { text: 'ChartBar 柱状图', link: '/components/chart-bar' },
             { text: 'ChartLine 折线图', link: '/components/chart-line' },
             { text: 'ChartPie 饼图', link: '/components/chart-pie' },
+            { text: 'ChartLite 轻量图表', link: '/components/chart-lite' },
           ],
         },
         {
@@ -190,4 +191,4 @@ export default defineConfig({
     sidebarMenuLabel: '菜单',
     returnToTopLabel: '回到顶部',
   },
-})
+});
