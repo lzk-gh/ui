@@ -1,20 +1,85 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkBacktop from '@/uni_modules/lucky-ui/components/lk-backtop/lk-backtop.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import {
+  scrollControlledToTop,
+  scrollToTopIfTopAreaTap,
+} from '@/uni_modules/lucky-ui/core/src/utils/scroll';
 
-import { ref } from 'vue';
+type ScrollEvent = {
+  detail?: {
+    scrollTop?: number;
+  };
+};
 
 const innerTop = ref(0);
-function onSvScroll(e: any) {
+const phoneTop = ref(0);
+
+function onSvScroll(event: ScrollEvent) {
   // #ifdef H5 || MP || APP-PLUS
-  innerTop.value = e.detail?.scrollTop || 0;
+  innerTop.value = event.detail?.scrollTop || 0;
   // #endif
+}
+
+function onPhoneScroll(event: ScrollEvent) {
+  phoneTop.value = event.detail?.scrollTop || 0;
+}
+
+function scrollInnerToTop() {
+  scrollControlledToTop({
+    setScrollTop: value => {
+      innerTop.value = value;
+    },
+  });
+}
+
+function scrollPhoneToTop() {
+  scrollControlledToTop({
+    setScrollTop: value => {
+      phoneTop.value = value;
+    },
+  });
+}
+
+function onPageTopAreaTap(event: unknown) {
+  scrollToTopIfTopAreaTap(event, {
+    duration: 300,
+    topAreaHeight: Number.MAX_SAFE_INTEGER,
+  });
 }
 </script>
 
 <template>
   <view class="component-demo">
+    <demo-block title="顶部区域点击回顶">
+      <view class="desc">
+        将顶部热区点击逻辑抽到工具后，可绑定在自定义导航栏或状态栏区域，实现类似微信点击顶部回顶。
+      </view>
+      <view class="page-top-trigger" @tap="onPageTopAreaTap">
+        <lk-icon name="arrow-up" size="28" color="primary" />
+        <text>页面级：模拟顶部热区点击</text>
+      </view>
+      <view class="phone-shell">
+        <view class="phone-top-area" @tap="scrollPhoneToTop">
+          <text>点击顶部区域回到列表顶部</text>
+        </view>
+        <scroll-view class="phone-scroll" scroll-y :scroll-top="phoneTop" @scroll="onPhoneScroll">
+          <view class="phone-content">
+            <view v-for="i in 24" :key="i" class="phone-item">
+              <text class="phone-item__title">消息会话 {{ i }}</text>
+              <text class="phone-item__desc">模拟微信列表，点击上方顶部区域立即回顶。</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      <view class="code-tip">
+        页面级滚动可直接使用 scrollToTopIfTopAreaTap(event)，受控 scroll-view 使用
+        scrollControlledToTop。
+      </view>
+    </demo-block>
+
     <demo-block title="在容器内演示（受控模式）">
       <view class="desc"
         >在内部 scroll-view 中演示 Backtop 的出现与回顶（通过 scrollTop 受控）。</view
@@ -25,10 +90,10 @@ function onSvScroll(e: any) {
         </view>
       </scroll-view>
       <lk-backtop
-        :usePageScroll="false"
-        :scrollTop="innerTop"
+        :use-page-scroll="false"
+        :scroll-top="innerTop"
         :bottom="'120rpx'"
-        @to-top="innerTop = 0"
+        @to-top="scrollInnerToTop"
       />
     </demo-block>
 
@@ -37,7 +102,7 @@ function onSvScroll(e: any) {
       <view class="placeholder" />
       <view class="placeholder" />
       <view class="placeholder" />
-      <lk-backtop :visibilityHeight="200" />
+      <lk-backtop :visibility-height="200" />
     </demo-block>
 
     <demo-block title="自定义位置与形状">
@@ -53,7 +118,7 @@ function onSvScroll(e: any) {
       <view class="placeholder" />
       <view class="placeholder" />
       <lk-backtop :bottom="'240rpx'">
-        <lk-icon name="arrow-up-circle-fill" size="40" color="var(--lk-color-text-inverse)" />
+        <lk-icon name="arrow-up-circle-fill" size="40" color="currentColor" />
         <text class="slot-text">TOP</text>
       </lk-backtop>
     </demo-block>
@@ -62,15 +127,14 @@ function onSvScroll(e: any) {
       <view class="desc">通过 visibilityHeight 控制出现阈值，通过 duration 控制回顶动画时长。</view>
       <view class="placeholder" />
       <view class="placeholder" />
-      <lk-backtop :bottom="'320rpx'" :visibilityHeight="600" :duration="500" />
+      <lk-backtop :bottom="'320rpx'" :visibility-height="600" :duration="500" />
     </demo-block>
 
     <view class="tips">
       <lk-icon name="info-circle" size="28" color="var(--lk-color-info)" />
-      <text>
-        说明：本详情页使用 scroll-view 容器滚动，Backtop
-        监听的是页面滚动（onPageScroll）。如需体验实际效果， 请在页面级滚动环境（非
-        scroll-view）中使用，或在业务页中直接引入。
+      <text class="tips__text">
+        说明：本详情页使用 scroll-view 容器滚动。页面级顶部热区可以把 onPageTopAreaTap
+        绑定到自定义导航栏或状态栏容器，受控滚动容器则通过 scrollControlledToTop 回顶。
       </text>
     </view>
   </view>
@@ -95,6 +159,76 @@ function onSvScroll(e: any) {
   background: var(--lk-color-bg-surface);
   overflow: hidden;
 }
+
+.phone-shell {
+  overflow: hidden;
+  border: 2rpx solid var(--lk-color-border);
+  border-radius: var(--lk-radius-xl);
+  background: var(--lk-color-bg-surface);
+}
+
+.page-top-trigger {
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+  border: 2rpx dashed var(--lk-color-primary);
+  border-radius: var(--lk-radius-lg);
+  background: var(--lk-color-primary-bg-soft);
+  color: var(--lk-color-primary);
+  font-size: var(--lk-font-size-sm);
+  font-weight: 600;
+}
+
+.phone-top-area {
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2rpx solid var(--lk-color-border-light);
+  background: var(--lk-color-bg-container);
+  color: var(--lk-color-primary);
+  font-size: var(--lk-font-size-sm);
+  font-weight: 600;
+}
+
+.phone-scroll {
+  height: 520rpx;
+}
+
+.phone-content {
+  padding: 16rpx;
+}
+
+.phone-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 12rpx;
+  border-radius: var(--lk-radius-lg);
+  background: var(--lk-color-fill);
+}
+
+.phone-item__title {
+  color: var(--lk-color-text);
+  font-size: var(--lk-font-size-base);
+  font-weight: 600;
+}
+
+.phone-item__desc {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-xs);
+}
+
+.code-tip {
+  margin-top: 16rpx;
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-xs);
+  line-height: 1.6;
+}
 .sv-content {
   padding: 16rpx;
 }
@@ -118,7 +252,7 @@ function onSvScroll(e: any) {
 
 .slot-text {
   font-size: 22rpx;
-  color: var(--lk-color-text-inverse);
+  color: inherit;
 }
 
 .tips {
@@ -129,10 +263,11 @@ function onSvScroll(e: any) {
   background: var(--lk-color-info-bg-soft);
   border-radius: var(--lk-radius-md);
   color: var(--lk-color-text);
-
-  text {
-    font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
-  }
 }
+
+.tips__text {
+  font-size: 22rpx;
+  color: var(--lk-color-text-secondary);
+}
+
 </style>

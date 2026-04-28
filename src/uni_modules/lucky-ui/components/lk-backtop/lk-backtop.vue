@@ -4,6 +4,7 @@ import { onPageScroll } from '@dcloudio/uni-app';
 import { backtopProps, backtopEmits } from './backtop.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
+import { scrollToTop } from '@/uni_modules/lucky-ui/core/src/utils/scroll';
 
 /**
  * Backtop 回到顶部
@@ -56,8 +57,7 @@ if (props.usePageScroll) {
 function toTop() {
   emit('click');
   if (props.usePageScroll) {
-    // 页面级滚动
-    uni.pageScrollTo({ scrollTop: 0, duration: props.duration });
+    scrollToTop({ duration: props.duration });
   }
   // 无论哪种模式都抛出事件，受控模式由外部自行将容器滚动置 0
   emit('to-top');
@@ -89,10 +89,12 @@ const classes = computed(() => [
     :style="wrapperStyle"
     aria-label="Back to top"
     role="button"
-    @click="toTop"
+    @tap="toTop"
   >
     <slot>
-      <LkIcon :name="icon" size="32" color="var(--lk-color-text-inverse)" />
+      <view class="lk-backtop__icon">
+        <LkIcon :name="icon" size="32" color="currentColor" />
+      </view>
       <text v-if="text" class="lk-backtop__text">{{ text }}</text>
     </slot>
   </view>
