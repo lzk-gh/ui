@@ -94,6 +94,7 @@
           <ChartBarDemo v-else-if="componentName === 'chart-bar'" />
           <ChartLineDemo v-else-if="componentName === 'chart-line'" />
           <ChartPieDemo v-else-if="componentName === 'chart-pie'" />
+          <ChartLiteDemo v-else-if="componentName === 'chart-lite'" />
 
           <!-- 开发中提示 -->
           <view v-else class="developing-tip">
@@ -115,6 +116,7 @@ import { useTheme } from '@/uni_modules/lucky-ui/theme';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 
 import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
+import ChartLiteDemo from '@/components/demos/chart-lite-demo.vue';
 import ChartLineDemo from '@/components/demos/chart-line-demo.vue';
 import ChartPieDemo from '@/components/demos/chart-pie-demo.vue';
 
@@ -502,6 +504,12 @@ const componentMap: Record<string, any> = {
     title: 'ChartPie 饼/环图',
     desc: '高性能 Canvas 饼/环图组件',
     icon: 'pie-chart-fill',
+    color: 'primary',
+  },
+  'chart-lite': {
+    title: 'ChartLite 轻量图表',
+    desc: 'Apple 风格移动端指标图表组合',
+    icon: 'graph-up',
     color: 'primary',
   },
 };

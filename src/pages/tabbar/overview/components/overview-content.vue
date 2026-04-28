@@ -112,6 +112,7 @@ const categories = [
       { name: 'chart-bar', label: 'ChartBar', desc: '柱状图', icon: 'bar-chart' },
       { name: 'chart-line', label: 'ChartLine', desc: '折线图', icon: 'graph-up' },
       { name: 'chart-pie', label: 'ChartPie', desc: '饼/环图', icon: 'pie-chart' },
+      { name: 'chart-lite', label: 'ChartLite', desc: '轻量图表', icon: 'graph-up' },
     ],
   },
   {

@@ -110,6 +110,7 @@ const categories = [
       { name: 'chart-bar', label: 'ChartBar', desc: '柱状图', icon: 'reception-4' },
       { name: 'chart-line', label: 'ChartLine', desc: '折线图', icon: 'arrow-up-circle' },
       { name: 'chart-pie', label: 'ChartPie', desc: '饼/环图', icon: 'record-circle' },
+      { name: 'chart-lite', label: 'ChartLite', desc: '轻量图表', icon: 'graph-up' },
     ],
   },
   {
