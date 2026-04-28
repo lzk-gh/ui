@@ -69,6 +69,7 @@ function disabledBeforeToday(date: Date) {
         :holiday-data="holidayData"
         :extra-data="extraData"
       />
+      <view class="demo-tip">移动端点击日期可直接选中，左右滑动仍可切换月份。</view>
     </demo-block>
 
     <demo-block title="日期区间">

@@ -553,9 +553,9 @@ const scrollStyle = computed<StyleValue>(() => ({
       v-else
       class="lk-calendar__grid"
       :class="{ 'is-week': currentView === 'week' }"
-      @touchstart.stop="onTouchStart"
-      @touchmove.stop="onTouchMove"
-      @touchend.stop="onTouchEnd"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
     >
       <view
         v-for="day in days"
