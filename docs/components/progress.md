@@ -124,10 +124,16 @@ import ProgressDemo from '@/components/demos/progress-demo.vue'
 | color | 进度条颜色，支持纯色或渐变背景 | `string` | `''` |
 | trackColor | 轨道颜色 | `string` | `''` |
 | status | 状态色 | `'' \| success \| warning \| error \| danger` | `''` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
-无
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| change | 进度百分比变化时触发，值已限制在 `0 ~ 100` | `(percentage, oldPercentage)` |
+| complete | 进度首次到达 `100` 时触发 | `(percentage)` |
 
 ### Slots
 

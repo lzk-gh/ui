@@ -36,7 +36,7 @@ export const badgeProps = {
   offset: {
     type: Array as unknown as PropType<[number, number]>,
     default: () => [0, 0],
-    validator: (value: any) =>
+    validator: (value: unknown) =>
       Array.isArray(value) &&
       value.length === 2 &&
       typeof value[0] === 'number' &&
@@ -61,3 +61,8 @@ export const badgeProps = {
 } as const;
 
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>;
+
+export const badgeEmits = {
+  click: (_payload: { value: string | number; displayValue: string | number; event?: unknown }) =>
+    true,
+};

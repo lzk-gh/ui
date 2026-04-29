@@ -25,13 +25,13 @@ phone: badge
 ```vue
 <template>
   <view class="demo-row">
-    <lk-badge :count="3">
+    <lk-badge :value="3">
       <lk-button>消息</lk-button>
     </lk-badge>
     <lk-badge dot>
       <lk-icon name="bell" :size="28" />
     </lk-badge>
-    <lk-badge text="新">
+    <lk-badge value="新">
       <lk-button>功能</lk-button>
     </lk-badge>
   </view>
@@ -45,9 +45,9 @@ phone: badge
 ```vue
 <template>
   <view class="demo-row">
-    <lk-badge :count="5" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
-    <lk-badge :count="100" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
-    <lk-badge :count="999" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
+    <lk-badge :value="5" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
+    <lk-badge :value="100" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
+    <lk-badge :value="999" :max="99"><lk-icon name="chat" :size="28" /></lk-badge>
   </view>
 </template>
 ```
@@ -57,10 +57,10 @@ phone: badge
 ```vue
 <template>
   <view class="demo-row">
-    <lk-badge :count="8" type="danger"><lk-icon name="bell" :size="28" /></lk-badge>
-    <lk-badge :count="8" type="success"><lk-icon name="bell" :size="28" /></lk-badge>
-    <lk-badge :count="8" type="warning"><lk-icon name="bell" :size="28" /></lk-badge>
-    <lk-badge :count="8" type="info"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :value="8" type="danger"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :value="8" type="success"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :value="8" type="warning"><lk-icon name="bell" :size="28" /></lk-badge>
+    <lk-badge :value="8" type="info"><lk-icon name="bell" :size="28" /></lk-badge>
   </view>
 </template>
 ```
@@ -72,10 +72,10 @@ phone: badge
 ```vue
 <template>
   <view class="demo-row" style="align-items:center">
-    <lk-badge :count="12" />
+    <lk-badge :value="12" />
     <lk-badge dot />
-    <lk-badge text="HOT" type="danger" />
-    <lk-badge text="NEW" type="success" />
+    <lk-badge value="HOT" type="danger" />
+    <lk-badge value="NEW" type="success" />
   </view>
 </template>
 ```
@@ -86,13 +86,23 @@ phone: badge
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| count | 显示数字 | `number` | `0` |
+| value | 显示内容 | `number \| string` | `''` |
 | max | 数字上限，超出显示 `max+` | `number` | `99` |
 | dot | 显示小红点 | `boolean` | `false` |
-| text | 显示文字（优先于 count） | `string` | `''` |
-| type | 颜色类型 | `danger \| success \| warning \| info` | `danger` |
-| showZero | count=0 时是否显示 | `boolean` | `false` |
+| hidden | 是否隐藏徽标 | `boolean` | `false` |
+| type | 颜色类型 | `primary \| success \| warning \| danger \| info` | `primary` |
 | offset | 徽标偏移量 `[x, y]` | `[number, number]` | `[0, 0]` |
+| color | 文字颜色 | `string` | `''` |
+| bgColor | 背景颜色 | `string` | `''` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 徽标自定义类名 | `string \| object \| array` | — |
+| customStyle | 徽标自定义样式 | `string \| object` | — |
+
+### Events
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| click | 点击徽标时触发 | `({ value, displayValue, event })` |
 
 ### Slots
 

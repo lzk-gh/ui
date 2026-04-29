@@ -27,10 +27,9 @@ phone: tag
 <template>
   <view class="demo-row">
     <lk-tag>默认</lk-tag>
-    <lk-tag type="success">成功</lk-tag>
-    <lk-tag type="warning">警告</lk-tag>
-    <lk-tag type="danger">危险</lk-tag>
-    <lk-tag type="info">信息</lk-tag>
+    <lk-tag bg-color="var(--lk-color-success)" text-color="#fff">成功</lk-tag>
+    <lk-tag bg-color="var(--lk-color-warning)" text-color="#fff">警告</lk-tag>
+    <lk-tag bg-color="var(--lk-color-danger)" text-color="#fff">危险</lk-tag>
   </view>
 </template>
 ```
@@ -39,25 +38,19 @@ phone: tag
 
 ```vue
 <template>
-  <!-- 实体（默认） -->
+  <!-- 实心 -->
   <view class="demo-row">
-    <lk-tag>实体</lk-tag>
-    <lk-tag type="success">实体</lk-tag>
-    <lk-tag type="danger">实体</lk-tag>
+    <lk-tag type="solid">实心</lk-tag>
   </view>
 
   <!-- 描边 -->
   <view class="demo-row">
-    <lk-tag variant="outline">描边</lk-tag>
-    <lk-tag variant="outline" type="success">描边</lk-tag>
-    <lk-tag variant="outline" type="danger">描边</lk-tag>
+    <lk-tag type="outline">描边</lk-tag>
   </view>
 
   <!-- 浅色背景 -->
   <view class="demo-row">
-    <lk-tag variant="light">浅色</lk-tag>
-    <lk-tag variant="light" type="success">浅色</lk-tag>
-    <lk-tag variant="light" type="danger">浅色</lk-tag>
+    <lk-tag type="light">浅色</lk-tag>
   </view>
 </template>
 ```
@@ -101,18 +94,25 @@ function remove(t: string) {
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| type | 语义类型 | `default \| success \| warning \| danger \| info` | `default` |
-| variant | 样式变体 | `solid \| outline \| light` | `solid` |
+| type | 样式变体 | `solid \| outline \| light` | `light` |
 | size | 尺寸 | `sm \| md \| lg` | `md` |
 | closable | 是否可关闭 | `boolean` | `false` |
-| round | 是否胶囊圆角 | `boolean` | `false` |
+| disabled | 是否禁用 | `boolean` | `false` |
+| round | 是否胶囊圆角 | `boolean` | `true` |
+| textColor | 自定义文字颜色 | `string` | `''` |
+| bgColor | 自定义背景色 | `string` | `''` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
-| 事件名 | 说明 |
-|--------|------|
-| click | 点击标签 |
-| close | 点击关闭按钮 |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| click | 点击可用标签 | `(event)` |
+| close | 点击可用关闭按钮 | `(event)` |
+| click-disabled | 点击禁用标签 | `(event)` |
+| close-disabled | 点击禁用标签的关闭按钮 | `(event)` |
 
 ### Slots
 

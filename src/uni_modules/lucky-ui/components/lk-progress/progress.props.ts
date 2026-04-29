@@ -38,3 +38,8 @@ export const progressProps = {
 } as const;
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>;
+
+export const progressEmits = {
+  change: (_percentage: number, _oldPercentage?: number) => true,
+  complete: (_percentage: number) => true,
+};

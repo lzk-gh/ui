@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed } from 'vue';
-import { badgeProps } from './badge.props';
+import { badgeEmits, badgeProps } from './badge.props';
 defineOptions({ name: 'LkBadge' });
 
 const props = defineProps(badgeProps);
+const emit = defineEmits(badgeEmits);
 
 const typeBgMap: Record<string, string> = {
   primary: 'var(--lk-color-primary)',
@@ -29,16 +31,26 @@ const badgeStyle = computed(() => ({
   color: props.color || undefined,
   background: props.bgColor || typeBgMap[props.type] || undefined,
 }));
+
+const mergedBadgeStyle = computed<StyleValue>(() => [
+  badgeStyle.value,
+  props.customStyle as StyleValue,
+]);
+
+function onClick(event: unknown) {
+  emit('click', { value: props.value, displayValue: displayValue.value, event });
+}
 </script>
 
 <template>
-  <view class="lk-badge-wrapper">
+  <view :id="id" class="lk-badge-wrapper">
     <slot />
     <view
       v-if="!hidden && (dot || value !== '')"
       class="lk-badge"
       :class="[`lk-badge--${type}`, { 'is-dot': dot }, customClass]"
-      :style="[badgeStyle, customStyle]"
+      :style="mergedBadgeStyle"
+      @tap="onClick"
     >
       <text v-if="!dot">{{ displayValue }}</text>
     </view>

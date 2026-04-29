@@ -30,3 +30,9 @@ export const cardProps = {
 } as const;
 
 export type CardProps = ExtractPropTypes<typeof cardProps>;
+
+export const cardEmits = {
+  click: (_event?: unknown) => true,
+  'header-click': (_event?: unknown) => true,
+  'footer-click': (_event?: unknown) => true,
+};

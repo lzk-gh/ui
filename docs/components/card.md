@@ -115,12 +115,17 @@ import CardDemo from '@/components/demos/card-demo.vue'
 | bgColor | 自定义背景色 | `string` | `''` |
 | transparent | 是否透明背景 | `boolean` | `false` |
 | hoverable | 是否启用交互悬浮效果 | `boolean` | `false` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | click | 点击卡片时触发 | `(event)` |
+| header-click | 点击卡片头部时触发 | `(event)` |
+| footer-click | 点击卡片底部时触发 | `(event)` |
 
 ### Slots
 

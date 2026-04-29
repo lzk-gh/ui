@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { tagProps } from './tag.props';
+import { tagEmits, tagProps } from './tag.props';
 import { computed } from 'vue';
 import type { CSSProperties } from 'vue';
 
 defineOptions({ name: 'LkTag' });
 
 const props = defineProps(tagProps);
-const emit = defineEmits(['close', 'click']);
+const emit = defineEmits(tagEmits);
 
-function onClose(e: any) {
-  if (props.disabled) return;
+function onClose(e: unknown) {
+  if (props.disabled) {
+    emit('close-disabled', e);
+    return;
+  }
   emit('close', e);
-  e.stopPropagation();
 }
 
-function onClick(e: any) {
-  if (props.disabled) return;
+function onClick(e: unknown) {
+  if (props.disabled) {
+    emit('click-disabled', e);
+    return;
+  }
   emit('click', e);
 }
 
@@ -41,6 +46,7 @@ const customStyle = computed<CSSProperties>(() => {
 
 <template>
   <view
+    :id="id"
     class="lk-tag"
     :class="[
       `lk-tag--${props.type}`,
@@ -52,13 +58,13 @@ const customStyle = computed<CSSProperties>(() => {
       },
       customClass,
     ]"
-      :style="[customStyle, props.customStyle as any]"
-    @click="onClick"
+    :style="[customStyle, props.customStyle as any]"
+    @tap="onClick"
   >
     <view class="lk-tag__content">
       <slot />
     </view>
-    <view v-if="props.closable" class="lk-tag__close" @click="onClose">×</view>
+    <view v-if="props.closable" class="lk-tag__close" @tap.stop="onClose">×</view>
   </view>
 </template>
 

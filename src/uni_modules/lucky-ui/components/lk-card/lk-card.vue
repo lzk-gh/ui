@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { CSSProperties } from 'vue';
-import { cardProps } from './card.props';
+import type { CSSProperties, StyleValue } from 'vue';
+import { cardEmits, cardProps } from './card.props';
 
 defineOptions({ name: 'LkCard' });
 
 const props = defineProps(cardProps);
-
-const emit = defineEmits<{
-  (e: 'click', event: unknown): void;
-}>();
+const emit = defineEmits(cardEmits);
 
 const cardClass = computed(() => {
   return [
     'lk-card',
+    props.customClass,
     {
       'is-border': props.border,
       'is-hover': props.hoverable,
@@ -46,16 +44,26 @@ const cardStyle = computed<CSSProperties>(() => {
   return style;
 });
 
+const rootStyle = computed<StyleValue>(() => [cardStyle.value, props.customStyle as StyleValue]);
+
 /**
  * 处理点击事件
  */
-function handleClick(e: unknown) {
-  emit('click', e);
+function handleClick(event: unknown) {
+  emit('click', event);
+}
+
+function handleHeaderClick(event: unknown) {
+  emit('header-click', event);
+}
+
+function handleFooterClick(event: unknown) {
+  emit('footer-click', event);
 }
 </script>
 
 <template>
-  <view :class="cardClass" :style="cardStyle" @click="handleClick">
+  <view :id="id" :class="cardClass" :style="rootStyle" @tap="handleClick">
     <!-- 封面图插槽：贴边显示 -->
     <view v-if="$slots.cover" class="lk-card__cover">
       <slot name="cover" />
@@ -66,6 +74,7 @@ function handleClick(e: unknown) {
       v-if="title || $slots.header"
       class="lk-card__header"
       :style="{ padding: `${padding} ${padding} 0` }"
+      @tap.stop="handleHeaderClick"
     >
       <view class="lk-card__title">
         <slot name="header">
@@ -88,6 +97,7 @@ function handleClick(e: unknown) {
       v-if="$slots.footer"
       class="lk-card__footer"
       :style="{ padding: `0 ${padding} ${padding}` }"
+      @tap.stop="handleFooterClick"
     >
       <slot name="footer" />
     </view>
