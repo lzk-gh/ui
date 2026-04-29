@@ -13,6 +13,7 @@ try {
   const initialTheme = saved === 'dark' || saved === 'light' ? saved : 'light';
   if (typeof document !== 'undefined') {
     const root = document.documentElement;
+    root.classList.add('lk-theme-booting');
     root.classList.remove('lk-theme-light', 'lk-theme-dark');
     root.classList.add(`lk-theme-${initialTheme}`);
     root.setAttribute('data-theme', initialTheme);
@@ -35,6 +36,16 @@ onLaunch(async () => {
   // 初始化主题 Store（恢复保存的主题和品牌色）
   const themeStore = useThemeStore();
   themeStore.init();
+
+  // #ifdef H5
+  // 首屏主题完成后再启用过渡，避免输入框边框在初始化阶段闪烁
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    window.requestAnimationFrame(() => {
+      const root = document.documentElement;
+      root.classList.remove('lk-theme-booting');
+    });
+  }
+  // #endif
 });
 </script>
 

@@ -24,6 +24,10 @@
     box-shadow var(--lk-transition-fast),
     background-color var(--lk-transition-fast);
 
+  :root.lk-theme-booting & {
+    transition: none !important;
+  }
+
   // No Border and Padding for Form Style (Tencent Style)
   @include when(borderless) {
     border-color: transparent !important;
