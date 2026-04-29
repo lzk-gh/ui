@@ -5,10 +5,30 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 import LkWatermark from '@/uni_modules/lucky-ui/components/lk-watermark/lk-watermark.vue';
 
 const showFullPage = ref(false);
+const currentSize = ref('md');
 </script>
 
 <template>
   <view class="component-demo">
+    <demo-block title="动态尺寸控制">
+      <view class="demo-actions">
+        <lk-button
+          v-for="s in ['sm', 'md', 'lg']"
+          :key="s"
+          size="sm"
+          :variant="currentSize === s ? 'solid' : 'outline'"
+          type="primary"
+          @tap="currentSize = s"
+        >
+          {{ s.toUpperCase() }}
+        </lk-button>
+      </view>
+      <lk-watermark :size="currentSize" :content="['Dynamic Size', currentSize]" class="demo-card">
+        <view class="demo-card__title">动态切换演示</view>
+        <view class="demo-card__desc">点击上方按钮切换水印尺寸，观察布局和文字大小变化。</view>
+      </lk-watermark>
+    </demo-block>
+
     <demo-block title="容器水印">
       <lk-watermark :content="['Lucky UI', 'Internal Preview']" class="demo-card">
         <view class="demo-card__title">项目报价单</view>
@@ -48,6 +68,20 @@ const showFullPage = ref(false);
       </lk-watermark>
     </demo-block>
 
+    <demo-block title="尺寸控制">
+      <view class="demo-size-list">
+        <lk-watermark size="sm" content="Small" class="demo-size-item">
+          <view class="size-label">Small (sm)</view>
+        </lk-watermark>
+        <lk-watermark size="md" content="Middle" class="demo-size-item">
+          <view class="size-label">Middle (md)</view>
+        </lk-watermark>
+        <lk-watermark size="lg" content="Large" class="demo-size-item">
+          <view class="size-label">Large (lg)</view>
+        </lk-watermark>
+      </view>
+    </demo-block>
+
     <demo-block title="全屏低层级水印">
       <view class="demo-tip">
         全屏水印默认 zIndex 为 8，低于 Navbar(200)、Backtop(400)、Overlay(900)、Popup(1000)，并且不会拦截点击。
@@ -72,6 +106,12 @@ const showFullPage = ref(false);
   display: flex;
   flex-direction: column;
   gap: var(--lk-spacing-lg);
+}
+
+.demo-actions {
+  display: flex;
+  gap: var(--lk-spacing-sm);
+  margin-bottom: var(--lk-spacing-md);
 }
 
 .demo-card,
@@ -129,5 +169,27 @@ const showFullPage = ref(false);
   color: var(--lk-color-text-secondary);
   font-size: var(--lk-font-size-sm);
   line-height: 1.6;
+}
+
+.demo-size-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-spacing-md);
+}
+
+.demo-size-item {
+  height: var(--lk-rpx-160);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--lk-rpx-1) solid var(--lk-color-border-light);
+  border-radius: var(--lk-radius-lg);
+  background: var(--lk-color-bg-container);
+  overflow: hidden;
+}
+
+.size-label {
+  color: var(--lk-color-text-secondary);
+  font-size: var(--lk-font-size-sm);
 }
 </style>

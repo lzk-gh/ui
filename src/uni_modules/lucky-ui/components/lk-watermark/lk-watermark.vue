@@ -12,12 +12,31 @@ const normalizedContent = computed(() => {
   return content.filter(item => item !== '');
 });
 
+const DEFAULT_SIZE_MAP = {
+  sm: { width: 160, height: 100, fontSize: 20, gapX: 24, gapY: 20 },
+  md: { width: 240, height: 150, fontSize: 24, gapX: 40, gapY: 32 },
+  lg: { width: 320, height: 200, fontSize: 32, gapX: 60, gapY: 48 },
+} as const;
+
+const effectiveParams = computed(() => {
+  const sizeConfig = DEFAULT_SIZE_MAP[props.size as keyof typeof DEFAULT_SIZE_MAP] || DEFAULT_SIZE_MAP.md;
+
+  return {
+    width: props.width ?? sizeConfig.width,
+    height: props.height ?? sizeConfig.height,
+    fontSize: props.fontSize ?? sizeConfig.fontSize,
+    gapX: props.gapX ?? sizeConfig.gapX,
+    gapY: props.gapY ?? sizeConfig.gapY,
+  };
+});
+
 const cellCount = computed(() => Math.max(1, props.rows) * Math.max(1, props.columns));
 const watermarkItems = computed(() => Array.from({ length: cellCount.value }, (_, index) => index));
 
 const rootClass = computed(() => [
   'lk-watermark',
   `lk-watermark--${props.variant}`,
+  `is-size-${props.size}`,
   props.customClass,
   {
     'is-full-page': props.fullPage,
@@ -30,15 +49,15 @@ const layerStyle = computed<StyleValue>(() => ({
   zIndex: props.zIndex,
   color: props.color || undefined,
   opacity: props.opacity,
-  gap: `${addUnit(props.gapY)} ${addUnit(props.gapX)}`,
-  gridTemplateColumns: `repeat(${Math.max(1, props.columns)}, ${addUnit(props.width)})`,
+  gap: `${addUnit(effectiveParams.value.gapY)} ${addUnit(effectiveParams.value.gapX)}`,
+  gridTemplateColumns: `repeat(${Math.max(1, props.columns)}, ${addUnit(effectiveParams.value.width)})`,
 }));
 
 const itemStyle = computed<StyleValue>(() => ({
-  width: addUnit(props.width),
-  height: addUnit(props.height),
+  width: addUnit(effectiveParams.value.width),
+  height: addUnit(effectiveParams.value.height),
   transform: `rotate(${props.rotate}deg) skew(${props.skewX}deg, ${props.skewY}deg)`,
-  fontSize: addUnit(props.fontSize),
+  fontSize: addUnit(effectiveParams.value.fontSize),
   fontWeight: props.fontWeight,
 }));
 </script>

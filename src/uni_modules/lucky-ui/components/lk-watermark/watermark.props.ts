@@ -8,6 +8,13 @@ export const WatermarkVariant = {
 } as const;
 export type WatermarkVariant = (typeof WatermarkVariant)[keyof typeof WatermarkVariant];
 
+export const WatermarkSize = {
+  Small: 'sm',
+  Middle: 'md',
+  Large: 'lg',
+} as const;
+export type WatermarkSize = (typeof WatermarkSize)[keyof typeof WatermarkSize];
+
 export const watermarkProps = {
   ...baseProps,
 
@@ -16,6 +23,9 @@ export const watermarkProps = {
     type: [String, Array] as PropType<string | string[]>,
     default: 'Lucky UI',
   },
+
+  /** 尺寸 */
+  size: LkProp.enum(Object.values(WatermarkSize), WatermarkSize.Middle, 'Watermark.size'),
 
   /** 视觉风格 */
   variant: LkProp.enum(
@@ -34,16 +44,16 @@ export const watermarkProps = {
   zIndex: LkProp.number(8),
 
   /** 单个水印宽度 */
-  width: LkProp.stringNumber(240),
+  width: LkProp.stringNumber(undefined as any),
 
   /** 单个水印高度 */
-  height: LkProp.stringNumber(150),
+  height: LkProp.stringNumber(undefined as any),
 
   /** 横向间距 */
-  gapX: LkProp.stringNumber(40),
+  gapX: LkProp.stringNumber(undefined as any),
 
   /** 纵向间距 */
-  gapY: LkProp.stringNumber(32),
+  gapY: LkProp.stringNumber(undefined as any),
 
   /** 行数 */
   rows: LkProp.number(8),
@@ -61,7 +71,7 @@ export const watermarkProps = {
   skewY: LkProp.number(0),
 
   /** 字体大小 */
-  fontSize: LkProp.stringNumber(24),
+  fontSize: LkProp.stringNumber(undefined as any),
 
   /** 字体粗细 */
   fontWeight: LkProp.stringNumber(500),
