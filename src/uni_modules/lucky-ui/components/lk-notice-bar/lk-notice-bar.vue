@@ -1,31 +1,31 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated, watch } from 'vue';
-import { noticeBarProps } from './notice-bar.props';
+import type { StyleValue } from 'vue';
+import { noticeBarEmits, noticeBarProps } from './notice-bar.props';
 
 defineOptions({ name: 'LkNoticeBar' });
 
 const props = defineProps(noticeBarProps);
-
-const emit = defineEmits(['close', 'click']);
+const emit = defineEmits(noticeBarEmits);
 
 // 计算最终要绑定的样式：当用户希望无背景时，不设置 background 和 color
-const styleObj = computed(() => {
+const styleObj = computed<StyleValue>(() => {
   const noBg = props.noBackground;
 
   // 当为无背景模式时：
   // - 不注入 background 与 color（由父级继承）
   // - 自动移除 padding 与圆角以获得更“扁平”的外观
   if (noBg) {
-    return {
+    return [{
       padding: '0',
       borderRadius: '0',
-    } as Record<string, string>;
+    }, props.customStyle as StyleValue];
   }
 
-  return {
+  return [{
     background: props.background,
     color: props.color,
-  } as Record<string, string>;
+  }, props.customStyle as StyleValue];
 });
 
 // 判断滚动方向
@@ -88,6 +88,7 @@ function startVerticalLoop() {
       resetTimer.value = setTimeout(() => {
         enableTransition.value = false;
         currentIndex.value = 0;
+        emit('loop-reset');
         // 强制重绘（仅 H5 需要，通过读取 offsetHeight 触发）
         // #ifdef H5
         if (verticalListEl.value) {
@@ -103,6 +104,10 @@ function startVerticalLoop() {
       // 正常步进到下一条
       enableTransition.value = true;
       currentIndex.value += 1;
+      emit('message-change', {
+        index: currentIndex.value,
+        text: displayMessages.value[currentIndex.value] || '',
+      });
     }
   }, interval);
 }
@@ -130,17 +135,23 @@ onBeforeUnmount(() => {
   stopVerticalLoop();
 });
 
-function close() {
-  emit('close');
+function close(event?: unknown) {
+  emit('close', event);
 }
 
-function click() {
-  emit('click');
+function click(event?: unknown) {
+  emit('click', {
+    text: scrollMode.value === 'vertical'
+      ? displayMessages.value[currentIndex.value] || ''
+      : props.text,
+    index: scrollMode.value === 'vertical' ? currentIndex.value : 0,
+    event,
+  });
 }
 </script>
 
 <template>
-  <view class="lk-notice-bar" :style="styleObj" @click="click">
+  <view :id="id" class="lk-notice-bar" :class="customClass" :style="styleObj" @tap="click">
     <view v-if="icon || $slots['left-icon']" class="lk-notice-bar__icon">
       <slot name="left-icon">
         <lk-icon v-if="icon" :name="icon" size="32" />
@@ -188,7 +199,7 @@ function click() {
       </view>
     </template>
 
-    <view v-if="closeable" class="lk-notice-bar__close" @click.stop="close">
+    <view v-if="closeable" class="lk-notice-bar__close" @tap.stop="close">
       <lk-icon name="x" size="32" />
     </view>
   </view>

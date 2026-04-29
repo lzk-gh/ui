@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue';
 import {
   useTransition,
@@ -31,41 +32,56 @@ const open = computed({
 let showTimer: ReturnType<typeof setTimeout> | null = null;
 let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
-function doOpen(v = true) {
+type TooltipOpenTrigger = 'hover' | 'click' | 'manual' | 'default';
+type TooltipCloseTrigger = TooltipOpenTrigger | 'disabled' | 'content';
+
+function doOpen(v = true, trigger: TooltipOpenTrigger | TooltipCloseTrigger = props.trigger, event?: unknown) {
   if (props.disabled || props.always) return;
   if (open.value === v) return;
   open.value = v;
-  if (v) emit('show');
-  else emit('hide');
+  if (v) {
+    const payload = { trigger: trigger as TooltipOpenTrigger, event };
+    emit('show', payload);
+    emit('open', payload);
+  } else {
+    const payload = { trigger: trigger as TooltipCloseTrigger, event };
+    emit('hide', payload);
+    emit('close', payload);
+  }
 }
 
-function onTriggerEnter() {
+function onTriggerEnter(event?: unknown) {
+  emit('mouseenter-trigger', event);
   if (props.always || props.trigger !== 'hover') return;
   if (hideTimer) clearTimeout(hideTimer);
-  showTimer = setTimeout(() => doOpen(true), props.showDelay);
+  showTimer = setTimeout(() => doOpen(true, 'hover', event), props.showDelay);
 }
-function onTriggerLeave() {
+function onTriggerLeave(event?: unknown) {
+  emit('mouseleave-trigger', event);
   if (props.always || props.trigger !== 'hover') return;
   if (showTimer) clearTimeout(showTimer);
-  hideTimer = setTimeout(() => doOpen(false), props.hideDelay);
+  hideTimer = setTimeout(() => doOpen(false, 'hover', event), props.hideDelay);
 }
-function onTriggerClick() {
+function onTriggerClick(event?: unknown) {
+  emit('click-trigger', event);
   if (props.always || props.trigger !== 'click') return;
-  doOpen(!open.value);
+  doOpen(!open.value, 'click', event);
 }
-function onContentEnter() {
+function onContentEnter(event?: unknown) {
+  emit('mouseenter-content', event);
   if (props.always || props.trigger !== 'hover') return;
   if (hideTimer) clearTimeout(hideTimer);
 }
-function onContentLeave() {
+function onContentLeave(event?: unknown) {
+  emit('mouseleave-content', event);
   if (props.always || props.trigger !== 'hover') return;
-  hideTimer = setTimeout(() => doOpen(false), props.hideDelay);
+  hideTimer = setTimeout(() => doOpen(false, 'content', event), props.hideDelay);
 }
 
 watch(
   () => props.disabled,
   v => {
-    if (v) doOpen(false);
+    if (v) doOpen(false, 'disabled');
   }
 );
 
@@ -111,7 +127,12 @@ function adjustPlacementByViewport() {
         const sys = uni.getSystemInfoSync();
         const vw = sys.windowWidth || 375;
         const vh = sys.windowHeight || 667;
-        resolvedPlacement.value = getFallbackPlacement(props.placement, rect, vw, vh) as any;
+        const next = getFallbackPlacement(props.placement, rect, vw, vh) as typeof props.placement;
+        if (next !== resolvedPlacement.value) {
+          const old = resolvedPlacement.value;
+          resolvedPlacement.value = next;
+          emit('placement-change', next, old);
+        }
       })
       .exec();
   });
@@ -136,7 +157,8 @@ onMounted(() => {
   if (props.modelValue !== undefined) return;
   if (props.defaultOpen) {
     innerOpen.value = true;
-    emit('show');
+    emit('show', { trigger: 'default' });
+    emit('open', { trigger: 'default' });
   }
 });
 
@@ -177,7 +199,12 @@ const {
   classes: tipClasses,
   styles: tipStyles,
   display,
-} = useTransition(() => open.value, transitionConfig.value);
+} = useTransition(() => open.value, transitionConfig.value, {
+  onAfterEnter: () => emit('after-enter'),
+  onAfterLeave: () => emit('after-leave'),
+});
+
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 watch(
   () => display.value,
@@ -197,11 +224,13 @@ watch(
 
 <template>
   <view
+    :id="id"
     class="lk-tooltip"
-    :class="[disabled && 'is-disabled', always && 'is-always']"
+    :class="[customClass, disabled && 'is-disabled', always && 'is-always']"
+    :style="rootStyle"
     @mouseenter="onTriggerEnter"
     @mouseleave="onTriggerLeave"
-    @click="onTriggerClick"
+    @tap="onTriggerClick"
   >
     <view class="lk-tooltip__trigger">
       <slot />

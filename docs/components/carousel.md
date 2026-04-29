@@ -160,14 +160,20 @@ import CarouselDemo from '@/components/demos/carousel-demo.vue'
 | height | 固定高度；关闭自适应时生效 | `string \| number` | `'320rpx'` |
 | indicatorOverlay | 指示器是否覆盖在内容上方 | `boolean` | `true` |
 | loop | 是否循环播放 | `boolean` | `true` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | update:current | 当前索引变化 | `(index: number)` |
-| change | 切换时触发 | `(index: number)` |
-| click | 点击当前项时触发 | `(item, index)` |
+| change | 切换时触发 | `(index, oldIndex, source)` |
+| click | 点击当前项时触发 | `(item, index, event)` |
+| indicator-click | 点击指示器时触发 | `(index, oldIndex, event)` |
+| autoplay-change | 自动轮播导致索引变化时触发 | `(index, oldIndex)` |
+| height-change | 自适应高度测量变化时触发 | `(height: number)` |
 
 ### Slots
 

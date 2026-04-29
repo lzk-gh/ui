@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { overlayProps, overlayEmits } from './overlay.props';
 
@@ -21,25 +22,29 @@ const display = ref(false);
 const anim = ref<'enter' | 'leave' | ''>('');
 const timer = ref<number | null>(null);
 
-const styleVar = computed(
+const styleVar = computed<StyleValue>(
   () =>
-    ({
+    [
+      {
       zIndex: props.zIndex,
       '--lk-overlay-duration': `${props.duration}ms`,
       '--lk-overlay-bg': props.background || `rgba(0,0,0,${props.opacity})`,
       // 兼容不支持 CSS 变量的平台
       transitionDuration: `${props.duration}ms`,
-    }) as Record<string, string | number>
+      },
+      props.customStyle as StyleValue,
+    ]
 );
 
 // 外部受控值（优先使用 modelValue）
 const externalShow = computed(() => (props.modelValue ?? props.show) as boolean);
 
-function onClick() {
-  emit('click');
+function onClick(event?: unknown) {
+  emit('click', event);
   if (props.closeOnClick) {
     emit('update:show', false);
     emit('update:modelValue', false);
+    emit('close', event);
   }
 }
 
@@ -65,6 +70,7 @@ watch(
     }
 
     if (v) {
+      emit('open');
       if (!display.value) {
         display.value = true;
         anim.value = '';
@@ -102,6 +108,7 @@ onMounted(() => {
 onBeforeUnmount(unlock);
 
 function onTouchMove(e: TouchEvent) {
+  emit('touchmove', e);
   if (props.lockScroll) {
     e.preventDefault();
   }
@@ -111,10 +118,11 @@ function onTouchMove(e: TouchEvent) {
 <template>
   <view
     v-if="display"
+    :id="id"
     class="lk-overlay"
-    :class="{ 'is-enter': anim === 'enter', 'is-leave': anim === 'leave' }"
+    :class="[customClass, { 'is-enter': anim === 'enter', 'is-leave': anim === 'leave' }]"
     :style="styleVar"
-    @click="onClick"
+    @tap="onClick"
     @touchmove="onTouchMove"
   >
     <slot />

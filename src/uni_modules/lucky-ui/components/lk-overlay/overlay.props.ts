@@ -34,10 +34,13 @@ export const overlayProps = {
 
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>;
 
-export const overlayEmits = [
-  'click',
-  'update:show',
-  'update:modelValue',
-  'after-enter',
-  'after-leave',
-];
+export const overlayEmits = {
+  click: (_event?: unknown) => true,
+  close: (_event?: unknown) => true,
+  open: () => true,
+  'update:show': (_value: boolean) => true,
+  'update:modelValue': (_value: boolean) => true,
+  'after-enter': () => true,
+  'after-leave': () => true,
+  touchmove: (_event?: unknown) => true,
+};

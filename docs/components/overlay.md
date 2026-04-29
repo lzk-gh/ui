@@ -89,16 +89,22 @@ import OverlayDemo from '@/components/demos/overlay-demo.vue'
 | closeOnClick | 点击遮罩是否关闭 | `boolean` | `true` |
 | lockScroll | 是否锁定背景滚动 | `boolean` | `true` |
 | duration | 动画持续时间（毫秒） | `number` | `240` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 参数 |
 |--------|------|------|
-| click | 点击遮罩时触发 | `() => void` |
+| click | 点击遮罩时触发 | `(event?: Event) => void` |
+| open | 遮罩开始打开时触发 | `() => void` |
+| close | 点击遮罩并触发关闭时触发 | `(event?: Event) => void` |
 | update:show | 兼容旧写法的状态更新 | `(value: boolean) => void` |
 | update:modelValue | v-model 状态更新 | `(value: boolean) => void` |
 | after-enter | 入场动画结束 | `() => void` |
 | after-leave | 离场动画结束 | `() => void` |
+| touchmove | 触摸移动时触发，锁滚动时会阻止默认行为 | `(event?: Event) => void` |
 
 ### Slots
 

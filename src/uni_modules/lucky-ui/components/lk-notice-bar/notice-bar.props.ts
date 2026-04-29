@@ -53,3 +53,10 @@ export const noticeBarProps = {
 } as const;
 
 export type NoticeBarProps = ExtractPropTypes<typeof noticeBarProps>;
+
+export const noticeBarEmits = {
+  click: (_payload: { text: string; index: number; event?: unknown }) => true,
+  close: (_event?: unknown) => true,
+  'message-change': (_payload: { index: number; text: string }) => true,
+  'loop-reset': () => true,
+};

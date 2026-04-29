@@ -113,14 +113,27 @@ import TooltipDemo from '@/components/demos/tooltip-demo.vue'
 | duration | 动画持续时间 | `number` | `180` |
 | delay | 动画延迟 | `number` | `0` |
 | easing | 缓动函数 | `TransitionConfig['easing']` | `ease-out` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 参数 |
 |--------|------|------|
 | update:modelValue | 显示状态变化 | `(value: boolean) => void` |
-| show | 显示时触发 | `() => void` |
-| hide | 隐藏时触发 | `() => void` |
+| show | 显示时触发 | `({ trigger, event }) => void` |
+| hide | 隐藏时触发 | `({ trigger, event }) => void` |
+| open | 显示时触发，语义化别名 | `({ trigger, event }) => void` |
+| close | 隐藏时触发，语义化别名 | `({ trigger, event }) => void` |
+| click-trigger | 点击触发区域时触发 | `(event?: Event) => void` |
+| mouseenter-trigger | 鼠标进入触发区域时触发 | `(event?: Event) => void` |
+| mouseleave-trigger | 鼠标离开触发区域时触发 | `(event?: Event) => void` |
+| mouseenter-content | 鼠标进入提示内容时触发 | `(event?: Event) => void` |
+| mouseleave-content | 鼠标离开提示内容时触发 | `(event?: Event) => void` |
+| placement-change | 自动修正展示位置时触发 | `(placement, oldPlacement) => void` |
+| after-enter | 进入动画结束后触发 | `() => void` |
+| after-leave | 离开动画结束后触发 | `() => void` |
 
 ### Slots
 

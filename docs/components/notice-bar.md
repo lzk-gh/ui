@@ -59,7 +59,11 @@ const messages = [
 ## 可关闭
 
 ```vue
-<lk-notice-bar text="这是一条可以关闭的通知" closeable @close="show = false" />
+<lk-notice-bar
+  text="这是一条可以关闭的通知"
+  closeable
+  @close="show = false"
+/>
 ```
 
 ## 自定义左右区域
@@ -126,13 +130,18 @@ import NoticeBarDemo from '@/components/demos/notice-bar-demo.vue'
 | background | 背景色 | `string` | `var(--lk-fill-1)` |
 | noBackground | 是否移除背景与默认文字色注入 | `boolean` | `false` |
 | messages | 竖向滚动时的消息数组 | `string[]` | `[]` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 参数 |
 |--------|------|------|
-| click | 点击通知栏主体 | `() => void` |
-| close | 点击关闭按钮 | `() => void` |
+| click | 点击通知栏主体 | `({ text, index, event }) => void` |
+| close | 点击关闭按钮 | `(event?: Event) => void` |
+| message-change | 竖向轮播切换消息时触发 | `({ index, text }) => void` |
+| loop-reset | 竖向轮播无缝重置到第一条时触发 | `() => void` |
 
 ### Slots
 

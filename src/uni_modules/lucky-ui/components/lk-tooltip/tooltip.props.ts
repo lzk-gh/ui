@@ -116,6 +116,16 @@ export type TooltipProps = ExtractPropTypes<typeof tooltipProps>;
 
 export const tooltipEmits = {
   'update:modelValue': (_val: boolean) => true,
-  show: () => true,
-  hide: () => true,
+  show: (_payload?: unknown) => true,
+  hide: (_payload?: unknown) => true,
+  open: (_payload?: unknown) => true,
+  close: (_payload?: unknown) => true,
+  'click-trigger': (_event?: unknown) => true,
+  'mouseenter-trigger': (_event?: unknown) => true,
+  'mouseleave-trigger': (_event?: unknown) => true,
+  'mouseenter-content': (_event?: unknown) => true,
+  'mouseleave-content': (_event?: unknown) => true,
+  'after-enter': () => true,
+  'after-leave': () => true,
+  'placement-change': (_placement: TooltipPlacement, _oldPlacement: TooltipPlacement) => true,
 };

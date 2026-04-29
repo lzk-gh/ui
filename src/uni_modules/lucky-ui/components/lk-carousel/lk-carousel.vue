@@ -1,15 +1,11 @@
 <script lang="ts" setup>
+import type { StyleValue } from 'vue';
 import { ref, computed, watch, nextTick, getCurrentInstance, onMounted, useSlots } from 'vue';
-import { carouselProps } from './carousel.props';
+import { carouselEmits, carouselProps } from './carousel.props';
 import lkCarouselItem from './lk-carousel-item.vue';
 
 const props = defineProps(carouselProps);
-
-const emit = defineEmits<{
-  'update:current': [value: number];
-  change: [value: number];
-  click: [item: any, index: number];
-}>();
+const emit = defineEmits(carouselEmits);
 
 const innerCurrent = ref(props.current);
 const length = computed(() => props.carouselList?.length || 0);
@@ -74,7 +70,7 @@ const outerStyle = computed(() => {
   return {
     height: heightProp.value,
     '--lk-indicator-space': indicatorSpaceRpx.value,
-  } as any;
+  };
 });
 
 // Swiper 样式
@@ -83,7 +79,7 @@ const swiperStyle = computed(() => {
     return { height: currentHeight.value > 0 ? `${currentHeight.value}px` : '100%' };
   }
   if (indicatorOutside.value) {
-    return { height: 'calc(100% - var(--lk-indicator-space))' } as any;
+    return { height: 'calc(100% - var(--lk-indicator-space))' };
   }
   return { height: '100%' };
 });
@@ -104,12 +100,15 @@ function measureActiveHeight() {
   const idx = innerCurrent.value;
 
   function query() {
-    const q = uni.createSelectorQuery().in(instance as any);
+    const q = uni.createSelectorQuery().in(instance?.proxy);
     q.select(`#lk-slide-${idx}`)
       .boundingClientRect(rect => {
         const r: any = rect as any;
         const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
-        if (h) currentHeight.value = h;
+        if (h && h !== currentHeight.value) {
+          currentHeight.value = h;
+          emit('height-change', h);
+        }
       })
       .exec();
   }
@@ -128,7 +127,7 @@ function measureIndicatorHeight() {
     return;
   }
   nextTick(() => {
-    const q = uni.createSelectorQuery().in(instance as any);
+    const q = uni.createSelectorQuery().in(instance?.proxy);
     q.select('#lk-indicators-outside')
       .boundingClientRect(rect => {
         const r: any = rect as any;
@@ -169,29 +168,34 @@ watch(
   }
 );
 
-function updateActive(index: number) {
+function updateActive(index: number, source: 'swiper' | 'indicator' | 'api' = 'api') {
+  const oldValue = innerCurrent.value;
+  if (oldValue === index) return;
   innerCurrent.value = index;
   emit('update:current', index);
-  emit('change', index);
+  emit('change', index, oldValue, source);
+  if (source === 'swiper' && props.autoPlay) emit('autoplay-change', index, oldValue);
 }
 
 function onSwiperChange(e: any) {
   const idx = e?.detail?.current ?? 0;
-  updateActive(idx);
+  updateActive(idx, 'swiper');
 }
 
-function onItemClick(index: number) {
+function onItemClick(index: number, event?: unknown) {
   const list = props.carouselList || [];
-  if (list.length) emit('click', list[index], index);
+  if (list.length) emit('click', list[index], index, event);
 }
 
-function setActive(index: number) {
+function setActive(index: number, event?: unknown) {
   const n = length.value;
   if (n === 0) return;
   const clamped = Math.max(0, Math.min(index, n - 1));
-  innerCurrent.value = clamped;
-  emit('update:current', clamped);
+  emit('indicator-click', clamped, innerCurrent.value, event);
+  updateActive(clamped, 'indicator');
 }
+
+const rootStyle = computed<StyleValue>(() => [outerStyle.value, props.customStyle as StyleValue]);
 
 onMounted(() => {
   measureActiveHeight();
@@ -200,7 +204,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <view class="lk-carousel" :style="outerStyle">
+  <view :id="id" class="lk-carousel" :class="customClass" :style="rootStyle">
     <swiper
       class="lk-carousel__swiper"
       :style="swiperStyle"
@@ -226,7 +230,7 @@ onMounted(() => {
             'is-auto-height': autoHeight,
           }"
           :style="card ? cardStyleVars : undefined"
-          @click="onItemClick(index)"
+          @tap="onItemClick(index, $event)"
         >
           <template v-if="hasDefaultSlot">
             <slot :item="item" :index="index" />
@@ -270,7 +274,7 @@ onMounted(() => {
                 ? indicatorActiveColor || undefined
                 : indicatorInactiveColor,
           }"
-          @click.stop="indicatorClickable ? setActive(index) : undefined"
+          @tap.stop="indicatorClickable ? setActive(index, $event) : undefined"
         ></view>
       </view>
     </template>
@@ -308,7 +312,7 @@ onMounted(() => {
                 ? indicatorActiveColor || undefined
                 : indicatorInactiveColor,
           }"
-          @click.stop="indicatorClickable ? setActive(index) : undefined"
+          @tap.stop="indicatorClickable ? setActive(index, $event) : undefined"
         ></view>
       </view>
     </template>

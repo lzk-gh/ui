@@ -42,10 +42,11 @@ export type CarouselIndicatorPosition =
   (typeof CarouselIndicatorPosition)[keyof typeof CarouselIndicatorPosition];
 export type CarouselIndicatorAlign =
   (typeof CarouselIndicatorAlign)[keyof typeof CarouselIndicatorAlign];
+export type CarouselItem = any;
 
 export const carouselProps = {
   ...baseProps,
-  carouselList: { type: Array as PropType<any[]>, default: () => [] },
+  carouselList: { type: Array as PropType<CarouselItem[]>, default: () => [] },
   current: LkProp.number(0),
   autoPlay: LkProp.boolean(true),
   interval: LkProp.number(3000),
@@ -95,3 +96,12 @@ export const carouselProps = {
 } as const;
 
 export type CarouselProps = ExtractPropTypes<typeof carouselProps>;
+
+export const carouselEmits = {
+  'update:current': (_value: number) => true,
+  change: (_value: number, _oldValue?: number, _source?: 'swiper' | 'indicator' | 'api') => true,
+  click: (_item: CarouselItem, _index: number, _event?: unknown) => true,
+  'indicator-click': (_index: number, _oldValue: number, _event?: unknown) => true,
+  'autoplay-change': (_index: number, _oldValue: number) => true,
+  'height-change': (_height: number) => true,
+};
