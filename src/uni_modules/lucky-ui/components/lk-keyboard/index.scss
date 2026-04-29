@@ -11,7 +11,9 @@
   --kb-key-bg-active: var(--lk-keyboard-key-bg-active);
   --kb-key-text: var(--lk-keyboard-key-text);
   --kb-key-shadow: var(--lk-keyboard-key-shadow);
+  --kb-key-border: var(--lk-keyboard-key-border);
   --kb-special-bg: var(--lk-keyboard-special-bg);
+  --kb-special-text: var(--lk-keyboard-special-text);
   --kb-accent: var(--lk-color-primary);
   --kb-radius: var(--lk-radius-sm);
   --kb-key-height: var(--lk-control-height-sm);
@@ -132,6 +134,7 @@
     background: var(--kb-bg);
     padding: var(--kb-padding);
     padding-top: 0;
+    border-top: var(--lk-rpx-1) solid var(--lk-keyboard-header-border);
   }
 
   // 键盘行
@@ -157,20 +160,23 @@
     justify-content: center;
     background: var(--kb-key-bg);
     border-radius: var(--kb-radius);
+    border: var(--lk-rpx-1) solid var(--kb-key-border);
     box-shadow: var(--kb-key-shadow);
     transition:
-      background 0.1s ease,
-      transform 0.1s ease;
+      background-color var(--lk-transition-fast),
+      transform var(--lk-transition-fast),
+      box-shadow var(--lk-transition-fast);
 
     &:active {
       background: var(--kb-key-bg-active);
-      transform: scale(0.95);
+      transform: translateY(var(--lk-rpx-1));
+      box-shadow: none;
     }
 
     // 删除键
     @include m(delete) {
       background: var(--kb-special-bg);
-      color: var(--kb-key-text);
+      color: var(--kb-special-text);
 
       &:active {
         background: var(--kb-key-bg-active);
@@ -181,15 +187,17 @@
     @include m(confirm) {
       background: var(--kb-accent);
       color: var(--lk-color-text-inverse);
+      border-color: transparent;
 
       &:active {
-        filter: brightness(0.9);
+        opacity: 0.9;
       }
     }
 
     // 额外按键
     @include m(extra) {
       background: var(--kb-special-bg);
+      color: var(--kb-special-text);
       font-size: var(--lk-font-size-sm);
 
       &:active {
@@ -219,7 +227,7 @@
   // 按键文字
   @include e(key-text) {
     font-size: var(--lk-font-size-xl);
-    font-weight: 400;
+    font-weight: var(--lk-font-weight-medium);
     color: var(--kb-key-text);
     line-height: 1;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;

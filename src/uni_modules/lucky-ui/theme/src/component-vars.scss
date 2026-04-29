@@ -306,15 +306,17 @@ page,
   --lk-stepper-bg: #{colors.$color-gray-100};
 
   /* === 键盘 === */
-  --lk-keyboard-bg: rgba(209, 213, 219, 0.95);
-  --lk-keyboard-key-bg: #ffffff;
-  --lk-keyboard-key-bg-active: #c5c8cc;
-  --lk-keyboard-key-text: #1c1c1e;
-  --lk-keyboard-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.25);
-  --lk-keyboard-special-bg: #adb3bc;
+  --lk-keyboard-bg: var(--lk-color-bg-elevated);
+  --lk-keyboard-key-bg: var(--lk-bg-container);
+  --lk-keyboard-key-bg-active: var(--lk-fill-1);
+  --lk-keyboard-key-text: var(--lk-text-primary);
+  --lk-keyboard-key-shadow: var(--lk-shadow-sm);
+  --lk-keyboard-key-border: var(--lk-color-border-light);
+  --lk-keyboard-special-bg: var(--lk-fill-2);
+  --lk-keyboard-special-text: var(--lk-text-secondary);
   --lk-keyboard-overlay-bg: rgba(0, 0, 0, 0.3);
-  --lk-keyboard-header-border: rgba(0, 0, 0, 0.1);
-  --lk-keyboard-indicator-bg: rgba(0, 0, 0, 0.15);
+  --lk-keyboard-header-border: var(--lk-color-border-light);
+  --lk-keyboard-indicator-bg: var(--lk-color-border);
 
   /* === 预加载调试器 === */
   --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
@@ -476,15 +478,17 @@ page,
   --lk-stepper-bg: rgba(255, 255, 255, 0.08);
 
   /* === 键盘 === */
-  --lk-keyboard-bg: rgba(44, 44, 46, 0.95);
-  --lk-keyboard-key-bg: #636366;
-  --lk-keyboard-key-bg-active: #48484a;
-  --lk-keyboard-key-text: #ffffff;
-  --lk-keyboard-key-shadow: 0 2rpx 0 rgba(0, 0, 0, 0.5);
-  --lk-keyboard-special-bg: #48484a;
-  --lk-keyboard-overlay-bg: rgba(0, 0, 0, 0.3);
-  --lk-keyboard-header-border: rgba(255, 255, 255, 0.12);
-  --lk-keyboard-indicator-bg: rgba(255, 255, 255, 0.25);
+  --lk-keyboard-bg: var(--lk-color-bg-container);
+  --lk-keyboard-key-bg: var(--lk-fill-1);
+  --lk-keyboard-key-bg-active: var(--lk-fill-2);
+  --lk-keyboard-key-text: var(--lk-text-primary);
+  --lk-keyboard-key-shadow: var(--lk-shadow-sm);
+  --lk-keyboard-key-border: var(--lk-color-border-light);
+  --lk-keyboard-special-bg: var(--lk-fill-2);
+  --lk-keyboard-special-text: var(--lk-text-secondary);
+  --lk-keyboard-overlay-bg: rgba(0, 0, 0, 0.45);
+  --lk-keyboard-header-border: var(--lk-color-border-light);
+  --lk-keyboard-indicator-bg: var(--lk-color-border);
 
   /* === 预加载调试器 === */
   --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
