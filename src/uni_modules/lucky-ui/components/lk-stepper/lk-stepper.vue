@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import type { StyleValue } from 'vue';
+import { computed, ref, watch, inject } from 'vue';
+import type { StepperAction } from './stepper.props';
 import { stepperProps, stepperEmits } from './stepper.props';
+import { formContextKey } from '../lk-form/context';
+import { addUnit } from '../../core/src/utils/unit';
 
 defineOptions({ name: 'LkStepper' });
 
 const props = defineProps(stepperProps);
 const emit = defineEmits(stepperEmits);
+const form = inject(formContextKey, null);
 
 const current = ref(format(props.modelValue));
 
@@ -44,15 +49,21 @@ const isPlusDisabled = computed(() => props.disabled || Number(current.value) >=
 
 const wrapperStyle = computed(() => {
   const style: Record<string, string> = {};
-  if (props.buttonSize) style['--stepper-btn-size'] = `${props.buttonSize}rpx`;
-  if (props.inputWidth) style['--stepper-input-width'] = `${props.inputWidth}rpx`;
-  return style;
+  if (props.buttonSize) {
+    const buttonSize = addUnit(props.buttonSize);
+    if (buttonSize) style['--stepper-btn-size'] = buttonSize;
+  }
+  if (props.inputWidth) {
+    const inputWidth = addUnit(props.inputWidth);
+    if (inputWidth) style['--stepper-input-width'] = inputWidth;
+  }
+  return [style, props.customStyle] as StyleValue;
 });
 
 // --- 事件处理 ---
 
 // 统一变更处理
-async function handleChange(type: 'minus' | 'plus' | 'input', val?: string) {
+async function handleChange(type: StepperAction, val?: string) {
   if (props.disabled) return;
 
   const stepNum = Number(props.step);
@@ -64,11 +75,11 @@ async function handleChange(type: 'minus' | 'plus' | 'input', val?: string) {
     // 按钮点击
     const now = Number(current.value || 0);
     if (type === 'minus' && isMinusDisabled.value) {
-      emit('overlimit', 'minus');
+      emit('overlimit', 'minus', Number(props.min));
       return;
     }
     if (type === 'plus' && isPlusDisabled.value) {
-      emit('overlimit', 'plus');
+      emit('overlimit', 'plus', Number(props.max));
       return;
     }
     nextVal = type === 'minus' ? add(now, -stepNum) : add(now, stepNum);
@@ -76,6 +87,7 @@ async function handleChange(type: 'minus' | 'plus' | 'input', val?: string) {
 
   // 限制范围
   const clampedVal = clamp(nextVal);
+  emit('before-change', clampedVal, type);
 
   // 拦截逻辑
   if (props.beforeChange) {
@@ -84,32 +96,42 @@ async function handleChange(type: 'minus' | 'plus' | 'input', val?: string) {
       if (!allow) {
         // 恢复原值 (主要针对 input 输入的情况)
         current.value = String(props.modelValue);
+        emit('change-cancel', clampedVal, type, 'before-change');
         return;
       }
     } catch {
       current.value = String(props.modelValue);
+      emit('change-cancel', clampedVal, type, 'error');
       return;
     }
   }
 
   current.value = String(clampedVal);
   emit('update:modelValue', clampedVal);
-  emit('change', clampedVal);
+  emit('change', clampedVal, type);
+  if (type === 'plus') emit('plus', clampedVal);
+  if (type === 'minus') emit('minus', clampedVal);
+  if (props.validateEvent && props.prop) {
+    form?.emitFieldChange(props.prop, clampedVal);
+  }
 }
 
 // 输入框事件
-function onInput(e: any) {
-  current.value = e.detail.value;
+function onInput(e: Event | { detail?: { value?: string }; target?: { value?: string } }) {
+  const event = e as { detail?: { value?: string }; target?: { value?: string } | null };
+  const value = event.detail?.value ?? event.target?.value ?? '';
+  current.value = value;
+  emit('input', value);
 }
 
-function onBlur(e: any) {
+function onBlur(e: unknown) {
   const val = Number(current.value);
   // Blur 时强制修正格式和范围
   handleChange('input', String(clamp(isNaN(val) ? Number(props.min) : val)));
   emit('blur', e);
 }
 
-function onFocus(e: any) {
+function onFocus(e: unknown) {
   emit('focus', e);
 }
 
@@ -161,8 +183,9 @@ watch(
 
 <template>
   <view
+    :id="id"
     class="lk-stepper"
-    :class="[`lk-stepper--${size}`, { 'is-disabled': disabled }]"
+    :class="[customClass, `lk-stepper--${size}`, { 'is-disabled': disabled }]"
     :style="wrapperStyle"
   >
     <view

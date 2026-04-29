@@ -68,6 +68,36 @@ const on = ref(false)
 </template>
 ```
 
+## 自定义值与切换拦截
+
+`activeValue` 和 `inactiveValue` 可定义真实提交值；`beforeChange` 返回 `false` 或抛错时会阻止切换。
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const status = ref('enabled')
+
+async function beforeChange(nextValue: string | number | boolean) {
+  if (nextValue === 'disabled') {
+    return false
+  }
+  return true
+}
+</script>
+
+<template>
+  <lk-switch
+    v-model="status"
+    active-value="enabled"
+    inactive-value="disabled"
+    :before-change="beforeChange"
+    @before-change="value => console.log('before:', value)"
+    @change-cancel="(value, reason) => console.log(value, reason)"
+  />
+</template>
+```
+
 ## 带文字标签
 
 ```vue
@@ -97,18 +127,39 @@ const auto = ref(false)
 
 ### Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| modelValue | 绑定值（v-model） | `boolean` | `false` |
-| size | 尺寸 | `sm \| md \| lg` | `md` |
-| disabled | 是否禁用 | `boolean` | `false` |
-| loading | 是否加载中 | `boolean` | `false` |
-| activeColor | 开启状态颜色 | `string` | — |
-| inactiveColor | 关闭状态颜色 | `string` | — |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| modelValue | 绑定值，支持 `v-model` | `boolean / string / number` | — | `false` |
+| activeValue | 开启时的值 | `boolean / string / number` | — | `true` |
+| inactiveValue | 关闭时的值 | `boolean / string / number` | — | `false` |
+| size | 尺寸 | `string` | `sm / md / lg` | `md` |
+| disabled | 是否禁用 | `boolean` | — | `false` |
+| loading | 是否加载中 | `boolean` | — | `false` |
+| activeColor | 开启状态颜色 | `string` | — | `''` |
+| inactiveColor | 关闭状态颜色 | `string` | — | `''` |
+| beforeChange | 切换前拦截函数，返回 `false` 或 `Promise<false>` 阻止切换 | `(nextValue) => boolean / Promise<boolean>` | — | `null` |
+| inlinePrompt | 是否在开关内显示文字 | `boolean` | — | `false` |
+| activeText | 开启时内嵌文字 | `string` | — | `''` |
+| inactiveText | 关闭时内嵌文字 | `string` | — | `''` |
+| hapticFeedback | 是否开启轻震动反馈 | `boolean` | — | `false` |
+| prop | 表单字段名，配合 `lk-form` 联动校验 | `string` | — | `''` |
+| validateEvent | 值变更时是否触发表单校验 | `boolean` | — | `true` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### Events
 
-| 事件名 | 说明 | 参数 |
-|--------|------|------|
-| update:modelValue | 状态变化 | `(value: boolean) => void` |
-| change | 状态变化 | `(value: boolean) => void` |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 状态变化时触发 | `(value: boolean \| string \| number)` |
+| change | 状态变化回调 | `(value: boolean \| string \| number)` |
+| click | 点击开关时触发，禁用、加载、切换中不触发 | `(event: Event, checked: boolean)` |
+| before-change | 执行切换前触发 | `(nextValue: boolean \| string \| number)` |
+| change-cancel | 切换被拦截或异常中断时触发 | `(nextValue: boolean \| string \| number, reason: 'before-change' \| 'error')` |
+
+## 注意事项
+
+::: tip
+事件触发顺序为 `click` -> `before-change` -> `update:modelValue` -> `change`。若 `beforeChange` 拦截失败，则触发 `change-cancel`，不会更新值。
+:::

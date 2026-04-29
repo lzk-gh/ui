@@ -35,6 +35,22 @@ const checked = ref('A')
 </template>
 ```
 
+## 单独使用
+
+单独使用时，通过 `modelValue` 判断当前项是否选中。
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const answer = ref('yes')
+</script>
+
+<template>
+  <lk-radio v-model="answer" name="yes">同意</lk-radio>
+</template>
+```
+
 ## 横向排列
 
 ```vue
@@ -136,35 +152,53 @@ const agree = ref(false)
 
 ### RadioGroup Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| modelValue | 绑定值（v-model） | `string \| number \| boolean` | `''` |
-| direction | 排列方向 | `row \| column` | `row` |
-| shape | 外观形状 | `circle \| square` | `circle` |
-| iconType | 图标样式 | `dot \| check` | `dot` |
-| size | 尺寸 | `sm \| md \| lg` | `md` |
-| disabled | 是否全部禁用 | `boolean` | `false` |
-| activeColor | 选中颜色 | `string` | — |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| modelValue | 绑定值，支持 `v-model` | `string / number / boolean` | — | `''` |
+| direction | 排列方向 | `string` | `row / column` | `row` |
+| shape | 外观形状 | `string` | `circle / square` | `circle` |
+| iconType | 图标样式 | `string` | `dot / check` | `dot` |
+| size | 尺寸 | `string` | `sm / md / lg` | `md` |
+| disabled | 是否全部禁用 | `boolean` | — | `false` |
+| activeColor | 选中颜色 | `string` | — | `''` |
+| prop | 表单字段名，配合 `lk-form` 联动校验 | `string` | — | `''` |
+| validateEvent | 值变更时是否触发表单校验 | `boolean` | — | `true` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### RadioGroup Events
 
-| 事件名 | 说明 | 参数 |
-|--------|------|------|
-| update:modelValue | 绑定值变化 | `(value: any) => void` |
-| change | 选项改变 | `(value: any) => void` |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 绑定值变化 | `(value: string \| number \| boolean)` |
+| change | 选项改变 | `(value: string \| number \| boolean)` |
+| item-change | 单个选项选中时触发 | `(value: string \| number \| boolean)` |
 
 ### Radio Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| name | 唯一标识符（作为选中值） | `string \| number \| boolean` | `''` |
-| label | 标签文字（等价于 default slot） | `string` | `''` |
-| disabled | 是否禁用该项 | `boolean` | `false` |
-| labelDisabled | 点击文字是否触发选择 | `boolean` | `false` |
-| shape | 覆盖 group 的形状 | `circle \| square` | — |
-| iconType | 覆盖 group 的图标类型 | `dot \| check` | — |
-| activeColor | 覆盖 group 的选中色 | `string` | — |
-| iconSize | 图标尺寸 | `string \| number` | — |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| modelValue | 单独使用时的绑定值 | `string / number / boolean` | — | `''` |
+| name | 唯一标识符，作为选中值 | `string / number / boolean` | — | `''` |
+| label | 标签文字，也可作为值回退 | `string` | — | `''` |
+| disabled | 是否禁用该项 | `boolean` | — | `false` |
+| labelDisabled | 点击文字是否触发选择 | `boolean` | — | `false` |
+| shape | 覆盖 Group 的形状 | `string` | `'' / circle / square` | `''` |
+| iconType | 覆盖 Group 的图标类型 | `string` | `'' / dot / check` | `''` |
+| activeColor | 覆盖 Group 的选中色 | `string` | — | `''` |
+| iconSize | 图标尺寸 | `string / number` | — | `''` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
+
+### Radio Events
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 单独使用时的绑定值变化 | `(value: string \| number \| boolean)` |
+| change | 单独使用时的值变化回调 | `(value: string \| number \| boolean)` |
+| click | 点击单选框时触发，禁用态不触发 | `(event: Event, checked: boolean, value: string \| number \| boolean)` |
 
 ### Radio Slots
 

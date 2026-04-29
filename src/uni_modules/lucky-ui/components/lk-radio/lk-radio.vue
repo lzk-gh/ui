@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { inject, computed } from 'vue';
+import type { RadioValue } from './radio.props';
 import { radioProps, radioEmits } from './radio.props';
 import { addUnit } from '../../core/src/utils/unit';
 import LkIcon from '../lk-icon/lk-icon.vue';
@@ -12,19 +14,32 @@ defineOptions({ name: 'LkRadio' });
 const props = defineProps(radioProps);
 const emit = defineEmits(radioEmits);
 
-const group = inject<any>(LK_RADIO_GROUP_KEY, null);
+type RadioGroupContext = {
+  props: {
+    modelValue: RadioValue;
+    disabled: boolean;
+    shape: string;
+    iconType: string;
+    size: string;
+    activeColor: string;
+  };
+  updateValue: (value: RadioValue) => void;
+};
+
+const group = inject<RadioGroupContext | null>(LK_RADIO_GROUP_KEY, null);
 
 const radioValue = computed(() => (props.name !== '' ? props.name : props.label));
+const style = computed(() => props.customStyle as StyleValue);
 
 const isChecked = computed(() => {
   if (group) {
     return group.props.modelValue === radioValue.value;
   }
-  return false;
+  return props.modelValue === radioValue.value;
 });
 
 const isDisabled = computed(() => {
-  return props.disabled || (group && group.props.disabled);
+  return props.disabled || !!group?.props.disabled;
 });
 
 const mergedShape = computed(() => {
@@ -59,24 +74,29 @@ const radioClass = computed(() => {
 });
 
 const iconStyle = computed(() => {
-  const style: any = {};
+  const nextStyle: Record<string, string> = {};
   const activeColor = props.activeColor || (group && group.props.activeColor);
 
   if (isChecked.value && activeColor) {
-    style.borderColor = activeColor;
-    style.backgroundColor = activeColor;
+    nextStyle.borderColor = activeColor;
+    nextStyle.backgroundColor = activeColor;
   }
 
   if (props.iconSize) {
-    style.width = addUnit(props.iconSize);
-    style.height = addUnit(props.iconSize);
+    const size = addUnit(props.iconSize);
+    if (size) {
+      nextStyle.width = size;
+      nextStyle.height = size;
+    }
   }
 
-  return style;
+  return nextStyle;
 });
 
-function handleToggle() {
+function handleToggle(event?: unknown) {
   if (isDisabled.value) return;
+  emit('click', event, isChecked.value, radioValue.value);
+  if (isChecked.value) return;
   if (group) {
     group.updateValue(radioValue.value);
   } else {
@@ -93,13 +113,14 @@ function handleLabelClick() {
 
 <template>
   <view
+    :id="id"
     :class="radioClass"
-    :style="customStyle as any"
+    :style="style"
     role="radio"
     :aria-checked="isChecked"
     :aria-disabled="isDisabled"
     :aria-label="label"
-    @tap="handleToggle"
+    @tap="handleToggle($event)"
   >
     <view class="lk-radio__icon-wrap">
       <slot name="icon" :checked="isChecked" :disabled="isDisabled">

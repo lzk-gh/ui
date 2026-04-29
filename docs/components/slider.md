@@ -80,10 +80,26 @@ const range = ref([20, 60])
 
 ## 与表单联动
 
-传入 `prop` 后，滑块在拖拽结束时会触发表单字段变更校验。
+传入 `prop` 后，滑块在拖拽结束或点击轨道提交值时会触发表单字段变更校验。
 
 ```vue
 <lk-slider v-model="form.score" prop="score" />
+```
+
+## 事件监听
+
+```vue
+<template>
+  <lk-slider
+    v-model="value"
+    show-value
+    @input="value => console.log('input:', value)"
+    @change="value => console.log('change:', value)"
+    @dragstart="(value, index) => console.log('start:', value, index)"
+    @dragend="(value, index) => console.log('end:', value, index)"
+    @click="value => console.log('track click:', value)"
+  />
+</template>
 ```
 
 ## 推荐示例
@@ -114,33 +130,38 @@ import SliderDemo from '@/components/demos/slider-demo.vue'
 
 ### Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| modelValue | 当前值；范围模式下为数组 | `number \| number[]` | `0` |
-| range | 是否开启双滑块范围选择 | `boolean` | `false` |
-| min | 最小值 | `number` | `0` |
-| max | 最大值 | `number` | `100` |
-| step | 步长 | `number` | `1` |
-| showStops | 是否显示间断点 | `boolean` | `false` |
-| disabled | 是否禁用 | `boolean` | `false` |
-| showValue | 是否显示当前值 | `boolean` | `false` |
-| size | 尺寸 | `small \| default \| large` | `default` |
-| activeColor | 激活条颜色 | `string` | `''` |
-| inactiveColor | 背景轨道颜色 | `string` | `''` |
-| blockSize | 滑块大小 | `string` | `''` |
-| blockColor | 滑块颜色 | `string` | `''` |
-| barHeight | 轨道高度 | `string` | `''` |
-| prop | 表单字段名 | `string` | `''` |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| modelValue | 当前值；范围模式下为数组 | `number / number[]` | — | `0` |
+| range | 是否开启双滑块范围选择 | `boolean` | — | `false` |
+| min | 最小值 | `number` | — | `0` |
+| max | 最大值 | `number` | — | `100` |
+| step | 步长 | `number` | — | `1` |
+| showStops | 是否显示间断点 | `boolean` | — | `false` |
+| disabled | 是否禁用 | `boolean` | — | `false` |
+| showValue | 是否显示当前值 | `boolean` | — | `false` |
+| size | 尺寸 | `string` | `small / default / large` | `default` |
+| activeColor | 激活条颜色 | `string` | — | `''` |
+| inactiveColor | 背景轨道颜色 | `string` | — | `''` |
+| blockSize | 滑块大小 | `string` | — | `''` |
+| blockColor | 滑块颜色 | `string` | — | `''` |
+| barHeight | 轨道高度 | `string` | — | `''` |
+| prop | 表单字段名，配合 `lk-form` 联动校验 | `string` | — | `''` |
+| validateEvent | 值提交时是否触发表单校验 | `boolean` | — | `true` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### Events
 
-| 事件名 | 说明 | 参数 |
-|--------|------|------|
-| update:modelValue | 当前值变化 | `(value: number \| number[]) => void` |
-| input | 拖动过程中的实时值 | `(value: number \| number[]) => void` |
-| change | 拖动结束后的最终值 | `(value: number \| number[]) => void` |
-| dragstart | 开始拖拽 | `() => void` |
-| dragend | 结束拖拽 | `() => void` |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 当前值变化 | `(value: number \| number[])` |
+| input | 拖动过程或点击轨道时的实时值 | `(value: number \| number[])` |
+| change | 拖动结束或点击轨道提交后的最终值 | `(value: number \| number[])` |
+| dragstart | 开始拖拽 | `(value: number \| number[], index: number, event: Event)` |
+| dragend | 结束拖拽 | `(value: number \| number[], index: number, event: Event)` |
+| click | 点击轨道时触发 | `(value: number \| number[], event: Event)` |
 
 ### Slots
 

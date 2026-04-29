@@ -7,6 +7,8 @@ export const StepperSize = {
   Lg: 'lg',
 } as const;
 export type StepperSize = (typeof StepperSize)[keyof typeof StepperSize];
+export type StepperValue = number | string;
+export type StepperAction = 'minus' | 'plus' | 'input';
 
 export const stepperProps = {
   ...baseProps,
@@ -52,14 +54,25 @@ export const stepperProps = {
     type: Function as PropType<(val: number) => boolean | Promise<boolean>>,
     default: null,
   },
+
+  /** 表单字段名，用于表单验证联动 */
+  prop: LkProp.string(''),
+
+  /** 是否触发表单验证（默认 true） */
+  validateEvent: LkProp.boolean(true),
 } as const;
 
 export type StepperProps = ExtractPropTypes<typeof stepperProps>;
 
 export const stepperEmits = {
-  'update:modelValue': (_val: number | string) => true,
-  change: (_val: number | string) => true,
-  overlimit: (_type: 'minus' | 'plus') => true,
+  'update:modelValue': (_val: StepperValue) => true,
+  change: (_val: StepperValue, _action: StepperAction) => true,
+  input: (_val: string) => true,
+  plus: (_val: number) => true,
+  minus: (_val: number) => true,
+  overlimit: (_type: 'minus' | 'plus', _limit: number) => true,
+  'before-change': (_val: number, _action: StepperAction) => true,
+  'change-cancel': (_val: number, _action: StepperAction, _reason: 'before-change' | 'error') => true,
   focus: (_e: unknown) => true,
   blur: (_e: unknown) => true,
 };

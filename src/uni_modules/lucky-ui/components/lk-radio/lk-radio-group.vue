@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { provide, computed, inject } from 'vue';
+import type { RadioValue } from './radio.props';
 import { radioGroupProps, radioGroupEmits } from './radio.props';
 import { formContextKey } from '../lk-form/context';
 
@@ -13,9 +15,13 @@ const form = inject(formContextKey, null);
 // 使用 Symbol.for 确保和子组件匹配
 const LK_RADIO_GROUP_KEY = Symbol.for('LkRadioGroup');
 
-function updateValue(value: any) {
+const style = computed(() => props.customStyle as StyleValue);
+
+function updateValue(value: RadioValue) {
+  if (value === props.modelValue) return;
   emit('update:modelValue', value);
   emit('change', value);
+  emit('item-change', value);
   // 表单联动验证
   if (props.validateEvent && props.prop) {
     form?.emitFieldChange(props.prop, value);
@@ -33,7 +39,7 @@ const groupClass = computed(() => {
 </script>
 
 <template>
-  <view :class="groupClass" :style="customStyle as any">
+  <view :id="id" :class="groupClass" :style="style">
     <slot />
   </view>
 </template>

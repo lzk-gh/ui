@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { inject, computed } from 'vue';
+import type { CheckboxValue } from './checkbox.props';
 import { checkboxProps, checkboxEmits } from './checkbox.props';
 import { addUnit } from '../../core/src/utils/unit';
 import LkIcon from '../lk-icon/lk-icon.vue';
@@ -12,9 +14,22 @@ defineOptions({ name: 'LkCheckbox' });
 const props = defineProps(checkboxProps);
 const emit = defineEmits(checkboxEmits);
 
-const group = inject<any>(LK_CHECKBOX_GROUP_KEY, null);
+type CheckboxGroupContext = {
+  props: {
+    modelValue: CheckboxValue[];
+    disabled: boolean;
+    shape: string;
+    iconType: string;
+    size: string;
+    activeColor: string;
+  };
+  toggleValue: (name: CheckboxValue) => void;
+};
+
+const group = inject<CheckboxGroupContext | null>(LK_CHECKBOX_GROUP_KEY, null);
 
 const checkboxValue = computed(() => (props.name !== '' ? props.name : props.label));
+const style = computed(() => props.customStyle as StyleValue);
 
 const isChecked = computed(() => {
   if (group) {
@@ -24,7 +39,7 @@ const isChecked = computed(() => {
 });
 
 const isDisabled = computed(() => {
-  return props.disabled || (group && group.props.disabled);
+  return props.disabled || !!group?.props.disabled;
 });
 
 const mergedShape = computed(() => {
@@ -60,24 +75,28 @@ const checkboxClass = computed(() => {
 });
 
 const iconStyle = computed(() => {
-  const style: any = {};
+  const nextStyle: Record<string, string> = {};
   const activeColor = props.activeColor || (group && group.props.activeColor);
 
   if ((isChecked.value || props.indeterminate) && activeColor) {
-    style.borderColor = activeColor;
-    style.backgroundColor = activeColor;
+    nextStyle.borderColor = activeColor;
+    nextStyle.backgroundColor = activeColor;
   }
 
   if (props.iconSize) {
-    style.width = addUnit(props.iconSize);
-    style.height = addUnit(props.iconSize);
+    const size = addUnit(props.iconSize);
+    if (size) {
+      nextStyle.width = size;
+      nextStyle.height = size;
+    }
   }
 
-  return style;
+  return nextStyle;
 });
 
-function handleToggle() {
+function handleToggle(event?: unknown) {
   if (isDisabled.value) return;
+  emit('click', event, isChecked.value, checkboxValue.value);
   if (group) {
     group.toggleValue(checkboxValue.value);
   } else {
@@ -95,13 +114,14 @@ function handleLabelClick() {
 
 <template>
   <view
+    :id="id"
     :class="checkboxClass"
-    :style="customStyle as any"
+    :style="style"
     role="checkbox"
     :aria-checked="isChecked"
     :aria-disabled="isDisabled"
     :aria-label="label"
-    @tap="handleToggle"
+    @tap="handleToggle($event)"
   >
     <view class="lk-checkbox__icon-wrap">
       <slot

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, ref, inject } from 'vue';
 import { switchProps, switchEmits } from './switch.props';
 import { formContextKey } from '../lk-form/context';
@@ -25,7 +26,7 @@ const rootStyle = computed(() => {
   if (props.inactiveColor) {
     style['--switch-inactive-color'] = props.inactiveColor;
   }
-  return style;
+  return [style, props.customStyle] as StyleValue;
 });
 
 // 内嵌文字
@@ -40,6 +41,7 @@ async function toggle() {
   if (props.disabled || props.loading || changing.value) return;
 
   const nextValue = isChecked.value ? props.inactiveValue : props.activeValue;
+  emit('before-change', nextValue);
 
   // 轻震动反馈（只在支持的平台上触发）
   if (props.hapticFeedback) {
@@ -55,8 +57,12 @@ async function toggle() {
     changing.value = true;
     try {
       const allowed = await props.beforeChange(nextValue);
-      if (!allowed) return;
+      if (!allowed) {
+        emit('change-cancel', nextValue, 'before-change');
+        return;
+      }
     } catch {
+      emit('change-cancel', nextValue, 'error');
       return;
     } finally {
       changing.value = false;
@@ -72,28 +78,31 @@ async function toggle() {
   }
 }
 
-function onClick(e: Event) {
-  emit('click', e);
+function onClick(e: unknown) {
+  if (props.disabled || props.loading || changing.value) return;
+  emit('click', e, isChecked.value);
   toggle();
 }
 </script>
 
 <template>
   <view
+    :id="id"
     class="lk-switch"
     :class="[
+      customClass,
       `lk-switch--${size}`,
       {
         'is-checked': isChecked,
         'is-disabled': disabled,
-        'is-loading': loading,
+        'is-loading': loading || changing,
         'has-prompt': inlinePrompt,
       },
     ]"
     :style="rootStyle"
     :aria-checked="isChecked"
     role="switch"
-    @click="onClick"
+    @tap="onClick"
   >
     <view class="lk-switch__knob">
       <view v-if="loading" class="lk-switch__spinner" />

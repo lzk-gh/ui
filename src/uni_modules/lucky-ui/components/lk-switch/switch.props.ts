@@ -8,25 +8,26 @@ export const SwitchSize = {
 } as const;
 
 export type SwitchSize = (typeof SwitchSize)[keyof typeof SwitchSize];
+export type SwitchValue = boolean | string | number;
 
 export const switchProps = {
   ...baseProps,
 
   /** 绑定值 */
   modelValue: {
-    type: [Boolean, String, Number] as PropType<boolean | string | number>,
+    type: [Boolean, String, Number] as PropType<SwitchValue>,
     default: false,
   },
 
   /** 开启时的值 */
   activeValue: {
-    type: [Boolean, String, Number] as PropType<boolean | string | number>,
+    type: [Boolean, String, Number] as PropType<SwitchValue>,
     default: true,
   },
 
   /** 关闭时的值 */
   inactiveValue: {
-    type: [Boolean, String, Number] as PropType<boolean | string | number>,
+    type: [Boolean, String, Number] as PropType<SwitchValue>,
     default: false,
   },
 
@@ -47,7 +48,7 @@ export const switchProps = {
 
   /** 切换前的拦截函数，返回 false 或 Promise<false> 阻止切换 */
   beforeChange: {
-    type: Function as PropType<(val: boolean | string | number) => boolean | Promise<boolean>>,
+    type: Function as PropType<(val: SwitchValue) => boolean | Promise<boolean>>,
     default: null,
   },
 
@@ -79,7 +80,9 @@ export const switchProps = {
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;
 
 export const switchEmits = {
-  'update:modelValue': (_val: boolean | string | number) => true,
-  change: (_val: boolean | string | number) => true,
-  click: (_e: Event) => true,
+  'update:modelValue': (_val: SwitchValue) => true,
+  change: (_val: SwitchValue) => true,
+  click: (_event: unknown, _checked: boolean) => true,
+  'before-change': (_nextValue: SwitchValue) => true,
+  'change-cancel': (_nextValue: SwitchValue, _reason: 'before-change' | 'error') => true,
 };

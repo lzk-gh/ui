@@ -1,6 +1,8 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
+export type RadioValue = string | number | boolean;
+
 export const RadioGroupDirection = {
   Row: 'row',
   Column: 'column',
@@ -30,7 +32,7 @@ export const radioGroupProps = {
   ...baseProps,
   /** 绑定值 */
   modelValue: {
-    type: [String, Number, Boolean] as PropType<any>,
+    type: [String, Number, Boolean] as PropType<RadioValue>,
     default: '',
   },
   /** 尺寸 sm | md | lg */
@@ -57,9 +59,14 @@ export const radioGroupProps = {
 
 export const radioProps = {
   ...baseProps,
+  /** 单独使用时的绑定值 */
+  modelValue: {
+    type: [String, Number, Boolean] as PropType<RadioValue>,
+    default: '',
+  },
   /** 在 group 中作为唯一标识符 */
   name: {
-    type: [String, Number, Boolean] as PropType<any>,
+    type: [String, Number, Boolean] as PropType<RadioValue>,
     default: '',
   },
   /** 形状，不设则继承 group */
@@ -82,10 +89,12 @@ export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>;
 export type RadioProps = ExtractPropTypes<typeof radioProps>;
 
 export const radioGroupEmits = {
-  'update:modelValue': (_val: any) => true,
-  change: (_val: any) => true,
+  'update:modelValue': (_val: RadioValue) => true,
+  change: (_val: RadioValue) => true,
+  'item-change': (_val: RadioValue) => true,
 };
 export const radioEmits = {
-  'update:modelValue': (_val: any) => true,
-  change: (_val: any) => true,
+  'update:modelValue': (_val: RadioValue) => true,
+  change: (_val: RadioValue) => true,
+  click: (_event: unknown, _checked: boolean, _value: RadioValue) => true,
 };

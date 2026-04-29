@@ -8,8 +8,10 @@ import {
   onMounted,
   nextTick,
   type CSSProperties,
+  type StyleValue,
 } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import type { SliderValue } from './slider.props';
 import { sliderProps, sliderEmits } from './slider.props';
 
 defineOptions({ name: 'LkSlider' });
@@ -91,7 +93,10 @@ const rootClass = computed(() => [
   'lk-slider',
   `lk-slider--${props.size}`,
   { 'is-disabled': props.disabled, 'is-dragging': dragging.value },
+  props.customClass,
 ]);
+
+const rootStyle = computed(() => props.customStyle as StyleValue);
 
 const trackStyle = computed(() => {
   const style: CSSProperties = {};
@@ -123,19 +128,34 @@ const blockCustomStyle = computed(() => {
 function measureTrack(): Promise<{ left: number; width: number }> {
   return new Promise(resolve => {
     const q = uni.createSelectorQuery();
-    if (instance?.proxy) q.in(instance.proxy as any);
+    if (instance?.proxy) q.in(instance.proxy);
     q.select(`#${trackId}`)
-      .boundingClientRect((data: any) => {
-        trackRect.value = { left: data?.left ?? 0, width: data?.width ?? 0 };
+      .boundingClientRect(data => {
+        const node = Array.isArray(data) ? data[0] : data;
+        trackRect.value = { left: node?.left ?? 0, width: node?.width ?? 0 };
         resolve(trackRect.value);
       })
       .exec();
   });
 }
 
-function getPointX(e: any): number {
+type SliderPointerEvent = {
+  changedTouches?: ArrayLike<{ clientX?: number }>;
+  touches?: ArrayLike<{ clientX?: number }>;
+  clientX?: number;
+  detail?: number | { x?: number };
+};
+
+function getPointX(e: Event | SliderPointerEvent): number {
+  const event = e as SliderPointerEvent;
+  const detailX =
+    typeof event.detail === 'object' && event.detail !== null ? event.detail.x : undefined;
   return (
-    e?.changedTouches?.[0]?.clientX ?? e?.touches?.[0]?.clientX ?? e?.clientX ?? e?.detail?.x ?? 0
+    event.changedTouches?.[0]?.clientX ??
+    event.touches?.[0]?.clientX ??
+    event.clientX ??
+    detailX ??
+    0
   );
 }
 
@@ -156,9 +176,20 @@ function formatValue(percent: number): number {
   return Math.min(props.max, Math.max(props.min, val));
 }
 
-function updateValue(clientX: number, isClick = false) {
+function emitValue(): SliderValue {
+  return props.range ? [...currentVal.value].sort((a, b) => a - b) : currentVal.value[0];
+}
+
+function commitChange() {
+  const finalVal = emitValue();
+  emit('change', finalVal);
+  if (props.validateEvent && props.prop) form?.emitFieldChange(props.prop, finalVal);
+  return finalVal;
+}
+
+function updateValue(clientX: number, isClick = false): SliderValue | null {
   const rect = trackRect.value;
-  if (rect.width <= 0) return;
+  if (rect.width <= 0) return null;
 
   const percent = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
   const newValue = formatValue(percent);
@@ -180,51 +211,55 @@ function updateValue(clientX: number, isClick = false) {
     nextVal[index] = newValue;
     currentVal.value = nextVal;
 
-    const emitValue = props.range ? [...nextVal].sort((a, b) => a - b) : nextVal[0];
-    emit('update:modelValue', emitValue);
-    emit('input', emitValue);
+    const nextEmitValue = emitValue();
+    emit('update:modelValue', nextEmitValue);
+    emit('input', nextEmitValue);
+    return nextEmitValue;
   }
+  return emitValue();
 }
 
-async function onTouchStart(e: any) {
+async function onTouchStart(e: Event | SliderPointerEvent) {
   if (props.disabled) return;
   await measureTrack();
   dragging.value = true;
-  emit('dragstart');
   const clientX = getPointX(e);
   updateValue(clientX, true);
+  emit('dragstart', emitValue(), draggingIndex.value, e);
 }
 
-function onTouchMove(e: any) {
+function onTouchMove(e: Event | SliderPointerEvent) {
   if (props.disabled || !dragging.value) return;
   const clientX = getPointX(e);
   updateValue(clientX);
 }
 
-function onTouchEnd() {
+function onTouchEnd(e?: Event | SliderPointerEvent) {
   if (props.disabled || !dragging.value) return;
+  const index = draggingIndex.value;
   dragging.value = false;
   draggingIndex.value = -1;
-  emit('dragend');
-
-  const finalVal = props.range ? [...currentVal.value].sort((a, b) => a - b) : currentVal.value[0];
-  emit('change', finalVal);
-  if (props.prop) form?.emitFieldChange(props.prop, finalVal);
+  const finalVal = commitChange();
+  emit('dragend', finalVal, index, e);
 }
 
-async function onTrackClick(e: any) {
+async function onTrackClick(e: Event | SliderPointerEvent) {
   if (props.disabled || dragging.value) return;
   if (trackRect.value.width <= 0) await measureTrack();
   const clientX = getPointX(e);
-  updateValue(clientX, true);
-  onTouchEnd();
+  const nextValue = updateValue(clientX, true);
+  if (nextValue !== null) {
+    emit('click', nextValue, e);
+    commitChange();
+  }
+  draggingIndex.value = -1;
 }
 
 onMounted(() => nextTick(() => measureTrack()));
 </script>
 
 <template>
-  <view :class="rootClass">
+  <view :id="id" :class="rootClass" :style="rootStyle">
     <view
       :id="trackId"
       class="lk-slider__track-container"

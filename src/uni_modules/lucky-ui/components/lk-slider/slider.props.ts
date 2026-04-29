@@ -2,6 +2,7 @@ import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
 export type SliderSize = 'small' | 'default' | 'large';
+export type SliderValue = number | number[];
 const sliderSizeValues = ['small', 'default', 'large'] as const;
 
 export const sliderProps = {
@@ -9,7 +10,7 @@ export const sliderProps = {
 
   /** 绑定值 (number | number[]) */
   modelValue: {
-    type: [Number, Array] as PropType<number | number[]>,
+    type: [Number, Array] as PropType<SliderValue>,
     default: 0,
   },
 
@@ -52,15 +53,20 @@ export const sliderProps = {
   /** 轨道高度 */
   barHeight: LkProp.string(''),
 
+  /** 表单字段名，用于表单验证联动 */
   prop: LkProp.string(''),
+
+  /** 是否触发表单验证（默认 true） */
+  validateEvent: LkProp.boolean(true),
 } as const;
 
 export type SliderProps = ExtractPropTypes<typeof sliderProps>;
 
 export const sliderEmits = {
-  'update:modelValue': (_val: number | number[]) => true,
-  change: (_val: number | number[]) => true,
-  input: (_val: number | number[]) => true,
-  dragstart: () => true,
-  dragend: () => true,
+  'update:modelValue': (_val: SliderValue) => true,
+  change: (_val: SliderValue) => true,
+  input: (_val: SliderValue) => true,
+  dragstart: (_val: SliderValue, _index: number, _event: unknown) => true,
+  dragend: (_val: SliderValue, _index: number, _event: unknown) => true,
+  click: (_val: SliderValue, _event: unknown) => true,
 };
