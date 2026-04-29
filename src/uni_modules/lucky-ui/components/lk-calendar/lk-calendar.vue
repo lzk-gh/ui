@@ -294,7 +294,12 @@ function selectMultiple(day: CalendarDay) {
 }
 
 function selectDay(day: CalendarDay) {
-  if (isReadonly.value || day.isDisabled) return;
+  const payload = { date: day.date, dateKey: day.dateKey, day };
+  if (isReadonly.value || day.isDisabled) {
+    emit('click-disabled', payload);
+    return;
+  }
+  emit('click-day', payload);
   if (day.monthOffset !== 0) {
     panelDate.value = makeDate(day.date.getFullYear(), day.date.getMonth() + 1, 1);
   }
@@ -345,6 +350,7 @@ function applyShortcut(type: CalendarShortcutType) {
   const current = today;
   if (type === 'clear') {
     clearSelection();
+    emit('shortcut', { type, value: getOutputValue() });
     return;
   }
   if (type === 'today') {
@@ -377,6 +383,7 @@ function applyShortcut(type: CalendarShortcutType) {
   }
   setPanelByDate(getFirstModelDate() || current);
   emitChange();
+  emit('shortcut', { type, value: getOutputValue() });
 }
 
 function onTouchStart(event: unknown) {
@@ -400,7 +407,9 @@ function onTouchEnd() {
   const dy = swipeLast.clientY - swipeStart.clientY;
   const config = gestureConfig.value;
   if (Math.abs(dx) > config.threshold && Math.abs(dx) > Math.abs(dy) * config.angleRatio) {
-    changeMonth(dx < 0 ? 1 : -1);
+    const direction = dx < 0 ? 'next' : 'prev';
+    changeMonth(direction === 'next' ? 1 : -1);
+    emit('swipe', { direction, year: panelYear.value, month: panelMonth.value });
   }
   swipeStart = null;
   swipeLast = null;
@@ -448,7 +457,7 @@ const scrollStyle = computed<StyleValue>(() => ({
 </script>
 
 <template>
-  <view :class="['lk-calendar', customClass]" :style="mergedStyle">
+  <view :id="id" :class="['lk-calendar', customClass]" :style="mergedStyle">
     <view v-if="props.showHeader" class="lk-calendar__header">
       <view class="lk-calendar__nav" @tap="changeMonth(-1)">‹</view>
       <view class="lk-calendar__title">

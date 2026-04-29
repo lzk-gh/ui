@@ -119,7 +119,13 @@ Tabbar 背景有一个半透明滑块，切换时平滑移动到目标位置。
 
 ```vue
 <template>
-  <lk-tabbar v-model="active" mode="slider" :list="tabbarList" />
+  <lk-tabbar
+    v-model="active"
+    mode="slider"
+    :list="tabbarList"
+    @click="handleClick"
+    @reselect="handleReselect"
+  />
 </template>
 
 <script setup lang="ts">
@@ -182,6 +188,7 @@ const tabbarList = [
 | name | 唯一标识（必填） | `string \| number` | - |
 | icon | 图标名称 | `string` | - |
 | selectedIcon | 选中态图标名称 | `string` | - |
+| activeIconFill | 选中态优先尝试 `icon-fill` 图标 | `boolean` | `false` |
 | label | 文字标签 | `string` | - |
 | customIcon | 是否使用自定义图标（图片路径） | `boolean` | `false` |
 | badge | 徽标数字 | `string \| number` | - |
@@ -194,6 +201,7 @@ interface TabbarItemConfig {
   pagePath?: string;       // 页面路径
   icon: string;            // 图标名称
   selectedIcon?: string;   // 选中态图标
+  activeIconFill?: boolean;// 选中态优先使用 fill 图标
   text: string;            // 文字标签
   customIcon?: boolean;    // 是否自定义图标
   badge?: string | number; // 徽标
@@ -205,7 +213,12 @@ interface TabbarItemConfig {
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
+| update:modelValue | 激活项变化 | `(value: string \| number)` |
 | change | 切换选中项时触发 | `(value, item?)` |
+| click | 点击导航项时触发，重复点击也会触发 | `(value, item?, index?, event?)` |
+| reselect | 点击当前激活项时触发 | `(value, item?, index?, event?)` |
+| switch-page-success | `switchPage` 跳转成功时触发 | `({ value, item, index, result })` |
+| switch-page-fail | `switchPage` 跳转失败时触发 | `({ value, item, index, error })` |
 
 ## 动画说明
 

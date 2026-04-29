@@ -7,7 +7,7 @@ export type TabbarProvide = {
   /** 当前激活项 */
   active: ComputedRef<TabbarValue | ''>;
   /** 设置激活项 */
-  setActive: (val: TabbarValue, index: number) => void;
+  setActive: (val: TabbarValue, index: number, event?: unknown) => void;
   /** 当前模式 */
   mode: ComputedRef<TabbarMode>;
   /** 激活颜色 */

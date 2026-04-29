@@ -78,8 +78,13 @@ export type ActionSheetProps = ExtractPropTypes<typeof actionSheetProps>;
 
 export const actionSheetEmits = {
   'update:modelValue': (_v: boolean) => true,
-  select: (_payload: { action: Action; index: number }) => true,
-  cancel: () => true,
+  select: (_payload: { action: Action; index: number; event?: unknown }) => true,
+  cancel: (_event?: unknown) => true,
+  'click-action': (_payload: { action: Action; index: number; event?: unknown }) => true,
+  'click-cancel': (_event?: unknown) => true,
+  'click-overlay': (_event?: unknown) => true,
   open: () => true,
   close: () => true,
+  'after-enter': () => true,
+  'after-leave': () => true,
 };

@@ -11,13 +11,20 @@ export const TabsType = {
 } as const;
 
 export type TabsType = (typeof TabsType)[keyof typeof TabsType];
+export type TabsValue = string | number;
+
+export interface TabPaneContext {
+  name: TabsValue;
+  label: string;
+  disabled?: boolean;
+}
 
 export const tabsProps = {
   ...baseProps,
 
   /** 当前选中值 */
   modelValue: {
-    type: [String, Number] as PropType<string | number>,
+    type: [String, Number] as PropType<TabsValue>,
     default: '',
   },
 
@@ -45,6 +52,25 @@ export const tabsProps = {
 export type TabsProps = ExtractPropTypes<typeof tabsProps>;
 
 export const tabsEmits = {
-  'update:modelValue': (_val: string | number) => true,
-  change: (_val: string | number) => true,
+  'update:modelValue': (_val: TabsValue) => true,
+  change: (_val: TabsValue, _pane?: TabPaneContext, _index?: number) => true,
+  click: (_val: TabsValue, _pane?: TabPaneContext, _index?: number, _event?: unknown) => true,
+  'tab-click': (_payload: {
+    name: TabsValue;
+    pane?: TabPaneContext;
+    index: number;
+    event?: unknown;
+  }) => true,
+  'click-disabled': (_payload: {
+    name: TabsValue;
+    pane?: TabPaneContext;
+    index: number;
+    event?: unknown;
+  }) => true,
+  'swipe-change': (_payload: {
+    name: TabsValue;
+    pane?: TabPaneContext;
+    index: number;
+    direction: 'prev' | 'next';
+  }) => true,
 };

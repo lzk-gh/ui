@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed, watch } from 'vue';
+import type { Ref } from 'vue';
+import type { TabPaneContext, TabsValue } from './tabs.props';
 
 defineOptions({ name: 'LkTabPane' });
 
 const props = defineProps({
   name: { type: [String, Number], required: true },
   label: { type: String, required: true },
+  disabled: { type: Boolean, default: false },
 });
 
-const tabs = inject<any>('LkTabs');
+interface TabsContext {
+  register: (pane: TabPaneContext) => void;
+  unregister: (pane: TabPaneContext) => void;
+  active: Ref<TabsValue>;
+  lazy: boolean;
+}
+
+const tabs = inject<TabsContext | null>('LkTabs', null);
 const loaded = ref(false);
 const active = computed(() => tabs?.active.value === props.name);
 
@@ -20,10 +30,10 @@ watch(active, val => {
 onMounted(() => {
   // 初始渲染：非 lazy 模式或当前为激活项时应立即渲染
   loaded.value = !tabs?.lazy || !!active.value;
-  tabs?.register({ name: props.name, label: props.label });
+  tabs?.register({ name: props.name, label: props.label, disabled: props.disabled });
 });
 
-onBeforeUnmount(() => tabs?.unregister({ name: props.name }));
+onBeforeUnmount(() => tabs?.unregister({ name: props.name, label: props.label }));
 </script>
 
 <template>

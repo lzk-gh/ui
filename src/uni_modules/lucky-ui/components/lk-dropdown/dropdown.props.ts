@@ -25,13 +25,19 @@ export const DropdownPlacement = {
 
 export type DropdownTrigger = (typeof DropdownTrigger)[keyof typeof DropdownTrigger];
 export type DropdownPlacement = (typeof DropdownPlacement)[keyof typeof DropdownPlacement];
+export type DropdownValue = string | number;
+
+export interface DropdownSelectPayload {
+  name: DropdownValue;
+  event?: unknown;
+}
 
 export const dropdownProps = {
   ...baseProps,
 
   /** 绑定值 */
   modelValue: {
-    type: [String, Number] as PropType<string | number>,
+    type: [String, Number] as PropType<DropdownValue>,
     default: '',
   },
 
@@ -91,4 +97,16 @@ export const dropdownProps = {
 
 export type DropdownProps = ExtractPropTypes<typeof dropdownProps>;
 
-export const dropdownEmits = ['update:modelValue', 'change', 'show', 'hide', 'select'];
+export const dropdownEmits = {
+  'update:modelValue': (_value: DropdownValue) => true,
+  change: (_value: DropdownValue, _payload?: DropdownSelectPayload) => true,
+  select: (_payload: DropdownSelectPayload) => true,
+  show: () => true,
+  hide: () => true,
+  open: () => true,
+  close: () => true,
+  'click-trigger': (_event?: unknown) => true,
+  'click-outside': (_event?: unknown) => true,
+  'after-enter': () => true,
+  'after-leave': () => true,
+};

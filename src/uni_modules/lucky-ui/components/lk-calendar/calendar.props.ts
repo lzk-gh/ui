@@ -11,6 +11,7 @@ import {
   type CalendarModelValue,
   type CalendarMonthChangePayload,
   type CalendarSelectPayload,
+  type CalendarShortcutType,
 } from './types';
 
 export { CalendarMode, CalendarValueType, CalendarView };
@@ -22,6 +23,7 @@ export type {
   CalendarModelValue,
   CalendarMonthChangePayload,
   CalendarSelectPayload,
+  CalendarShortcutType,
 };
 
 export const calendarProps = {
@@ -128,4 +130,8 @@ export const calendarEmits = {
   'month-change': (_: CalendarMonthChangePayload) => true,
   'view-change': (_: CalendarView) => true,
   'range-progress': (_: [CalendarDateInput | null, CalendarDateInput | null]) => true,
+  'click-day': (_: CalendarSelectPayload) => true,
+  'click-disabled': (_: CalendarSelectPayload) => true,
+  shortcut: (_: { type: CalendarShortcutType; value: CalendarModelValue | null }) => true,
+  swipe: (_: { direction: 'prev' | 'next'; year: number; month: number }) => true,
 };

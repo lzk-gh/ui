@@ -5,13 +5,14 @@ phone: tabs
 
 # Tabs 选项卡
 
-用于在同一内容区域切换不同内容面板。
+用于在同一内容区域切换多个内容面板，适合频道页、详情页分区、订单状态筛选等高频导航场景。
 
 ## 基础用法
 
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const tab = ref('home')
 </script>
 
@@ -30,53 +31,34 @@ const tab = ref('home')
 </template>
 ```
 
-## 带图标
+## 风格类型
 
 ```vue
-<template>
-  <lk-tabs v-model="tab">
-    <lk-tab-pane name="chat" label="消息" icon="chat">
-      <view style="padding:32rpx">消息列表</view>
-    </lk-tab-pane>
-    <lk-tab-pane name="contact" label="联系人" icon="people">
-      <view style="padding:32rpx">联系人列表</view>
-    </lk-tab-pane>
-    <lk-tab-pane name="me" label="我" icon="person">
-      <view style="padding:32rpx">个人信息</view>
-    </lk-tab-pane>
-  </lk-tabs>
-</template>
+<lk-tabs v-model="tab" type="line">...</lk-tabs>
+<lk-tabs v-model="tab" type="card">...</lk-tabs>
+<lk-tabs v-model="tab" type="pill">...</lk-tabs>
 ```
 
-## 懒加载内容
-
-默认开启 `lazy`，只有激活过的面板才会真正渲染内容。
+## 禁用标签
 
 ```vue
-<lk-tabs v-model="tab" lazy>
-  <lk-tab-pane name="a" label="A">A 内容</lk-tab-pane>
-  <lk-tab-pane name="b" label="B">B 内容</lk-tab-pane>
+<lk-tabs v-model="tab" @click-disabled="handleDisabled">
+  <lk-tab-pane name="available" label="可用" />
+  <lk-tab-pane name="disabled" label="禁用" disabled />
 </lk-tabs>
 ```
 
-## 卡片样式
-
-```vue
-<template>
-  <lk-tabs v-model="tab" type="card">
 ## 滑动切换
 
 ```vue
-<lk-tabs v-model="tab" swipeable>
-  <lk-tab-pane name="a" label="推荐">推荐内容</lk-tab-pane>
-  <lk-tab-pane name="b" label="热门">热门内容</lk-tab-pane>
-  <lk-tab-pane name="c" label="最新">最新内容</lk-tab-pane>
+<lk-tabs v-model="tab" swipeable @swipe-change="handleSwipe">
+  <lk-tab-pane name="recommend" label="推荐">推荐内容</lk-tab-pane>
+  <lk-tab-pane name="hot" label="热门">热门内容</lk-tab-pane>
+  <lk-tab-pane name="latest" label="最新">最新内容</lk-tab-pane>
 </lk-tabs>
 ```
 
 ## 自定义标签区
-
-支持 `header`、`prefix`、`suffix`、`tab`、`indicator` 等插槽。
 
 ```vue
 <lk-tabs v-model="tab" :stretch="false">
@@ -99,72 +81,54 @@ const tab = ref('home')
 </lk-tabs>
 ```
 
-## 关于禁用
-
-当前 `lk-tab-pane` 源码仅支持 `name` 和 `label` 两个 props，文档或旧示例中的 `disabled`、`icon` 并非当前稳定 API，建议使用自定义 `tab` 插槽自行扩展视觉与交互。
-
-    <lk-tab-pane name="pending" label="待处理" />
-    <lk-tab-pane name="done" label="已完成" />
-  </lk-tabs>
-</template>
-```
-
-## 可禁用选项
-| lazy | 是否开启延迟渲染 | `boolean` | `true` |
-| type | 风格类型 | `line \| card \| pill` | `line` |
-| stretch | 选项卡是否自动拉伸 | `boolean` | `true` |
-| swipeable | 内容区是否支持左右滑动切换 | `boolean` | `true` |
-| showIndicator | 是否显示下划线指示器，仅 `line` 模式生效 | `boolean` | `true` |
-    <lk-tab-pane name="a" label="可用 A" />
-    <lk-tab-pane name="b" label="禁用 B" disabled />
-    <lk-tab-pane name="c" label="可用 C" />
-  </lk-tabs>
-</template>
-```
+## API
 
 ### Tabs Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| modelValue | 当前选中 tab 的 name（v-model） | `string` | — |
+| modelValue | 当前选中 `TabPane.name`，支持 `v-model` | `string \| number` | `''` |
+| lazy | 是否开启内容懒渲染 | `boolean` | `true` |
 | type | 风格类型 | `line \| card \| pill` | `line` |
-| sticky | 是否使用吸顶布局 | `boolean` | `false` |
-
-### Tabs Slots
-
-| 插槽名 | 说明 | 作用域参数 |
-|--------|------|-----------|
-| header | 整个标签栏上方区域 | — |
-| prefix | 标签栏左侧区域 | — |
-| suffix | 标签栏右侧区域 | — |
-| tab | 自定义单个标签渲染 | `{ item, index, active }` |
-| indicator | 自定义指示器 | `{ activeIndex, left, width }` |
-| default | TabPane 内容区 | — |
-
-## 使用建议
-
-::: tip
-如果标签较多，设置 `:stretch="false"` 会更适合横向滚动场景。
-:::
-
-::: warning
-当前源码中的 `lk-tab-pane` 只注册 `name` 与 `label`，若你需要图标、徽标、禁用态，请优先通过 `tab` 插槽实现。
-:::
-| scrollable | tab 数量多时是否可横向滚动 | `boolean` | `false` |
-| activeColor | 激活颜色 | `string` | — |
+| stretch | 标签是否自动拉伸；超过 5 项时会自然滚动 | `boolean` | `true` |
+| swipeable | 内容区域是否支持左右滑动切换 | `boolean` | `true` |
+| showIndicator | 是否显示下划线指示器，仅 `line` 模式生效 | `boolean` | `true` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### TabPane Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| name | 唯一标识 | `string` | — |
-| label | 选项卡标题 | `string` | — |
-| icon | 图标名称 | `string` | — |
-| disabled | 是否禁用 | `boolean` | `false` |
+| name | 唯一标识，必填 | `string \| number` | — |
+| label | 标签标题，必填 | `string` | — |
+| disabled | 是否禁用标签点击与滑动切换 | `boolean` | `false` |
 
 ### Tabs Events
 
 | 事件名 | 说明 | 参数 |
 |--------|------|------|
-| update:modelValue | 激活 tab 变化 | `(name: string) => void` |
-| change | 激活 tab 变化 | `(name: string) => void` |
+| update:modelValue | 激活项变化 | `(name: string \| number) => void` |
+| change | 激活项变化后触发 | `(name, pane, index) => void` |
+| click | 点击标签时触发，重复点击也会触发 | `(name, pane, index, event) => void` |
+| tab-click | 点击标签时触发，返回对象载荷 | `({ name, pane, index, event }) => void` |
+| click-disabled | 点击禁用标签时触发 | `({ name, pane, index, event }) => void` |
+| swipe-change | 左右滑动切换成功后触发 | `({ name, pane, index, direction }) => void` |
+
+### Tabs Slots
+
+| 插槽名 | 说明 | 作用域参数 |
+|--------|------|-----------|
+| default | `lk-tab-pane` 内容 | — |
+| header | 标签栏上方区域 | — |
+| prefix | 标签栏左侧区域 | — |
+| suffix | 标签栏右侧区域 | — |
+| tab | 自定义单个标签 | `{ item, index, active }` |
+| indicator | 自定义指示器 | `{ activeIndex, left, width }` |
+
+## 使用建议
+
+::: tip
+标签数量较多时建议设置 `:stretch="false"`，让标签宽度按内容自然撑开，滚动体验更稳定。
+:::

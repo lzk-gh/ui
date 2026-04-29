@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, provide, watch, computed } from 'vue';
-import { dropdownProps, dropdownEmits } from './dropdown.props';
+import {
+  dropdownProps,
+  dropdownEmits,
+  type DropdownSelectPayload,
+  type DropdownValue,
+} from './dropdown.props';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -11,6 +17,7 @@ defineOptions({ name: 'LkDropdown' });
 
 const props = defineProps(dropdownProps);
 const emit = defineEmits(dropdownEmits);
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 const open = ref(false);
 const active = ref(props.modelValue);
@@ -23,13 +30,19 @@ function toggle(v?: boolean) {
   const next = v !== undefined ? v : !open.value;
   if (next === open.value) return;
   open.value = next;
-  emit(next ? 'show' : 'hide');
+  if (next) {
+    emit('show');
+    emit('open');
+  } else {
+    emit('hide');
+    emit('close');
+  }
 }
-function selectItem(name: any, payload: any) {
+function selectItem(name: DropdownValue, payload: DropdownSelectPayload) {
   active.value = name;
   emit('update:modelValue', name);
   emit('select', payload);
-  emit('change', name);
+  emit('change', name, payload);
   if (props.closeOnSelect) toggle(false);
 }
 
@@ -39,8 +52,14 @@ function onTriggerEnter() {
 function onTriggerLeave() {
   if (props.trigger === 'hover') toggle(false);
 }
-function onTriggerClick() {
+function onTriggerClick(event: unknown) {
+  emit('click-trigger', event);
   if (props.trigger === 'click') toggle();
+}
+
+function onClickOutside(event: unknown) {
+  emit('click-outside', event);
+  toggle(false);
 }
 
 provide('LkDropdown', {
@@ -83,19 +102,29 @@ const {
   classes: menuClasses,
   styles: menuStyles,
   display,
-} = useTransition(() => open.value, transitionConfig.value);
+} = useTransition(() => open.value, transitionConfig.value, {
+  onAfterEnter: () => emit('after-enter'),
+  onAfterLeave: () => emit('after-leave'),
+});
 </script>
 
 <template>
-  <view class="lk-dropdown" @mouseenter="onTriggerEnter" @mouseleave="onTriggerLeave">
+  <view
+    :id="id"
+    class="lk-dropdown"
+    :class="customClass"
+    :style="rootStyle"
+    @mouseenter="onTriggerEnter"
+    @mouseleave="onTriggerLeave"
+  >
     <view
       v-if="display && trigger === 'click' && closeOnClickOutside"
       class="lk-dropdown__mask"
       :style="{ zIndex }"
-      @tap="toggle(false)"
+      @tap="onClickOutside"
     />
 
-    <view class="lk-dropdown__trigger" @click="onTriggerClick">
+    <view class="lk-dropdown__trigger" @tap="onTriggerClick">
       <slot />
     </view>
     <view

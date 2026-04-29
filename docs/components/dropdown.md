@@ -141,10 +141,16 @@ import DropdownDemo from '@/components/demos/dropdown-demo.vue'
 | 事件名 | 说明 | 参数 |
 |--------|------|------|
 | update:modelValue | 选中项变化 | `(value: string \| number) => void` |
-| change | 选中项变化后的回调 | `(value: string \| number) => void` |
-| show | 菜单展开时触发 | `() => void` |
-| hide | 菜单收起时触发 | `() => void` |
-| select | 选择菜单项时触发，返回原始载荷 | `(payload: any) => void` |
+| change | 选中项变化后的回调 | `(value: string \| number, payload?: DropdownSelectPayload) => void` |
+| select | 选择菜单项时触发 | `(payload: { name, event }) => void` |
+| show | 菜单展开时触发，兼容旧命名 | `() => void` |
+| hide | 菜单收起时触发，兼容旧命名 | `() => void` |
+| open | 菜单展开时触发 | `() => void` |
+| close | 菜单收起时触发 | `() => void` |
+| click-trigger | 点击触发器时触发 | `(event?: Event) => void` |
+| click-outside | 点击外部遮罩时触发 | `(event?: Event) => void` |
+| after-enter | 进入动画结束后触发 | `() => void` |
+| after-leave | 离开动画结束后触发 | `() => void` |
 
 ### Slots
 
@@ -160,6 +166,13 @@ import DropdownDemo from '@/components/demos/dropdown-demo.vue'
 | name | 菜单项唯一值，必填 | `string \| number` | — |
 | disabled | 是否禁用 | `boolean` | `false` |
 | icon | 左侧图标名 | `string` | `''` |
+
+### DropdownItem Events
+
+| 事件名 | 说明 | 参数 |
+|--------|------|------|
+| click | 点击可用菜单项时触发 | `({ name, event }) => void` |
+| click-disabled | 点击禁用菜单项时触发 | `({ name, event }) => void` |
 
 ## 使用建议
 

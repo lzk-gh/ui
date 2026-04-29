@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
-import { tabsProps, tabsEmits } from './tabs.props';
+import { tabsProps, tabsEmits, type TabPaneContext, type TabsValue } from './tabs.props';
 
 defineOptions({ name: 'LkTabs' });
 
 const props = defineProps(tabsProps);
 const emit = defineEmits(tabsEmits);
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 const current = ref(props.modelValue);
 watch(
@@ -16,7 +18,7 @@ watch(
 const panes = ref<any[]>([]);
 const instance = getCurrentInstance();
 
-function register(pane: any) {
+function register(pane: TabPaneContext) {
   const idx = panes.value.findIndex(p => p.name === pane.name);
   if (idx === -1) {
     panes.value.push(pane);
@@ -33,7 +35,7 @@ function register(pane: any) {
   });
 }
 
-function unregister(pane: any) {
+function unregister(pane: TabPaneContext) {
   panes.value = panes.value.filter(p => p.name !== pane.name);
   nextTick(() => {
     scrollActiveIntoView();
@@ -41,11 +43,22 @@ function unregister(pane: any) {
   });
 }
 
-function setActive(name: any) {
+function setActive(name: TabsValue, event?: unknown, source: 'click' | 'swipe' = 'click') {
+  const index = panes.value.findIndex(p => p.name === name);
+  const pane = panes.value[index];
+  if (source === 'click') {
+    const payload = { name, pane, index, event };
+    emit('click', name, pane, index, event);
+    emit('tab-click', payload);
+    if (pane?.disabled) {
+      emit('click-disabled', payload);
+      return;
+    }
+  }
   if (name === current.value) return;
   current.value = name;
   emit('update:modelValue', name);
-  emit('change', name);
+  emit('change', name, pane, index);
 }
 
 provide('LkTabs', {
@@ -264,9 +277,27 @@ function onTouchEnd() {
   const idx = panes.value.findIndex(p => p.name === current.value);
   if (idx < 0) return;
   if (deltaX < 0 && idx < panes.value.length - 1) {
-    setActive(panes.value[idx + 1].name);
+    const nextIndex = idx + 1;
+    const nextPane = panes.value[nextIndex];
+    if (nextPane.disabled) return;
+    setActive(nextPane.name, undefined, 'swipe');
+    emit('swipe-change', {
+      name: nextPane.name,
+      pane: nextPane,
+      index: nextIndex,
+      direction: 'next',
+    });
   } else if (deltaX > 0 && idx > 0) {
-    setActive(panes.value[idx - 1].name);
+    const nextIndex = idx - 1;
+    const nextPane = panes.value[nextIndex];
+    if (nextPane.disabled) return;
+    setActive(nextPane.name, undefined, 'swipe');
+    emit('swipe-change', {
+      name: nextPane.name,
+      pane: nextPane,
+      index: nextIndex,
+      direction: 'prev',
+    });
   }
 }
 
@@ -277,7 +308,12 @@ const scrollable = computed(() => panes.value.length > 5);
 </script>
 
 <template>
-  <view class="lk-tabs" :class="['lk-tabs--' + type, { 'is-stretch': stretching }]">
+  <view
+    :id="id"
+    class="lk-tabs"
+    :class="['lk-tabs--' + type, { 'is-stretch': stretching }, customClass]"
+    :style="rootStyle"
+  >
     <!-- header 插槽 -->
     <slot name="header"></slot>
 
@@ -310,8 +346,8 @@ const scrollable = computed(() => panes.value.length > 5);
             :id="'lk-tab-' + pane.name"
             :key="pane.name"
             class="lk-tabs__nav-item"
-            :class="{ 'is-active': pane.name === current }"
-            @click="setActive(pane.name)"
+            :class="{ 'is-active': pane.name === current, 'is-disabled': pane.disabled }"
+            @tap="setActive(pane.name, $event)"
           >
             <!-- tab 插槽 -->
             <slot
@@ -328,7 +364,7 @@ const scrollable = computed(() => panes.value.length > 5);
           <view v-if="showIndicator && type === 'line'" class="lk-tabs__indicator-wrap">
             <slot
               name="indicator"
-              :activeIndex="activeIndex"
+              :active-index="activeIndex"
               :left="indicatorLeft"
               :width="indicatorWidth"
             >

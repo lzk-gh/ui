@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { watch, ref } from 'vue';
+import type { StyleValue } from 'vue';
+import { computed, watch, ref } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import { actionSheetProps, actionSheetEmits, type Action } from './action-sheet.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
@@ -12,6 +13,7 @@ const emit = defineEmits(actionSheetEmits);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<number | string>(-1);
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 /**
  * 监听 modelValue 变化，打开或关闭动作面板
@@ -40,7 +42,9 @@ function onSelect(act: Action, idx: number, event: unknown) {
   activeIndex.value = idx;
   triggerRipple(event);
 
-  emit('select', { action: act, index: idx });
+  const payload = { action: act, index: idx, event };
+  emit('click-action', payload);
+  emit('select', payload);
   if (props.closeOnClickAction) hide();
 }
 
@@ -52,7 +56,8 @@ function cancel(event: unknown) {
   activeIndex.value = 'cancel';
   triggerRipple(event);
 
-  emit('cancel');
+  emit('click-cancel', event);
+  emit('cancel', event);
   hide();
 }
 
@@ -77,8 +82,11 @@ function onPopupModelChange(v: boolean) {
     :delay="delay"
     :easing="easing"
     @update:model-value="onPopupModelChange"
+    @click-overlay="emit('click-overlay', $event)"
+    @after-enter="emit('after-enter')"
+    @after-leave="emit('after-leave')"
   >
-    <view class="lk-action-sheet">
+    <view :id="id" class="lk-action-sheet" :class="customClass" :style="rootStyle">
       <view v-if="title || description" class="lk-action-sheet__head">
         <text v-if="title" class="lk-action-sheet__title">{{ title }}</text>
         <text v-if="description" class="lk-action-sheet__desc">{{ description }}</text>

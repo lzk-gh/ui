@@ -100,4 +100,8 @@ export type TabbarProps = ExtractPropTypes<typeof tabbarProps>;
 export const tabbarEmits = {
   'update:modelValue': (_val: string | number) => true,
   change: (_val: string | number, _item?: TabbarItemConfig) => true,
+  click: (_val: string | number, _item?: TabbarItemConfig, _index?: number, _event?: unknown) => true,
+  reselect: (_val: string | number, _item?: TabbarItemConfig, _index?: number, _event?: unknown) => true,
+  'switch-page-success': (_payload: { value: string | number; item: TabbarItemConfig; index: number; result: unknown }) => true,
+  'switch-page-fail': (_payload: { value: string | number; item: TabbarItemConfig; index: number; error: unknown }) => true,
 };

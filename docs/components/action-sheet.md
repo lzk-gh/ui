@@ -30,6 +30,8 @@ const actions = [
 </template>
 ```
 
+`select` 会返回 `{ action, index, event }`，适合在异步完成后再手动关闭。
+
 ## 带标题与描述
 
 ```vue
@@ -163,10 +165,15 @@ import ActionSheetDemo from '@/components/demos/action-sheet-demo.vue'
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | update:modelValue | 显示状态变化 | `(value: boolean)` |
-| select | 点击操作项 | `({ action, index })` |
-| cancel | 点击取消按钮 | `()` |
+| select | 点击可用操作项并完成选择 | `({ action, index, event })` |
+| click-action | 点击可用操作项时触发，早于 `select` | `({ action, index, event })` |
+| cancel | 点击取消按钮并关闭面板 | `(event?: Event)` |
+| click-cancel | 点击取消按钮时触发，早于 `cancel` | `(event?: Event)` |
+| click-overlay | 点击遮罩层时触发 | `(event?: Event)` |
 | open | 面板打开时触发 | `()` |
 | close | 面板关闭时触发 | `()` |
+| after-enter | 进入动画结束后触发 | `()` |
+| after-leave | 离开动画结束后触发 | `()` |
 
 ### Slots
 

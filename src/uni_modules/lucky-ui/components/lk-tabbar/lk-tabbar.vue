@@ -93,12 +93,16 @@ const sliderStyle = computed(() => {
 // ============================================================================
 // 事件处理
 // ============================================================================
-function setActive(val: TabbarValue, index: number) {
-  if (val === props.modelValue) return;
+function setActive(val: TabbarValue, index: number, event?: unknown) {
+  const item = props.list.length > 0 ? props.list[index] : undefined;
+  emit('click', val, item, index, event);
+
+  if (val === props.modelValue) {
+    emit('reselect', val, item, index, event);
+    return;
+  }
 
   emit('update:modelValue', val);
-
-  const item = props.list.length > 0 ? props.list[index] : undefined;
   emit('change', val, item);
 
   // 更新滑块位置
@@ -106,13 +110,17 @@ function setActive(val: TabbarValue, index: number) {
 
   // 如果开启了页面跳转
   if (props.switchPage && item?.pagePath) {
-    uni.switchTab({ url: item.pagePath });
+    uni.switchTab({
+      url: item.pagePath,
+      success: result => emit('switch-page-success', { value: val, item, index, result }),
+      fail: error => emit('switch-page-fail', { value: val, item, index, error }),
+    });
   }
 }
 
 // 点击 list 模式的 item
-function onItemClick(index: number, _item: TabbarItemConfig) {
-  setActive(index, index);
+function onItemClick(index: number, _item: TabbarItemConfig, event: unknown) {
+  setActive(index, index, event);
 }
 
 // ============================================================================
@@ -193,7 +201,7 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
             'is-active': modelValue === index,
             'lk-tabbar-item--bump': isBumpItem(index),
           }"
-          @tap="onItemClick(index, item)"
+          @tap="onItemClick(index, item, $event)"
         >
           <!-- 凸起模式的特殊背景 -->
           <view v-if="isBumpItem(index)" class="lk-tabbar-item__bump-bg" />

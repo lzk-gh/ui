@@ -77,8 +77,8 @@ const labelStyle = computed(() => {
 });
 
 // 点击处理
-function onTap() {
-  tabbar?.setActive(props.name, itemIndex.value);
+function onTap(event: unknown) {
+  tabbar?.setActive(props.name, itemIndex.value, event);
 }
 </script>
 
