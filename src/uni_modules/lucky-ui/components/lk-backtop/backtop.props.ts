@@ -77,4 +77,8 @@ export const backtopProps = {
 
 export type BacktopProps = ExtractPropTypes<typeof backtopProps>;
 
-export const backtopEmits = ['click', 'to-top', 'change:visible'];
+export const backtopEmits = {
+  click: (_event?: unknown) => true,
+  'to-top': (_payload: { usePageScroll: boolean; duration: number; event?: unknown }) => true,
+  'change:visible': (_visible: boolean, _scrollTop?: number) => true,
+};

@@ -4,7 +4,8 @@ import { baseProps, LkProp } from '../common/props';
 export interface GridItem {
   icon?: string;
   text: string;
-  [key: string]: any;
+  disabled?: boolean;
+  [key: string]: unknown;
 }
 
 export const gridProps = {
@@ -45,3 +46,14 @@ export const gridProps = {
 } as const;
 
 export type GridProps = ExtractPropTypes<typeof gridProps>;
+
+export const gridEmits = {
+  click: (_payload: { item: GridItem; index: number; pageIndex: number; event?: unknown }) => true,
+  'click-disabled': (_payload: {
+    item: GridItem;
+    index: number;
+    pageIndex: number;
+    event?: unknown;
+  }) => true,
+  'page-change': (_index: number, _oldIndex?: number) => true,
+};

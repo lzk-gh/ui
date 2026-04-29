@@ -103,14 +103,17 @@ import BacktopDemo from '@/components/demos/backtop-demo.vue'
 | text | 按钮文字 | `string` | `''` |
 | usePageScroll | 是否监听页面滚动 | `boolean` | `true` |
 | scrollTop | 当前滚动位置；受控模式下使用 | `number` | `0` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
-| click | 点击按钮时触发 | `()` |
-| to-top | 执行回顶操作时触发；受控模式下用于外部同步滚动归零 | `()` |
-| change:visible | 按钮显示状态变化时触发 | `(visible: boolean)` |
+| click | 点击按钮时触发 | `(event?: Event)` |
+| to-top | 执行回顶操作时触发；受控模式下用于外部同步滚动归零 | `({ usePageScroll, duration, event })` |
+| change:visible | 按钮显示状态变化时触发 | `(visible: boolean, scrollTop?: number)` |
 
 ### Slots
 

@@ -54,4 +54,11 @@ export const imageProps = {
 
 export type ImageProps = ExtractPropTypes<typeof imageProps>;
 
-export const imageEmits = ['load', 'error', 'click'];
+export const imageEmits = {
+  load: (_event?: unknown) => true,
+  error: (_event?: unknown) => true,
+  click: (_payload: { src: string; event?: unknown }) => true,
+  preview: (_payload: { src: string; urls: string[]; event?: unknown }) => true,
+  'preview-success': (_payload: { src: string; result: unknown }) => true,
+  'preview-fail': (_payload: { src: string; error: unknown }) => true,
+};

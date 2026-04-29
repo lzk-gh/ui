@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import type { StyleValue } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { imageProps, imageEmits } from './image.props';
 
 defineOptions({ name: 'LkImage' });
@@ -30,16 +31,28 @@ function onError(e: unknown) {
   state.error = true;
   emit('error', e);
 }
-function onClick() {
-  emit('click');
+function onClick(event?: unknown) {
+  emit('click', { src: props.src, event });
   if (props.preview && props.src) {
-    uni.previewImage({ current: props.src, urls: [props.src] });
+    const urls = [props.src];
+    emit('preview', { src: props.src, urls, event });
+    uni.previewImage({
+      current: props.src,
+      urls,
+      success: result => emit('preview-success', { src: props.src, result }),
+      fail: error => emit('preview-fail', { src: props.src, error }),
+    });
   }
 }
+
+const rootStyle = computed<StyleValue>(() => [
+  { width: props.width, height: props.height, borderRadius: props.radius },
+  props.customStyle as StyleValue,
+]);
 </script>
 
 <template>
-  <view class="lk-image" :style="{ width, height, borderRadius: radius }" @tap="onClick">
+  <view :id="id" class="lk-image" :class="customClass" :style="rootStyle" @tap="onClick">
     <image
       v-if="!state.error"
       class="lk-image__inner"

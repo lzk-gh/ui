@@ -113,7 +113,10 @@ import ImageDemo from '@/components/demos/image-demo.vue'
 | lazy | 是否懒加载 | `boolean` | `false` |
 | showLoading | 是否显示加载中占位 | `boolean` | `true` |
 | showError | 是否显示失败占位 | `boolean` | `true` |
-| preview | 是否开启点击预览 | `boolean` | `false` |
+| preview | 是否开启点击预览 | `boolean` | `true` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
@@ -121,7 +124,10 @@ import ImageDemo from '@/components/demos/image-demo.vue'
 |--------|------|------|
 | load | 图片加载成功 | `(event: unknown) => void` |
 | error | 图片加载失败 | `(event: unknown) => void` |
-| click | 点击图片容器 | `() => void` |
+| click | 点击图片容器 | `({ src, event }) => void` |
+| preview | 调起图片预览前触发 | `({ src, urls, event }) => void` |
+| preview-success | 图片预览成功调起后触发 | `({ src, result }) => void` |
+| preview-fail | 图片预览调起失败时触发 | `({ src, error }) => void` |
 
 ### Slots
 

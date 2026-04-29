@@ -22,12 +22,12 @@ const items = [
   { icon: 'house', text: '首页' },
   { icon: 'bag', text: '订单' },
   { icon: 'person', text: '我的' },
-  { icon: 'gear', text: '设置' },
+  { icon: 'gear', text: '设置', disabled: true },
 ]
 </script>
 
 <template>
-  <lk-grid :columns="4" :items="items" />
+  <lk-grid :columns="4" :items="items" @click="handleGridClick" />
 </template>
 ```
 
@@ -95,6 +95,9 @@ import GridDemo from '@/components/demos/grid-demo.vue'
 | carousel | 是否启用轮播分页模式 | `boolean` | `false` |
 | rows | 轮播模式下每页行数 | `number` | `undefined` |
 | items | 宫格数据源 | `GridItem[]` | `[]` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### GridItem 结构
 
@@ -102,11 +105,16 @@ import GridDemo from '@/components/demos/grid-demo.vue'
 |------|------|------|
 | text | 文本内容 | `string` |
 | icon | 图标名称 | `string` |
-| ...rest | 其他业务字段，便于外部自行扩展 | `any` |
+| disabled | 是否禁用点击 | `boolean` |
+| ...rest | 其他业务字段，便于外部自行扩展 | `unknown` |
 
 ### Events
 
-当前组件未对外暴露事件。
+| 事件名 | 说明 | 参数 |
+|--------|------|------|
+| click | 点击可用宫格项时触发 | `({ item, index, pageIndex, event }) => void` |
+| click-disabled | 点击禁用宫格项时触发 | `({ item, index, pageIndex, event }) => void` |
+| page-change | 轮播分页变化时触发 | `(index, oldIndex) => void` |
 
 ### Slots
 
@@ -118,8 +126,4 @@ import GridDemo from '@/components/demos/grid-demo.vue'
 
 ::: tip
 如果你的入口数量固定且主要用于导航，优先使用 `items` 数据驱动；如果每格结构复杂，优先使用默认插槽自定义。
-:::
-
-::: warning
-当前组件内部点击波纹已实现，但尚未对外抛出点击事件；如果需要导航行为，建议先用插槽自定义项或后续补充点击能力。
 :::

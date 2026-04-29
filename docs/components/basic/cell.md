@@ -40,10 +40,10 @@ phone: cell
 ```vue
 <template>
   <lk-cell-group>
-    <lk-cell title="消息通知" prefix-icon="bell" arrow />
-    <lk-cell title="账号安全" prefix-icon="shield-lock" arrow />
-    <lk-cell title="隐私设置" prefix-icon="eye-slash" arrow />
-    <lk-cell title="帮助中心" prefix-icon="question-circle" arrow />
+    <lk-cell title="消息通知" icon="bell" arrow />
+    <lk-cell title="账号安全" icon="shield-lock" arrow />
+    <lk-cell title="隐私设置" icon="eye-slash" arrow />
+    <lk-cell title="帮助中心" icon="question-circle" arrow />
   </lk-cell-group>
 </template>
 ```
@@ -77,12 +77,12 @@ const notify = ref(true)
 
 <template>
   <lk-cell-group>
-    <lk-cell title="消息推送" prefix-icon="bell">
+    <lk-cell title="消息推送" icon="bell">
       <template #value>
         <lk-switch v-model="notify" size="sm" />
       </template>
     </lk-cell>
-    <lk-cell title="我的标签" prefix-icon="tag">
+    <lk-cell title="我的标签" icon="tag">
       <template #value>
         <view style="display:flex; gap:8rpx">
           <lk-tag size="sm" type="success">前端</lk-tag>
@@ -99,9 +99,9 @@ const notify = ref(true)
 ```vue
 <template>
   <lk-cell-group title="账号设置" card>
-    <lk-cell title="修改头像" prefix-icon="person-circle" arrow clickable />
-    <lk-cell title="修改昵称" prefix-icon="pencil" arrow clickable />
-    <lk-cell title="绑定手机" prefix-icon="phone" value="已绑定" arrow clickable />
+    <lk-cell title="修改头像" icon="person-circle" arrow clickable />
+    <lk-cell title="修改昵称" icon="pencil" arrow clickable />
+    <lk-cell title="绑定手机" icon="phone" value="已绑定" arrow clickable />
   </lk-cell-group>
 </template>
 ```
@@ -124,24 +124,30 @@ const notify = ref(true)
 | title | 左侧标题 | `string` | `''` |
 | value | 右侧内容 | `string` | `''` |
 | label | 标题下方描述 | `string` | `''` |
-| prefixIcon | 左侧图标名 | `string` | `''` |
+| icon | 左侧图标名 | `string` | `''` |
 | arrow | 显示右侧箭头 | `boolean` | `false` |
 | arrowName | 自定义右侧箭头图标名 | `string` | `'chevron-right'` |
 | arrowColor | 自定义右侧箭头图标颜色 | `string` | — |
 | clickable | 开启点击高亮 | `boolean` | `false` |
-| required | 显示必填星号 | `boolean` | `false` |
-| valueColor | 右侧文字颜色 | `string` | — |
+| disabled | 是否禁用 | `boolean` | `false` |
+| center | 是否垂直居中 | `boolean` | `false` |
+| ripple | 是否启用波纹点击效果 | `boolean` | `true` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Cell Events
 
 | 事件名 | 说明 |
 |--------|------|
-| click | 点击单元格 |
+| click | 点击可用单元格，参数为 `(event?: Event)` |
+| click-disabled | 点击禁用单元格，参数为 `(event?: Event)` |
 
 ### Cell Slots
 
 | 插槽名 | 说明 |
 |--------|------|
-| default / value | 右侧完全自定义 |
+| right / value | 右侧完全自定义 |
 | title | 左侧标题自定义 |
-| icon | 左侧图标自定义 |
+| label | 标题下方描述自定义 |
+| left | 左侧完整区域自定义 |

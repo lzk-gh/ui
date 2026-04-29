@@ -25,7 +25,7 @@ function syncVisibleFromScrollTop(scrollTop: number) {
   const next = scrollTop >= props.visibilityHeight;
   if (next !== visible.value) {
     visible.value = next;
-    emit('change:visible', next);
+    emit('change:visible', next, scrollTop);
   }
 }
 
@@ -54,13 +54,13 @@ if (props.usePageScroll) {
   );
 }
 
-function toTop() {
-  emit('click');
+function toTop(event?: unknown) {
+  emit('click', event);
   if (props.usePageScroll) {
     scrollToTop({ duration: props.duration });
   }
   // 无论哪种模式都抛出事件，受控模式由外部自行将容器滚动置 0
-  emit('to-top');
+  emit('to-top', { usePageScroll: props.usePageScroll, duration: props.duration, event });
 }
 
 const wrapperStyle = computed(() => {
@@ -85,8 +85,9 @@ const classes = computed(() => [
 <template>
   <view
     v-show="computedVisible"
+    :id="id"
     :class="classes"
-    :style="wrapperStyle"
+    :style="[wrapperStyle, customStyle as any]"
     aria-label="Back to top"
     role="button"
     @tap="toTop"

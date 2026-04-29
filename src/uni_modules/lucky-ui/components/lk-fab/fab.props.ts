@@ -131,12 +131,16 @@ export const fabProps = {
 
 export const fabEmits = {
   'update:modelValue': (val: boolean) => typeof val === 'boolean',
-  click: () => true,
-  'action-click': (action: FabAction) => !!action,
+  click: (_event?: unknown) => true,
+  'action-click': (_action: FabAction, _event?: unknown) => true,
+  'action-disabled': (_action: FabAction, _event?: unknown) => true,
   open: () => true,
   close: () => true,
-  'drag-start': () => true,
-  'drag-end': (position: { x: number; y: number }) => !!position,
+  'overlay-click': (_event?: unknown) => true,
+  'drag-start': (_position?: { x: number; y: number; event?: unknown }) => true,
+  'drag-move': (_position: { x: number; y: number; event?: unknown }) => true,
+  'drag-end': (position: { x: number; y: number; event?: unknown }) => !!position,
+  'direction-change': (_direction: FabDirection, _preferred: FabDirection) => true,
 };
 
 export type FabProps = ExtractPropTypes<typeof fabProps>;

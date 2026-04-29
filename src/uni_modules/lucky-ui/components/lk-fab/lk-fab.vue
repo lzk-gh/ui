@@ -106,7 +106,7 @@ function onTouchStart(e: TouchEvent) {
   velocity = { x: 0, y: 0 };
 
   isDragging.value = true;
-  emit('drag-start');
+  emit('drag-start', { x: posX.value, y: posY.value, event: e });
 }
 
 function onTouchMove(e: TouchEvent) {
@@ -150,9 +150,10 @@ function onTouchMove(e: TouchEvent) {
 
   posX.value = newX;
   posY.value = newY;
+  emit('drag-move', { x: newX, y: newY, event: e });
 }
 
-function onTouchEnd() {
+function onTouchEnd(e?: TouchEvent) {
   if (!isDragging.value) return;
   isDragging.value = false;
 
@@ -185,7 +186,7 @@ function onTouchEnd() {
   posX.value = finalX;
   posY.value = finalY;
 
-  emit('drag-end', { x: finalX, y: finalY });
+  emit('drag-end', { x: finalX, y: finalY, event: e });
 
   // 如果是点击而非拖拽，触发点击
   if (!hasMoved && duration < 200) {
@@ -194,8 +195,8 @@ function onTouchEnd() {
 }
 
 // 点击处理
-function handleClick() {
-  emit('click');
+function handleClick(event?: unknown) {
+  emit('click', event);
   if (props.actions.length > 0) {
     toggleExpand();
   }
@@ -211,16 +212,20 @@ function toggleExpand() {
   }
 }
 
-function handleActionClick(action: FabAction) {
-  if (action.disabled) return;
-  emit('action-click', action);
+function handleActionClick(action: FabAction, event?: unknown) {
+  if (action.disabled) {
+    emit('action-disabled', action, event);
+    return;
+  }
+  emit('action-click', action, event);
   // 点击子按钮后收起
   isExpanded.value = false;
   emit('update:modelValue', false);
   emit('close');
 }
 
-function handleOverlayClick() {
+function handleOverlayClick(event?: unknown) {
+  emit('overlay-click', event);
   if (props.closeOnOverlay) {
     isExpanded.value = false;
     emit('update:modelValue', false);
@@ -283,15 +288,18 @@ const resolvedDirection = computed(() => {
 
   for (const dir of priorities[preferred]) {
     if (spaces[dir] >= needed) {
+      emit('direction-change', dir, preferred);
       return dir;
     }
   }
 
-  return (Object.entries(spaces).sort((a, b) => b[1] - a[1])[0]?.[0] || preferred) as
+  const next = (Object.entries(spaces).sort((a, b) => b[1] - a[1])[0]?.[0] || preferred) as
     | 'up'
     | 'down'
     | 'left'
     | 'right';
+  if (next !== preferred) emit('direction-change', next, preferred);
+  return next;
 });
 
 // 子按钮位置计算
@@ -348,7 +356,7 @@ const currentIcon = computed(() => {
 </script>
 
 <template>
-  <view class="lk-fab" :style="{ zIndex }">
+  <view :id="id" class="lk-fab" :class="customClass" :style="[{ zIndex }, customStyle as any]">
     <!-- 遮罩 -->
     <LkOverlay
       v-if="overlay"
@@ -372,7 +380,7 @@ const currentIcon = computed(() => {
         class="lk-fab__action"
         :class="{ 'is-disabled': action.disabled, 'is-blur': blur }"
         :style="getActionStyle(index)"
-        @click.stop="handleActionClick(action)"
+        @tap.stop="handleActionClick(action, $event)"
       >
         <LkIcon :name="action.icon" :size="40" />
         <text v-if="action.label" class="lk-fab__action-label">{{ action.label }}</text>

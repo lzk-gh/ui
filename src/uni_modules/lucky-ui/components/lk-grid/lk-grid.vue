@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { gridProps } from './grid.props';
+import { gridEmits, gridProps, type GridItem } from './grid.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
@@ -8,6 +8,7 @@ import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 defineOptions({ name: 'LkGrid' });
 
 const props = defineProps(gridProps);
+const emit = defineEmits(gridEmits);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<string | number>(-1);
@@ -35,7 +36,7 @@ const itemStyle = computed(() => {
 
 const innerGapStyle = computed(() => {
   return {
-    marginTop: (props.itemGap || 8) + 'rpx',
+    marginTop: `${props.itemGap || 8}rpx`,
   };
 });
 
@@ -52,12 +53,20 @@ const pages = computed(() => {
   return res;
 });
 
-function onItemClick(item: any, index: number, pageIndex: number = 0, event: any) {
+function onItemClick(item: GridItem, index: number, pageIndex: number = 0, event?: unknown) {
   // Generate unique key for grid item
   const uniqueKey = `${pageIndex}-${index}`;
   activeIndex.value = uniqueKey;
+  if (item.disabled) {
+    emit('click-disabled', { item, index, pageIndex, event });
+    return;
+  }
   triggerRipple(event);
-  // TODO: Emit click event
+  emit('click', { item, index, pageIndex, event });
+}
+
+function onPageChange(index: number, oldIndex?: number) {
+  emit('page-change', index, oldIndex);
 }
 </script>
 
@@ -69,6 +78,7 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
     :auto-play="false"
     :loop="false"
     :indicator-overlay="false"
+    @change="onPageChange"
   >
     <template #default="{ item: page, index: pageIndex }">
       <view class="lk-grid" :style="gridStyle">
@@ -76,7 +86,10 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
           v-for="(it, idx) in page"
           :key="idx"
           class="lk-grid__item lk-ripple"
-          :class="{ 'lk-ripple--active': rippleActive && activeIndex === `${pageIndex}-${idx}` }"
+          :class="{
+            'lk-ripple--active': rippleActive && activeIndex === `${pageIndex}-${idx}`,
+            'is-disabled': it.disabled,
+          }"
           :style="itemStyle"
           @tap="onItemClick(it, Number(idx), Number(pageIndex), $event)"
         >
@@ -95,7 +108,10 @@ function onItemClick(item: any, index: number, pageIndex: number = 0, event: any
           v-for="(item, index) in items"
           :key="index"
           class="lk-grid__item lk-ripple"
-          :class="{ 'lk-ripple--active': rippleActive && activeIndex === `0-${index}` }"
+          :class="{
+            'lk-ripple--active': rippleActive && activeIndex === `0-${index}`,
+            'is-disabled': item.disabled,
+          }"
           :style="itemStyle"
           @tap="onItemClick(item, index, 0, $event)"
         >

@@ -10,18 +10,23 @@ const emit = defineEmits(cellEmits);
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
 function onTap(e: unknown) {
-  if (props.disabled) return;
+  if (props.disabled) {
+    emit('click-disabled', e);
+    return;
+  }
   if (props.clickable && props.ripple) {
     triggerRipple(e);
   }
-  emit('click');
+  emit('click', e);
 }
 </script>
 
 <template>
   <view
+    :id="id"
     class="lk-cell"
     :class="[
+      customClass,
       {
         'lk-ripple': clickable && ripple,
         'is-clickable': clickable,
@@ -30,6 +35,7 @@ function onTap(e: unknown) {
         'lk-ripple--active': rippleActive,
       },
     ]"
+    :style="customStyle as any"
     @tap="onTap"
   >
     <view class="lk-cell__left">

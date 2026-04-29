@@ -40,4 +40,7 @@ export const cellProps = {
 
 export type CellProps = ExtractPropTypes<typeof cellProps>;
 
-export const cellEmits = ['click'];
+export const cellEmits = {
+  click: (_event?: unknown) => true,
+  'click-disabled': (_event?: unknown) => true,
+};

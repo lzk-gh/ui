@@ -129,17 +129,24 @@ const handleActionClick = action => {
 | overlay             | 展开时显示遮罩   | `boolean`                                                      | `false`        |
 | closeOnOverlay      | 点击遮罩关闭     | `boolean`                                                      | `true`         |
 | safeAreaInsetBottom | 安全区域底部偏移 | `boolean`                                                      | `true`         |
+| id                  | 根节点 id        | `string`                                                       | `''`           |
+| customClass         | 根节点自定义类名 | `string \| object \| array`                                    | -              |
+| customStyle         | 根节点自定义样式 | `string \| object`                                             | -              |
 
 ## Events
 
 | 事件名       | 说明       | 回调参数                   |
 | ------------ | ---------- | -------------------------- |
 | click        | 点击主按钮 | -                          |
-| action-click | 点击子按钮 | `action: FabAction`        |
+| action-click | 点击可用子按钮 | `(action: FabAction, event?: Event)` |
+| action-disabled | 点击禁用子按钮 | `(action: FabAction, event?: Event)` |
 | open         | 展开子按钮 | -                          |
 | close        | 收起子按钮 | -                          |
-| drag-start   | 开始拖拽   | -                          |
-| drag-end     | 结束拖拽   | `{ x: number, y: number }` |
+| overlay-click | 点击遮罩 | `(event?: Event)` |
+| drag-start   | 开始拖拽   | `{ x, y, event }` |
+| drag-move    | 拖拽中     | `{ x, y, event }` |
+| drag-end     | 结束拖拽   | `{ x, y, event }` |
+| direction-change | 展开方向因空间不足自动修正 | `(direction, preferred)` |
 
 ## FabAction 数据结构
 
