@@ -148,13 +148,21 @@ const form = ref({ name: '', phone: '' })
 
 ### Events
 
-| 事件名 | 说明 |
-|--------|------|
-| update:modelValue | 显示状态变化 |
-| open | 弹框打开后 |
-| close | 弹框关闭后 |
-| confirm | 点击确认按钮 |
-| cancel | 点击取消按钮 |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 显示状态变化 | `(visible: boolean)` |
+| open | 入场动画结束后触发 | `()` |
+| close | 离场动画结束后触发 | `()` |
+| confirm | 点击默认确认按钮时触发 | `()` |
+| cancel | 点击默认取消按钮时触发 | `()` |
+| click-overlay | 点击遮罩时触发 | `()` |
+| click-close | 点击右上角关闭按钮时触发 | `()` |
+| after-enter | 入场动画结束后触发 | `()` |
+| after-leave | 离场动画结束后触发 | `()` |
+
+::: warning
+`confirm` 只由默认确认按钮触发；遮罩、右上角关闭按钮和取消按钮不会触发 `confirm`。
+:::
 
 ### Slots
 

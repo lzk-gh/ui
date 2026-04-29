@@ -109,26 +109,34 @@ import TimePickerDemo from '@/components/demos/time-picker-demo.vue'
 
 ### Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| modelValue | 绑定值（时间字符串） | `string` | `''` |
-| format | 时间格式；包含 `ss` 时展示秒列 | `string` | `HH:mm:ss` |
-| placeholder | 占位文本 | `string` | `选择时间` |
-| clearable | 是否可清除 | `boolean` | `true` |
-| disabled | 是否禁用 | `boolean` | `false` |
-| stepHour | 小时步长 | `number` | `1` |
-| stepMinute | 分钟步长 | `number` | `1` |
-| stepSecond | 秒步长 | `number` | `1` |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| modelValue | 绑定值，支持默认 `v-model` | `string` | — | `''` |
+| show | 是否显示面板，支持 `v-model:show` | `boolean` | — | `undefined` |
+| format | 时间格式；包含 `ss` 时展示秒列 | `string` | — | `HH:mm:ss` |
+| placeholder | 占位文本 | `string` | — | `选择时间` |
+| clearable | 是否可清除 | `boolean` | — | `true` |
+| disabled | 是否禁用 | `boolean` | — | `false` |
+| stepHour | 小时步长 | `number` | — | `1` |
+| stepMinute | 分钟步长 | `number` | — | `1` |
+| stepSecond | 秒步长 | `number` | — | `1` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### Events
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | update:modelValue | 绑定值更新 | `(val: string)` |
-| change | 选择值变化 | `(val: string)` |
-| open | 打开面板 | `-` |
-| close | 关闭面板 | `-` |
-| clear | 清空值 | `-` |
+| update:show | 面板显隐变化，配合 `v-model:show` | `(visible: boolean)` |
+| select | 面板内草稿值变化时触发 | `(val: string, column: 'h' \| 'm' \| 's')` |
+| change | 点击确定或清空后触发 | `(val: string)` |
+| confirm | 点击确定时触发 | `(val: string)` |
+| cancel | 点击取消时触发，返回当前草稿值 | `(val: string)` |
+| open | 打开面板 | `()` |
+| close | 关闭面板 | `()` |
+| clear | 清空值 | `()` |
 
 ### Slots
 
@@ -141,5 +149,5 @@ import TimePickerDemo from '@/components/demos/time-picker-demo.vue'
 :::
 
 ::: warning
-`v-model` 绑定的是最终时间字符串，不是面板显隐状态；与 `lk-date-picker` 的 `v-model` 语义不同。
+`v-model` 绑定的是最终时间字符串；如需受控管理面板显隐，请使用 `v-model:show`。
 :::

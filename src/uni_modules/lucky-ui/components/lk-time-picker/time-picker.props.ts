@@ -1,10 +1,16 @@
 import type { ExtractPropTypes } from 'vue';
+import type { PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
 export const timePickerProps = {
   ...baseProps,
   /** 绑定值（HH:mm:ss） */
   modelValue: LkProp.string(''),
+  /** 是否显示面板，支持 v-model:show */
+  show: {
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
+  },
   /** 时间格式（支持裁剪秒） */
   format: LkProp.string('HH:mm:ss'),
   /** 占位文本 */
@@ -25,7 +31,11 @@ export type TimePickerProps = ExtractPropTypes<typeof timePickerProps>;
 
 export const timePickerEmits = {
   'update:modelValue': (_val: string) => true,
+  'update:show': (_val: boolean) => true,
   change: (_val: string) => true,
+  select: (_val: string, _column: 'h' | 'm' | 's') => true,
+  confirm: (_val: string) => true,
+  cancel: (_val: string) => true,
   open: () => true,
   close: () => true,
   clear: () => true,

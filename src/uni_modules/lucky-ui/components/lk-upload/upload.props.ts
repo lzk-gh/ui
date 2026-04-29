@@ -205,12 +205,18 @@ export const uploadEmits = {
   afterRead: (_file: UploadFile | UploadFile[], _detail: { index: number }) => true,
   /** 文件超出大小限制 */
   oversize: (_file: UploadFile | UploadFile[]) => true,
+  /** 文件数量超出限制 */
+  overcount: (_detail: { maxCount: number; currentCount: number }) => true,
   /** 删除文件 */
   delete: (_file: UploadFile, _detail: { index: number }) => true,
+  /** 清空文件 */
+  clear: () => true,
   /** 点击预览 */
   clickPreview: (_file: UploadFile, _detail: { index: number }) => true,
   /** 点击上传区域 */
-  clickUpload: (_e: Event) => true,
+  clickUpload: (_e: unknown) => true,
+  /** 重新上传 */
+  retry: (_file: UploadFile, _detail: { index: number }) => true,
   /** 上传进度 */
   progress: (_file: UploadFile, _detail: { progress: number }) => true,
   /** 单个文件上传成功 */

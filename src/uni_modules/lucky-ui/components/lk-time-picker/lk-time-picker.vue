@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkButton from '../lk-button/lk-button.vue';
@@ -28,19 +29,46 @@ watch(
   },
   { immediate: true }
 );
+watch(
+  () => props.show,
+  value => {
+    if (value !== undefined) show.value = value;
+  },
+  { immediate: true }
+);
 
 const hasSecond = computed(() => props.format.includes('ss'));
 const display = computed(() => props.modelValue || '');
+const cls = computed(() => ['lk-time-picker', { 'is-disabled': props.disabled }, props.customClass]);
+const style = computed(() => props.customStyle as StyleValue);
+
+function buildValue() {
+  const { h, m, s } = timeParts.value;
+  return hasSecond.value
+    ? `${h || '00'}:${m || '00'}:${s || '00'}`
+    : `${h || '00'}:${m || '00'}`;
+}
+
+function setShow(value: boolean) {
+  if (show.value === value) return;
+  show.value = value;
+  emit('update:show', value);
+  if (value) {
+    emit('open');
+  } else {
+    emit('close');
+  }
+}
+
 function open() {
   if (props.disabled) return;
-  show.value = true;
-  emit('open');
+  setShow(true);
 }
 function close() {
-  show.value = false;
-  emit('close');
+  setShow(false);
 }
 function clear() {
+  if (props.disabled) return;
   emit('update:modelValue', '');
   emit('change', '');
   emit('clear');
@@ -48,14 +76,18 @@ function clear() {
 }
 function pick(col: 'h' | 'm' | 's', v: string) {
   timeParts.value[col] = v;
+  emit('select', buildValue(), col);
 }
 function confirm() {
-  const { h, m, s } = timeParts.value;
-  const final = hasSecond.value
-    ? `${h || '00'}:${m || '00'}:${s || '00'}`
-    : `${h || '00'}:${m || '00'}`;
+  const final = buildValue();
   emit('update:modelValue', final);
   emit('change', final);
+  emit('confirm', final);
+  close();
+}
+
+function cancel() {
+  emit('cancel', buildValue());
   close();
 }
 
@@ -72,12 +104,12 @@ const seconds = computed(() => gen(props.stepSecond, 60));
 </script>
 
 <template>
-  <view class="lk-time-picker" :class="{ 'is-disabled': disabled }" @click="open">
+  <view :id="id" :class="cls" :style="style" @tap="open">
     <text v-if="display" class="lk-time-picker__value">{{ display }}</text>
     <text v-else class="lk-time-picker__placeholder">{{ placeholder }}</text>
-    <view v-if="clearable && display" class="lk-time-picker__clear" @click.stop="clear">×</view>
+    <view v-if="clearable && display && !disabled" class="lk-time-picker__clear" @tap.stop="clear">×</view>
   </view>
-  <lk-popup v-model="show" position="bottom">
+  <lk-popup :model-value="show" position="bottom" @update:model-value="setShow">
     <view class="lk-time-picker__panel">
       <view class="lk-time-picker__columns">
         <scroll-view scroll-y class="lk-time-picker__col">
@@ -86,7 +118,7 @@ const seconds = computed(() => gen(props.stepSecond, 60));
             :key="h"
             class="lk-time-picker__item"
             :class="{ 'is-active': h === timeParts.h }"
-            @click="pick('h', h)"
+            @tap="pick('h', h)"
             >{{ h }}</view
           >
         </scroll-view>
@@ -96,7 +128,7 @@ const seconds = computed(() => gen(props.stepSecond, 60));
             :key="m"
             class="lk-time-picker__item"
             :class="{ 'is-active': m === timeParts.m }"
-            @click="pick('m', m)"
+            @tap="pick('m', m)"
             >{{ m }}</view
           >
         </scroll-view>
@@ -106,13 +138,13 @@ const seconds = computed(() => gen(props.stepSecond, 60));
             :key="s"
             class="lk-time-picker__item"
             :class="{ 'is-active': s === timeParts.s }"
-            @click="pick('s', s)"
+            @tap="pick('s', s)"
             >{{ s }}</view
           >
         </scroll-view>
       </view>
       <view class="lk-time-picker__actions">
-        <lk-button size="sm" variant="outline" @click="close">取消</lk-button>
+        <lk-button size="sm" variant="outline" @click="cancel">取消</lk-button>
         <lk-button size="sm" @click="confirm">确定</lk-button>
       </view>
     </view>

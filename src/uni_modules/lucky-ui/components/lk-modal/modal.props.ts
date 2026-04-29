@@ -77,4 +77,8 @@ export const modalEmits = {
   close: () => true,
   confirm: () => true,
   cancel: () => true,
+  'click-overlay': () => true,
+  'click-close': () => true,
+  'after-enter': () => true,
+  'after-leave': () => true,
 };

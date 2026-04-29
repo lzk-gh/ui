@@ -143,13 +143,15 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
 
 ### Events
 
-| 事件名 | 说明 |
-|--------|------|
-| update:modelValue | 显示状态变化 |
-| click-overlay | 点击遮罩 |
-| click-close | 点击关闭图标 |
-| after-enter | 入场动画结束 |
-| after-leave | 离场动画结束 |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 显示状态变化 | `(visible: boolean)` |
+| open | `modelValue` 变为 `true` 时触发 | `()` |
+| close | `modelValue` 变为 `false` 时触发 | `()` |
+| click-overlay | 点击遮罩 | `()` |
+| click-close | 点击关闭图标 | `()` |
+| after-enter | 入场动画结束 | `()` |
+| after-leave | 离场动画结束 | `()` |
 
 ### Slots
 

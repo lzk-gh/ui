@@ -149,8 +149,9 @@ export const datePickerEmits = {
   'update:show': (_v: boolean) => true,
   'update:value': (_v: DatePickerValue) => true,
   change: (_v: DatePickerValue) => true,
+  select: (_v: DatePickerValue) => true,
   confirm: (_v: DatePickerValue) => true,
-  cancel: () => true,
+  cancel: (_v: DatePickerValue) => true,
   open: () => true,
   close: () => true,
 };

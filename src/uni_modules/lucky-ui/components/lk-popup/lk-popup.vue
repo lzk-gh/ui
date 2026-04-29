@@ -113,7 +113,8 @@ let lastY = 0;
 // 监听显示状态，初始化位置
 watch(
   () => props.modelValue,
-  val => {
+  (val, oldVal) => {
+    if (val !== oldVal) emit(val ? 'open' : 'close');
     if (props.position === 'bottom' && props.draggable) {
       if (val) {
         // 打开时，先置于底部，然后动画到半屏

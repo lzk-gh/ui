@@ -93,8 +93,11 @@ function syncModel(list: UploadFile[]) {
 
 async function onSelect(e?: Event) {
   if (props.disabled) return;
-  if (remainCount.value <= 0) return;
-  emit('clickUpload', e as Event);
+  if (remainCount.value <= 0) {
+    emit('overcount', { maxCount: props.maxCount, currentCount: fileList.value.length });
+    return;
+  }
+  emit('clickUpload', e);
 
   // #ifdef MP || APP-PLUS
   chooseFileMp();
@@ -370,7 +373,13 @@ function onPreview(index: number) {
 function retryUpload(index: number) {
   const file = fileList.value[index];
   if (file.status !== UploadStatus.Fail) return;
+  emit('retry', file, { index });
   doUpload(file);
+}
+
+function clearFiles() {
+  syncModel([]);
+  emit('clear');
 }
 
 /* ───────────── 暴露方法 ───────────── */
@@ -385,7 +394,7 @@ defineExpose({
   /** 确认删除文件（弹出 lk-modal 确认） */
   confirmRemove,
   /** 清空所有文件 */
-  clearFiles: () => syncModel([]),
+  clearFiles,
 });
 </script>
 

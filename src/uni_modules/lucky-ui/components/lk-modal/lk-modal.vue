@@ -72,35 +72,41 @@ const {
   delay: () => transitionDelay.value,
   easing: () => transitionEasing.value,
 }, {
-  onAfterEnter: () => emit('open'),
-  onAfterLeave: () => emit('close'),
+  onAfterEnter: () => {
+    emit('open');
+    emit('after-enter');
+  },
+  onAfterLeave: () => {
+    emit('close');
+    emit('after-leave');
+  },
 });
 
 // ==================== 关闭逻辑 ====================
-async function close() {
+function close() {
   // 如果正在离开，直接返回（防止重复触发）
   if (state.value.leaving) return;
+  emit('update:modelValue', false);
+}
 
-  // 如果 confirm 返回 Promise，会等待 Promise 完成后再关闭
-  const result = emit('confirm') as unknown;
-  if (result instanceof Promise) {
-    try {
-      await result;
-    } catch {
-      // 用户可能 reject，取消关闭
-      return;
-    }
-  }
-
+function confirm() {
+  if (state.value.leaving) return;
+  emit('confirm');
   emit('update:modelValue', false);
 }
 
 function onOverlayClick() {
+  emit('click-overlay');
   if (props.closeOnOverlay) close();
 }
 
 function cancel() {
   emit('cancel');
+  close();
+}
+
+function onCloseClick() {
+  emit('click-close');
   close();
 }
 
@@ -127,7 +133,7 @@ function cancel() {
         <slot name="header">
           <text class="lk-modal__title">{{ title }}</text>
         </slot>
-        <lk-icon v-if="showClose" name="x" size="48" class="lk-modal__close" @click="close" />
+        <lk-icon v-if="showClose" name="x" size="48" class="lk-modal__close" @click="onCloseClick" />
       </view>
 
       <!-- Body -->
@@ -147,7 +153,7 @@ function cancel() {
           >
             {{ cancelText }}
           </lk-button>
-          <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="close">
+          <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="confirm">
             {{ confirmText }}
           </lk-button>
         </slot>

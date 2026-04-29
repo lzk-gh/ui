@@ -1,9 +1,11 @@
 ﻿<script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, ref, watch } from 'vue';
 import {
   pickerProps,
   pickerEmits,
   type PickerOption,
+  type PickerValue,
 } from './picker.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
 
@@ -11,8 +13,6 @@ defineOptions({ name: 'LkPicker' });
 
 const props = defineProps(pickerProps);
 const emit = defineEmits(pickerEmits);
-
-type PickerValue = string | number | (string | number)[];
 
 // 当前选中的索引数组
 const selectedIndexes = ref<number[]>([]);
@@ -93,6 +93,12 @@ function getValueByIndexes(indexes: number[]): PickerValue {
   return cols.map((col, i) => col[indexes[i]]?.value ?? '');
 }
 
+function getOptionsByIndexes(indexes: number[]): PickerOption[] {
+  return computedColumns.value
+    .map((col, i) => col[indexes[i]])
+    .filter((item): item is PickerOption => !!item);
+}
+
 function resetDraftSelection() {
   syncInnerValueFromModel();
   initIndexes();
@@ -108,9 +114,13 @@ watch(
 
 watch(
   () => props.visible,
-  visible => {
+  (visible, oldVisible) => {
+    if (visible === oldVisible) return;
     if (visible && !props.inline) {
       resetDraftSelection();
+      emit('open');
+    } else if (!visible && !props.inline) {
+      emit('close');
     }
   }
 );
@@ -138,20 +148,26 @@ function onChange(e: { detail: { value: number[] } }) {
   if (props.mode !== 'single') {
     innerValue.value = getValueByIndexes(idxs) as (string | number)[];
   }
+
+  const value = getValueByIndexes(idxs);
+  emit('pick', value, idxs, getOptionsByIndexes(idxs));
 }
 
 function onCancel() {
   resetDraftSelection();
-  emit('cancel');
+  const value = getValueByIndexes(selectedIndexes.value);
+  emit('cancel', value, selectedIndexes.value, getOptionsByIndexes(selectedIndexes.value));
   emit('update:visible', false);
 }
 
 function onConfirm() {
   const value = getValueByIndexes(selectedIndexes.value);
+  const indexes = [...selectedIndexes.value];
+  const options = getOptionsByIndexes(indexes);
 
   emit('update:modelValue', value);
   emit('change', value);
-  emit('confirm', value);
+  emit('confirm', value, indexes, options);
   emit('update:visible', false);
 }
 
@@ -171,11 +187,19 @@ const maskStyle = computed(() => [
   'background-size: 100% 50%',
   'background-repeat: no-repeat',
 ].join(';'));
+const cls = computed(() => [
+  'lk-picker',
+  {
+    'lk-picker--inline': props.inline,
+  },
+  props.customClass,
+]);
+const style = computed(() => props.customStyle as StyleValue);
 </script>
 
 <template>
   <!-- 内联模式 -->
-  <view v-if="inline" class="lk-picker lk-picker--inline">
+  <view v-if="inline" :id="id" :class="cls" :style="style">
     <view v-if="title" class="lk-picker__header">
       <text class="lk-picker__title">{{ title }}</text>
     </view>
@@ -211,7 +235,7 @@ const maskStyle = computed(() => [
     :round="round"
     @update:model-value="(v: boolean) => emit('update:visible', v)"
   >
-    <view class="lk-picker">
+    <view :id="id" :class="cls" :style="style">
       <view class="lk-picker__toolbar">
         <view class="lk-picker__btn lk-picker__btn--cancel" @tap="onCancel">
           {{ cancelText }}

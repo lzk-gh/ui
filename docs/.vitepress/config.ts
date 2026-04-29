@@ -78,6 +78,7 @@ export default defineConfig({
             { text: 'Slider 滑块', link: '/components/slider' },
             { text: 'Rate 评分', link: '/components/rate' },
             { text: 'Upload 文件上传', link: '/components/upload' },
+            { text: 'Picker 选择器', link: '/components/picker' },
             { text: 'Date Picker 日期选择', link: '/components/date-picker' },
             { text: 'Time Picker 时间选择', link: '/components/time-picker' },
             { text: 'Keyboard 键盘', link: '/components/keyboard' },

@@ -279,6 +279,7 @@ function onCalendarChange(value: CalendarModelValue | null) {
     draftSingle.value = parseDate(value as CalendarDateInput | null | undefined);
     syncWheelIndexes();
   }
+  emit('select', buildOutputValue());
   if (props.confirmOnSelect && !confirmDisabled.value) confirm();
 }
 
@@ -295,6 +296,7 @@ function onDateWheelChange(event: { detail: { value: number[] } }) {
     findOptionIndex(monthOptions.value, month),
     findOptionIndex(dayOptions.value, day),
   ];
+  emit('select', buildOutputValue());
 }
 
 function getTimeValue(target: TimeTarget, unit: TimeUnit) {
@@ -326,9 +328,11 @@ function inputTime(target: TimeTarget, unit: TimeUnit, max: number, event: unkno
   const raw = getEventValue(event).replace(/\D/g, '');
   if (!raw) {
     setTimeValue(target, unit, 0);
+    emit('select', buildOutputValue());
     return;
   }
   setTimeValue(target, unit, clamp(Number(raw), 0, max));
+  emit('select', buildOutputValue());
 }
 
 function stepTime(target: TimeTarget, unit: TimeUnit, max: number, step: number, direction: 1 | -1) {
@@ -336,19 +340,22 @@ function stepTime(target: TimeTarget, unit: TimeUnit, max: number, step: number,
   const current = getTimeValue(target, unit);
   const next = (current + safeStep * direction + max + 1) % (max + 1);
   setTimeValue(target, unit, next);
+  emit('select', buildOutputValue());
 }
 
 function applyTimePreset(target: TimeTarget, value: TimeParts) {
   const next = { ...value };
   if (target === 'start') {
     startTime.value = next;
+    emit('select', buildOutputValue());
     return;
   }
   endTime.value = next;
+  emit('select', buildOutputValue());
 }
 
 function close() {
-  emit('cancel');
+  emit('cancel', buildOutputValue());
   setVisible(false);
 }
 
@@ -444,7 +451,7 @@ syncFromValue();
     round
     @update:model-value="setVisible"
   >
-    <view :class="rootClass" :style="rootStyle">
+    <view :id="id" :class="rootClass" :style="rootStyle">
       <view class="lk-date-picker__header">
         <view class="lk-date-picker__action lk-date-picker__action--cancel" @tap="close">
           取消

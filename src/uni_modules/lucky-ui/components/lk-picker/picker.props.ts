@@ -13,6 +13,7 @@ export type PickerColumns = PickerOption[] | PickerOption[][];
 
 /** Picker 模式 */
 export type PickerMode = 'single' | 'multi' | 'cascade';
+export type PickerValue = string | number | (string | number)[];
 
 export const pickerProps = {
   ...baseProps,
@@ -60,9 +61,12 @@ export const pickerProps = {
 export type PickerProps = ExtractPropTypes<typeof pickerProps>;
 
 export const pickerEmits = {
-  'update:modelValue': (_: string | number | (string | number)[]) => true,
+  'update:modelValue': (_: PickerValue) => true,
   'update:visible': (_: boolean) => true,
-  change: (_: string | number | (string | number)[]) => true,
-  confirm: (_: string | number | (string | number)[]) => true,
-  cancel: () => true,
+  change: (_: PickerValue) => true,
+  pick: (_value: PickerValue, _indexes: number[], _options: PickerOption[]) => true,
+  confirm: (_value: PickerValue, _indexes: number[], _options: PickerOption[]) => true,
+  cancel: (_value: PickerValue, _indexes: number[], _options: PickerOption[]) => true,
+  open: () => true,
+  close: () => true,
 };

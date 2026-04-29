@@ -40,6 +40,7 @@ Lucky UI 共收录 **65+** 个组件，按功能分为以下几类。
 | [Slider 滑块](./slider) | 范围选择，支持区间模式 |
 | [Rate 评分](./rate) | 星级评分，支持交互与只读 |
 | [Upload 上传](./upload) | 图片/文件选择与预览 |
+| [Picker 选择器](./picker) | 单列、多列与级联选择 |
 | [Date Picker 日期选择](./date-picker) | 年/月/日选择 |
 | [Time Picker 时间选择](./time-picker) | 时/分/秒选择 |
 | [Keyboard 键盘](./keyboard) | 数字/身份证/车牌等模式 |

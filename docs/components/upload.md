@@ -245,12 +245,16 @@ import UploadDemo from '@/components/demos/upload-demo.vue';
 
 | 事件名         | 说明             | 回调参数                                        |
 | -------------- | ---------------- | ----------------------------------------------- |
+| `update:modelValue` | 文件列表变化，支持 `v-model` | `(fileList: UploadFile[])` |
 | `change`       | 文件列表变化     | `(fileList: UploadFile[])`                      |
 | `afterRead`    | 文件读取完毕     | `(file: UploadFile \| UploadFile[], { index })` |
 | `oversize`     | 文件超出大小限制 | `(file: UploadFile \| UploadFile[])`            |
+| `overcount`    | 文件数量超出限制 | `({ maxCount, currentCount })`                  |
 | `delete`       | 删除文件         | `(file: UploadFile, { index })`                 |
+| `clear`        | 清空文件         | `()`                                            |
 | `clickPreview` | 点击预览         | `(file: UploadFile, { index })`                 |
 | `clickUpload`  | 点击上传区域     | `(event)`                                       |
+| `retry`        | 点击失败遮罩重新上传前触发 | `(file: UploadFile, { index })`       |
 | `progress`     | 上传进度         | `(file: UploadFile, { progress })`              |
 | `success`      | 上传成功         | `(file: UploadFile, { response })`              |
 | `fail`         | 上传失败         | `(file: UploadFile, { error })`                 |
