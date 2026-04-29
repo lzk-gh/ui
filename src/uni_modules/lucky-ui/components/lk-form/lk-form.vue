@@ -1,15 +1,13 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { reactive, provide, computed } from 'vue';
-import { formProps } from './form.props';
+import { formProps, formEmits } from './form.props';
 import type { FormContext, FormItemContext, ValidateError } from './context';
 import { formContextKey } from './context';
 
 defineOptions({ name: 'LkForm' });
 const props = defineProps(formProps);
-const emit = defineEmits<{
-  /** 验证完成事件。ok: 是否全部通过；errors: 错误列表（全部通过时为 null） */
-  validate: [ok: boolean, errors: ValidateError[] | null];
-}>();
+const emit = defineEmits(formEmits);
 
 // 使用 reactive 注册表存储所有 FormItem
 const fields: FormItemContext[] = reactive([]);
@@ -31,12 +29,16 @@ async function validate(opts?: { fields?: string[]; silent?: boolean }) {
   for (const f of target) {
     try {
       await f.validate();
-    } catch (e: any) {
+      if (f.prop) emit('validate-field', f.prop, true, null);
+    } catch (e: unknown) {
+      const fieldErrors: ValidateError[] = [];
       if (Array.isArray(e)) {
-        errors.push(...e);
+        fieldErrors.push(...(e as ValidateError[]));
       } else if (e) {
-        errors.push(e);
+        fieldErrors.push(e as ValidateError);
       }
+      errors.push(...fieldErrors);
+      if (f.prop) emit('validate-field', f.prop, false, fieldErrors.length ? fieldErrors : null);
     }
   }
   emit('validate', errors.length === 0, errors.length ? errors : null);
@@ -54,6 +56,7 @@ function resetFields(list?: string[]) {
   (list?.length ? fields.filter(f => f.prop && list.includes(f.prop)) : fields).forEach(f =>
     f.reset()
   );
+  emit('reset', list);
 }
 
 /** 清除指定或全部字段的验证状态（不重置值） */
@@ -61,28 +64,41 @@ function clearValidate(list?: string[]) {
   (list?.length ? fields.filter(f => f.prop && list.includes(f.prop)) : fields).forEach(f =>
     f.setValidateStatus('idle')
   );
+  emit('clear-validate', list);
 }
 
 /** 触发 blur 验证 */
 function emitFieldBlur(prop: string) {
-  fields
-    .find(f => f.prop === prop)
+  emit('field-blur', prop);
+  const field = fields.find(f => f.prop === prop);
+  field
     ?.validate('blur')
-    .catch(() => {});
+    .then(() => emit('validate-field', prop, true, null))
+    .catch((error: ValidateError[]) => emit('validate-field', prop, false, error));
 }
 
 /** 触发 change 验证（签名与 context.ts 一致，value 参数保留供扩展） */
 function emitFieldChange(prop: string, _value?: unknown) {
-  fields
-    .find(f => f.prop === prop)
+  emit('field-change', prop, _value);
+  const field = fields.find(f => f.prop === prop);
+  field
     ?.validate('change')
-    .catch(() => {});
+    .then(() => emit('validate-field', prop, true, null))
+    .catch((error: ValidateError[]) => emit('validate-field', prop, false, error));
 }
 
 /** 验证单个字段 */
 async function validateField(prop: string) {
   const f = fields.find(f => f.prop === prop);
-  if (f) await f.validate();
+  if (!f) return;
+  try {
+    await f.validate();
+    emit('validate-field', prop, true, null);
+  } catch (error) {
+    const errors = Array.isArray(error) ? (error as ValidateError[]) : [error as ValidateError];
+    emit('validate-field', prop, false, errors);
+    return Promise.reject(errors);
+  }
 }
 
 /** 滚动到指定字段（H5 & 小程序通用：uni.pageScrollTo + 节点查询） */
@@ -91,10 +107,11 @@ function scrollToField(prop: string) {
   const query = uni.createSelectorQuery();
   query
     .select(`.lk-form-item[data-prop="${prop}"]`)
-    .boundingClientRect((rect: any) => {
-      if (rect?.top != null) {
+    .boundingClientRect(rect => {
+      const node = Array.isArray(rect) ? rect[0] : rect;
+      if (node?.top != null) {
         uni.pageScrollTo({
-          scrollTop: Math.max(0, rect.top - 20),
+          scrollTop: Math.max(0, node.top - 20),
           duration: 300,
         });
       }
@@ -108,7 +125,10 @@ const classes = computed(() => [
     'lk-form--border': props.border,
     'lk-form--card': props.card,
   },
+  props.customClass,
 ]);
+
+const style = computed(() => props.customStyle as StyleValue);
 
 // 响应式上下文：使用 computed 确保 rules/labelWidth/showMessage 变化时 FormItem 能感知
 const formContext = computed<FormContext>(() => ({
@@ -143,7 +163,7 @@ defineExpose({
 </script>
 
 <template>
-  <view :class="classes" :data-lk-form="true"><slot /></view>
+  <view :id="id" :class="classes" :style="style" :data-lk-form="true"><slot /></view>
 </template>
 
 <style lang="scss">

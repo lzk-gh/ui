@@ -18,7 +18,7 @@ export const formProps = {
 
   /** 表单数据对象 */
   model: {
-    type: Object as PropType<Record<string, any>>,
+    type: Object as PropType<Record<string, unknown>>,
     required: true as const,
   },
 
@@ -70,6 +70,15 @@ export const formProps = {
 } as const;
 
 export type FormProps = ExtractPropTypes<typeof formProps>;
+
+export const formEmits = {
+  validate: (_ok: boolean, _errors: unknown[] | null) => true,
+  'validate-field': (_prop: string, _ok: boolean, _errors: unknown[] | null) => true,
+  reset: (_fields?: string[]) => true,
+  'clear-validate': (_fields?: string[]) => true,
+  'field-blur': (_prop: string) => true,
+  'field-change': (_prop: string, _value?: unknown) => true,
+};
 
 export const formItemProps = {
   ...baseProps,

@@ -103,6 +103,25 @@ const bio = ref('')
 </template>
 ```
 
+## 键盘与光标控制
+
+```vue
+<template>
+  <lk-textarea
+    v-model="content"
+    focus
+    confirm-type="done"
+    :confirm-hold="false"
+    :cursor-spacing="24"
+    :selection-start="0"
+    :selection-end="6"
+    @confirm="event => console.log(event.detail?.value)"
+    @keyboardheightchange="event => console.log(event.detail)"
+    @linechange="event => console.log(event.detail?.lineCount)"
+  />
+</template>
+```
+
 ## 推荐示例
 
 ### 1) 直接复用项目 Demo（推荐）
@@ -131,37 +150,59 @@ import TextareaDemo from '@/components/demos/textarea-demo.vue'
 
 ### Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| modelValue | 绑定值 | `string` | `''` |
-| label | 顶部标签文本 | `string` | `''` |
-| placeholder | 占位内容 | `string` | `'请输入内容'` |
-| placeholderClass | 占位样式类名 | `string` | `'lk-textarea__placeholder'` |
-| variant | 风格变体 | `outline \| filled \| flush` | `outline` |
-| disabled | 是否禁用 | `boolean` | `false` |
-| maxlength | 最大输入长度，`-1` 表示不限制 | `number` | `-1` |
-| autoHeight | 是否自动增高 | `boolean` | `false` |
-| showCount | 是否显示字数统计 | `boolean` | `false` |
-| clearable | 是否显示清空按钮 | `boolean` | `false` |
-| confirmType | 键盘右下角按钮文字 | `send \| search \| next \| go \| done \| return \| string` | `return` |
-| adjustPosition | 键盘弹起时是否自动上推页面 | `boolean` | `true` |
-| cursorSpacing | 光标与键盘距离 | `number` | `0` |
-| fixed | 是否展示在键盘上方 | `boolean` | `false` |
-| prop | 表单字段名 | `string` | `''` |
-| validateEvent | 是否触发表单验证联动 | `boolean` | `true` |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| modelValue | 绑定值，支持 `v-model` | `string` | — | `''` |
+| label | 顶部标签文本 | `string` | — | `''` |
+| placeholder | 占位内容 | `string` | — | `请输入内容` |
+| placeholderStyle | 占位符样式 | `string` | — | `''` |
+| placeholderClass | 占位样式类名 | `string` | — | `lk-textarea__placeholder` |
+| name | 原生表单字段名 | `string` | — | `''` |
+| variant | 风格变体 | `string` | `outline / filled / flush` | `outline` |
+| disabled | 是否禁用 | `boolean` | — | `false` |
+| readonly | 是否只读，只读时禁用原生输入与清空 | `boolean` | — | `false` |
+| maxlength | 最大输入长度，`-1` 表示不限制 | `number` | — | `-1` |
+| autoHeight | 是否自动增高 | `boolean` | — | `false` |
+| showCount | 是否显示字数统计 | `boolean` | — | `false` |
+| clearable | 是否显示清空按钮 | `boolean` | — | `false` |
+| autofocus | 首次渲染时是否自动聚焦 | `boolean` | — | `false` |
+| focus | 是否聚焦，受控聚焦状态 | `boolean` | — | `false` |
+| confirmType | 键盘右下角按钮文字 | `string` | `send / search / next / go / done / return` | `return` |
+| confirmHold | 点击键盘右下角按钮时是否保持键盘不收起 | `boolean` | — | `false` |
+| adjustPosition | 键盘弹起时是否自动上推页面 | `boolean` | — | `true` |
+| cursorSpacing | 光标与键盘距离，单位 px | `number` | — | `0` |
+| cursor | 指定聚焦时的光标位置 | `number` | — | `-1` |
+| selectionStart | 光标起始位置，需与 `selectionEnd` 搭配使用 | `number` | — | `-1` |
+| selectionEnd | 光标结束位置，需与 `selectionStart` 搭配使用 | `number` | — | `-1` |
+| fixed | 是否展示在键盘上方 | `boolean` | — | `false` |
+| showConfirmBar | 是否显示键盘上方完成栏 | `boolean` | — | `true` |
+| disableDefaultPadding | 是否去掉 iOS 默认内边距 | `boolean` | — | `true` |
+| holdKeyboard | 聚焦时点击页面是否保持键盘不收起 | `boolean` | — | `false` |
+| autoBlur | 键盘收起时是否自动失焦 | `boolean` | — | `false` |
+| inputmode | H5/App 输入模式提示 | `string` | `none / text / decimal / numeric / tel / search / email / url` | `text` |
+| ignoreCompositionEvent | 是否忽略系统组合输入事件 | `boolean` | — | `true` |
+| prop | 表单字段名 | `string` | — | `''` |
+| validateEvent | 是否触发表单验证联动 | `boolean` | — | `true` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### Events
 
-| 事件名 | 说明 | 参数 |
-|--------|------|------|
-| update:modelValue | 输入值变化 | `(value: string) => void` |
-| input | 输入过程中触发 | `(value: string) => void` |
-| change | 失焦或清空后的最终值变化 | `(value: string) => void` |
-| focus | 聚焦时触发 | `(event: unknown) => void` |
-| blur | 失焦时触发 | `(event: unknown) => void` |
-| confirm | 点击键盘确认按钮 | `(event: unknown) => void` |
-| clear | 点击清空按钮 | `() => void` |
-| linechange | 行数变化时触发 | `(event: unknown) => void` |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| update:modelValue | 输入值变化时触发，用于 `v-model` | `(value: string)` |
+| input | 键盘输入时触发 | `(value: string)` |
+| change | 失焦或清空后的最终值变化 | `(value: string)` |
+| focus | 聚焦时触发 | `(event: Event)` |
+| blur | 失焦时触发 | `(event: Event)` |
+| confirm | 点击键盘确认按钮时触发 | `(event: Event)` |
+| clear | 点击清空按钮时触发 | `()` |
+| linechange | 行数变化时触发，`event.detail` 含 `height / heightRpx / lineCount` | `(event: Event)` |
+| keyboardheightchange | 键盘高度变化时触发，`event.detail` 含 `height / duration` | `(event: Event)` |
+| compositionstart | 组合输入开始时触发 | `(event: Event)` |
+| compositionupdate | 组合输入更新时触发 | `(event: Event)` |
+| compositionend | 组合输入结束时触发 | `(event: Event)` |
 
 ### Slots
 
@@ -177,5 +218,5 @@ import TextareaDemo from '@/components/demos/textarea-demo.vue'
 :::
 
 ::: warning
-`showCount` 只有在 `maxlength !== -1` 时才有明确上限意义，建议配合 `maxlength` 一起使用。
+`linechange`、`keyboardheightchange`、`showConfirmBar`、`inputmode` 等能力存在平台差异，请以 UniApp 当前运行端的原生 `textarea` 能力为准。
 :::

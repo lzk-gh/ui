@@ -37,7 +37,11 @@ const rules = {
 }
 
 async function submit() {
-  await formRef.value?.validate()
+  try {
+    await formRef.value?.validate()
+  } catch (errors) {
+    console.log(errors)
+  }
 }
 </script>
 
@@ -51,7 +55,29 @@ async function submit() {
       <lk-input v-model="form.phone" prop="phone" type="tel" placeholder="请输入手机号" />
     </lk-form-item>
 
-    <lk-button type="primary" @click="submit">提交</lk-button>
+    <lk-button @click="submit">提交</lk-button>
+  </lk-form>
+</template>
+```
+
+## 事件监听
+
+```vue
+<template>
+  <lk-form
+    ref="formRef"
+    :model="form"
+    :rules="rules"
+    @validate="(ok, errors) => console.log(ok, errors)"
+    @validate-field="(prop, ok, errors) => console.log(prop, ok, errors)"
+    @field-change="(prop, value) => console.log(prop, value)"
+    @field-blur="prop => console.log(prop)"
+    @reset="fields => console.log(fields)"
+    @clear-validate="fields => console.log(fields)"
+  >
+    <lk-form-item label="用户名" prop="username">
+      <lk-input v-model="form.username" prop="username" />
+    </lk-form-item>
   </lk-form>
 </template>
 ```
@@ -178,21 +204,31 @@ const form = reactive({ name: '' })
 
 ### Form Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| model | 表单数据对象，必填 | `Record<string, any>` | — |
-| rules | 表单校验规则 | `FormRules` | `undefined` |
-| labelWidth | 默认标签宽度，支持数字或带单位字符串 | `string \| number` | `''` |
-| labelAlign | 默认标签对齐方式 | `left \| right \| top` | `left` |
-| showMessage | 是否显示错误提示文本 | `boolean` | `true` |
-| scrollToError | 校验失败时是否自动滚动到第一个错误字段 | `boolean` | `false` |
-| disabled | 是否禁用表单内控件的业务状态传递 | `boolean` | `false` |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| model | 表单数据对象，必填 | `Record<string, unknown>` | — | — |
+| rules | 表单校验规则 | `FormRules` | — | `undefined` |
+| labelWidth | 默认标签宽度，支持数字或带单位字符串 | `string / number` | — | `''` |
+| labelAlign | 默认标签对齐方式 | `string` | `left / right / top` | `left` |
+| showMessage | 是否显示错误提示文本 | `boolean` | — | `true` |
+| scrollToError | 校验失败时是否自动滚动到第一个错误字段 | `boolean` | — | `false` |
+| disabled | 是否禁用表单内控件的业务状态传递 | `boolean` | — | `false` |
+| border | 是否显示单元格边框 | `boolean` | — | `false` |
+| card | 是否为圆角卡片布局 | `boolean` | — | `false` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### Form Events
 
-| 事件名 | 说明 | 参数 |
-|--------|------|------|
-| validate | 调用 `validate()` 后触发 | `(ok: boolean, errors: ValidateError[] \| null)` |
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| validate | 调用 `validate()` 后触发，表示整体验证结果 | `(ok: boolean, errors: ValidateError[] \| null)` |
+| validate-field | 单个字段完成校验后触发 | `(prop: string, ok: boolean, errors: ValidateError[] \| null)` |
+| field-blur | 字段触发 blur 校验前触发 | `(prop: string)` |
+| field-change | 字段触发 change 校验前触发 | `(prop: string, value?: unknown)` |
+| reset | 调用 `resetFields()` 后触发 | `(fields?: string[])` |
+| clear-validate | 调用 `clearValidate()` 后触发 | `(fields?: string[])` |
 
 ### Form Methods
 
@@ -206,14 +242,19 @@ const form = reactive({ name: '' })
 
 ### FormItem Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| prop | 对应 `model` 中的字段名 | `string` | `''` |
-| label | 标签文本 | `string` | `''` |
-| required | 是否强制显示必填星号；不传时根据规则自动推断 | `boolean` | `undefined` |
-| labelWidth | 当前项标签宽度，优先级高于 Form | `string \| number` | `''` |
-| labelAlign | 当前项标签对齐方式，优先级高于 Form | `string` | `''` |
-| showMessage | 当前项是否显示错误信息，优先级高于 Form | `boolean` | `undefined` |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+|------|------|------|--------|--------|
+| prop | 对应 `model` 中的字段名 | `string` | — | `''` |
+| label | 标签文本 | `string` | — | `''` |
+| required | 是否强制显示必填星号；不传时根据规则自动推断 | `boolean` | — | `undefined` |
+| labelWidth | 当前项标签宽度，优先级高于 Form | `string / number` | — | `''` |
+| labelAlign | 当前项标签对齐方式，优先级高于 Form | `string` | `left / right / top` | `''` |
+| showMessage | 当前项是否显示错误信息，优先级高于 Form | `boolean` | — | `undefined` |
+| isLink | 是否显示右侧箭头，常用于选择器跳转场景 | `boolean` | — | `false` |
+| vertical | 是否垂直布局，标签居上内容居下 | `boolean` | — | `false` |
+| id | 根节点 id | `string` | — | `''` |
+| customClass | 自定义类名 | `string / object / array` | — | `''` |
+| customStyle | 自定义样式 | `string / object` | — | `''` |
 
 ### FormItem Slots
 

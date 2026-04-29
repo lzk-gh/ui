@@ -1,5 +1,7 @@
 ﻿<script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, ref, inject } from 'vue';
+import type { TextareaEventPayload } from './textarea.props';
 import { textareaProps, textareaEmits } from './textarea.props';
 import { formContextKey } from '../lk-form/context';
 
@@ -20,12 +22,27 @@ const cls = computed(() => [
     'is-auto-height': props.autoHeight,
     'has-label': !!props.label,
   },
+  props.customClass,
 ]);
 
+const style = computed(() => props.customStyle as StyleValue);
 const currentCount = computed(() => String(props.modelValue || '').length);
+const isTextareaFocused = computed(() => props.focus || props.autofocus);
 
-function onInput(e: any) {
-  let val = e.detail.value;
+function readTextareaValue(e: TextareaEventPayload): string {
+  if (typeof e === 'object' && e !== null && 'detail' in e) {
+    const detail = e.detail as { value?: string } | undefined;
+    if (detail?.value !== undefined) return detail.value;
+  }
+  if (typeof e === 'object' && e !== null && 'target' in e) {
+    const target = e.target as { value?: string } | null | undefined;
+    if (target?.value !== undefined) return target.value;
+  }
+  return '';
+}
+
+function onInput(e: TextareaEventPayload) {
+  let val = readTextareaValue(e);
   if (props.maxlength !== -1 && val.length > props.maxlength) {
     val = val.substring(0, props.maxlength);
   }
@@ -33,18 +50,16 @@ function onInput(e: any) {
   emit('input', val);
 }
 
-function onFocus(e: any) {
+function onFocus(e: TextareaEventPayload) {
   if (props.disabled) return;
   isFocused.value = true;
   emit('focus', e);
 }
 
-function onBlur(e: any) {
-  // 延迟失焦，防止点击 clear 按钮时先触发 blur 导致按钮消失
+function onBlur(e: TextareaEventPayload) {
   setTimeout(() => {
     isFocused.value = false;
     emit('blur', e);
-    // 失焦时触发 change 和表单验证
     emit('change', props.modelValue);
     if (props.validateEvent && props.prop) {
       form?.emitFieldBlur(props.prop);
@@ -52,21 +67,37 @@ function onBlur(e: any) {
   }, 100);
 }
 
-function onConfirm(e: any) {
+function onConfirm(e: TextareaEventPayload) {
   emit('confirm', e);
 }
 
-function onLineChange(e: any) {
+function onLineChange(e: TextareaEventPayload) {
   emit('linechange', e);
 }
 
+function onKeyboardHeightChange(e: TextareaEventPayload) {
+  emit('keyboardheightchange', e);
+}
+
+function onCompositionStart(e: TextareaEventPayload) {
+  emit('compositionstart', e);
+}
+
+function onCompositionUpdate(e: TextareaEventPayload) {
+  emit('compositionupdate', e);
+}
+
+function onCompositionEnd(e: TextareaEventPayload) {
+  emit('compositionend', e);
+  onInput(e);
+}
+
 function onClear() {
-  if (props.disabled) return;
+  if (props.disabled || props.readonly) return;
   emit('update:modelValue', '');
   emit('input', '');
   emit('change', '');
   emit('clear');
-  // 表单验证联动
   if (props.validateEvent && props.prop) {
     form?.emitFieldChange(props.prop, '');
   }
@@ -74,35 +105,51 @@ function onClear() {
 </script>
 
 <template>
-  <view :class="cls">
+  <view :id="id" :class="cls" :style="style">
     <!-- Label -->
     <view v-if="label" class="lk-textarea__label">{{ label }}</view>
 
     <view class="lk-textarea__wrapper">
       <textarea
         class="lk-textarea__inner"
+        :name="name"
         :value="modelValue"
         :placeholder="placeholder"
+        :placeholder-style="placeholderStyle"
         :placeholder-class="placeholderClass"
-        :disabled="disabled"
+        :disabled="disabled || readonly"
         :maxlength="maxlength"
         :auto-height="autoHeight"
+        :focus="isTextareaFocused"
         :cursor-spacing="cursorSpacing"
+        :cursor="cursor"
+        :selection-start="selectionStart"
+        :selection-end="selectionEnd"
         :fixed="fixed"
         :confirm-type="confirmType"
+        :confirm-hold="confirmHold"
         :adjust-position="adjustPosition"
-        disable-default-padding
+        :show-confirm-bar="showConfirmBar"
+        :disable-default-padding="disableDefaultPadding"
+        :hold-keyboard="holdKeyboard"
+        :auto-blur="autoBlur"
+        :inputmode="inputmode"
+        :ignore-composition-event="ignoreCompositionEvent"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
         @confirm="onConfirm"
         @linechange="onLineChange"
+        @keyboardheightchange="onKeyboardHeightChange"
+        @compositionstart="onCompositionStart"
+        @compositionupdate="onCompositionUpdate"
+        @compositionend="onCompositionEnd"
       />
 
       <!-- 清空按钮 -->
       <view v-if="clearable || $slots.suffix" class="lk-textarea__suffix">
         <view
-          v-if="clearable && modelValue && !disabled"
+          v-if="clearable && modelValue && !disabled && !readonly"
           class="lk-textarea__clear"
           @tap.stop.prevent="onClear"
         >

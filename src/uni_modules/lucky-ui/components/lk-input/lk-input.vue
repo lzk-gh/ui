@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
+import type { InputEventPayload, InputValue } from './input.props';
 import { inputProps, inputEmits } from './input.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
 
@@ -11,12 +13,10 @@ const emit = defineEmits(inputEmits);
 
 const form = inject(formContextKey, null);
 
-const inner = ref<any>(props.modelValue);
+const inner = ref<InputValue>(props.modelValue);
 const composing = ref(false);
-// 密码明文切换状态
 const passwordVisible = ref(false);
 
-// 实际使用的 input type：密码切换时从 password 变为 text
 const realType = computed(() => {
   if (props.type === 'password' && props.showPassword && passwordVisible.value) {
     return 'text';
@@ -24,7 +24,22 @@ const realType = computed(() => {
   return props.type;
 });
 
-function commit(val: any, change = false) {
+const style = computed(() => props.customStyle as StyleValue);
+const isFocused = computed(() => props.focus || props.autofocus);
+
+function readInputValue(e: InputEventPayload): InputValue {
+  if (typeof e === 'object' && e !== null && 'detail' in e) {
+    const detail = e.detail as { value?: InputValue } | undefined;
+    if (detail?.value !== undefined) return detail.value;
+  }
+  if (typeof e === 'object' && e !== null && 'target' in e) {
+    const target = e.target as { value?: InputValue } | null | undefined;
+    if (target?.value !== undefined) return target.value;
+  }
+  return '';
+}
+
+function commit(val: InputValue, change = false) {
   inner.value = val;
   emit('update:modelValue', val);
   emit('input', val);
@@ -34,29 +49,37 @@ function commit(val: any, change = false) {
   }
 }
 
-function onInput(e: any) {
-  let v = e.detail?.value ?? e.target?.value ?? '';
+function onInput(e: InputEventPayload) {
+  let v = readInputValue(e);
   if (props.maxlength > -1 && String(v).length > props.maxlength) {
     v = String(v).slice(0, props.maxlength);
   }
   if (!composing.value) commit(v, false);
 }
-function onBlur(e: any) {
+function onBlur(e: InputEventPayload) {
   emit('blur', e);
   emit('change', inner.value);
   if (props.prop) form?.emitFieldBlur(props.prop);
 }
-function onFocus(e: any) {
+function onFocus(e: InputEventPayload) {
   emit('focus', e);
 }
-function onConfirm(e: any) {
+function onConfirm(e: InputEventPayload) {
   emit('confirm', e);
 }
-function onCompositionStart() {
-  composing.value = true;
+function onKeyboardHeightChange(e: InputEventPayload) {
+  emit('keyboardheightchange', e);
 }
-function onCompositionEnd(e: any) {
+function onCompositionStart(e: InputEventPayload) {
+  composing.value = true;
+  emit('compositionstart', e);
+}
+function onCompositionUpdate(e: InputEventPayload) {
+  emit('compositionupdate', e);
+}
+function onCompositionEnd(e: InputEventPayload) {
   composing.value = false;
+  emit('compositionend', e);
   onInput(e);
 }
 function clear() {
@@ -70,9 +93,9 @@ function togglePassword() {
   passwordVisible.value = !passwordVisible.value;
 }
 
-// 假输入框点击事件
-function onFakeClick() {
-  emit('click');
+function onFakeClick(e: unknown) {
+  if (props.disabled) return;
+  emit('click', e);
 }
 
 const count = computed(() => {
@@ -91,14 +114,13 @@ const classes = computed(() => [
     'is-borderless': props.borderless,
     'has-count': !!count.value,
   },
+  props.customClass,
 ]);
 
-// 假输入框显示的文本
 const fakeDisplayText = computed(() => {
   return props.fakeText || props.placeholder || '';
 });
 
-// 是否显示密码切换按钮
 const showPasswordToggle = computed(() => {
   return props.showPassword && props.type === 'password' && !props.disabled && !props.readonly && !props.fake;
 });
@@ -110,7 +132,7 @@ watch(
 </script>
 
 <template>
-  <view :class="classes" @click="fake ? onFakeClick() : undefined">
+  <view :id="id" :class="classes" :style="style" @tap="fake ? onFakeClick($event) : undefined">
     <view v-if="$slots.prefix || prefixIcon" class="lk-input__prefix">
       <slot name="prefix">
         <lk-icon v-if="prefixIcon" :name="prefixIcon" size="36" />
@@ -129,16 +151,27 @@ watch(
       v-else
       class="lk-input__inner"
       :class="[`lk-input__inner--${inputAlign}`]"
+      :name="name"
       :value="inner"
       :type="realType"
       :password="type === 'password' && !passwordVisible"
       :placeholder="placeholder"
+      :placeholder-style="placeholderStyle"
+      :placeholder-class="placeholderClass"
       :maxlength="maxlength > -1 ? maxlength : 140000"
       :disabled="disabled"
       :readonly="readonly"
-      :focus="autofocus"
+      :focus="isFocused"
       :confirm-type="confirmType"
+      :confirm-hold="confirmHold"
       :cursor-spacing="cursorSpacing"
+      :cursor="cursor"
+      :selection-start="selectionStart"
+      :selection-end="selectionEnd"
+      :adjust-position="adjustPosition"
+      :hold-keyboard="holdKeyboard"
+      :inputmode="inputmode"
+      :ignore-composition-event="ignoreCompositionEvent"
       :aria-disabled="disabled"
       :aria-readonly="readonly"
       :aria-label="placeholder"
@@ -146,7 +179,9 @@ watch(
       @focus="onFocus"
       @blur="onBlur"
       @confirm="onConfirm"
+      @keyboardheightchange="onKeyboardHeightChange"
       @compositionstart="onCompositionStart"
+      @compositionupdate="onCompositionUpdate"
       @compositionend="onCompositionEnd"
     />
 

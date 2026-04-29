@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { inject, ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { formItemProps } from './form.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
@@ -152,14 +153,17 @@ const isTopLayout = computed(() => resolvedLabelAlign.value === 'top' || props.v
 
 // 表单是否开启 border/card
 const hasBorder = computed(() => form?.border);
+const style = computed(() => props.customStyle as StyleValue);
 
 defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: () => itemCtx.setValidateStatus('idle') });
 </script>
 
 <template>
   <view
+    :id="id"
     class="lk-form-item"
     :class="[
+      customClass,
       `is-${status}`,
       `lk-form-item--${resolvedLabelAlign}`,
       {
@@ -168,6 +172,7 @@ defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: (
         'lk-form-item--link': isLink,
       },
     ]"
+    :style="style"
     :data-prop="prop"
   >
     <view class="lk-form-item__body">

@@ -25,8 +25,50 @@ export const InputType = {
   Idcard: 'idcard',
 } as const;
 
+/**
+ * 键盘右下角按钮类型
+ */
+export const InputConfirmType = {
+  Send: 'send',
+  Search: 'search',
+  Next: 'next',
+  Go: 'go',
+  Done: 'done',
+  Return: 'return',
+} as const;
+
+/**
+ * H5/App 输入模式提示
+ */
+export const InputMode = {
+  None: 'none',
+  Text: 'text',
+  Decimal: 'decimal',
+  Numeric: 'numeric',
+  Tel: 'tel',
+  Search: 'search',
+  Email: 'email',
+  Url: 'url',
+} as const;
+
 export type InputSize = (typeof InputSize)[keyof typeof InputSize];
 export type InputType = (typeof InputType)[keyof typeof InputType];
+export type InputConfirmType = (typeof InputConfirmType)[keyof typeof InputConfirmType];
+export type InputMode = (typeof InputMode)[keyof typeof InputMode];
+export type InputValue = string | number;
+export type InputEventPayload =
+  | Event
+  | {
+      detail?: {
+        value?: InputValue;
+        height?: number;
+        duration?: number;
+        cursor?: number;
+      };
+      target?: {
+        value?: InputValue;
+      };
+    };
 
 export const inputProps = {
   ...baseProps,
@@ -60,6 +102,15 @@ export const inputProps = {
   /** 占位符 */
   placeholder: LkProp.string(''),
 
+  /** 占位符样式 */
+  placeholderStyle: LkProp.string(''),
+
+  /** 占位符样式类 */
+  placeholderClass: LkProp.string('input-placeholder'),
+
+  /** 原生表单字段名 */
+  name: LkProp.string(''),
+
   /** 是否禁用 */
   disabled: LkProp.boolean(false),
 
@@ -80,6 +131,9 @@ export const inputProps = {
 
   /** 是否自动聚焦 */
   autofocus: LkProp.boolean(false),
+
+  /** 是否聚焦，受控聚焦状态 */
+  focus: LkProp.boolean(false),
 
   /** 前缀图标名 */
   prefixIcon: LkProp.string(''),
@@ -111,16 +165,41 @@ export const inputProps = {
    */
   inputAlign: LkProp.enum(['left', 'center', 'right'] as const, 'left', 'Input.inputAlign'),
 
-  /**
-   * 键盘右下角按钮文字（小程序原生属性）
-   * send / search / next / go / done / return
-   */
-  confirmType: LkProp.string('done'),
+  /** 键盘右下角按钮文字 */
+  confirmType: LkProp.enum(
+    Object.values(InputConfirmType),
+    InputConfirmType.Done,
+    'Input.confirmType'
+  ),
+
+  /** 点击键盘右下角按钮时是否保持键盘不收起 */
+  confirmHold: LkProp.boolean(false),
 
   /**
    * 光标与键盘的距离（小程序原生属性，单位 px）
    */
   cursorSpacing: LkProp.number(0),
+
+  /** 指定 focus 时的光标位置 */
+  cursor: LkProp.number(-1),
+
+  /** 光标起始位置，需与 selectionEnd 搭配使用 */
+  selectionStart: LkProp.number(-1),
+
+  /** 光标结束位置，需与 selectionStart 搭配使用 */
+  selectionEnd: LkProp.number(-1),
+
+  /** 键盘弹起时是否自动上推页面 */
+  adjustPosition: LkProp.boolean(true),
+
+  /** 聚焦时点击页面是否保持键盘不收起 */
+  holdKeyboard: LkProp.boolean(false),
+
+  /** H5/App 输入模式提示 */
+  inputmode: LkProp.enum(Object.values(InputMode), InputMode.Text, 'Input.inputmode'),
+
+  /** 是否忽略系统组合输入事件 */
+  ignoreCompositionEvent: LkProp.boolean(true),
 
   /**
    * 是否为假输入框模式
@@ -138,17 +217,25 @@ export const inputProps = {
 export type InputProps = ExtractPropTypes<typeof inputProps>;
 
 export const inputEmits = {
-  'update:modelValue': (_val: string | number) => true,
+  'update:modelValue': (_val: InputValue) => true,
   /** 实时输入时触发 */
-  input: (_val: string | number) => true,
+  input: (_val: InputValue) => true,
   /** 失焦时触发（携带最终值） */
-  change: (_val: string | number) => true,
-  blur: (_e: any) => true,
-  focus: (_e: any) => true,
+  change: (_val: InputValue) => true,
+  blur: (_e: InputEventPayload) => true,
+  focus: (_e: InputEventPayload) => true,
   /** 清空时触发 */
   clear: () => true,
   /** 键盘确认时触发（小程序） */
-  confirm: (_e: any) => true,
+  confirm: (_e: InputEventPayload) => true,
+  /** 键盘高度变化时触发 */
+  keyboardheightchange: (_e: InputEventPayload) => true,
+  /** 组合输入开始 */
+  compositionstart: (_e: InputEventPayload) => true,
+  /** 组合输入更新 */
+  compositionupdate: (_e: InputEventPayload) => true,
+  /** 组合输入结束 */
+  compositionend: (_e: InputEventPayload) => true,
   /** 假输入框点击 */
-  click: () => true,
+  click: (_e: unknown) => true,
 };
