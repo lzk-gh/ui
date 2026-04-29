@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
 import { rateProps, rateEmits } from './rate.props';
@@ -35,6 +36,7 @@ const voidColor = computed(() => props.colorVoid || 'var(--lk-color-border)');
 // 图标名
 const activeIcon = computed(() => props.icon || 'star-fill');
 const voidIcon = computed(() => props.iconVoid || 'star');
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 // 生成 1~count 的数组
 const stars = computed(() => Array.from({ length: props.count }, (_, i) => i + 1));
@@ -57,19 +59,33 @@ function getStarColor(index: number) {
   return status === 'void' ? voidColor.value : activeColor.value;
 }
 
-function select(index: number) {
-  if (props.disabled || props.readonly) return;
+function select(index: number, event?: unknown) {
+  if (props.disabled || props.readonly) {
+    emit('click-disabled', {
+      value: innerValue.value,
+      index,
+      disabled: props.disabled,
+      readonly: props.readonly,
+      event,
+    });
+    return;
+  }
 
   let newValue = index;
+  const oldValue = innerValue.value;
+  emit('click', { value: newValue, oldValue, index, event });
 
-  // 尚将 allowClear 判断：点击当前已选中的星才清零
+  // 点击当前已选中的星才清零
   if (props.allowClear && innerValue.value === newValue) {
     newValue = 0;
+    emit('clear', { oldValue, index, event });
   }
+
+  if (newValue === oldValue) return;
 
   innerValue.value = newValue;
   emit('update:modelValue', newValue);
-  emit('change', newValue);
+  emit('change', newValue, oldValue);
 
   // 表单联动
   if (props.prop) {
@@ -78,17 +94,22 @@ function select(index: number) {
 }
 
 function onTap(_e: unknown, index: number) {
-  select(index);
+  select(index, _e);
 }
 </script>
 
 <template>
   <view
+    :id="id"
     class="lk-rate"
-    :class="{
-      'is-disabled': props.disabled,
-      'is-readonly': props.readonly,
-    }"
+    :class="[
+      customClass,
+      {
+        'is-disabled': props.disabled,
+        'is-readonly': props.readonly,
+      },
+    ]"
+    :style="rootStyle"
   >
     <view
       v-for="item in stars"

@@ -1,5 +1,6 @@
 <!-- F:\luckyone\ui\src\uni_modules\lucky-ui\components\lk-segmented\lk-segmented.vue -->
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, watch, nextTick, getCurrentInstance, computed, onMounted } from 'vue';
 import { segmentedProps, segmentedEmits, type SegmentedOption } from './segmented.props';
 
@@ -18,7 +19,7 @@ const active = ref(props.modelValue);
 const sliderStyle = ref<Record<string, string>>({ opacity: '0' });
 
 /* 根节点注入变量 */
-const rootStyle = computed<Record<string, string>>(() => {
+const rootStyle = computed<StyleValue>(() => {
   const s: Record<string, string> = {
     '--lk-seg-radius': props.radius || 'var(--lk-radius-pill)',
     '--lk-seg-duration': `${props.duration}ms`,
@@ -27,15 +28,25 @@ const rootStyle = computed<Record<string, string>>(() => {
     '--lk-seg-gutter': props.gutter,
   };
   if (props.height) s['--lk-seg-height'] = props.height;
-  return s;
+  return [s, props.customStyle as StyleValue];
 });
 
 /* 选择 */
-function select(opt: SegmentedOption) {
-  if (opt.disabled || opt.value === active.value) return;
+function select(opt: SegmentedOption, event?: unknown) {
+  emit('click', { value: opt.value, option: opt, event });
+  if (opt.disabled) {
+    emit('click-disabled', { value: opt.value, option: opt, event });
+    return;
+  }
+  if (opt.value === active.value) {
+    emit('reselect', { value: opt.value, option: opt, event });
+    return;
+  }
+  const oldValue = active.value;
   active.value = opt.value;
   emit('update:modelValue', opt.value);
-  emit('change', opt.value);
+  emit('select', { value: opt.value, option: opt, oldValue });
+  emit('change', opt.value, opt, oldValue);
   updateSlider();
 }
 
@@ -89,8 +100,9 @@ onMounted(() => setTimeout(updateSlider, 50));
 
 <template>
   <view
+    :id="id"
     class="lk-segmented"
-    :class="[`lk-segmented--${size}`, { 'lk-segmented--block': block }]"
+    :class="[customClass, `lk-segmented--${size}`, { 'lk-segmented--block': block }]"
     :style="rootStyle"
   >
     <!-- 滑块 -->
@@ -102,7 +114,7 @@ onMounted(() => setTimeout(updateSlider, 50));
       :key="opt.value"
       class="lk-segmented__item"
       :class="{ 'is-active': opt.value === active, 'is-disabled': opt.disabled }"
-      @tap="select(opt)"
+      @tap="select(opt, $event)"
     >
       <!-- 默认插槽 (可被自定义) -->
       <slot name="item" :option="opt" :active="opt.value === active">

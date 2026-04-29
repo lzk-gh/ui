@@ -11,20 +11,33 @@ const props = defineProps({
   title: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
 });
+const emit = defineEmits({
+  click: (_payload: { name: CollapseName; expanded: boolean; event?: unknown }) => true,
+  'click-disabled': (_payload: { name: CollapseName; event?: unknown }) => true,
+});
 const collapse = inject(collapseInjectionKey);
 const open = computed(() => collapse?.active.value.includes(props.name) ?? false);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
-function toggle() {
-  if (props.disabled) return;
-  collapse?.toggle(props.name);
+function toggle(event?: unknown) {
+  if (props.disabled) {
+    const payload = { name: props.name, event };
+    emit('click-disabled', payload);
+    collapse?.clickDisabled(props.name, event);
+    return;
+  }
+  collapse?.toggle(props.name, event);
 }
 
 function onHeaderTap(e: unknown) {
-  if (props.disabled) return;
+  emit('click', { name: props.name, expanded: open.value, event: e });
+  if (props.disabled) {
+    toggle(e);
+    return;
+  }
   triggerRipple(e);
-  toggle();
+  toggle(e);
 }
 </script>
 

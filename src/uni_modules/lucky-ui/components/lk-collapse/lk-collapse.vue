@@ -25,10 +25,17 @@ function sync() {
   }
 }
 
-function toggle(name: CollapseName) {
+function getEmitValue(value: CollapseName[]) {
+  return props.accordion ? value[0] : value;
+}
+
+function toggle(name: CollapseName, event?: unknown) {
+  const wasOpen = active.value.includes(name);
+  emit('item-click', { name, expanded: wasOpen, event });
+
   let next: CollapseName[];
   if (props.accordion) {
-    next = active.value[0] === name ? [] : [name];
+    next = wasOpen ? [] : [name];
     emit('update:modelValue', next[0] ?? '');
   } else {
     const set = new Set(active.value);
@@ -41,7 +48,13 @@ function toggle(name: CollapseName) {
     emit('update:modelValue', next);
   }
   active.value = Array.isArray(next) ? next : [next];
-  emit('change', props.accordion ? active.value[0] : active.value);
+  const emitValue = getEmitValue(active.value);
+  emit('change', emitValue, name);
+  if (wasOpen) {
+    emit('close', name, emitValue);
+  } else {
+    emit('open', name, emitValue);
+  }
 }
 
 const rootClass = computed(() => [
@@ -60,7 +73,11 @@ const rootStyle = computed<StyleValue>(() => [
   },
 ]);
 
-provide(collapseInjectionKey, { active, accordion: props.accordion, toggle });
+function clickDisabled(name: CollapseName, event?: unknown) {
+  emit('click-disabled', { name, event });
+}
+
+provide(collapseInjectionKey, { active, accordion: props.accordion, toggle, clickDisabled });
 </script>
 
 <template>

@@ -36,13 +36,18 @@ export type CollapseProps = ExtractPropTypes<typeof collapseProps>;
 
 export const collapseEmits = {
   'update:modelValue': (_value: CollapseName[] | CollapseName) => true,
-  change: (_value: CollapseName[] | CollapseName | undefined) => true,
+  change: (_value: CollapseName[] | CollapseName | undefined, _name?: CollapseName) => true,
+  'item-click': (_payload: { name: CollapseName; expanded: boolean; event?: unknown }) => true,
+  open: (_name: CollapseName, _value: CollapseName[] | CollapseName | undefined) => true,
+  close: (_name: CollapseName, _value: CollapseName[] | CollapseName | undefined) => true,
+  'click-disabled': (_payload: { name: CollapseName; event?: unknown }) => true,
 };
 
 export interface CollapseContext {
   active: Ref<CollapseName[]>;
   accordion: boolean;
-  toggle: (name: CollapseName) => void;
+  toggle: (name: CollapseName, event?: unknown) => void;
+  clickDisabled: (name: CollapseName, event?: unknown) => void;
 }
 
 export const collapseInjectionKey = Symbol('LkCollapse') as InjectionKey<CollapseContext>;

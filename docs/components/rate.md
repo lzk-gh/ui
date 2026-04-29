@@ -38,8 +38,10 @@ const score = ref(3)
 启用 `allowClear` 后，点击当前已选值可直接清零。
 
 ```vue
-<lk-rate v-model="score" allow-clear />
+<lk-rate v-model="score" allow-clear @clear="handleClear" />
 ```
+
+`clear` 会返回 `{ oldValue, index, event }`，适合做撤销提示或埋点。
 
 ## 只读与禁用
 
@@ -111,13 +113,19 @@ import RateDemo from '@/components/demos/rate-demo.vue'
 | icon | 选中图标名 | `string` | `''` |
 | iconVoid | 未选中图标名 | `string` | `''` |
 | prop | 表单字段名 | `string` | `''` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### Events
 
 | 事件名 | 说明 | 参数 |
 |--------|------|------|
 | update:modelValue | 评分变化 | `(value: number) => void` |
-| change | 评分变化后的回调 | `(value: number) => void` |
+| change | 评分变化后的回调 | `(value: number, oldValue?: number) => void` |
+| click | 点击可交互图标时触发，早于 `change` | `({ value, oldValue, index, event }) => void` |
+| clear | 点击当前评分并清零时触发 | `({ oldValue, index, event }) => void` |
+| click-disabled | 点击禁用或只读评分时触发 | `({ value, index, disabled, readonly, event }) => void` |
 
 ### Slots
 

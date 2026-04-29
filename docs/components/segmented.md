@@ -32,7 +32,12 @@ const options = [
 </script>
 
 <template>
-  <lk-segmented v-model="active" :options="options" />
+  <lk-segmented
+    v-model="active"
+    :options="options"
+    @select="handleSelect"
+    @reselect="handleReselect"
+  />
 </template>
 ```
 
@@ -141,6 +146,9 @@ import SegmentedDemo from '@/components/demos/segmented-demo.vue'
 | gutter | 选项之间的留缝距离 | `string` | `'0rpx'` |
 | animated | 是否开启动画 | `boolean` | `true` |
 | height | 自定义高度 | `string` | `''` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 ### SegmentedOption
 
@@ -155,7 +163,11 @@ import SegmentedDemo from '@/components/demos/segmented-demo.vue'
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | update:modelValue | 选中值变化时触发 | `(value)` |
-| change | 点击切换后触发 | `(value)` |
+| change | 点击切换后触发 | `(value, option, oldValue)` |
+| click | 点击任意选项时触发 | `({ value, option, event })` |
+| select | 选择值发生变化时触发 | `({ value, option, oldValue })` |
+| reselect | 点击当前已选项时触发 | `({ value, option, event })` |
+| click-disabled | 点击禁用选项时触发 | `({ value, option, event })` |
 
 ### Slots
 

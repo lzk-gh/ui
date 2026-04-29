@@ -10,10 +10,11 @@ export interface SegmentedOption {
   value: string | number;
   disabled?: boolean;
 }
+export type SegmentedValue = SegmentedOption['value'];
 
 export const segmentedProps = {
   ...baseProps,
-  modelValue: { type: [String, Number] as PropType<string | number>, default: '' },
+  modelValue: { type: [String, Number] as PropType<SegmentedValue>, default: '' },
   options: { type: Array as PropType<SegmentedOption[]>, default: () => [] },
   size: LkProp.enum(Object.values(SegmentedSize), SegmentedSize.Md, 'Segmented.size'),
   block: Boolean,
@@ -29,6 +30,18 @@ export const segmentedProps = {
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>;
 
 export const segmentedEmits = {
-  'update:modelValue': (_: SegmentedOption['value']) => true,
-  change: (_: SegmentedOption['value']) => true,
+  'update:modelValue': (_: SegmentedValue) => true,
+  change: (_value: SegmentedValue, _option?: SegmentedOption, _oldValue?: SegmentedValue) => true,
+  click: (_payload: { value: SegmentedValue; option: SegmentedOption; event?: unknown }) => true,
+  select: (_payload: {
+    value: SegmentedValue;
+    option: SegmentedOption;
+    oldValue: SegmentedValue;
+  }) => true,
+  reselect: (_payload: { value: SegmentedValue; option: SegmentedOption; event?: unknown }) => true,
+  'click-disabled': (_payload: {
+    value: SegmentedValue;
+    option: SegmentedOption;
+    event?: unknown;
+  }) => true,
 };

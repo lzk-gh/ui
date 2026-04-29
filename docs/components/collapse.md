@@ -54,7 +54,7 @@ const activeName = ref('1')
 ## 禁用某一项
 
 ```vue
-<lk-collapse v-model="activeNames">
+<lk-collapse v-model="activeNames" @click-disabled="handleDisabled">
   <lk-collapse-item name="1" title="可用项">
     <view style="padding: 24rpx">正常展开</view>
   </lk-collapse-item>
@@ -117,6 +117,12 @@ import CollapseDemo from '@/components/demos/collapse-demo.vue'
 |------|------|------|--------|
 | modelValue | 当前展开面板；普通模式为数组，手风琴模式为字符串或数字 | `any[] \| string \| number` | `[]` |
 | accordion | 是否开启手风琴模式 | `boolean` | `false` |
+| variant | 折叠面板风格 | `group \| card \| ghost` | `group` |
+| gap | 卡片模式下项目间距 | `string \| number` | `var(--lk-spacing-sm)` |
+| bordered | 是否显示边框 | `boolean` | `true` |
+| id | 根节点 id | `string` | `''` |
+| customClass | 根节点自定义类名 | `string \| object \| array` | — |
+| customStyle | 根节点自定义样式 | `string \| object` | — |
 
 #### LkCollapseItem
 
@@ -131,7 +137,18 @@ import CollapseDemo from '@/components/demos/collapse-demo.vue'
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | update:modelValue | 展开项变化时触发 | 当前激活值 |
-| change | 展开项变化时触发 | 当前激活值 |
+| change | 展开项变化时触发 | `(value, name)` |
+| item-click | 点击可用面板头部时触发，早于状态变化 | `({ name, expanded, event })` |
+| open | 面板展开后触发 | `(name, value)` |
+| close | 面板收起后触发 | `(name, value)` |
+| click-disabled | 点击禁用面板时触发 | `({ name, event })` |
+
+#### LkCollapseItem Events
+
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| click | 点击面板头部时触发 | `({ name, expanded, event })` |
+| click-disabled | 点击禁用面板时触发 | `({ name, event })` |
 
 ### Slots
 

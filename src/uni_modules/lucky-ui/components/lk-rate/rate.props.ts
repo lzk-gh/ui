@@ -48,5 +48,14 @@ export type RateProps = ExtractPropTypes<typeof rateProps>;
 
 export const rateEmits = {
   'update:modelValue': (_val: number) => true,
-  change: (_val: number) => true,
+  change: (_val: number, _oldValue?: number) => true,
+  click: (_payload: { value: number; oldValue: number; index: number; event?: unknown }) => true,
+  clear: (_payload: { oldValue: number; index: number; event?: unknown }) => true,
+  'click-disabled': (_payload: {
+    value: number;
+    index: number;
+    disabled: boolean;
+    readonly: boolean;
+    event?: unknown;
+  }) => true,
 };
