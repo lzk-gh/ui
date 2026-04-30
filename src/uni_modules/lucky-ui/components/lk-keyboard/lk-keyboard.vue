@@ -385,7 +385,7 @@ function getKeyStyle(key: KeyboardKey) {
           @click="onKeyPress(key)"
         >
           <template v-if="key.type === 'delete'">
-            <LkIcon name="backspace" :size="44" />
+            <LkIcon name="arrow-left" :size="40" />
           </template>
           <template v-else-if="key.type === 'empty'">
             <!-- 空按键 -->
