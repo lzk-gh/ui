@@ -13,12 +13,23 @@ const activeNames5 = ref(['1']);
 
 <template>
   <view class="component-demo">
-    <demo-block title="动画速率调节" desc="自定义展开动画速率和缓动曲线">
-      <lk-collapse v-model="activeNames1" animation-duration="0.8s" animation-timing="linear">
-        <lk-collapse-item name="1" title="慢速匀速展开">
-          <view class="collapse-content"> duration=0.8s, timing=linear </view>
-        </lk-collapse-item>
-      </lk-collapse>
+    <demo-block title="动画速率调节" desc="通过 duration 和 timing 自定义动画曲线">
+      <view class="demo-item">
+        <text class="label">慢速展开 (0.8s, linear)</text>
+        <lk-collapse v-model="activeNames1" animation-duration="0.8s" animation-timing="linear">
+          <lk-collapse-item name="1" title="平滑慢速">
+            <view class="collapse-content"> duration=0.8s, timing=linear </view>
+          </lk-collapse-item>
+        </lk-collapse>
+      </view>
+      <view class="demo-item">
+        <text class="label">快速反馈 (0.1s, ease-in-out)</text>
+        <lk-collapse v-model="activeNames2" animation-duration="0.1s" animation-timing="ease-in-out">
+          <lk-collapse-item name="1" title="灵敏快速">
+            <view class="collapse-content"> duration=0.1s, timing=ease-in-out </view>
+          </lk-collapse-item>
+        </lk-collapse>
+      </view>
     </demo-block>
 
     <demo-block title="整体分组" desc="默认 group 布局，多个面板连成一整块">
