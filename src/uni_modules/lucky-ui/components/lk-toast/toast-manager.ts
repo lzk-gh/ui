@@ -18,7 +18,10 @@ export function useToast() {
     const opt: ToastItem = {
       id: ++seed,
       message: typeof opts === 'string' ? opts : opts.message || '',
-      transition: typeof opts === 'string' ? 'slide-up' : opts.transition || 'slide-up',
+      transition:
+        (typeof opts === 'string' ? undefined : opts.transition) ||
+        ((typeof opts !== 'string' && opts.position === 'top') ? 'slide-down' : 
+         (typeof opts !== 'string' && opts.position === 'center') ? 'zoom-in' : 'slide-up'),
       duration: typeof opts === 'string' ? 2000 : (opts.duration ?? 2000),
       position: (typeof opts === 'string' ? 'center' : opts.position) || 'center',
       visible: true,

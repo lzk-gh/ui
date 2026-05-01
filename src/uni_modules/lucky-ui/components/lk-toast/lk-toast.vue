@@ -45,13 +45,20 @@ function close() {
 }
 
 // 使用动画 composable
+const transitionName = computed(() => {
+  if (props.transition !== 'slide-up') return props.transition;
+  if (props.position === 'top') return 'slide-down';
+  if (props.position === 'center') return 'zoom-in';
+  return 'slide-up';
+});
+
 const {
   classes: transitionClasses,
   styles: transitionStyles,
   display,
 } = useTransition(
   () => props.modelValue,
-  { name: props.transition, duration: 260, easing: 'ease-out' },
+  { name: transitionName.value, duration: 260, easing: 'ease-out' },
   {
     onAfterLeave: () => emit('after-leave'),
   }
