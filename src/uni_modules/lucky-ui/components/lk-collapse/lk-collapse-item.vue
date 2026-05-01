@@ -61,7 +61,14 @@ function onHeaderTap(e: unknown) {
       </view>
       <view class="lk-ripple__wave" :style="rippleWaveStyle" />
     </view>
-    <view v-show="open" class="lk-collapse-item__body">
+    <view
+      v-show="open"
+      class="lk-collapse-item__body"
+      :style="{
+        '--lk-collapse-anim-duration': collapse?.animationDuration,
+        '--lk-collapse-anim-timing': collapse?.animationTiming,
+      }"
+    >
       <slot />
     </view>
   </view>

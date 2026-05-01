@@ -107,7 +107,7 @@
     font-size: var(--lk-collapse-body-size);
     line-height: 1.6;
     color: var(--lk-color-text-secondary);
-    animation: lk-collapse-expand 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: lk-collapse-expand var(--lk-collapse-anim-duration, 0.3s) var(--lk-collapse-anim-timing, cubic-bezier(0.4, 0, 0.2, 1));
   }
 
   @include when(disabled) {

@@ -30,6 +30,12 @@ export const collapseProps = {
 
   /** 是否显示边框 */
   bordered: LkProp.boolean(true),
+
+  /** 动画持续时间 */
+  animationDuration: LkProp.string('0.3s'),
+
+  /** 动画缓动函数 */
+  animationTiming: LkProp.string('cubic-bezier(0.4, 0, 0.2, 1)'),
 } as const;
 
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>;
@@ -46,6 +52,8 @@ export const collapseEmits = {
 export interface CollapseContext {
   active: Ref<CollapseName[]>;
   accordion: boolean;
+  animationDuration: string;
+  animationTiming: string;
   toggle: (name: CollapseName, event?: unknown) => void;
   clickDisabled: (name: CollapseName, event?: unknown) => void;
 }

@@ -77,7 +77,14 @@ function clickDisabled(name: CollapseName, event?: unknown) {
   emit('click-disabled', { name, event });
 }
 
-provide(collapseInjectionKey, { active, accordion: props.accordion, toggle, clickDisabled });
+provide(collapseInjectionKey, {
+  active,
+  accordion: props.accordion,
+  animationDuration: props.animationDuration,
+  animationTiming: props.animationTiming,
+  toggle,
+  clickDisabled,
+});
 </script>
 
 <template>
