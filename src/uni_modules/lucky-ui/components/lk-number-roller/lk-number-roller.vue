@@ -24,21 +24,17 @@ type Segment = DigitSegment | SymbolSegment;
 
 const classes = computed(() => ['lk-number-roller', props.customClass]);
 
-const digitHeightPx = computed(() => {
-  const base = props.digitHeight || 56;
-  if (typeof uni !== 'undefined' && typeof uni.upx2px === 'function') {
-    const px = Number(uni.upx2px(base));
-    if (!Number.isNaN(px)) return px;
-  }
-  return base;
-});
-
 const rollerStyle = computed(() => ({
   '--lk-number-roller-speed': props.autoplay ? `${Math.max(props.speed, 16)}ms` : '0ms',
   '--lk-number-roller-easing': props.easing,
   '--lk-number-roller-digit-height': `${props.digitHeight}rpx`,
-  '--lk-number-roller-digit-height-px': `${digitHeightPx.value}px`,
 }));
+
+function trackStyle(digit: number) {
+  return {
+    transform: `translate3d(0, calc(${digit} * -1 * var(--lk-number-roller-digit-height)), 0)`,
+  };
+}
 
 const formattedText = computed(() => normalizeValue(props.value));
 
@@ -47,7 +43,6 @@ const segments = computed<Segment[]>(() => buildSegments(formattedText.value));
 const animatedDigitByKey = ref<Record<string, number>>({});
 
 const renderSegments = computed<Segment[]>(() => {
-  // 仅对数字段做“从 0 滚到目标值”的动画
   if (!props.autoplay) return segments.value;
   return segments.value.map(seg => {
     if (seg.type !== 'digit') return seg;
@@ -71,7 +66,6 @@ function primeAndAnimateDigits() {
     }
   }
   if (hasNewKey) animatedDigitByKey.value = next;
-  // 下一帧再写入目标 digit，触发 transition
   nextTick(() => {
     const updated: Record<string, number> = { ...animatedDigitByKey.value };
     for (const seg of segments.value) {
@@ -83,7 +77,6 @@ function primeAndAnimateDigits() {
 }
 
 onMounted(() => {
-  // 初次挂载也触发一次 intro 动画
   primeAndAnimateDigits();
 });
 
@@ -115,10 +108,6 @@ function normalizeValue(value: number | string): string {
   return raw;
 }
 
-/**
- * 将数值格式化为带千位分隔 & 指定小数位的字符串。
- * 复杂度较高，因此单独拆出方便维护。
- */
 function formatNumeric(num: number, raw: string): string {
   const decimals =
     typeof props.decimals === 'number' && props.decimals >= 0
@@ -155,12 +144,6 @@ function buildSegments(value: string): Segment[] {
     return { key: `symbol-${index}-${char}`, type: 'symbol', symbol: char } as Segment;
   });
 }
-
-function trackTransform(digit: number) {
-  const safeHeight = digitHeightPx.value;
-  const offset = Number((digit * safeHeight).toFixed(2));
-  return `translate3d(0, ${-offset}px, 0)`;
-}
 </script>
 
 <template>
@@ -170,7 +153,7 @@ function trackTransform(digit: number) {
         <view class="lk-number-roller__window">
           <view
             class="lk-number-roller__track"
-            :style="{ transform: trackTransform(segment.digit) }"
+            :style="trackStyle(segment.digit)"
           >
             <text v-for="digit in digitsPool" :key="digit" class="lk-number-roller__digit">{{
               digit
