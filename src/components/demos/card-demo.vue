@@ -41,8 +41,8 @@
     </demo-block>
 
     <demo-block title="交互效果">
-      <lk-card title="可悬停/点击" hoverable>
-        <view class="card-content"> 点击或按住卡片查看阴影和位移变化 </view>
+      <lk-card title="点击波纹" ripple>
+        <view class="card-content"> 点击查看波纹点击效果 </view>
       </lk-card>
     </demo-block>
 

@@ -31,13 +31,6 @@
     border: var(--lk-rpx-2) solid var(--test-border-color, var(--lk-color-border-light));
   }
 
-  @include when(hover) {
-    &:active {
-      transform: translateY(var(--lk-rpx-2));
-      box-shadow: var(--lk-shadow-sm);
-    }
-  }
-
   @include e(cover) {
     width: 100%;
     :deep(image),

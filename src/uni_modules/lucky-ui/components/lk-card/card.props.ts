@@ -25,8 +25,8 @@ export const cardProps = {
   /** 透明背景 */
   transparent: LkProp.boolean(false),
 
-  /** 是否可悬停 */
-  hoverable: LkProp.boolean(false),
+  /** 是否开启波纹效果 */
+  ripple: LkProp.boolean(false),
 } as const;
 
 export type CardProps = ExtractPropTypes<typeof cardProps>;
