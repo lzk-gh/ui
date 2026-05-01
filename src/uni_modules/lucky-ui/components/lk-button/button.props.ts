@@ -171,12 +171,16 @@ export const buttonProps = {
   /** QQ 频道 ID，open-type="openGuildProfile" 时有效 */
   guildId: LkProp.string(''),
 
-  /** 生活号 ID，open-type="lifestyle" 时有效 */
+  /** 生活号 ID，生活号 open-type="lifestyle" 时有效 */
   publicId: LkProp.string(''),
 
   /** 授权范围，支付宝小程序 open-type="getAuthorize" 时有效 */
   scope: LkProp.string(''),
-} as const;
+
+  /** 是否开启水波纹效果 */
+  ripple: LkProp.boolean(true),
+  } as const;
+
 
 export const buttonEmits = {
   click: (event: unknown) => event !== undefined,

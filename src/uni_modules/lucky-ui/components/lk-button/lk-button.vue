@@ -33,9 +33,13 @@ const formType = computed(() => (props.nativeType === 'button' ? '' : props.nati
 const isNativeDisabled = computed(() => props.disabled || props.loading);
 const style = computed(() => props.customStyle as StyleValue);
 
+const isRippleEnabled = computed(() => props.ripple && props.variant !== 'text');
+
 function onClick(e: unknown) {
   if (props.disabled || props.loading) return;
-  triggerRipple(e);
+  if (isRippleEnabled.value) {
+    triggerRipple(e);
+  }
   emit('click', e);
 }
 
@@ -151,7 +155,7 @@ function emitNativeEvent(
     <view v-if="loading" class="lk-button__loader" />
     <lk-icon v-if="icon && !loading" class="lk-button__icon" :name="icon" />
     <slot />
-    <view class="lk-ripple__wave" :style="rippleWaveStyle" />
+    <view v-if="isRippleEnabled" class="lk-ripple__wave" :style="rippleWaveStyle" />
   </button>
 </template>
 
