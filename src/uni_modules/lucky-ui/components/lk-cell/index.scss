@@ -29,7 +29,8 @@
 
   @include when(clickable) {
     transition: background-color 0.2s ease;
-    &:active {
+    // 当存在波纹效果 (.lk-ripple) 时，不应用传统的背景色激活反馈
+    &:active:not(.lk-ripple) {
       background-color: var(--lk-color-bg-active);
     }
   }
