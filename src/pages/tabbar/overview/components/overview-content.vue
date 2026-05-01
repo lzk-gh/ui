@@ -103,6 +103,7 @@ const categories = [
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
       { name: 'pagination', label: 'Pagination', desc: '分页', icon: 'three-dots' },
       { name: 'number-roller', label: 'NumberRoller', desc: '数字翻牌', icon: 'speedometer' },
+      { name: 'meta-row', label: 'MetaRow', desc: '结构行', icon: 'layout-three-columns' },
       {
         name: 'horizontal-scroll',
         label: 'HorizontalScroll',

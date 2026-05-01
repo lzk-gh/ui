@@ -101,6 +101,7 @@ const categories = [
       { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'house' },
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
       { name: 'number-roller', label: 'NumberRoller', desc: '数字翻牌', icon: 'reception-4' },
+      { name: 'meta-row', label: 'MetaRow', desc: '结构行', icon: 'layout-three-columns' },
       {
         name: 'horizontal-scroll',
         label: 'HorizontalScroll',

@@ -67,4 +67,13 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     visualEnabled: true,
     riskNotes: ['⚠️可能存在平台差异：图片加载节奏会影响列高计算。'],
   },
+  {
+    slug: 'meta-row',
+    title: 'MetaRow 结构行',
+    group: 'basic',
+    verifyStatus: 'pending',
+    riskLevel: 'low',
+    visualEnabled: true,
+    riskNotes: ['用于信息行布局，建议重点验证长文本省略与金额对齐。'],
+  },
 ];

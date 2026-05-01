@@ -36,6 +36,7 @@
           <ImageDemo v-else-if="componentName === 'image'" />
           <GridDemo v-else-if="componentName === 'grid'" />
           <SpaceDemo v-else-if="componentName === 'space'" />
+          <MetaRowDemo v-else-if="componentName === 'meta-row'" />
 
           <FormDemo v-else-if="componentName === 'form'" />
           <InputDemo v-else-if="componentName === 'input'" />
@@ -181,6 +182,12 @@ const componentMap: Record<string, any> = {
     title: 'Space 间距',
     desc: '设置组件之间的间距',
     icon: 'arrows-expand',
+    color: 'primary',
+  },
+  'meta-row': {
+    title: 'MetaRow 结构行',
+    desc: '左侧 + 中间上下 + 右侧的通用布局容器',
+    icon: 'layout-three-columns',
     color: 'primary',
   },
 
@@ -580,6 +587,7 @@ import NoticeBarDemo from '@/components/demos/notice-bar-demo.vue';
 import ImageDemo from '@/components/demos/image-demo.vue';
 import GridDemo from '@/components/demos/grid-demo.vue';
 import SpaceDemo from '@/components/demos/space-demo.vue';
+import MetaRowDemo from '@/components/demos/meta-row-demo.vue';
 
 // 表单组件
 import FormDemo from '@/components/demos/form-demo.vue';
@@ -653,6 +661,7 @@ const demoComponentMap: Record<string, any> = {
   image: ImageDemo,
   grid: GridDemo,
   space: SpaceDemo,
+  'meta-row': MetaRowDemo,
 
   // 表单组件
   form: FormDemo,

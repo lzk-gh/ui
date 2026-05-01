@@ -9,6 +9,7 @@ import PickerDemo from '@/components/demos/picker-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TooltipDemo from '@/components/demos/tooltip-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
+import MetaRowDemo from '@/components/demos/meta-row-demo.vue';
 
 /**
  * 当前筛选组件标识。
@@ -146,6 +147,7 @@ const groupedCases = computed(() => {
             <tabs-demo v-else-if="item.slug === 'tabs'" />
             <tooltip-demo v-else-if="item.slug === 'tooltip'" />
             <waterfall-demo v-else-if="item.slug === 'waterfall'" />
+            <meta-row-demo v-else-if="item.slug === 'meta-row'" />
           </template>
         </component-case>
       </view>

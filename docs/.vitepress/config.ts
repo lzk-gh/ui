@@ -62,6 +62,7 @@ export default defineConfig({
           items: [
             { text: 'Grid 宫格', link: '/components/grid' },
             { text: 'Space 间距', link: '/components/space' },
+            { text: 'MetaRow 结构行', link: '/components/meta-row' },
           ],
         },
         {

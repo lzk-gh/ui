@@ -84,6 +84,7 @@ declare module '@vue/runtime-core' {
     LkNumberRoller: typeof import('./components/lk-number-roller/lk-number-roller.vue')['default']
     LkCurtain: typeof import('./components/lk-curtain/lk-curtain.vue')['default']
     LkHorizontalScroll: typeof import('./components/lk-horizontal-scroll/lk-horizontal-scroll.vue')['default']
+    LkMetaRow: typeof import('./components/lk-meta-row/lk-meta-row.vue')['default']
     LkFab: typeof import('./components/lk-fab/lk-fab.vue')['default']
     LkPreloadDebugger: typeof import('./components/lk-preload-debugger/lk-preload-debugger.vue')['default']
   }
