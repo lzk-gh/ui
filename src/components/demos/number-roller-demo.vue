@@ -39,6 +39,17 @@ onUnmounted(() => {
 
 <template>
   <view class="component-demo">
+    <demo-block title="对齐测试">
+      <view class="roller-card" style="font-size: 32rpx; display: flex; flex-direction: row; align-items: center; gap: 10px;">
+        <text>32rpx:</text>
+        <lk-number-roller :value="12345" />
+      </view>
+      <view class="roller-card" style="font-size: 64rpx; display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 20rpx;">
+        <text>64rpx:</text>
+        <lk-number-roller :value="12345" :digit-height="64" />
+      </view>
+    </demo-block>
+
     <demo-block title="基础用法">
       <view class="roller-card">
         <lk-number-roller :value="dailyActive" />
