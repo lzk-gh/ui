@@ -15,10 +15,10 @@
       </lk-cell-group>
     </demo-block>
 
-    <demo-block title="可点击">
+    <demo-block title="可点击 (波纹效果)">
       <lk-cell-group>
-        <lk-cell title="带箭头" is-link @click="handleClick" />
-        <lk-cell title="自定义跳转" is-link value="详情" />
+        <lk-cell title="默认波纹" clickable @click="handleClick" />
+        <lk-cell title="禁用波纹" clickable :ripple="false" @click="handleClick" />
       </lk-cell-group>
     </demo-block>
 
