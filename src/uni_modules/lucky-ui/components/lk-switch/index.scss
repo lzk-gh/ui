@@ -98,7 +98,7 @@
   }
 
   &.is-checked .lk-switch__prompt {
-    color: var(--switch-inactive-color);
+    color: var(--switch-active-color);
   }
 
   // 按压反馈（非禁用/非加载时）

@@ -39,7 +39,7 @@ const handleAsyncChange = (): Promise<boolean> => {
 
     <demo-block title="内嵌文字提示">
       <view class="switch-row">
-        <text>显示 ON/OFF 文字</text>
+        <text>默认风格 (文字随主题色)</text>
         <lk-switch v-model="valueInline" inline-prompt />
       </view>
       <view class="switch-row">
