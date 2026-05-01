@@ -16,6 +16,10 @@
   --lk-slider-active-bg: var(--lk-color-primary);
   --lk-slider-inactive-bg: var(--lk-color-fill-tertiary);
 
+  // 变量注入点（供 props 覆盖）
+  --_active-bg: var(--lk-slider-active-bg);
+  --_inactive-bg: var(--lk-slider-inactive-bg);
+
   // 小号
   @include m(small) {
     --lk-slider-track-height: var(--lk-rpx-4);

@@ -52,7 +52,12 @@ const vValue = ref(50);
 
     <demo-block title="自定义样式">
       <view class="demo-item">
+        <text class="label">自定义激活色与高度</text>
         <lk-slider v-model="v3" active-color="#ff4d4f" block-color="#ff4d4f" bar-height="8rpx" />
+      </view>
+      <view class="demo-item">
+        <text class="label">自定义轨道背景色 (Inactive Color)</text>
+        <lk-slider v-model="v3" active-color="#1890ff" inactive-color="#d9d9d9" />
       </view>
     </demo-block>
   </view>

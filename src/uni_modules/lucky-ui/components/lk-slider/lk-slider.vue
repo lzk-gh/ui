@@ -96,7 +96,14 @@ const rootClass = computed(() => [
   props.customClass,
 ]);
 
-const rootStyle = computed(() => props.customStyle as StyleValue);
+const rootStyle = computed(() => {
+  const style: CSSProperties = {
+    ...(props.customStyle as CSSProperties),
+  };
+  if (props.activeColor) style['--_active-bg'] = props.activeColor;
+  if (props.inactiveColor) style['--_inactive-bg'] = props.inactiveColor;
+  return style;
+});
 
 const trackStyle = computed(() => {
   const style: CSSProperties = {};
