@@ -1,8 +1,9 @@
-const { runButtonSnapshotTest } = require('./button.spec');
+const { runButtonSnapshotTest, runButtonLoadingTest } = require('./button.spec');
 
 function run() {
   try {
     runButtonSnapshotTest();
+    runButtonLoadingTest();
     console.log('[test:mp] lk-button 小程序渲染测试通过。');
   } catch (error) {
     console.error('[test:mp] 小程序渲染测试失败。');

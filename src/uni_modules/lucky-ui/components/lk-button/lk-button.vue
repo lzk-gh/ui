@@ -121,7 +121,7 @@ function emitNativeEvent(
     :disabled="isNativeDisabled"
     :form-type="formType"
     :open-type="openType"
-    :hover-class="hoverClass"
+    :hover-class="isNativeDisabled ? 'none' : hoverClass"
     :hover-start-time="hoverStartTime"
     :hover-stay-time="hoverStayTime"
     :app-parameter="appParameter"

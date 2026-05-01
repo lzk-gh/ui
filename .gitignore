@@ -20,4 +20,12 @@ dist
 *.sln
 *.sw?
 
+# Testing
+test-results/
+tests/visual/screenshot.spec.ts-snapshots/
+
+# Build and Cache
+.vitepress/cache/
+docs/.vitepress/cache/
+
 src/uni_modules/wot-design-uni
