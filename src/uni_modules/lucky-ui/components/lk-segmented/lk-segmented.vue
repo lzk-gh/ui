@@ -47,7 +47,8 @@ function select(opt: SegmentedOption, event?: unknown) {
   emit('update:modelValue', opt.value);
   emit('select', { value: opt.value, option: opt, oldValue });
   emit('change', opt.value, opt, oldValue);
-  updateSlider();
+  // 增加延时确保 DOM 更新完毕
+  setTimeout(updateSlider, 50);
 }
 
 /* 监听 */
@@ -66,32 +67,30 @@ watch(
 
 /* 计算滑块 */
 function updateSlider() {
-  nextTick(() => {
-    const q = uni.createSelectorQuery().in(inst);
-    q.select('.lk-segmented').boundingClientRect();
-    q.selectAll('.lk-segmented__item').boundingClientRect();
-    q.exec(res => {
-      const wrap = res?.[0];
-      const items = res?.[1];
-      if (!wrap || !items?.length) return;
+  const q = uni.createSelectorQuery().in(inst);
+  q.select('.lk-segmented').boundingClientRect();
+  q.selectAll('.lk-segmented__item').boundingClientRect();
+  q.exec(res => {
+    const wrap = res?.[0];
+    const items = res?.[1];
+    if (!wrap || !items?.length) return;
 
-      const idx = props.options.findIndex(o => o.value === active.value);
-      if (idx < 0 || !items[idx]) {
-        sliderStyle.value.opacity = '0';
-        return;
-      }
+    const idx = props.options.findIndex(o => o.value === active.value);
+    if (idx < 0 || !items[idx]) {
+      sliderStyle.value.opacity = '0';
+      return;
+    }
 
-      const insetPx = toPx(props.inset);
-      const offset = items[idx].left - wrap.left - insetPx;
-      sliderStyle.value = {
-        width: `${items[idx].width}px`,
-        transform: `translateX(${offset}px)`,
-        opacity: '1',
-        transition: props.animated
-          ? `width ${props.duration}ms ${props.easing}, transform ${props.duration}ms ${props.easing}, opacity 180ms ease`
-          : 'none',
-      };
-    });
+    // 修复：直接计算相对于父容器的偏移，不再引入 CSS 变量计算
+    const offset = items[idx].left - wrap.left;
+    sliderStyle.value = {
+      width: `${items[idx].width}px`,
+      transform: `translateX(${offset}px)`,
+      opacity: '1',
+      transition: props.animated
+        ? `width ${props.duration}ms ${props.easing}, transform ${props.duration}ms ${props.easing}, opacity 180ms ease`
+        : 'none',
+    };
   });
 }
 
