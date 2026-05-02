@@ -7,7 +7,6 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 const visible1 = ref(false);
 const visible2 = ref(false);
 const visible3 = ref(false);
-const visible4 = ref(false);
 const visible5 = ref(false);
 const visible6 = ref(false);
 
@@ -41,13 +40,11 @@ const showOverlay3 = () => {
       </lk-overlay>
     </demo-block>
 
-    <demo-block title="自定义透明度与时长">
+    <demo-block title="自定义透明度">
       <view class="row">
         <lk-button @click="showOverlay3">透明度 0.8</lk-button>
-        <lk-button @click="visible4 = true">500ms 动画</lk-button>
       </view>
       <lk-overlay v-model="visible3" :opacity="0.8" />
-      <lk-overlay v-model="visible4" :duration="500" />
     </demo-block>
 
     <demo-block title="交互与滚动">

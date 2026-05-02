@@ -1,43 +1,32 @@
 <script setup lang="ts">
-import type { StyleValue } from 'vue';
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { overlayProps, overlayEmits } from './overlay.props';
+import { useTransition } from '../../composables/useTransition';
 
 defineOptions({ name: 'LkOverlay' });
-
-/**
- * requestAnimationFrame 兼容处理
- * 小程序环境中 requestAnimationFrame 不可用，使用 setTimeout 作为 fallback
- */
-const hasRAF = typeof requestAnimationFrame === 'function';
-function rAF(cb: () => void): number {
-  return hasRAF ? (requestAnimationFrame as any)(cb) : (setTimeout(cb, 16) as unknown as number);
-}
 
 const props = defineProps(overlayProps);
 const emit = defineEmits(overlayEmits);
 
-// 内部控制显示以支持离场动画
-const display = ref(false);
-const anim = ref<'enter' | 'leave' | ''>('');
-const timer = ref<number | null>(null);
-
-const styleVar = computed<StyleValue>(
-  () =>
-    [
-      {
-      zIndex: props.zIndex,
-      '--lk-overlay-duration': `${props.duration}ms`,
-      '--lk-overlay-bg': props.background || `rgba(0,0,0,${props.opacity})`,
-      // 兼容不支持 CSS 变量的平台
-      transitionDuration: `${props.duration}ms`,
-      },
-      props.customStyle as StyleValue,
-    ]
-);
-
 // 外部受控值（优先使用 modelValue）
 const externalShow = computed(() => (props.modelValue ?? props.show) as boolean);
+
+// ==================== 动画管理 ====================
+const {
+  display,
+  classes: transitionClasses,
+  styles: transitionStyles,
+} = useTransition(
+  () => externalShow.value,
+  {
+    name: 'fade',
+    duration: () => props.duration,
+  },
+  {
+    onAfterEnter: () => emit('after-enter'),
+    onAfterLeave: () => emit('after-leave'),
+  }
+);
 
 function onClick(event?: unknown) {
   emit('click', event);
@@ -61,47 +50,16 @@ function unlock() {
   // #endif
 }
 
-watch(
-  externalShow,
-  v => {
-    if (timer.value) {
-      clearTimeout(timer.value);
-      timer.value = null;
-    }
+// 滚动锁定逻辑随外部显示状态切换
+watch(externalShow, v => {
+  if (v) {
+    emit('open');
+    lock();
+  } else {
+    unlock();
+  }
+}, { immediate: true });
 
-    if (v) {
-      emit('open');
-      if (!display.value) {
-        display.value = true;
-        anim.value = '';
-        // 双重 rAF 确保渲染一帧后再应用动画类名，避免闪烁和无动画
-        rAF(() => {
-          rAF(() => {
-            anim.value = 'enter';
-            emit('after-enter');
-          });
-        });
-      } else {
-        // 已经在显示中（可能是正在离开时被打断），直接转为进入
-        // 需要强制重绘吗？transition 会自动处理从当前 opacity -> 1
-        anim.value = 'enter';
-        emit('after-enter');
-      }
-      lock();
-    } else {
-      if (display.value) {
-        anim.value = 'leave';
-        timer.value = setTimeout(() => {
-          display.value = false;
-          emit('after-leave');
-          timer.value = null;
-        }, props.duration) as unknown as number;
-      }
-      unlock();
-    }
-  },
-  { immediate: true }
-);
 onMounted(() => {
   if (externalShow.value) lock();
 });
@@ -120,8 +78,15 @@ function onTouchMove(e: TouchEvent) {
     v-if="display"
     :id="id"
     class="lk-overlay"
-    :class="[customClass, { 'is-enter': anim === 'enter', 'is-leave': anim === 'leave' }]"
-    :style="styleVar"
+    :class="[customClass, transitionClasses]"
+    :style="[
+      {
+        zIndex: props.zIndex,
+        '--lk-overlay-bg': props.background || `rgba(0,0,0,${props.opacity})`,
+      },
+      transitionStyles,
+      customStyle as any,
+    ]"
     @tap="onClick"
     @touchmove="onTouchMove"
   >

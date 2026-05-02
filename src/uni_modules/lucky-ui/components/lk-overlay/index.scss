@@ -10,14 +10,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity var(--lk-overlay-duration, 0.24s) ease;
-
-  @include when(enter) {
-    opacity: 1;
-  }
-
-  @include when(leave) {
-    opacity: 0;
-  }
+  // 基础样式不带 opacity: 0，由 .lk-transition 控制初始状态
 }
