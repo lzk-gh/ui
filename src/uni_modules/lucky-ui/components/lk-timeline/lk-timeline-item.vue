@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { computed, inject, useSlots, type ComputedRef } from 'vue';
 import { timelineItemProps } from './timeline-item.props';
-import type { TimelineDirection, TimelineDotVariant } from './timeline.props';
+import type { TimelineDirection, TimelineDotVariant, TimelineLineVariant, TimelineLineMode } from './timeline.props';
 
 defineOptions({ name: 'LkTimelineItem' });
 
 interface TimelineCtx {
   direction: TimelineDirection;
+  total: number;
   showLine: boolean;
   activeIndex: number;
   dotVariant: TimelineDotVariant;
+  lineVariant: TimelineLineVariant;
+  lineMode: TimelineLineMode;
+  lineAnimated: boolean;
 }
 
 const emit = defineEmits<{ (e: 'click', ev: Event): void }>();
@@ -24,9 +28,13 @@ const ctx = computed<TimelineCtx>(
   () =>
     injectedRaw?.value ?? {
       direction: 'vertical',
+      total: 4,
       showLine: true,
       activeIndex: -1,
       dotVariant: 'filled',
+      lineVariant: 'solid',
+      lineMode: 'normal',
+      lineAnimated: false,
     }
 );
 
@@ -42,6 +50,11 @@ const isHorizontal = computed(() => ctx.value.direction === 'horizontal');
 
 // 节点样式优先用 item 自身的，否则继承父级
 const dotVariant = computed(() => props.dotVariant || ctx.value.dotVariant || 'filled');
+
+// 线轴样式优先用 item 自身的，否则继承父级
+const lineVariant = computed(() => (props.lineVariant as TimelineLineVariant) || ctx.value.lineVariant || 'solid');
+const lineMode = computed(() => (props.lineMode as TimelineLineMode) || ctx.value.lineMode || 'normal');
+const lineAnimated = computed(() => (props.lineAnimated !== undefined ? props.lineAnimated : ctx.value.lineAnimated));
 
 // 节点显示数字（numbered 时）
 const displayNumber = computed(() => (props.index >= 0 ? props.index + 1 : ''));
@@ -65,8 +78,21 @@ const itemClass = computed(() => [
   isError.value && 'is-error',
 ]);
 
+const trackClass = computed(() => ({
+  'is-last': props.last || !ctx.value.showLine,
+}));
+
+const lineClass = computed(() => [
+  'lk-timeline-item__line',
+  `is-${lineVariant.value}`,
+  `is-${lineMode.value}`,
+  lineAnimated.value && 'is-animated',
+]);
+
 const itemStyle = computed(() => ({
   '--lk-ti-accent': accentColor.value,
+  '--lk-ti-index': props.index >= 0 ? props.index : 0,
+  '--lk-ti-total': ctx.value.total,
 }));
 
 function onTap(ev: Event) {
@@ -85,7 +111,7 @@ function onTap(ev: Event) {
     </view>
 
     <!-- 轨道列：节点圆 + 连接线 -->
-    <view class="lk-timeline-item__track">
+    <view class="lk-timeline-item__track" :class="trackClass">
       <!-- 节点圆 -->
       <view
         class="lk-timeline-item__dot"
@@ -106,8 +132,8 @@ function onTap(ev: Event) {
         <text v-else-if="isError" class="lk-timeline-item__dot-symbol">✕</text>
       </view>
 
-      <!-- 连接线 -->
-      <view v-if="ctx.showLine && !last" class="lk-timeline-item__line" />
+      <!-- 连接线（实体节点，支持 flex 拉伸与各种变体） -->
+      <view v-if="!trackClass['is-last']" :class="lineClass" />
     </view>
 
     <!-- 右侧内容列 -->

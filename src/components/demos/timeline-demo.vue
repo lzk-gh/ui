@@ -145,15 +145,19 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
       </lk-timeline>
     </demo-block>
 
-    <!-- ⑥ 水平时间轴 -->
-    <demo-block title="水平时间轴 horizontal">
-      <lk-timeline direction="horizontal">
-        <lk-timeline-item date="Mon" title="Kickoff" desc="项目启动" />
-        <lk-timeline-item date="Wed" title="Design" desc="视觉稿评审" status="active" />
-        <lk-timeline-item date="Fri" title="Dev" desc="开发联调" status="pending" />
-        <lk-timeline-item date="Next Mon" title="Launch" desc="上线发布" status="pending" />
+    <!-- ⑥ 水平滚动流光轴 (优化：不拥挤，支持滑动) -->
+    <demo-block title="水平滚动 · 依次流光">
+      <lk-timeline direction="horizontal" line-mode="streaming" :total="6">
+        <lk-timeline-item :index="0" date="Jan" title="项目立项" status="completed" />
+        <lk-timeline-item :index="1" date="Feb" title="原型设计" status="completed" />
+        <lk-timeline-item :index="2" date="Mar" title="架构评审" status="active" />
+        <lk-timeline-item :index="3" date="Apr" title="核心开发" status="pending" />
+        <lk-timeline-item :index="4" date="May" title="集成测试" status="pending" />
+        <lk-timeline-item :index="5" date="Jun" title="正式发布" status="pending" />
       </lk-timeline>
     </demo-block>
+
+    <!-- ⑧ 轴线变体 (虚线 / 点线) -->
 
     <!-- ⑦ 自定义 extra 插槽 -->
     <demo-block title="自定义 extra 插槽">

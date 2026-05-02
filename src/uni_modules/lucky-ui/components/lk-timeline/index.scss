@@ -7,9 +7,9 @@
 $dot-size: calc(var(--lk-spacing-md) * 2);
 $track-width: var(--lk-control-height-xs); // 轨道列宽（含节点两侧空白）
 $left-col-width: var(--lk-control-height-lg); // 左侧时间列固定宽
-$item-gap: var(--lk-control-height-xs); // 项目间距（padding-bottom 实现，线穿过 gap）
+$item-gap: var(--lk-control-height-xs); // 项目间距
 $line-width: var(--lk-rpx-2);
-$line-offset-top: var(--lk-rpx-38); // dot(32) + 间距(6)
+$line-color: var(--lk-color-border);
 
 // ── 容器 ──────────────────────────────────────────────────────────────────────
 
@@ -47,17 +47,8 @@ $line-offset-top: var(--lk-rpx-38); // dot(32) + 间距(6)
     align-items: stretch;
     padding-bottom: $item-gap;
 
-    // 修复：竖线需要跨越父级 padding 区域才能触达下一个节点
-    .lk-timeline-item__line {
-      bottom: calc(-#{$item-gap} + var(--lk-rpx-4));
-    }
-
     &:last-child {
       padding-bottom: 0;
-
-      .lk-timeline-item__line {
-        display: none;
-      }
     }
   }
 
@@ -65,38 +56,53 @@ $line-offset-top: var(--lk-rpx-38); // dot(32) + 间距(6)
   &--horizontal {
     flex-direction: column;
     align-items: flex-start;
-    min-width: calc(var(--lk-control-height-lg) * 2.7);
     padding-right: $item-gap;
+    flex-shrink: 0; // 防止被挤压
+    min-width: var(--lk-rpx-240); // 设定最小宽度以支持滚动
 
     &:last-child {
       padding-right: 0;
-
-      .lk-timeline-item__line {
-        display: none;
-      }
     }
 
     .lk-timeline-item__track {
       flex-direction: row;
       align-items: center;
-      align-self: auto;
       width: 100%;
       height: var(--lk-control-height-xs);
       margin-bottom: var(--lk-spacing-sm);
-    }
 
-    .lk-timeline-item__line {
-      position: static;
-      flex: 1;
-      width: auto;
-      height: $line-width;
-      min-height: unset;
-      margin-top: 0;
-      margin-left: var(--lk-spacing-xs);
+      // 水平线轴
+      .lk-timeline-item__line {
+        width: auto;
+        height: $line-width;
+        flex: 1;
+        margin-left: var(--lk-spacing-xs);
+        margin-top: 0;
+        margin-right: calc(-#{$item-gap});
+
+        &.is-dashed {
+          background-image: repeating-linear-gradient(
+            to right,
+            $line-color,
+            $line-color var(--lk-rpx-8),
+            transparent var(--lk-rpx-8),
+            transparent var(--lk-rpx-16)
+          );
+        }
+
+        &.is-dotted {
+          background-image: radial-gradient(
+            $line-color 1.5px,
+            transparent 0
+          );
+          background-size: var(--lk-rpx-12) 100%;
+        }
+      }
     }
 
     .lk-timeline-item__body {
       padding-left: 0;
+      width: 100%;
     }
   }
 }
@@ -147,7 +153,136 @@ $line-offset-top: var(--lk-rpx-38); // dot(32) + 间距(6)
   flex-shrink: 0;
   width: $track-width;
   position: relative;
-  align-self: stretch; // 强制拉伸以承载绝对定位的竖线
+  align-self: stretch;
+}
+
+// ── 线轴（实体节点） ────────────────────────────────────────────────────────
+
+.lk-timeline-item__line {
+  width: $line-width;
+  flex: 1;
+  border-radius: var(--lk-radius-full);
+  transition: all 200ms ease;
+  margin-top: var(--lk-spacing-xxs);
+  margin-bottom: calc(-#{$item-gap});
+  background-repeat: repeat;
+
+  &.is-solid {
+    background-color: $line-color;
+  }
+
+  &.is-dashed {
+    background-color: transparent;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      $line-color,
+      $line-color var(--lk-rpx-8),
+      transparent var(--lk-rpx-8),
+      transparent var(--lk-rpx-16)
+    );
+    background-size: 100% 100%;
+  }
+
+  &.is-dotted {
+    background-color: transparent;
+    background-image: radial-gradient(
+      $line-color 1.5px,
+      transparent 0
+    );
+    background-size: 100% var(--lk-rpx-12);
+  }
+
+  // 流动动效
+  &.is-animated {
+    animation: lk-line-flow 1s infinite linear;
+
+    &.is-dashed {
+      background-size: 100% var(--lk-rpx-32);
+    }
+    
+    // 水平方向动效适配
+    .lk-timeline-item--horizontal &.is-dashed {
+      background-size: var(--lk-rpx-32) 100%;
+    }
+  }
+
+  // 高级流光特效 (Streaming - 单脉冲接力模式)
+  &.is-streaming {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--lk-color-border-light, #f2f2f7); 
+
+    &::before {
+      content: '';
+      position: absolute;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--lk-ti-accent),
+        transparent
+      );
+      width: 100%;
+      height: 40%;
+      top: -100%;
+      left: 0;
+      opacity: 0;
+      // 接力逻辑：时长 = 总数 * 0.8s，延迟 = 索引 * 0.8s
+      animation: lk-line-stream-v-relay calc(var(--lk-ti-total) * 0.8s) infinite linear;
+      animation-delay: calc(var(--lk-ti-index) * 0.8s);
+      will-change: transform, opacity;
+    }
+
+    // 水平流光适配
+    .lk-timeline-item--horizontal &::before {
+      background: linear-gradient(
+        to right,
+        transparent,
+        var(--lk-ti-accent),
+        transparent
+      );
+      width: 40%;
+      height: 100%;
+      top: 0;
+      left: -100%;
+      animation: lk-line-stream-h-relay calc(var(--lk-ti-total) * 0.8s) infinite linear;
+      animation-delay: calc(var(--lk-ti-index) * 0.8s);
+    }
+  }
+}
+
+@keyframes lk-line-stream-v-relay {
+  // 光点只在 1/Total 的窗口期内活跃
+  0% { transform: translateY(0); opacity: 0; }
+  2% { opacity: 1; }
+  // 假定节点多，20% 左右完成位移
+  18% { transform: translateY(450%); opacity: 1; }
+  20% { opacity: 0; }
+  100% { transform: translateY(450%); opacity: 0; }
+}
+
+@keyframes lk-line-stream-h-relay {
+  0% { transform: translateX(0); opacity: 0; }
+  2% { opacity: 1; }
+  18% { transform: translateX(450%); opacity: 1; }
+  20% { opacity: 0; }
+  100% { transform: translateX(450%); opacity: 0; }
+}
+
+@keyframes lk-line-flow {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 var(--lk-rpx-32);
+  }
+}
+
+// 水平模式下的动画位移
+.lk-timeline-item--horizontal {
+  @keyframes lk-line-flow {
+    from { background-position: 0 0; }
+    to { background-position: var(--lk-rpx-32) 0; }
+  }
 }
 
 // ── 节点圆 ──────────────────────────────────────────────────────────────────
@@ -220,25 +355,6 @@ $line-offset-top: var(--lk-rpx-38); // dot(32) + 间距(6)
   pointer-events: none;
   display: block;
   width: 100%;
-}
-
-// ── 连接线 ─────────────────────────────────────────────────────────────────
-
-.lk-timeline-item__line {
-  position: absolute;
-  top: $line-offset-top;
-  bottom: 0;
-  left: var(--lk-rpx-23);
-  width: $line-width;
-  background-color: var(--lk-color-border);
-  border-radius: var(--lk-radius-full);
-  z-index: 1;
-  display: block;
-  transition: background-color 200ms ease;
-
-  .is-completed & {
-    background-color: var(--lk-color-border);
-  }
 }
 
 // ── 右侧内容区 ────────────────────────────────────────────────────────────────

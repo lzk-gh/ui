@@ -71,6 +71,21 @@ export const timelineItemProps = {
   dotVariant: LkProp.string(''),
 
   /**
+   * 轴线样式变体（覆盖父级设置）
+   */
+  lineVariant: LkProp.string(''),
+
+  /**
+   * 轴线模式（覆盖父级设置）
+   */
+  lineMode: LkProp.string(''),
+
+  /**
+   * 轴线是否开启动态流动效果（覆盖父级设置）
+   */
+  lineAnimated: LkProp.boolean(undefined),
+
+  /**
    * 是否为最后一项（隐藏连接线），不传时自动判断
    */
   last: LkProp.boolean(false),
