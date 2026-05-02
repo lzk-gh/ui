@@ -13,6 +13,8 @@ const visibleLong = ref(false);
 const visibleDynamic = ref(false);
 const visibleTitleLeft = ref(false);
 const visibleTitleCenter = ref(false);
+const visibleFooterText = ref(false);
+const visibleSingleBtn = ref(false);
 
 // 动态参数
 const dynamicType = ref('zoom-in');
@@ -141,6 +143,32 @@ const handleConfirm = () => {
         <lk-button @click="visibleTitleCenter = true">标题居中</lk-button>
         <lk-modal v-model="visibleTitleCenter" title="确认操作" title-align="center">
           <text>标题居中显示，更加庄重，常用于确认弹窗。</text>
+        </lk-modal>
+      </view>
+    </demo-block>
+
+    <demo-block title="底部按钮风格">
+      <view class="demo-row">
+        <lk-button @click="visibleFooterText = true">文本按钮 (双按钮)</lk-button>
+        <lk-modal
+          v-model="visibleFooterText"
+          title="退出登录"
+          title-align="center"
+          footer-type="text"
+        >
+          <text>确认退出当前账号吗？</text>
+        </lk-modal>
+
+        <lk-button @click="visibleSingleBtn = true">文本按钮 (单按钮)</lk-button>
+        <lk-modal
+          v-model="visibleSingleBtn"
+          title="系统提示"
+          title-align="center"
+          footer-type="text"
+          :show-cancel="false"
+          confirm-text="我知道了"
+        >
+          <text>您的账号已在其他设备登录。</text>
         </lk-modal>
       </view>
     </demo-block>

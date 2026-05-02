@@ -39,6 +39,16 @@ export const modalProps = {
   /** 是否显示底部 */
   showFooter: LkProp.boolean(true),
 
+  /**
+   * 底部按钮类型
+   * @value button 药丸形状按钮 (默认)
+   * @value text 文本按钮 (带分割线，常用于系统确认弹窗)
+   */
+  footerType: LkProp.enum(['button', 'text'] as const, 'button', 'Modal.footerType'),
+
+  /** 是否显示取消按钮 */
+  showCancel: LkProp.boolean(true),
+
   /** 确认按钮文本（兼容旧参数名） */
   confirmText: LkProp.string('确定'),
 

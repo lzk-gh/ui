@@ -146,20 +146,39 @@ function onCloseClick() {
       </view>
 
       <!-- Footer -->
-      <view v-if="showFooter" class="lk-modal__footer">
+      <view
+        v-if="showFooter"
+        class="lk-modal__footer"
+        :class="[`is-footer-${footerType}`, { 'has-cancel': showCancel }]"
+      >
         <slot name="footer">
-          <lk-button
-            class="lk-modal__footer-btn lk-modal__footer-btn--cancel"
-            block
-            size="md"
-            variant="soft"
-            @click="cancel"
-          >
-            {{ cancelText }}
-          </lk-button>
-          <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="confirm">
-            {{ confirmText }}
-          </lk-button>
+          <template v-if="footerType === 'button'">
+            <lk-button
+              v-if="showCancel"
+              class="lk-modal__footer-btn lk-modal__footer-btn--cancel"
+              block
+              size="md"
+              variant="soft"
+              @click="cancel"
+            >
+              {{ cancelText }}
+            </lk-button>
+            <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="confirm">
+              {{ confirmText }}
+            </lk-button>
+          </template>
+          <template v-else>
+            <view
+              v-if="showCancel"
+              class="lk-modal__text-btn lk-modal__text-btn--cancel"
+              @click="cancel"
+            >
+              {{ cancelText }}
+            </view>
+            <view class="lk-modal__text-btn lk-modal__text-btn--confirm" @click="confirm">
+              {{ confirmText }}
+            </view>
+          </template>
         </slot>
       </view>
     </view>

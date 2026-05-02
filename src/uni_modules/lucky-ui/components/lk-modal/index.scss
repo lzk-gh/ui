@@ -74,6 +74,46 @@
     /* 去掉分割线 */
     border-top: none;
 
+    @include when(footer-text) {
+      padding: 0;
+      border-top: var(--lk-rpx-2) solid var(--lk-color-border-light);
+
+      .lk-modal__text-btn {
+        flex: 1;
+        height: var(--lk-rpx-100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--lk-rpx-32);
+        color: var(--lk-color-text);
+        position: relative;
+        transition: background-color 0.2s ease;
+
+        &:active {
+          background-color: var(--lk-color-bg-active);
+        }
+
+        @include m(confirm) {
+          color: var(--lk-color-primary);
+          font-weight: 600;
+        }
+
+        @include m(cancel) {
+          color: var(--lk-color-text-secondary);
+          &::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--lk-rpx-2);
+            background-color: var(--lk-color-border-light);
+            transform: scaleX(0.5);
+          }
+        }
+      }
+    }
+
     /* 两个按钮左右占比并圆角样式 */
     & > .lk-modal__footer-btn {
       flex: 1;
