@@ -129,7 +129,11 @@ function onCloseClick() {
       :style="{ ...transitionStyles, width }"
     >
       <!-- Header -->
-      <view v-if="showHeader && (title || showClose || $slots.header)" class="lk-modal__header">
+      <view
+        v-if="showHeader && (title || showClose || $slots.header)"
+        class="lk-modal__header"
+        :class="[`is-title-${titleAlign}`]"
+      >
         <slot name="header">
           <text class="lk-modal__title">{{ title }}</text>
         </slot>

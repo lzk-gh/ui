@@ -11,6 +11,8 @@ const visibleBounce = ref(false);
 const visibleNoHeader = ref(false);
 const visibleLong = ref(false);
 const visibleDynamic = ref(false);
+const visibleTitleLeft = ref(false);
+const visibleTitleCenter = ref(false);
 
 // 动态参数
 const dynamicType = ref('zoom-in');
@@ -125,6 +127,20 @@ const handleConfirm = () => {
               :options="['ease', 'ease-out', 'ease-in', 'ease-in-out', 'ease-out-back']"
             />
           </view>
+        </lk-modal>
+      </view>
+    </demo-block>
+
+    <demo-block title="标题对齐方式">
+      <view class="demo-row">
+        <lk-button @click="visibleTitleLeft = true">标题居左 (默认)</lk-button>
+        <lk-modal v-model="visibleTitleLeft" title="提示" title-align="left">
+          <text>默认标题居左显示，符合常规信息流布局。</text>
+        </lk-modal>
+
+        <lk-button @click="visibleTitleCenter = true">标题居中</lk-button>
+        <lk-modal v-model="visibleTitleCenter" title="确认操作" title-align="center">
+          <text>标题居中显示，更加庄重，常用于确认弹窗。</text>
         </lk-modal>
       </view>
     </demo-block>

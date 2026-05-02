@@ -27,6 +27,10 @@
     position: relative;
     /* 去掉分割线 */
     border-bottom: none;
+
+    @include when(title-center) {
+      text-align: center;
+    }
   }
 
   @include e(title) {

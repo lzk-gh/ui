@@ -17,6 +17,13 @@ export const modalProps = {
   /** 标题 */
   title: LkProp.string(''),
 
+  /**
+   * 标题对齐方式
+   * @value left 居左 (默认)
+   * @value center 居中
+   */
+  titleAlign: LkProp.enum(['left', 'center'] as const, 'left', 'Modal.titleAlign'),
+
   /** 宽度 */
   width: LkProp.string('var(--lk-rpx-600)'),
 
