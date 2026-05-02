@@ -23,7 +23,7 @@
 }
 
 @include b(form-item) {
-  --_gap-x: var(--lk-spacing-md);
+  --_gap-x: var(--lk-spacing-xl, var(--lk-rpx-48));
   --_label-color: var(--lk-text-primary);
   --_error-color: var(--lk-color-danger);
   --_label-fs: var(--lk-font-size-md, var(--lk-rpx-28));
@@ -46,17 +46,44 @@
 
   @include e(label) {
     flex-shrink: 0;
-    min-width: var(--lk-rpx-160);
+    width: var(--lk-rpx-160);
     font-size: var(--_label-fs);
     color: var(--_label-color);
     display: flex;
     align-items: center;
     margin-right: var(--_gap-x);
+    overflow: hidden;
   }
 
   @include e(star) {
     color: var(--_error-color);
-    margin-right: var(--lk-rpx-4);
+    width: var(--lk-rpx-16);
+    margin-right: var(--lk-rpx-8);
+    display: inline-flex;
+    justify-content: center;
+    flex-shrink: 0;
+
+    @include when(hidden) {
+      visibility: hidden;
+    }
+  }
+
+  @include e(label-text) {
+    flex: 1;
+    display: inline-block;
+    text-align: justify;
+    text-align-last: justify;
+    // 强制 3 个字匹配 4 个字的视觉宽度
+    // 如果标签对齐方式是右对齐，则不使用两端对齐
+    .lk-form-item--left & {
+      text-align: justify;
+      text-align-last: justify;
+    }
+
+    .lk-form-item--right & {
+      text-align: right;
+      text-align-last: right;
+    }
   }
 
   @include e(content) {

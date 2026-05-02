@@ -177,7 +177,7 @@ defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: (
   >
     <view class="lk-form-item__body">
       <view v-if="label || $slots.label" class="lk-form-item__label" :style="labelStyle">
-        <text v-if="requiredMark" class="lk-form-item__star">*</text>
+        <text class="lk-form-item__star" :class="{ 'is-hidden': !requiredMark }">*</text>
         <slot name="label">
           <text class="lk-form-item__label-text">{{ label }}</text>
         </slot>
