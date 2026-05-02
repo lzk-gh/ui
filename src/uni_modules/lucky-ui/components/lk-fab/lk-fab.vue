@@ -347,6 +347,10 @@ const iconStyle = computed(() => ({
   transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
 }));
 
+const isAtRightSide = computed(() => {
+  return posX.value + sizePx.value / 2 > windowWidth / 2;
+});
+
 const currentIcon = computed(() => {
   if (isExpanded.value && props.activeIcon) {
     return props.activeIcon;
@@ -378,7 +382,12 @@ const currentIcon = computed(() => {
         v-for="(action, index) in actions"
         :key="action.key"
         class="lk-fab__action"
-        :class="{ 'is-disabled': action.disabled, 'is-blur': blur }"
+        :class="{
+          'is-disabled': action.disabled,
+          'is-blur': blur,
+          'is-at-right': isAtRightSide,
+          'is-at-left': !isAtRightSide,
+        }"
         :style="getActionStyle(index)"
         @tap.stop="handleActionClick(action, $event)"
       >
