@@ -29,6 +29,7 @@ const wrapperId = computed(() => props.id || uid('lk-chart-area'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const hoverIndex = ref(-1);
 const effectPhase = ref(0);
+const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
 
 const heightStyle = computed(() => {
   const height = props.height;
@@ -58,6 +59,40 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
+const tooltipStyle = computed<StyleValue>(() => ({
+  left: `${tooltipState.value.x}px`,
+  top: `${tooltipState.value.y}px`,
+  width: `${tooltipState.value.width}px`,
+  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
+}));
+
+function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
+  const gap = chart.px(12);
+  const minWidth = chart.px(48);
+  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
+  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
+  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
+  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
+  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
+  const current = tooltipState.value;
+  if (
+    current.visible &&
+    current.x === left &&
+    current.y === y &&
+    current.width === width &&
+    current.arrowX === arrowX &&
+    current.text === text
+  ) {
+    return;
+  }
+  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+}
+
+function hideTooltip() {
+  if (!tooltipState.value.visible) return;
+  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
+}
+
 function resolveColor() {
   const palette = buildBrandPalette(resolveBrandBaseColor());
   if (!props.color || props.color === 'primary') return palette.brand600;
@@ -78,37 +113,6 @@ function drawSmoothPath(ctx: MaybeCanvas2DContext, points: LiteChartPosition[]) 
   ctx.lineTo(last.x, last.y);
 }
 
-function drawTooltip(
-  ctx: MaybeCanvas2DContext,
-  point: LiteChartPosition,
-  text: string,
-  palette: ReturnType<typeof buildBrandPalette>
-) {
-  ctx.save();
-  ctx.font = '12px sans-serif';
-  const paddingX = 8;
-  const width = Math.max(34, ctx.measureText(text).width + paddingX * 2);
-  const height = 24;
-  const x = Math.max(6, Math.min(point.x - width / 2, chart.size.value.width - width - 6));
-  const y = Math.max(6, point.y - height - 12);
-  const radius = 9;
-
-  ctx.fillStyle = rgbaFromHex(palette.brand800, 0.88);
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.arcTo(x + width, y, x + width, y + height, radius);
-  ctx.arcTo(x + width, y + height, x, y + height, radius);
-  ctx.arcTo(x, y + height, x, y, radius);
-  ctx.arcTo(x, y, x + width, y, radius);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = rgbaFromHex(palette.brand100, 1);
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, x + paddingX, y + height / 2);
-  ctx.restore();
-}
-
 function getEffectStrength() {
   if (props.effect === LiteChartEffect.None) return 0;
   if (props.effect === LiteChartEffect.Subtle) return 0.65;
@@ -123,7 +127,10 @@ chart.setRenderer((info, progress) => {
   const plotHeight = Math.max(0, size.height - labelHeight);
   const lineWidth = info.px(props.lineWidth);
   const points = getLiteChartPositions(data, size.width, plotHeight, padding);
-  if (points.length < 2) return;
+  if (points.length < 2) {
+    hideTooltip();
+    return;
+  }
 
   const color = resolveColor();
   const palette = buildBrandPalette(resolveBrandBaseColor());
@@ -217,7 +224,14 @@ chart.setRenderer((info, progress) => {
     ctx.arc(active.x, active.y, lineWidth, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
-    if (props.tooltip) drawTooltip(ctx, active, formatCompactNumber(active.value), palette);
+    if (props.tooltip) {
+      const text = formatCompactNumber(active.value);
+      showTooltip(active.x, active.y, text, ctx.measureText(text).width);
+    } else {
+      hideTooltip();
+    }
+  } else {
+    hideTooltip();
   }
 
   if (props.showXAxisLabel) {
@@ -339,6 +353,9 @@ onUnmounted(() => {
     @touchend="clearHover"
   >
     <canvas :id="canvasId" class="lk-chart-area__canvas" type="2d" :canvas-id="canvasId" />
+    <view v-if="tooltipState.visible" class="lk-chart-area__tooltip" :style="tooltipStyle">
+      {{ tooltipState.text }}
+    </view>
   </view>
 </template>
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, ref, watch, onUnmounted } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
@@ -30,6 +31,7 @@ const autoFrom = ref<number | null>(null);
 const autoTo = ref<number | null>(null);
 const autoT = ref(1);
 const pulse = ref(0);
+const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
 
 let autoTimer: number | undefined;
 
@@ -95,6 +97,40 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
+const tooltipStyle = computed<StyleValue>(() => ({
+  left: `${tooltipState.value.x}px`,
+  top: `${tooltipState.value.y}px`,
+  width: `${tooltipState.value.width}px`,
+  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
+}));
+
+function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
+  const gap = chart.px(12);
+  const minWidth = chart.px(48);
+  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
+  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
+  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
+  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
+  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
+  const current = tooltipState.value;
+  if (
+    current.visible &&
+    current.x === left &&
+    current.y === y &&
+    current.width === width &&
+    current.arrowX === arrowX &&
+    current.text === text
+  ) {
+    return;
+  }
+  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+}
+
+function hideTooltip() {
+  if (!tooltipState.value.visible) return;
+  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
+}
+
 type Pt = { x: number; y: number; v: number; label?: string };
 
 function catmullRomToBezier(points: Pt[]) {
@@ -126,42 +162,6 @@ function catmullRomToBezier(points: Pt[]) {
   return result;
 }
 
-function drawTooltip(
-  ctx: any,
-  x: number,
-  y: number,
-  text: string,
-  palette: ReturnType<typeof buildBrandPalette>
-) {
-  ctx.save();
-  ctx.font = '12px sans-serif';
-  const padX = 8;
-  const metrics = ctx.measureText(text);
-  const w = Math.max(24, metrics.width + padX * 2);
-  const h = 22;
-
-  let tx = x - w / 2;
-  let ty = y - h - 12;
-  tx = Math.max(6, Math.min(tx, chart.size.value.width - w - 6));
-  ty = Math.max(6, ty);
-
-  ctx.fillStyle = rgbaFromHex(palette.brand800, 0.9);
-  const r = 8;
-  ctx.beginPath();
-  ctx.moveTo(tx + r, ty);
-  ctx.arcTo(tx + w, ty, tx + w, ty + h, r);
-  ctx.arcTo(tx + w, ty + h, tx, ty + h, r);
-  ctx.arcTo(tx, ty + h, tx, ty, r);
-  ctx.arcTo(tx, ty, tx + w, ty, r);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = '#ffffff';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, tx + padX, ty + h / 2);
-  ctx.restore();
-}
-
 chart.setRenderer((info, progress) => {
   const { ctx, size } = info;
   const d = props.data || [];
@@ -174,7 +174,10 @@ chart.setRenderer((info, progress) => {
   const yLabelW = props.showAxis ? 36 : 0;
   const innerW = Math.max(0, size.width - pad * 2 - yLabelW);
   const innerH = Math.max(0, size.height - pad * 2 - xLabelH);
-  if (!d.length || innerW <= 0 || innerH <= 0) return;
+  if (!d.length || innerW <= 0 || innerH <= 0) {
+    hideTooltip();
+    return;
+  }
 
   const values = d.map(i => (Number.isFinite(i.value) ? i.value : 0));
   const minV = Math.min(...values);
@@ -324,7 +327,9 @@ chart.setRenderer((info, progress) => {
     ctx.stroke();
     ctx.restore();
 
-    drawTooltip(ctx, cursorX, cursorY, cursorText, palette);
+    showTooltip(cursorX, cursorY, cursorText, ctx.measureText(cursorText).width);
+  } else {
+    hideTooltip();
   }
 
   if (props.showXAxisLabel) {
@@ -475,6 +480,9 @@ onUnmounted(() => {
     @mouseleave="onEnd"
   >
     <canvas :id="canvasId" :canvas-id="canvasId" type="2d" class="lk-chart__canvas" />
+    <view v-if="tooltipState.visible" class="lk-chart__tooltip" :style="tooltipStyle">
+      {{ tooltipState.text }}
+    </view>
   </view>
 </template>
 
@@ -482,9 +490,40 @@ onUnmounted(() => {
 .lk-chart {
   width: 100%;
   position: relative;
+  overflow: visible;
+  z-index: var(--lk-z-index-tooltip);
 }
 .lk-chart__canvas {
   width: 100%;
   height: 100%;
+  display: block;
+}
+.lk-chart__tooltip {
+  position: absolute;
+  max-width: var(--lk-rpx-320);
+  padding: var(--lk-rpx-8) var(--lk-rpx-16);
+  color: var(--lk-chart-tooltip-color, var(--lk-color-text-inverse));
+  background: var(--lk-chart-tooltip-bg, var(--lk-color-text));
+  border-radius: var(--lk-radius-sm);
+  font-size: var(--lk-font-size-xs);
+  line-height: var(--lk-line-height-tight);
+  white-space: nowrap;
+  pointer-events: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: translateY(-100%) translateY(calc(var(--lk-rpx-10) * -1));
+  z-index: var(--lk-z-index-tooltip);
+  box-shadow: var(--lk-shadow-sm);
+}
+.lk-chart__tooltip::after {
+  content: '';
+  position: absolute;
+  left: var(--lk-chart-tooltip-arrow-x, 50%);
+  bottom: calc(var(--lk-rpx-6) * -1);
+  width: var(--lk-rpx-12);
+  height: var(--lk-rpx-12);
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
 }
 </style>

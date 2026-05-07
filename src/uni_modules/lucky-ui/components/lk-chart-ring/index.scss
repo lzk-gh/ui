@@ -4,7 +4,8 @@
   position: relative;
   width: 100%;
   min-height: var(--lk-rpx-160);
-  overflow: hidden;
+  overflow: visible;
+  z-index: var(--lk-z-index-tooltip);
 
   @include e(canvas) {
     width: 100%;

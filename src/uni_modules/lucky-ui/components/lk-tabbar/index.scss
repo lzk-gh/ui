@@ -7,8 +7,8 @@
 // ============================================================================
 // 变量定义
 // ============================================================================
-$tabbar-height: var(--lk-control-height-lg);
-$tabbar-item-height: var(--lk-control-height-sm);
+$tabbar-height: var(--lk-tabbar-height, var(--lk-rpx-112));
+$tabbar-item-height: var(--lk-tabbar-item-height, var(--lk-control-height-md));
 $tabbar-transition: cubic-bezier(0.4, 0, 0.2, 1); // Material Design 标准曲线
 $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 

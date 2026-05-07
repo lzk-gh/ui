@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, ref, watch, onUnmounted } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
+import type { MaybeCanvas2DContext } from '../../composables/useChartCanvas';
 import {
   buildBrandPalette,
   resolveBrandBaseColor,
@@ -33,6 +35,7 @@ const heightStyle = computed(() => {
 
 const hoverIndex = ref<number>(-1);
 const pulse = ref(0);
+const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
 
 let autoTimer: number | undefined;
 
@@ -70,7 +73,14 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
-function roundedTopRectPath(ctx: any, x: number, y: number, w: number, h: number, r: number) {
+function roundedTopRectPath(
+  ctx: MaybeCanvas2DContext,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number
+) {
   const radius = Math.max(0, Math.min(r, w / 2, h));
   const right = x + w;
   const bottom = y + h;
@@ -101,7 +111,7 @@ function resolveItemColor(
   return candidates[index % candidates.length];
 }
 
-function buildGradient(ctx: any, x: number, y: number, h: number, baseHex: string) {
+function buildGradient(ctx: MaybeCanvas2DContext, x: number, y: number, h: number, baseHex: string) {
   const base = hexToRgb(baseHex) ?? { r: 105, g: 101, b: 219 };
   const top = mixRgb({ r: 255, g: 255, b: 255 }, base, 0.35);
   const g = ctx.createLinearGradient(x, y, x, y + Math.max(1, h));
@@ -110,50 +120,38 @@ function buildGradient(ctx: any, x: number, y: number, h: number, baseHex: strin
   return g;
 }
 
-function drawTooltip(
-  ctx: any,
-  x: number,
-  y: number,
-  text: string,
-  palette: ReturnType<typeof buildBrandPalette>
-) {
-  const padX = 8;
-  ctx.save();
-  ctx.font = '12px sans-serif';
-  const metrics = ctx.measureText(text);
-  const w = Math.max(24, metrics.width + padX * 2);
-  const h = 22;
+const tooltipStyle = computed<StyleValue>(() => ({
+  left: `${tooltipState.value.x}px`,
+  top: `${tooltipState.value.y}px`,
+  width: `${tooltipState.value.width}px`,
+  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
+}));
 
-  let tx = x - w / 2;
-  let ty = y - h - 10;
-  tx = Math.max(6, Math.min(tx, chart.size.value.width - w - 6));
-  ty = Math.max(6, ty);
+function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
+  const gap = chart.px(12);
+  const minWidth = chart.px(48);
+  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
+  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
+  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
+  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
+  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
+  const current = tooltipState.value;
+  if (
+    current.visible &&
+    current.x === left &&
+    current.y === y &&
+    current.width === width &&
+    current.arrowX === arrowX &&
+    current.text === text
+  ) {
+    return;
+  }
+  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+}
 
-  const bg = rgbaFromHex(palette.brand800, 0.9);
-  ctx.fillStyle = bg;
-
-  const r = 8;
-  ctx.beginPath();
-  ctx.moveTo(tx + r, ty);
-  ctx.arcTo(tx + w, ty, tx + w, ty + h, r);
-  ctx.arcTo(tx + w, ty + h, tx, ty + h, r);
-  ctx.arcTo(tx, ty + h, tx, ty, r);
-  ctx.arcTo(tx, ty, tx + w, ty, r);
-  ctx.closePath();
-  ctx.fill();
-
-  // 小尖角
-  ctx.beginPath();
-  ctx.moveTo(x, ty + h);
-  ctx.lineTo(x - 6, ty + h + 6);
-  ctx.lineTo(x + 6, ty + h + 6);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = '#ffffff';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, tx + padX, ty + h / 2);
-  ctx.restore();
+function hideTooltip() {
+  if (!tooltipState.value.visible) return;
+  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
 }
 
 chart.setRenderer((info, progress) => {
@@ -169,7 +167,10 @@ chart.setRenderer((info, progress) => {
   const innerW = Math.max(0, size.width - pad * 2 - yLabelW);
   const innerH = Math.max(0, size.height - pad * 2 - xLabelH);
 
-  if (!d.length || innerW <= 0 || innerH <= 0) return;
+  if (!d.length || innerW <= 0 || innerH <= 0) {
+    hideTooltip();
+    return;
+  }
 
   const values = d.map(i => (Number.isFinite(i.value) ? Math.max(0, i.value) : 0));
   const maxV = Math.max(1, ...values);
@@ -219,6 +220,7 @@ chart.setRenderer((info, progress) => {
   ctx.restore();
 
   const effectiveIndex = getEffectiveIndex(d.length);
+  let tooltipRendered = false;
 
   for (let i = 0; i < d.length; i += 1) {
     const v = values[i] * progress;
@@ -252,7 +254,8 @@ chart.setRenderer((info, progress) => {
     if (props.tooltip && effectiveIndex === i) {
       const label = d[i].label ? String(d[i].label) : '';
       const text = label ? `${label}: ${values[i]}` : String(values[i]);
-      drawTooltip(ctx, x + barW / 2, y, text, palette);
+      showTooltip(x + barW / 2, y, text, ctx.measureText(text).width);
+      tooltipRendered = true;
     }
 
     if (props.showXAxisLabel && i % Math.max(1, Math.ceil(d.length / 6)) === 0) {
@@ -268,6 +271,8 @@ chart.setRenderer((info, progress) => {
       }
     }
   }
+
+  if (!tooltipRendered) hideTooltip();
 });
 
 function triggerIntro() {
@@ -399,6 +404,9 @@ onUnmounted(() => {
     @mouseleave="onEnd"
   >
     <canvas :id="canvasId" :canvas-id="canvasId" type="2d" class="lk-chart__canvas" />
+    <view v-if="tooltipState.visible" class="lk-chart__tooltip" :style="tooltipStyle">
+      {{ tooltipState.text }}
+    </view>
   </view>
 </template>
 
@@ -406,9 +414,40 @@ onUnmounted(() => {
 .lk-chart {
   width: 100%;
   position: relative;
+  overflow: visible;
+  z-index: var(--lk-z-index-tooltip);
 }
 .lk-chart__canvas {
   width: 100%;
   height: 100%;
+  display: block;
+}
+.lk-chart__tooltip {
+  position: absolute;
+  max-width: var(--lk-rpx-320);
+  padding: var(--lk-rpx-8) var(--lk-rpx-16);
+  color: var(--lk-chart-tooltip-color, var(--lk-color-text-inverse));
+  background: var(--lk-chart-tooltip-bg, var(--lk-color-text));
+  border-radius: var(--lk-radius-sm);
+  font-size: var(--lk-font-size-xs);
+  line-height: var(--lk-line-height-tight);
+  white-space: nowrap;
+  pointer-events: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: translateY(-100%) translateY(calc(var(--lk-rpx-10) * -1));
+  z-index: var(--lk-z-index-tooltip);
+  box-shadow: var(--lk-shadow-sm);
+}
+.lk-chart__tooltip::after {
+  content: '';
+  position: absolute;
+  left: var(--lk-chart-tooltip-arrow-x, 50%);
+  bottom: calc(var(--lk-rpx-6) * -1);
+  width: var(--lk-rpx-12);
+  height: var(--lk-rpx-12);
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
 }
 </style>
