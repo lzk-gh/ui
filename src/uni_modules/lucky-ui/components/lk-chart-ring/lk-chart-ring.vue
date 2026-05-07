@@ -111,50 +111,77 @@ chart.setRenderer((info, progress) => {
     ? segments.reduce((sum, item) => sum + item.value, 0)
     : Math.max(1, props.max);
   let start = -Math.PI / 2;
+  let drawnSweep = Math.PI * 2 * progress;
   const pulse = effectStrength > 0 ? oscillate(effectPhase.value) * effectStrength : 0;
+  const segmentCount = segments.length;
+  const overlapAngle = segmentCount > 1 ? Math.min((strokeWidth * 1.6) / radius, Math.PI / 8) : 0;
+  const drawnSegments: Array<{
+    color: string;
+    start: number;
+    sweep: number;
+    fullSweep: number;
+  }> = [];
+
+  function drawRingArc(color: string, from: number, to: number, lineCap: CanvasLineCap) {
+    ctx.lineCap = lineCap;
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, from, to);
+    ctx.stroke();
+  }
 
   segments.forEach((segment, index) => {
     const fullSweep = (segment.value / total) * Math.PI * 2;
-    const sweep = fullSweep * progress;
+    const sweep = Math.max(0, Math.min(fullSweep, drawnSweep));
+    drawnSweep -= fullSweep;
+    if (sweep <= 0) {
+      start += fullSweep;
+      return;
+    }
     const color = resolveSegmentColor(segment, index);
-    ctx.strokeStyle = color;
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, start, start + sweep);
-    ctx.stroke();
-
-    const endAngle = start + sweep;
-    const endX = cx + Math.cos(endAngle) * radius;
-    const endY = cy + Math.sin(endAngle) * radius;
-    const highlight = movingWindow(
-      effectPhase.value,
-      (start + fullSweep / 2 + Math.PI / 2) / (Math.PI * 2),
-      0.22
-    );
-    ctx.save();
-    ctx.fillStyle = rgbaFromHex(color, 0.16 + highlight * 0.14 + pulse * 0.08);
-    ctx.beginPath();
-    ctx.arc(endX, endY, strokeWidth * (0.48 + highlight * 0.18 + pulse * 0.14), 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(endX, endY, strokeWidth * 0.18, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
+    drawRingArc(color, start, start + sweep, segmentCount > 1 ? 'butt' : 'round');
+    drawnSegments.push({ color, start, sweep, fullSweep });
 
     if (effectStrength > 0) {
-      const sweepAngle = start + fullSweep * effectPhase.value;
+      const highlight = movingWindow(
+        effectPhase.value,
+        (start + fullSweep / 2 + Math.PI / 2) / (Math.PI * 2),
+        0.22
+      );
+      const sweepAngle = start + sweep * effectPhase.value;
       const sweepX = cx + Math.cos(sweepAngle) * radius;
       const sweepY = cy + Math.sin(sweepAngle) * radius;
       ctx.save();
-      ctx.fillStyle = rgbaFromHex(color, 0.1 + effectStrength * 0.08);
+      ctx.fillStyle = rgbaFromHex(color, 0.08 + highlight * 0.08 + pulse * 0.04);
       ctx.beginPath();
-      ctx.arc(sweepX, sweepY, strokeWidth * (0.2 + effectStrength * 0.08), 0, Math.PI * 2);
+      ctx.arc(sweepX, sweepY, strokeWidth * (0.18 + effectStrength * 0.06), 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
 
     start += fullSweep;
   });
+
+  if (segmentCount > 1) {
+    drawnSegments.forEach((segment, index) => {
+      if (index === 0) return;
+      const capSweep = Math.min(overlapAngle, segment.fullSweep * 0.45, segment.sweep);
+      if (capSweep <= 0) return;
+      drawRingArc(segment.color, segment.start - capSweep, segment.start + capSweep, 'round');
+    });
+  }
+
+  const firstSegment = drawnSegments[0];
+  const isCompleteRing = progress >= 0.999 && drawnSegments.length === segmentCount;
+  if (firstSegment && segmentCount > 1 && isCompleteRing) {
+    const firstOverlap = Math.min(overlapAngle, firstSegment.fullSweep * 0.45);
+    drawRingArc(
+      firstSegment.color,
+      firstSegment.start - firstOverlap,
+      firstSegment.start + firstOverlap,
+      'round'
+    );
+  }
 
   ctx.restore();
 
