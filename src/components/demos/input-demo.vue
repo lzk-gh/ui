@@ -30,13 +30,13 @@ function onConfirm() {
 </script>
 
 <template>
-  <lk-space class="component-demo" direction="vertical" :gap="24" fill>
+  <lk-space class="component-demo" direction="vertical" :gap="32" fill>
     <demo-block title="基础用法">
       <lk-input v-model="value1" placeholder="请输入内容" />
     </demo-block>
 
     <demo-block title="输入类型">
-      <lk-space direction="vertical" :gap="16" fill>
+      <lk-space direction="vertical" :gap="24" fill>
         <lk-input v-model="value2" type="text" placeholder="文本输入" />
         <lk-input v-model="value3" type="number" placeholder="数字输入" />
         <lk-input v-model="value4" type="digit" placeholder="带小数点的数字" />
@@ -57,7 +57,7 @@ function onConfirm() {
     </demo-block>
 
     <demo-block title="带图标">
-      <lk-space direction="vertical" :gap="16" fill>
+      <lk-space direction="vertical" :gap="24" fill>
         <lk-input v-model="value7" placeholder="搜索">
           <template #prefix>
             <lk-icon name="search" size="32" />
@@ -74,7 +74,7 @@ function onConfirm() {
     </demo-block>
 
     <demo-block title="文字对齐方式">
-      <lk-space direction="vertical" :gap="16" fill>
+      <lk-space direction="vertical" :gap="24" fill>
         <lk-input v-model="valueAlign1" input-align="left" placeholder="左对齐（默认）" />
         <lk-input v-model="valueAlign2" input-align="center" placeholder="居中对齐" />
         <lk-input v-model="valueAlign3" input-align="right" placeholder="右对齐" />
