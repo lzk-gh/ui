@@ -2,19 +2,94 @@
 
 .lk-space-container {
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 @include b(space) {
   display: inline-flex;
   // 基础变量由 Vue 注入: --lk-space-row-gap, --lk-space-col-gap
 
-  /* 
-     使用 ::v-deep 给所有直接子元素注入 margin。
-     这种方案比 gap 兼容性更好，且能处理 wrap 场景。
+  /*
+     使用直接子元素 margin 替代 gap，兼容小程序端。
+     小程序端不使用通配选择器，因此显式覆盖原生节点和 Lucky UI 组件标签。
   */
   & > ::v-deep view,
-  & > ::v-deep text {
+  & > ::v-deep text,
+  & > ::v-deep image,
+  & > ::v-deep button,
+  & > ::v-deep input,
+  & > ::v-deep textarea,
+  & > ::v-deep scroll-view,
+  & > ::v-deep swiper,
+  & > ::v-deep lk-action-sheet,
+  & > ::v-deep lk-anchor,
+  & > ::v-deep lk-avatar,
+  & > ::v-deep lk-backtop,
+  & > ::v-deep lk-badge,
+  & > ::v-deep lk-button,
+  & > ::v-deep lk-calendar,
+  & > ::v-deep lk-card,
+  & > ::v-deep lk-carousel,
+  & > ::v-deep lk-cell,
+  & > ::v-deep lk-chart-area,
+  & > ::v-deep lk-chart-bar,
+  & > ::v-deep lk-chart-line,
+  & > ::v-deep lk-chart-pie,
+  & > ::v-deep lk-chart-radar-lite,
+  & > ::v-deep lk-chart-ring,
+  & > ::v-deep lk-chart-sparkline,
+  & > ::v-deep lk-chart-stat-card,
+  & > ::v-deep lk-checkbox,
+  & > ::v-deep lk-choice,
+  & > ::v-deep lk-collapse,
+  & > ::v-deep lk-curtain,
+  & > ::v-deep lk-date-picker,
+  & > ::v-deep lk-divider,
+  & > ::v-deep lk-dropdown,
+  & > ::v-deep lk-fab,
+  & > ::v-deep lk-form,
+  & > ::v-deep lk-grid,
+  & > ::v-deep lk-horizontal-scroll,
+  & > ::v-deep lk-icon,
+  & > ::v-deep lk-image,
+  & > ::v-deep lk-index-bar,
+  & > ::v-deep lk-input,
+  & > ::v-deep lk-keyboard,
+  & > ::v-deep lk-loading,
+  & > ::v-deep lk-meta-row,
+  & > ::v-deep lk-modal,
+  & > ::v-deep lk-navbar,
+  & > ::v-deep lk-notice-bar,
+  & > ::v-deep lk-number-keyboard,
+  & > ::v-deep lk-number-roller,
+  & > ::v-deep lk-overlay,
+  & > ::v-deep lk-picker,
+  & > ::v-deep lk-popup,
+  & > ::v-deep lk-preload-debugger,
+  & > ::v-deep lk-progress,
+  & > ::v-deep lk-radio,
+  & > ::v-deep lk-rate,
+  & > ::v-deep lk-segmented,
+  & > ::v-deep lk-skeleton,
+  & > ::v-deep lk-slider,
+  & > ::v-deep lk-space,
+  & > ::v-deep lk-stepper,
+  & > ::v-deep lk-sticky,
+  & > ::v-deep lk-switch,
+  & > ::v-deep lk-tabbar,
+  & > ::v-deep lk-tabbar-container,
+  & > ::v-deep lk-tabs,
+  & > ::v-deep lk-tag,
+  & > ::v-deep lk-textarea,
+  & > ::v-deep lk-time-picker,
+  & > ::v-deep lk-timeline,
+  & > ::v-deep lk-toast,
+  & > ::v-deep lk-tooltip,
+  & > ::v-deep lk-upload,
+  & > ::v-deep lk-verify-code,
+  & > ::v-deep lk-virtual-list,
+  & > ::v-deep lk-waterfall,
+  & > ::v-deep lk-watermark {
     margin: calc(var(--lk-space-row-gap) * 0.5) calc(var(--lk-space-col-gap) * 0.5) !important;
   }
 

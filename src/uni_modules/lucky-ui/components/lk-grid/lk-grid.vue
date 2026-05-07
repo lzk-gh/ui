@@ -40,6 +40,8 @@ const innerGapStyle = computed(() => {
   };
 });
 
+const containerClass = computed(() => ['lk-grid-container', { 'is-clipped': props.clip }]);
+
 // 计算分页：当启用 carousel 时按 (columns * rows) 分页
 const pages = computed(() => {
   const list = props.items || [];
@@ -101,7 +103,7 @@ function onPageChange(index: number, oldIndex?: number) {
     </template>
   </lk-carousel>
 
-  <view v-else class="lk-grid-container">
+  <view v-else :class="containerClass">
     <view class="lk-grid" :style="gridStyle">
       <template v-if="items && items.length">
         <view

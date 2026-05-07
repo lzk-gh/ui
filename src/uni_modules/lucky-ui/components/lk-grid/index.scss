@@ -7,7 +7,11 @@
 
   &-container {
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
+
+    &.is-clipped {
+      overflow: hidden;
+    }
   }
 
   @include e(item) {
@@ -18,7 +22,7 @@
     justify-content: center;
     padding: var(--lk-spacing-sm);
     transition: background var(--lk-transition-fast);
-    overflow: hidden;
+    overflow: visible;
   }
 
   @include e(item-text) {

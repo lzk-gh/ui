@@ -32,6 +32,9 @@ export const gridProps = {
   /** 是否轮播模式 */
   carousel: LkProp.boolean(false),
 
+  /** 是否裁剪溢出内容 */
+  clip: LkProp.boolean(false),
+
   /** 行数（轮播模式使用） */
   rows: {
     type: Number,

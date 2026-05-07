@@ -3,6 +3,8 @@
 @include b(badge-wrapper) {
   position: relative;
   display: inline-block;
+  overflow: visible;
+  vertical-align: middle;
 }
 
 @include b(badge) {
@@ -10,11 +12,11 @@
   // 1. 定义组件级 CSS 变量
   // =========================================
   // 使用危险色作为默认徽标颜色，符合常规设计规范
-  --_bg: var(--lk-color-danger);
-  --_color: var(--lk-color-text-inverse);
-  --_fs: var(--lk-font-size-xs);
-  --_h: var(--lk-rpx-36);
-  --_dot-size: var(--lk-rpx-16);
+  --_bg: var(--lk-color-danger, #ff4d4f);
+  --_color: var(--lk-color-text-inverse, #fff);
+  --_fs: var(--lk-font-size-xs, 20rpx);
+  --_h: var(--lk-rpx-36, 36rpx);
+  --_dot-size: var(--lk-rpx-16, 16rpx);
 
   // =========================================
   // 2. 核心盒模型
@@ -36,6 +38,7 @@
   box-shadow: var(--lk-shadow-sm);
   transform: translate(50%, -50%);
   z-index: 10;
+  overflow: visible;
 
   > text {
     color: #fff;

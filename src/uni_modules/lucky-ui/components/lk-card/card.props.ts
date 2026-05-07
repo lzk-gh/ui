@@ -27,6 +27,9 @@ export const cardProps = {
 
   /** 是否开启波纹效果 */
   ripple: LkProp.boolean(false),
+
+  /** 内容溢出策略 */
+  overflow: LkProp.enum(['hidden', 'visible'] as const, 'hidden', 'Card.overflow'),
 } as const;
 
 export type CardProps = ExtractPropTypes<typeof cardProps>;

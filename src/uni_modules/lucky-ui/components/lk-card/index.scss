@@ -4,14 +4,15 @@
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--test-bg-card, var(--lk-color-bg-container));
-  --_radius: var(--lk-radius-lg);
-  --_title-fs: var(--lk-rpx-34);
-  --_subtitle-fs: var(--lk-font-size-sm);
-  --_body-fs: var(--lk-control-font-size-md);
-  --_footer-fs: var(--lk-font-size-sm);
+  --_bg: var(--test-bg-card, var(--lk-color-bg-container, #fff));
+  --_radius: var(--lk-radius-lg, 24rpx);
+  --_title-fs: var(--lk-rpx-34, 34rpx);
+  --_subtitle-fs: var(--lk-font-size-sm, 24rpx);
+  --_body-fs: var(--lk-control-font-size-md, 28rpx);
+  --_footer-fs: var(--lk-font-size-sm, 24rpx);
+  --_overflow: hidden;
   // 使用主题变量自动适配亮暗模式
-  --_shadow: var(--test-shadow-sm, var(--lk-shadow-sm));
+  --_shadow: var(--test-shadow-sm, var(--lk-shadow-sm, 0 2rpx 8rpx rgba(0, 0, 0, 0.08)));
 
   // =========================================
   // 2. 核心盒模型
@@ -22,7 +23,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow: var(--_overflow);
   transition:
     box-shadow var(--lk-transition-fast),
     transform var(--lk-transition-fast);

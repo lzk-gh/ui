@@ -137,7 +137,7 @@ const goToSettings = () => {
         </lk-card>
 
         <!-- 订单状态 -->
-        <lk-card class="section-card" padding="30rpx" shadow="sm">
+        <lk-card class="section-card" padding="30rpx" shadow="sm" overflow="visible">
           <template #header>
             <text class="section-title">My Orders</text>
           </template>
@@ -146,7 +146,7 @@ const goToSettings = () => {
           </template>
           <lk-grid :columns="4" :border="false">
             <view v-for="(order, i) in orderStatuses" :key="i" class="order-status-item">
-              <lk-badge :value="order.count" :offset="[0, 5]">
+              <lk-badge :value="order.count" :offset="[-4, 4]">
                 <lk-icon :name="order.icon" size="48" color="var(--test-text-primary)" />
               </lk-badge>
               <text class="status-label">{{ order.label }}</text>
@@ -322,10 +322,15 @@ const goToSettings = () => {
   flex-direction: column;
   align-items: center;
   gap: 16rpx;
+  min-width: 0;
+  overflow: visible;
 
   .status-label {
     font-size: 24rpx;
     color: $test-text-secondary;
+    line-height: 1.3;
+    max-width: 100%;
+    white-space: nowrap;
   }
 }
 

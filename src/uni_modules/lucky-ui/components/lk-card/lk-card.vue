@@ -40,6 +40,8 @@ const cardStyle = computed<CSSProperties>(() => {
     style['--_bg'] = props.bgColor;
   }
 
+  style['--_overflow'] = props.overflow;
+
   const shadow = shadowMap[props.shadow];
   if (shadow) {
     style['--_shadow'] = shadow;
