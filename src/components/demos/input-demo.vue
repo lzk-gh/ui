@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkSpace from '@/uni_modules/lucky-ui/components/lk-space/lk-space.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
 const value1 = ref('');
@@ -29,16 +30,18 @@ function onConfirm() {
 </script>
 
 <template>
-  <view class="component-demo">
+  <lk-space class="component-demo" direction="vertical" :gap="24" fill>
     <demo-block title="基础用法">
       <lk-input v-model="value1" placeholder="请输入内容" />
     </demo-block>
 
     <demo-block title="输入类型">
-      <lk-input v-model="value2" type="text" placeholder="文本输入" />
-      <lk-input v-model="value3" type="number" placeholder="数字输入" style="margin-top: 16rpx" />
-      <lk-input v-model="value4" type="digit" placeholder="带小数点的数字" style="margin-top: 16rpx" />
-      <lk-input v-model="valueIdcard" type="idcard" placeholder="身份证号" style="margin-top: 16rpx" />
+      <lk-space direction="vertical" :gap="16" fill>
+        <lk-input v-model="value2" type="text" placeholder="文本输入" />
+        <lk-input v-model="value3" type="number" placeholder="数字输入" />
+        <lk-input v-model="value4" type="digit" placeholder="带小数点的数字" />
+        <lk-input v-model="valueIdcard" type="idcard" placeholder="身份证号" />
+      </lk-space>
     </demo-block>
 
     <demo-block title="密码输入（可切换明文）">
@@ -54,53 +57,51 @@ function onConfirm() {
     </demo-block>
 
     <demo-block title="带图标">
-      <lk-input v-model="value7" placeholder="搜索">
-        <template #prefix>
-          <lk-icon name="search" size="32" />
-        </template>
-      </lk-input>
-      <lk-input v-model="value8" placeholder="用户名" style="margin-top: 16rpx">
-        <template #prefix>
-          <lk-icon name="person-fill" size="32" />
-        </template>
-      </lk-input>
-      <lk-input
-        v-model="value10"
-        prefix-icon="envelope-fill"
-        placeholder="邮箱"
-        style="margin-top: 16rpx"
-      />
-      <lk-input
-        v-model="value11"
-        suffix-icon="calendar-fill"
-        placeholder="选择日期"
-        style="margin-top: 16rpx"
-      />
+      <lk-space direction="vertical" :gap="16" fill>
+        <lk-input v-model="value7" placeholder="搜索">
+          <template #prefix>
+            <lk-icon name="search" size="32" />
+          </template>
+        </lk-input>
+        <lk-input v-model="value8" placeholder="用户名">
+          <template #prefix>
+            <lk-icon name="person-fill" size="32" />
+          </template>
+        </lk-input>
+        <lk-input v-model="value10" prefix-icon="envelope-fill" placeholder="邮箱" />
+        <lk-input v-model="value11" suffix-icon="calendar-fill" placeholder="选择日期" />
+      </lk-space>
     </demo-block>
 
     <demo-block title="文字对齐方式">
-      <lk-input v-model="valueAlign1" input-align="left" placeholder="左对齐（默认）" />
-      <lk-input v-model="valueAlign2" input-align="center" placeholder="居中对齐" style="margin-top: 16rpx" />
-      <lk-input v-model="valueAlign3" input-align="right" placeholder="右对齐" style="margin-top: 16rpx" />
+      <lk-space direction="vertical" :gap="16" fill>
+        <lk-input v-model="valueAlign1" input-align="left" placeholder="左对齐（默认）" />
+        <lk-input v-model="valueAlign2" input-align="center" placeholder="居中对齐" />
+        <lk-input v-model="valueAlign3" input-align="right" placeholder="右对齐" />
+      </lk-space>
     </demo-block>
 
     <demo-block title="确认按钮类型">
-      <lk-input v-model="valueConfirm" confirm-type="search" placeholder="搜索（回车键显示搜索）" @confirm="onConfirm" />
+      <lk-input
+        v-model="valueConfirm"
+        confirm-type="search"
+        placeholder="搜索（回车键显示搜索）"
+        @confirm="onConfirm"
+      />
       <text class="demo-tip">{{ confirmTip }}</text>
     </demo-block>
 
     <demo-block title="字数统计">
       <lk-input v-model="value9" :maxlength="20" show-word-limit placeholder="最多20个字" />
     </demo-block>
-  </view>
+  </lk-space>
 </template>
 
 <style scoped lang="scss">
 .component-demo {
-  display: flex;
-  flex-direction: column;
-  gap: 24rpx;
+  width: 100%;
 }
+
 .demo-tip {
   display: block;
   margin-top: 8rpx;
