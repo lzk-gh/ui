@@ -1,0 +1,5247 @@
+{
+  ".agent": {
+    "path": ".agent",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "agent"
+    ],
+    "fingerprint": "b7735122450fdeeb"
+  },
+  ".agent/skills": {
+    "path": ".agent/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "agent",
+      "skills"
+    ],
+    "fingerprint": "646434b377e755de"
+  },
+  ".agent/skills/find-skills": {
+    "path": ".agent/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agent",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "c0f7654638cd4a3b"
+  },
+  ".agents": {
+    "path": ".agents",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "agents"
+    ],
+    "fingerprint": "c47d6f96ec9bdbec"
+  },
+  ".agents/skills": {
+    "path": ".agents/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "skills"
+    ],
+    "fingerprint": "4d6478e26cf9751c"
+  },
+  ".agents/skills/find-skills": {
+    "path": ".agents/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "ab3e1df166f22365"
+  },
+  ".agents/skills/lucky-ui-component": {
+    "path": ".agents/skills/lucky-ui-component",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "component",
+      "lucky",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "7bb802d7d56331c2"
+  },
+  ".agents/skills/lucky-ui-docs": {
+    "path": ".agents/skills/lucky-ui-docs",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "docs",
+      "lucky",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "387ed34328fc9073"
+  },
+  ".agents/skills/lucky-ui-icon": {
+    "path": ".agents/skills/lucky-ui-icon",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "icon",
+      "lucky",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "fb475c4d31bff898"
+  },
+  ".agents/skills/lucky-ui-theme": {
+    "path": ".agents/skills/lucky-ui-theme",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "lucky",
+      "skill",
+      "skills",
+      "theme"
+    ],
+    "fingerprint": "926ca155b6a96908"
+  },
+  ".agents/skills/playwright-cli": {
+    "path": ".agents/skills/playwright-cli",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "agents",
+      "cli",
+      "playwright",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "401febd43402b8ef"
+  },
+  ".augment": {
+    "path": ".augment",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "augment"
+    ],
+    "fingerprint": "649c3f22db5f0234"
+  },
+  ".augment/skills": {
+    "path": ".augment/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "augment",
+      "skills"
+    ],
+    "fingerprint": "c5d8c802b888904d"
+  },
+  ".augment/skills/find-skills": {
+    "path": ".augment/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "augment",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "83e1dca8a51cc89f"
+  },
+  ".claude": {
+    "path": ".claude",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "claude"
+    ],
+    "fingerprint": "087f19a9bb13b551"
+  },
+  ".claude/skills": {
+    "path": ".claude/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "claude",
+      "skills"
+    ],
+    "fingerprint": "0408905500b7709d"
+  },
+  ".claude/skills/find-skills": {
+    "path": ".claude/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "claude",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "53282b4fff179654"
+  },
+  ".codebuddy": {
+    "path": ".codebuddy",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "codebuddy"
+    ],
+    "fingerprint": "bcbafd0c605b7a58"
+  },
+  ".codebuddy/skills": {
+    "path": ".codebuddy/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "codebuddy",
+      "skills"
+    ],
+    "fingerprint": "b8bb69739e3f3d92"
+  },
+  ".codebuddy/skills/find-skills": {
+    "path": ".codebuddy/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "codebuddy",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "9a5eec86520b6c2c"
+  },
+  ".commandcode": {
+    "path": ".commandcode",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "commandcode"
+    ],
+    "fingerprint": "15cebbb545d87cc9"
+  },
+  ".commandcode/skills": {
+    "path": ".commandcode/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "commandcode",
+      "skills"
+    ],
+    "fingerprint": "4f5dc6652608eb77"
+  },
+  ".commandcode/skills/find-skills": {
+    "path": ".commandcode/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "commandcode",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "2c8bc1a1a1d05c21"
+  },
+  ".continue": {
+    "path": ".continue",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "continue"
+    ],
+    "fingerprint": "8e97d078729b9294"
+  },
+  ".continue/skills": {
+    "path": ".continue/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "continue",
+      "skills"
+    ],
+    "fingerprint": "7369b043d59ed75c"
+  },
+  ".continue/skills/find-skills": {
+    "path": ".continue/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "continue",
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "54bde86b4db3b190"
+  },
+  ".gemini": {
+    "path": ".gemini",
+    "files": [
+      "GEMINI.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "gemini"
+    ],
+    "fingerprint": "6c1e0cfd8b58a060"
+  },
+  ".goose": {
+    "path": ".goose",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "goose"
+    ],
+    "fingerprint": "6f7fd5e9f31fe564"
+  },
+  ".goose/skills": {
+    "path": ".goose/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "goose",
+      "skills"
+    ],
+    "fingerprint": "f755422d1d588476"
+  },
+  ".goose/skills/find-skills": {
+    "path": ".goose/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "find",
+      "goose",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "cebd3b70f259f47b"
+  },
+  ".iflow": {
+    "path": ".iflow",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "iflow"
+    ],
+    "fingerprint": "b76569c2fddde702"
+  },
+  ".iflow/skills": {
+    "path": ".iflow/skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "iflow",
+      "skills"
+    ],
+    "fingerprint": "54afe313d81e5ac9"
+  },
+  ".iflow/skills/find-skills": {
+    "path": ".iflow/skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "find",
+      "iflow",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "687b58693d6b0492"
+  },
+  ".playwright-cli": {
+    "path": ".playwright-cli",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "cli",
+      "playwright"
+    ],
+    "fingerprint": "f9083fabe83de551"
+  },
+  "ai": {
+    "path": "ai",
+    "files": [
+      "uniapp-component-prompt-template.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "component",
+      "prompt",
+      "template",
+      "uniapp"
+    ],
+    "fingerprint": "f25d989aa94453af"
+  },
+  "assets": {
+    "path": "assets",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "assets"
+    ],
+    "fingerprint": "8f845d685fb42a2c"
+  },
+  "assets/bootstrap-icons-selected": {
+    "path": "assets/bootstrap-icons-selected",
+    "files": [
+      "alarm-fill.svg",
+      "alarm.svg",
+      "app-indicator.svg",
+      "app.svg",
+      "apple-music.svg",
+      "arrow-90deg-down.svg",
+      "arrow-90deg-left.svg",
+      "arrow-90deg-right.svg",
+      "arrow-90deg-up.svg",
+      "arrow-bar-down.svg",
+      "arrow-bar-left.svg",
+      "arrow-bar-right.svg",
+      "arrow-bar-up.svg",
+      "arrow-clockwise.svg",
+      "arrow-counterclockwise.svg",
+      "arrow-down-circle-fill.svg",
+      "arrow-down-circle.svg",
+      "arrow-down-left-circle-fill.svg",
+      "arrow-down-left-circle.svg",
+      "arrow-down-left-square-fill.svg",
+      "arrow-down-left-square.svg",
+      "arrow-down-left.svg",
+      "arrow-down-right-circle-fill.svg",
+      "arrow-down-right-circle.svg",
+      "arrow-down-right-square-fill.svg",
+      "arrow-down-right-square.svg",
+      "arrow-down-right.svg",
+      "arrow-down-short.svg",
+      "arrow-down-square-fill.svg",
+      "arrow-down-square.svg"
+    ],
+    "file_count": 1031,
+    "extensions": {
+      ".svg": 1031
+    },
+    "symbols": [],
+    "keywords": [
+      "1x2",
+      "3x2",
+      "3x3",
+      "90deg",
+      "add",
+      "adjustable",
+      "alarm",
+      "album",
+      "all",
+      "alt",
+      "angle",
+      "app"
+    ],
+    "fingerprint": "152acf05894b7ee3"
+  },
+  "docs": {
+    "path": "docs",
+    "files": [
+      "ANIMATION_FIX.md",
+      "COMPONENT_COMPLETION_SUMMARY.md",
+      "COMPONENT_DEMO_PLAN.md",
+      "DEMO_IMPLEMENTATION_PLAN.md",
+      "IMPLEMENTATION_SUMMARY.md",
+      "NEW_ARCHITECTURE.md",
+      "TESTING_GUIDE.md",
+      "TEST_PAGE_STYLES.md",
+      "TEST_PAGE_STYLES_QUICK_REF.md",
+      "TRANSITION_CLEANUP.md",
+      "TRANSITION_REFACTOR.md",
+      "TRANSITION_SUMMARY.md",
+      "USE_TRANSITION_GUIDE.md",
+      "Z_INDEX_GUIDE.md",
+      "index.md",
+      "package.json"
+    ],
+    "file_count": 16,
+    "extensions": {
+      ".md": 15,
+      ".json": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "animation_fix",
+      "component_completion_summary",
+      "component_demo_plan",
+      "demo_implementation_plan",
+      "docs",
+      "implementation_summary",
+      "index",
+      "json",
+      "new_architecture",
+      "package",
+      "test_page_styles",
+      "test_page_styles_quick_ref"
+    ],
+    "fingerprint": "33b6b58fb65f7b2c"
+  },
+  "docs/.vitepress": {
+    "path": "docs/.vitepress",
+    "files": [
+      "config.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "config",
+      "docs",
+      "vitepress"
+    ],
+    "fingerprint": "a3fc82d2f42de81c"
+  },
+  "docs/.vitepress/cache": {
+    "path": "docs/.vitepress/cache",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "cache",
+      "docs",
+      "vitepress"
+    ],
+    "fingerprint": "d9d9c77113237fb8"
+  },
+  "docs/.vitepress/theme": {
+    "path": "docs/.vitepress/theme",
+    "files": [
+      "Layout.vue",
+      "index.ts",
+      "style.css"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".vue": 1,
+      ".css": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "css",
+      "docs",
+      "index",
+      "layout",
+      "style",
+      "theme",
+      "vitepress",
+      "vue"
+    ],
+    "fingerprint": "c99273a58c146c56"
+  },
+  "docs/.vitepress/theme/components": {
+    "path": "docs/.vitepress/theme/components",
+    "files": [
+      "HomePage.vue",
+      "PhonePreview.vue",
+      "PropsPlayground.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".vue": 3
+    },
+    "symbols": [],
+    "keywords": [
+      "components",
+      "docs",
+      "homepage",
+      "phonepreview",
+      "propsplayground",
+      "theme",
+      "vitepress",
+      "vue"
+    ],
+    "fingerprint": "24e521babee10be8"
+  },
+  "docs/components": {
+    "path": "docs/components",
+    "files": [
+      "action-sheet.md",
+      "anchor.md",
+      "backtop.md",
+      "calendar.md",
+      "card.md",
+      "carousel.md",
+      "chart-bar.md",
+      "chart-line.md",
+      "chart-lite.md",
+      "chart-pie.md",
+      "checkbox.md",
+      "collapse.md",
+      "curtain.md",
+      "date-picker.md",
+      "dropdown.md",
+      "fab.md",
+      "form.md",
+      "grid.md",
+      "hooks-utils.md",
+      "horizontal-scroll.md",
+      "image.md",
+      "index.md",
+      "input.md",
+      "keyboard.md",
+      "loading.md",
+      "meta-row.md",
+      "modal.md",
+      "navbar.md",
+      "notice-bar.md",
+      "number-roller.md"
+    ],
+    "file_count": 57,
+    "extensions": {
+      ".md": 57
+    },
+    "symbols": [],
+    "keywords": [
+      "action",
+      "anchor",
+      "backtop",
+      "bar",
+      "calendar",
+      "card",
+      "carousel",
+      "chart",
+      "checkbox",
+      "code",
+      "collapse",
+      "components"
+    ],
+    "fingerprint": "ea5c139b97093fa5"
+  },
+  "docs/components/basic": {
+    "path": "docs/components/basic",
+    "files": [
+      "avatar.md",
+      "badge.md",
+      "button.md",
+      "cell.md",
+      "divider.md",
+      "icon.md",
+      "index.md",
+      "tag.md"
+    ],
+    "file_count": 8,
+    "extensions": {
+      ".md": 8
+    },
+    "symbols": [],
+    "keywords": [
+      "avatar",
+      "badge",
+      "basic",
+      "button",
+      "cell",
+      "components",
+      "divider",
+      "docs",
+      "icon",
+      "index",
+      "tag"
+    ],
+    "fingerprint": "b4e41eba6d43b90c"
+  },
+  "docs/guide": {
+    "path": "docs/guide",
+    "files": [
+      "index.md",
+      "install.md",
+      "theme.md"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".md": 3
+    },
+    "symbols": [],
+    "keywords": [
+      "docs",
+      "guide",
+      "index",
+      "install",
+      "theme"
+    ],
+    "fingerprint": "a13e7d8da8b880e3"
+  },
+  "eslint-rules": {
+    "path": "eslint-rules",
+    "files": [
+      "no-unsupported-tags.js"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".js": 1
+    },
+    "symbols": [
+      "rawname",
+      "unsupported_tags_in_mini_program"
+    ],
+    "keywords": [
+      "eslint",
+      "rawname",
+      "rules",
+      "tags",
+      "unsupported",
+      "unsupported_tags_in_mini_program"
+    ],
+    "fingerprint": "ae421b738801653c"
+  },
+  "scripts": {
+    "path": "scripts",
+    "files": [
+      "check-config.py",
+      "clean-docs.py",
+      "compat-check.js",
+      "export-showcase-report.js",
+      "fix-doc-preview-and-missing.py",
+      "scan-doc-preview-issues.py",
+      "sync-doc-spec-sections.js",
+      "upgrade-placeholder-docs.py",
+      "validate-sfc.js",
+      "write-docs-2.py",
+      "write-docs.py",
+      "write-index.py"
+    ],
+    "file_count": 12,
+    "extensions": {
+      ".py": 8,
+      ".js": 4
+    },
+    "symbols": [
+      "applytofile",
+      "bad",
+      "base",
+      "block",
+      "buildspecblock",
+      "cases",
+      "changed",
+      "clean_file",
+      "collectvuefiles",
+      "component_root",
+      "componentname",
+      "content",
+      "demofile",
+      "doc_root",
+      "enrich_doc",
+      "entries",
+      "extractarrayliteral",
+      "filecontent",
+      "files",
+      "fullpath",
+      "getcomponentnamefromdoc",
+      "main",
+      "match",
+      "next",
+      "normalize_frontmatter",
+      "normalizetailnewline",
+      "now",
+      "output_path",
+      "parsecasesliteral",
+      "path",
+      "pattern",
+      "printwarning",
+      "raw",
+      "relativepath",
+      "report",
+      "result",
+      "root",
+      "rules",
+      "run",
+      "section_markers"
+    ],
+    "keywords": [
+      "and",
+      "applytofile",
+      "bad",
+      "base",
+      "block",
+      "buildspecblock",
+      "cases",
+      "changed",
+      "check",
+      "clean",
+      "clean_file",
+      "collectvuefiles"
+    ],
+    "fingerprint": "562f596ec1a0d90d"
+  },
+  "skills": {
+    "path": "skills",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "skills"
+    ],
+    "fingerprint": "6903dcbdf337163b"
+  },
+  "skills/find-skills": {
+    "path": "skills/find-skills",
+    "files": [
+      "SKILL.md"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".md": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "find",
+      "skill",
+      "skills"
+    ],
+    "fingerprint": "b6a76e47a2b8f055"
+  },
+  "src": {
+    "path": "src",
+    "files": [
+      "App.vue",
+      "env.d.ts",
+      "main.ts",
+      "manifest.json",
+      "pages.json",
+      "shime-uni.d.ts",
+      "theme.json",
+      "uni.scss"
+    ],
+    "file_count": 8,
+    "extensions": {
+      ".vue": 1,
+      ".ts": 3,
+      ".json": 3,
+      ".scss": 1
+    },
+    "symbols": [
+      "app",
+      "componentcustomoptions",
+      "createapp",
+      "hooks",
+      "pinia"
+    ],
+    "keywords": [
+      "app",
+      "componentcustomoptions",
+      "createapp",
+      "env",
+      "hooks",
+      "json",
+      "main",
+      "manifest",
+      "pages",
+      "pinia",
+      "scss",
+      "shime"
+    ],
+    "fingerprint": "b527c4a043c11b52"
+  },
+  "src/components": {
+    "path": "src/components",
+    "files": [
+      "theme-debugger.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "components",
+      "debugger",
+      "src",
+      "theme",
+      "vue"
+    ],
+    "fingerprint": "48c9e512e5fd783b"
+  },
+  "src/components/demos": {
+    "path": "src/components/demos",
+    "files": [
+      "action-sheet-demo.vue",
+      "anchor-demo.vue",
+      "avatar-demo.vue",
+      "backtop-demo.vue",
+      "badge-demo.vue",
+      "button-demo.vue",
+      "calendar-demo.vue",
+      "card-demo.vue",
+      "carousel-demo.vue",
+      "cell-demo.vue",
+      "chart-bar-demo.vue",
+      "chart-line-demo.vue",
+      "chart-lite-demo.vue",
+      "chart-pie-demo.vue",
+      "checkbox-demo.vue",
+      "collapse-demo.vue",
+      "curtain-demo.vue",
+      "date-picker-demo.vue",
+      "divider-demo.vue",
+      "dropdown-demo.vue",
+      "fab-demo.vue",
+      "form-demo.vue",
+      "grid-demo.vue",
+      "hooks-utils-demo.vue",
+      "horizontal-scroll-demo.vue",
+      "icon-demo.vue",
+      "image-demo.vue",
+      "index-bar-demo.vue",
+      "input-demo.vue",
+      "keyboard-demo.vue"
+    ],
+    "file_count": 66,
+    "extensions": {
+      ".vue": 66
+    },
+    "symbols": [],
+    "keywords": [
+      "action",
+      "anchor",
+      "avatar",
+      "backtop",
+      "badge",
+      "bar",
+      "button",
+      "calendar",
+      "card",
+      "carousel",
+      "cell",
+      "chart"
+    ],
+    "fingerprint": "7a9cf9c6acf7b74f"
+  },
+  "src/components/showcase": {
+    "path": "src/components/showcase",
+    "files": [
+      "component-case.vue",
+      "showcase-cases.ts"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "case",
+      "cases",
+      "component",
+      "components",
+      "showcase",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "39be2737a4983311"
+  },
+  "src/pages": {
+    "path": "src/pages",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "pages",
+      "src"
+    ],
+    "fingerprint": "f3f7fce1c80d3420"
+  },
+  "src/pages/app-main": {
+    "path": "src/pages/app-main",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "app",
+      "index",
+      "main",
+      "pages",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "4f9a95a33c899b70"
+  },
+  "src/pages/app-main/tabs": {
+    "path": "src/pages/app-main/tabs",
+    "files": [
+      "cart-tab.vue",
+      "detail-tab.vue",
+      "home-tab.vue",
+      "mine-tab.vue",
+      "overview-tab.vue"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".vue": 5
+    },
+    "symbols": [],
+    "keywords": [
+      "app",
+      "cart",
+      "detail",
+      "home",
+      "main",
+      "mine",
+      "overview",
+      "pages",
+      "src",
+      "tab",
+      "tabs",
+      "vue"
+    ],
+    "fingerprint": "55f08aa389182595"
+  },
+  "src/pages/app-main/tabs/components": {
+    "path": "src/pages/app-main/tabs/components",
+    "files": [
+      "cart-content.vue",
+      "detail-content.vue",
+      "home-content.vue",
+      "mine-content.vue",
+      "overview-content.vue"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".vue": 5
+    },
+    "symbols": [],
+    "keywords": [
+      "app",
+      "cart",
+      "components",
+      "content",
+      "detail",
+      "home",
+      "main",
+      "mine",
+      "overview",
+      "pages",
+      "src",
+      "tabs"
+    ],
+    "fingerprint": "11f454819a3b0128"
+  },
+  "src/pages/order-detail": {
+    "path": "src/pages/order-detail",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "detail",
+      "index",
+      "order",
+      "pages",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "379341c1848045d8"
+  },
+  "src/pages/showcase": {
+    "path": "src/pages/showcase",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "pages",
+      "showcase",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "2743947839e2e44d"
+  },
+  "src/pages/tabbar": {
+    "path": "src/pages/tabbar",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "pages",
+      "src",
+      "tabbar"
+    ],
+    "fingerprint": "16ef8fbc51c63888"
+  },
+  "src/pages/tabbar/cart": {
+    "path": "src/pages/tabbar/cart",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "cart",
+      "index",
+      "pages",
+      "src",
+      "tabbar",
+      "vue"
+    ],
+    "fingerprint": "876d3c760faf16cc"
+  },
+  "src/pages/tabbar/detail": {
+    "path": "src/pages/tabbar/detail",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "detail",
+      "index",
+      "pages",
+      "src",
+      "tabbar",
+      "vue"
+    ],
+    "fingerprint": "496e91c60fa35688"
+  },
+  "src/pages/tabbar/home": {
+    "path": "src/pages/tabbar/home",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "home",
+      "index",
+      "pages",
+      "src",
+      "tabbar",
+      "vue"
+    ],
+    "fingerprint": "2dd5baf2d9edaf11"
+  },
+  "src/pages/tabbar/mine": {
+    "path": "src/pages/tabbar/mine",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "mine",
+      "pages",
+      "src",
+      "tabbar",
+      "vue"
+    ],
+    "fingerprint": "8dbeb7e0116d9bb4"
+  },
+  "src/pages/tabbar/overview": {
+    "path": "src/pages/tabbar/overview",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "overview",
+      "pages",
+      "src",
+      "tabbar",
+      "vue"
+    ],
+    "fingerprint": "b25d5295cf13f43f"
+  },
+  "src/pages/tabbar/overview/components": {
+    "path": "src/pages/tabbar/overview/components",
+    "files": [
+      "overview-content.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "components",
+      "content",
+      "overview",
+      "pages",
+      "src",
+      "tabbar",
+      "vue"
+    ],
+    "fingerprint": "1dc94b6cca8b1cfe"
+  },
+  "src/pages/todo": {
+    "path": "src/pages/todo",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "pages",
+      "src",
+      "todo",
+      "vue"
+    ],
+    "fingerprint": "4196e71cd78aa39d"
+  },
+  "src/pages_sub": {
+    "path": "src/pages_sub",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "pages_sub",
+      "src"
+    ],
+    "fingerprint": "032d5bb1c7872a96"
+  },
+  "src/pages_sub/analytics": {
+    "path": "src/pages_sub/analytics",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "analytics",
+      "index",
+      "pages_sub",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "efb6a03f887121a9"
+  },
+  "src/pages_sub/auth": {
+    "path": "src/pages_sub/auth",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "auth",
+      "index",
+      "pages_sub",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "bf65457b6bbe93d2"
+  },
+  "src/pages_sub/check-in": {
+    "path": "src/pages_sub/check-in",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "check",
+      "index",
+      "pages_sub",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "1de1c323b8b84b9f"
+  },
+  "src/pages_sub/component-detail": {
+    "path": "src/pages_sub/component-detail",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "component",
+      "detail",
+      "index",
+      "pages_sub",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "7420c92a2e873ff0"
+  },
+  "src/pages_sub/edit-profile": {
+    "path": "src/pages_sub/edit-profile",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "edit",
+      "index",
+      "pages_sub",
+      "profile",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "e124e8b4c952f1f3"
+  },
+  "src/pages_sub/playground": {
+    "path": "src/pages_sub/playground",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "pages_sub",
+      "playground",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "9e3e2fb6197b2852"
+  },
+  "src/pages_sub/product-detail": {
+    "path": "src/pages_sub/product-detail",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "detail",
+      "index",
+      "pages_sub",
+      "product",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "fcf93c014d92216e"
+  },
+  "src/pages_sub/search": {
+    "path": "src/pages_sub/search",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "pages_sub",
+      "search",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "4a7d1725bb216951"
+  },
+  "src/pages_sub/settings": {
+    "path": "src/pages_sub/settings",
+    "files": [
+      "index.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "pages_sub",
+      "settings",
+      "src",
+      "vue"
+    ],
+    "fingerprint": "ffc64dbd4874511e"
+  },
+  "src/static": {
+    "path": "src/static",
+    "files": [
+      "logo.png"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".png": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "logo",
+      "png",
+      "src",
+      "static"
+    ],
+    "fingerprint": "d28a107cb3eee9cd"
+  },
+  "src/stores": {
+    "path": "src/stores",
+    "files": [
+      "index.ts",
+      "theme.ts"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 2
+    },
+    "symbols": [
+      "applybrandcolortodom",
+      "applysystemui",
+      "applythemetodom",
+      "brandcolor",
+      "brandstylevars",
+      "color",
+      "default_brand_color",
+      "generatebrandvars",
+      "generateshade",
+      "getsystemtheme",
+      "handler",
+      "hextorgb",
+      "init",
+      "initbrandcolor",
+      "initial",
+      "inittabbarmode",
+      "inittheme",
+      "isdark",
+      "levels",
+      "loadbrandcolor",
+      "loadtabbarmode",
+      "loadtheme",
+      "match",
+      "mediaquery",
+      "preset_colors",
+      "ratio",
+      "rgb",
+      "root",
+      "savebrandcolor",
+      "saved",
+      "savetheme",
+      "serializevars",
+      "setbrandcolor",
+      "settabbarmode",
+      "settheme",
+      "systeminfo",
+      "tabbarmode",
+      "theme",
+      "themeclass",
+      "toggletheme"
+    ],
+    "keywords": [
+      "applybrandcolortodom",
+      "applysystemui",
+      "applythemetodom",
+      "brandcolor",
+      "brandstylevars",
+      "color",
+      "default_brand_color",
+      "generatebrandvars",
+      "generateshade",
+      "getsystemtheme",
+      "handler",
+      "hextorgb"
+    ],
+    "fingerprint": "bec000e810719581"
+  },
+  "src/styles": {
+    "path": "src/styles",
+    "files": [
+      "test-page.scss"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".scss": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "page",
+      "scss",
+      "src",
+      "styles",
+      "test"
+    ],
+    "fingerprint": "82164af9b4dd4755"
+  },
+  "src/uni_modules": {
+    "path": "src/uni_modules",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "f11f964f52e341d0"
+  },
+  "src/uni_modules/lucky-ui": {
+    "path": "src/uni_modules/lucky-ui",
+    "files": [
+      "components.d.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "components",
+      "lucky",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "57de393ffc5dd8c6"
+  },
+  "src/uni_modules/lucky-ui/assets": {
+    "path": "src/uni_modules/lucky-ui/assets",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "assets",
+      "lucky",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "5711b6fc39687fb3"
+  },
+  "src/uni_modules/lucky-ui/assets/bootstrap-icons-selected": {
+    "path": "src/uni_modules/lucky-ui/assets/bootstrap-icons-selected",
+    "files": [
+      "alarm-fill.svg",
+      "alarm.svg",
+      "app-indicator.svg",
+      "app.svg",
+      "apple-music.svg",
+      "arrow-90deg-down.svg",
+      "arrow-90deg-left.svg",
+      "arrow-90deg-right.svg",
+      "arrow-90deg-up.svg",
+      "arrow-bar-down.svg",
+      "arrow-bar-left.svg",
+      "arrow-bar-right.svg",
+      "arrow-bar-up.svg",
+      "arrow-clockwise.svg",
+      "arrow-counterclockwise.svg",
+      "arrow-down-circle-fill.svg",
+      "arrow-down-circle.svg",
+      "arrow-down-left-circle-fill.svg",
+      "arrow-down-left-circle.svg",
+      "arrow-down-left-square-fill.svg",
+      "arrow-down-left-square.svg",
+      "arrow-down-left.svg",
+      "arrow-down-right-circle-fill.svg",
+      "arrow-down-right-circle.svg",
+      "arrow-down-right-square-fill.svg",
+      "arrow-down-right-square.svg",
+      "arrow-down-right.svg",
+      "arrow-down-short.svg",
+      "arrow-down-square-fill.svg",
+      "arrow-down-square.svg"
+    ],
+    "file_count": 1031,
+    "extensions": {
+      ".svg": 1031
+    },
+    "symbols": [],
+    "keywords": [
+      "1x2",
+      "3x2",
+      "3x3",
+      "90deg",
+      "add",
+      "adjustable",
+      "alarm",
+      "album",
+      "all",
+      "alt",
+      "angle",
+      "app"
+    ],
+    "fingerprint": "6dc9106c4ff6e836"
+  },
+  "src/uni_modules/lucky-ui/components": {
+    "path": "src/uni_modules/lucky-ui/components",
+    "files": [
+      "index.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "928f613c542dcdb7"
+  },
+  "src/uni_modules/lucky-ui/components/common": {
+    "path": "src/uni_modules/lucky-ui/components/common",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "common",
+      "components",
+      "lucky",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "ece03da9c5902788"
+  },
+  "src/uni_modules/lucky-ui/components/common/props": {
+    "path": "src/uni_modules/lucky-ui/components/common/props",
+    "files": [
+      "index.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [
+      "baseprops",
+      "commonprops",
+      "lkprophelper"
+    ],
+    "keywords": [
+      "baseprops",
+      "common",
+      "commonprops",
+      "components",
+      "index",
+      "lkprophelper",
+      "lucky",
+      "props",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "70060dbc7c13a3c7"
+  },
+  "src/uni_modules/lucky-ui/components/demo-block": {
+    "path": "src/uni_modules/lucky-ui/components/demo-block",
+    "files": [
+      "demo-block.vue",
+      "index.scss"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".vue": 1,
+      ".scss": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "block",
+      "components",
+      "demo",
+      "index",
+      "lucky",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "a311e22a44f5fce3"
+  },
+  "src/uni_modules/lucky-ui/components/lk-action-sheet": {
+    "path": "src/uni_modules/lucky-ui/components/lk-action-sheet",
+    "files": [
+      "action-sheet.props.ts",
+      "index.scss",
+      "lk-action-sheet.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "actionsheetemits",
+      "actionsheetprops"
+    ],
+    "keywords": [
+      "action",
+      "actionsheetemits",
+      "actionsheetprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "sheet",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "71f150e15e2fc062"
+  },
+  "src/uni_modules/lucky-ui/components/lk-anchor": {
+    "path": "src/uni_modules/lucky-ui/components/lk-anchor",
+    "files": [
+      "anchor.props.ts",
+      "index.scss",
+      "lk-anchor-link.vue",
+      "lk-anchor.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "anchorlinkprops",
+      "anchorprops"
+    ],
+    "keywords": [
+      "anchor",
+      "anchorlinkprops",
+      "anchorprops",
+      "components",
+      "index",
+      "link",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "6b4ba38216af6a4d"
+  },
+  "src/uni_modules/lucky-ui/components/lk-avatar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-avatar",
+    "files": [
+      "avatar.props.ts",
+      "index.scss",
+      "lk-avatar.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "avatarprops",
+      "avatarshape"
+    ],
+    "keywords": [
+      "avatar",
+      "avatarprops",
+      "avatarshape",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "854e05c76904368f"
+  },
+  "src/uni_modules/lucky-ui/components/lk-backtop": {
+    "path": "src/uni_modules/lucky-ui/components/lk-backtop",
+    "files": [
+      "backtop.props.ts",
+      "index.scss",
+      "lk-backtop.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "backtopemits",
+      "backtopprops",
+      "backtopshape",
+      "backtopsize"
+    ],
+    "keywords": [
+      "backtop",
+      "backtopemits",
+      "backtopprops",
+      "backtopshape",
+      "backtopsize",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "b7056d42ffdd6d65"
+  },
+  "src/uni_modules/lucky-ui/components/lk-badge": {
+    "path": "src/uni_modules/lucky-ui/components/lk-badge",
+    "files": [
+      "badge.props.ts",
+      "index.scss",
+      "lk-badge.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "badgeemits",
+      "badgeprops",
+      "badgetype"
+    ],
+    "keywords": [
+      "badge",
+      "badgeemits",
+      "badgeprops",
+      "badgetype",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "dd8796b68937941f"
+  },
+  "src/uni_modules/lucky-ui/components/lk-button": {
+    "path": "src/uni_modules/lucky-ui/components/lk-button",
+    "files": [
+      "button.props.ts",
+      "index.scss",
+      "lk-button.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "buttonemits",
+      "buttonnativetype",
+      "buttonopentype",
+      "buttonprops",
+      "buttonshape",
+      "buttonsize",
+      "buttonvariant"
+    ],
+    "keywords": [
+      "button",
+      "buttonemits",
+      "buttonnativetype",
+      "buttonopentype",
+      "buttonprops",
+      "buttonshape",
+      "buttonsize",
+      "buttonvariant",
+      "components",
+      "index",
+      "lucky",
+      "props"
+    ],
+    "fingerprint": "c92c4a89614d9faa"
+  },
+  "src/uni_modules/lucky-ui/components/lk-calendar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-calendar",
+    "files": [
+      "calendar.props.ts",
+      "index.scss",
+      "lk-calendar.vue",
+      "types.ts"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 2,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "calendardateinput",
+      "calendaremits",
+      "calendarmode",
+      "calendarmodelvalue",
+      "calendarprops",
+      "calendarshortcuttype",
+      "calendarvaluetype",
+      "calendarview"
+    ],
+    "keywords": [
+      "calendar",
+      "calendardateinput",
+      "calendaremits",
+      "calendarmode",
+      "calendarmodelvalue",
+      "calendarprops",
+      "calendarshortcuttype",
+      "calendarvaluetype",
+      "calendarview",
+      "components",
+      "index",
+      "lucky"
+    ],
+    "fingerprint": "73f23949b6add92c"
+  },
+  "src/uni_modules/lucky-ui/components/lk-calendar/utils": {
+    "path": "src/uni_modules/lucky-ui/components/lk-calendar/utils",
+    "files": [
+      "date.ts",
+      "holiday.ts",
+      "lunar.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 3
+    },
+    "symbols": [
+      "adddays",
+      "addmonths",
+      "base",
+      "basedate",
+      "createholidaymap",
+      "current",
+      "date",
+      "day",
+      "day_time",
+      "diffdays",
+      "festival",
+      "first",
+      "firstindex",
+      "formatdate",
+      "getlunarinfo",
+      "getmonthgriddates",
+      "getmonthlength",
+      "getsolarterm",
+      "getweekdates",
+      "getweekstart",
+      "info",
+      "isafterday",
+      "isbeforeday",
+      "isbetweendays",
+      "islastdayofyear",
+      "isleapmonth",
+      "issameday",
+      "leap",
+      "leapdays",
+      "leapmonth",
+      "lunar_day_prefix",
+      "lunar_info",
+      "lunar_month_names",
+      "lunarday",
+      "lunardayname",
+      "lunarfestival",
+      "lunarkey",
+      "lunarmonth",
+      "lunaryear",
+      "lunaryeardays"
+    ],
+    "keywords": [
+      "adddays",
+      "addmonths",
+      "base",
+      "basedate",
+      "calendar",
+      "components",
+      "createholidaymap",
+      "current",
+      "date",
+      "day",
+      "day_time",
+      "diffdays"
+    ],
+    "fingerprint": "ce961d0ea037a5a4"
+  },
+  "src/uni_modules/lucky-ui/components/lk-card": {
+    "path": "src/uni_modules/lucky-ui/components/lk-card",
+    "files": [
+      "card.props.ts",
+      "index.scss",
+      "lk-card.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "cardemits",
+      "cardprops"
+    ],
+    "keywords": [
+      "card",
+      "cardemits",
+      "cardprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "33321a14fae6d076"
+  },
+  "src/uni_modules/lucky-ui/components/lk-carousel": {
+    "path": "src/uni_modules/lucky-ui/components/lk-carousel",
+    "files": [
+      "carousel.props.ts",
+      "index.scss",
+      "lk-carousel-item.vue",
+      "lk-carousel.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "carouseleffect",
+      "carouselemits",
+      "carouselindicatoralign",
+      "carouselindicatorposition",
+      "carouselindicatortype",
+      "carouselitem",
+      "carouselprops"
+    ],
+    "keywords": [
+      "carousel",
+      "carouseleffect",
+      "carouselemits",
+      "carouselindicatoralign",
+      "carouselindicatorposition",
+      "carouselindicatortype",
+      "carouselitem",
+      "carouselprops",
+      "components",
+      "index",
+      "item",
+      "lucky"
+    ],
+    "fingerprint": "f2bc8da0c55728b3"
+  },
+  "src/uni_modules/lucky-ui/components/lk-cell": {
+    "path": "src/uni_modules/lucky-ui/components/lk-cell",
+    "files": [
+      "cell.props.ts",
+      "index.scss",
+      "lk-cell-group.vue",
+      "lk-cell.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "cellemits",
+      "cellprops"
+    ],
+    "keywords": [
+      "cell",
+      "cellemits",
+      "cellprops",
+      "components",
+      "group",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "d7d52fe6361710f5"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-area": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-area",
+    "files": [
+      "chart-area.props.ts",
+      "index.scss",
+      "lk-chart-area.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "areachartpoint",
+      "chartareaemits",
+      "chartareaprops"
+    ],
+    "keywords": [
+      "area",
+      "areachartpoint",
+      "chart",
+      "chartareaemits",
+      "chartareaprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "5f2f374796392d24"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-bar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-bar",
+    "files": [
+      "chart-bar.props.ts",
+      "lk-chart-bar.vue"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartbaremits",
+      "chartbarprops"
+    ],
+    "keywords": [
+      "bar",
+      "chart",
+      "chartbaremits",
+      "chartbarprops",
+      "components",
+      "lucky",
+      "props",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "36eaea49988e93be"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-line": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-line",
+    "files": [
+      "chart-line.props.ts",
+      "lk-chart-line.vue"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartlineemits",
+      "chartlineprops"
+    ],
+    "keywords": [
+      "chart",
+      "chartlineemits",
+      "chartlineprops",
+      "components",
+      "line",
+      "lucky",
+      "props",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "49463873825a7716"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-pie": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-pie",
+    "files": [
+      "chart-pie.props.ts",
+      "lk-chart-pie.vue"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartpieemits",
+      "chartpieprops"
+    ],
+    "keywords": [
+      "chart",
+      "chartpieemits",
+      "chartpieprops",
+      "components",
+      "lucky",
+      "pie",
+      "props",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "d357687b839943e0"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-radar-lite": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-radar-lite",
+    "files": [
+      "chart-radar-lite.props.ts",
+      "index.scss",
+      "lk-chart-radar-lite.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartradarliteprops"
+    ],
+    "keywords": [
+      "chart",
+      "chartradarliteprops",
+      "components",
+      "index",
+      "lite",
+      "lucky",
+      "props",
+      "radar",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "98b5e66971f348e9"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-ring": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-ring",
+    "files": [
+      "chart-ring.props.ts",
+      "index.scss",
+      "lk-chart-ring.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartringprops"
+    ],
+    "keywords": [
+      "chart",
+      "chartringprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "ring",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "c1c02c4fcd1f33ba"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-sparkline": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-sparkline",
+    "files": [
+      "chart-sparkline.props.ts",
+      "index.scss",
+      "lk-chart-sparkline.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartsparklineemits",
+      "chartsparklineprops",
+      "sparklinepoint"
+    ],
+    "keywords": [
+      "chart",
+      "chartsparklineemits",
+      "chartsparklineprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "sparkline",
+      "sparklinepoint",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "5b9f8dff9dd168af"
+  },
+  "src/uni_modules/lucky-ui/components/lk-chart-stat-card": {
+    "path": "src/uni_modules/lucky-ui/components/lk-chart-stat-card",
+    "files": [
+      "chart-stat-card.props.ts",
+      "index.scss",
+      "lk-chart-stat-card.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "chartstatcardprops",
+      "statcardpoint",
+      "statcardtrend"
+    ],
+    "keywords": [
+      "card",
+      "chart",
+      "chartstatcardprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "stat",
+      "statcardpoint",
+      "statcardtrend"
+    ],
+    "fingerprint": "c9613cfa213db414"
+  },
+  "src/uni_modules/lucky-ui/components/lk-checkbox": {
+    "path": "src/uni_modules/lucky-ui/components/lk-checkbox",
+    "files": [
+      "checkbox.props.ts",
+      "index.scss",
+      "lk-checkbox-group.vue",
+      "lk-checkbox.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "checkboxemits",
+      "checkboxgroupdirection",
+      "checkboxgroupemits",
+      "checkboxgroupprops",
+      "checkboxicontype",
+      "checkboxprops",
+      "checkboxshape",
+      "checkboxsize",
+      "checkboxvalue"
+    ],
+    "keywords": [
+      "checkbox",
+      "checkboxemits",
+      "checkboxgroupdirection",
+      "checkboxgroupemits",
+      "checkboxgroupprops",
+      "checkboxicontype",
+      "checkboxprops",
+      "checkboxshape",
+      "checkboxsize",
+      "checkboxvalue",
+      "components",
+      "group"
+    ],
+    "fingerprint": "bf50242ea812ec75"
+  },
+  "src/uni_modules/lucky-ui/components/lk-choice": {
+    "path": "src/uni_modules/lucky-ui/components/lk-choice",
+    "files": [
+      "choice.props.ts",
+      "index.scss",
+      "lk-choice.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "choiceemits",
+      "choiceprops"
+    ],
+    "keywords": [
+      "choice",
+      "choiceemits",
+      "choiceprops",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "c7fd5a2a88c34aa0"
+  },
+  "src/uni_modules/lucky-ui/components/lk-collapse": {
+    "path": "src/uni_modules/lucky-ui/components/lk-collapse",
+    "files": [
+      "collapse.props.ts",
+      "index.scss",
+      "lk-collapse-item.vue",
+      "lk-collapse.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "collapseemits",
+      "collapseinjectionkey",
+      "collapsename",
+      "collapseprops",
+      "collapsevariant"
+    ],
+    "keywords": [
+      "collapse",
+      "collapseemits",
+      "collapseinjectionkey",
+      "collapsename",
+      "collapseprops",
+      "collapsevariant",
+      "components",
+      "index",
+      "item",
+      "lucky",
+      "props",
+      "scss"
+    ],
+    "fingerprint": "50f845c30a112f09"
+  },
+  "src/uni_modules/lucky-ui/components/lk-curtain": {
+    "path": "src/uni_modules/lucky-ui/components/lk-curtain",
+    "files": [
+      "curtain.props.ts",
+      "lk-curtain.vue"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "curtaincloseposition",
+      "curtainclosepositions",
+      "curtainemits",
+      "curtainimagemode",
+      "curtainimagemodes",
+      "curtainlinktype",
+      "curtainlinktypes",
+      "curtainprops"
+    ],
+    "keywords": [
+      "components",
+      "curtain",
+      "curtaincloseposition",
+      "curtainclosepositions",
+      "curtainemits",
+      "curtainimagemode",
+      "curtainimagemodes",
+      "curtainlinktype",
+      "curtainlinktypes",
+      "curtainprops",
+      "lucky",
+      "props"
+    ],
+    "fingerprint": "0471da0409e95141"
+  },
+  "src/uni_modules/lucky-ui/components/lk-date-picker": {
+    "path": "src/uni_modules/lucky-ui/components/lk-date-picker",
+    "files": [
+      "date-picker.props.ts",
+      "index.scss",
+      "lk-date-picker.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "datepickerdateinput",
+      "datepickerdisplaymode",
+      "datepickeremits",
+      "datepickerprops",
+      "datepickertype",
+      "datepickervalue",
+      "timeprecision"
+    ],
+    "keywords": [
+      "components",
+      "date",
+      "datepickerdateinput",
+      "datepickerdisplaymode",
+      "datepickeremits",
+      "datepickerprops",
+      "datepickertype",
+      "datepickervalue",
+      "index",
+      "lucky",
+      "picker",
+      "props"
+    ],
+    "fingerprint": "de8a64ccc47479aa"
+  },
+  "src/uni_modules/lucky-ui/components/lk-divider": {
+    "path": "src/uni_modules/lucky-ui/components/lk-divider",
+    "files": [
+      "divider.props.ts",
+      "index.scss",
+      "lk-divider.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "dividerprops",
+      "dividertextposition"
+    ],
+    "keywords": [
+      "components",
+      "divider",
+      "dividerprops",
+      "dividertextposition",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "6b7cc6052d63dd86"
+  },
+  "src/uni_modules/lucky-ui/components/lk-dropdown": {
+    "path": "src/uni_modules/lucky-ui/components/lk-dropdown",
+    "files": [
+      "dropdown.props.ts",
+      "index.scss",
+      "lk-dropdown-item.vue",
+      "lk-dropdown.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "dropdownemits",
+      "dropdownplacement",
+      "dropdownprops",
+      "dropdowntrigger",
+      "dropdownvalue"
+    ],
+    "keywords": [
+      "components",
+      "dropdown",
+      "dropdownemits",
+      "dropdownplacement",
+      "dropdownprops",
+      "dropdowntrigger",
+      "dropdownvalue",
+      "index",
+      "item",
+      "lucky",
+      "props",
+      "scss"
+    ],
+    "fingerprint": "18dd37851a273d99"
+  },
+  "src/uni_modules/lucky-ui/components/lk-fab": {
+    "path": "src/uni_modules/lucky-ui/components/lk-fab",
+    "files": [
+      "fab.props.ts",
+      "index.scss",
+      "lk-fab.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "fabdirection",
+      "fabemits",
+      "fabposition",
+      "fabprops"
+    ],
+    "keywords": [
+      "components",
+      "fab",
+      "fabdirection",
+      "fabemits",
+      "fabposition",
+      "fabprops",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "2defdb23136b9598"
+  },
+  "src/uni_modules/lucky-ui/components/lk-form": {
+    "path": "src/uni_modules/lucky-ui/components/lk-form",
+    "files": [
+      "context.ts",
+      "form.props.ts",
+      "index.scss",
+      "lk-form-item.vue",
+      "lk-form.vue"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".ts": 2,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "formemits",
+      "formitemprops",
+      "formlabelalign",
+      "formprops",
+      "formrules",
+      "rulevalidator"
+    ],
+    "keywords": [
+      "components",
+      "context",
+      "form",
+      "formemits",
+      "formitemprops",
+      "formlabelalign",
+      "formprops",
+      "formrules",
+      "index",
+      "item",
+      "lucky",
+      "props"
+    ],
+    "fingerprint": "9e0ebbed9fe5b23e"
+  },
+  "src/uni_modules/lucky-ui/components/lk-grid": {
+    "path": "src/uni_modules/lucky-ui/components/lk-grid",
+    "files": [
+      "README.md",
+      "grid.props.ts",
+      "index.scss",
+      "index.ts",
+      "lk-grid.vue",
+      "types.ts"
+    ],
+    "file_count": 6,
+    "extensions": {
+      ".ts": 3,
+      ".scss": 1,
+      ".vue": 1,
+      ".md": 1
+    },
+    "symbols": [
+      "gridemits",
+      "gridprops"
+    ],
+    "keywords": [
+      "components",
+      "grid",
+      "gridemits",
+      "gridprops",
+      "index",
+      "lucky",
+      "props",
+      "readme",
+      "scss",
+      "src",
+      "types",
+      "uni_modules"
+    ],
+    "fingerprint": "6a9ca8da2aaf7cb8"
+  },
+  "src/uni_modules/lucky-ui/components/lk-horizontal-scroll": {
+    "path": "src/uni_modules/lucky-ui/components/lk-horizontal-scroll",
+    "files": [
+      "horizontal-scroll.props.ts",
+      "lk-horizontal-scroll.vue"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "horizontalscrollprops"
+    ],
+    "keywords": [
+      "components",
+      "horizontal",
+      "horizontalscrollprops",
+      "lucky",
+      "props",
+      "scroll",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "b4725e1b2f081b89"
+  },
+  "src/uni_modules/lucky-ui/components/lk-icon": {
+    "path": "src/uni_modules/lucky-ui/components/lk-icon",
+    "files": [
+      "codepoints.ts",
+      "icon.props.ts",
+      "icons.ts",
+      "index.scss",
+      "lk-icon.vue"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".ts": 3,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "builtiniconname",
+      "getbuiltinicon",
+      "iconcharof",
+      "iconemits",
+      "iconmodules",
+      "iconprops",
+      "key",
+      "loader",
+      "svg"
+    ],
+    "keywords": [
+      "builtiniconname",
+      "codepoints",
+      "components",
+      "getbuiltinicon",
+      "icon",
+      "iconcharof",
+      "iconemits",
+      "iconmodules",
+      "iconprops",
+      "icons",
+      "index",
+      "key"
+    ],
+    "fingerprint": "a233565d1dee658b"
+  },
+  "src/uni_modules/lucky-ui/components/lk-icon/fonts": {
+    "path": "src/uni_modules/lucky-ui/components/lk-icon/fonts",
+    "files": [
+      "lk-icons-definitions.css",
+      "lk-icons.base64.ts",
+      "lk-icons.css",
+      "lk-icons.eot",
+      "lk-icons.less",
+      "lk-icons.module.less",
+      "lk-icons.scss",
+      "lk-icons.styl",
+      "lk-icons.svg",
+      "lk-icons.symbol.svg",
+      "lk-icons.ttf",
+      "lk-icons.woff",
+      "lk-icons.woff2"
+    ],
+    "file_count": 13,
+    "extensions": {
+      ".css": 2,
+      ".ts": 1,
+      ".eot": 1,
+      ".less": 2,
+      ".scss": 1,
+      ".styl": 1,
+      ".svg": 2,
+      ".ttf": 1,
+      ".woff": 1,
+      ".woff2": 1
+    },
+    "symbols": [
+      "lk_icons_woff_base64"
+    ],
+    "keywords": [
+      "base64",
+      "components",
+      "css",
+      "definitions",
+      "eot",
+      "fonts",
+      "icon",
+      "icons",
+      "less",
+      "lk_icons_woff_base64",
+      "lucky",
+      "module"
+    ],
+    "fingerprint": "f6bf2fc2facdfb50"
+  },
+  "src/uni_modules/lucky-ui/components/lk-image": {
+    "path": "src/uni_modules/lucky-ui/components/lk-image",
+    "files": [
+      "image.props.ts",
+      "index.scss",
+      "lk-image.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "imageemits",
+      "imagefit",
+      "imageprops"
+    ],
+    "keywords": [
+      "components",
+      "image",
+      "imageemits",
+      "imagefit",
+      "imageprops",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "dbb201df370f71dc"
+  },
+  "src/uni_modules/lucky-ui/components/lk-index-bar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-index-bar",
+    "files": [
+      "index-bar.props.ts",
+      "index.scss",
+      "lk-index-anchor.vue",
+      "lk-index-bar.vue"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 1,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "defaultindexlist",
+      "indexanchorprops",
+      "indexbaremits",
+      "indexbarprops"
+    ],
+    "keywords": [
+      "anchor",
+      "bar",
+      "components",
+      "defaultindexlist",
+      "index",
+      "indexanchorprops",
+      "indexbaremits",
+      "indexbarprops",
+      "lucky",
+      "props",
+      "scss",
+      "src"
+    ],
+    "fingerprint": "8c4dcb00ccc84282"
+  },
+  "src/uni_modules/lucky-ui/components/lk-input": {
+    "path": "src/uni_modules/lucky-ui/components/lk-input",
+    "files": [
+      "index.scss",
+      "input.props.ts",
+      "lk-input.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "inputconfirmtype",
+      "inputemits",
+      "inputeventpayload",
+      "inputmode",
+      "inputprops",
+      "inputsize",
+      "inputtype",
+      "inputvalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "input",
+      "inputconfirmtype",
+      "inputemits",
+      "inputeventpayload",
+      "inputmode",
+      "inputprops",
+      "inputsize",
+      "inputtype",
+      "inputvalue",
+      "lucky"
+    ],
+    "fingerprint": "381e3ac40879fd06"
+  },
+  "src/uni_modules/lucky-ui/components/lk-keyboard": {
+    "path": "src/uni_modules/lucky-ui/components/lk-keyboard",
+    "files": [
+      "index.scss",
+      "keyboard.props.ts",
+      "lk-keyboard.vue"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".ts": 1,
+      ".vue": 1
+    },
+    "symbols": [
+      "keyboardemits",
+      "keyboardprops",
+      "keyboardtheme",
+      "keyboardtype"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "keyboard",
+      "keyboardemits",
+      "keyboardprops",
+      "keyboardtheme",
+      "keyboardtype",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "4a4f0b1ea65340b9"
+  },
+  "src/uni_modules/lucky-ui/components/lk-loading": {
+    "path": "src/uni_modules/lucky-ui/components/lk-loading",
+    "files": [
+      "index.scss",
+      "lk-loading.vue",
+      "loading.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "loadingprops",
+      "loadingvariant"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "loading",
+      "loadingprops",
+      "loadingvariant",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "02e311db8ed41563"
+  },
+  "src/uni_modules/lucky-ui/components/lk-meta-row": {
+    "path": "src/uni_modules/lucky-ui/components/lk-meta-row",
+    "files": [
+      "index.scss",
+      "lk-meta-row.vue",
+      "meta-row.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "metarowalign",
+      "metarowprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "meta",
+      "metarowalign",
+      "metarowprops",
+      "props",
+      "row",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "c2e5ce3158563872"
+  },
+  "src/uni_modules/lucky-ui/components/lk-modal": {
+    "path": "src/uni_modules/lucky-ui/components/lk-modal",
+    "files": [
+      "index.scss",
+      "lk-modal.vue",
+      "modal.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "modalemits",
+      "modalprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "modal",
+      "modalemits",
+      "modalprops",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "680415a97dfd42ac"
+  },
+  "src/uni_modules/lucky-ui/components/lk-navbar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-navbar",
+    "files": [
+      "index.scss",
+      "lk-navbar.vue",
+      "navbar.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "navbaremits",
+      "navbarprops",
+      "navbartitlealign",
+      "navbarvariant"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "navbar",
+      "navbaremits",
+      "navbarprops",
+      "navbartitlealign",
+      "navbarvariant",
+      "props",
+      "scss",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "edc3c08ab6357a97"
+  },
+  "src/uni_modules/lucky-ui/components/lk-notice-bar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-notice-bar",
+    "files": [
+      "index.scss",
+      "lk-notice-bar.vue",
+      "notice-bar.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "noticebaremits",
+      "noticebarprops",
+      "scrollmode"
+    ],
+    "keywords": [
+      "bar",
+      "components",
+      "index",
+      "lucky",
+      "notice",
+      "noticebaremits",
+      "noticebarprops",
+      "props",
+      "scrollmode",
+      "scss",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "c2a7579c8711412e"
+  },
+  "src/uni_modules/lucky-ui/components/lk-number-keyboard": {
+    "path": "src/uni_modules/lucky-ui/components/lk-number-keyboard",
+    "files": [
+      "index.scss",
+      "lk-number-keyboard.vue",
+      "number-keyboard.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "numberkeyboardemits",
+      "numberkeyboardprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "keyboard",
+      "lucky",
+      "number",
+      "numberkeyboardemits",
+      "numberkeyboardprops",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "c71c5278857b8fcf"
+  },
+  "src/uni_modules/lucky-ui/components/lk-number-roller": {
+    "path": "src/uni_modules/lucky-ui/components/lk-number-roller",
+    "files": [
+      "index.scss",
+      "lk-number-roller.vue",
+      "number-roller.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "numberrollerformatter",
+      "numberrollerprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "number",
+      "numberrollerformatter",
+      "numberrollerprops",
+      "props",
+      "roller",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "81ee65b264170de8"
+  },
+  "src/uni_modules/lucky-ui/components/lk-overlay": {
+    "path": "src/uni_modules/lucky-ui/components/lk-overlay",
+    "files": [
+      "index.scss",
+      "lk-overlay.vue",
+      "overlay.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "overlayemits",
+      "overlayprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "overlay",
+      "overlayemits",
+      "overlayprops",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "f179c6041a537def"
+  },
+  "src/uni_modules/lucky-ui/components/lk-picker": {
+    "path": "src/uni_modules/lucky-ui/components/lk-picker",
+    "files": [
+      "index.scss",
+      "lk-picker.vue",
+      "picker.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "pickercolumns",
+      "pickeremits",
+      "pickermode",
+      "pickerprops",
+      "pickervalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "picker",
+      "pickercolumns",
+      "pickeremits",
+      "pickermode",
+      "pickerprops",
+      "pickervalue",
+      "props",
+      "scss",
+      "src"
+    ],
+    "fingerprint": "ba1b88c1da05f059"
+  },
+  "src/uni_modules/lucky-ui/components/lk-popup": {
+    "path": "src/uni_modules/lucky-ui/components/lk-popup",
+    "files": [
+      "index.scss",
+      "lk-popup.vue",
+      "popup.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "popupemits",
+      "popupposition",
+      "popupprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "popup",
+      "popupemits",
+      "popupposition",
+      "popupprops",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "c72cb6c588288ca5"
+  },
+  "src/uni_modules/lucky-ui/components/lk-preload-debugger": {
+    "path": "src/uni_modules/lucky-ui/components/lk-preload-debugger",
+    "files": [
+      "lk-preload-debugger.vue",
+      "preload-debugger.props.ts"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "debuggerposition",
+      "preloaddebuggerprops"
+    ],
+    "keywords": [
+      "components",
+      "debugger",
+      "debuggerposition",
+      "lucky",
+      "preload",
+      "preloaddebuggerprops",
+      "props",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "c8d638c50dbc2cfc"
+  },
+  "src/uni_modules/lucky-ui/components/lk-progress": {
+    "path": "src/uni_modules/lucky-ui/components/lk-progress",
+    "files": [
+      "index.scss",
+      "lk-progress.vue",
+      "progress.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "progressemits",
+      "progressprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "progress",
+      "progressemits",
+      "progressprops",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "d990f3ff98caf932"
+  },
+  "src/uni_modules/lucky-ui/components/lk-radio": {
+    "path": "src/uni_modules/lucky-ui/components/lk-radio",
+    "files": [
+      "index.scss",
+      "lk-radio-group.vue",
+      "lk-radio.vue",
+      "radio.props.ts"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 2,
+      ".ts": 1
+    },
+    "symbols": [
+      "radioemits",
+      "radiogroupdirection",
+      "radiogroupemits",
+      "radiogroupprops",
+      "radioicontype",
+      "radioprops",
+      "radioshape",
+      "radiosize",
+      "radiovalue"
+    ],
+    "keywords": [
+      "components",
+      "group",
+      "index",
+      "lucky",
+      "props",
+      "radio",
+      "radioemits",
+      "radiogroupdirection",
+      "radiogroupemits",
+      "radiogroupprops",
+      "radioicontype",
+      "radioprops"
+    ],
+    "fingerprint": "5fc97d5ff0f5448b"
+  },
+  "src/uni_modules/lucky-ui/components/lk-rate": {
+    "path": "src/uni_modules/lucky-ui/components/lk-rate",
+    "files": [
+      "index.scss",
+      "lk-rate.vue",
+      "rate.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "rateemits",
+      "rateprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "rate",
+      "rateemits",
+      "rateprops",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "131f8b88af52d710"
+  },
+  "src/uni_modules/lucky-ui/components/lk-segmented": {
+    "path": "src/uni_modules/lucky-ui/components/lk-segmented",
+    "files": [
+      "index.scss",
+      "lk-segmented.vue",
+      "segmented.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "segmentedemits",
+      "segmentedprops",
+      "segmentedsize",
+      "segmentedvalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "segmented",
+      "segmentedemits",
+      "segmentedprops",
+      "segmentedsize",
+      "segmentedvalue",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "c329c8f3c39f67ff"
+  },
+  "src/uni_modules/lucky-ui/components/lk-skeleton": {
+    "path": "src/uni_modules/lucky-ui/components/lk-skeleton",
+    "files": [
+      "index.scss",
+      "lk-skeleton.vue",
+      "skeleton.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "skeletonprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "skeleton",
+      "skeletonprops",
+      "src",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "15ad3aca071eb99d"
+  },
+  "src/uni_modules/lucky-ui/components/lk-slider": {
+    "path": "src/uni_modules/lucky-ui/components/lk-slider",
+    "files": [
+      "index.scss",
+      "lk-slider.vue",
+      "slider.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "slideremits",
+      "sliderprops",
+      "slidersize",
+      "slidersizevalues",
+      "slidervalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "slider",
+      "slideremits",
+      "sliderprops",
+      "slidersize",
+      "slidersizevalues",
+      "slidervalue",
+      "src"
+    ],
+    "fingerprint": "50a2fa55f92a3155"
+  },
+  "src/uni_modules/lucky-ui/components/lk-space": {
+    "path": "src/uni_modules/lucky-ui/components/lk-space",
+    "files": [
+      "index.scss",
+      "lk-space.vue",
+      "space.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "spacealign",
+      "spacedirection",
+      "spacegap",
+      "spaceprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "space",
+      "spacealign",
+      "spacedirection",
+      "spacegap",
+      "spaceprops",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "4f104995e250ca6e"
+  },
+  "src/uni_modules/lucky-ui/components/lk-stepper": {
+    "path": "src/uni_modules/lucky-ui/components/lk-stepper",
+    "files": [
+      "index.scss",
+      "lk-stepper.vue",
+      "stepper.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "stepperaction",
+      "stepperemits",
+      "stepperprops",
+      "steppersize",
+      "steppervalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "stepper",
+      "stepperaction",
+      "stepperemits",
+      "stepperprops",
+      "steppersize",
+      "steppervalue"
+    ],
+    "fingerprint": "c20a55e0e04e1cae"
+  },
+  "src/uni_modules/lucky-ui/components/lk-sticky": {
+    "path": "src/uni_modules/lucky-ui/components/lk-sticky",
+    "files": [
+      "index.scss",
+      "lk-sticky.vue",
+      "sticky.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "stickyprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "sticky",
+      "stickyprops",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "1353637e175e7dea"
+  },
+  "src/uni_modules/lucky-ui/components/lk-switch": {
+    "path": "src/uni_modules/lucky-ui/components/lk-switch",
+    "files": [
+      "index.scss",
+      "lk-switch.vue",
+      "switch.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "switchemits",
+      "switchprops",
+      "switchsize",
+      "switchvalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "switch",
+      "switchemits",
+      "switchprops",
+      "switchsize",
+      "switchvalue",
+      "uni_modules"
+    ],
+    "fingerprint": "270ab98c116243cf"
+  },
+  "src/uni_modules/lucky-ui/components/lk-tabbar": {
+    "path": "src/uni_modules/lucky-ui/components/lk-tabbar",
+    "files": [
+      "context.ts",
+      "index.scss",
+      "lk-tabbar-item.vue",
+      "lk-tabbar.vue",
+      "tabbar-item.props.ts",
+      "tabbar.props.ts"
+    ],
+    "file_count": 6,
+    "extensions": {
+      ".ts": 3,
+      ".scss": 1,
+      ".vue": 2
+    },
+    "symbols": [
+      "tabbaremits",
+      "tabbaritemprops",
+      "tabbarmode",
+      "tabbarprops",
+      "tabbarprovide",
+      "tabbarvalue"
+    ],
+    "keywords": [
+      "components",
+      "context",
+      "index",
+      "item",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "tabbar",
+      "tabbaremits",
+      "tabbaritemprops",
+      "tabbarmode"
+    ],
+    "fingerprint": "8fd0d3a1893034cf"
+  },
+  "src/uni_modules/lucky-ui/components/lk-tabbar-container": {
+    "path": "src/uni_modules/lucky-ui/components/lk-tabbar-container",
+    "files": [
+      "lk-tabbar-container.vue"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".vue": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "components",
+      "container",
+      "lucky",
+      "src",
+      "tabbar",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "a6216031d056470e"
+  },
+  "src/uni_modules/lucky-ui/components/lk-tabs": {
+    "path": "src/uni_modules/lucky-ui/components/lk-tabs",
+    "files": [
+      "index.scss",
+      "lk-tab-pane.vue",
+      "lk-tabs.vue",
+      "tabs.props.ts"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 2,
+      ".ts": 1
+    },
+    "symbols": [
+      "tabsemits",
+      "tabsprops",
+      "tabstype",
+      "tabsvalue"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "pane",
+      "props",
+      "scss",
+      "src",
+      "tab",
+      "tabs",
+      "tabsemits",
+      "tabsprops",
+      "tabstype"
+    ],
+    "fingerprint": "b3b86c649be40609"
+  },
+  "src/uni_modules/lucky-ui/components/lk-tag": {
+    "path": "src/uni_modules/lucky-ui/components/lk-tag",
+    "files": [
+      "index.scss",
+      "lk-tag.vue",
+      "tag.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "tagemits",
+      "tagprops",
+      "tagsize",
+      "tagtype"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "tag",
+      "tagemits",
+      "tagprops",
+      "tagsize",
+      "tagtype",
+      "uni_modules"
+    ],
+    "fingerprint": "4450537101dbd450"
+  },
+  "src/uni_modules/lucky-ui/components/lk-textarea": {
+    "path": "src/uni_modules/lucky-ui/components/lk-textarea",
+    "files": [
+      "index.scss",
+      "lk-textarea.vue",
+      "textarea.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "textareaconfirmtype",
+      "textareaemits",
+      "textareaeventpayload",
+      "textareainputmode",
+      "textareaprops",
+      "textareavariant"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "textarea",
+      "textareaconfirmtype",
+      "textareaemits",
+      "textareaeventpayload",
+      "textareainputmode",
+      "textareaprops"
+    ],
+    "fingerprint": "e817f50eb4017c98"
+  },
+  "src/uni_modules/lucky-ui/components/lk-time-picker": {
+    "path": "src/uni_modules/lucky-ui/components/lk-time-picker",
+    "files": [
+      "index.scss",
+      "lk-time-picker.vue",
+      "time-picker.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "timepickeremits",
+      "timepickerprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "picker",
+      "props",
+      "scss",
+      "src",
+      "time",
+      "timepickeremits",
+      "timepickerprops",
+      "uni_modules",
+      "vue"
+    ],
+    "fingerprint": "d29be1a8267d95ac"
+  },
+  "src/uni_modules/lucky-ui/components/lk-timeline": {
+    "path": "src/uni_modules/lucky-ui/components/lk-timeline",
+    "files": [
+      "index.scss",
+      "lk-timeline-item.vue",
+      "lk-timeline.vue",
+      "timeline-item.props.ts",
+      "timeline.props.ts"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 2,
+      ".ts": 2
+    },
+    "symbols": [
+      "timelinedirection",
+      "timelinedotvariant",
+      "timelineitemprops",
+      "timelineitemstatus",
+      "timelinelinemode",
+      "timelinelinevariant",
+      "timelineprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "item",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "timeline",
+      "timelinedirection",
+      "timelinedotvariant",
+      "timelineitemprops",
+      "timelineitemstatus"
+    ],
+    "fingerprint": "8287093c944033da"
+  },
+  "src/uni_modules/lucky-ui/components/lk-toast": {
+    "path": "src/uni_modules/lucky-ui/components/lk-toast",
+    "files": [
+      "index.scss",
+      "lk-toast-item.vue",
+      "lk-toast-manager.vue",
+      "lk-toast.vue",
+      "toast-manager.ts",
+      "toast.props.ts"
+    ],
+    "file_count": 6,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 3,
+      ".ts": 2
+    },
+    "symbols": [
+      "clear",
+      "close",
+      "hide",
+      "item",
+      "list",
+      "remove",
+      "seed",
+      "show",
+      "toastemits",
+      "toastposition",
+      "toastprops",
+      "toaststore",
+      "toasttransitionname",
+      "toasttransitionnames",
+      "usetoast"
+    ],
+    "keywords": [
+      "clear",
+      "close",
+      "components",
+      "hide",
+      "index",
+      "item",
+      "list",
+      "lucky",
+      "manager",
+      "props",
+      "remove",
+      "scss"
+    ],
+    "fingerprint": "45873248f479ce78"
+  },
+  "src/uni_modules/lucky-ui/components/lk-tooltip": {
+    "path": "src/uni_modules/lucky-ui/components/lk-tooltip",
+    "files": [
+      "index.scss",
+      "lk-tooltip.vue",
+      "tooltip.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "tooltipemits",
+      "tooltipplacement",
+      "tooltipprops",
+      "tooltiptrigger"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "tooltip",
+      "tooltipemits",
+      "tooltipplacement",
+      "tooltipprops",
+      "tooltiptrigger",
+      "uni_modules"
+    ],
+    "fingerprint": "79d0181b2a377f1c"
+  },
+  "src/uni_modules/lucky-ui/components/lk-upload": {
+    "path": "src/uni_modules/lucky-ui/components/lk-upload",
+    "files": [
+      "index.scss",
+      "lk-upload.vue",
+      "upload.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "afterreadfn",
+      "beforedeletefn",
+      "beforereadfn",
+      "customrequestfn",
+      "uploadaccept",
+      "uploademits",
+      "uploadprops",
+      "uploadsourcetype",
+      "uploadstatus"
+    ],
+    "keywords": [
+      "afterreadfn",
+      "beforedeletefn",
+      "beforereadfn",
+      "components",
+      "customrequestfn",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "upload"
+    ],
+    "fingerprint": "32957e0304164745"
+  },
+  "src/uni_modules/lucky-ui/components/lk-verify-code": {
+    "path": "src/uni_modules/lucky-ui/components/lk-verify-code",
+    "files": [
+      "index.scss",
+      "lk-verify-code.vue",
+      "verify-code.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "verifycodeemits",
+      "verifycodeprops",
+      "verifycodestatus",
+      "verifycodetype",
+      "verifycodevariant"
+    ],
+    "keywords": [
+      "code",
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "verify",
+      "verifycodeemits",
+      "verifycodeprops",
+      "verifycodestatus"
+    ],
+    "fingerprint": "db9e68b953f78c9a"
+  },
+  "src/uni_modules/lucky-ui/components/lk-virtual-list": {
+    "path": "src/uni_modules/lucky-ui/components/lk-virtual-list",
+    "files": [
+      "index.scss",
+      "lk-virtual-list.vue",
+      "virtual-list.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "anyitem",
+      "virtuallistpositionstrategy",
+      "virtuallistprops"
+    ],
+    "keywords": [
+      "anyitem",
+      "components",
+      "index",
+      "list",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "virtual",
+      "virtuallistpositionstrategy",
+      "virtuallistprops"
+    ],
+    "fingerprint": "1b1b7f9557540a72"
+  },
+  "src/uni_modules/lucky-ui/components/lk-waterfall": {
+    "path": "src/uni_modules/lucky-ui/components/lk-waterfall",
+    "files": [
+      "index.scss",
+      "lk-waterfall.vue",
+      "waterfall.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "waterfallemits",
+      "waterfallloadingstate",
+      "waterfallprops"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue",
+      "waterfall",
+      "waterfallemits",
+      "waterfallloadingstate",
+      "waterfallprops"
+    ],
+    "fingerprint": "3b54b4b5a09a997f"
+  },
+  "src/uni_modules/lucky-ui/components/lk-watermark": {
+    "path": "src/uni_modules/lucky-ui/components/lk-watermark",
+    "files": [
+      "index.scss",
+      "lk-watermark.vue",
+      "watermark.props.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 1,
+      ".vue": 1,
+      ".ts": 1
+    },
+    "symbols": [
+      "watermarkprops",
+      "watermarksize",
+      "watermarkvariant"
+    ],
+    "keywords": [
+      "components",
+      "index",
+      "lucky",
+      "props",
+      "scss",
+      "src",
+      "uni_modules",
+      "vue",
+      "watermark",
+      "watermarkprops",
+      "watermarksize",
+      "watermarkvariant"
+    ],
+    "fingerprint": "f13f5346878f29d8"
+  },
+  "src/uni_modules/lucky-ui/composables": {
+    "path": "src/uni_modules/lucky-ui/composables",
+    "files": [
+      "index.ts",
+      "useChartCanvas.ts",
+      "useRipple.ts",
+      "useTransition.ts"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 4
+    },
+    "symbols": [
+      "activate",
+      "active",
+      "animateto",
+      "animationtype",
+      "anyrecord",
+      "appear",
+      "attachendlisteners",
+      "autosize",
+      "basestyles",
+      "caf",
+      "called",
+      "canvas2dlike",
+      "canvasnode",
+      "canvasnodelike",
+      "chartrenderer",
+      "classes",
+      "clear",
+      "clearretrytimer",
+      "cleartimersandlisteners",
+      "context",
+      "coords",
+      "ctx",
+      "currentdelay",
+      "currentduration",
+      "currenteasing",
+      "currentname",
+      "delay",
+      "delays",
+      "deltams",
+      "detail",
+      "dpr",
+      "duration",
+      "eased",
+      "easing",
+      "easingkey",
+      "easingtype",
+      "easingvalue",
+      "elapsedms",
+      "elref",
+      "ensuremeasuredvisible"
+    ],
+    "keywords": [
+      "activate",
+      "active",
+      "animateto",
+      "animationtype",
+      "anyrecord",
+      "appear",
+      "attachendlisteners",
+      "autosize",
+      "basestyles",
+      "caf",
+      "called",
+      "canvas2dlike"
+    ],
+    "fingerprint": "fc09c92e8274c608"
+  },
+  "src/uni_modules/lucky-ui/core": {
+    "path": "src/uni_modules/lucky-ui/core",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "core",
+      "lucky",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "01379fd91d478e40"
+  },
+  "src/uni_modules/lucky-ui/core/src": {
+    "path": "src/uni_modules/lucky-ui/core/src",
+    "files": [
+      "index.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "core",
+      "index",
+      "lucky",
+      "src",
+      "uni_modules"
+    ],
+    "fingerprint": "967f0f9d4e4acb7f"
+  },
+  "src/uni_modules/lucky-ui/core/src/cache": {
+    "path": "src/uni_modules/lucky-ui/core/src/cache",
+    "files": [
+      "index.ts",
+      "page-cache.ts"
+    ],
+    "file_count": 2,
+    "extensions": {
+      ".ts": 2
+    },
+    "symbols": [
+      "cache",
+      "cached",
+      "cachekey",
+      "cachepagedata",
+      "clearallcache",
+      "clearcache",
+      "clearpagedatacache",
+      "debugmode",
+      "existing",
+      "getcache",
+      "getcachedpagedata",
+      "getcachestats",
+      "getpagestate",
+      "hasrendered",
+      "isfirstvisit",
+      "ispagerendered",
+      "ispagevisited",
+      "log",
+      "markpagerendered",
+      "markpagevisited",
+      "markrendered",
+      "pagedatacache",
+      "pagestatecache",
+      "prefix",
+      "renderedpages",
+      "setpagecachedebug",
+      "state",
+      "usepagecache",
+      "visitcount",
+      "visitedpages"
+    ],
+    "keywords": [
+      "cache",
+      "cached",
+      "cachekey",
+      "cachepagedata",
+      "clearallcache",
+      "clearcache",
+      "clearpagedatacache",
+      "core",
+      "debugmode",
+      "existing",
+      "getcache",
+      "getcachedpagedata"
+    ],
+    "fingerprint": "e64802c8c3ba4c95"
+  },
+  "src/uni_modules/lucky-ui/core/src/chart": {
+    "path": "src/uni_modules/lucky-ui/core/src/chart",
+    "files": [
+      "index.ts",
+      "lite.ts",
+      "motion.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 3
+    },
+    "symbols": [
+      "clamp01",
+      "distance",
+      "easeoutcubic",
+      "formatcompactnumber",
+      "getlitechartpositions",
+      "getlitechartrange",
+      "getnearestpointindex",
+      "index",
+      "innerheight",
+      "innerwidth",
+      "litecharteffect",
+      "litechartposition",
+      "loopdistance",
+      "max",
+      "min",
+      "movingwindow",
+      "nearest",
+      "nextdistance",
+      "normalized",
+      "oscillate",
+      "range",
+      "ratio",
+      "valueratio",
+      "values"
+    ],
+    "keywords": [
+      "chart",
+      "clamp01",
+      "core",
+      "distance",
+      "easeoutcubic",
+      "formatcompactnumber",
+      "getlitechartpositions",
+      "getlitechartrange",
+      "getnearestpointindex",
+      "index",
+      "innerheight",
+      "innerwidth"
+    ],
+    "fingerprint": "1e5817d22a838006"
+  },
+  "src/uni_modules/lucky-ui/core/src/preload": {
+    "path": "src/uni_modules/lucky-ui/core/src/preload",
+    "files": [
+      "index.ts",
+      "manager.ts",
+      "queue.ts",
+      "types.ts",
+      "usePreload.ts"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".ts": 5
+    },
+    "symbols": [
+      "cancelled",
+      "clear",
+      "completed",
+      "failed",
+      "getpreloadmanager",
+      "getpreloadqueue",
+      "handlers",
+      "img",
+      "index",
+      "insertindex",
+      "isloading",
+      "ispaused",
+      "link",
+      "loadedresources",
+      "loader",
+      "manager",
+      "off",
+      "pagedatacache",
+      "pagestopreload",
+      "pause",
+      "preloadedpages",
+      "preloadeventhandler",
+      "preloadeventtype",
+      "preloadimage",
+      "preloadimages",
+      "preloadmanager",
+      "preloadothertabs",
+      "preloadpage",
+      "preloadpages",
+      "priority",
+      "queueindex",
+      "resetpreloadmanager",
+      "resetpreloadqueue",
+      "resourcekey",
+      "resume",
+      "ric",
+      "runningtask",
+      "stats",
+      "task",
+      "taskid"
+    ],
+    "keywords": [
+      "cancelled",
+      "clear",
+      "completed",
+      "core",
+      "failed",
+      "getpreloadmanager",
+      "getpreloadqueue",
+      "handlers",
+      "img",
+      "index",
+      "insertindex",
+      "isloading"
+    ],
+    "fingerprint": "c3cbf0a9dea1826a"
+  },
+  "src/uni_modules/lucky-ui/core/src/tabbar-container": {
+    "path": "src/uni_modules/lucky-ui/core/src/tabbar-container",
+    "files": [
+      "index.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [
+      "debugmode",
+      "getactivetabid",
+      "gettabinstance",
+      "gettabs",
+      "initialtab",
+      "inittabbarcontainer",
+      "instance",
+      "istabvisited",
+      "log",
+      "module",
+      "preloadtab",
+      "preloadtabs",
+      "resettabbarcontainer",
+      "settabbardebug",
+      "state",
+      "switchtab",
+      "tab",
+      "updatetabbadge",
+      "usetabbarcontainer"
+    ],
+    "keywords": [
+      "container",
+      "core",
+      "debugmode",
+      "getactivetabid",
+      "gettabinstance",
+      "gettabs",
+      "index",
+      "initialtab",
+      "inittabbarcontainer",
+      "instance",
+      "istabvisited",
+      "log"
+    ],
+    "fingerprint": "c3007800cac3233e"
+  },
+  "src/uni_modules/lucky-ui/core/src/utils": {
+    "path": "src/uni_modules/lucky-ui/core/src/utils",
+    "files": [
+      "debounce.ts",
+      "format.ts",
+      "index.ts",
+      "platform.ts",
+      "request.ts",
+      "scroll.ts",
+      "throttle.ts",
+      "unit.ts",
+      "validate.ts"
+    ],
+    "file_count": 9,
+    "extensions": {
+      ".ts": 9
+    },
+    "symbols": [
+      "absdiff",
+      "addunit",
+      "basedefaults",
+      "basicreg",
+      "birthdate",
+      "birthday",
+      "birthmonth",
+      "birthyear",
+      "calculatedcheckcode",
+      "calculateidcardcheckcode",
+      "caniuse",
+      "checkcode",
+      "checkcodes",
+      "citycode",
+      "clearsysteminfocache",
+      "countycode",
+      "createrequest",
+      "currentyear",
+      "date",
+      "day",
+      "debounce",
+      "default_nav_bar_height",
+      "diff",
+      "dispatchrequest",
+      "formatfilesize",
+      "formatprice",
+      "formatrelativetime",
+      "formattime",
+      "fulfilledinterceptor",
+      "getdeviceinfo",
+      "getpasswordstrength",
+      "getplatform",
+      "getplatforminfo",
+      "getsysteminfo",
+      "gettopareaheight",
+      "gettouchy",
+      "getuniversion",
+      "hour",
+      "hours",
+      "http_status"
+    ],
+    "keywords": [
+      "absdiff",
+      "addunit",
+      "basedefaults",
+      "basicreg",
+      "birthdate",
+      "birthday",
+      "birthmonth",
+      "birthyear",
+      "calculatedcheckcode",
+      "calculateidcardcheckcode",
+      "caniuse",
+      "checkcode"
+    ],
+    "fingerprint": "2f18049f29e620ff"
+  },
+  "src/uni_modules/lucky-ui/scripts": {
+    "path": "src/uni_modules/lucky-ui/scripts",
+    "files": [
+      "build-icons.svgtofont.js",
+      "fantasticon.config.js",
+      "gen-font-base64.js",
+      "iconset.mobile.config.js",
+      "iconset.mobile.lock.json",
+      "prepare-mobile-icons.js"
+    ],
+    "file_count": 6,
+    "extensions": {
+      ".js": 5,
+      ".json": 1
+    },
+    "symbols": [
+      "all",
+      "base64",
+      "buf",
+      "cfg",
+      "codepointspath",
+      "copied",
+      "dst",
+      "ensureemptydir",
+      "ensureparentdir",
+      "excludere",
+      "explicit",
+      "files",
+      "fsp",
+      "glyphre",
+      "iconcharof",
+      "iconsdir",
+      "inbyexplicit",
+      "inbypattern",
+      "included",
+      "includere",
+      "lk_icons_woff_base64",
+      "lock",
+      "lockpath",
+      "main",
+      "map",
+      "matchany",
+      "moduleroot",
+      "name",
+      "outdir",
+      "outts",
+      "path",
+      "pkgpath",
+      "resolvebootstrapiconsdir",
+      "root",
+      "src",
+      "srcdir",
+      "svgcontent",
+      "svgfontpath",
+      "svgtofont",
+      "toregexlist"
+    ],
+    "keywords": [
+      "all",
+      "base64",
+      "buf",
+      "build",
+      "cfg",
+      "codepointspath",
+      "config",
+      "copied",
+      "dst",
+      "ensureemptydir",
+      "ensureparentdir",
+      "excludere"
+    ],
+    "fingerprint": "6c04dbd59a95cc7c"
+  },
+  "src/uni_modules/lucky-ui/theme": {
+    "path": "src/uni_modules/lucky-ui/theme",
+    "files": [
+      "index.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [],
+    "keywords": [
+      "index",
+      "lucky",
+      "src",
+      "theme",
+      "uni_modules"
+    ],
+    "fingerprint": "40f66a9677fa27e7"
+  },
+  "src/uni_modules/lucky-ui/theme/src": {
+    "path": "src/uni_modules/lucky-ui/theme/src",
+    "files": [
+      "brand-color.ts",
+      "component-vars.scss",
+      "helper.scss",
+      "index.scss",
+      "theme-store.ts"
+    ],
+    "file_count": 5,
+    "extensions": {
+      ".ts": 2,
+      ".scss": 3
+    },
+    "symbols": [
+      "_theme",
+      "applybrandcolor",
+      "applythemetodom",
+      "default_brand_color",
+      "generatebrandvars",
+      "generateshade",
+      "getsystemtheme",
+      "hextorgb",
+      "initial",
+      "inittheme",
+      "isdark",
+      "levels",
+      "loadbrandcolor",
+      "loadtheme",
+      "match",
+      "preset_colors",
+      "ratio",
+      "rgb",
+      "root",
+      "saved",
+      "savetheme",
+      "settheme",
+      "theme",
+      "themeclass",
+      "themestore",
+      "toggletheme",
+      "usetheme",
+      "value",
+      "vars"
+    ],
+    "keywords": [
+      "_theme",
+      "applybrandcolor",
+      "applythemetodom",
+      "brand",
+      "color",
+      "component",
+      "default_brand_color",
+      "generatebrandvars",
+      "generateshade",
+      "getsystemtheme",
+      "helper",
+      "hextorgb"
+    ],
+    "fingerprint": "f4e9335b63d25725"
+  },
+  "src/uni_modules/lucky-ui/theme/src/base": {
+    "path": "src/uni_modules/lucky-ui/theme/src/base",
+    "files": [
+      "_animations.scss",
+      "_global.scss",
+      "_reset.scss",
+      "_theme-transition.scss",
+      "_typography.scss",
+      "index.scss",
+      "ripple.scss"
+    ],
+    "file_count": 7,
+    "extensions": {
+      ".scss": 7
+    },
+    "symbols": [],
+    "keywords": [
+      "_animations",
+      "_global",
+      "_reset",
+      "_theme",
+      "_typography",
+      "base",
+      "index",
+      "lucky",
+      "ripple",
+      "scss",
+      "src",
+      "theme"
+    ],
+    "fingerprint": "8d57fa45de787b0f"
+  },
+  "src/uni_modules/lucky-ui/theme/src/mixins": {
+    "path": "src/uni_modules/lucky-ui/theme/src/mixins",
+    "files": [
+      "_bem.scss",
+      "_hairline.scss",
+      "_layout.scss",
+      "_responsive.scss",
+      "_state.scss",
+      "_text.scss",
+      "index.scss"
+    ],
+    "file_count": 7,
+    "extensions": {
+      ".scss": 7
+    },
+    "symbols": [],
+    "keywords": [
+      "_bem",
+      "_hairline",
+      "_layout",
+      "_responsive",
+      "_state",
+      "_text",
+      "index",
+      "lucky",
+      "mixins",
+      "scss",
+      "src",
+      "theme"
+    ],
+    "fingerprint": "e523d7c6a502b241"
+  },
+  "src/uni_modules/lucky-ui/theme/src/tokens": {
+    "path": "src/uni_modules/lucky-ui/theme/src/tokens",
+    "files": [
+      "_border-radius.scss",
+      "_breakpoints.scss",
+      "_colors.scss",
+      "_motion.scss",
+      "_shadow.scss",
+      "_spacing.scss",
+      "_typography.scss",
+      "_z-index.scss",
+      "index.scss"
+    ],
+    "file_count": 9,
+    "extensions": {
+      ".scss": 9
+    },
+    "symbols": [],
+    "keywords": [
+      "_border",
+      "_breakpoints",
+      "_colors",
+      "_motion",
+      "_shadow",
+      "_spacing",
+      "_typography",
+      "index",
+      "lucky",
+      "radius",
+      "scss",
+      "src"
+    ],
+    "fingerprint": "8f50e74a560733e0"
+  },
+  "src/uni_modules/lucky-ui/theme/src/utilities": {
+    "path": "src/uni_modules/lucky-ui/theme/src/utilities",
+    "files": [
+      "_display.scss",
+      "_spacing.scss",
+      "index.scss"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".scss": 3
+    },
+    "symbols": [],
+    "keywords": [
+      "_display",
+      "_spacing",
+      "index",
+      "lucky",
+      "scss",
+      "src",
+      "theme",
+      "uni_modules",
+      "utilities"
+    ],
+    "fingerprint": "90ebfbaf3df22f97"
+  },
+  "src/uni_modules/lucky-ui/utils": {
+    "path": "src/uni_modules/lucky-ui/utils",
+    "files": [
+      "chart-colors.ts",
+      "date-utils.ts",
+      "init-lk-icons.ts"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".ts": 3
+    },
+    "symbols": [
+      "base",
+      "buildbrandpalette",
+      "clamp01",
+      "css",
+      "cur",
+      "daterangearray",
+      "family",
+      "format",
+      "formatdate",
+      "generatebrandshade",
+      "getcssvarcolor",
+      "hasreadypage",
+      "hextorgb",
+      "initfontoptions",
+      "initlkiconsfont",
+      "loaded",
+      "mime",
+      "mixrgb",
+      "pad",
+      "pages",
+      "parsedate",
+      "ratio",
+      "raw",
+      "resolvebrandbasecolor",
+      "rgb",
+      "rgbafromhex",
+      "rgbtohex",
+      "source",
+      "tohexchannel",
+      "val",
+      "waitforpageready"
+    ],
+    "keywords": [
+      "base",
+      "buildbrandpalette",
+      "chart",
+      "clamp01",
+      "colors",
+      "css",
+      "cur",
+      "date",
+      "daterangearray",
+      "family",
+      "format",
+      "formatdate"
+    ],
+    "fingerprint": "cdbd393f50cb9e68"
+  },
+  "src/utils": {
+    "path": "src/utils",
+    "files": [
+      "test-page-styles.ts"
+    ],
+    "file_count": 1,
+    "extensions": {
+      ".ts": 1
+    },
+    "symbols": [
+      "hex",
+      "testpagecolors",
+      "testpagestyles",
+      "withopacity"
+    ],
+    "keywords": [
+      "hex",
+      "page",
+      "src",
+      "styles",
+      "test",
+      "testpagecolors",
+      "testpagestyles",
+      "utils",
+      "withopacity"
+    ],
+    "fingerprint": "cc0ff079321aedb0"
+  },
+  "test-results": {
+    "path": "test-results",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "results",
+      "test"
+    ],
+    "fingerprint": "a3d4d12fb605369a"
+  },
+  "tests": {
+    "path": "tests",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "tests"
+    ],
+    "fingerprint": "5a0d9696dc918098"
+  },
+  "tests/miniprogram": {
+    "path": "tests/miniprogram",
+    "files": [
+      "button.spec.js",
+      "run-miniprogram-tests.js",
+      "timeline.spec.js"
+    ],
+    "file_count": 3,
+    "extensions": {
+      ".js": 3
+    },
+    "symbols": [
+      "assert",
+      "base",
+      "buildpath",
+      "buttonnode",
+      "component",
+      "componentpath",
+      "container",
+      "devpath",
+      "firstline",
+      "hoverclass",
+      "itemid",
+      "itemnode",
+      "itempath",
+      "items",
+      "jsontree",
+      "lastline",
+      "path",
+      "resolvebuttoncomponentpath",
+      "resolvecomponentpath",
+      "run",
+      "runbuttonloadingtest",
+      "runbuttonsnapshottest",
+      "runtimelinebasictest",
+      "runtimelinestatustest",
+      "simulate",
+      "timelineid",
+      "timelinepath",
+      "wrapper"
+    ],
+    "keywords": [
+      "assert",
+      "base",
+      "buildpath",
+      "button",
+      "buttonnode",
+      "component",
+      "componentpath",
+      "container",
+      "devpath",
+      "firstline",
+      "hoverclass",
+      "itemid"
+    ],
+    "fingerprint": "887dfa18bef9cb18"
+  },
+  "tests/visual": {
+    "path": "tests/visual",
+    "files": [
+      "button-loading.spec.ts",
+      "card-ripple.spec.ts",
+      "screenshot.spec.ts",
+      "toast-animation.spec.ts"
+    ],
+    "file_count": 4,
+    "extensions": {
+      ".ts": 4
+    },
+    "symbols": [
+      "card",
+      "color",
+      "darkcolor",
+      "loadbutton",
+      "loadingbutton",
+      "toastinner",
+      "visual_cases"
+    ],
+    "keywords": [
+      "animation",
+      "button",
+      "card",
+      "color",
+      "darkcolor",
+      "loadbutton",
+      "loading",
+      "loadingbutton",
+      "ripple",
+      "screenshot",
+      "spec",
+      "tests"
+    ],
+    "fingerprint": "c6988df7360f9d07"
+  },
+  "tests/visual/screenshot.spec.ts-snapshots": {
+    "path": "tests/visual/screenshot.spec.ts-snapshots",
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
+    "symbols": [],
+    "keywords": [
+      "screenshot",
+      "snapshots",
+      "spec",
+      "tests",
+      "visual"
+    ],
+    "fingerprint": "ca92e87e0b1d4837"
+  }
+}

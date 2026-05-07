@@ -1,0 +1,1832 @@
+{
+  ".agent": [
+    "agent"
+  ],
+  ".agent/skills": [
+    "skills",
+    "agent"
+  ],
+  ".agent/skills/find-skills": [
+    "skills",
+    "agent",
+    "find",
+    "skill"
+  ],
+  ".agents": [
+    "agents"
+  ],
+  ".agents/skills": [
+    "skills",
+    "agents"
+  ],
+  ".agents/skills/find-skills": [
+    "skills",
+    "agents",
+    "find",
+    "skill"
+  ],
+  ".agents/skills/lucky-ui-component": [
+    "lucky",
+    "skills",
+    "agents",
+    "skill",
+    "component"
+  ],
+  ".agents/skills/lucky-ui-docs": [
+    "lucky",
+    "skills",
+    "agents",
+    "skill",
+    "docs"
+  ],
+  ".agents/skills/lucky-ui-icon": [
+    "lucky",
+    "skills",
+    "agents",
+    "skill",
+    "icon"
+  ],
+  ".agents/skills/lucky-ui-theme": [
+    "theme",
+    "lucky",
+    "skills",
+    "agents",
+    "skill"
+  ],
+  ".agents/skills/playwright-cli": [
+    "playwright",
+    "cli",
+    "skills",
+    "agents",
+    "skill"
+  ],
+  ".augment": [
+    "augment"
+  ],
+  ".augment/skills": [
+    "skills",
+    "augment"
+  ],
+  ".augment/skills/find-skills": [
+    "skills",
+    "augment",
+    "find",
+    "skill"
+  ],
+  ".claude": [
+    "claude"
+  ],
+  ".claude/skills": [
+    "claude",
+    "skills"
+  ],
+  ".claude/skills/find-skills": [
+    "claude",
+    "skills",
+    "find",
+    "skill"
+  ],
+  ".codebuddy": [
+    "codebuddy"
+  ],
+  ".codebuddy/skills": [
+    "skills",
+    "codebuddy"
+  ],
+  ".codebuddy/skills/find-skills": [
+    "skills",
+    "codebuddy",
+    "find",
+    "skill"
+  ],
+  ".commandcode": [
+    "commandcode"
+  ],
+  ".commandcode/skills": [
+    "skills",
+    "commandcode"
+  ],
+  ".commandcode/skills/find-skills": [
+    "skills",
+    "commandcode",
+    "find",
+    "skill"
+  ],
+  ".continue": [
+    "continue"
+  ],
+  ".continue/skills": [
+    "skills",
+    "continue"
+  ],
+  ".continue/skills/find-skills": [
+    "skills",
+    "continue",
+    "find",
+    "skill"
+  ],
+  ".gemini": [
+    "gemini"
+  ],
+  ".goose": [
+    "goose"
+  ],
+  ".goose/skills": [
+    "goose",
+    "skills"
+  ],
+  ".goose/skills/find-skills": [
+    "goose",
+    "skills",
+    "find",
+    "skill"
+  ],
+  ".iflow": [
+    "iflow"
+  ],
+  ".iflow/skills": [
+    "iflow",
+    "skills"
+  ],
+  ".iflow/skills/find-skills": [
+    "iflow",
+    "skills",
+    "find",
+    "skill"
+  ],
+  ".playwright-cli": [
+    "cli",
+    "playwright"
+  ],
+  "ai": [
+    "template",
+    "uniapp",
+    "prompt",
+    "component"
+  ],
+  "assets": [
+    "assets"
+  ],
+  "assets/bootstrap-icons-selected": [
+    "3x3",
+    "all",
+    "3x2",
+    "alt",
+    "app",
+    "adjustable",
+    "1x2",
+    "alarm",
+    "album",
+    "add",
+    "angle",
+    "90deg"
+  ],
+  "docs": [
+    "new_architecture",
+    "component_completion_summary",
+    "index",
+    "component_demo_plan",
+    "implementation_summary",
+    "test_page_styles_quick_ref",
+    "package",
+    "test_page_styles",
+    "docs",
+    "json",
+    "animation_fix",
+    "demo_implementation_plan"
+  ],
+  "docs/.vitepress": [
+    "vitepress",
+    "docs",
+    "config"
+  ],
+  "docs/.vitepress/cache": [
+    "docs",
+    "cache",
+    "vitepress"
+  ],
+  "docs/.vitepress/theme": [
+    "vue",
+    "theme",
+    "index",
+    "style",
+    "docs",
+    "vitepress",
+    "css",
+    "layout"
+  ],
+  "docs/.vitepress/theme/components": [
+    "vue",
+    "phonepreview",
+    "theme",
+    "homepage",
+    "propsplayground",
+    "components",
+    "docs",
+    "vitepress"
+  ],
+  "docs/components": [
+    "backtop",
+    "chart",
+    "action",
+    "calendar",
+    "card",
+    "components",
+    "checkbox",
+    "code",
+    "anchor",
+    "bar",
+    "collapse",
+    "carousel"
+  ],
+  "docs/components/basic": [
+    "cell",
+    "tag",
+    "basic",
+    "index",
+    "badge",
+    "components",
+    "icon",
+    "divider",
+    "docs",
+    "avatar",
+    "button"
+  ],
+  "docs/guide": [
+    "theme",
+    "install",
+    "index",
+    "docs",
+    "guide"
+  ],
+  "eslint-rules": [
+    "unsupported_tags_in_mini_program",
+    "tags",
+    "eslint",
+    "rawname",
+    "unsupported",
+    "rules"
+  ],
+  "scripts": [
+    "changed",
+    "bad",
+    "cases",
+    "check",
+    "collectvuefiles",
+    "buildspecblock",
+    "base",
+    "clean",
+    "block",
+    "clean_file",
+    "and",
+    "applytofile"
+  ],
+  "skills": [
+    "skills"
+  ],
+  "skills/find-skills": [
+    "skills",
+    "find",
+    "skill"
+  ],
+  "src": [
+    "hooks",
+    "componentcustomoptions",
+    "createapp",
+    "pinia",
+    "env",
+    "shime",
+    "app",
+    "pages",
+    "scss",
+    "main",
+    "manifest",
+    "json"
+  ],
+  "src/components": [
+    "vue",
+    "debugger",
+    "theme",
+    "components",
+    "src"
+  ],
+  "src/components/demos": [
+    "cell",
+    "backtop",
+    "chart",
+    "action",
+    "calendar",
+    "badge",
+    "card",
+    "bar",
+    "anchor",
+    "avatar",
+    "carousel",
+    "button"
+  ],
+  "src/components/showcase": [
+    "vue",
+    "cases",
+    "case",
+    "components",
+    "showcase",
+    "src",
+    "component"
+  ],
+  "src/pages": [
+    "pages",
+    "src"
+  ],
+  "src/pages/app-main": [
+    "vue",
+    "index",
+    "app",
+    "pages",
+    "main",
+    "src"
+  ],
+  "src/pages/app-main/tabs": [
+    "vue",
+    "overview",
+    "cart",
+    "detail",
+    "app",
+    "pages",
+    "tabs",
+    "home",
+    "main",
+    "tab",
+    "mine",
+    "src"
+  ],
+  "src/pages/app-main/tabs/components": [
+    "overview",
+    "cart",
+    "content",
+    "detail",
+    "app",
+    "components",
+    "pages",
+    "tabs",
+    "home",
+    "main",
+    "mine",
+    "src"
+  ],
+  "src/pages/order-detail": [
+    "vue",
+    "index",
+    "detail",
+    "pages",
+    "src",
+    "order"
+  ],
+  "src/pages/showcase": [
+    "vue",
+    "index",
+    "showcase",
+    "pages",
+    "src"
+  ],
+  "src/pages/tabbar": [
+    "pages",
+    "src",
+    "tabbar"
+  ],
+  "src/pages/tabbar/cart": [
+    "vue",
+    "cart",
+    "index",
+    "pages",
+    "tabbar",
+    "src"
+  ],
+  "src/pages/tabbar/detail": [
+    "vue",
+    "index",
+    "detail",
+    "pages",
+    "tabbar",
+    "src"
+  ],
+  "src/pages/tabbar/home": [
+    "vue",
+    "index",
+    "pages",
+    "tabbar",
+    "home",
+    "src"
+  ],
+  "src/pages/tabbar/mine": [
+    "vue",
+    "index",
+    "pages",
+    "tabbar",
+    "mine",
+    "src"
+  ],
+  "src/pages/tabbar/overview": [
+    "vue",
+    "overview",
+    "index",
+    "pages",
+    "tabbar",
+    "src"
+  ],
+  "src/pages/tabbar/overview/components": [
+    "vue",
+    "overview",
+    "content",
+    "components",
+    "pages",
+    "tabbar",
+    "src"
+  ],
+  "src/pages/todo": [
+    "vue",
+    "todo",
+    "index",
+    "pages",
+    "src"
+  ],
+  "src/pages_sub": [
+    "src",
+    "pages_sub"
+  ],
+  "src/pages_sub/analytics": [
+    "vue",
+    "pages_sub",
+    "index",
+    "analytics",
+    "src"
+  ],
+  "src/pages_sub/auth": [
+    "vue",
+    "pages_sub",
+    "index",
+    "auth",
+    "src"
+  ],
+  "src/pages_sub/check-in": [
+    "vue",
+    "pages_sub",
+    "index",
+    "check",
+    "src"
+  ],
+  "src/pages_sub/component-detail": [
+    "vue",
+    "pages_sub",
+    "index",
+    "detail",
+    "src",
+    "component"
+  ],
+  "src/pages_sub/edit-profile": [
+    "vue",
+    "pages_sub",
+    "index",
+    "profile",
+    "edit",
+    "src"
+  ],
+  "src/pages_sub/playground": [
+    "vue",
+    "pages_sub",
+    "index",
+    "playground",
+    "src"
+  ],
+  "src/pages_sub/product-detail": [
+    "vue",
+    "pages_sub",
+    "index",
+    "detail",
+    "product",
+    "src"
+  ],
+  "src/pages_sub/search": [
+    "vue",
+    "pages_sub",
+    "index",
+    "search",
+    "src"
+  ],
+  "src/pages_sub/settings": [
+    "vue",
+    "pages_sub",
+    "index",
+    "src",
+    "settings"
+  ],
+  "src/static": [
+    "logo",
+    "src",
+    "static",
+    "png"
+  ],
+  "src/stores": [
+    "brandstylevars",
+    "brandcolor",
+    "default_brand_color",
+    "hextorgb",
+    "applybrandcolortodom",
+    "getsystemtheme",
+    "generateshade",
+    "applysystemui",
+    "generatebrandvars",
+    "applythemetodom",
+    "handler",
+    "color"
+  ],
+  "src/styles": [
+    "styles",
+    "page",
+    "scss",
+    "test",
+    "src"
+  ],
+  "src/uni_modules": [
+    "src",
+    "uni_modules"
+  ],
+  "src/uni_modules/lucky-ui": [
+    "components",
+    "lucky",
+    "src",
+    "uni_modules"
+  ],
+  "src/uni_modules/lucky-ui/assets": [
+    "assets",
+    "lucky",
+    "src",
+    "uni_modules"
+  ],
+  "src/uni_modules/lucky-ui/assets/bootstrap-icons-selected": [
+    "3x3",
+    "all",
+    "3x2",
+    "alt",
+    "app",
+    "adjustable",
+    "1x2",
+    "alarm",
+    "album",
+    "add",
+    "angle",
+    "90deg"
+  ],
+  "src/uni_modules/lucky-ui/components": [
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/common": [
+    "lucky",
+    "uni_modules",
+    "common",
+    "components",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/common/props": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "common",
+    "baseprops",
+    "commonprops",
+    "components",
+    "lkprophelper",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/demo-block": [
+    "vue",
+    "lucky",
+    "uni_modules",
+    "index",
+    "demo",
+    "block",
+    "components",
+    "scss",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-action-sheet": [
+    "vue",
+    "actionsheetprops",
+    "props",
+    "actionsheetemits",
+    "lucky",
+    "uni_modules",
+    "action",
+    "index",
+    "components",
+    "scss",
+    "sheet",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-anchor": [
+    "vue",
+    "link",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "anchorlinkprops",
+    "scss",
+    "anchorprops",
+    "anchor",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-avatar": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "scss",
+    "avatarshape",
+    "avatar",
+    "avatarprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-backtop": [
+    "props",
+    "backtop",
+    "lucky",
+    "uni_modules",
+    "index",
+    "backtopemits",
+    "components",
+    "backtopprops",
+    "backtopsize",
+    "scss",
+    "backtopshape",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-badge": [
+    "vue",
+    "props",
+    "badgeprops",
+    "lucky",
+    "uni_modules",
+    "index",
+    "badge",
+    "badgetype",
+    "components",
+    "badgeemits",
+    "scss",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-button": [
+    "props",
+    "lucky",
+    "buttonopentype",
+    "buttonemits",
+    "index",
+    "buttonsize",
+    "components",
+    "buttonshape",
+    "buttonvariant",
+    "buttonprops",
+    "buttonnativetype",
+    "button"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-calendar": [
+    "calendarprops",
+    "lucky",
+    "calendarvaluetype",
+    "index",
+    "calendar",
+    "components",
+    "calendarmodelvalue",
+    "calendarmode",
+    "calendardateinput",
+    "calendaremits",
+    "calendarview",
+    "calendarshortcuttype"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-calendar/utils": [
+    "basedate",
+    "day",
+    "day_time",
+    "calendar",
+    "addmonths",
+    "createholidaymap",
+    "base",
+    "components",
+    "adddays",
+    "diffdays",
+    "current",
+    "date"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-card": [
+    "vue",
+    "cardprops",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "card",
+    "components",
+    "scss",
+    "cardemits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-carousel": [
+    "item",
+    "lucky",
+    "index",
+    "carouseleffect",
+    "carouselindicatortype",
+    "carouselindicatorposition",
+    "carouselindicatoralign",
+    "carouselitem",
+    "components",
+    "carouselprops",
+    "carouselemits",
+    "carousel"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-cell": [
+    "vue",
+    "props",
+    "cell",
+    "lucky",
+    "uni_modules",
+    "index",
+    "cellprops",
+    "components",
+    "scss",
+    "cellemits",
+    "src",
+    "group"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-area": [
+    "props",
+    "areachartpoint",
+    "chartareaprops",
+    "chart",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "area",
+    "scss",
+    "chartareaemits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-bar": [
+    "chartbarprops",
+    "props",
+    "vue",
+    "chart",
+    "lucky",
+    "uni_modules",
+    "components",
+    "bar",
+    "chartbaremits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-line": [
+    "vue",
+    "props",
+    "line",
+    "chart",
+    "lucky",
+    "uni_modules",
+    "chartlineemits",
+    "components",
+    "chartlineprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-pie": [
+    "vue",
+    "props",
+    "chartpieemits",
+    "chart",
+    "lucky",
+    "uni_modules",
+    "chartpieprops",
+    "components",
+    "pie",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-radar-lite": [
+    "vue",
+    "props",
+    "chart",
+    "lucky",
+    "uni_modules",
+    "index",
+    "lite",
+    "chartradarliteprops",
+    "radar",
+    "components",
+    "scss",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-ring": [
+    "chartringprops",
+    "props",
+    "vue",
+    "lucky",
+    "chart",
+    "uni_modules",
+    "index",
+    "components",
+    "scss",
+    "ring",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-sparkline": [
+    "props",
+    "chartsparklineprops",
+    "chart",
+    "lucky",
+    "uni_modules",
+    "chartsparklineemits",
+    "index",
+    "components",
+    "sparkline",
+    "scss",
+    "sparklinepoint",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-chart-stat-card": [
+    "props",
+    "chart",
+    "lucky",
+    "index",
+    "statcardtrend",
+    "card",
+    "components",
+    "scss",
+    "stat",
+    "statcardpoint",
+    "chartstatcardprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-checkbox": [
+    "checkboxsize",
+    "checkboxicontype",
+    "checkboxvalue",
+    "checkboxshape",
+    "checkboxgroupdirection",
+    "checkboxprops",
+    "components",
+    "checkbox",
+    "checkboxgroupemits",
+    "checkboxgroupprops",
+    "checkboxemits",
+    "group"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-choice": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "choiceprops",
+    "choice",
+    "components",
+    "scss",
+    "src",
+    "choiceemits"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-collapse": [
+    "props",
+    "collapseemits",
+    "collapseprops",
+    "lucky",
+    "index",
+    "collapsename",
+    "components",
+    "collapsevariant",
+    "scss",
+    "item",
+    "collapse",
+    "collapseinjectionkey"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-curtain": [
+    "props",
+    "curtainimagemodes",
+    "lucky",
+    "curtainlinktypes",
+    "curtainprops",
+    "components",
+    "curtainimagemode",
+    "curtaincloseposition",
+    "curtainclosepositions",
+    "curtainemits",
+    "curtain",
+    "curtainlinktype"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-date-picker": [
+    "datepickerprops",
+    "datepickertype",
+    "datepickerdisplaymode",
+    "picker",
+    "datepickeremits",
+    "lucky",
+    "props",
+    "index",
+    "components",
+    "date",
+    "datepickervalue",
+    "datepickerdateinput"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-divider": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "dividertextposition",
+    "scss",
+    "divider",
+    "src",
+    "dividerprops"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-dropdown": [
+    "dropdown",
+    "props",
+    "item",
+    "lucky",
+    "index",
+    "dropdowntrigger",
+    "components",
+    "dropdownprops",
+    "scss",
+    "dropdownplacement",
+    "dropdownvalue",
+    "dropdownemits"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-fab": [
+    "props",
+    "fab",
+    "fabemits",
+    "lucky",
+    "uni_modules",
+    "index",
+    "fabprops",
+    "components",
+    "scss",
+    "fabdirection",
+    "fabposition",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-form": [
+    "formlabelalign",
+    "props",
+    "lucky",
+    "formitemprops",
+    "index",
+    "formrules",
+    "components",
+    "context",
+    "formprops",
+    "formemits",
+    "form",
+    "item"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-grid": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "grid",
+    "readme",
+    "gridemits",
+    "components",
+    "types",
+    "scss",
+    "gridprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-horizontal-scroll": [
+    "vue",
+    "props",
+    "lucky",
+    "horizontal",
+    "uni_modules",
+    "components",
+    "scroll",
+    "horizontalscrollprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-icon": [
+    "builtiniconname",
+    "icons",
+    "index",
+    "getbuiltinicon",
+    "iconmodules",
+    "components",
+    "icon",
+    "codepoints",
+    "iconemits",
+    "key",
+    "iconcharof",
+    "iconprops"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-icon/fonts": [
+    "eot",
+    "lucky",
+    "icons",
+    "fonts",
+    "module",
+    "components",
+    "base64",
+    "icon",
+    "definitions",
+    "css",
+    "less",
+    "lk_icons_woff_base64"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-image": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "imageprops",
+    "image",
+    "components",
+    "scss",
+    "imagefit",
+    "imageemits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-index-bar": [
+    "props",
+    "indexbaremits",
+    "defaultindexlist",
+    "lucky",
+    "index",
+    "components",
+    "indexbarprops",
+    "scss",
+    "anchor",
+    "bar",
+    "indexanchorprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-input": [
+    "inputmode",
+    "input",
+    "lucky",
+    "inputsize",
+    "index",
+    "inputtype",
+    "components",
+    "inputemits",
+    "inputvalue",
+    "inputeventpayload",
+    "inputprops",
+    "inputconfirmtype"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-keyboard": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "keyboardtheme",
+    "components",
+    "src",
+    "keyboardprops",
+    "keyboardtype",
+    "scss",
+    "keyboard",
+    "keyboardemits"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-loading": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "scss",
+    "loadingprops",
+    "loading",
+    "loadingvariant",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-meta-row": [
+    "vue",
+    "props",
+    "metarowalign",
+    "row",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "meta",
+    "scss",
+    "metarowprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-modal": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "modalprops",
+    "scss",
+    "modalemits",
+    "modal",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-navbar": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "navbarprops",
+    "navbartitlealign",
+    "components",
+    "navbar",
+    "navbaremits",
+    "scss",
+    "navbarvariant",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-notice-bar": [
+    "props",
+    "lucky",
+    "noticebaremits",
+    "index",
+    "uni_modules",
+    "noticebarprops",
+    "components",
+    "scss",
+    "notice",
+    "scrollmode",
+    "bar",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-number-keyboard": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "numberkeyboardemits",
+    "components",
+    "number",
+    "scss",
+    "numberkeyboardprops",
+    "keyboard",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-number-roller": [
+    "vue",
+    "props",
+    "lucky",
+    "roller",
+    "numberrollerprops",
+    "index",
+    "uni_modules",
+    "components",
+    "number",
+    "scss",
+    "src",
+    "numberrollerformatter"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-overlay": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "overlayprops",
+    "components",
+    "scss",
+    "overlay",
+    "overlayemits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-picker": [
+    "pickerprops",
+    "props",
+    "picker",
+    "lucky",
+    "index",
+    "components",
+    "scss",
+    "pickeremits",
+    "pickermode",
+    "pickervalue",
+    "src",
+    "pickercolumns"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-popup": [
+    "vue",
+    "props",
+    "lucky",
+    "popupprops",
+    "index",
+    "uni_modules",
+    "popup",
+    "popupposition",
+    "components",
+    "scss",
+    "src",
+    "popupemits"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-preload-debugger": [
+    "vue",
+    "debugger",
+    "props",
+    "lucky",
+    "uni_modules",
+    "debuggerposition",
+    "preload",
+    "components",
+    "preloaddebuggerprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-progress": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "progress",
+    "components",
+    "scss",
+    "progressemits",
+    "progressprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-radio": [
+    "props",
+    "lucky",
+    "index",
+    "radio",
+    "radioicontype",
+    "components",
+    "radiogroupdirection",
+    "radioemits",
+    "radiogroupprops",
+    "radioprops",
+    "radiogroupemits",
+    "group"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-rate": [
+    "vue",
+    "props",
+    "rateprops",
+    "rate",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "rateemits",
+    "scss",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-segmented": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "segmentedvalue",
+    "segmentedprops",
+    "components",
+    "segmentedsize",
+    "scss",
+    "segmented",
+    "src",
+    "segmentedemits"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-skeleton": [
+    "vue",
+    "props",
+    "skeletonprops",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "scss",
+    "skeleton",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-slider": [
+    "props",
+    "lucky",
+    "slidersize",
+    "index",
+    "sliderprops",
+    "slidervalue",
+    "slidersizevalues",
+    "components",
+    "scss",
+    "slider",
+    "slideremits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-space": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "spacedirection",
+    "spacealign",
+    "components",
+    "space",
+    "spacegap",
+    "scss",
+    "spaceprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-stepper": [
+    "props",
+    "stepperaction",
+    "lucky",
+    "index",
+    "stepper",
+    "steppersize",
+    "components",
+    "scss",
+    "steppervalue",
+    "stepperprops",
+    "src",
+    "stepperemits"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-sticky": [
+    "vue",
+    "props",
+    "stickyprops",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "scss",
+    "src",
+    "sticky"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-switch": [
+    "props",
+    "lucky",
+    "switch",
+    "switchemits",
+    "index",
+    "uni_modules",
+    "switchvalue",
+    "components",
+    "scss",
+    "switchsize",
+    "switchprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-tabbar": [
+    "props",
+    "tabbarmode",
+    "lucky",
+    "index",
+    "tabbaremits",
+    "components",
+    "context",
+    "scss",
+    "tabbar",
+    "item",
+    "tabbaritemprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-tabbar-container": [
+    "vue",
+    "lucky",
+    "uni_modules",
+    "container",
+    "components",
+    "tabbar",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-tabs": [
+    "props",
+    "lucky",
+    "tabsemits",
+    "index",
+    "tabstype",
+    "pane",
+    "tabsprops",
+    "components",
+    "tabs",
+    "scss",
+    "tab",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-tag": [
+    "props",
+    "tagemits",
+    "lucky",
+    "tag",
+    "uni_modules",
+    "index",
+    "tagprops",
+    "components",
+    "scss",
+    "tagtype",
+    "src",
+    "tagsize"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-textarea": [
+    "textareaconfirmtype",
+    "props",
+    "textarea",
+    "lucky",
+    "textareainputmode",
+    "index",
+    "textareaemits",
+    "components",
+    "textareaeventpayload",
+    "textareaprops",
+    "scss",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-time-picker": [
+    "time",
+    "props",
+    "timepickeremits",
+    "vue",
+    "picker",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "scss",
+    "timepickerprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-timeline": [
+    "props",
+    "timelinedirection",
+    "timelinedotvariant",
+    "lucky",
+    "index",
+    "timelineitemstatus",
+    "components",
+    "scss",
+    "timeline",
+    "item",
+    "timelineitemprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-toast": [
+    "close",
+    "manager",
+    "props",
+    "lucky",
+    "index",
+    "list",
+    "remove",
+    "components",
+    "scss",
+    "hide",
+    "item",
+    "clear"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-tooltip": [
+    "tooltipplacement",
+    "props",
+    "tooltipemits",
+    "tooltiptrigger",
+    "lucky",
+    "uni_modules",
+    "index",
+    "tooltip",
+    "components",
+    "scss",
+    "src",
+    "tooltipprops"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-upload": [
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "upload",
+    "components",
+    "scss",
+    "beforedeletefn",
+    "customrequestfn",
+    "afterreadfn",
+    "beforereadfn",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-verify-code": [
+    "props",
+    "lucky",
+    "verifycodeprops",
+    "uni_modules",
+    "index",
+    "verifycodestatus",
+    "components",
+    "verify",
+    "scss",
+    "code",
+    "verifycodeemits",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-virtual-list": [
+    "props",
+    "virtuallistprops",
+    "lucky",
+    "uni_modules",
+    "index",
+    "list",
+    "virtuallistpositionstrategy",
+    "components",
+    "anyitem",
+    "scss",
+    "virtual",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-waterfall": [
+    "vue",
+    "props",
+    "lucky",
+    "uni_modules",
+    "index",
+    "components",
+    "waterfallloadingstate",
+    "waterfallprops",
+    "scss",
+    "waterfallemits",
+    "waterfall",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/components/lk-watermark": [
+    "vue",
+    "props",
+    "watermarkvariant",
+    "lucky",
+    "watermarksize",
+    "uni_modules",
+    "index",
+    "watermark",
+    "components",
+    "scss",
+    "watermarkprops",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/composables": [
+    "called",
+    "canvas2dlike",
+    "animateto",
+    "anyrecord",
+    "autosize",
+    "basestyles",
+    "appear",
+    "animationtype",
+    "active",
+    "caf",
+    "activate",
+    "attachendlisteners"
+  ],
+  "src/uni_modules/lucky-ui/core": [
+    "core",
+    "lucky",
+    "src",
+    "uni_modules"
+  ],
+  "src/uni_modules/lucky-ui/core/src": [
+    "core",
+    "lucky",
+    "uni_modules",
+    "index",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/core/src/cache": [
+    "cached",
+    "core",
+    "cache",
+    "getcache",
+    "getcachedpagedata",
+    "cachekey",
+    "cachepagedata",
+    "clearallcache",
+    "clearcache",
+    "existing",
+    "clearpagedatacache",
+    "debugmode"
+  ],
+  "src/uni_modules/lucky-ui/core/src/chart": [
+    "getlitechartrange",
+    "innerwidth",
+    "core",
+    "chart",
+    "formatcompactnumber",
+    "innerheight",
+    "index",
+    "easeoutcubic",
+    "getlitechartpositions",
+    "getnearestpointindex",
+    "clamp01",
+    "distance"
+  ],
+  "src/uni_modules/lucky-ui/core/src/preload": [
+    "core",
+    "img",
+    "completed",
+    "index",
+    "getpreloadmanager",
+    "cancelled",
+    "insertindex",
+    "getpreloadqueue",
+    "failed",
+    "handlers",
+    "clear",
+    "isloading"
+  ],
+  "src/uni_modules/lucky-ui/core/src/tabbar-container": [
+    "core",
+    "initialtab",
+    "gettabinstance",
+    "inittabbarcontainer",
+    "index",
+    "gettabs",
+    "istabvisited",
+    "instance",
+    "container",
+    "log",
+    "getactivetabid",
+    "debugmode"
+  ],
+  "src/uni_modules/lucky-ui/core/src/utils": [
+    "calculatedcheckcode",
+    "addunit",
+    "checkcode",
+    "absdiff",
+    "birthmonth",
+    "basedefaults",
+    "calculateidcardcheckcode",
+    "birthdate",
+    "caniuse",
+    "basicreg",
+    "birthday",
+    "birthyear"
+  ],
+  "src/uni_modules/lucky-ui/scripts": [
+    "all",
+    "config",
+    "buf",
+    "copied",
+    "ensureemptydir",
+    "ensureparentdir",
+    "base64",
+    "excludere",
+    "dst",
+    "cfg",
+    "build",
+    "codepointspath"
+  ],
+  "src/uni_modules/lucky-ui/theme": [
+    "theme",
+    "lucky",
+    "uni_modules",
+    "index",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/theme/src": [
+    "applybrandcolor",
+    "default_brand_color",
+    "hextorgb",
+    "getsystemtheme",
+    "helper",
+    "brand",
+    "generateshade",
+    "generatebrandvars",
+    "applythemetodom",
+    "color",
+    "_theme",
+    "component"
+  ],
+  "src/uni_modules/lucky-ui/theme/src/base": [
+    "theme",
+    "_global",
+    "_typography",
+    "lucky",
+    "index",
+    "ripple",
+    "base",
+    "_reset",
+    "scss",
+    "_animations",
+    "_theme",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/theme/src/mixins": [
+    "theme",
+    "_layout",
+    "lucky",
+    "index",
+    "_text",
+    "_responsive",
+    "_hairline",
+    "mixins",
+    "scss",
+    "_state",
+    "_bem",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/theme/src/tokens": [
+    "_spacing",
+    "_colors",
+    "_typography",
+    "lucky",
+    "_shadow",
+    "index",
+    "radius",
+    "_breakpoints",
+    "_motion",
+    "_border",
+    "scss",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/theme/src/utilities": [
+    "_spacing",
+    "theme",
+    "lucky",
+    "_display",
+    "index",
+    "uni_modules",
+    "scss",
+    "utilities",
+    "src"
+  ],
+  "src/uni_modules/lucky-ui/utils": [
+    "format",
+    "daterangearray",
+    "chart",
+    "base",
+    "buildbrandpalette",
+    "cur",
+    "family",
+    "formatdate",
+    "clamp01",
+    "colors",
+    "css",
+    "date"
+  ],
+  "src/utils": [
+    "styles",
+    "page",
+    "hex",
+    "withopacity",
+    "testpagestyles",
+    "utils",
+    "test",
+    "testpagecolors",
+    "src"
+  ],
+  "test-results": [
+    "test",
+    "results"
+  ],
+  "tests": [
+    "tests"
+  ],
+  "tests/miniprogram": [
+    "firstline",
+    "assert",
+    "buttonnode",
+    "buildpath",
+    "container",
+    "base",
+    "itemid",
+    "componentpath",
+    "devpath",
+    "hoverclass",
+    "button",
+    "component"
+  ],
+  "tests/visual": [
+    "spec",
+    "ripple",
+    "darkcolor",
+    "loadingbutton",
+    "card",
+    "loadbutton",
+    "color",
+    "animation",
+    "loading",
+    "tests",
+    "screenshot",
+    "button"
+  ],
+  "tests/visual/screenshot.spec.ts-snapshots": [
+    "spec",
+    "snapshots",
+    "screenshot",
+    "visual",
+    "tests"
+  ]
+}
