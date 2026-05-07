@@ -288,13 +288,15 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
             @click="toggleAnimation(animation)"
           >
             <view class="animation-label">{{ animation }}</view>
-            <view
-              v-if="animationDisplayStates[animation]"
-              class="animation-box"
-              :class="animationClasses[animation]"
-              :style="animationStyles[animation]"
-            >
-              <lk-icon name="check-circle" size="40" color="var(--lk-icon-color)" />
+            <view class="animation-stage">
+              <view
+                v-if="animationDisplayStates[animation]"
+                class="animation-box"
+                :class="animationClasses[animation]"
+                :style="animationStyles[animation]"
+              >
+                <lk-icon name="check-circle" size="40" color="var(--lk-icon-color)" />
+              </view>
             </view>
           </view>
         </view>
@@ -322,13 +324,15 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
               <text class="preset-detail">时长: {{ preset.duration }}ms</text>
               <text class="preset-detail">缓动: {{ preset.easing }}</text>
             </view>
-            <view
-              v-if="presetDisplayStates[key]"
-              class="preset-demo-box"
-              :class="presetClasses[key]"
-              :style="presetStyles[key]"
-            >
-              <lk-icon name="star" size="40" color="var(--lk-icon-color)" />
+            <view class="preset-stage">
+              <view
+                v-if="presetDisplayStates[key]"
+                class="preset-demo-box"
+                :class="presetClasses[key]"
+                :style="presetStyles[key]"
+              >
+                <lk-icon name="star" size="40" color="var(--lk-icon-color)" />
+              </view>
             </view>
           </view>
         </view>
@@ -349,13 +353,17 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
               <view
                 v-for="item in listItems"
                 :key="item.id"
-                v-show="listItemDisplayStates[item.id]"
-                class="list-item"
-                :class="listItemClasses[item.id]"
-                :style="listItemStyles[item.id]"
+                class="list-stage"
               >
-                <lk-icon :name="item.icon" size="24" />
-                <text class="list-text">{{ item.text }}</text>
+                <view
+                  v-show="listItemDisplayStates[item.id]"
+                  class="list-item"
+                  :class="listItemClasses[item.id]"
+                  :style="listItemStyles[item.id]"
+                >
+                  <lk-icon :name="item.icon" size="24" />
+                  <text class="list-text">{{ item.text }}</text>
+                </view>
               </view>
             </view>
           </view>
@@ -363,15 +371,17 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
           <view class="example-item">
             <text class="example-title">卡片动画</text>
             <lk-button size="sm" @click="toggleCard">切换卡片</lk-button>
-            <lk-card
-              v-if="cardDisplay"
-              title="动画卡片"
-              class="demo-card"
-              :class="cardClasses"
-              :style="cardStyles"
-            >
-              <text>这是一个带有动画效果的卡片组件</text>
-            </lk-card>
+            <view class="card-stage">
+              <lk-card
+                v-if="cardDisplay"
+                title="动画卡片"
+                class="demo-card"
+                :class="cardClasses"
+                :style="cardStyles"
+              >
+                <text>这是一个带有动画效果的卡片组件</text>
+              </lk-card>
+            </view>
           </view>
         </view>
       </view>
@@ -448,11 +458,12 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   background: var(--lk-color-bg-container);
   border-radius: var(--lk-radius-md);
   padding: 24rpx;
-  min-height: 200rpx;
+  height: 232rpx;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   cursor: pointer;
   transition: all 0.3s;
 
@@ -466,6 +477,16 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
     color: var(--lk-color-text-secondary);
     margin-bottom: 16rpx;
     text-align: center;
+    line-height: 32rpx;
+  }
+
+  .animation-stage {
+    width: 120rpx;
+    height: 120rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
   }
 
   .animation-box {
@@ -490,6 +511,8 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   background: var(--lk-color-bg-container);
   border-radius: var(--lk-radius-md);
   padding: 24rpx;
+  min-height: 256rpx;
+  box-sizing: border-box;
   cursor: pointer;
   transition: all 0.3s;
 
@@ -520,6 +543,12 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   .preset-detail {
     font-size: 24rpx;
     color: var(--lk-color-text-secondary);
+  }
+
+  .preset-stage {
+    width: 100%;
+    height: 120rpx;
+    overflow: visible;
   }
 
   .preset-demo-box {
@@ -561,10 +590,17 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   gap: 12rpx;
 }
 
+.list-stage {
+  height: 84rpx;
+  overflow: visible;
+}
+
 .list-item {
   background: var(--lk-color-bg-page);
   border-radius: var(--lk-radius-sm);
   padding: 20rpx;
+  height: 84rpx;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 16rpx;
@@ -575,8 +611,15 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   }
 }
 
-.demo-card {
+.card-stage {
   margin-top: 16rpx;
+  height: 180rpx;
+  overflow: visible;
+}
+
+.demo-card {
+  height: 180rpx;
+  box-sizing: border-box;
 }
 
 .bottom-spacer {
