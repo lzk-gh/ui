@@ -19,6 +19,20 @@ export type TabbarMode =
   | 'mask-fill'
   | 'text-raise';
 
+const TABBAR_MODES: TabbarMode[] = [
+  'plain',
+  'block',
+  'flashlight',
+  'float',
+  'marker-top',
+  'marker-bottom',
+  'dot-slide',
+  'bubble',
+  'ripple',
+  'mask-fill',
+  'text-raise',
+];
+
 // 色阶常量
 const LEVELS = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 
@@ -301,7 +315,7 @@ export const useThemeStore = defineStore('theme', () => {
   const brandStyleVars = ref<string>('');
 
   // ======================== Tabbar 状态 ========================
-  const tabbarMode = ref<TabbarMode>('block');
+  const tabbarMode = ref<TabbarMode>(loadTabbarMode() ?? 'block');
 
   /**
    * 设置 Tabbar 模式
@@ -316,31 +330,22 @@ export const useThemeStore = defineStore('theme', () => {
   }
 
   /**
+   * 读取持久化的 Tabbar 模式
+   */
+  function loadTabbarMode(): TabbarMode | null {
+    try {
+      const saved = uni.getStorageSync('lk-tabbar-mode') as TabbarMode;
+      return TABBAR_MODES.includes(saved) ? saved : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
    * 初始化 Tabbar 模式
    */
   function initTabbarMode() {
-    try {
-      const saved = uni.getStorageSync('lk-tabbar-mode') as TabbarMode;
-      if (
-        [
-          'plain',
-          'block',
-          'flashlight',
-          'float',
-          'marker-top',
-          'marker-bottom',
-          'dot-slide',
-          'bubble',
-          'ripple',
-          'mask-fill',
-          'text-raise',
-        ].includes(saved)
-      ) {
-        tabbarMode.value = saved;
-      }
-    } catch {
-      // ignore
-    }
+    tabbarMode.value = loadTabbarMode() ?? 'block';
   }
 
   /**
