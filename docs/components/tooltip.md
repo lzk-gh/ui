@@ -147,3 +147,17 @@ import TooltipDemo from '@/components/demos/tooltip-demo.vue'
 ::: tip
 移动端优先使用 `click` 或 `manual`，桌面端才更适合 `hover`。
 :::
+
+## 发布验收
+
+`lk-tooltip` 已纳入 high-risk showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/high-risk-showcase.spec.ts` 校验组件路由、verified 状态与高风险标记 |
+| 定位与层级 | 人工验收 | `top/right/bottom/left` 不遮挡触发器，弹层层级高于普通内容 |
+| 触发方式 | 人工验收 | 移动端以 `click/manual` 为主；桌面端补 `hover` 进入、离开延迟 |
+
+::: warning
+Tooltip 的定位依赖触发器尺寸与页面边界，小程序和 App WebView 可能存在测量时序差异；复杂浮层场景建议使用 `manual` 控制显示状态。
+:::

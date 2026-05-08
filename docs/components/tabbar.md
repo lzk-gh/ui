@@ -234,3 +234,13 @@ interface TabbarItemConfig {
 - 组件演示：`src/components/demos/tabbar-demo.vue`
 - 单页多 Tab 容器（另一种场景）：[Tabbar 容器 tabbar-container](./tabbar-container)
 
+## 发布验收
+
+`lk-tabbar` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 底部定位 | 人工验收 | fixed 底栏、safe area、页面内容底部留白在 H5/App/小程序端稳定 |
+| 视觉模式 | 人工验收 | `fixed/slider/bump` 的激活态、徽标和重复点击事件一致 |
+

@@ -4,12 +4,66 @@ import { onLoad, onShow } from '@dcloudio/uni-app';
 import ComponentCase from '@/components/showcase/component-case.vue';
 import type { ShowcaseCase } from '@/components/showcase/showcase-cases';
 import { SHOWCASE_CASES } from '@/components/showcase/showcase-cases';
+import ActionSheetDemo from '@/components/demos/action-sheet-demo.vue';
+import AnchorDemo from '@/components/demos/anchor-demo.vue';
+import AvatarDemo from '@/components/demos/avatar-demo.vue';
+import BacktopDemo from '@/components/demos/backtop-demo.vue';
+import BadgeDemo from '@/components/demos/badge-demo.vue';
 import ButtonDemo from '@/components/demos/button-demo.vue';
+import CalendarDemo from '@/components/demos/calendar-demo.vue';
+import CardDemo from '@/components/demos/card-demo.vue';
+import CarouselDemo from '@/components/demos/carousel-demo.vue';
+import CellDemo from '@/components/demos/cell-demo.vue';
+import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
+import ChartLiteDemo from '@/components/demos/chart-lite-demo.vue';
+import ChartLineDemo from '@/components/demos/chart-line-demo.vue';
+import ChartPieDemo from '@/components/demos/chart-pie-demo.vue';
+import CheckboxDemo from '@/components/demos/checkbox-demo.vue';
+import ChoiceDemo from '@/components/demos/choice-demo.vue';
+import CollapseDemo from '@/components/demos/collapse-demo.vue';
+import CurtainDemo from '@/components/demos/curtain-demo.vue';
+import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
+import DividerDemo from '@/components/demos/divider-demo.vue';
+import DropdownDemo from '@/components/demos/dropdown-demo.vue';
+import FabDemo from '@/components/demos/fab-demo.vue';
+import FormDemo from '@/components/demos/form-demo.vue';
+import GridDemo from '@/components/demos/grid-demo.vue';
+import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
+import IconDemo from '@/components/demos/icon-demo.vue';
+import ImageDemo from '@/components/demos/image-demo.vue';
+import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
 import InputDemo from '@/components/demos/input-demo.vue';
+import LoadingDemo from '@/components/demos/loading-demo.vue';
+import NoticeBarDemo from '@/components/demos/notice-bar-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
+import NavbarDemo from '@/components/demos/navbar-demo.vue';
+import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
+import OverlayDemo from '@/components/demos/overlay-demo.vue';
+import ProgressDemo from '@/components/demos/progress-demo.vue';
+import RadioDemo from '@/components/demos/radio-demo.vue';
+import RateDemo from '@/components/demos/rate-demo.vue';
+import SegmentedDemo from '@/components/demos/segmented-demo.vue';
+import StickyDemo from '@/components/demos/sticky-demo.vue';
+import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
+import SliderDemo from '@/components/demos/slider-demo.vue';
+import SpaceDemo from '@/components/demos/space-demo.vue';
+import StepperDemo from '@/components/demos/stepper-demo.vue';
+import SwitchDemo from '@/components/demos/switch-demo.vue';
+import TabbarBasicDemo from '@/components/demos/tabbar-basic-demo.vue';
+import TabbarContainerDemo from '@/components/demos/tabbar-container-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
+import TagDemo from '@/components/demos/tag-demo.vue';
+import TextareaDemo from '@/components/demos/textarea-demo.vue';
+import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
+import TimelineDemo from '@/components/demos/timeline-demo.vue';
+import ToastDemo from '@/components/demos/toast-demo.vue';
+import UploadDemo from '@/components/demos/upload-demo.vue';
+import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
+import ModalDemo from '@/components/demos/modal-demo.vue';
+import PopupDemo from '@/components/demos/popup-demo.vue';
 import TooltipDemo from '@/components/demos/tooltip-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
+import WatermarkDemo from '@/components/demos/watermark-demo.vue';
 import MetaRowDemo from '@/components/demos/meta-row-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
 import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
@@ -146,11 +200,65 @@ const groupedCases = computed(() => {
         >
           <template #demo>
             <button-demo v-if="item.slug === 'button'" />
+            <calendar-demo v-else-if="item.slug === 'calendar'" />
+            <card-demo v-else-if="item.slug === 'card'" />
+            <icon-demo v-else-if="item.slug === 'icon'" />
+            <avatar-demo v-else-if="item.slug === 'avatar'" />
+            <backtop-demo v-else-if="item.slug === 'backtop'" />
+            <action-sheet-demo v-else-if="item.slug === 'action-sheet'" />
+            <badge-demo v-else-if="item.slug === 'badge'" />
+            <cell-demo v-else-if="item.slug === 'cell'" />
+            <carousel-demo v-else-if="item.slug === 'carousel'" />
+            <chart-bar-demo v-else-if="item.slug === 'chart-bar'" />
+            <chart-lite-demo v-else-if="item.slug === 'chart-lite'" />
+            <chart-line-demo v-else-if="item.slug === 'chart-line'" />
+            <chart-pie-demo v-else-if="item.slug === 'chart-pie'" />
+            <checkbox-demo v-else-if="item.slug === 'checkbox'" />
+            <choice-demo v-else-if="item.slug === 'choice'" />
+            <collapse-demo v-else-if="item.slug === 'collapse'" />
+            <divider-demo v-else-if="item.slug === 'divider'" />
+            <curtain-demo v-else-if="item.slug === 'curtain'" />
+            <date-picker-demo v-else-if="item.slug === 'date-picker'" />
+            <dropdown-demo v-else-if="item.slug === 'dropdown'" />
+            <form-demo v-else-if="item.slug === 'form'" />
+            <image-demo v-else-if="item.slug === 'image'" />
             <input-demo v-else-if="item.slug === 'input'" />
+            <grid-demo v-else-if="item.slug === 'grid'" />
+            <anchor-demo v-else-if="item.slug === 'anchor'" />
+            <index-bar-demo v-else-if="item.slug === 'index-bar'" />
+            <horizontal-scroll-demo v-else-if="item.slug === 'horizontal-scroll'" />
+            <loading-demo v-else-if="item.slug === 'loading'" />
+            <modal-demo v-else-if="item.slug === 'modal'" />
+            <navbar-demo v-else-if="item.slug === 'navbar'" />
+            <notice-bar-demo v-else-if="item.slug === 'notice-bar'" />
+            <number-roller-demo v-else-if="item.slug === 'number-roller'" />
+            <overlay-demo v-else-if="item.slug === 'overlay'" />
             <picker-demo v-else-if="item.slug === 'picker'" />
+            <popup-demo v-else-if="item.slug === 'popup'" />
+            <progress-demo v-else-if="item.slug === 'progress'" />
+            <radio-demo v-else-if="item.slug === 'radio'" />
+            <rate-demo v-else-if="item.slug === 'rate'" />
+            <fab-demo v-else-if="item.slug === 'fab'" />
+            <segmented-demo v-else-if="item.slug === 'segmented'" />
+            <skeleton-demo v-else-if="item.slug === 'skeleton'" />
+            <slider-demo v-else-if="item.slug === 'slider'" />
+            <space-demo v-else-if="item.slug === 'space'" />
+            <stepper-demo v-else-if="item.slug === 'stepper'" />
+            <switch-demo v-else-if="item.slug === 'switch'" />
+            <tag-demo v-else-if="item.slug === 'tag'" />
             <tabs-demo v-else-if="item.slug === 'tabs'" />
+            <tabbar-basic-demo v-else-if="item.slug === 'tabbar'" />
+            <tabbar-container-demo v-else-if="item.slug === 'tabbar-container'" />
+            <sticky-demo v-else-if="item.slug === 'sticky'" />
+            <textarea-demo v-else-if="item.slug === 'textarea'" />
+            <time-picker-demo v-else-if="item.slug === 'time-picker'" />
+            <timeline-demo v-else-if="item.slug === 'timeline'" />
+            <toast-demo v-else-if="item.slug === 'toast'" />
+            <upload-demo v-else-if="item.slug === 'upload'" />
+            <verify-code-demo v-else-if="item.slug === 'verify-code'" />
             <tooltip-demo v-else-if="item.slug === 'tooltip'" />
             <waterfall-demo v-else-if="item.slug === 'waterfall'" />
+            <watermark-demo v-else-if="item.slug === 'watermark'" />
             <meta-row-demo v-else-if="item.slug === 'meta-row'" />
             <keyboard-demo v-else-if="item.slug === 'keyboard'" />
             <number-keyboard-demo v-else-if="item.slug === 'number-keyboard'" />

@@ -156,3 +156,17 @@ import WaterfallDemo from '@/components/demos/waterfall-demo.vue'
 ::: tip
 推荐在数据中提前提供 `ratio`，这样组件无需等待图片真实加载完成也能更早计算布局，滚动体验会更稳定。
 :::
+
+## 发布验收
+
+`lk-waterfall` 已纳入 high-risk showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/high-risk-showcase.spec.ts` 校验组件路由、verified 状态与高风险标记 |
+| 图片加载 | 人工验收 | 有 `ratio`、无 `ratio`、加载失败三类数据下列高稳定 |
+| 滚动加载 | 人工验收 | `reach-bottom/load-more` 不重复触发，新增数据后列顺序不抖动 |
+
+::: warning
+瀑布流列高依赖图片加载节奏。公开示例建议业务数据提前提供 `ratio`，否则不同网络和 WebView 下可能出现首屏重排。
+:::

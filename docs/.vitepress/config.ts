@@ -49,10 +49,10 @@ export default defineConfig({
           items: [
             { text: 'Button 按钮', link: '/components/button' },
             { text: 'Icon 图标', link: '/components/icon' },
-            { text: 'Avatar 头像', link: '/components/basic/avatar' },
+            { text: 'Avatar 头像', link: '/components/avatar' },
             { text: 'Badge 徽标', link: '/components/badge' },
-            { text: 'Tag 标签', link: '/components/basic/tag' },
-            { text: 'Divider 分割线', link: '/components/basic/divider' },
+            { text: 'Tag 标签', link: '/components/tag' },
+            { text: 'Divider 分割线', link: '/components/divider' },
             { text: 'Cell 单元格', link: '/components/cell' },
           ],
         },

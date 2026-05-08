@@ -158,3 +158,13 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue'
 - `positionStrategy="transform"` 性能最好，但部分 App WebView 对大列表 transform 合成层有差异；出现闪烁时可切到 `absolute` 或 `padding`。
 - `enhanced`、`bounces`、`enablePassive` 依赖平台滚动能力，发布示例应同时覆盖 H5 和目标小程序。
 - 列表项必须有稳定 `key`，不要在可视区域内使用会改变高度的异步内容；图片列表建议使用固定容器或改用 `lk-waterfall`。
+
+## 发布验收
+
+`lk-virtual-list` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 滚动窗口 | 人工验收 | `start/end`、overscan 和快速滚动下的可视项数量稳定 |
+| 定位策略 | 人工验收 | `transform/absolute/padding` 至少在 H5 与目标小程序端各验证一轮 |

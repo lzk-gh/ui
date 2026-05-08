@@ -186,3 +186,13 @@ import CarouselDemo from '@/components/demos/carousel-demo.vue'
 ::: tip
 纯图片轮播直接传 `carouselList` 即可；当每一页是复杂卡片时，推荐使用默认插槽来自定义内容。
 :::
+
+## 发布验收
+
+`lk-carousel` 已纳入 dynamic-visual showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/dynamic-visual-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 动态视觉 | 自动/人工 | fade、slide、卡片模式、指示器位置在截图中保持稳定 |
+| 平台差异 | 人工验收 | autoplay、纵向轮播、filter/阴影在低端 App WebView 下可接受 |

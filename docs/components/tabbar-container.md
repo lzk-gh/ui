@@ -124,6 +124,21 @@ interface TabConfig {
 2. 若页面已有原生 tabbar、自定义 navbar 或 safe area 占位，需要确认 `lk-tabbar-container__placeholder` 不会产生双重底部间距。
 3. 启用滤镜类视觉模式时，低端 App WebView 可能降级；公开示例默认使用 `block`。
 
+## 发布验收
+
+`lk-tabbar-container` 已纳入 high-risk showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/high-risk-showcase.spec.ts` 校验组件路由、verified 状态与高风险标记 |
+| H5 / App | 人工验收 | 动态组件、懒加载、重试、保活切换状态稳定 |
+| 小程序 | 人工验收 | 使用 `tab-{id}` 插槽降级，不依赖 `<component :is>` 动态组件 |
+| 底部安全区 | 人工验收 | fixed 底栏、placeholder 与系统 safe area 不产生双重遮挡 |
+
+::: warning
+`flashlight`、`float`、`mask-fill` 等模式包含 filter 或复杂动画。首批公开示例建议使用 `block`，其他模式以增强能力发布。
+:::
+
 ## 参考
 
 - 逻辑实现：`uni_modules/lucky-ui/core/src/tabbar-container`

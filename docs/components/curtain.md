@@ -141,3 +141,13 @@ import CurtainDemo from '@/components/demos/curtain-demo.vue'
 ::: tip
 简单活动海报直接用 `imageUrl`；复杂营销内容、按钮组合、优惠券布局建议改用默认插槽。
 :::
+
+## 发布验收
+
+`lk-curtain` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 浮层关闭 | 人工验收 | 关闭按钮位置、遮罩点击和 `update:show` 在目标端一致 |
+| 外链跳转 | 人工验收 | H5 直接跳转、App 外部打开、小程序复制链接的降级说明可追溯 |

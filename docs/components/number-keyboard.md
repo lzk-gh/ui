@@ -85,3 +85,13 @@ function handleInput(key: string) {
 | delete | 删除 | `() => void` |
 | confirm | 确认 | `() => void` |
 | close | 关闭 | `() => void` |
+
+## 发布验收
+
+`lk-number-keyboard` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| Legacy 兼容 | 人工验收 | `input/delete/confirm/close` 旧事件保持兼容，不再新增公开能力 |
+| 迁移关系 | 人工验收 | 新文档、示例和首批发布说明优先引导到 `lk-keyboard` |

@@ -149,3 +149,13 @@ function close() {
 ### LkToastManager 组件
 
 无需传入 Props，直接放置在根节点即可（全局单例）。
+
+## 发布验收
+
+`lk-toast` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 全局管理 | 自动/人工 | 多个 Toast 连续触发时 id、关闭动画和 `clear()` 行为稳定 |
+| 定位与时序 | 人工验收 | `top/center/bottom` 与自动关闭时长在 H5/App/小程序端一致 |

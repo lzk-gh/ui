@@ -165,3 +165,13 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
 ::: tip
 通用弹层容器优先使用 `lk-popup`；如果是标准确认弹窗，优先使用 `lk-modal`。
 :::
+
+## 发布验收
+
+`lk-popup` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 弹出方向 | 人工验收 | `top/bottom/left/right/center` 尺寸、圆角和安全区表现稳定 |
+| 交互关闭 | 人工验收 | 遮罩关闭、拖拽关闭、锁滚动与动画结束事件在目标端一致 |

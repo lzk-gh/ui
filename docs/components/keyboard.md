@@ -201,3 +201,13 @@ import KeyboardDemo from '@/components/demos/keyboard-demo.vue'
 - 组件使用 fixed 底部浮层，存在安全区与软键盘遮挡差异；发布前需在 H5、App 与目标小程序端确认底部间距。
 - `blur` 毛玻璃效果依赖平台对 CSS filter/backdrop-filter 的支持；性能敏感场景建议关闭 `blur`。
 - 车牌键盘和自定义键盘应由业务层限制输入格式，组件只负责按键输出。
+
+## 发布验收
+
+`lk-keyboard` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 底部浮层 | 人工验收 | H5/App/小程序底部安全区、遮罩关闭和锁滚动无明显遮挡 |
+| 输入链路 | 人工验收 | 数字、身份证、车牌、自定义键盘的 `input/delete/confirm` 事件顺序一致 |

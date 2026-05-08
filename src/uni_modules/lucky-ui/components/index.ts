@@ -50,6 +50,7 @@ export * from './lk-rate/rate.props';
 export { default as LkPopup } from './lk-popup/lk-popup.vue';
 export * from './lk-popup/popup.props';
 export { default as LkToast } from './lk-toast/lk-toast.vue';
+export * from './lk-toast/toast.props';
 export * from './lk-toast/toast-manager';
 export { default as LkToastManager } from './lk-toast/lk-toast-manager.vue';
 export { default as LkActionSheet } from './lk-action-sheet/lk-action-sheet.vue';

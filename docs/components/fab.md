@@ -164,3 +164,13 @@ const handleActionClick = action => {
 | ----------- | ---------- | ------------------------- |
 | --fab-color | 主按钮颜色 | `var(--lk-color-primary)` |
 
+## 发布验收
+
+`lk-fab` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 拖拽吸边 | 人工验收 | `drag-start/drag-move/drag-end` 顺序稳定，吸边后不越过安全区 |
+| 视觉降级 | 人工验收 | `blur`、遮罩和展开方向在低端 App WebView 可接受 |
+

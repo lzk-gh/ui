@@ -177,3 +177,13 @@ const form = ref({ name: '', phone: '' })
 ::: tip
 如果只需要一个自定义浮层容器，请用 `lk-popup`；如果需要标准对话框结构与默认操作按钮，请用 `lk-modal`。
 :::
+
+## 发布验收
+
+`lk-modal` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
+| 操作链路 | 人工验收 | `confirm/cancel/click-overlay/click-close` 语义互不串扰 |
+| 弹层表现 | 人工验收 | fixed 遮罩、动画结束事件和异步确认在 H5/App/小程序端稳定 |

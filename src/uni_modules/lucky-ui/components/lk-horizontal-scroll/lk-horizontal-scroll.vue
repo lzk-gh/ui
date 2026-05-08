@@ -34,35 +34,5 @@ const containerStyle = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.lk-horizontal-scroll {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  background: transparent;
-  white-space: nowrap;
-
-  // Hide scrollbar for web
-  & ::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-    color: transparent;
-  }
-
-  &__container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    box-sizing: border-box;
-    margin: 0;
-    border: 0;
-
-    & > ::v-deep view:not(:first-child),
-    & > ::v-deep text:not(:first-child) {
-      margin-left: var(--lk-hs-gap);
-    }
-  }
-}
+@use './index.scss';
 </style>

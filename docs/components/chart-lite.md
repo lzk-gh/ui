@@ -175,3 +175,16 @@ interface RadarLiteItem {
 
 > [!TIP]
 > 数字类型高度会按 rpx 处理；如果需要固定 CSS 高度，可以传入字符串，例如 `height="180px"`。
+
+## 发布验收
+
+`chart-lite` 聚合覆盖 `lk-chart-area`、`lk-chart-ring`、`lk-chart-sparkline`、`lk-chart-stat-card`、`lk-chart-radar-lite`，已纳入 dynamic-visual showcase 回归，发布前按下面边界验收：
+
+| 场景 | 验收方式 | 要点 |
+|------|----------|------|
+| 展示台基线 | 自动回归 | `tests/visual/dynamic-visual-showcase.spec.ts` 校验 `chart-lite` 聚合路由、verified 状态与中风险标记 |
+| 子组件覆盖 | 自动/人工 | area、ring、sparkline、stat-card、radar-lite 均在聚合 Demo 中可见 |
+| 平台差异 | 人工验收 | Canvas 文字度量、渐变、触摸高亮点位在 H5/App/小程序端可接受 |
+
+> [!WARNING]
+> 子组件公开评分依赖 `chart-lite` 聚合文档、Demo 与 showcase。若后续拆独立文档或独立 Demo，需要同步更新评分口径。
