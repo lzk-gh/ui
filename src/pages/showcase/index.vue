@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { onLoad, onShow } from '@dcloudio/uni-app';
+import { useThemeStore } from '@/stores/theme';
 import ComponentCase from '@/components/showcase/component-case.vue';
 import type { ShowcaseCase } from '@/components/showcase/showcase-cases';
 import { SHOWCASE_CASES } from '@/components/showcase/showcase-cases';
@@ -74,6 +75,8 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
  * 注意事项：通过 query `component` 控制，空值表示展示全部。
  */
 const currentSlug = ref('');
+const themeStore = useThemeStore();
+const themeClass = computed(() => themeStore.themeClass);
 
 /**
  * 读取并应用路由参数。
@@ -143,8 +146,8 @@ const groupLabelMap: Record<ShowcaseCase['group'], string> = {
  * 验证状态文案映射。
  */
 const verifyStatusLabelMap: Record<ShowcaseCase['verifyStatus'], string> = {
-  verified: '✅ 全平台已验证',
-  pending: '⚠️ 待验证',
+  verified: '已验证',
+  pending: '待验证',
 };
 
 /**
@@ -176,17 +179,43 @@ const groupedCases = computed(() => {
   }
   return groups;
 });
+
+const totalCount = computed(() => visibleCases.value.length);
+const verifiedCount = computed(() => visibleCases.value.filter(item => item.verifyStatus === 'verified').length);
+const lowRiskCount = computed(() => visibleCases.value.filter(item => item.riskLevel === 'low').length);
 </script>
 
 <template>
-  <scroll-view scroll-y class="showcase-page">
-    <view class="showcase-headline">
-      <text class="headline-title">Lucky UI 组件跨平台展示台</text>
-      <text class="headline-desc">统一展示组件变体并附带平台差异说明，用于视觉回归与人工复核。</text>
+  <scroll-view scroll-y class="showcase-page" :class="themeClass">
+    <view class="showcase-hero">
+      <view class="hero-copy">
+        <text class="hero-kicker">Lucky UI Preview</text>
+        <text class="hero-title">组件预览台</text>
+        <text class="hero-desc">移动端质感、清晰分组、稳定回归。</text>
+      </view>
+      <view class="hero-metrics">
+        <view class="metric-item">
+          <text class="metric-value">{{ totalCount }}</text>
+          <text class="metric-label">组件</text>
+        </view>
+        <view class="metric-divider" />
+        <view class="metric-item">
+          <text class="metric-value">{{ verifiedCount }}</text>
+          <text class="metric-label">已验证</text>
+        </view>
+        <view class="metric-divider" />
+        <view class="metric-item">
+          <text class="metric-value">{{ lowRiskCount }}</text>
+          <text class="metric-label">低风险</text>
+        </view>
+      </view>
     </view>
 
     <view v-for="(groupItems, groupKey) in groupedCases" :key="groupKey" class="group-block">
-      <text class="group-title">{{ groupLabelMap[groupKey as ShowcaseCase['group']] }}</text>
+      <view class="group-heading">
+        <text class="group-title">{{ groupLabelMap[groupKey as ShowcaseCase['group']] }}</text>
+        <text class="group-count">{{ groupItems.length }}</text>
+      </view>
 
       <view v-for="item in groupItems" :key="item.slug" class="showcase-block">
         <component-case
@@ -276,49 +305,126 @@ const groupedCases = computed(() => {
 </template>
 
 <style scoped lang="scss">
+@use '@/styles/test-page.scss' as *;
+
 .showcase-page {
   height: 100vh;
-  padding: 24rpx;
+  padding: 32rpx;
   box-sizing: border-box;
-  background: #f7f8fa;
+  background: $test-bg-page;
 }
 
-.showcase-headline {
-  margin-bottom: 20rpx;
-  padding: 20rpx;
-  background: #ffffff;
-  border-radius: 16rpx;
+.showcase-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+  margin-bottom: 40rpx;
+  padding: 40rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 36rpx;
+  box-shadow: $test-shadow-sm;
 }
 
-.headline-title {
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.hero-kicker {
   display: block;
-  color: #1f2329;
-  font-size: 34rpx;
+  color: $test-primary;
+  font-size: 22rpx;
   font-weight: 700;
+  letter-spacing: 0;
 }
 
-.headline-desc {
+.hero-title {
   display: block;
-  margin-top: 10rpx;
-  color: #4e5969;
+  color: $test-text-primary;
+  font-size: 48rpx;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.hero-desc {
+  display: block;
+  color: $test-text-secondary;
   font-size: 24rpx;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+.hero-metrics {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 28rpx;
+  background: $test-gray-50;
+  border: 1rpx solid $test-border-color;
+  border-radius: 28rpx;
+}
+
+.metric-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.metric-value {
+  color: $test-text-primary;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.metric-label {
+  color: $test-text-tertiary;
+  font-size: 20rpx;
+}
+
+.metric-divider {
+  width: 1rpx;
+  height: 44rpx;
+  background: $test-border-color;
 }
 
 .showcase-block {
-  margin-bottom: 32rpx;
+  margin-bottom: 36rpx;
 }
 
 .group-block {
-  margin-bottom: 24rpx;
+  margin-bottom: 40rpx;
+}
+
+.group-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18rpx;
 }
 
 .group-title {
   display: block;
-  margin-bottom: 12rpx;
-  color: #1f2329;
-  font-size: 28rpx;
+  color: $test-text-primary;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.group-count {
+  min-width: 48rpx;
+  height: 48rpx;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  color: $test-text-secondary;
+  font-size: 22rpx;
   font-weight: 700;
+  line-height: 48rpx;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .showcase-empty {
@@ -328,7 +434,7 @@ const groupedCases = computed(() => {
 
 .empty-title {
   display: block;
-  color: #1f2329;
+  color: $test-text-primary;
   font-size: 30rpx;
   font-weight: 600;
 }
@@ -336,7 +442,7 @@ const groupedCases = computed(() => {
 .empty-desc {
   display: block;
   margin-top: 10rpx;
-  color: #86909c;
+  color: $test-text-tertiary;
   font-size: 24rpx;
 }
 </style>

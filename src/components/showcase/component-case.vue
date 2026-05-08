@@ -18,14 +18,17 @@ defineProps<{
   <view class="component-case">
     <view class="case-header">
       <view class="case-title-row">
-        <text class="case-title">{{ title }}</text>
-        <text :class="['status-badge', verifyStatusType === 'ok' ? 'status-ok' : 'status-warn']">{{ verifyStatusLabel }}</text>
-        <text :class="['risk-badge', `risk-${riskType}`]">{{ riskLevelLabel }}</text>
+        <view class="case-title-block">
+          <text class="group-label">{{ groupLabel }}</text>
+          <text class="case-title">{{ title }}</text>
+        </view>
+        <view class="case-badges">
+          <text :class="['status-badge', verifyStatusType === 'ok' ? 'status-ok' : 'status-warn']">{{ verifyStatusLabel }}</text>
+          <text :class="['risk-badge', `risk-${riskType}`]">{{ riskLevelLabel }}</text>
+        </view>
       </view>
-      <text class="group-label">组件分组：{{ groupLabel }}</text>
-      <view class="risk-panel">
-        <text class="risk-title">平台差异提示</text>
-        <text v-for="(risk, idx) in riskNotes" :key="`${title}-${idx}`" class="risk-item">- {{ risk }}</text>
+      <view v-if="riskNotes.length" class="risk-panel">
+        <text v-for="(risk, idx) in riskNotes" :key="`${title}-${idx}`" class="risk-item">{{ risk }}</text>
       </view>
     </view>
 
@@ -39,97 +42,112 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
+@use '@/styles/test-page.scss' as *;
+
 .component-case {
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
+  gap: 24rpx;
 }
 
 .case-header {
   display: flex;
   flex-direction: column;
-  gap: 10rpx;
+  gap: 18rpx;
 }
 
 .case-title-row {
   display: flex;
-  align-items: center;
-  gap: 10rpx;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24rpx;
+}
+
+.case-title-block {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
 }
 
 .case-title {
-  color: #1f2329;
-  font-size: 30rpx;
-  font-weight: 600;
+  color: $test-text-primary;
+  font-size: 34rpx;
+  font-weight: 800;
+  line-height: 1.25;
 }
 
 .group-label {
-  color: #4e5969;
+  color: $test-text-tertiary;
   font-size: 22rpx;
+  font-weight: 600;
+}
+
+.case-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10rpx;
+  max-width: 300rpx;
 }
 
 .status-badge,
 .risk-badge {
-  padding: 4rpx 10rpx;
+  padding: 8rpx 14rpx;
   border-radius: 999rpx;
   font-size: 20rpx;
+  font-weight: 700;
   line-height: 1.4;
 }
 
 .status-ok {
   color: #0e6245;
-  background: #e8ffea;
+  background: rgba(82, 196, 26, 0.14);
 }
 
 .status-warn {
   color: #ad6800;
-  background: #fff7e8;
+  background: rgba(250, 173, 20, 0.16);
 }
 
 .risk-low {
   color: #0e6245;
-  background: #e8ffea;
+  background: rgba(82, 196, 26, 0.14);
 }
 
 .risk-medium {
   color: #ad6800;
-  background: #fff7e8;
+  background: rgba(250, 173, 20, 0.16);
 }
 
 .risk-high {
   color: #a8071a;
-  background: #fff1f0;
+  background: rgba(255, 77, 79, 0.14);
 }
 
 .risk-panel {
   display: flex;
-  flex-direction: column;
-  gap: 6rpx;
-  padding: 12rpx;
-  background: #fff7e8;
-  border: 1rpx solid #ffd591;
-  border-radius: 12rpx;
-}
-
-.risk-title {
-  color: #d46b08;
-  font-size: 24rpx;
-  font-weight: 600;
+  flex-wrap: wrap;
+  gap: 10rpx;
 }
 
 .risk-item {
-  color: #ad6800;
+  padding: 8rpx 14rpx;
+  color: $test-text-secondary;
   font-size: 22rpx;
-  line-height: 1.5;
+  line-height: 1.4;
+  background: $test-gray-50;
+  border: 1rpx solid $test-border-color;
+  border-radius: 999rpx;
 }
 
 .demo-panel {
   --lk-waterfall-demo-edge: 16rpx;
+  --lk-demo-block-bg: var(--test-bg-card);
+  --lk-demo-block-border: var(--test-border-color);
 
-  padding: 16rpx;
-  background: #ffffff;
-  border-radius: 12rpx;
+  background: transparent;
 }
 
 .empty-state {

@@ -424,8 +424,7 @@ const componentMap: Record<string, any> = {
 const componentName = ref('');
 const componentTitle = computed(() => componentMap[componentName.value]?.title || '组件详情');
 const componentDesc = computed(() => componentMap[componentName.value]?.desc || '');
-const componentIcon = computed(() => componentMap[componentName.value]?.icon || 'box-seam');
-const componentColor = computed(() => componentMap[componentName.value]?.color || 'primary');
+const componentMark = computed(() => componentTitle.value.split(' ')[0]?.slice(0, 1).toUpperCase() || 'L');
 
 // 动态演示组件
 // 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if
@@ -654,11 +653,19 @@ const loadDemoComponent = async (name: string) => {
         <!-- 组件信息卡片 -->
         <view class="info-card">
           <view class="info-header">
-            <lk-icon :name="componentIcon" size="72" :color="componentColor" />
+            <view class="info-icon">
+              <text class="info-mark">{{ componentMark }}</text>
+            </view>
             <view class="info-text">
+              <text class="info-kicker">Lucky UI Component</text>
               <text class="info-title">{{ componentTitle }}</text>
               <text class="info-desc">{{ componentDesc }}</text>
             </view>
+          </view>
+          <view class="info-meta">
+            <text class="meta-pill">Preview</text>
+            <text class="meta-pill">Vue 3</text>
+            <text class="meta-pill">UniApp</text>
           </view>
         </view>
 
@@ -769,54 +776,99 @@ const loadDemoComponent = async (name: string) => {
 }
 
 .content-wrapper {
-  padding: 24rpx;
+  padding: 32rpx;
 }
 
 // 信息卡片（测试页面样式）
 .info-card {
-  background: $test-gradient-primary;
-  border-radius: $test-border-radius;
-  padding: 40rpx;
-  margin-bottom: 24rpx;
-  box-shadow: $test-shadow-lg;
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+  padding: 36rpx;
+  margin-bottom: 32rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 36rpx;
+  box-shadow: $test-shadow-sm;
 }
 
 .info-header {
   display: flex;
   align-items: center;
-  gap: 24rpx;
+  gap: 28rpx;
+}
+
+.info-icon {
+  width: 108rpx;
+  height: 108rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: $test-primary-soft;
+  border: 1rpx solid rgba(var(--test-primary-rgb), 0.2);
+  border-radius: 32rpx;
+}
+
+.info-mark {
+  color: $test-primary;
+  font-size: 44rpx;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .info-text {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
+  gap: 10rpx;
+}
+
+.info-kicker {
+  color: $test-primary;
+  font-size: 22rpx;
+  font-weight: 700;
 }
 
 .info-title {
-  font-size: 40rpx;
-  font-weight: 700;
-  color: $test-text-inverse;
+  color: $test-text-primary;
+  font-size: 42rpx;
+  font-weight: 800;
+  line-height: 1.16;
 }
 
 .info-desc {
+  color: $test-text-secondary;
   font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.9);
   line-height: 1.5;
+}
+
+.info-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.meta-pill {
+  padding: 10rpx 18rpx;
+  color: $test-text-secondary;
+  font-size: 22rpx;
+  font-weight: 700;
+  background: $test-gray-50;
+  border: 1rpx solid $test-border-color;
+  border-radius: 999rpx;
 }
 
 // 演示区域
 .demo-area {
   min-height: 400rpx;
-  margin-bottom: 24rpx;
+  margin-bottom: 32rpx;
   // 统一 Demo 预览背景：与组件默认容器色区分，避免视觉叠色误判
-  --lk-demo-block-bg: var(--lk-fill-1);
-  --lk-demo-block-border: var(--lk-color-border);
-  --lk-waterfall-demo-edge: 20rpx;
-  padding: 20rpx;
-  border-radius: $test-border-radius;
-  background: var(--lk-bg-page);
+  --lk-demo-block-bg: var(--test-bg-card);
+  --lk-demo-block-border: var(--test-border-color);
+  --lk-waterfall-demo-edge: 24rpx;
+  background: transparent;
 }
 
 // 开发中提示（测试页面样式）
@@ -827,7 +879,7 @@ const loadDemoComponent = async (name: string) => {
   justify-content: center;
   padding: 120rpx 48rpx;
   background: $test-bg-card;
-  border-radius: $test-border-radius;
+  border-radius: 28rpx;
   border: 2rpx dashed $test-border-color;
 }
 

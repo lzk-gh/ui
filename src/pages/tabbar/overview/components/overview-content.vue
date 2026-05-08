@@ -2,9 +2,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useThemeStore, PRESET_COLORS, DEFAULT_BRAND_COLOR } from '@/stores/theme';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-// #ifdef H5
-import ThemeDebugger from '@/components/theme-debugger.vue';
-// #endif
 
 defineProps<{
   contentHeight: string;
@@ -204,26 +201,28 @@ const navigateToDetail = (componentName: string) => {
     show-scrollbar="false"
   >
     <view class="page-content">
-      <!-- 主题调试工具 -->
-      <!-- #ifdef H5 -->
-      <theme-debugger />
-      <!-- #endif -->
-
       <!-- 统计卡片 -->
       <view class="stats-card">
-        <view class="stats-item">
-          <text class="stats-number">{{ totalComponents }}</text>
-          <text class="stats-label">组件总数</text>
+        <view class="stats-copy">
+          <text class="stats-kicker">Lucky UI Preview</text>
+          <text class="stats-title">组件预览</text>
+          <text class="stats-desc">干净的移动端组件索引，快速进入每个组件详情。</text>
         </view>
-        <view class="stats-divider"></view>
-        <view class="stats-item">
-          <text class="stats-number">{{ categoryCount }}</text>
-          <text class="stats-label">分类</text>
-        </view>
-        <view class="stats-divider"></view>
-        <view class="stats-item">
-          <text class="stats-number">100%</text>
-          <text class="stats-label">类型覆盖</text>
+        <view class="stats-metrics">
+          <view class="stats-item">
+            <text class="stats-number">{{ totalComponents }}</text>
+            <text class="stats-label">组件</text>
+          </view>
+          <view class="stats-divider"></view>
+          <view class="stats-item">
+            <text class="stats-number">{{ categoryCount }}</text>
+            <text class="stats-label">分类</text>
+          </view>
+          <view class="stats-divider"></view>
+          <view class="stats-item">
+            <text class="stats-number">100%</text>
+            <text class="stats-label">覆盖</text>
+          </view>
         </view>
       </view>
 
@@ -268,10 +267,10 @@ const navigateToDetail = (componentName: string) => {
           <text class="scale-label">色阶预览</text>
           <view class="scale-row">
             <view
-              v-for="level in [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]"
+              v-for="level in [100, 200, 300, 400, 500, 600, 700, 800, 900]"
               :key="level"
               class="scale-item"
-              :style="{ background: `var(--color-brand-${level})` }"
+              :style="{ background: `var(--lk-brand-${level})` }"
             >
               <text class="scale-level">{{ level }}</text>
             </view>
@@ -341,18 +340,54 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .page-content {
-  padding: 20rpx;
+  padding: 32rpx;
 }
 
 // 统计卡片
 .stats-card {
   display: flex;
-  align-items: stretch;
-  background: $test-gradient-primary;
-  border-radius: $test-border-radius;
-  padding: 48rpx 32rpx;
+  flex-direction: column;
+  gap: 30rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 36rpx;
+  padding: 40rpx;
   margin-bottom: 32rpx;
-  box-shadow: $test-shadow-lg;
+  box-shadow: $test-shadow-sm;
+}
+
+.stats-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.stats-kicker {
+  color: $test-primary;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.stats-title {
+  color: $test-text-primary;
+  font-size: 48rpx;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.stats-desc {
+  color: $test-text-secondary;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.stats-metrics {
+  display: flex;
+  align-items: stretch;
+  padding: 24rpx 28rpx;
+  background: $test-gray-50;
+  border: 1rpx solid $test-border-color;
+  border-radius: 28rpx;
 }
 
 .stats-item {
@@ -364,31 +399,31 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .stats-number {
-  font-size: 56rpx;
-  font-weight: 700;
-  color: #fff;
+  color: $test-text-primary;
+  font-size: 36rpx;
+  font-weight: 800;
   line-height: 1;
 }
 
 .stats-label {
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.9);
+  color: $test-text-tertiary;
+  font-size: 22rpx;
 }
 
 .stats-divider {
-  width: 2rpx;
-  background: rgba(255, 255, 255, 0.3);
+  width: 1rpx;
+  background: $test-border-color;
   margin: 0 24rpx;
 }
 
 // 主题色配置卡片
 .theme-config-card {
-  background: $test-theme-card-bg;
-  border: 1rpx solid $test-theme-card-border;
-  border-radius: $test-border-radius;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 32rpx;
   padding: 32rpx;
   margin-bottom: 32rpx;
-  box-shadow: $test-shadow-md;
+  box-shadow: $test-shadow-sm;
 }
 
 .config-header {
@@ -417,8 +452,9 @@ const navigateToDetail = (componentName: string) => {
   align-items: center;
   gap: 8rpx;
   padding: 16rpx 8rpx;
-  border-radius: $test-border-radius;
+  border-radius: 24rpx;
   background: $test-gray-50;
+  border: 1rpx solid $test-border-color;
   transition: all 0.2s;
 
   &.active {
@@ -533,7 +569,7 @@ const navigateToDetail = (componentName: string) => {
   gap: 16rpx;
   background: $test-bg-card;
   border: 1rpx solid $test-border-color;
-  border-radius: $test-border-radius;
+  border-radius: 28rpx;
   padding: 24rpx 32rpx;
   margin-bottom: 32rpx;
   box-shadow: $test-shadow-sm;
@@ -566,30 +602,31 @@ const navigateToDetail = (componentName: string) => {
 .category-title {
   flex: 1;
   font-size: 32rpx;
-  font-weight: 600;
+  font-weight: 800;
   color: $test-text-primary;
 }
 
 .category-count {
   font-size: 24rpx;
-  color: $test-text-inverse;
-  background: $test-primary;
-  padding: 4rpx 16rpx;
+  color: $test-text-secondary;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  padding: 6rpx 18rpx;
   border-radius: 999rpx;
 }
 
 // 组件网格
 .component-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16rpx;
 }
 
 .component-card {
   background: $test-bg-card;
   border: 1rpx solid $test-border-color;
-  border-radius: $test-border-radius;
-  padding: 24rpx 16rpx;
+  border-radius: 28rpx;
+  padding: 28rpx 20rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -610,7 +647,9 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: $test-border-radius;
+  color: $test-primary;
+  background: $test-gray-50;
+  border-radius: 24rpx;
   margin-bottom: 8rpx;
 }
 
