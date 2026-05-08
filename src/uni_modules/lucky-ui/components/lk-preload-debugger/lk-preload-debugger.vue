@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { preloadDebuggerProps } from './preload-debugger.props';
 import {
@@ -6,6 +7,8 @@ import {
   type PreloadStats,
   type PreloadEventHandler,
 } from '../../core/src/preload';
+
+defineOptions({ name: 'LkPreloadDebugger' });
 
 const props = defineProps(preloadDebuggerProps);
 
@@ -31,7 +34,12 @@ interface LogItem {
 const logs = ref<LogItem[]>([]);
 const lastLogId = ref('');
 
-const positionClass = computed(() => `lk-preload-debugger--${props.position}`);
+const debuggerClass = computed(() => [
+  `lk-preload-debugger--${props.position}`,
+  props.customClass,
+]);
+
+const debuggerStyle = computed(() => props.customStyle as StyleValue);
 
 const statusClass = computed(() => {
   if (stats.value.running > 0) return 'lk-preload-debugger__badge--running';
@@ -124,7 +132,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <view v-if="props.visible" class="lk-preload-debugger" :class="positionClass">
+  <view
+    v-if="props.visible"
+    class="lk-preload-debugger"
+    :class="debuggerClass"
+    :style="debuggerStyle"
+  >
     <view class="lk-preload-debugger__header" @click="toggleExpand">
       <text class="lk-preload-debugger__title">预加载调试</text>
       <view class="lk-preload-debugger__badge" :class="statusClass">
@@ -186,6 +199,8 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use './index.scss';
+
 .lk-preload-debugger {
   position: fixed;
   z-index: 9999;
@@ -193,8 +208,8 @@ onUnmounted(() => {
   border-radius: var(--lk-radius-md);
   color: var(--lk-preload-debugger-text);
   font-size: var(--lk-font-size-xs);
-  min-width: calc(var(--lk-control-height-lg) * 2.9);
-  max-width: calc(var(--lk-control-height-lg) * 6.25);
+  min-width: var(--lk-preload-debugger-width-min);
+  max-width: var(--lk-preload-debugger-width-max);
   box-shadow: var(--lk-shadow-lg);
 
   &--top-left {

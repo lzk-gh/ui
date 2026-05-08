@@ -15,6 +15,24 @@ phone: chart-lite
 - `LkChartRing`：环形进度 / 多段占比图，适合完成率、健康环、预算占比。
 - `LkChartRadarLite`：轻量雷达图，适合能力模型、健康维度、评分分布。
 
+## 子组件索引
+
+| 子组件 | 适用场景 | 数据模型 | 主要能力 |
+|--------|----------|----------|----------|
+| `LkChartStatCard` | 经营指标、健康摘要、账户概览 | `LiteChartPoint[]` | 主数值、趋势标记、内嵌迷你趋势 |
+| `LkChartSparkline` | 卡片内趋势线、列表行走势 | `LiteChartPoint[]` | 折线、面积渐变、末端高亮、触摸索引 |
+| `LkChartArea` | 页面级连续趋势 | `LiteChartPoint[]` | 面积图、柔和网格、X 轴首尾标签、触摸提示 |
+| `LkChartRing` | 完成率、预算占比、多段占比 | `value/max` 或 `RingChartSegment[]` | 单值环、多段环、中心文案 |
+| `LkChartRadarLite` | 能力模型、维度评分、健康雷达 | `RadarLiteItem[]` | 多维雷达、层级网格、标签与顶点 |
+
+### 选择建议
+
+- 要在信息卡中展示“数值 + 趋势”，优先使用 `LkChartStatCard`。
+- 要在已有卡片里嵌一条小趋势线，使用 `LkChartSparkline`。
+- 要展示完整时间序列趋势，使用 `LkChartArea`。
+- 要表达完成率或占比，使用 `LkChartRing`。
+- 要比较多个维度分值，使用 `LkChartRadarLite`。
+
 ## 基础用法
 
 ```vue

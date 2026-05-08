@@ -26,6 +26,7 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Grid 宫格](./grid) | 等分网格布局，图标入口首选 |
 | [Space 间距](./space) | 子元素之间的统一间距容器 |
 | [MetaRow 结构行](./meta-row) | 左侧 + 中间上下 + 右侧的通用信息行布局 |
+| [Choice 快选](./choice) | 单选/多选的轻量选项组 |
 
 ## 表单控件
 
@@ -45,6 +46,7 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Date Picker 日期选择](./date-picker) | 年/月/日选择 |
 | [Time Picker 时间选择](./time-picker) | 时/分/秒选择 |
 | [Keyboard 键盘](./keyboard) | 数字/身份证/车牌等模式 |
+| [NumberKeyboard 数字键盘（旧版）](./number-keyboard) | 旧版数字键盘，建议新项目使用 Keyboard |
 | [Verify Code 验证码](./verify-code) | N 格验证码输入框 |
 
 ## 数据展示
@@ -63,6 +65,7 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Image 图片](./image) | 懒加载/多裁剪/加载失败兜底 |
 | [Virtual List 虚拟列表](./virtual-list) | 超长列表高性能渲染 |
 | [Waterfall 瀑布流](./waterfall) | 不等高卡片双列布局 |
+| [Watermark 水印](./watermark) | 页面或容器级水印 |
 
 ## 图表
 
@@ -104,7 +107,6 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Fab 悬浮按钮](./fab) | 可拖拽的悬浮操作按钮 |
 | [Curtain 幕帘](./curtain) | 从边缘拉出的抽屉式浮层 |
 | [Horizontal Scroll 横向滚动](./horizontal-scroll) | 横向滑动容器 |
-| [Preload 预加载调试](./preload) | 开发阶段预加载状态面板 |
 
 ## 工具与能力
 
@@ -112,3 +114,4 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 |------|------|
 | [Hooks 与工具](./hooks-utils) | Composables 与核心 utils 快速索引与实战示例 |
 | [Network Request 网络请求](./request) | 请求封装、拦截器、重试、取消、上传下载完整指南 |
+| [Preload 预加载系统](./preload) | 页面、图片与自定义任务预加载能力 |

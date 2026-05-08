@@ -1,7 +1,7 @@
 /**
  * 预加载调试面板组件 Props
  */
-import { LkProp } from '../common/props';
+import { baseProps, LkProp } from '../common/props';
 
 /** 位置类型 */
 export const DebuggerPosition = {
@@ -14,6 +14,8 @@ export const DebuggerPosition = {
 export type DebuggerPosition = (typeof DebuggerPosition)[keyof typeof DebuggerPosition];
 
 export const preloadDebuggerProps = {
+  ...baseProps,
+
   /** 是否显示 */
   visible: LkProp.boolean(false),
   /** 位置 */

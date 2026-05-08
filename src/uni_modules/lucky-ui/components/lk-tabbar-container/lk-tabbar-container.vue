@@ -9,6 +9,8 @@ import {
   type TabConfig,
 } from '../../core/src/tabbar-container';
 
+defineOptions({ name: 'LkTabbarContainer' });
+
 const props = withDefaults(
   defineProps<{
     /** Tab 配置 */
@@ -253,6 +255,8 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use './index.scss';
+
 $tabbar-height: var(--lk-control-height-lg);
 
 .lk-tabbar-container {

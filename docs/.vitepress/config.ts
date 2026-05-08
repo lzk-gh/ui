@@ -63,6 +63,7 @@ export default defineConfig({
             { text: 'Grid 宫格', link: '/components/grid' },
             { text: 'Space 间距', link: '/components/space' },
             { text: 'MetaRow 结构行', link: '/components/meta-row' },
+            { text: 'Choice 快选', link: '/components/choice' },
           ],
         },
         {
@@ -83,6 +84,7 @@ export default defineConfig({
             { text: 'Date Picker 日期选择', link: '/components/date-picker' },
             { text: 'Time Picker 时间选择', link: '/components/time-picker' },
             { text: 'Keyboard 键盘', link: '/components/keyboard' },
+            { text: 'NumberKeyboard 数字键盘（旧版）', link: '/components/number-keyboard' },
             { text: 'Verify Code 验证码', link: '/components/verify-code' },
           ],
         },
@@ -102,6 +104,7 @@ export default defineConfig({
             { text: 'Image 图片', link: '/components/image' },
             { text: 'Virtual List 虚拟列表', link: '/components/virtual-list' },
             { text: 'Waterfall 瀑布流', link: '/components/waterfall' },
+            { text: 'Watermark 水印', link: '/components/watermark' },
           ],
         },
         {
@@ -148,7 +151,6 @@ export default defineConfig({
             { text: 'Fab 悬浮按钮', link: '/components/fab' },
             { text: 'Curtain 幕帘', link: '/components/curtain' },
             { text: 'Horizontal Scroll 横向滚动', link: '/components/horizontal-scroll' },
-            { text: 'Preload 预加载调试', link: '/components/preload' },
           ],
         },
         {
@@ -157,6 +159,7 @@ export default defineConfig({
           items: [
             { text: 'Hooks 与工具', link: '/components/hooks-utils' },
             { text: 'Network Request 网络请求', link: '/components/request' },
+            { text: 'Preload 预加载系统', link: '/components/preload' },
           ],
         },
       ],

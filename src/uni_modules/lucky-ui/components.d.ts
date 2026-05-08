@@ -59,6 +59,7 @@ declare module '@vue/runtime-core' {
     LkUpload: typeof import('./components/lk-upload/lk-upload.vue')['default']
     LkVirtualList: typeof import('./components/lk-virtual-list/lk-virtual-list.vue')['default']
     LkWaterfall: typeof import('./components/lk-waterfall/lk-waterfall.vue')['default']
+    LkWatermark: typeof import('./components/lk-watermark/lk-watermark.vue')['default']
     LkCarousel: typeof import('./components/lk-carousel/lk-carousel.vue')['default']
     LkCarouselItem: typeof import('./components/lk-carousel/lk-carousel-item.vue')['default']
     LkBacktop: typeof import('./components/lk-backtop/lk-backtop.vue')['default']
@@ -86,7 +87,6 @@ declare module '@vue/runtime-core' {
     LkHorizontalScroll: typeof import('./components/lk-horizontal-scroll/lk-horizontal-scroll.vue')['default']
     LkMetaRow: typeof import('./components/lk-meta-row/lk-meta-row.vue')['default']
     LkFab: typeof import('./components/lk-fab/lk-fab.vue')['default']
-    LkPreloadDebugger: typeof import('./components/lk-preload-debugger/lk-preload-debugger.vue')['default']
   }
 }
 

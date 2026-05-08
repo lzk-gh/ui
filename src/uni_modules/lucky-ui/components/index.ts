@@ -152,6 +152,7 @@ export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';
 export * from './lk-anchor/anchor.props';
 // New: NumberKeyboard (Legacy)
 export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue';
+export * from './lk-number-keyboard/number-keyboard.props';
 // New: Keyboard (Refactored)
 export { default as LkKeyboard } from './lk-keyboard/lk-keyboard.vue';
 export * from './lk-keyboard/keyboard.props';
@@ -171,8 +172,4 @@ export * from './lk-meta-row/meta-row.props';
 // New: FAB (Floating Action Button)
 export { default as LkFab } from './lk-fab/lk-fab.vue';
 export * from './lk-fab/fab.props';
-
-// New: Preload Debugger (预加载调试面板)
-export { default as LkPreloadDebugger } from './lk-preload-debugger/lk-preload-debugger.vue';
-export * from './lk-preload-debugger/preload-debugger.props';
 

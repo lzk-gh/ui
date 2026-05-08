@@ -37,6 +37,7 @@
           <GridDemo v-else-if="componentName === 'grid'" />
           <SpaceDemo v-else-if="componentName === 'space'" />
           <MetaRowDemo v-else-if="componentName === 'meta-row'" />
+          <ChoiceDemo v-else-if="componentName === 'choice'" />
 
           <FormDemo v-else-if="componentName === 'form'" />
           <InputDemo v-else-if="componentName === 'input'" />
@@ -79,6 +80,7 @@
 
           <NavbarDemo v-else-if="componentName === 'navbar'" />
           <TabbarDemo v-else-if="componentName === 'tabbar'" />
+          <TabbarContainerDemo v-else-if="componentName === 'tabbar-container'" />
           <IndexBarDemo v-else-if="componentName === 'index-bar'" />
           <AnchorDemo v-else-if="componentName === 'anchor'" />
           <StickyDemo v-else-if="componentName === 'sticky'" />
@@ -188,6 +190,12 @@ const componentMap: Record<string, any> = {
     title: 'MetaRow 结构行',
     desc: '左侧 + 中间上下 + 右侧的通用布局容器',
     icon: 'layout-three-columns',
+    color: 'primary',
+  },
+  choice: {
+    title: 'Choice 快选',
+    desc: '轻量单选/多选选项组',
+    icon: 'ui-checks',
     color: 'primary',
   },
 
@@ -414,6 +422,12 @@ const componentMap: Record<string, any> = {
     icon: 'menu-button-wide',
     color: 'success',
   },
+  'tabbar-container': {
+    title: 'Tabbar 容器',
+    desc: '单页多 Tab 主框架',
+    icon: 'layout-three-columns',
+    color: 'success',
+  },
   backtop: {
     title: 'Backtop 回到顶部',
     desc: '快速返回页面顶部的悬浮按钮',
@@ -588,6 +602,7 @@ import ImageDemo from '@/components/demos/image-demo.vue';
 import GridDemo from '@/components/demos/grid-demo.vue';
 import SpaceDemo from '@/components/demos/space-demo.vue';
 import MetaRowDemo from '@/components/demos/meta-row-demo.vue';
+import ChoiceDemo from '@/components/demos/choice-demo.vue';
 
 // 表单组件
 import FormDemo from '@/components/demos/form-demo.vue';
@@ -634,6 +649,7 @@ import TransitionDemo from '@/components/demos/transition-demo.vue';
 // 导航组件
 import NavbarDemo from '@/components/demos/navbar-demo.vue';
 import TabbarDemo from '@/components/demos/tabbar-demo.vue';
+import TabbarContainerDemo from '@/components/demos/tabbar-container-demo.vue';
 import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
 import AnchorDemo from '@/components/demos/anchor-demo.vue';
 import StickyDemo from '@/components/demos/sticky-demo.vue';
@@ -662,6 +678,7 @@ const demoComponentMap: Record<string, any> = {
   grid: GridDemo,
   space: SpaceDemo,
   'meta-row': MetaRowDemo,
+  choice: ChoiceDemo,
 
   // 表单组件
   form: FormDemo,
@@ -708,6 +725,7 @@ const demoComponentMap: Record<string, any> = {
   // 导航组件
   navbar: NavbarDemo,
   tabbar: TabbarDemo,
+  'tabbar-container': TabbarContainerDemo,
   'index-bar': IndexBarDemo,
   anchor: AnchorDemo,
   sticky: StickyDemo,
