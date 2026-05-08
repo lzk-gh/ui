@@ -26,3 +26,9 @@ phone: chart-line
 
 - `hoverChange(index)`：触摸高亮点变化（无高亮时为 `-1`）
 
+## 注意事项
+
+- 组件会自动读取父容器宽高，建议通过 `height` 或父容器样式明确高度。
+- 小程序中 Canvas 为原生层，Tooltip 采用“绘制在 Canvas 内”的方式避免层级问题。
+- 样式入口已独立为组件内 `index.scss`，主题可通过 `--lk-chart-tooltip-*` 变量覆盖。
+

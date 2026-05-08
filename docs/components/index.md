@@ -11,13 +11,13 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 
 | 组件 | 说明 |
 |------|------|
-| [Button 按钮](./basic/button) | 触发操作的主入口，支持多变体、尺寸、形状 |
-| [Icon 图标](./basic/icon) | Bootstrap Icons 封装，颜色/尺寸可控 |
+| [Button 按钮](./button) | 触发操作的主入口，支持多变体、尺寸、形状 |
+| [Icon 图标](./icon) | Bootstrap Icons 封装，颜色/尺寸可控 |
 | [Avatar 头像](./basic/avatar) | 图片/文字/图标三种形式，支持堆叠 |
-| [Badge 徽标](./basic/badge) | 数字/红点/文字类型，灵活叠加在子元素上 |
+| [Badge 徽标](./badge) | 数字/红点/文字类型，灵活叠加在子元素上 |
 | [Tag 标签](./basic/tag) | 状态和属性标注，支持关闭与多变体 |
 | [Divider 分割线](./basic/divider) | 水平/垂直方向分隔，支持文字插入 |
-| [Cell 单元格](./basic/cell) | 列表行，内置图标/箭头/右侧自定义插槽 |
+| [Cell 单元格](./cell) | 列表行，内置图标/箭头/右侧自定义插槽 |
 
 ## 布局
 
@@ -85,6 +85,8 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Tabs 选项卡](./tabs) | 多 Tab 内容切换 |
 | [Segmented 分段器](./segmented) | 紧凑分段控制 |
 | [Anchor 锚点导航](./anchor) | 页面内区块快速跳转 |
+| [IndexBar 索引栏](./index-bar) | 字母索引与锚点定位长列表 |
+| [Sticky 粘性布局](./sticky) | 滚动吸附容器 |
 | [Backtop 返回顶部](./backtop) | 滚动到顶的悬浮按钮 |
 
 ## 反馈与浮层

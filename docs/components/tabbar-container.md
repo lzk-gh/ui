@@ -31,6 +31,8 @@ import type { TabConfig } from '@/uni_modules/lucky-ui';
 
 - **H5 / App**：在 `TabConfig` 上为每个 Tab 提供 `component`（可 `markRaw` 同步组件，或 `() => import('...')` 异步），容器内用动态组件渲染。
 - **小程序**：不支持上述动态组件写法时，使用具名插槽 **`tab-{tabId}`** 传入各 Tab 内容（`tabId` 与配置里的 `id` 一致）。
+- **底部定位**：容器内部底栏使用 fixed 定位与安全区占位。App、H5、小程序的 safe area 行为不同，首屏发布前必须在目标端确认底部遮挡与滚动高度。
+- **视觉模式**：`flashlight`、`float`、`mask-fill` 等模式包含滤镜或较复杂动画；性能敏感页面优先使用 `plain`、`block`、`marker-top`、`marker-bottom`。
 
 ## 基础示例（H5 / App 思路）
 
@@ -115,6 +117,12 @@ interface TabConfig {
 ## 主题与样式
 
 容器与底部栏颜色使用 Lucky UI 主题 **CSS 变量**（`--lk-bg-page`、`--lk-color-primary`、`--lk-color-bg-container` 等）。接入方引入主题 SCSS 后即可随亮暗色切换；无需依赖业务项目里的测试页样式文件。
+
+## 发布前检查
+
+1. H5/App 使用 `component` 配置；小程序使用 `tab-{id}` 插槽，不混用动态组件。
+2. 若页面已有原生 tabbar、自定义 navbar 或 safe area 占位，需要确认 `lk-tabbar-container__placeholder` 不会产生双重底部间距。
+3. 启用滤镜类视觉模式时，低端 App WebView 可能降级；公开示例默认使用 `block`。
 
 ## 参考
 

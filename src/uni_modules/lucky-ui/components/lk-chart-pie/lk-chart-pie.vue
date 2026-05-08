@@ -421,43 +421,5 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss">
-.lk-chart {
-  width: 100%;
-  position: relative;
-  overflow: visible;
-  z-index: var(--lk-z-index-tooltip);
-}
-.lk-chart__canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.lk-chart__tooltip {
-  position: absolute;
-  max-width: var(--lk-rpx-320);
-  padding: var(--lk-rpx-8) var(--lk-rpx-16);
-  color: var(--lk-chart-tooltip-color, var(--lk-color-text-inverse));
-  background: var(--lk-chart-tooltip-bg, var(--lk-color-text));
-  border-radius: var(--lk-radius-sm);
-  font-size: var(--lk-font-size-xs);
-  line-height: var(--lk-line-height-tight);
-  white-space: nowrap;
-  pointer-events: none;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform: translateY(-100%) translateY(calc(var(--lk-rpx-10) * -1));
-  z-index: var(--lk-z-index-tooltip);
-  box-shadow: var(--lk-shadow-sm);
-}
-.lk-chart__tooltip::after {
-  content: '';
-  position: absolute;
-  left: var(--lk-chart-tooltip-arrow-x, 50%);
-  bottom: calc(var(--lk-rpx-6) * -1);
-  width: var(--lk-rpx-12);
-  height: var(--lk-rpx-12);
-  background: inherit;
-  transform: translateX(-50%) rotate(45deg);
-}
+@use './index.scss';
 </style>

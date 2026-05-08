@@ -69,6 +69,7 @@ export { default as LkTabbar } from './lk-tabbar/lk-tabbar.vue';
 export { default as LkTabbarItem } from './lk-tabbar/lk-tabbar-item.vue';
 export * from './lk-tabbar/tabbar.props';
 export { default as LkTabbarContainer } from './lk-tabbar-container/lk-tabbar-container.vue';
+export * from './lk-tabbar-container/tabbar-container.props';
 export { default as LkCollapse } from './lk-collapse/lk-collapse.vue';
 export { default as LkCollapseItem } from './lk-collapse/lk-collapse-item.vue';
 export * from './lk-collapse/collapse.props';

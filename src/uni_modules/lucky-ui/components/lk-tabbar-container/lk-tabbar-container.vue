@@ -6,60 +6,22 @@ import {
   useTabbarContainer,
   initTabbarContainer,
   setTabbarDebug,
-  type TabConfig,
 } from '../../core/src/tabbar-container';
+import {
+  tabbarContainerEmits,
+  tabbarContainerProps,
+  type TabConfig,
+} from './tabbar-container.props';
 
 defineOptions({ name: 'LkTabbarContainer' });
 
-const props = withDefaults(
-  defineProps<{
-    /** Tab 配置 */
-    tabs: TabConfig[];
-    /** 默认激活的 Tab ID */
-    defaultTab?: string;
-    /** 是否开启调试模式 */
-    debug?: boolean;
-    /** Tabbar 模式 */
-    mode?:
-      | 'plain'
-      | 'block'
-      | 'flashlight'
-      | 'float'
-      | 'marker-top'
-      | 'marker-bottom'
-      | 'dot-slide'
-      | 'bubble'
-      | 'ripple'
-      | 'mask-fill'
-      | 'text-raise';
-    /** 自定义类名 */
-    customClass?: string;
-    /** 自定义样式 */
-    customStyle?: string | Record<string, string>;
-    /** 预加载延迟（毫秒） */
-    preloadDelay?: number;
-    /** 是否预加载所有 Tab */
-    preloadAll?: boolean;
-  }>(),
-  {
-    defaultTab: '',
-    debug: false,
-    mode: undefined,
-    customClass: '',
-    customStyle: '',
-    preloadDelay: 2000,
-    preloadAll: true,
-  }
-);
+const props = defineProps(tabbarContainerProps);
 
-const emit = defineEmits<{
-  (e: 'change', tabId: string): void;
-  (e: 'beforeChange', tabId: string, oldTabId: string): void;
-}>();
+const emit = defineEmits(tabbarContainerEmits);
 
 const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
 
-/** 未传 mode 时使用 block，与历史默认一致；宿主可通过 :mode 绑定全局状态 */
+/** 默认使用 block，与历史默认一致；宿主可通过 :mode 绑定全局状态 */
 const activeMode = computed(() => props.mode ?? 'block');
 
 const containerClass = computed(() => [
@@ -72,7 +34,7 @@ const containerStyle = computed(() => {
   if (typeof props.customStyle === 'string') {
     return props.customStyle;
   }
-  return Object.entries(props.customStyle || {})
+  return Object.entries((props.customStyle || {}) as Record<string, unknown>)
     .map(([k, v]) => `${k}: ${v}`)
     .join('; ');
 });

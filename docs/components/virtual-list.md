@@ -152,3 +152,9 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue'
 ::: warning
 `lk-virtual-list` 假设每一项高度固定并由 `itemHeight` 控制。如果单项高度差异很大，建议先统一高度，或改用更适合不规则高度场景的方案。
 :::
+
+## 兼容说明
+
+- `positionStrategy="transform"` 性能最好，但部分 App WebView 对大列表 transform 合成层有差异；出现闪烁时可切到 `absolute` 或 `padding`。
+- `enhanced`、`bounces`、`enablePassive` 依赖平台滚动能力，发布示例应同时覆盖 H5 和目标小程序。
+- 列表项必须有稳定 `key`，不要在可视区域内使用会改变高度的异步内容；图片列表建议使用固定容器或改用 `lk-waterfall`。

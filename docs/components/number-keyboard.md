@@ -49,6 +49,18 @@ function handleInput(key: string) {
 />
 ```
 
+### 迁移策略
+
+| 旧组件能力 | 新组件配置 |
+|------------|------------|
+| `visible` | `v-model:visible` |
+| `input/delete/confirm` 事件 | `v-model` + `input/delete/confirm` |
+| `allowDecimal` | `show-dot` |
+| `random` | `random` |
+| `extraKey` | `extra-key` |
+
+新项目不要再新增 `LkNumberKeyboard` 示例。公开文档仅保留兼容说明，后续可在 major 版本中移除旧入口。
+
 ## API
 
 ### Props

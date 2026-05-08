@@ -104,6 +104,10 @@ const keys = [
 />
 ```
 
+## 与 NumberKeyboard 的关系
+
+`lk-keyboard` 是当前推荐入口，覆盖数字、身份证、车牌和自定义布局。旧项目使用的 `lk-number-keyboard` 保持兼容，但新功能不再回补到旧组件。
+
 ## 推荐示例
 
 ### 1) 直接复用项目 Demo（推荐）
@@ -191,3 +195,9 @@ import KeyboardDemo from '@/components/demos/keyboard-demo.vue'
 ::: tip
 如果是纯验证码或密码输入，可将 `lk-keyboard` 与 `lk-code-input`、`lk-input` 组合使用，由业务层统一管理输入值。
 :::
+
+## 兼容说明
+
+- 组件使用 fixed 底部浮层，存在安全区与软键盘遮挡差异；发布前需在 H5、App 与目标小程序端确认底部间距。
+- `blur` 毛玻璃效果依赖平台对 CSS filter/backdrop-filter 的支持；性能敏感场景建议关闭 `blur`。
+- 车牌键盘和自定义键盘应由业务层限制输入格式，组件只负责按键输出。
