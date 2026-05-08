@@ -11,6 +11,9 @@ import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TooltipDemo from '@/components/demos/tooltip-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import MetaRowDemo from '@/components/demos/meta-row-demo.vue';
+import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
+import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
+import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 
 /**
  * 当前筛选组件标识。
@@ -149,6 +152,9 @@ const groupedCases = computed(() => {
             <tooltip-demo v-else-if="item.slug === 'tooltip'" />
             <waterfall-demo v-else-if="item.slug === 'waterfall'" />
             <meta-row-demo v-else-if="item.slug === 'meta-row'" />
+            <keyboard-demo v-else-if="item.slug === 'keyboard'" />
+            <number-keyboard-demo v-else-if="item.slug === 'number-keyboard'" />
+            <virtual-list-demo v-else-if="item.slug === 'virtual-list'" />
           </template>
         </component-case>
       </view>

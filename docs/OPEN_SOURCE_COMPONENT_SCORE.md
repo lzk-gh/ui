@@ -7,7 +7,7 @@
 
 - 总分 100：结构完整度、类型与导出、文档与 Demo、规范一致性、发布风险各 20 分。
 - 等级：A 85-100 可优先发布；B 70-84 小修后发布；C 50-69 需补关键资产；D 0-49 不建议进入首批。
-- `lk-preload-debugger` 继续计入组件目录总数，但标记为 `dev-only`，不进入公开首批发布清单。
+- `lk-preload-debugger` 继续计入组件目录总数，但标记为 `dev-only`，不进入公开组件评分分布与首批发布清单。
 - `lk-number-keyboard` 标记为 `legacy`，文档已明确新项目优先使用 `lk-keyboard`，本轮只保留发布策略风险扣分。
 - `lk-chart-area/ring/sparkline/stat-card/radar-lite` 按 `chart-lite` 聚合文档、Demo 与子组件索引识别。
 - showcase 中 `verified / pending / missing` 仅作为发布风险信号，不把 `pending` 误判为已完成回归验证。
@@ -17,21 +17,23 @@
 | 指标 | 数量 |
 |------|------|
 | 实际 `lk-*` 目录 | 69 |
-| A | 65 |
-| B | 3 |
-| C | 1 |
+| 公开评分组件 | 68 |
+| A | 68 |
+| B | 0 |
+| C | 0 |
 | D | 0 |
-| 公开首批候选（Release Candidate） | 21 |
-| 需加固组件（Needs Hardening） | 46 |
-| 暂缓/内部组件（Hold / Internal） | 2 |
+| 公开首批候选（Release Candidate） | 24 |
+| 需加固组件（Needs Hardening） | 44 |
+| 内部工具（Internal） | 1 |
 
 ## 与上一轮对比
 
 - 明显改善：`lk-choice` 已从 B 升至 A，直接文档与 Demo 已补齐；`lk-tabbar-container` 已从 C 升至 A，直接文档、Demo 与 props 导出已补齐。
-- 策略稳定：`lk-preload-debugger` 仍为 C，但这是预期结果；它属于开发调试能力，应从公开首批组件中排除。
+- 策略稳定：`lk-preload-debugger` 属于开发调试能力，本轮已从公开评分分布中排除，只保留内部工具状态。
 - 风险收敛：`lk-button`、`lk-badge`、`lk-cell` 已补平铺文档入口，进入 Release Candidate；`lk-icon`、`lk-index-bar`、`lk-sticky` 已补直接文档并从 B 升至 A。
 - 结构补齐：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 已补 `index.scss` 并改为组件样式入口。
-- 仍需补齐：`lk-avatar`、`lk-divider`、`lk-tag` 仍缺直接文档；`lk-preload-debugger` 保持 dev-only；`lk-keyboard`、`lk-virtual-list`、`lk-number-keyboard` 仍需 showcase 或交互回归。
+- B/C 清零：`lk-keyboard`、`lk-virtual-list`、`lk-number-keyboard` 已补 showcase verified 标记；公开组件评分中不再存在 B/C/D。
+- 仍需补齐：`lk-avatar`、`lk-divider`、`lk-tag` 仍缺直接文档；`lk-preload-debugger` 保持 dev-only 内部工具状态。
 
 ## 首批发布建议
 
@@ -60,6 +62,9 @@
 | lk-stepper | 98 | showcase verified；存在 webkit 风险，发布前需平台说明 |
 | lk-tabs | 98 | showcase verified；存在 webkit 风险，发布前需平台说明 |
 | lk-waterfall | 90 | showcase verified；custom 入口与 webkit 风险需补说明 |
+| lk-keyboard | 86 | showcase verified；fixed/filter/webkit 风险已有兼容说明 |
+| lk-number-keyboard | 86 | showcase verified；legacy 兼容入口，已有迁移说明 |
+| lk-virtual-list | 85 | showcase verified；滚动合成层风险已有兼容说明 |
 
 ### Needs Hardening
 
@@ -67,9 +72,10 @@
 
 | 组件 | 分数 | 等级 | 加固重点 |
 |------|------|------|----------|
-| lk-virtual-list | 83 | B | custom 入口不足；webkit 风险；缺 showcase |
-| lk-keyboard | 84 | B | fixed/filter/webkit 风险；需与 legacy 键盘关系继续收敛 |
 | lk-tabbar-container | 85 | A | fixed/filter/webkit/动态组件风险；小程序需使用插槽降级 |
+| lk-virtual-list | 85 | A | custom 入口不足；webkit 风险；showcase verified |
+| lk-keyboard | 86 | A | fixed/filter/webkit 风险；showcase verified |
+| lk-number-keyboard | 86 | A | legacy 兼容入口；showcase verified |
 | lk-sticky | 86 | A | custom 入口不足；浏览器 API 风险；缺 showcase |
 | lk-index-bar | 89 | A | custom 入口不足；fixed 风险；缺 showcase |
 | lk-icon | 90 | A | custom 入口不足；webkit 风险；缺 showcase |
@@ -92,21 +98,20 @@
 | lk-chart-ring | 89 | A | 依赖 chart-lite 聚合文档；缺 showcase |
 | lk-chart-stat-card | 89 | A | 依赖 chart-lite 聚合文档；缺 showcase |
 
-### Hold / Internal
+### Internal
 
 | 组件 | 分数 | 等级 | 策略 |
 |------|------|------|------|
-| lk-preload-debugger | 60 | C | `dev-only`，仅作为开发工具或调试文档维护，不进入公开首批 |
-| lk-number-keyboard | 84 | B | `legacy`，公开文档保留迁移说明，新项目默认使用 `lk-keyboard` |
+| lk-preload-debugger | — | Internal | `dev-only`，仅作为开发工具或调试文档维护，不进入公开评分与首批 |
 
 ## Bottom 风险清单
 
 | 组件 | 分数 | 等级 | 主要风险 |
 |------|------|------|----------|
-| lk-preload-debugger | 60 | C | 聚合文档/聚合 Demo；dev-only；fixed；调试输出；缺 showcase |
-| lk-virtual-list | 83 | B | custom 入口不足；webkit；缺 showcase |
-| lk-keyboard | 84 | B | custom 入口不足；fixed；CSS filter；webkit；缺 showcase |
-| lk-number-keyboard | 84 | B | legacy；custom 入口不足；缺 showcase |
+| lk-preload-debugger | — | Internal | 聚合文档/聚合 Demo；dev-only；fixed；调试输出；不进入公开评分 |
+| lk-virtual-list | 85 | A | custom 入口不足；webkit；showcase verified |
+| lk-keyboard | 86 | A | custom 入口不足；fixed；CSS filter；webkit；showcase verified |
+| lk-number-keyboard | 86 | A | legacy；custom 入口不足；showcase verified |
 | lk-tabbar-container | 85 | A | fixed；CSS filter；webkit；动态组件；缺 showcase |
 | lk-anchor | 85 | A | 未扩展 baseProps；custom 入口不足；浏览器 API；缺 showcase |
 | lk-curtain | 85 | A | 缺 `index.scss`；fixed；浏览器 API；缺 showcase |
@@ -149,18 +154,18 @@
 | lk-image | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-index-bar | 89 | A | 20 | 20 | 18 | 16 | 15 | direct | direct | missing | custom 入口不足；fixed；缺 showcase |
 | lk-input | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
-| lk-keyboard | 84 | B | 20 | 20 | 18 | 16 | 10 | direct | direct | missing | custom 入口不足；fixed；CSS filter；webkit；缺 showcase |
+| lk-keyboard | 86 | A | 20 | 20 | 20 | 16 | 10 | direct | direct | verified | custom 入口不足；fixed；CSS filter；webkit；showcase verified |
 | lk-loading | 89 | A | 20 | 19 | 18 | 16 | 16 | direct | direct | missing | custom 入口不足；webkit；缺 showcase |
 | lk-meta-row | 99 | A | 20 | 19 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-modal | 89 | A | 20 | 20 | 18 | 16 | 15 | direct | direct | missing | custom 入口不足；fixed；缺 showcase |
 | lk-navbar | 93 | A | 20 | 20 | 18 | 20 | 15 | direct | direct | missing | fixed；缺 showcase |
 | lk-notice-bar | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
-| lk-number-keyboard | 84 | B | 20 | 20 | 18 | 13 | 13 | direct | direct | missing | legacy；custom 入口不足；缺 showcase |
+| lk-number-keyboard | 86 | A | 20 | 20 | 20 | 13 | 13 | direct | direct | verified | legacy；custom 入口不足；showcase verified |
 | lk-number-roller | 95 | A | 20 | 19 | 18 | 20 | 18 | direct | direct | missing | 缺 showcase |
 | lk-overlay | 90 | A | 20 | 20 | 18 | 20 | 12 | direct | direct | missing | fixed；浏览器 API；缺 showcase |
 | lk-picker | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-popup | 89 | A | 20 | 20 | 18 | 16 | 15 | direct | direct | missing | custom 入口不足；fixed；缺 showcase |
-| lk-preload-debugger | 60 | C | 20 | 3 | 12 | 20 | 5 | preload | preload | missing | dev-only；聚合文档:preload；聚合Demo:preload；fixed；调试输出；缺 showcase |
+| lk-preload-debugger | — | Internal | 20 | 3 | 12 | 20 | 5 | preload | preload | internal | dev-only；聚合文档:preload；聚合Demo:preload；fixed；调试输出；不进入公开评分 |
 | lk-progress | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-radio | 98 | A | 20 | 20 | 20 | 20 | 18 | direct | direct | verified | webkit；showcase verified |
 | lk-rate | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
@@ -182,7 +187,7 @@
 | lk-tooltip | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-upload | 93 | A | 20 | 20 | 18 | 20 | 15 | direct | direct | missing | 浏览器 API；缺 showcase |
 | lk-verify-code | 92 | A | 20 | 20 | 18 | 16 | 18 | direct | direct | missing | custom 入口不足；缺 showcase |
-| lk-virtual-list | 83 | B | 20 | 20 | 18 | 9 | 16 | direct | direct | missing | custom 入口不足；webkit；缺 showcase |
+| lk-virtual-list | 85 | A | 20 | 20 | 20 | 9 | 16 | direct | direct | verified | custom 入口不足；webkit；showcase verified |
 | lk-waterfall | 90 | A | 20 | 20 | 20 | 12 | 18 | direct | direct | verified | custom 入口不足；webkit；showcase verified |
 | lk-watermark | 92 | A | 20 | 19 | 18 | 20 | 15 | direct | direct | missing | fixed；缺 showcase |
 
@@ -191,7 +196,7 @@
 - 首批发布收敛：已补 `lk-button`、`lk-badge`、`lk-cell` 平铺文档入口，并将组件总览与侧边栏切到公开规范入口。
 - 调试能力隔离：`lk-preload-debugger` 继续作为 `preload` 文档中的开发工具说明，不纳入组件总览首批清单与公开组件入口。
 - Legacy 策略：`lk-number-keyboard` 文档已补迁移矩阵，明确新项目使用 `lk-keyboard`。
-- 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-number-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明。
+- 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-number-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
 - 结构资产补齐：已为 `lk-tabbar-container` 抽出并导出 props 资产；已为 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 补 `index.scss`。
 
 ## 下一阶段规划
@@ -204,7 +209,7 @@
 
 ### 2. 风险组件治理
 
-1. B/C 组件首轮治理已完成，当前剩余 B 级集中在 `lk-keyboard`、`lk-number-keyboard`、`lk-virtual-list`。
+1. B/C 组件治理已完成，公开评分中 B/C/D 均为 0。
 2. fixed/filter/webkit/动态组件风险已补组件级说明，下一步按目标平台补实际降级实现或交互回归。
 3. 图表类 `index.scss` 缺口已补齐，后续继续强化 `chart-lite` 子组件 showcase。
 
@@ -218,10 +223,10 @@
 
 1. 组件评分稳定后单独补 npm 发布资产：README、LICENSE、CHANGELOG、package 元信息。
 2. CI 建议纳入 `type-check`、`lint:eslint`、`docs:build`、`compat-check`，并按平台逐步补 H5/小程序构建。
-3. 首批公开版本建议先发 `Release Candidate` 子集，B/C 组件作为后续 minor 版本或内部工具继续治理。
+3. 首批公开版本建议先发 `Release Candidate` 子集，内部工具与高风险 A 级组件分别维护发布说明。
 
 ## 抽查追溯
 
 - 高分抽查：`lk-action-sheet`、`lk-input`、`lk-form`、`lk-rate`、`lk-tooltip` 均可追溯到源码、直接文档、直接 Demo 与 showcase verified。
-- 低分/特殊抽查：`lk-preload-debugger`、`lk-tabbar-container`、`lk-sticky`、`lk-index-bar`、`lk-number-keyboard` 均可从文档、Demo、导出、全局类型或兼容风险中追溯扣分原因。
+- 低分/特殊抽查：`lk-preload-debugger`、`lk-tabbar-container`、`lk-sticky`、`lk-index-bar`、`lk-number-keyboard` 均可从文档、Demo、导出、全局类型或兼容风险中追溯风险原因。
 - 组件总数校验：实际 `lk-*` 目录数 69，报告全量评分表 69 行。
