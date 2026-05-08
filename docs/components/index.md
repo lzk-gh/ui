@@ -1,6 +1,6 @@
 # 组件总览
 
-Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
+Lucky UI 共收录 **68+** 个公开组件，按功能分为以下几类。
 
 ::: tip 右侧实时预览
 每个组件文档页右侧都有**手机模拟器**，
@@ -60,6 +60,7 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Progress 进度条](./progress) | 线形/圆形进度 |
 | [Loading 加载](./loading) | 多形态加载动效 |
 | [Skeleton 骨架屏](./skeleton) | 内容加载中的占位动画 |
+| [Empty 空状态](./empty) | 数据为空、搜索无结果和异常状态占位 |
 | [Number Roller 数字滚动](./number-roller) | 数值变化卷动动效 |
 | [Image 图片](./image) | 懒加载/多裁剪/加载失败兜底 |
 | [Virtual List 虚拟列表](./virtual-list) | 超长列表高性能渲染 |

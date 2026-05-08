@@ -25,6 +25,7 @@ import CurtainDemo from '@/components/demos/curtain-demo.vue';
 import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
 import DividerDemo from '@/components/demos/divider-demo.vue';
 import DropdownDemo from '@/components/demos/dropdown-demo.vue';
+import EmptyDemo from '@/components/demos/empty-demo.vue';
 import FabDemo from '@/components/demos/fab-demo.vue';
 import FormDemo from '@/components/demos/form-demo.vue';
 import GridDemo from '@/components/demos/grid-demo.vue';
@@ -216,6 +217,7 @@ const groupedCases = computed(() => {
             <choice-demo v-else-if="item.slug === 'choice'" />
             <collapse-demo v-else-if="item.slug === 'collapse'" />
             <divider-demo v-else-if="item.slug === 'divider'" />
+            <empty-demo v-else-if="item.slug === 'empty'" />
             <curtain-demo v-else-if="item.slug === 'curtain'" />
             <date-picker-demo v-else-if="item.slug === 'date-picker'" />
             <dropdown-demo v-else-if="item.slug === 'dropdown'" />

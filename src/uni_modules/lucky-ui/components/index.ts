@@ -57,6 +57,9 @@ export { default as LkActionSheet } from './lk-action-sheet/lk-action-sheet.vue'
 export * from './lk-action-sheet/action-sheet.props';
 export { default as LkSkeleton } from './lk-skeleton/lk-skeleton.vue';
 export * from './lk-skeleton/skeleton.props';
+export { default as LkEmpty } from './lk-empty/lk-empty.vue';
+export * from './lk-empty/empty.props';
+export * from './lk-empty/empty-illustrations';
 export { default as LkImage } from './lk-image/lk-image.vue';
 export * from './lk-image/image.props';
 export { default as LkCard } from './lk-card/lk-card.vue';

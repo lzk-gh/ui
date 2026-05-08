@@ -34,6 +34,7 @@ declare module '@vue/runtime-core' {
     LkToastManager: typeof import('./components/lk-toast/lk-toast-manager.vue')['default']
     LkActionSheet: typeof import('./components/lk-action-sheet/lk-action-sheet.vue')['default']
     LkSkeleton: typeof import('./components/lk-skeleton/lk-skeleton.vue')['default']
+    LkEmpty: typeof import('./components/lk-empty/lk-empty.vue')['default']
     LkImage: typeof import('./components/lk-image/lk-image.vue')['default']
     LkCard: typeof import('./components/lk-card/lk-card.vue')['default']
     LkCell: typeof import('./components/lk-cell/lk-cell.vue')['default']

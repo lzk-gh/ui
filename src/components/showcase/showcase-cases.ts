@@ -113,6 +113,15 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['垂直分割线需覆盖行内高度与居中对齐。'],
   },
   {
+    slug: 'empty',
+    title: 'Empty 空状态',
+    group: 'basic',
+    verifyStatus: 'verified',
+    riskLevel: 'low',
+    visualEnabled: true,
+    riskNotes: ['内置 SVG 通过 image 渲染，需确认小程序端 data URI 可见。'],
+  },
+  {
     slug: 'checkbox',
     title: 'Checkbox 复选框',
     group: 'form',

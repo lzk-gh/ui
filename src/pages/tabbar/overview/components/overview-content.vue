@@ -99,6 +99,7 @@ const categories = [
       { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
       { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
       { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'border' },
+      { name: 'empty', label: 'Empty', desc: '空状态', icon: 'inbox' },
       { name: 'carousel', label: 'Carousel', desc: '轮播', icon: 'house' },
       { name: 'segmented', label: 'Segmented', desc: '分段器', icon: 'house' },
       { name: 'pagination', label: 'Pagination', desc: '分页', icon: 'three-dots' },

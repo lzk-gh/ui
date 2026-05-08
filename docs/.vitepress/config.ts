@@ -99,6 +99,7 @@ export default defineConfig({
             { text: 'Progress 进度条', link: '/components/progress' },
             { text: 'Loading 加载', link: '/components/loading' },
             { text: 'Skeleton 骨架屏', link: '/components/skeleton' },
+            { text: 'Empty 空状态', link: '/components/empty' },
             { text: 'Number Roller 数字滚动', link: '/components/number-roller' },
             { text: 'Image 图片', link: '/components/image' },
             { text: 'Virtual List 虚拟列表', link: '/components/virtual-list' },

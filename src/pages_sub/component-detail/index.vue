@@ -219,6 +219,12 @@ const componentMap: Record<string, any> = {
     icon: 'menu-up',
     color: 'textSecondary',
   },
+  empty: {
+    title: 'Empty 空状态',
+    desc: '数据为空、搜索无结果、网络异常等占位状态',
+    icon: 'inbox',
+    color: 'info',
+  },
   carousel: {
     title: 'Carousel 轮播图',
     desc: '图片轮播组件',
@@ -509,6 +515,7 @@ import ProgressDemo from '@/components/demos/progress-demo.vue';
 import LoadingDemo from '@/components/demos/loading-demo.vue';
 import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
 import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
+import EmptyDemo from '@/components/demos/empty-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
 import BacktopDemo from '@/components/demos/backtop-demo.vue';
@@ -584,6 +591,7 @@ const demoComponentMap: Record<string, any> = {
   loading: LoadingDemo,
   'number-roller': NumberRollerDemo,
   skeleton: SkeletonDemo,
+  empty: EmptyDemo,
   carousel: CarouselDemo,
   segmented: SegmentedDemo,
   backtop: BacktopDemo,
@@ -694,6 +702,7 @@ const loadDemoComponent = async (name: string) => {
           <LoadingDemo v-else-if="componentName === 'loading'" />
           <NumberRollerDemo v-else-if="componentName === 'number-roller'" />
           <SkeletonDemo v-else-if="componentName === 'skeleton'" />
+          <EmptyDemo v-else-if="componentName === 'empty'" />
           <CarouselDemo v-else-if="componentName === 'carousel'" />
           <SegmentedDemo v-else-if="componentName === 'segmented'" />
           <BacktopDemo v-else-if="componentName === 'backtop'" />

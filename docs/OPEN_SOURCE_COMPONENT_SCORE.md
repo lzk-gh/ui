@@ -1,7 +1,7 @@
 # Lucky UI 组件开源发布评分报告（第二轮）
 
-> 生成时间：2026-05-08；范围：`src/uni_modules/lucky-ui/components/` 下 68 个 `lk-*` 组件。
-> 本轮为第一轮修复后的重新评分，只更新审计报告与发布规划，不修改组件源码、API、props、事件或导出。
+> 生成时间：2026-05-08；范围：`src/uni_modules/lucky-ui/components/` 下 69 个 `lk-*` 组件。
+> 本轮为第一轮修复后的重新评分，并已追加新组件 `lk-empty` 的开源成熟度记录。
 
 ## 评分口径
 
@@ -16,13 +16,13 @@
 
 | 指标 | 数量 |
 |------|------|
-| 实际 `lk-*` 目录 | 68 |
-| 公开评分组件 | 67 |
-| A | 67 |
+| 实际 `lk-*` 目录 | 69 |
+| 公开评分组件 | 68 |
+| A | 68 |
 | B | 0 |
 | C | 0 |
 | D | 0 |
-| 公开首批候选（Release Candidate） | 27 |
+| 公开首批候选（Release Candidate） | 28 |
 | 需加固组件（Needs Hardening） | 0 |
 | 内部工具（Internal） | 1 |
 
@@ -46,6 +46,7 @@
 - 结构补齐：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 已补 `index.scss` 并改为组件样式入口。
 - B/C 清零：`lk-keyboard`、`lk-virtual-list` 已补 showcase verified 标记；公开组件评分中不再存在 B/C/D。
 - 未发布前去重：重复数字键盘入口已彻底移除，避免键盘能力重复入口进入首批公开包。
+- 新增能力：`lk-empty` 已补源码、props、样式、导出、全局类型、文档、Demo、showcase verified 与 ManyPixels 素材许可说明，进入 Release Candidate。
 - 仍需治理：浮层、拖拽、滚动类组件仍需平台交互回归；`lk-preload-debugger` 保持 dev-only 内部工具状态。
 
 ## 首批发布建议
@@ -70,6 +71,7 @@
 | lk-cell | 100 | 结构、导出、文档、Demo、showcase verified 均完整 |
 | lk-avatar | 99 | 文档、Demo、showcase verified 完整；类型维度轻微扣分 |
 | lk-divider | 99 | 文档、Demo、showcase verified 完整；类型维度轻微扣分 |
+| lk-empty | 100 | 结构、导出、文档、Demo、showcase verified 与素材许可说明均完整 |
 | lk-tag | 100 | 结构、导出、文档、Demo、showcase verified 均完整 |
 | lk-horizontal-scroll | 97 | 结构、文档、Demo、showcase verified 完整；滚动条隐藏存在 webkit 说明 |
 | lk-meta-row | 99 | 文档、Demo、showcase verified 完整；类型维度轻微扣分 |
@@ -137,6 +139,7 @@
 | lk-date-picker | 98 | A | 20 | 20 | 20 | 20 | 18 | direct | direct | verified | webkit；showcase verified |
 | lk-divider | 99 | A | 20 | 19 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-dropdown | 97 | A | 20 | 20 | 20 | 20 | 17 | direct | direct | verified | fixed；showcase verified |
+| lk-empty | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified；ManyPixels 素材许可说明 |
 | lk-fab | 92 | A | 20 | 20 | 20 | 20 | 12 | direct | direct | verified | fixed；CSS filter；webkit；拖拽交互；showcase verified |
 | lk-form | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-grid | 96 | A | 20 | 20 | 20 | 16 | 20 | direct | direct | verified | custom 入口不足；showcase verified |
@@ -198,6 +201,7 @@
 - 需加固第十二批：已为 `lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表补 `tests/visual/dynamic-visual-showcase.spec.ts`，并在对应文档中明确自动回归与人工平台验收边界。
 - 调试能力隔离：`lk-preload-debugger` 继续作为 `preload` 文档中的开发工具说明，不纳入组件总览首批清单与公开组件入口。
 - 入口去重：未发布前已移除重复数字键盘入口的组件源码、文档、Demo、导出、全局类型和 showcase 入口。
+- 新增空态组件：`lk-empty` 已按公开组件标准接入组件库、文档、Demo、showcase 与评分报告，并补 ManyPixels 素材来源说明。
 - 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
 - 结构资产补齐：已为 `lk-tabbar-container` 抽出并导出 props 资产；已为 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 补 `index.scss`。
 
@@ -231,4 +235,4 @@
 
 - 高分抽查：`lk-action-sheet`、`lk-input`、`lk-form`、`lk-rate`、`lk-tooltip` 均可追溯到源码、直接文档、直接 Demo 与 showcase verified。
 - 低分/特殊抽查：`lk-preload-debugger`、`lk-tabbar-container`、`lk-curtain`、`lk-toast`、`lk-keyboard` 均可从文档、Demo、导出、全局类型、样式入口或兼容风险中追溯风险原因。
-- 组件总数校验：实际 `lk-*` 目录数 68，报告全量评分表 68 行。
+- 组件总数校验：实际 `lk-*` 目录数 69，报告全量评分表 69 行。
