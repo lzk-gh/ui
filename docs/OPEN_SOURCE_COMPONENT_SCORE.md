@@ -1,6 +1,6 @@
 # Lucky UI 组件开源发布评分报告（第二轮）
 
-> 生成时间：2026-05-08；范围：`src/uni_modules/lucky-ui/components/` 下 69 个 `lk-*` 组件。
+> 生成时间：2026-05-08；范围：`src/uni_modules/lucky-ui/components/` 下 68 个 `lk-*` 组件。
 > 本轮为第一轮修复后的重新评分，只更新审计报告与发布规划，不修改组件源码、API、props、事件或导出。
 
 ## 评分口径
@@ -8,7 +8,7 @@
 - 总分 100：结构完整度、类型与导出、文档与 Demo、规范一致性、发布风险各 20 分。
 - 等级：A 85-100 可优先发布；B 70-84 小修后发布；C 50-69 需补关键资产；D 0-49 不建议进入首批。
 - `lk-preload-debugger` 继续计入组件目录总数，但标记为 `dev-only`，不进入公开组件评分分布与首批发布清单。
-- `lk-number-keyboard` 标记为 `legacy`，文档已明确新项目优先使用 `lk-keyboard`，本轮只保留发布策略风险扣分。
+- 未发布前已移除重复数字键盘入口，公开键盘能力统一收敛到 `lk-keyboard`。
 - `lk-chart-area/ring/sparkline/stat-card/radar-lite` 按 `chart-lite` 聚合文档、Demo 与子组件索引识别。
 - showcase 中 `verified / pending / missing` 仅作为发布风险信号，不把 `pending` 误判为已完成回归验证。
 
@@ -16,13 +16,13 @@
 
 | 指标 | 数量 |
 |------|------|
-| 实际 `lk-*` 目录 | 69 |
-| 公开评分组件 | 68 |
-| A | 68 |
+| 实际 `lk-*` 目录 | 68 |
+| 公开评分组件 | 67 |
+| A | 67 |
 | B | 0 |
 | C | 0 |
 | D | 0 |
-| 公开首批候选（Release Candidate） | 28 |
+| 公开首批候选（Release Candidate） | 27 |
 | 需加固组件（Needs Hardening） | 0 |
 | 内部工具（Internal） | 1 |
 
@@ -41,10 +41,11 @@
 - 加固第八批：`lk-backtop`、`lk-upload`、`lk-verify-code`、`lk-watermark` 已接入 showcase verified。
 - 加固第九批：`lk-action-sheet`、`lk-badge`、`lk-cell`、`lk-checkbox`、`lk-collapse`、`lk-form`、`lk-image`、`lk-notice-bar`、`lk-progress`、`lk-radio`、`lk-rate`、`lk-segmented`、`lk-slider`、`lk-stepper`、`lk-picker`、`lk-tabs`、`lk-tooltip`、`lk-waterfall`、`lk-meta-row` 已对齐 showcase verified 源数据与渲染入口。
 - 加固第十批：`lk-picker`、`lk-tooltip`、`lk-waterfall`、`lk-tabbar-container` 已补 high-risk showcase 自动回归基线与发布验收说明。
-- 加固第十一批：`lk-virtual-list`、`lk-keyboard`、`lk-number-keyboard`、`lk-curtain`、`lk-toast`、`lk-fab`、`lk-tabbar`、`lk-modal`、`lk-popup` 已补 needs-hardening showcase 自动回归基线与发布验收说明。
+- 加固第十一批：`lk-virtual-list`、`lk-keyboard`、`lk-curtain`、`lk-toast`、`lk-fab`、`lk-tabbar`、`lk-modal`、`lk-popup` 已补 needs-hardening showcase 自动回归基线与发布验收说明。
 - 加固第十二批：`lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表已补 dynamic-visual showcase 自动回归基线与发布验收说明；`lk-chart-area/ring/sparkline/stat-card/radar-lite` 继续按聚合口径追溯。
 - 结构补齐：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 已补 `index.scss` 并改为组件样式入口。
-- B/C 清零：`lk-keyboard`、`lk-virtual-list`、`lk-number-keyboard` 已补 showcase verified 标记；公开组件评分中不再存在 B/C/D。
+- B/C 清零：`lk-keyboard`、`lk-virtual-list` 已补 showcase verified 标记；公开组件评分中不再存在 B/C/D。
+- 未发布前去重：重复数字键盘入口已彻底移除，避免键盘能力重复入口进入首批公开包。
 - 仍需治理：浮层、拖拽、滚动类组件仍需平台交互回归；`lk-preload-debugger` 保持 dev-only 内部工具状态。
 
 ## 首批发布建议
@@ -79,7 +80,6 @@
 | lk-tabs | 98 | showcase verified；存在 webkit 风险，发布前需平台说明 |
 | lk-waterfall | 90 | showcase verified；custom 入口与 webkit 风险需补说明 |
 | lk-keyboard | 86 | showcase verified；fixed/filter/webkit 风险已有兼容说明 |
-| lk-number-keyboard | 86 | showcase verified；legacy 兼容入口，已有迁移说明 |
 | lk-virtual-list | 85 | showcase verified；滚动合成层风险已有兼容说明 |
 
 ### Needs Hardening
@@ -103,7 +103,6 @@
 | lk-preload-debugger | — | Internal | 聚合文档/聚合 Demo；dev-only；fixed；调试输出；不进入公开评分 |
 | lk-virtual-list | 85 | A | custom 入口不足；webkit；showcase verified |
 | lk-keyboard | 86 | A | custom 入口不足；fixed；CSS filter；webkit；showcase verified |
-| lk-number-keyboard | 86 | A | legacy；custom 入口不足；showcase verified |
 | lk-tabbar-container | 87 | A | fixed；CSS filter；webkit；动态组件；showcase verified |
 | lk-curtain | 94 | A | fixed；浏览器 API；showcase verified |
 | lk-toast | 93 | A | custom 入口不足；fixed；showcase verified |
@@ -152,7 +151,6 @@
 | lk-modal | 93 | A | 20 | 20 | 20 | 16 | 17 | direct | direct | verified | custom 入口不足；fixed；showcase verified |
 | lk-navbar | 97 | A | 20 | 20 | 20 | 20 | 17 | direct | direct | verified | fixed；showcase verified |
 | lk-notice-bar | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
-| lk-number-keyboard | 86 | A | 20 | 20 | 20 | 13 | 13 | direct | direct | verified | legacy；custom 入口不足；showcase verified |
 | lk-number-roller | 99 | A | 20 | 19 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-overlay | 94 | A | 20 | 20 | 20 | 20 | 14 | direct | direct | verified | fixed；浏览器 API；showcase verified |
 | lk-picker | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
@@ -196,11 +194,11 @@
 - 需加固第八批：已将 `lk-backtop`、`lk-upload`、`lk-verify-code`、`lk-watermark` 接入 showcase verified。
 - 需加固第九批：已将报告中已计为 verified、但 showcase 源数据仍为 pending 的组件统一对齐，并补齐展示台渲染分支。
 - 需加固第十批：已为 `lk-picker`、`lk-tooltip`、`lk-waterfall`、`lk-tabbar-container` 补 `tests/visual/high-risk-showcase.spec.ts`，并在对应文档中明确自动回归与人工平台验收边界。
-- 需加固第十一批：已为 `lk-virtual-list`、`lk-keyboard`、`lk-number-keyboard`、`lk-curtain`、`lk-toast`、`lk-fab`、`lk-tabbar`、`lk-modal`、`lk-popup` 补 `tests/visual/needs-hardening-showcase.spec.ts`，并在对应文档中明确自动回归与人工平台验收边界。
+- 需加固第十一批：已为 `lk-virtual-list`、`lk-keyboard`、`lk-curtain`、`lk-toast`、`lk-fab`、`lk-tabbar`、`lk-modal`、`lk-popup` 补 `tests/visual/needs-hardening-showcase.spec.ts`，并在对应文档中明确自动回归与人工平台验收边界。
 - 需加固第十二批：已为 `lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表补 `tests/visual/dynamic-visual-showcase.spec.ts`，并在对应文档中明确自动回归与人工平台验收边界。
 - 调试能力隔离：`lk-preload-debugger` 继续作为 `preload` 文档中的开发工具说明，不纳入组件总览首批清单与公开组件入口。
-- Legacy 策略：`lk-number-keyboard` 文档已补迁移矩阵，明确新项目使用 `lk-keyboard`。
-- 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-number-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
+- 入口去重：未发布前已移除重复数字键盘入口的组件源码、文档、Demo、导出、全局类型和 showcase 入口。
+- 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
 - 结构资产补齐：已为 `lk-tabbar-container` 抽出并导出 props 资产；已为 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 补 `index.scss`。
 
 ## 下一阶段规划
@@ -232,5 +230,5 @@
 ## 抽查追溯
 
 - 高分抽查：`lk-action-sheet`、`lk-input`、`lk-form`、`lk-rate`、`lk-tooltip` 均可追溯到源码、直接文档、直接 Demo 与 showcase verified。
-- 低分/特殊抽查：`lk-preload-debugger`、`lk-tabbar-container`、`lk-curtain`、`lk-toast`、`lk-number-keyboard` 均可从文档、Demo、导出、全局类型、样式入口或兼容风险中追溯风险原因。
-- 组件总数校验：实际 `lk-*` 目录数 69，报告全量评分表 69 行。
+- 低分/特殊抽查：`lk-preload-debugger`、`lk-tabbar-container`、`lk-curtain`、`lk-toast`、`lk-keyboard` 均可从文档、Demo、导出、全局类型、样式入口或兼容风险中追溯风险原因。
+- 组件总数校验：实际 `lk-*` 目录数 68，报告全量评分表 68 行。

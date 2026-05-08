@@ -6,7 +6,6 @@ const NEEDS_HARDENING_CASES = [
   'fab',
   'keyboard',
   'modal',
-  'number-keyboard',
   'popup',
   'tabbar',
   'toast',

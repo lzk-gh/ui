@@ -39,7 +39,7 @@ function showKeyboard(type: KeyboardType, options: KeyboardOptions = {}) {
   keyboardVisible.value = true;
 }
 
-function showNumberKeyboard() {
+function showAmountKeyboard() {
   showKeyboard('number');
 }
 
@@ -67,7 +67,7 @@ function onClose() {
 <template>
   <view class="component-demo">
     <!-- 输入展示区 -->
-    <view class="input-display" @click="showNumberKeyboard">
+    <view class="input-display" @click="showAmountKeyboard">
       <view class="input-label">当前输入</view>
       <view class="input-value" :class="{ 'is-placeholder': !inputValue }">
         {{ inputValue || '点击输入' }}

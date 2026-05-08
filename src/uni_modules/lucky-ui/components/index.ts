@@ -152,10 +152,7 @@ export * from './lk-index-bar/index-bar.props';
 export { default as LkAnchor } from './lk-anchor/lk-anchor.vue';
 export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';
 export * from './lk-anchor/anchor.props';
-// New: NumberKeyboard (Legacy)
-export { default as LkNumberKeyboard } from './lk-number-keyboard/lk-number-keyboard.vue';
-export * from './lk-number-keyboard/number-keyboard.props';
-// New: Keyboard (Refactored)
+// New: Keyboard
 export { default as LkKeyboard } from './lk-keyboard/lk-keyboard.vue';
 export * from './lk-keyboard/keyboard.props';
 // New: VerifyCode

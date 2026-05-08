@@ -125,6 +125,8 @@ defineProps<{
 }
 
 .demo-panel {
+  --lk-waterfall-demo-edge: 16rpx;
+
   padding: 16rpx;
   background: #ffffff;
   border-radius: 12rpx;

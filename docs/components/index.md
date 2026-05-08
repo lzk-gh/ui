@@ -46,7 +46,6 @@ Lucky UI 共收录 **66+** 个组件，按功能分为以下几类。
 | [Date Picker 日期选择](./date-picker) | 年/月/日选择 |
 | [Time Picker 时间选择](./time-picker) | 时/分/秒选择 |
 | [Keyboard 键盘](./keyboard) | 数字/身份证/车牌等模式 |
-| [NumberKeyboard 数字键盘（旧版）](./number-keyboard) | 旧版数字键盘，建议新项目使用 Keyboard |
 | [Verify Code 验证码](./verify-code) | N 格验证码输入框 |
 
 ## 数据展示

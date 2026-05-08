@@ -163,12 +163,6 @@ const componentMap: Record<string, any> = {
     icon: 'keyboard',
     color: 'primary',
   },
-  'number-keyboard': {
-    title: 'NumberKeyboard 数字键盘',
-    desc: '用于数字输入的虚拟键盘（旧版）',
-    icon: '123',
-    color: 'warning',
-  },
   'verify-code': {
     title: 'VerifyCode 验证码',
     desc: '短信/验证码输入',
@@ -503,7 +497,6 @@ import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
 import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
-import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
 
 // 数据展示组件
@@ -579,7 +572,6 @@ const demoComponentMap: Record<string, any> = {
   picker: PickerDemo,
   'time-picker': TimePickerDemo,
   keyboard: KeyboardDemo,
-  'number-keyboard': NumberKeyboardDemo,
   'verify-code': VerifyCodeDemo,
 
   // 数据展示组件
@@ -691,7 +683,6 @@ const loadDemoComponent = async (name: string) => {
           <PickerDemo v-else-if="componentName === 'picker'" />
           <TimePickerDemo v-else-if="componentName === 'time-picker'" />
           <KeyboardDemo v-else-if="componentName === 'keyboard'" />
-          <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
 
           <CardDemo v-else-if="componentName === 'card'" />
@@ -813,6 +804,7 @@ const loadDemoComponent = async (name: string) => {
   // 统一 Demo 预览背景：与组件默认容器色区分，避免视觉叠色误判
   --lk-demo-block-bg: var(--lk-fill-1);
   --lk-demo-block-border: var(--lk-color-border);
+  --lk-waterfall-demo-edge: 20rpx;
   padding: 20rpx;
   border-radius: $test-border-radius;
   background: var(--lk-bg-page);

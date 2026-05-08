@@ -66,7 +66,6 @@ import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import WatermarkDemo from '@/components/demos/watermark-demo.vue';
 import MetaRowDemo from '@/components/demos/meta-row-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
-import NumberKeyboardDemo from '@/components/demos/number-keyboard-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 
 /**
@@ -261,7 +260,6 @@ const groupedCases = computed(() => {
             <watermark-demo v-else-if="item.slug === 'watermark'" />
             <meta-row-demo v-else-if="item.slug === 'meta-row'" />
             <keyboard-demo v-else-if="item.slug === 'keyboard'" />
-            <number-keyboard-demo v-else-if="item.slug === 'number-keyboard'" />
             <virtual-list-demo v-else-if="item.slug === 'virtual-list'" />
           </template>
         </component-case>

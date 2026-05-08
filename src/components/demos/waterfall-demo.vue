@@ -376,54 +376,56 @@ onMounted(() => {
     </view>
 
     <!-- 瀑布流 -->
-    <lk-waterfall
-      :items="list"
-      :gutter="12"
-      :row-gap="12"
-      :padding-x="16"
-      :padding-y="16"
-      :height="waterfallHeight"
-      :card-radius="12"
-      :lower-threshold="200"
-      :preload-screens="2"
-      :show-skeleton="true"
-      :preload-image="true"
-      :default-extra-height="56"
-      :bounces="true"
-      @load-more="onLoadMore"
-      @reach-bottom="onReachBottom"
-      @card-click="onCardClick"
-      @scroll="onScroll"
-    >
-      <template #item="{ item, loading }">
-        <view class="card" :class="{ 'card--loading': loading }">
-          <!-- 图片区域 -->
-          <view
-            class="card__image-wrapper"
-            :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }"
-          >
-            <image class="card__image" :src="item.image" mode="aspectFill" :lazy-load="true" />
-            <!-- 图片上的标签 -->
-            <view v-if="item.tag" class="card__tag">{{ item.tag }}</view>
-          </view>
+    <view class="waterfall-shell">
+      <lk-waterfall
+        :items="list"
+        :gutter="12"
+        :row-gap="12"
+        :padding-x="12"
+        :padding-y="16"
+        :height="waterfallHeight"
+        :card-radius="12"
+        :lower-threshold="200"
+        :preload-screens="2"
+        :show-skeleton="true"
+        :preload-image="true"
+        :default-extra-height="56"
+        :bounces="true"
+        @load-more="onLoadMore"
+        @reach-bottom="onReachBottom"
+        @card-click="onCardClick"
+        @scroll="onScroll"
+      >
+        <template #item="{ item, loading }">
+          <view class="card" :class="{ 'card--loading': loading }">
+            <!-- 图片区域 -->
+            <view
+              class="card__image-wrapper"
+              :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }"
+            >
+              <image class="card__image" :src="item.image" mode="aspectFill" :lazy-load="true" />
+              <!-- 图片上的标签 -->
+              <view v-if="item.tag" class="card__tag">{{ item.tag }}</view>
+            </view>
 
-          <!-- 内容区域 -->
-          <view class="card__content">
-            <text class="card__title">{{ item.title }}</text>
-            <view class="card__footer">
-              <view class="card__author">
-                <view class="card__avatar" :style="{ background: item.avatarColor }" />
-                <text class="card__name">{{ item.author }}</text>
-              </view>
-              <view class="card__likes">
-                <text class="card__likes-icon">♥</text>
-                <text class="card__likes-count">{{ item.likes }}</text>
+            <!-- 内容区域 -->
+            <view class="card__content">
+              <text class="card__title">{{ item.title }}</text>
+              <view class="card__footer">
+                <view class="card__author">
+                  <view class="card__avatar" :style="{ background: item.avatarColor }" />
+                  <text class="card__name">{{ item.author }}</text>
+                </view>
+                <view class="card__likes">
+                  <text class="card__likes-icon">♥</text>
+                  <text class="card__likes-count">{{ item.likes }}</text>
+                </view>
               </view>
             </view>
           </view>
-        </view>
-      </template>
-    </lk-waterfall>
+        </template>
+      </lk-waterfall>
+    </view>
   </view>
 </template>
 
@@ -496,6 +498,12 @@ onMounted(() => {
     opacity: 0.5;
     transform: scale(0.8);
   }
+}
+
+.waterfall-shell {
+  width: 100%;
+  margin-left: calc(var(--lk-waterfall-demo-edge, 0rpx) * -1);
+  margin-right: calc(var(--lk-waterfall-demo-edge, 0rpx) * -1);
 }
 
 // ======================== 卡片样式 ========================

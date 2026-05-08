@@ -84,7 +84,6 @@ export default defineConfig({
             { text: 'Date Picker 日期选择', link: '/components/date-picker' },
             { text: 'Time Picker 时间选择', link: '/components/time-picker' },
             { text: 'Keyboard 键盘', link: '/components/keyboard' },
-            { text: 'NumberKeyboard 数字键盘（旧版）', link: '/components/number-keyboard' },
             { text: 'Verify Code 验证码', link: '/components/verify-code' },
           ],
         },

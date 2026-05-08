@@ -455,15 +455,6 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['格式化、清空、禁用和时间范围选择需要持续回归。'],
   },
   {
-    slug: 'number-keyboard',
-    title: 'NumberKeyboard 数字键盘（旧版）',
-    group: 'form',
-    verifyStatus: 'verified',
-    riskLevel: 'medium',
-    visualEnabled: false,
-    riskNotes: ['legacy 兼容入口，仅验证旧 API 稳定性，新项目使用 Keyboard。'],
-  },
-  {
     slug: 'number-roller',
     title: 'NumberRoller 数字滚动',
     group: 'advanced',
