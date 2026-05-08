@@ -51,8 +51,10 @@ function readBrandColor() {
   // #ifdef H5
   if (typeof document !== 'undefined' && typeof window !== 'undefined') {
     const rootStyle = window.getComputedStyle(document.documentElement);
-    const cssColor = rootStyle.getPropertyValue('--lk-brand-600').trim();
-    if (/^#[a-f\d]{6}$/i.test(cssColor)) return cssColor;
+    const cssColor =
+      rootStyle.getPropertyValue('--lk-color-primary').trim() ||
+      rootStyle.getPropertyValue('--lk-brand-600').trim();
+    if (/^#[a-f\d]{6}$/i.test(cssColor) || /^rgba?\(/i.test(cssColor)) return cssColor;
   }
   // #endif
   return loadBrandColor() || DEFAULT_BRAND_COLOR;

@@ -57,12 +57,21 @@ phone: empty
 
 ## 跟随品牌色
 
-内置插画默认读取 Lucky UI 品牌色生成 SVG。需要单独指定时，可使用 `color` 覆盖。
+内置插画默认读取 Lucky UI 当前品牌色生成 SVG。组件本身不会修改全局主题；只有业务主动切换主题色时，空态插画才会同步刷新。
 
 ```vue
 <template>
-  <lk-empty name="favorite" />
-  <lk-empty name="favorite" color="#13c2c2" />
+  <lk-empty name="empty" />
+</template>
+```
+
+## 自定义颜色
+
+需要单独指定某个空态的颜色时，可使用 `color` 覆盖当前品牌色。该配置只影响当前 `lk-empty`，适合在 Demo 或局部业务场景中做颜色预览，不会改动全局品牌色。
+
+```vue
+<template>
+  <lk-empty name="cart" color="#13c2c2" />
 </template>
 ```
 

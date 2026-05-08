@@ -72,6 +72,12 @@ interface EmptyPalette {
 
 function normalizeHexColor(color: string): string {
   const trimmed = color.trim();
+  const rgb = /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)$/i.exec(trimmed);
+  if (rgb) {
+    const toHex = (value: string) =>
+      Math.max(0, Math.min(255, Number(value))).toString(16).padStart(2, '0');
+    return `#${toHex(rgb[1])}${toHex(rgb[2])}${toHex(rgb[3])}`;
+  }
   const short = /^#([a-f\d])([a-f\d])([a-f\d])$/i.exec(trimmed);
   if (short) {
     return `#${short[1]}${short[1]}${short[2]}${short[2]}${short[3]}${short[3]}`;

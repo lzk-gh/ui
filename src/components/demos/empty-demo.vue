@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import { PRESET_COLORS } from '@/stores/theme';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 import LkEmpty from '@/uni_modules/lucky-ui/components/lk-empty/lk-empty.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 
+const brandOptions = PRESET_COLORS.slice(0, 5);
+const previewColor = ref<string>(brandOptions[0]?.value || '#1677ff');
+
 const customImage =
   'https://cdn.prod.website-files.com/69b15b68fb5a0ea0e6ef48b6/69b15b68fb5a0ea0e6ef7572_9VPIJG783rBG_-H7bascPpZIfWM-B0Lq-ZgHgpeiDrA.svg';
+
+function changePreviewColor(color: string) {
+  previewColor.value = color;
+}
 
 function handleRetry() {
   uni.showToast({
@@ -46,17 +55,45 @@ function handleRetry() {
     </demo-block>
 
     <demo-block title="跟随品牌色">
-      <view class="brand-row">
-        <lk-empty name="favorite" layout="compact" :image-size="150" title="品牌色" description="默认跟随当前品牌色" />
+      <lk-empty
+        name="empty"
+        layout="compact"
+        :image-size="180"
+        title="跟随当前品牌色"
+        description="默认读取 Lucky UI 当前品牌色，不会在示例中修改全局主题"
+      />
+    </demo-block>
+
+    <demo-block title="局部颜色预览">
+      <view class="color-demo">
+        <view class="brand-swatches">
+          <view
+            v-for="item in brandOptions"
+            :key="item.value"
+            class="brand-swatch"
+            :class="{ 'brand-swatch--active': previewColor === item.value }"
+            :style="{ backgroundColor: item.value, color: item.value }"
+            @tap="changePreviewColor(item.value)"
+          />
+        </view>
         <lk-empty
-          name="favorite"
+          name="empty"
           layout="compact"
-          :image-size="150"
-          color="#13c2c2"
-          title="自定义色"
-          description="color 可覆盖品牌色"
+          :image-size="180"
+          :color="previewColor"
+          title="仅预览当前空态"
+          description="色板通过 color 传入，只影响这个 lk-empty"
         />
       </view>
+    </demo-block>
+
+    <demo-block title="自定义颜色">
+      <lk-empty
+        name="cart"
+        color="#13c2c2"
+        title="指定空态颜色"
+        description="color 会覆盖当前品牌色，仅影响内置插画"
+      />
     </demo-block>
 
     <demo-block title="页面级空态">
@@ -86,9 +123,28 @@ function handleRetry() {
   overflow: hidden;
 }
 
-.brand-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.color-demo {
+  display: flex;
+  flex-direction: column;
   gap: 16rpx;
+}
+
+.brand-swatches {
+  display: flex;
+  justify-content: center;
+  gap: 16rpx;
+  padding: 12rpx 0;
+}
+
+.brand-swatch {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 999rpx;
+  border: 4rpx solid #ffffff;
+  box-shadow: 0 0 0 2rpx var(--lk-color-border);
+}
+
+.brand-swatch--active {
+  box-shadow: 0 0 0 4rpx currentColor;
 }
 </style>
