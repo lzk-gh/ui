@@ -226,9 +226,9 @@ defineExpose({ scrollToIndex, scrollToTop });
 
 <template>
   <scroll-view
+    ref="wrapperRef"
     scroll-y
     class="lk-virtual-list"
-    ref="wrapperRef"
     :style="{ height: containerHeightPx + 'px' }"
     :lower-threshold="lowerThresholdPx"
     :scroll-top="boundScrollTop"

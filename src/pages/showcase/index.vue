@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import ComponentCase from '@/components/showcase/component-case.vue';
 import type { ShowcaseCase } from '@/components/showcase/showcase-cases';
 import { SHOWCASE_CASES } from '@/components/showcase/showcase-cases';
@@ -36,7 +37,7 @@ const readCurrentPageComponent = () => {
   return current?.options?.component || '';
 };
 
-onLoad(options => {
+onLoad((options?: { component?: string }) => {
   applyComponentSlug(options?.component);
 });
 

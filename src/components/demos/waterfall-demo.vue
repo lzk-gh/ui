@@ -1,79 +1,3 @@
-<template>
-  <view class="demo-page">
-    <!-- 标题区域 -->
-    <view class="demo-header">
-      <text class="demo-title">瀑布流 Waterfall</text>
-      <text class="demo-desc">高性能双列瀑布流，支持图片预加载、骨架屏、无限滚动</text>
-    </view>
-
-    <!-- 统计信息 -->
-    <view class="demo-stats">
-      <view class="stat-item">
-        <text class="stat-value">{{ list.length }}</text>
-        <text class="stat-label">卡片数</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value">{{ currentPage }}</text>
-        <text class="stat-label">页码</text>
-      </view>
-      <view class="stat-item" v-if="loading">
-        <view class="loading-dot" />
-        <text class="stat-label">加载中</text>
-      </view>
-    </view>
-
-    <!-- 瀑布流 -->
-    <lk-waterfall
-      :items="list"
-      :gutter="12"
-      :row-gap="12"
-      :padding-x="16"
-      :padding-y="16"
-      :height="waterfallHeight"
-      :card-radius="12"
-      :lower-threshold="200"
-      :preload-screens="2"
-      :show-skeleton="true"
-      :preload-image="true"
-      :default-extra-height="56"
-      :bounces="true"
-      @load-more="onLoadMore"
-      @reach-bottom="onReachBottom"
-      @card-click="onCardClick"
-      @scroll="onScroll"
-    >
-      <template #item="{ item, loading }">
-        <view class="card" :class="{ 'card--loading': loading }">
-          <!-- 图片区域 -->
-          <view
-            class="card__image-wrapper"
-            :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }"
-          >
-            <image class="card__image" :src="item.image" mode="aspectFill" :lazy-load="true" />
-            <!-- 图片上的标签 -->
-            <view v-if="item.tag" class="card__tag">{{ item.tag }}</view>
-          </view>
-
-          <!-- 内容区域 -->
-          <view class="card__content">
-            <text class="card__title">{{ item.title }}</text>
-            <view class="card__footer">
-              <view class="card__author">
-                <view class="card__avatar" :style="{ background: item.avatarColor }" />
-                <text class="card__name">{{ item.author }}</text>
-              </view>
-              <view class="card__likes">
-                <text class="card__likes-icon">♥</text>
-                <text class="card__likes-count">{{ item.likes }}</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </template>
-    </lk-waterfall>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import type { WaterfallItem } from '@/uni_modules/lucky-ui/components/lk-waterfall/waterfall.props';
@@ -426,6 +350,82 @@ onMounted(() => {
   loadMore();
 });
 </script>
+
+<template>
+  <view class="demo-page">
+    <!-- 标题区域 -->
+    <view class="demo-header">
+      <text class="demo-title">瀑布流 Waterfall</text>
+      <text class="demo-desc">高性能双列瀑布流，支持图片预加载、骨架屏、无限滚动</text>
+    </view>
+
+    <!-- 统计信息 -->
+    <view class="demo-stats">
+      <view class="stat-item">
+        <text class="stat-value">{{ list.length }}</text>
+        <text class="stat-label">卡片数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{ currentPage }}</text>
+        <text class="stat-label">页码</text>
+      </view>
+      <view v-if="loading" class="stat-item">
+        <view class="loading-dot" />
+        <text class="stat-label">加载中</text>
+      </view>
+    </view>
+
+    <!-- 瀑布流 -->
+    <lk-waterfall
+      :items="list"
+      :gutter="12"
+      :row-gap="12"
+      :padding-x="16"
+      :padding-y="16"
+      :height="waterfallHeight"
+      :card-radius="12"
+      :lower-threshold="200"
+      :preload-screens="2"
+      :show-skeleton="true"
+      :preload-image="true"
+      :default-extra-height="56"
+      :bounces="true"
+      @load-more="onLoadMore"
+      @reach-bottom="onReachBottom"
+      @card-click="onCardClick"
+      @scroll="onScroll"
+    >
+      <template #item="{ item, loading }">
+        <view class="card" :class="{ 'card--loading': loading }">
+          <!-- 图片区域 -->
+          <view
+            class="card__image-wrapper"
+            :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }"
+          >
+            <image class="card__image" :src="item.image" mode="aspectFill" :lazy-load="true" />
+            <!-- 图片上的标签 -->
+            <view v-if="item.tag" class="card__tag">{{ item.tag }}</view>
+          </view>
+
+          <!-- 内容区域 -->
+          <view class="card__content">
+            <text class="card__title">{{ item.title }}</text>
+            <view class="card__footer">
+              <view class="card__author">
+                <view class="card__avatar" :style="{ background: item.avatarColor }" />
+                <text class="card__name">{{ item.author }}</text>
+              </view>
+              <view class="card__likes">
+                <text class="card__likes-icon">♥</text>
+                <text class="card__likes-count">{{ item.likes }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </template>
+    </lk-waterfall>
+  </view>
+</template>
 
 <style lang="scss" scoped>
 .demo-page {

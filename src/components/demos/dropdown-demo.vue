@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkDropdown from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown.vue';
+import LkDropdownItem from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown-item.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const handleSelect = (value: string) => {
+  uni.showToast({
+    title: `选择了: ${value}`,
+    icon: 'none',
+  });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法（带淡入动画）">
@@ -34,21 +49,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkDropdown from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown.vue';
-import LkDropdownItem from '@/uni_modules/lucky-ui/components/lk-dropdown/lk-dropdown-item.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const handleSelect = (value: string) => {
-  uni.showToast({
-    title: `选择了: ${value}`,
-    icon: 'none',
-  });
-};
-</script>
 
 <style scoped lang="scss">
 .component-demo {

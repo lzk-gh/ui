@@ -1,3 +1,33 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import LkCheckboxGroup from '@/uni_modules/lucky-ui/components/lk-checkbox/lk-checkbox-group.vue';
+import LkCheckbox from '@/uni_modules/lucky-ui/components/lk-checkbox/lk-checkbox.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const value1 = ref(['1']);
+const value2 = ref(['1']);
+const value2_1 = ref(['1']);
+const value3 = ref(['1', '2']);
+const value4 = ref(['1']);
+const value5 = ref(['1', '2']);
+const value6 = ref(['1']);
+const value6_1 = ref(['1', '2']);
+const value7 = ref(['1']);
+const value7_1 = ref(['1']);
+const value8 = ref(['1']);
+const value8_1 = ref(['1']);
+const value8_2 = ref(['1']);
+const value9 = ref(['1', '2']);
+
+const isAllSelected = computed(() => value3.value.length === 4);
+const isIndeterminate = computed(() => value3.value.length > 0 && value3.value.length < 4);
+
+const handleCheckAll = (checked: boolean) => {
+  value3.value = checked ? ['1', '2', '3', '4'] : [];
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -55,7 +85,7 @@
     </demo-block>
 
     <demo-block title="自定义图标">
-      <lk-checkbox-group v-model="value7" icon-type="icon">
+      <lk-checkbox-group v-model="value7">
         <lk-checkbox label="1">
           <template #icon="{ checked }">
             <lk-icon :name="checked ? 'heart-fill' : 'heart'" />
@@ -149,36 +179,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import LkCheckboxGroup from '@/uni_modules/lucky-ui/components/lk-checkbox/lk-checkbox-group.vue';
-import LkCheckbox from '@/uni_modules/lucky-ui/components/lk-checkbox/lk-checkbox.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const value1 = ref(['1']);
-const value2 = ref(['1']);
-const value2_1 = ref(['1']);
-const value3 = ref(['1', '2']);
-const value4 = ref(['1']);
-const value5 = ref(['1', '2']);
-const value6 = ref(['1']);
-const value6_1 = ref(['1', '2']);
-const value7 = ref(['1']);
-const value7_1 = ref(['1']);
-const value8 = ref(['1']);
-const value8_1 = ref(['1']);
-const value8_2 = ref(['1']);
-const value9 = ref(['1', '2']);
-
-const isAllSelected = computed(() => value3.value.length === 4);
-const isIndeterminate = computed(() => value3.value.length > 0 && value3.value.length < 4);
-
-const handleCheckAll = (checked: boolean) => {
-  value3.value = checked ? ['1', '2', '3', '4'] : [];
-};
-</script>
 
 <style scoped lang="scss">
 .component-demo {

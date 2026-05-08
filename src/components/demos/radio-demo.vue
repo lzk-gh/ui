@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkRadioGroup from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio-group.vue';
+import LkRadio from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const value1 = ref('1');
+const value2 = ref('1');
+const value2_1 = ref('1');
+const value3 = ref('medium');
+const value4 = ref('1');
+const value5 = ref('1');
+const value5_1 = ref('1');
+const value6 = ref('1');
+const value6_1 = ref('1');
+const value7 = ref('1');
+const value7_1 = ref('1');
+const value7_2 = ref('1');
+const value8 = ref('option1');
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -55,7 +77,7 @@
     </demo-block>
 
     <demo-block title="自定义图标">
-      <lk-radio-group v-model="value6" icon-type="icon">
+      <lk-radio-group v-model="value6">
         <lk-radio label="1">
           <template #icon="{ checked }">
             <lk-icon :name="checked ? 'heart-fill' : 'heart'" />
@@ -105,28 +127,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkRadioGroup from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio-group.vue';
-import LkRadio from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const value1 = ref('1');
-const value2 = ref('1');
-const value2_1 = ref('1');
-const value3 = ref('medium');
-const value4 = ref('1');
-const value5 = ref('1');
-const value5_1 = ref('1');
-const value6 = ref('1');
-const value6_1 = ref('1');
-const value7 = ref('1');
-const value7_1 = ref('1');
-const value7_2 = ref('1');
-const value8 = ref('option1');
-</script>
 
 <style scoped lang="scss">
 .component-demo {

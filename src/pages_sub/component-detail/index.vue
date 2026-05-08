@@ -1,118 +1,3 @@
-<template>
-  <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
-    <!-- 导航栏 -->
-    <lk-navbar :title="componentTitle">
-      <template #right>
-        <view class="theme-toggle" @click="toggleTheme">
-          <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="28" />
-        </view>
-      </template>
-    </lk-navbar>
-
-    <!-- 内容区域 -->
-    <scroll-view class="page-content" scroll-y show-scrollbar="false">
-      <view class="content-wrapper">
-        <!-- 组件信息卡片 -->
-        <view class="info-card">
-          <view class="info-header">
-            <lk-icon :name="componentIcon" size="72" :color="componentColor" />
-            <view class="info-text">
-              <text class="info-title">{{ componentTitle }}</text>
-              <text class="info-desc">{{ componentDesc }}</text>
-            </view>
-          </view>
-        </view>
-
-        <!-- 演示区域 -->
-        <view class="demo-area">
-          <!-- 动态加载对应的演示组件（小程序不支持 <component :is>，改用 v-if 静态切换） -->
-          <ButtonDemo v-if="componentName === 'button'" />
-          <IconDemo v-else-if="componentName === 'icon'" />
-          <TagDemo v-else-if="componentName === 'tag'" />
-          <BadgeDemo v-else-if="componentName === 'badge'" />
-          <AvatarDemo v-else-if="componentName === 'avatar'" />
-          <DividerDemo v-else-if="componentName === 'divider'" />
-          <NoticeBarDemo v-else-if="componentName === 'notice-bar'" />
-          <ImageDemo v-else-if="componentName === 'image'" />
-          <GridDemo v-else-if="componentName === 'grid'" />
-          <SpaceDemo v-else-if="componentName === 'space'" />
-          <MetaRowDemo v-else-if="componentName === 'meta-row'" />
-          <ChoiceDemo v-else-if="componentName === 'choice'" />
-
-          <FormDemo v-else-if="componentName === 'form'" />
-          <InputDemo v-else-if="componentName === 'input'" />
-          <TextareaDemo v-else-if="componentName === 'textarea'" />
-          <RadioDemo v-else-if="componentName === 'radio'" />
-          <CheckboxDemo v-else-if="componentName === 'checkbox'" />
-          <SwitchDemo v-else-if="componentName === 'switch'" />
-          <StepperDemo v-else-if="componentName === 'stepper'" />
-          <SliderDemo v-else-if="componentName === 'slider'" />
-          <RateDemo v-else-if="componentName === 'rate'" />
-          <UploadDemo v-else-if="componentName === 'upload'" />
-          <PickerDemo v-else-if="componentName === 'picker'" />
-          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
-          <KeyboardDemo v-else-if="componentName === 'keyboard'" />
-          <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
-          <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
-
-          <CardDemo v-else-if="componentName === 'card'" />
-          <CellDemo v-else-if="componentName === 'cell'" />
-          <CollapseDemo v-else-if="componentName === 'collapse'" />
-          <TabsDemo v-else-if="componentName === 'tabs'" />
-          <TimelineDemo v-else-if="componentName === 'timeline'" />
-          <ProgressDemo v-else-if="componentName === 'progress'" />
-          <LoadingDemo v-else-if="componentName === 'loading'" />
-          <NumberRollerDemo v-else-if="componentName === 'number-roller'" />
-          <SkeletonDemo v-else-if="componentName === 'skeleton'" />
-          <CarouselDemo v-else-if="componentName === 'carousel'" />
-          <SegmentedDemo v-else-if="componentName === 'segmented'" />
-          <BacktopDemo v-else-if="componentName === 'backtop'" />
-          <FabDemo v-else-if="componentName === 'fab'" />
-
-          <ModalDemo v-else-if="componentName === 'modal'" />
-          <PopupDemo v-else-if="componentName === 'popup'" />
-          <ToastDemo v-else-if="componentName === 'toast'" />
-          <ActionSheetDemo v-else-if="componentName === 'action-sheet'" />
-          <OverlayDemo v-else-if="componentName === 'overlay'" />
-          <TooltipDemo v-else-if="componentName === 'tooltip'" />
-          <DropdownDemo v-else-if="componentName === 'dropdown'" />
-          <TransitionDemo v-else-if="componentName === 'transition'" />
-
-          <NavbarDemo v-else-if="componentName === 'navbar'" />
-          <TabbarDemo v-else-if="componentName === 'tabbar'" />
-          <TabbarContainerDemo v-else-if="componentName === 'tabbar-container'" />
-          <IndexBarDemo v-else-if="componentName === 'index-bar'" />
-          <AnchorDemo v-else-if="componentName === 'anchor'" />
-          <StickyDemo v-else-if="componentName === 'sticky'" />
-
-          <CalendarDemo v-else-if="componentName === 'calendar'" />
-          <DatePickerDemo v-else-if="componentName === 'date-picker'" />
-          <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
-          <WatermarkDemo v-else-if="componentName === 'watermark'" />
-          <WaterfallDemo v-else-if="componentName === 'waterfall'" />
-          <CurtainDemo v-else-if="componentName === 'curtain'" />
-          <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
-          <PreloadDemo v-else-if="componentName === 'preload'" />
-
-          <ChartBarDemo v-else-if="componentName === 'chart-bar'" />
-          <ChartLineDemo v-else-if="componentName === 'chart-line'" />
-          <ChartPieDemo v-else-if="componentName === 'chart-pie'" />
-          <ChartLiteDemo v-else-if="componentName === 'chart-lite'" />
-
-          <!-- 开发中提示 -->
-          <view v-else class="developing-tip">
-            <lk-icon name="code-square" size="100" color="textTertiary" />
-            <text class="tip-text">该组件详细演示开发中...</text>
-            <text class="tip-desc">请先访问其他已实现的组件</text>
-          </view>
-        </view>
-
-
-      </view>
-    </scroll-view>
-  </view>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useTheme } from '@/uni_modules/lucky-ui/theme';
@@ -751,6 +636,121 @@ const loadDemoComponent = async (name: string) => {
   }
 };
 </script>
+
+<template>
+  <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
+    <!-- 导航栏 -->
+    <lk-navbar :title="componentTitle">
+      <template #right>
+        <view class="theme-toggle" @click="toggleTheme">
+          <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="28" />
+        </view>
+      </template>
+    </lk-navbar>
+
+    <!-- 内容区域 -->
+    <scroll-view class="page-content" scroll-y show-scrollbar="false">
+      <view class="content-wrapper">
+        <!-- 组件信息卡片 -->
+        <view class="info-card">
+          <view class="info-header">
+            <lk-icon :name="componentIcon" size="72" :color="componentColor" />
+            <view class="info-text">
+              <text class="info-title">{{ componentTitle }}</text>
+              <text class="info-desc">{{ componentDesc }}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 演示区域 -->
+        <view class="demo-area">
+          <!-- 动态加载对应的演示组件（小程序不支持 <component :is>，改用 v-if 静态切换） -->
+          <ButtonDemo v-if="componentName === 'button'" />
+          <IconDemo v-else-if="componentName === 'icon'" />
+          <TagDemo v-else-if="componentName === 'tag'" />
+          <BadgeDemo v-else-if="componentName === 'badge'" />
+          <AvatarDemo v-else-if="componentName === 'avatar'" />
+          <DividerDemo v-else-if="componentName === 'divider'" />
+          <NoticeBarDemo v-else-if="componentName === 'notice-bar'" />
+          <ImageDemo v-else-if="componentName === 'image'" />
+          <GridDemo v-else-if="componentName === 'grid'" />
+          <SpaceDemo v-else-if="componentName === 'space'" />
+          <MetaRowDemo v-else-if="componentName === 'meta-row'" />
+          <ChoiceDemo v-else-if="componentName === 'choice'" />
+
+          <FormDemo v-else-if="componentName === 'form'" />
+          <InputDemo v-else-if="componentName === 'input'" />
+          <TextareaDemo v-else-if="componentName === 'textarea'" />
+          <RadioDemo v-else-if="componentName === 'radio'" />
+          <CheckboxDemo v-else-if="componentName === 'checkbox'" />
+          <SwitchDemo v-else-if="componentName === 'switch'" />
+          <StepperDemo v-else-if="componentName === 'stepper'" />
+          <SliderDemo v-else-if="componentName === 'slider'" />
+          <RateDemo v-else-if="componentName === 'rate'" />
+          <UploadDemo v-else-if="componentName === 'upload'" />
+          <PickerDemo v-else-if="componentName === 'picker'" />
+          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
+          <KeyboardDemo v-else-if="componentName === 'keyboard'" />
+          <NumberKeyboardDemo v-else-if="componentName === 'number-keyboard'" />
+          <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
+
+          <CardDemo v-else-if="componentName === 'card'" />
+          <CellDemo v-else-if="componentName === 'cell'" />
+          <CollapseDemo v-else-if="componentName === 'collapse'" />
+          <TabsDemo v-else-if="componentName === 'tabs'" />
+          <TimelineDemo v-else-if="componentName === 'timeline'" />
+          <ProgressDemo v-else-if="componentName === 'progress'" />
+          <LoadingDemo v-else-if="componentName === 'loading'" />
+          <NumberRollerDemo v-else-if="componentName === 'number-roller'" />
+          <SkeletonDemo v-else-if="componentName === 'skeleton'" />
+          <CarouselDemo v-else-if="componentName === 'carousel'" />
+          <SegmentedDemo v-else-if="componentName === 'segmented'" />
+          <BacktopDemo v-else-if="componentName === 'backtop'" />
+          <FabDemo v-else-if="componentName === 'fab'" />
+
+          <ModalDemo v-else-if="componentName === 'modal'" />
+          <PopupDemo v-else-if="componentName === 'popup'" />
+          <ToastDemo v-else-if="componentName === 'toast'" />
+          <ActionSheetDemo v-else-if="componentName === 'action-sheet'" />
+          <OverlayDemo v-else-if="componentName === 'overlay'" />
+          <TooltipDemo v-else-if="componentName === 'tooltip'" />
+          <DropdownDemo v-else-if="componentName === 'dropdown'" />
+          <TransitionDemo v-else-if="componentName === 'transition'" />
+
+          <NavbarDemo v-else-if="componentName === 'navbar'" />
+          <TabbarDemo v-else-if="componentName === 'tabbar'" />
+          <TabbarContainerDemo v-else-if="componentName === 'tabbar-container'" />
+          <IndexBarDemo v-else-if="componentName === 'index-bar'" />
+          <AnchorDemo v-else-if="componentName === 'anchor'" />
+          <StickyDemo v-else-if="componentName === 'sticky'" />
+
+          <CalendarDemo v-else-if="componentName === 'calendar'" />
+          <DatePickerDemo v-else-if="componentName === 'date-picker'" />
+          <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
+          <WatermarkDemo v-else-if="componentName === 'watermark'" />
+          <WaterfallDemo v-else-if="componentName === 'waterfall'" />
+          <CurtainDemo v-else-if="componentName === 'curtain'" />
+          <HorizontalScrollDemo v-else-if="componentName === 'horizontal-scroll'" />
+          <PreloadDemo v-else-if="componentName === 'preload'" />
+
+          <ChartBarDemo v-else-if="componentName === 'chart-bar'" />
+          <ChartLineDemo v-else-if="componentName === 'chart-line'" />
+          <ChartPieDemo v-else-if="componentName === 'chart-pie'" />
+          <ChartLiteDemo v-else-if="componentName === 'chart-lite'" />
+
+          <!-- 开发中提示 -->
+          <view v-else class="developing-tip">
+            <lk-icon name="code-square" size="100" color="textTertiary" />
+            <text class="tip-text">该组件详细演示开发中...</text>
+            <text class="tip-desc">请先访问其他已实现的组件</text>
+          </view>
+        </view>
+
+
+      </view>
+    </scroll-view>
+  </view>
+</template>
 
 <style scoped lang="scss">
 @use '@/styles/test-page.scss' as *;

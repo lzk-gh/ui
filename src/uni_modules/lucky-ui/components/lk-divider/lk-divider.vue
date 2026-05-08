@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, useSlots } from 'vue';
 import { dividerProps } from './divider.props';
 
@@ -14,6 +15,7 @@ defineOptions({ name: 'LkDivider' });
 
 const props = defineProps(dividerProps);
 const slots = useSlots();
+const dividerStyle = computed(() => props.customStyle as StyleValue);
 
 const hasText = computed(() => !!(props.text || slots.default));
 
@@ -68,7 +70,7 @@ const classes = computed(() => {
 <template>
   <view
     :class="classes"
-    :style="props.customStyle"
+    :style="dividerStyle"
     role="separator"
     :aria-orientation="vertical ? 'vertical' : 'horizontal'"
   >

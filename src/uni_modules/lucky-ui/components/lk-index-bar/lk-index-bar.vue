@@ -30,7 +30,8 @@ const sidebarStyle = computed(() => ({
 }));
 
 function updateSidebarInfo() {
-  const query = uni.createSelectorQuery();
+  const query = (uni as unknown as { createSelectorQuery: () => UniApp.SelectorQuery })
+    .createSelectorQuery();
   // #ifdef MP
   const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : [];
   const page = Array.isArray(pages) ? pages[pages.length - 1] : null;
@@ -49,7 +50,8 @@ function updateSidebarInfo() {
 }
 
 function updateAnchorPositions() {
-  const query = uni.createSelectorQuery();
+  const query = (uni as unknown as { createSelectorQuery: () => UniApp.SelectorQuery })
+    .createSelectorQuery();
   // #ifdef MP
   const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : [];
   const page = Array.isArray(pages) ? pages[pages.length - 1] : null;
@@ -59,7 +61,7 @@ function updateAnchorPositions() {
   // #endif
 
   query.selectAll('.lk-index-anchor').boundingClientRect();
-  query.selectViewport().scrollOffset();
+  query.selectViewport().scrollOffset(() => {});
   query.exec((res) => {
     const list = res[0] as any[];
     const viewport = res[1] as any;

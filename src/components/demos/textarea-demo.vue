@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const v1 = ref('');
+const v2 = ref('');
+const v3 = ref('');
+const v4 = ref('初始内容'); // 演示清空
+const v5 = ref('');
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="风格变体 (Variant)">
@@ -48,18 +60,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const v1 = ref('');
-const v2 = ref('');
-const v3 = ref('');
-const v4 = ref('初始内容'); // 演示清空
-const v5 = ref('');
-</script>
 
 <style scoped lang="scss">
 .component-demo {

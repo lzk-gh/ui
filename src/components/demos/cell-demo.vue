@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
+import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
+import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const notification = ref(true);
+const sound = ref(false);
+
+const handleClick = () => {
+  uni.showToast({
+    title: '点击了单元格',
+    icon: 'none',
+  });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -38,24 +56,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkCellGroup from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell-group.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
-import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const notification = ref(true);
-const sound = ref(false);
-
-const handleClick = () => {
-  uni.showToast({
-    title: '点击了单元格',
-    icon: 'none',
-  });
-};
-</script>
 
 <style scoped lang="scss">
 .component-demo {

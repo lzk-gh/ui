@@ -23,11 +23,6 @@ const varNames = [
 ];
 
 const updateDebugVars = () => {
-  // #ifndef H5
-  return;
-  // #endif
-
-  // #ifdef H5
   if (typeof document === 'undefined') return;
 
   const root = document.documentElement;
@@ -40,15 +35,11 @@ const updateDebugVars = () => {
   });
 
   debugVars.value = newVars;
-  // #endif
 };
 
 onMounted(() => {
-  // #ifndef H5
-  return;
-  // #endif
+  if (typeof document === 'undefined') return;
 
-  // #ifdef H5
   updateDebugVars();
 
   // 监听主题变化
@@ -65,18 +56,14 @@ onMounted(() => {
     attributes: true,
     attributeFilter: ['data-theme'],
   });
-  // #endif
 });
 
 onUnmounted(() => {
-  // #ifdef H5
   observer?.disconnect();
   observer = null;
-  // #endif
 });
 
 const currentDataTheme = computed(() => {
-  // @ts-ignore
   if (typeof document === 'undefined') return 'unknown';
   return document.documentElement.getAttribute('data-theme') || '(无)';
 });

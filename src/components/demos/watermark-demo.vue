@@ -3,9 +3,11 @@ import { ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
 import LkWatermark from '@/uni_modules/lucky-ui/components/lk-watermark/lk-watermark.vue';
+import type { WatermarkSize } from '@/uni_modules/lucky-ui/components/lk-watermark/watermark.props';
 
 const showFullPage = ref(false);
-const currentSize = ref('md');
+const sizeOptions: WatermarkSize[] = ['sm', 'md', 'lg'];
+const currentSize = ref<WatermarkSize>('md');
 </script>
 
 <template>
@@ -13,7 +15,7 @@ const currentSize = ref('md');
     <demo-block title="动态尺寸控制">
       <view class="demo-actions">
         <lk-button
-          v-for="s in ['sm', 'md', 'lg']"
+          v-for="s in sizeOptions"
           :key="s"
           size="sm"
           :variant="currentSize === s ? 'solid' : 'outline'"

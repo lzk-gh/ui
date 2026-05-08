@@ -69,9 +69,9 @@ const toggleTag = (name: string) => {
 
     <demo-block title="自定义颜色">
       <view class="demo-row">
-        <lk-tag textColor="#ffffff" bgColor="#f56c6c">自定义背景</lk-tag>
-        <lk-tag type="outline" textColor="#f56c6c" bgColor="#f56c6c">自定义描边</lk-tag>
-        <lk-tag textColor="#ffffff" bgColor="#ffb400">白字橙底</lk-tag>
+        <lk-tag text-color="#ffffff" bg-color="#f56c6c">自定义背景</lk-tag>
+        <lk-tag type="outline" text-color="#f56c6c" bg-color="#f56c6c">自定义描边</lk-tag>
+        <lk-tag text-color="#ffffff" bg-color="#ffb400">白字橙底</lk-tag>
       </view>
     </demo-block>
 
@@ -80,8 +80,8 @@ const toggleTag = (name: string) => {
         <lk-tag
           v-for="tag in selectableTags"
           :key="tag.name"
-          @click="toggleTag(tag.name)"
           class="selectable-tag"
+          @click="toggleTag(tag.name)"
         >
           <lk-icon v-if="tag.selected" name="check-circle-fill" class="mr-8" />
           {{ tag.label }}

@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import { LkProp } from '../common/props';
 
 /**
@@ -10,8 +10,8 @@ export type TimelineItemStatus = (typeof TimelineItemStatus)[number];
 /**
  * 节点样式变体（可覆盖父级 dotVariant）
  */
-export const TimelineDotVariant = ['filled', 'outlined', 'numbered'] as const;
-export type TimelineDotVariant = (typeof TimelineDotVariant)[number];
+export const TimelineItemDotVariant = ['filled', 'outlined', 'numbered'] as const;
+export type TimelineItemDotVariant = (typeof TimelineItemDotVariant)[number];
 
 export const timelineItemProps = {
   /**
@@ -83,7 +83,10 @@ export const timelineItemProps = {
   /**
    * 轴线是否开启动态流动效果（覆盖父级设置）
    */
-  lineAnimated: LkProp.boolean(undefined),
+  lineAnimated: {
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
+  },
 
   /**
    * 是否为最后一项（隐藏连接线），不传时自动判断

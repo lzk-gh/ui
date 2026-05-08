@@ -1,3 +1,53 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const visible1 = ref(false);
+const visible2 = ref(false);
+const visibleRadius = ref(false);
+const visibleDraggable = ref(false);
+const visibleTop = ref(false);
+const visibleBottom = ref(false);
+const visibleLeft = ref(false);
+const visibleRight = ref(false);
+const visiblePreset1 = ref(false);
+const visiblePreset2 = ref(false);
+const visibleCustom = ref(false);
+const visibleWithTitle = ref(false);
+const visibleWithClose = ref(false);
+const visibleWithBoth = ref(false);
+const visibleCustomTitle = ref(false);
+ 
+
+const showPopup1 = () => {
+  visible1.value = true;
+};
+
+const showPopup2 = () => {
+  visible2.value = true;
+};
+
+const showTop = () => {
+  visibleTop.value = true;
+};
+
+const showBottom = () => {
+  visibleBottom.value = true;
+};
+
+const showLeft = () => {
+  visibleLeft.value = true;
+};
+
+const showRight = () => {
+  visibleRight.value = true;
+};
+
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -118,56 +168,6 @@
 
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const visible1 = ref(false);
-const visible2 = ref(false);
-const visibleRadius = ref(false);
-const visibleDraggable = ref(false);
-const visibleTop = ref(false);
-const visibleBottom = ref(false);
-const visibleLeft = ref(false);
-const visibleRight = ref(false);
-const visiblePreset1 = ref(false);
-const visiblePreset2 = ref(false);
-const visibleCustom = ref(false);
-const visibleWithTitle = ref(false);
-const visibleWithClose = ref(false);
-const visibleWithBoth = ref(false);
-const visibleCustomTitle = ref(false);
- 
-
-const showPopup1 = () => {
-  visible1.value = true;
-};
-
-const showPopup2 = () => {
-  visible2.value = true;
-};
-
-const showTop = () => {
-  visibleTop.value = true;
-};
-
-const showBottom = () => {
-  visibleBottom.value = true;
-};
-
-const showLeft = () => {
-  visibleLeft.value = true;
-};
-
-const showRight = () => {
-  visibleRight.value = true;
-};
-
-</script>
 
 <style scoped lang="scss">
 .component-demo {

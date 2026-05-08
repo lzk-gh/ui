@@ -35,7 +35,7 @@ const iconGroups = computed(() => {
 });
 
 const copyIconUsage = (name: string) => {
-  const usage = `<lk-icon name=\"${name}\" />`;
+  const usage = `<lk-icon name="${name}" />`;
 
   // #ifdef H5
   if (navigator.clipboard) {
@@ -99,13 +99,13 @@ const copyIconUsage = (name: string) => {
     </demo-block>
 
     <demo-block title="分类样例（业务高频）">
-      <view class="group-wrap" v-for="group in iconGroups" :key="group.title">
+      <view v-for="group in iconGroups" :key="group.title" class="group-wrap">
         <text class="group-title">{{ group.title }}</text>
         <view class="demo-row">
           <view
-            class="group-icon"
             v-for="iconName in group.icons"
             :key="iconName"
+            class="group-icon"
             @click="copyIconUsage(iconName)"
           >
             <lk-icon :name="iconName" size="34" color="text" />

@@ -24,7 +24,7 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 
     <demo-block title="自动换行">
       <lk-space wrap gap="lg">
-        <view class="tag" v-for="i in 24" :key="i">标签{{ i }}</view>
+        <view v-for="i in 24" :key="i" class="tag">标签{{ i }}</view>
       </lk-space>
     </demo-block>
   </view>

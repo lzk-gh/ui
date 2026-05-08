@@ -1,26 +1,3 @@
-<template>
-  <view
-    class="page-container"
-    :class="[themeClass, { 'page-container--ready': isReady }]"
-    :style="brandStyleVars"
-  >
-    <!-- 顶部导航栏 -->
-    <lk-navbar title="组件预览" :show-back="false">
-      <template #right>
-        <view class="theme-toggle" @click="toggleTheme">
-          <lk-icon :name="isDark ? 'sun' : 'moon'" size="28" />
-        </view>
-      </template>
-    </lk-navbar>
-
-    <!-- 页面内容 -->
-    <overview-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
-
-    <!-- 底部 Tabbar -->
-    <custom-tabbar active="overview" />
-  </view>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
@@ -59,6 +36,29 @@ onShow(() => {
   uni.hideTabBar({ fail: () => {} });
 });
 </script>
+
+<template>
+  <view
+    class="page-container"
+    :class="[themeClass, { 'page-container--ready': isReady }]"
+    :style="brandStyleVars"
+  >
+    <!-- 顶部导航栏 -->
+    <lk-navbar title="组件预览" :show-back="false">
+      <template #right>
+        <view class="theme-toggle" @click="toggleTheme">
+          <lk-icon :name="isDark ? 'sun' : 'moon'" size="28" />
+        </view>
+      </template>
+    </lk-navbar>
+
+    <!-- 页面内容 -->
+    <overview-content :content-height="contentHeight" :skip-animation="!isFirstVisit" />
+
+    <!-- 底部 Tabbar -->
+    <custom-tabbar active="overview" />
+  </view>
+</template>
 
 <style lang="scss" scoped>
 @import url('@/styles/test-page.scss');

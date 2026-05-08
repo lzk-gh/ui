@@ -1,3 +1,32 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkNoticeBar from '@/uni_modules/lucky-ui/components/lk-notice-bar/lk-notice-bar.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+const showNotice = ref(true);
+
+const verticalMessages = [
+  '📢 系统消息：您有新的订单待处理',
+  '🎁 活动通知：双11狂欢节即将开始',
+  '⚠️ 温馨提示：请及时更新个人信息',
+  '✨ 新功能：支持多种支付方式',
+];
+
+const handleClick = () => {
+  uni.showToast({ title: '查看消息', icon: 'none' });
+};
+
+const handleDetail = () => {
+  uni.showToast({ title: '查看详情', icon: 'none' });
+};
+
+const handleMore = () => {
+  uni.showToast({ title: '查看更多', icon: 'none' });
+};
+</script>
+
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
@@ -75,7 +104,7 @@
     </demo-block>
 
     <demo-block title="无背景">
-      <lk-notice-bar scrollable="horizontal" noBackground text="无背景通知栏（继承父背景/文字色）">
+      <lk-notice-bar scrollable="horizontal" no-background text="无背景通知栏（继承父背景/文字色）">
         <template #left-icon>
           <lk-icon name="megaphone-fill" size="32" />
         </template>
@@ -111,35 +140,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkNoticeBar from '@/uni_modules/lucky-ui/components/lk-notice-bar/lk-notice-bar.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-const showNotice = ref(true);
-
-const verticalMessages = [
-  '📢 系统消息：您有新的订单待处理',
-  '🎁 活动通知：双11狂欢节即将开始',
-  '⚠️ 温馨提示：请及时更新个人信息',
-  '✨ 新功能：支持多种支付方式',
-];
-
-const handleClick = () => {
-  uni.showToast({ title: '查看消息', icon: 'none' });
-};
-
-const handleDetail = () => {
-  uni.showToast({ title: '查看详情', icon: 'none' });
-};
-
-const handleMore = () => {
-  uni.showToast({ title: '查看更多', icon: 'none' });
-};
-</script>
 
 <style scoped lang="scss">
 .component-demo {

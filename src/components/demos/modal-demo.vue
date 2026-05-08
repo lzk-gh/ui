@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import type { TransitionConfig } from '@/uni_modules/lucky-ui/composables/useTransition';
+import type { SegmentedOption } from '@/uni_modules/lucky-ui/components/lk-segmented/segmented.props';
 
 const visible1 = ref(false);
 const visible2 = ref(false);
@@ -17,9 +19,17 @@ const visibleFooterText = ref(false);
 const visibleSingleBtn = ref(false);
 
 // 动态参数
-const dynamicType = ref('zoom-in');
+const dynamicType = ref<TransitionConfig['name']>('zoom-in');
 const dynamicDuration = ref(400);
 const dynamicEasing = ref('ease-out');
+const modalEasing = computed(() => dynamicEasing.value as TransitionConfig['easing']);
+const easingOptions: SegmentedOption[] = [
+  { label: 'ease', value: 'ease' },
+  { label: 'ease-out', value: 'ease-out' },
+  { label: 'ease-in', value: 'ease-in' },
+  { label: 'ease-in-out', value: 'ease-in-out' },
+  { label: 'ease-out-back', value: 'ease-out-back' },
+];
 
 const handleConfirm = () => {
   return new Promise(resolve => {
@@ -110,7 +120,7 @@ const handleConfirm = () => {
           title="动态参数"
           :animation-type="dynamicType"
           :duration="dynamicDuration"
-          :easing="dynamicEasing"
+          :easing="modalEasing"
         >
           <view style="display: flex; flex-direction: column; gap: 16rpx; padding: 16rpx">
             <text
@@ -126,7 +136,7 @@ const handleConfirm = () => {
             <lk-slider v-model="dynamicDuration" :min="100" :max="1000" :step="100" />
             <lk-segmented
               v-model="dynamicEasing"
-              :options="['ease', 'ease-out', 'ease-in', 'ease-in-out', 'ease-out-back']"
+              :options="easingOptions"
             />
           </view>
         </lk-modal>

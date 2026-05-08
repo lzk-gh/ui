@@ -15,6 +15,8 @@ watch(
   [() => page.value.relativePath, hasPhone],
   () => {
     nextTick(() => {
+      if (typeof document === 'undefined') return
+
       if (hasPhone.value) {
         document.documentElement.classList.add('has-phone-preview')
       } else {

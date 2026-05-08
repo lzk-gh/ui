@@ -1,3 +1,142 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import LkTabs from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tabs.vue';
+import LkTabPane from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tab-pane.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+
+// ── 基础 demos ───────────────────────────────
+const activeTab1 = ref('1');
+const activeTab2 = ref('1');
+const activeTab3 = ref('1');
+const activeTab4 = ref('1');
+const activeTab6 = ref('home');
+const activeTab7 = ref('msg');
+const activeTab8 = ref('1');
+
+// ── ④ 多 Tab 横向滚动 · Line ────────────────
+const scrollTabsLine = [
+  { name: 't1', label: '推荐', icon: 'star-fill' },
+  { name: 't2', label: '热门', icon: 'lightning-fill' },
+  { name: 't3', label: '科技', icon: 'gear' },
+  { name: 't4', label: '娱乐', icon: 'music-note' },
+  { name: 't5', label: '体育', icon: 'trophy' },
+  { name: 't6', label: '财经', icon: 'cash-coin' },
+  { name: 't7', label: '教育', icon: 'book' },
+  { name: 't8', label: '健康', icon: 'heart-pulse' },
+  { name: 't9', label: '美食', icon: 'cup-fill' },
+  { name: 't10', label: '旅游', icon: 'geo-alt' },
+];
+const activeScrollTab1 = ref('t1');
+
+// ── ⑤ 多 Tab 横向滚动 · Card ────────────────
+const scrollTabsCard = [
+  { name: 'c1', label: '全部' },
+  { name: 'c2', label: '手机' },
+  { name: 'c3', label: '电脑' },
+  { name: 'c4', label: '平板' },
+  { name: 'c5', label: '耳机' },
+  { name: 'c6', label: '键盘' },
+  { name: 'c7', label: '鼠标' },
+  { name: 'c8', label: '显示器' },
+  { name: 'c9', label: '摄像头' },
+];
+const activeScrollTab2 = ref('c1');
+
+// ── ⑥ 程序化跳转 ────────────────────────────
+const jumpTabs = [
+  { name: 'j1', label: '北京', icon: 'geo-alt' },
+  { name: 'j2', label: '上海', icon: 'geo-alt' },
+  { name: 'j3', label: '广州', icon: 'geo-alt' },
+  { name: 'j4', label: '深圳', icon: 'geo-alt' },
+  { name: 'j5', label: '成都', icon: 'geo-alt' },
+  { name: 'j6', label: '杭州', icon: 'geo-alt' },
+  { name: 'j7', label: '武汉', icon: 'geo-alt' },
+  { name: 'j8', label: '南京', icon: 'geo-alt' },
+  { name: 'j9', label: '重庆', icon: 'geo-alt' },
+  { name: 'j10', label: '西安', icon: 'geo-alt' },
+  { name: 'j11', label: '长沙', icon: 'geo-alt' },
+  { name: 'j12', label: '厦门', icon: 'geo-alt' },
+];
+const activeJumpTab = ref('j1');
+
+const jumpButtons = [
+  { label: '跳到 第1个', target: 'j1' },
+  { label: '跳到 第6个', target: 'j6' },
+  { label: '跳到 第12个', target: 'j12' },
+  { label: '跳到 第8个', target: 'j8' },
+];
+
+// ── ⑧ prefix/suffix + 多 Tab ────────────────
+const prefixTabs = [
+  { name: 'p1', label: '关注' },
+  { name: 'p2', label: '推荐' },
+  { name: 'p3', label: '直播' },
+  { name: 'p4', label: '同城' },
+  { name: 'p5', label: '美食' },
+  { name: 'p6', label: '知识' },
+  { name: 'p7', label: '游戏' },
+  { name: 'p8', label: '音乐' },
+];
+const activePrefixTab = ref('p1');
+
+// ── ⑫ 多 Tab 图标滚动 ───────────────────────
+const iconScrollTabs = [
+  { name: 'is1', label: '首页', icon: 'house-fill' },
+  { name: 'is2', label: '消息', icon: 'chat-fill' },
+  { name: 'is3', label: '通知', icon: 'bell-fill' },
+  { name: 'is4', label: '收藏', icon: 'heart-fill' },
+  { name: 'is5', label: '钱包', icon: 'wallet-fill' },
+  { name: 'is6', label: '设置', icon: 'gear-fill' },
+  { name: 'is7', label: '相册', icon: 'image-fill' },
+  { name: 'is8', label: '地图', icon: 'map-fill' },
+  { name: 'is9', label: '日历', icon: 'calendar-fill' },
+];
+const activeIconScroll = ref('is1');
+
+const scrollIconMap: Record<string, string> = {
+  is1: 'house-fill',
+  is2: 'chat-fill',
+  is3: 'bell-fill',
+  is4: 'heart-fill',
+  is5: 'wallet-fill',
+  is6: 'gear-fill',
+  is7: 'image-fill',
+  is8: 'map-fill',
+  is9: 'calendar-fill',
+};
+function getScrollIcon(name: string) {
+  return scrollIconMap[name] || 'app';
+}
+
+// ── 公共 helpers ─────────────────────────────
+const tabIconMap: Record<string, string> = {
+  home: 'house-fill',
+  chat: 'chat-fill',
+  star: 'heart-fill',
+  user: 'gear-fill',
+};
+function getTabIcon(name: string) {
+  return tabIconMap[name] || 'app';
+}
+
+const badgeMap: Record<string, string> = {
+  msg: '5',
+  notify: '12',
+  todo: '',
+};
+function getBadge(name: string) {
+  return badgeMap[name] || '';
+}
+
+function onBack() {
+  uni.showToast({ title: '返回', icon: 'none' });
+}
+function onMore() {
+  uni.showToast({ title: '更多操作', icon: 'none' });
+}
+</script>
+
 <template>
   <view class="component-demo">
     <!-- ① 基础用法 (line 下划线) -->
@@ -316,145 +455,6 @@
     </demo-block>
   </view>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import LkTabs from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tabs.vue';
-import LkTabPane from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tab-pane.vue';
-import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
-
-// ── 基础 demos ───────────────────────────────
-const activeTab1 = ref('1');
-const activeTab2 = ref('1');
-const activeTab3 = ref('1');
-const activeTab4 = ref('1');
-const activeTab6 = ref('home');
-const activeTab7 = ref('msg');
-const activeTab8 = ref('1');
-
-// ── ④ 多 Tab 横向滚动 · Line ────────────────
-const scrollTabsLine = [
-  { name: 't1', label: '推荐', icon: 'star-fill' },
-  { name: 't2', label: '热门', icon: 'lightning-fill' },
-  { name: 't3', label: '科技', icon: 'gear' },
-  { name: 't4', label: '娱乐', icon: 'music-note' },
-  { name: 't5', label: '体育', icon: 'trophy' },
-  { name: 't6', label: '财经', icon: 'cash-coin' },
-  { name: 't7', label: '教育', icon: 'book' },
-  { name: 't8', label: '健康', icon: 'heart-pulse' },
-  { name: 't9', label: '美食', icon: 'cup-fill' },
-  { name: 't10', label: '旅游', icon: 'geo-alt' },
-];
-const activeScrollTab1 = ref('t1');
-
-// ── ⑤ 多 Tab 横向滚动 · Card ────────────────
-const scrollTabsCard = [
-  { name: 'c1', label: '全部' },
-  { name: 'c2', label: '手机' },
-  { name: 'c3', label: '电脑' },
-  { name: 'c4', label: '平板' },
-  { name: 'c5', label: '耳机' },
-  { name: 'c6', label: '键盘' },
-  { name: 'c7', label: '鼠标' },
-  { name: 'c8', label: '显示器' },
-  { name: 'c9', label: '摄像头' },
-];
-const activeScrollTab2 = ref('c1');
-
-// ── ⑥ 程序化跳转 ────────────────────────────
-const jumpTabs = [
-  { name: 'j1', label: '北京', icon: 'geo-alt' },
-  { name: 'j2', label: '上海', icon: 'geo-alt' },
-  { name: 'j3', label: '广州', icon: 'geo-alt' },
-  { name: 'j4', label: '深圳', icon: 'geo-alt' },
-  { name: 'j5', label: '成都', icon: 'geo-alt' },
-  { name: 'j6', label: '杭州', icon: 'geo-alt' },
-  { name: 'j7', label: '武汉', icon: 'geo-alt' },
-  { name: 'j8', label: '南京', icon: 'geo-alt' },
-  { name: 'j9', label: '重庆', icon: 'geo-alt' },
-  { name: 'j10', label: '西安', icon: 'geo-alt' },
-  { name: 'j11', label: '长沙', icon: 'geo-alt' },
-  { name: 'j12', label: '厦门', icon: 'geo-alt' },
-];
-const activeJumpTab = ref('j1');
-
-const jumpButtons = [
-  { label: '跳到 第1个', target: 'j1' },
-  { label: '跳到 第6个', target: 'j6' },
-  { label: '跳到 第12个', target: 'j12' },
-  { label: '跳到 第8个', target: 'j8' },
-];
-
-// ── ⑧ prefix/suffix + 多 Tab ────────────────
-const prefixTabs = [
-  { name: 'p1', label: '关注' },
-  { name: 'p2', label: '推荐' },
-  { name: 'p3', label: '直播' },
-  { name: 'p4', label: '同城' },
-  { name: 'p5', label: '美食' },
-  { name: 'p6', label: '知识' },
-  { name: 'p7', label: '游戏' },
-  { name: 'p8', label: '音乐' },
-];
-const activePrefixTab = ref('p1');
-
-// ── ⑫ 多 Tab 图标滚动 ───────────────────────
-const iconScrollTabs = [
-  { name: 'is1', label: '首页', icon: 'house-fill' },
-  { name: 'is2', label: '消息', icon: 'chat-fill' },
-  { name: 'is3', label: '通知', icon: 'bell-fill' },
-  { name: 'is4', label: '收藏', icon: 'heart-fill' },
-  { name: 'is5', label: '钱包', icon: 'wallet-fill' },
-  { name: 'is6', label: '设置', icon: 'gear-fill' },
-  { name: 'is7', label: '相册', icon: 'image-fill' },
-  { name: 'is8', label: '地图', icon: 'map-fill' },
-  { name: 'is9', label: '日历', icon: 'calendar-fill' },
-];
-const activeIconScroll = ref('is1');
-
-const scrollIconMap: Record<string, string> = {
-  is1: 'house-fill',
-  is2: 'chat-fill',
-  is3: 'bell-fill',
-  is4: 'heart-fill',
-  is5: 'wallet-fill',
-  is6: 'gear-fill',
-  is7: 'image-fill',
-  is8: 'map-fill',
-  is9: 'calendar-fill',
-};
-function getScrollIcon(name: string) {
-  return scrollIconMap[name] || 'app';
-}
-
-// ── 公共 helpers ─────────────────────────────
-const tabIconMap: Record<string, string> = {
-  home: 'house-fill',
-  chat: 'chat-fill',
-  star: 'heart-fill',
-  user: 'gear-fill',
-};
-function getTabIcon(name: string) {
-  return tabIconMap[name] || 'app';
-}
-
-const badgeMap: Record<string, string> = {
-  msg: '5',
-  notify: '12',
-  todo: '',
-};
-function getBadge(name: string) {
-  return badgeMap[name] || '';
-}
-
-function onBack() {
-  uni.showToast({ title: '返回', icon: 'none' });
-}
-function onMore() {
-  uni.showToast({ title: '更多操作', icon: 'none' });
-}
-</script>
 
 <style scoped lang="scss">
 .component-demo {
