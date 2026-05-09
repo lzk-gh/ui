@@ -11,7 +11,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 </script>
 
 <template>
-  <lk-space class="component-demo" direction="vertical" :gap="32" fill>
+  <view class="component-demo">
     <demo-block title="数据总览">
       <lk-card
         custom-class="hero-card"
@@ -170,7 +170,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
         </lk-space>
       </lk-card>
     </demo-block>
-  </lk-space>
+  </view>
 </template>
 
 <style scoped lang="scss">
@@ -185,6 +185,9 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   --card-demo-simple-icon-bg: var(--lk-color-primary-bg-soft, #eef5ff);
 
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
   padding-bottom: 60rpx;
 }
 

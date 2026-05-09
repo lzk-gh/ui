@@ -158,7 +158,7 @@ function onClose() {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
   padding-bottom: 400rpx;
 }
 

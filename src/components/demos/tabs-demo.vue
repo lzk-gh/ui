@@ -481,7 +481,7 @@ function onMore() {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 /* ── 内容面板 ──────────────────────────── */

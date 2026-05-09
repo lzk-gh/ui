@@ -48,7 +48,7 @@ const tabbarList = [
 .tabbar-basic-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .preview-shell {

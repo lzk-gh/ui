@@ -19,3 +19,11 @@ const items = Array.from({ length: 14 }, (_, i) => ({
     </demo-block>
   </view>
 </template>
+
+<style scoped lang="scss">
+.component-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+</style>

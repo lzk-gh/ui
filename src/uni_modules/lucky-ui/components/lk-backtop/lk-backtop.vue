@@ -57,10 +57,19 @@ if (props.usePageScroll) {
 function toTop(event?: unknown) {
   emit('click', event);
   if (props.usePageScroll) {
-    scrollToTop({ duration: props.duration });
+    scrollToTop({
+      duration: props.duration,
+      easing: props.easing,
+      startScrollTop: latestScrollTop,
+    });
   }
   // 无论哪种模式都抛出事件，受控模式由外部自行将容器滚动置 0
-  emit('to-top', { usePageScroll: props.usePageScroll, duration: props.duration, event });
+  emit('to-top', {
+    usePageScroll: props.usePageScroll,
+    duration: props.duration,
+    easing: props.easing,
+    event,
+  });
 }
 
 const wrapperStyle = computed(() => {

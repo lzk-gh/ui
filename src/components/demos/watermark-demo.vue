@@ -25,14 +25,25 @@ const currentSize = ref<WatermarkSize>('md');
           {{ s.toUpperCase() }}
         </lk-button>
       </view>
-      <lk-watermark :size="currentSize" :content="['Dynamic Size', currentSize]" class="demo-card">
+      <lk-watermark
+        :size="currentSize"
+        :content="['Dynamic Size', currentSize]"
+        :rows="4"
+        :columns="2"
+        class="demo-card"
+      >
         <view class="demo-card__title">动态切换演示</view>
         <view class="demo-card__desc">点击上方按钮切换水印尺寸，观察布局和文字大小变化。</view>
       </lk-watermark>
     </demo-block>
 
     <demo-block title="容器水印">
-      <lk-watermark :content="['Lucky UI', 'Internal Preview']" class="demo-card">
+      <lk-watermark
+        :content="['Lucky UI', 'Internal Preview']"
+        :rows="4"
+        :columns="2"
+        class="demo-card"
+      >
         <view class="demo-card__title">项目报价单</view>
         <view class="demo-card__desc">
           水印默认只覆盖当前容器，层级较低，不会影响页面导航、弹层和按钮点击。
@@ -44,15 +55,15 @@ const currentSize = ref<WatermarkSize>('md');
       </lk-watermark>
     </demo-block>
 
-    <demo-block title="强化视觉">
+    <demo-block title="大气低密度">
       <lk-watermark
         content="CONFIDENTIAL"
         variant="outline"
         :rotate="-18"
         :skew-x="-8"
-        :opacity="0.2"
-        :columns="3"
-        :rows="5"
+        :opacity="0.17"
+        :columns="2"
+        :rows="4"
         class="demo-panel"
       >
         <view class="demo-panel__row">
@@ -95,9 +106,9 @@ const currentSize = ref<WatermarkSize>('md');
         v-if="showFullPage"
         full-page
         :content="['Lucky UI', 'Do Not Copy']"
-        :rows="10"
-        :columns="5"
-        :opacity="0.12"
+        :rows="6"
+        :columns="3"
+        :opacity="0.13"
       />
     </demo-block>
   </view>
@@ -107,7 +118,7 @@ const currentSize = ref<WatermarkSize>('md');
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-lg);
+  gap: 32rpx;
 }
 
 .demo-actions {

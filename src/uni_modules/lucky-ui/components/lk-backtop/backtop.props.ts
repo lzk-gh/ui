@@ -46,6 +46,9 @@ export const backtopProps = {
   /** 返回顶部动画持续时间（毫秒） */
   duration: LkProp.number(300),
 
+  /** 回顶动画缓动函数，支持 linear / easeOutCubic / cubic-bezier(x1,y1,x2,y2) */
+  easing: LkProp.string('linear'),
+
   /**
    * 按钮形状
    * @value circle 圆形
@@ -79,6 +82,11 @@ export type BacktopProps = ExtractPropTypes<typeof backtopProps>;
 
 export const backtopEmits = {
   click: (_event?: unknown) => true,
-  'to-top': (_payload: { usePageScroll: boolean; duration: number; event?: unknown }) => true,
+  'to-top': (_payload: {
+    usePageScroll: boolean;
+    duration: number;
+    easing: string;
+    event?: unknown;
+  }) => true,
   'change:visible': (_visible: boolean, _scrollTop?: number) => true,
 };

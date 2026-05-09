@@ -98,7 +98,7 @@ const activeNames5 = ref(['1']);
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-lg);
+  gap: 32rpx;
 }
 
 .collapse-content {

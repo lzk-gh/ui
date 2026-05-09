@@ -177,8 +177,8 @@ const viewWrapStyle = computed(() => `--lk-picker-item-height: ${props.itemHeigh
 const indicatorStyle = computed(() => [
   `height: ${props.itemHeight}rpx`,
   'background: transparent',
-  'border-top: var(--lk-rpx-2) solid var(--lk-picker-indicator-border)',
-  'border-bottom: var(--lk-rpx-2) solid var(--lk-picker-indicator-border)',
+  'border-top: 0',
+  'border-bottom: 0',
 ].join(';'));
 // ⚠️可能存在平台差异：picker-view 的遮罩层由各端原生实现，需通过 mask-style 覆盖默认浅色渐隐。
 const maskStyle = computed(() => [

@@ -42,7 +42,7 @@ const sceneOptions = [
 .choice-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 
   &__value {
     display: block;

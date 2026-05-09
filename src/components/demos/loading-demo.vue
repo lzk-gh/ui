@@ -6,27 +6,40 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 <template>
   <view class="component-demo">
     <demo-block title="基础用法">
-      <lk-loading />
+      <view class="loading-preview">
+        <lk-loading />
+      </view>
     </demo-block>
 
     <demo-block title="加载文案">
-      <lk-loading text="加载中..." />
+      <view class="loading-stack">
+        <lk-loading text="正在加载数据" />
+        <lk-loading vertical text="同步中" />
+      </view>
     </demo-block>
 
     <demo-block title="不同尺寸">
       <view class="loading-row">
-        <lk-loading size="60" />
-        <lk-loading />
-        <lk-loading size="30" />
+        <view class="loading-item">
+          <lk-loading size="30" />
+          <text>Small</text>
+        </view>
+        <view class="loading-item">
+          <lk-loading size="40" />
+          <text>Middle</text>
+        </view>
+        <view class="loading-item">
+          <lk-loading size="56" />
+          <text>Large</text>
+        </view>
       </view>
     </demo-block>
 
     <demo-block title="自定义颜色">
       <view class="loading-row">
-        <lk-loading color="#f00" />
-        <lk-loading color="#0f0" />
-        <lk-loading color="#00f" />
-        <lk-loading color="#000" />
+        <lk-loading color="var(--lk-color-primary)" text="Primary" />
+        <lk-loading color="var(--lk-color-success)" text="Success" />
+        <lk-loading color="var(--lk-color-warning)" text="Warning" />
       </view>
     </demo-block>
 
@@ -65,13 +78,37 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .loading-row {
   display: flex;
-  gap: 48rpx;
-  justify-content: space-around;
+  gap: 36rpx;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.loading-preview {
+  display: flex;
+  justify-content: center;
+  padding: 16rpx 0;
+}
+
+.loading-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+  align-items: flex-start;
+}
+
+.loading-item {
+  min-width: 120rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  color: var(--lk-text-secondary);
+  font-size: 24rpx;
 }
 </style>

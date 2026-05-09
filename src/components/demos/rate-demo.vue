@@ -61,7 +61,7 @@ const valueClear = ref(3);
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 .demo-tip {
   display: block;

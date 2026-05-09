@@ -141,6 +141,9 @@ const onReceive = () => {
 }
 
 .demo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
   padding: 30rpx;
 }
 

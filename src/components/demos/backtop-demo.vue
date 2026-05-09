@@ -29,6 +29,9 @@ function onPhoneScroll(event: ScrollEvent) {
 
 function scrollInnerToTop() {
   scrollControlledToTop({
+    startScrollTop: innerTop.value,
+    duration: 640,
+    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
     setScrollTop: value => {
       innerTop.value = value;
     },
@@ -37,6 +40,9 @@ function scrollInnerToTop() {
 
 function scrollPhoneToTop() {
   scrollControlledToTop({
+    startScrollTop: phoneTop.value,
+    duration: 420,
+    easing: 'easeOutCubic',
     setScrollTop: value => {
       phoneTop.value = value;
     },
@@ -93,6 +99,8 @@ function onPageTopAreaTap(event: unknown) {
         :use-page-scroll="false"
         :scroll-top="innerTop"
         :bottom="'120rpx'"
+        :duration="640"
+        easing="cubic-bezier(0.22, 1, 0.36, 1)"
         @to-top="scrollInnerToTop"
       />
     </demo-block>
@@ -123,11 +131,18 @@ function onPageTopAreaTap(event: unknown) {
       </lk-backtop>
     </demo-block>
 
-    <demo-block title="阈值与动画时长">
-      <view class="desc">通过 visibilityHeight 控制出现阈值，通过 duration 控制回顶动画时长。</view>
+    <demo-block title="阈值、时长与贝塞尔速率">
+      <view class="desc">
+        通过 visibilityHeight 控制出现阈值，通过 duration 与 easing 控制回顶节奏。
+      </view>
       <view class="placeholder" />
       <view class="placeholder" />
-      <lk-backtop :bottom="'320rpx'" :visibility-height="600" :duration="500" />
+      <lk-backtop
+        :bottom="'320rpx'"
+        :visibility-height="600"
+        :duration="640"
+        easing="cubic-bezier(0.22, 1, 0.36, 1)"
+      />
     </demo-block>
 
     <view class="tips">
@@ -143,7 +158,7 @@ function onPageTopAreaTap(event: unknown) {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .desc {

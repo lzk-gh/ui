@@ -871,6 +871,10 @@ const loadDemoComponent = async (name: string) => {
   background: transparent;
 }
 
+.demo-area :deep(.component-demo) {
+  row-gap: 32rpx;
+}
+
 // 开发中提示（测试页面样式）
 .developing-tip {
   display: flex;

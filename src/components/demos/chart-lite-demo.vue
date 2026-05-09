@@ -163,7 +163,7 @@ const wellness: RadarLiteItem[] = [
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-lg);
+  gap: 32rpx;
 }
 
 .stat-grid {

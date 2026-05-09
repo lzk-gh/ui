@@ -26,6 +26,17 @@ phone: backtop
 />
 ```
 
+## 自定义回顶速率
+
+`easing` 支持内置名称与 CSS 贝塞尔曲线，适合需要更自然回弹节奏的业务页。
+
+```vue
+<lk-backtop
+  :duration="640"
+  easing="cubic-bezier(0.22, 1, 0.36, 1)"
+/>
+```
+
 ## 容器内受控模式
 
 当页面主体不是整页滚动，而是内部 `scroll-view` 滚动时，需要关闭页面滚动监听，改由外部传入 `scrollTop`。
@@ -49,6 +60,8 @@ function onScroll(e) {
   <lk-backtop
     :use-page-scroll="false"
     :scroll-top="innerTop"
+    :duration="640"
+    easing="easeOutCubic"
     @to-top="innerTop = 0"
   />
 </template>
@@ -97,6 +110,7 @@ import BacktopDemo from '@/components/demos/backtop-demo.vue'
 | right | 距离右侧偏移 | `string \| number` | `'32rpx'` |
 | bottom | 距离底部偏移 | `string \| number` | `'80rpx'` |
 | duration | 回顶动画时长，单位 ms | `number` | `300` |
+| easing | 回顶缓动函数，支持 `linear` / `easeOutCubic` / `cubic-bezier(...)` | `string` | `linear` |
 | shape | 按钮形状 | `circle \| square \| round` | `circle` |
 | size | 按钮尺寸 | `sm \| md \| lg` | `md` |
 | icon | 图标名称 | `string` | `'arrow-up'` |
@@ -112,7 +126,7 @@ import BacktopDemo from '@/components/demos/backtop-demo.vue'
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
 | click | 点击按钮时触发 | `(event?: Event)` |
-| to-top | 执行回顶操作时触发；受控模式下用于外部同步滚动归零 | `({ usePageScroll, duration, event })` |
+| to-top | 执行回顶操作时触发；受控模式下用于外部同步滚动归零 | `({ usePageScroll, duration, easing, event })` |
 | change:visible | 按钮显示状态变化时触发 | `(visible: boolean, scrollTop?: number)` |
 
 ### Slots

@@ -30,15 +30,23 @@ phone: loading
 建议在用户需要等待超过 1 秒的场景下，配合 `text` 明确告知当前状态。
 
 ```vue
-<lk-loading text="提交中..." />
+<template>
+  <lk-loading text="正在加载数据" />
+  <lk-loading text="同步中" vertical />
+</template>
 ```
 
 ## 尺寸与颜色
 
 ```vue
 <template>
-  <lk-loading size="60" color="#7c3aed" />
-  <lk-loading size="30" color="#f97316" />
+  <lk-loading size="30" />
+  <lk-loading size="40" />
+  <lk-loading size="56" />
+
+  <lk-loading color="var(--lk-color-primary)" text="Primary" />
+  <lk-loading color="var(--lk-color-success)" text="Success" />
+  <lk-loading color="var(--lk-color-warning)" text="Warning" />
 </template>
 ```
 

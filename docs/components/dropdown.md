@@ -62,6 +62,29 @@ const value = ref('1')
 </lk-dropdown>
 ```
 
+## 多场景组合
+
+推荐按场景拆分菜单：操作菜单用于编辑、复制、删除；筛选菜单用 `v-model` 保存当前条件；需要连续操作时关闭 `closeOnSelect`。
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const sortValue = ref('latest')
+</script>
+
+<template>
+  <lk-dropdown v-model="sortValue">
+    <lk-button>排序</lk-button>
+    <template #menu>
+      <lk-dropdown-item name="latest">最新创建</lk-dropdown-item>
+      <lk-dropdown-item name="priority">优先级最高</lk-dropdown-item>
+      <lk-dropdown-item name="progress">进度最快</lk-dropdown-item>
+    </template>
+  </lk-dropdown>
+</template>
+```
+
 ## 点击外部关闭
 
 点击触发模式下默认会渲染遮罩层，点击外部自动收起。

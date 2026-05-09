@@ -89,6 +89,9 @@ const handleClear = () => {
 <style scoped lang="scss">
 .preload-demo {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
   min-height: 680rpx;
 }
 

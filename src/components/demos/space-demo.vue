@@ -33,7 +33,7 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 .cell {
   border-radius: var(--lk-radius-sm);

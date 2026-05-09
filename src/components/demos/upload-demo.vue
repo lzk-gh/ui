@@ -254,7 +254,7 @@ const mockCustomRequest: InstanceType<typeof LkUpload>['$props']['customRequest'
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-lg);
+  gap: 32rpx;
 }
 
 .upload-custom-text {

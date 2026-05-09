@@ -30,7 +30,7 @@ function onConfirm() {
 </script>
 
 <template>
-  <lk-space class="component-demo" direction="vertical" :gap="32" fill>
+  <view class="component-demo">
     <demo-block title="基础用法">
       <lk-input v-model="value1" placeholder="请输入内容" />
     </demo-block>
@@ -100,12 +100,15 @@ function onConfirm() {
     <demo-block title="字数统计">
       <lk-input v-model="value9" :maxlength="20" show-word-limit placeholder="最多20个字" />
     </demo-block>
-  </lk-space>
+  </view>
 </template>
 
 <style scoped lang="scss">
 .component-demo {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
 }
 
 .demo-tip {

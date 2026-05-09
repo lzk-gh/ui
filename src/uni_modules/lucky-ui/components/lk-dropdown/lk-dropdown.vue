@@ -112,7 +112,7 @@ const {
   <view
     :id="id"
     class="lk-dropdown"
-    :class="customClass"
+    :class="[`lk-dropdown--placement-${placement}`, customClass]"
     :style="rootStyle"
     @mouseenter="onTriggerEnter"
     @mouseleave="onTriggerLeave"

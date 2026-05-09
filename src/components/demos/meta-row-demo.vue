@@ -60,7 +60,7 @@ const records = [
 .meta-row-demo {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-lg);
+  gap: 32rpx;
 }
 
 .meta-row-demo__list {

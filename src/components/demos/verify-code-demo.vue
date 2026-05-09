@@ -190,7 +190,7 @@ function handleSetValue() {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
   padding-bottom: 100rpx;
 }
 

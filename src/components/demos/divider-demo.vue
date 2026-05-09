@@ -11,19 +11,11 @@
     </demo-block>
 
     <demo-block title="展示文字">
-      <lk-divider text="默认居中" />
-      <lk-divider text="左对齐" text-position="left" />
-      <lk-divider text="右对齐" text-position="right" />
+      <lk-divider text="文字分割" />
     </demo-block>
 
     <demo-block title="虚线模式">
       <lk-divider dashed text="虚线分割" />
-    </demo-block>
-
-    <demo-block title="灵活位置 (比例/像素分配)">
-      <lk-divider text="距左 20%" text-position="20%" />
-      <lk-divider text="距左 80%" :text-position="80" />
-      <lk-divider text="左侧固定 100rpx" text-position="100rpx" />
     </demo-block>
 
     <demo-block title="垂直分割线">
@@ -43,7 +35,6 @@
       <view class="gradient-bg">
         <text class="bg-text">在渐变背景下文字背景真实透明</text>
         <lk-divider text="TRANSPARENT" />
-        <lk-divider text="LEFT ALIGN" text-position="left" />
       </view>
     </demo-block>
 
@@ -62,6 +53,9 @@
 
 <style lang="scss" scoped>
 .divider-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
   padding-bottom: 40rpx;
 }
 

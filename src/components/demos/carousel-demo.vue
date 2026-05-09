@@ -265,6 +265,9 @@ function slideClass(item: FashionSlide) {
   --carousel-demo-vertical-min-height: 420rpx;
   --carousel-demo-card-min-height: 400rpx;
 
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
   min-height: 100vh;
   padding-bottom: var(--lk-rpx-60);
   background: var(--lk-color-bg-page);

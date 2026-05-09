@@ -70,7 +70,7 @@ const toggleLoading = () => {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .content-loaded {

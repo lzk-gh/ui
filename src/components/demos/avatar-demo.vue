@@ -99,7 +99,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .demo-row {

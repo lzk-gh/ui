@@ -5,7 +5,7 @@ phone: watermark
 
 # Watermark 水印
 
-为页面或局部容器添加重复水印，适合截图溯源、内部系统标识和敏感信息展示。
+为页面或局部容器添加中低密度重复水印，适合截图溯源、内部系统标识和敏感信息展示。
 
 ## 基础用法
 
@@ -20,7 +20,7 @@ phone: watermark
 ## 全屏水印
 
 ```vue
-<lk-watermark content="Internal" full-page :z-index="8" />
+<lk-watermark content="Internal" full-page :z-index="8" :rows="6" :columns="3" />
 ```
 
 ## 多行内容
@@ -45,14 +45,14 @@ phone: watermark
 | height | 单个水印高度 | `string / number` | — |
 | gapX | 横向间距 | `string / number` | — |
 | gapY | 纵向间距 | `string / number` | — |
-| rows | 行数 | `number` | `8` |
-| columns | 列数 | `number` | `4` |
+| rows | 行数 | `number` | `6` |
+| columns | 列数 | `number` | `3` |
 | rotate | 旋转角度 | `number` | `-22` |
 | skewX | 横向倾斜角度 | `number` | `0` |
 | skewY | 纵向倾斜角度 | `number` | `0` |
 | fontSize | 字体大小 | `string / number` | — |
 | fontWeight | 字体粗细 | `string / number` | `500` |
-| opacity | 透明度 | `number` | `0.16` |
+| opacity | 透明度 | `number` | `0.15` |
 | color | 自定义颜色 | `string` | `''` |
 | customClass | 自定义类名 | `string / object / array` | — |
 | customStyle | 自定义样式 | `string / object` | — |

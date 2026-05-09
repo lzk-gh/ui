@@ -141,7 +141,7 @@ function disabledBeforeToday(date: Date) {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: var(--lk-spacing-lg);
+  gap: 32rpx;
 }
 
 .demo-tip {

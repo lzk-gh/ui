@@ -56,10 +56,10 @@ export const watermarkProps = {
   gapY: LkProp.stringNumber(undefined as any),
 
   /** 行数 */
-  rows: LkProp.number(8),
+  rows: LkProp.number(6),
 
   /** 列数 */
-  columns: LkProp.number(4),
+  columns: LkProp.number(3),
 
   /** 旋转角度 */
   rotate: LkProp.number(-22),
@@ -77,7 +77,7 @@ export const watermarkProps = {
   fontWeight: LkProp.stringNumber(500),
 
   /** 透明度 */
-  opacity: LkProp.number(0.16),
+  opacity: LkProp.number(0.15),
 
   /** 自定义颜色 */
   color: LkProp.string(''),

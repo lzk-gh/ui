@@ -23,11 +23,7 @@ phone: divider
 
 ```vue
 <template>
-  <view>
-    <lk-divider>居中文字</lk-divider>
-    <lk-divider align="left">左对齐文字</lk-divider>
-    <lk-divider align="right">右对齐文字</lk-divider>
-  </view>
+  <lk-divider text="文字分割" />
 </template>
 ```
 
@@ -51,13 +47,13 @@ phone: divider
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| direction | 方向 | `horizontal / vertical` | `horizontal` |
 | dashed | 是否虚线 | `boolean` | `false` |
-| align | 文字对齐 | `left / center / right` | `center` |
-| borderWidth | 线条粗细，单位 rpx | `number` | `1` |
-| borderColor | 线条颜色 | `string` | — |
-| textColor | 文字颜色 | `string` | — |
-| margin | 上下外边距，单位 rpx | `number` | `24` |
+| vertical | 是否为垂直分割线 | `boolean` | `false` |
+| text | 分割线文字内容 | `string` | `''` |
+| hairline | 是否为细线 | `boolean` | `true` |
+| textPosition | 文字位置 | `left / center / right / string / number` | `center` |
+| customClass | 自定义类名 | `string / object / array` | — |
+| customStyle | 自定义样式 | `string / object` | — |
 
 ### Slots
 

@@ -76,7 +76,7 @@ const handleConfirm3 = (value: string) => {
 .component-demo {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .result-text {

@@ -118,16 +118,24 @@
 
   @include e(body) {
     background: var(--lk-color-bg-container);
-    border-radius: var(--lk-radius-lg);
+    border-radius: 0;
     overflow: hidden;
   }
 
   @include when(inset) {
     padding: 0 var(--lk-spacing-lg);
+
+    .lk-cell-group__body {
+      border-radius: var(--lk-radius-lg);
+    }
   }
 
   @include when(card) {
     margin: var(--lk-spacing-xs) 0;
+
+    .lk-cell-group__body {
+      border-radius: var(--lk-radius-lg);
+    }
   }
 
   @include when(border) {

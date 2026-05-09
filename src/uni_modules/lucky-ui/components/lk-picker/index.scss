@@ -72,8 +72,7 @@
     left: 0;
     height: var(--lk-picker-item-height);
     background: var(--lk-picker-indicator-bg);
-    border-top: var(--lk-rpx-2) solid var(--lk-picker-indicator-border);
-    border-bottom: var(--lk-rpx-2) solid var(--lk-picker-indicator-border);
+    border: 0;
     transform: translateY(-50%);
     pointer-events: none;
   }

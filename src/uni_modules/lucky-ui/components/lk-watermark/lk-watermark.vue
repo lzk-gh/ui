@@ -13,9 +13,9 @@ const normalizedContent = computed(() => {
 });
 
 const DEFAULT_SIZE_MAP = {
-  sm: { width: 160, height: 100, fontSize: 20, gapX: 24, gapY: 20 },
-  md: { width: 240, height: 150, fontSize: 24, gapX: 40, gapY: 32 },
-  lg: { width: 320, height: 200, fontSize: 32, gapX: 60, gapY: 48 },
+  sm: { width: 170, height: 112, fontSize: 20, gapX: 40, gapY: 34 },
+  md: { width: 260, height: 168, fontSize: 24, gapX: 60, gapY: 48 },
+  lg: { width: 340, height: 224, fontSize: 32, gapX: 82, gapY: 64 },
 } as const;
 
 const effectiveParams = computed(() => {

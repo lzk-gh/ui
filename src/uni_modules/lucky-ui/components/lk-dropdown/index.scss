@@ -20,9 +20,6 @@
   @include e(menu) {
     position: absolute;
     min-width: var(--lk-rpx-220);
-    top: 100%;
-    left: 0;
-    margin-top: var(--lk-spacing-xs);
     background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
     border: var(--lk-rpx-2) solid var(--lk-color-border-light);
     border-radius: var(--lk-radius-lg);
@@ -30,6 +27,38 @@
     padding: var(--lk-spacing-xs) 0;
     z-index: 2400;
     pointer-events: auto;
+  }
+
+  @include m(placement-bottom) {
+    .lk-dropdown__menu {
+      top: 100%;
+      left: 0;
+      margin-top: var(--lk-spacing-xs);
+    }
+  }
+
+  @include m(placement-top) {
+    .lk-dropdown__menu {
+      bottom: 100%;
+      left: 0;
+      margin-bottom: var(--lk-spacing-xs);
+    }
+  }
+
+  @include m(placement-left) {
+    .lk-dropdown__menu {
+      top: 0;
+      right: 100%;
+      margin-right: var(--lk-spacing-xs);
+    }
+  }
+
+  @include m(placement-right) {
+    .lk-dropdown__menu {
+      top: 0;
+      left: 100%;
+      margin-left: var(--lk-spacing-xs);
+    }
   }
 }
 

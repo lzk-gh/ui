@@ -17,6 +17,31 @@ phone: sticky
 </template>
 ```
 
+## 分组标题
+
+适合消息列表、订单列表等分段信息流。
+
+```vue
+<template>
+  <template v-for="group in ['今天', '昨天', '更早']" :key="group">
+    <lk-sticky>
+      <view class="section-title">{{ group }}</view>
+    </lk-sticky>
+    <view v-for="i in 5" :key="`${group}-${i}`">消息 {{ i }}</view>
+  </template>
+</template>
+```
+
+## 导航栏偏移
+
+存在自定义导航栏时，通过 `offsetTop` 避开顶部区域。
+
+```vue
+<lk-sticky :offset-top="96">
+  <view class="filter-tabs">全部 / 待处理 / 已完成</view>
+</lk-sticky>
+```
+
 ## 容器内吸附
 
 ```vue
@@ -49,4 +74,3 @@ phone: sticky
 ## 兼容说明
 
 `lk-sticky` 会读取节点尺寸与滚动位置。页面存在自定义导航栏、安全区或嵌套滚动容器时，需要显式设置 `offsetTop`，并在目标端校验吸附边界。
-

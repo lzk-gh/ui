@@ -173,6 +173,7 @@ const showRight = () => {
 .component-demo {
   display: flex;
   flex-direction: column;
+  gap: 32rpx;
 }
 
 .button-row {
