@@ -86,6 +86,7 @@
     box-shadow: var(--lk-shadow-base);
     /* subtle border for clearer separation */
     border: var(--lk-rpx-1) solid var(--lk-color-border-light);
+    border-bottom: 0;
     max-width: 100%;
     max-height: 100%;
     display: flex;

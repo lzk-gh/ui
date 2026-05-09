@@ -11,12 +11,18 @@
     height: 100%;
     /* 修复小程序中 swiper 某些情况下高度计算问题 */
     display: block;
+
+    swiper-item {
+      height: 100%;
+    }
   }
 
   /* 轮播项包裹层 */
   @include e(item-wrap) {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
     transition:
       transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1),
       opacity 0.3s ease;
