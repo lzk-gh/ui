@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useSlots, type StyleValue } from 'vue';
+import { computed, type StyleValue } from 'vue';
 import { navbarProps, navbarEmits } from './navbar.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
@@ -7,7 +7,6 @@ defineOptions({ name: 'LkNavbar' });
 
 const props = defineProps(navbarProps);
 const emit = defineEmits(navbarEmits);
-const slots = useSlots();
 
 const {
   rippleActive: leftActive,
@@ -86,22 +85,34 @@ const navbarContentHeight = computed(() => {
   return 44;
 });
 
-// 计算右侧安全间距，避免内容被小程序胶囊遮挡
-const contentPaddingRight = computed(() => {
-  const hasRightContent = !!props.rightText || !!slots.right;
+function rpxToPx(value: number) {
+  return typeof uni !== 'undefined' && typeof uni.upx2px === 'function'
+    ? uni.upx2px(value)
+    : value / 2;
+}
+
+const capsuleSafeStyle = computed<Record<string, string>>(() => {
+  if (!props.fixed || !props.safeArea) return {} as Record<string, string>;
+
   // #ifdef MP
-  if (
-    hasRightContent &&
-    menuButtonInfo &&
-    typeof menuButtonInfo.left === 'number' &&
-    typeof windowWidth === 'number'
-  ) {
-    const rightSpace = windowWidth - menuButtonInfo.left; // 胶囊到右边的距离（包含胶囊宽度与边距）
-    return Math.max(rightSpace + 4, 12); // 额外预留 4px 缓冲，最小 12px
+  if (typeof menuButtonInfo.left === 'number' && windowWidth > 0) {
+    const defaultPadding = rpxToPx(16);
+    const capsuleGap = rpxToPx(8);
+    const capsuleReserve = windowWidth - menuButtonInfo.left;
+    const safePadding = Math.max(defaultPadding, capsuleReserve + capsuleGap);
+    return {
+      '--lk-navbar-content-padding-right': `${safePadding}px`,
+    };
   }
   // #endif
-  return 12; // H5 默认右侧内边距 12px
+
+  return {} as Record<string, string>;
 });
+
+const contentStyle = computed<StyleValue>(() => ({
+  height: `${navbarContentHeight.value}px`,
+  ...capsuleSafeStyle.value,
+}));
 
 function tryNavigateBack() {
   try {
@@ -149,10 +160,7 @@ function onRightClick(event: unknown) {
     <!-- 导航栏内容 -->
     <view
       class="lk-navbar__content"
-      :style="{
-        height: navbarContentHeight + 'px',
-        paddingRight: contentPaddingRight + 'px',
-      }"
+      :style="contentStyle"
     >
       <view
         class="lk-navbar__left lk-ripple"

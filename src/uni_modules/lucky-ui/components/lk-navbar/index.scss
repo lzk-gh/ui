@@ -2,6 +2,8 @@
 
 @include b(navbar) {
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
   --lk-navbar-bg: var(--lk-color-bg-container);
   --lk-navbar-bg-soft: var(--lk-color-fill-tertiary);
   --lk-navbar-text: var(--lk-color-text);
@@ -80,7 +82,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--lk-spacing-md);
+    width: 100%;
+    padding: 0 var(--lk-navbar-content-padding-right, var(--lk-spacing-md)) 0
+      var(--lk-spacing-md);
+    box-sizing: border-box;
   }
 
   @include e(left) {
@@ -90,6 +95,7 @@
     min-width: var(--lk-navbar-action-min-width, var(--lk-rpx-128));
     min-height: var(--lk-rpx-72);
     padding: 0 var(--lk-spacing-xs);
+    flex: 0 0 auto;
     box-sizing: border-box;
     z-index: 1;
     border-radius: var(--lk-radius-full);
@@ -116,6 +122,7 @@
     min-width: var(--lk-navbar-action-min-width, var(--lk-rpx-128));
     min-height: var(--lk-rpx-72);
     padding: 0 var(--lk-spacing-xs);
+    flex: 0 0 auto;
     box-sizing: border-box;
     z-index: 1;
     border-radius: var(--lk-radius-full);
