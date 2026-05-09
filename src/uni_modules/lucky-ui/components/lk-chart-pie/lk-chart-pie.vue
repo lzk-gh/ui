@@ -164,6 +164,7 @@ chart.setRenderer((info, progress) => {
       start: number;
       sweep: number;
       fullSweep: number;
+      end: number;
     }> = [];
 
     function drawDonutArc(color: string, from: number, to: number, lineCap: CanvasLineCap) {
@@ -181,7 +182,14 @@ chart.setRenderer((info, progress) => {
       const color = resolveSliceColor(slice, i, palette);
 
       drawDonutArc(color, start, end, segmentCount > 1 ? 'butt' : 'round');
-      drawnSegments.push({ color, start, sweep: Math.max(0, end - start), fullSweep: sweep });
+      const actualEnd = end;
+      drawnSegments.push({
+        color,
+        start,
+        sweep: Math.max(0, actualEnd - start),
+        fullSweep: sweep,
+        end: actualEnd,
+      });
 
       // hover highlight
       if (props.tooltip && effectiveIndex === i) {
@@ -197,24 +205,13 @@ chart.setRenderer((info, progress) => {
     }
 
     if (segmentCount > 1) {
-      drawnSegments.forEach((segment, index) => {
-        if (index === 0) return;
-        const capSweep = Math.min(overlapAngle, segment.fullSweep * 0.45, segment.sweep);
+      drawnSegments.forEach(segment => {
+        const capSweep = Math.min(overlapAngle, segment.sweep, segment.fullSweep * 0.45);
         if (capSweep <= 0) return;
-        drawDonutArc(segment.color, segment.start - capSweep, segment.start + capSweep, 'round');
+        const capEnd = segment.end;
+        const capStart = capEnd - capSweep;
+        drawDonutArc(segment.color, capStart, capEnd, 'round');
       });
-
-      const firstSegment = drawnSegments[0];
-      const isCompleteRing = progress >= 0.999 && drawnSegments.length === segmentCount;
-      if (firstSegment && isCompleteRing) {
-        const firstOverlap = Math.min(overlapAngle, firstSegment.fullSweep * 0.45);
-        drawDonutArc(
-          firstSegment.color,
-          firstSegment.start - firstOverlap,
-          firstSegment.start + firstOverlap,
-          'round'
-        );
-      }
     }
 
     ctx.restore();

@@ -111,7 +111,6 @@ chart.setRenderer((info, progress) => {
     ? segments.reduce((sum, item) => sum + item.value, 0)
     : Math.max(1, props.max);
   let start = -Math.PI / 2;
-  let drawnSweep = Math.PI * 2 * progress;
   const pulse = effectStrength > 0 ? oscillate(effectPhase.value) * effectStrength : 0;
   const segmentCount = segments.length;
   const overlapAngle = segmentCount > 1 ? Math.min((strokeWidth * 1.6) / radius, Math.PI / 8) : 0;
@@ -120,6 +119,7 @@ chart.setRenderer((info, progress) => {
     start: number;
     sweep: number;
     fullSweep: number;
+    end: number;
   }> = [];
 
   function drawRingArc(color: string, from: number, to: number, lineCap: CanvasLineCap) {
@@ -132,15 +132,11 @@ chart.setRenderer((info, progress) => {
 
   segments.forEach((segment, index) => {
     const fullSweep = (segment.value / total) * Math.PI * 2;
-    const sweep = Math.max(0, Math.min(fullSweep, drawnSweep));
-    drawnSweep -= fullSweep;
-    if (sweep <= 0) {
-      start += fullSweep;
-      return;
-    }
+    const end = start + fullSweep * progress;
+    const sweep = Math.max(0, end - start);
     const color = resolveSegmentColor(segment, index);
-    drawRingArc(color, start, start + sweep, segmentCount > 1 ? 'butt' : 'round');
-    drawnSegments.push({ color, start, sweep, fullSweep });
+    drawRingArc(color, start, end, segmentCount > 1 ? 'butt' : 'round');
+    drawnSegments.push({ color, start, sweep, fullSweep, end });
 
     if (effectStrength > 0) {
       const highlight = movingWindow(
@@ -148,7 +144,7 @@ chart.setRenderer((info, progress) => {
         (start + fullSweep / 2 + Math.PI / 2) / (Math.PI * 2),
         0.22
       );
-      const sweepAngle = start + sweep * effectPhase.value;
+      const sweepAngle = start + (sweep || 0) * effectPhase.value;
       const sweepX = cx + Math.cos(sweepAngle) * radius;
       const sweepY = cy + Math.sin(sweepAngle) * radius;
       ctx.save();
@@ -163,24 +159,13 @@ chart.setRenderer((info, progress) => {
   });
 
   if (segmentCount > 1) {
-    drawnSegments.forEach((segment, index) => {
-      if (index === 0) return;
-      const capSweep = Math.min(overlapAngle, segment.fullSweep * 0.45, segment.sweep);
+    drawnSegments.forEach(segment => {
+      const capSweep = Math.min(overlapAngle, segment.sweep, segment.fullSweep * 0.45);
       if (capSweep <= 0) return;
-      drawRingArc(segment.color, segment.start - capSweep, segment.start + capSweep, 'round');
+      const capEnd = segment.end;
+      const capStart = capEnd - capSweep;
+      drawRingArc(segment.color, capStart, capEnd, 'round');
     });
-  }
-
-  const firstSegment = drawnSegments[0];
-  const isCompleteRing = progress >= 0.999 && drawnSegments.length === segmentCount;
-  if (firstSegment && segmentCount > 1 && isCompleteRing) {
-    const firstOverlap = Math.min(overlapAngle, firstSegment.fullSweep * 0.45);
-    drawRingArc(
-      firstSegment.color,
-      firstSegment.start - firstOverlap,
-      firstSegment.start + firstOverlap,
-      'round'
-    );
   }
 
   ctx.restore();
