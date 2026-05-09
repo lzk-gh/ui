@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useThemeStore, type Theme } from '@/stores/theme';
+import { ref } from 'vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 
 interface FashionSlide {
   id: string;
-  image: string;
+  tone: string;
   tag: string;
   title: string;
   subtitle: string;
@@ -20,19 +19,10 @@ interface AutoHeightPanel {
   stats: string[];
 }
 
-const themeStore = useThemeStore();
-const currentTheme = computed(() => themeStore.theme);
-const themeClass = computed(() => themeStore.themeClass);
-const brandStyleVars = computed(() => themeStore.brandStyleVars);
-const themeOptions: Array<{ label: string; value: Theme }> = [
-  { label: '浅色', value: 'light' },
-  { label: '暗色', value: 'dark' },
-];
-
 const fashionSlides = ref<FashionSlide[]>([
   {
     id: 'atelier',
-    image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80',
+    tone: 'atelier',
     tag: 'Atelier',
     title: '秋冬高级成衣',
     subtitle: '羊绒、皮革与低饱和灰调的层次搭配',
@@ -40,7 +30,7 @@ const fashionSlides = ref<FashionSlide[]>([
   },
   {
     id: 'gallery',
-    image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=80',
+    tone: 'gallery',
     tag: 'Editorial',
     title: '城市画廊大片',
     subtitle: '利落廓形配合冷感光影，适合品牌首屏',
@@ -48,7 +38,7 @@ const fashionSlides = ref<FashionSlide[]>([
   },
   {
     id: 'resort',
-    image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80',
+    tone: 'resort',
     tag: 'Resort',
     title: '度假系列精选',
     subtitle: '自然材质、柔和轮廓与高端生活方式场景',
@@ -56,7 +46,7 @@ const fashionSlides = ref<FashionSlide[]>([
   },
   {
     id: 'beauty',
-    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80',
+    tone: 'beauty',
     tag: 'Beauty',
     title: '美妆新品视觉',
     subtitle: '干净背景与近景人物，突出高阶质感',
@@ -64,7 +54,6 @@ const fashionSlides = ref<FashionSlide[]>([
   },
 ]);
 
-const imageList = computed(() => fashionSlides.value.map(item => item.image));
 const autoPanels = ref<AutoHeightPanel[]>([
   {
     id: 'brief',
@@ -85,13 +74,8 @@ const currentBars = ref(0);
 const currentCorner = ref(0);
 const currentNumber = ref(0);
 const currentSide = ref(0);
-const currentVertical = ref(0);
 const currentCard = ref(0);
 const currentAutoHeight = ref(0);
-
-function setTheme(theme: Theme) {
-  themeStore.setTheme(theme);
-}
 
 function handleClick(item: unknown, index: number) {
   const title = isFashionSlide(item) ? item.title : `第 ${index + 1} 张`;
@@ -101,33 +85,14 @@ function handleClick(item: unknown, index: number) {
 function isFashionSlide(item: unknown): item is FashionSlide {
   return typeof item === 'object' && item !== null && 'title' in item;
 }
+
+function slideClass(item: FashionSlide) {
+  return `fashion-visual fashion-visual--${item.tone}`;
+}
 </script>
 
 <template>
-  <view class="component-demo" :class="themeClass" :style="brandStyleVars">
-    <demo-block title="主题切换" desc="切换后观察轮播容器、文字、边框和指示器的亮暗主题表现。">
-      <view class="theme-panel">
-        <view class="theme-panel__info">
-          <text class="theme-panel__eyebrow">Theme Preview</text>
-          <text class="theme-panel__title">
-            当前为 {{ currentTheme === 'dark' ? '暗色模式' : '浅色模式' }}
-          </text>
-          <text class="theme-panel__desc">示例使用主题 token，适合直接验证多主题适配。</text>
-        </view>
-        <view class="theme-panel__actions">
-          <view
-            v-for="item in themeOptions"
-            :key="item.value"
-            class="theme-chip"
-            :class="{ 'theme-chip--active': currentTheme === item.value }"
-            @tap="setTheme(item.value)"
-          >
-            <text>{{ item.label }}</text>
-          </view>
-        </view>
-      </view>
-    </demo-block>
-
+  <view class="component-demo">
     <demo-block title="高级时尚 Banner" desc="自定义插槽叠加标题、标签与内容信息，适合品牌首屏。">
       <lk-carousel
         v-model:current="currentHero"
@@ -141,8 +106,7 @@ function isFashionSlide(item: unknown): item is FashionSlide {
         @click="handleClick"
       >
         <template #default="{ item }">
-          <view class="hero-slide">
-            <image class="hero-slide__image" :src="item.image" mode="aspectFill" />
+          <view class="hero-slide" :class="slideClass(item)">
             <view class="hero-slide__shade" />
             <view class="hero-slide__content">
               <text class="hero-slide__tag">{{ item.tag }}</text>
@@ -155,56 +119,88 @@ function isFashionSlide(item: unknown): item is FashionSlide {
       </lk-carousel>
     </demo-block>
 
-    <demo-block title="基础图片轮播" desc="图片素材更换为时尚大片，默认圆点指示器适合通用场景。">
+    <demo-block title="基础轮播" desc="默认圆点指示器适合通用场景，小程序不依赖外链图片。">
       <lk-carousel
         v-model:current="currentBars"
-        :carousel-list="imageList"
+        :carousel-list="fashionSlides"
         indicator-type="dots"
         height="360rpx"
         @click="handleClick"
-      />
+      >
+        <template #default="{ item }">
+          <view class="simple-slide" :class="slideClass(item)">
+            <text class="simple-slide__title">{{ item.title }}</text>
+          </view>
+        </template>
+      </lk-carousel>
+    </demo-block>
+
+    <demo-block title="圆角轮播" desc="容器与内容同时继承圆角，适合卡片式运营位。">
+      <view class="rounded-carousel">
+        <lk-carousel
+          v-model:current="currentBars"
+          :carousel-list="fashionSlides"
+          indicator-type="dots"
+          height="340rpx"
+        >
+          <template #default="{ item }">
+            <view class="simple-slide" :class="slideClass(item)">
+              <text class="simple-slide__title">{{ item.tag }}</text>
+            </view>
+          </template>
+        </lk-carousel>
+      </view>
     </demo-block>
 
     <demo-block title="圆润条形指示器" desc="覆盖指示器颜色时仍使用 CSS 变量，亮暗主题更稳定。">
       <lk-carousel
         v-model:current="currentCorner"
-        :carousel-list="imageList"
+        :carousel-list="fashionSlides"
         indicator-type="bars"
         indicator-active-color="var(--carousel-demo-on-media)"
         indicator-inactive-color="var(--carousel-demo-indicator-muted)"
         height="360rpx"
-      />
+      >
+        <template #default="{ item }">
+          <view class="simple-slide" :class="slideClass(item)">
+            <text class="simple-slide__title">{{ item.meta }}</text>
+          </view>
+        </template>
+      </lk-carousel>
     </demo-block>
 
     <demo-block title="角落数字指示器">
       <lk-carousel
         v-model:current="currentNumber"
-        :carousel-list="imageList"
+        :carousel-list="fashionSlides"
         indicator-position="top-right"
         indicator-type="number"
         height="360rpx"
-      />
+      >
+        <template #default="{ item }">
+          <view class="simple-slide" :class="slideClass(item)">
+            <text class="simple-slide__title">{{ item.title }}</text>
+          </view>
+        </template>
+      </lk-carousel>
     </demo-block>
 
-    <demo-block title="侧边垂直指示器">
+    <demo-block title="竖向轮播 + 侧边指示器">
       <lk-carousel
         v-model:current="currentSide"
-        :carousel-list="imageList"
-        indicator-position="left"
-        indicator-type="bars"
-        height="360rpx"
-      />
-    </demo-block>
-
-    <demo-block title="竖向轮播">
-      <lk-carousel
-        v-model:current="currentVertical"
-        :carousel-list="imageList"
+        :carousel-list="fashionSlides"
         :vertical="true"
         indicator-position="right"
-        indicator-type="dots"
+        indicator-type="bars"
         height="420rpx"
-      />
+      >
+        <template #default="{ item }">
+          <view class="vertical-slide" :class="slideClass(item)">
+            <text class="vertical-slide__tag">{{ item.tag }}</text>
+            <text class="vertical-slide__title">{{ item.title }}</text>
+          </view>
+        </template>
+      </lk-carousel>
     </demo-block>
 
     <demo-block title="卡片模式" desc="圆角、阴影、缩放和预览边距组合，适合专题入口和商品系列展示。">
@@ -223,8 +219,7 @@ function isFashionSlide(item: unknown): item is FashionSlide {
           indicator-position="bottom"
         >
           <template #default="{ item }">
-            <view class="card-slide">
-              <image class="card-slide__image" :src="item.image" mode="aspectFill" />
+            <view class="card-slide" :class="slideClass(item)">
               <view class="card-slide__caption">
                 <text>{{ item.title }}</text>
               </view>
@@ -271,69 +266,6 @@ function isFashionSlide(item: unknown): item is FashionSlide {
   background: var(--lk-color-bg-page);
 }
 
-.component-demo.lk-theme-dark {
-  --carousel-demo-on-media: var(--lk-text-primary);
-}
-
-.theme-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lk-spacing-md);
-  padding: var(--lk-spacing-md);
-  border: var(--lk-rpx-2) solid var(--lk-color-border-light);
-  border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-surface);
-}
-
-.theme-panel__info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lk-spacing-xs);
-}
-
-.theme-panel__eyebrow {
-  color: var(--lk-color-primary);
-  font-size: var(--lk-font-size-xs);
-  font-weight: 700;
-  letter-spacing: var(--lk-rpx-2);
-  text-transform: uppercase;
-}
-
-.theme-panel__title {
-  color: var(--lk-color-text);
-  font-size: var(--lk-font-size-lg);
-  font-weight: 700;
-}
-
-.theme-panel__desc {
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-sm);
-  line-height: 1.6;
-}
-
-.theme-panel__actions {
-  display: flex;
-  gap: var(--lk-spacing-sm);
-}
-
-.theme-chip {
-  flex: 1;
-  height: var(--lk-rpx-64);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--lk-radius-full);
-  background: var(--lk-color-fill-tertiary);
-  color: var(--lk-color-text-secondary);
-  font-size: var(--lk-font-size-sm);
-}
-
-.theme-chip--active {
-  background: var(--lk-color-primary-bg-soft);
-  color: var(--lk-color-primary);
-  font-weight: 700;
-}
-
 .hero-slide,
 .card-slide {
   position: relative;
@@ -343,11 +275,28 @@ function isFashionSlide(item: unknown): item is FashionSlide {
   border-radius: inherit;
 }
 
-.hero-slide__image,
-.card-slide__image {
-  width: 100%;
-  height: 100%;
-  display: block;
+.fashion-visual {
+  background:
+    radial-gradient(circle at 70% 18%, rgba(255, 255, 255, 0.32), transparent 25%),
+    linear-gradient(135deg, #2a2d34 0%, #767b87 48%, #f1ece3 100%);
+}
+
+.fashion-visual--gallery {
+  background:
+    radial-gradient(circle at 22% 28%, rgba(255, 255, 255, 0.38), transparent 24%),
+    linear-gradient(135deg, #141414 0%, #7d6e67 52%, #d7b9a3 100%);
+}
+
+.fashion-visual--resort {
+  background:
+    radial-gradient(circle at 74% 22%, rgba(255, 255, 255, 0.4), transparent 25%),
+    linear-gradient(135deg, #203b3f 0%, #7c9a92 48%, #eadcc6 100%);
+}
+
+.fashion-visual--beauty {
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.36), transparent 24%),
+    linear-gradient(135deg, #342131 0%, #9f7185 52%, #f1d4c5 100%);
 }
 
 .hero-slide__shade {
@@ -393,6 +342,42 @@ function isFashionSlide(item: unknown): item is FashionSlide {
 
 .card-demo-bg {
   padding: var(--lk-spacing-sm) 0;
+}
+
+.rounded-carousel {
+  overflow: hidden;
+  border-radius: var(--lk-radius-xl);
+}
+
+.simple-slide,
+.vertical-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--lk-spacing-lg);
+  box-sizing: border-box;
+}
+
+.simple-slide__title,
+.vertical-slide__title {
+  color: var(--carousel-demo-on-media);
+  font-size: var(--lk-rpx-36);
+  font-weight: 800;
+}
+
+.vertical-slide {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: var(--lk-spacing-xs);
+}
+
+.vertical-slide__tag {
+  color: var(--carousel-demo-on-media);
+  font-size: var(--lk-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .card-slide__caption {

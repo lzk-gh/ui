@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import LkChartLine from '@/uni_modules/lucky-ui/components/lk-chart-line/lk-chart-line.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
@@ -83,6 +83,26 @@ function reset() {
   showXAxisLabel.value = false;
   highlightPulse.value = true;
 }
+
+watch(
+  () => [
+    dataset.value,
+    tooltip.value,
+    tooltipAlways.value,
+    autoTooltip.value,
+    autoTooltipInterval.value,
+    duration.value,
+    padding.value,
+    lineWidth.value,
+    gradient.value,
+    areaGradient.value,
+    showAxis.value,
+    yAxisTicks.value,
+    showXAxisLabel.value,
+    highlightPulse.value,
+  ],
+  () => randomize()
+);
 </script>
 
 <template>

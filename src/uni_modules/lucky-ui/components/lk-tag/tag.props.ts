@@ -51,6 +51,9 @@ export const tagProps = {
   /** 是否圆角 */
   round: LkProp.boolean(true),
 
+  /** 主颜色：文字使用该颜色，背景自动生成浅色系，无边框 */
+  color: LkProp.string(''),
+
   /** 文字颜色 */
   textColor: LkProp.string(''),
 

@@ -4,7 +4,7 @@
   // Demo 预览底色默认使用弱填充，避免与组件容器默认白底重叠
   background: var(--lk-demo-block-bg, var(--lk-bg-container));
   border-radius: var(--lk-rpx-32);
-  padding: var(--lk-rpx-36);
+  padding: var(--lk-demo-block-padding, var(--lk-rpx-36));
   box-shadow: var(--lk-demo-block-shadow, var(--lk-shadow-sm));
   border: var(--lk-demo-block-border-width, var(--lk-rpx-2)) solid
     var(--lk-demo-block-border, var(--lk-color-border-light));

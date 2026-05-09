@@ -157,16 +157,31 @@ chart.setRenderer((info, progress) => {
       ctx.stroke();
     }
 
+    const segmentCount = d.length;
+    const overlapAngle = segmentCount > 1 ? Math.min((thickness * 1.6) / Math.max(1, radius), Math.PI / 8) : 0;
+    const drawnSegments: Array<{
+      color: string;
+      start: number;
+      sweep: number;
+      fullSweep: number;
+    }> = [];
+
+    function drawDonutArc(color: string, from: number, to: number, lineCap: CanvasLineCap) {
+      ctx.lineCap = lineCap;
+      ctx.strokeStyle = color;
+      ctx.beginPath();
+      ctx.arc(cx, cy, Math.max(1, radius - thickness / 2), from, to);
+      ctx.stroke();
+    }
+
     for (let i = 0; i < d.length; i += 1) {
       const slice = d[i];
       const sweep = (slice.value / total) * Math.PI * 2;
       const end = start + sweep * progress;
       const color = resolveSliceColor(slice, i, palette);
 
-      ctx.strokeStyle = color;
-      ctx.beginPath();
-      ctx.arc(cx, cy, Math.max(1, radius - thickness / 2), start, end);
-      ctx.stroke();
+      drawDonutArc(color, start, end, segmentCount > 1 ? 'butt' : 'round');
+      drawnSegments.push({ color, start, sweep: Math.max(0, end - start), fullSweep: sweep });
 
       // hover highlight
       if (props.tooltip && effectiveIndex === i) {
@@ -179,6 +194,27 @@ chart.setRenderer((info, progress) => {
       }
 
       start += sweep;
+    }
+
+    if (segmentCount > 1) {
+      drawnSegments.forEach((segment, index) => {
+        if (index === 0) return;
+        const capSweep = Math.min(overlapAngle, segment.fullSweep * 0.45, segment.sweep);
+        if (capSweep <= 0) return;
+        drawDonutArc(segment.color, segment.start - capSweep, segment.start + capSweep, 'round');
+      });
+
+      const firstSegment = drawnSegments[0];
+      const isCompleteRing = progress >= 0.999 && drawnSegments.length === segmentCount;
+      if (firstSegment && isCompleteRing) {
+        const firstOverlap = Math.min(overlapAngle, firstSegment.fullSweep * 0.45);
+        drawDonutArc(
+          firstSegment.color,
+          firstSegment.start - firstOverlap,
+          firstSegment.start + firstOverlap,
+          'round'
+        );
+      }
     }
 
     ctx.restore();

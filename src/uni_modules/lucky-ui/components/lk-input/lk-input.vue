@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
-import { ref, watch, computed, inject } from 'vue';
+import { ref, watch, computed, inject, useSlots } from 'vue';
 import { formContextKey } from '../lk-form/context';
 import type { InputEventPayload, InputValue } from './input.props';
 import { inputProps, inputEmits } from './input.props';
@@ -10,6 +10,7 @@ defineOptions({ name: 'LkInput' });
 
 const props = defineProps(inputProps);
 const emit = defineEmits(inputEmits);
+const slots = useSlots();
 
 const form = inject(formContextKey, null);
 
@@ -17,12 +18,8 @@ const inner = ref<InputValue>(props.modelValue);
 const composing = ref(false);
 const passwordVisible = ref(false);
 
-const realType = computed(() => {
-  if (props.type === 'password' && props.showPassword && passwordVisible.value) {
-    return 'text';
-  }
-  return props.type;
-});
+const nativeType = computed(() => (props.type === 'password' ? 'text' : props.type));
+const nativePassword = computed(() => props.type === 'password' && !passwordVisible.value);
 
 const style = computed(() => props.customStyle as StyleValue);
 const isFocused = computed(() => props.focus || props.autofocus);
@@ -112,6 +109,9 @@ const classes = computed(() => [
     'is-readonly': props.readonly,
     'is-fake': props.fake,
     'is-borderless': props.borderless,
+    'is-center-align': props.inputAlign === 'center',
+    'has-leading': !!props.prefixIcon,
+    'has-trailing': showTrailingBalance.value,
     'has-count': !!count.value,
   },
   props.customClass,
@@ -124,6 +124,18 @@ const fakeDisplayText = computed(() => {
 const showPasswordToggle = computed(() => {
   return props.showPassword && props.type === 'password' && !props.disabled && !props.readonly && !props.fake;
 });
+
+const showSuffix = computed(() => (slots.suffix || props.suffixIcon) && !showPasswordToggle.value);
+const showTrailingBalance = computed(
+  () =>
+    props.inputAlign === 'center' &&
+    !props.prefixIcon &&
+    !slots.prefix &&
+    (showPasswordToggle.value ||
+      !!showSuffix.value ||
+      (!!inner.value && props.clearable) ||
+      !!count.value)
+);
 
 watch(
   () => props.modelValue,
@@ -147,43 +159,45 @@ watch(
     </view>
 
     <!-- 真实输入框 -->
-    <input
-      v-else
-      class="lk-input__inner"
-      :class="[`lk-input__inner--${inputAlign}`]"
-      :name="name"
-      :value="inner"
-      :type="realType"
-      :password="type === 'password' && !passwordVisible"
-      :placeholder="placeholder"
-      :placeholder-style="placeholderStyle"
-      :placeholder-class="placeholderClass"
-      :maxlength="maxlength > -1 ? maxlength : 140000"
-      :disabled="disabled"
-      :readonly="readonly"
-      :focus="isFocused"
-      :confirm-type="confirmType"
-      :confirm-hold="confirmHold"
-      :cursor-spacing="cursorSpacing"
-      :cursor="cursor"
-      :selection-start="selectionStart"
-      :selection-end="selectionEnd"
-      :adjust-position="adjustPosition"
-      :hold-keyboard="holdKeyboard"
-      :inputmode="inputmode"
-      :ignore-composition-event="ignoreCompositionEvent"
-      :aria-disabled="disabled"
-      :aria-readonly="readonly"
-      :aria-label="placeholder"
-      @input="onInput"
-      @focus="onFocus"
-      @blur="onBlur"
-      @confirm="onConfirm"
-      @keyboardheightchange="onKeyboardHeightChange"
-      @compositionstart="onCompositionStart"
-      @compositionupdate="onCompositionUpdate"
-      @compositionend="onCompositionEnd"
-    />
+    <template v-else>
+      <view v-if="showTrailingBalance" class="lk-input__balance" />
+      <input
+        class="lk-input__inner"
+        :class="[`lk-input__inner--${inputAlign}`]"
+        :name="name"
+        :value="inner"
+        :type="nativeType"
+        :password="nativePassword"
+        :placeholder="placeholder"
+        :placeholder-style="placeholderStyle"
+        :placeholder-class="placeholderClass"
+        :maxlength="maxlength > -1 ? maxlength : 140000"
+        :disabled="disabled"
+        :readonly="readonly"
+        :focus="isFocused"
+        :confirm-type="confirmType"
+        :confirm-hold="confirmHold"
+        :cursor-spacing="cursorSpacing"
+        :cursor="cursor"
+        :selection-start="selectionStart"
+        :selection-end="selectionEnd"
+        :adjust-position="adjustPosition"
+        :hold-keyboard="holdKeyboard"
+        :inputmode="inputmode"
+        :ignore-composition-event="ignoreCompositionEvent"
+        :aria-disabled="disabled"
+        :aria-readonly="readonly"
+        :aria-label="placeholder"
+        @input="onInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @confirm="onConfirm"
+        @keyboardheightchange="onKeyboardHeightChange"
+        @compositionstart="onCompositionStart"
+        @compositionupdate="onCompositionUpdate"
+        @compositionend="onCompositionEnd"
+      />
+    </template>
 
     <!-- 内嵌通知栏插槽 -->
     <slot name="notice"></slot>
@@ -207,7 +221,7 @@ watch(
     </view>
 
     <!-- 后缀图标/插槽 -->
-    <view v-if="($slots.suffix || suffixIcon) && !showPasswordToggle" class="lk-input__suffix">
+    <view v-if="showSuffix" class="lk-input__suffix">
       <slot name="suffix">
         <lk-icon v-if="suffixIcon" :name="suffixIcon" size="36" />
       </slot>

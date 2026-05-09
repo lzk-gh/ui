@@ -8,6 +8,7 @@ export const TabsType = {
   Line: 'line',
   Card: 'card',
   Pill: 'pill',
+  Text: 'text',
 } as const;
 
 export type TabsType = (typeof TabsType)[keyof typeof TabsType];
@@ -36,6 +37,7 @@ export const tabsProps = {
    * @value line 下划线
    * @value card 卡片
    * @value pill 胶囊
+   * @value text 极简纯文本
    */
   type: LkProp.enum(Object.values(TabsType), TabsType.Line, 'Tabs.type'),
 
@@ -47,6 +49,9 @@ export const tabsProps = {
 
   /** 指示器是否显示 */
   showIndicator: LkProp.boolean(true),
+
+  /** 是否显示头部底边框 */
+  border: LkProp.boolean(true),
 } as const;
 
 export type TabsProps = ExtractPropTypes<typeof tabsProps>;

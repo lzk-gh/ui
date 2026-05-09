@@ -67,12 +67,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: inherit;
     line-height: inherit;
   }
 
   @include e(close) {
     font-size: var(--lk-rpx-28);
     line-height: 1;
+    color: inherit;
     padding: var(--lk-rpx-4);
     margin-left: var(--lk-spacing-xs);
     border-radius: var(--lk-radius-sm);

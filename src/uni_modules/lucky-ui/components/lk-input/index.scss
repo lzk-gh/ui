@@ -61,6 +61,7 @@
 
   @include e(inner) {
     flex: 1;
+    min-width: 0;
     height: var(--_height);
     font-size: var(--_fs);
     background: transparent;
@@ -86,6 +87,12 @@
     flex-shrink: 0;
     // 调整图标与输入内容的间距，使其看起来更均匀
     margin-right: var(--lk-spacing-sm);
+  }
+
+  @include e(balance) {
+    width: var(--lk-rpx-48);
+    flex-shrink: 0;
+    pointer-events: none;
   }
 
   @include e(suffix) {

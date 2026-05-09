@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import LkChartPie from '@/uni_modules/lucky-ui/components/lk-chart-pie/lk-chart-pie.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
@@ -48,6 +48,7 @@ const showTrack = ref(true);
 const showCenterText = ref(true);
 const centerTitle = ref('Total');
 const highlightPulse = ref(true);
+const progressValue = ref(68);
 
 const data = computed(() => {
   if (dataset.value === 'budget') return budget.value;
@@ -76,7 +77,32 @@ function reset() {
   showCenterText.value = true;
   centerTitle.value = 'Total';
   highlightPulse.value = true;
+  progressValue.value = 68;
 }
+
+const progressData = computed<Slice[]>(() => [
+  { label: '完成', value: progressValue.value, color: '#6366f1' },
+  { label: '剩余', value: Math.max(0, 100 - progressValue.value), color: 'rgba(148, 163, 184, 0.18)' },
+]);
+
+watch(
+  () => [
+    dataset.value,
+    donut.value,
+    donutWidth.value,
+    tooltip.value,
+    tooltipAlways.value,
+    autoTooltip.value,
+    autoTooltipInterval.value,
+    duration.value,
+    padding.value,
+    showTrack.value,
+    showCenterText.value,
+    centerTitle.value,
+    highlightPulse.value,
+  ],
+  () => randomize()
+);
 </script>
 
 <template>
@@ -183,6 +209,34 @@ function reset() {
             :show-center-text="showCenterText"
             :center-title="centerTitle"
             :highlight-pulse="highlightPulse"
+          />
+        </view>
+      </view>
+
+      <view class="chart-card">
+        <view class="chart-card__head">
+          <view>
+            <text class="eyebrow">Single Progress</text>
+            <text class="metric">{{ progressValue }}%</text>
+          </view>
+          <text class="trend">Progress</text>
+        </view>
+        <view class="row">
+          <text class="label">进度</text>
+          <view class="slider">
+            <lk-slider v-model="progressValue" :min="0" :max="100" :step="1" show-value />
+          </view>
+        </view>
+        <view class="chart-wrap">
+          <lk-chart-pie
+            :data="progressData"
+            :height="260"
+            :donut="true"
+            :donut-width="24"
+            :tooltip="false"
+            :animation-duration="500"
+            :show-track="false"
+            center-title="完成度"
           />
         </view>
       </view>

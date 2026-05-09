@@ -77,6 +77,12 @@ function onConfirm() {
       <lk-space direction="vertical" :gap="24" fill>
         <lk-input v-model="valueAlign1" input-align="left" placeholder="左对齐（默认）" />
         <lk-input v-model="valueAlign2" input-align="center" placeholder="居中对齐" />
+        <lk-input
+          v-model="valueAlign2"
+          input-align="center"
+          suffix-icon="search"
+          placeholder="居中对齐 + 右侧图标"
+        />
         <lk-input v-model="valueAlign3" input-align="right" placeholder="右对齐" />
       </lk-space>
     </demo-block>

@@ -77,6 +77,7 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 const currentSlug = ref('');
 const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
+const brandStyleVars = computed(() => themeStore.brandStyleVars);
 
 /**
  * 读取并应用路由参数。
@@ -186,7 +187,7 @@ const lowRiskCount = computed(() => visibleCases.value.filter(item => item.riskL
 </script>
 
 <template>
-  <scroll-view scroll-y class="showcase-page" :class="themeClass">
+  <scroll-view scroll-y class="showcase-page" :class="themeClass" :style="brandStyleVars">
     <view class="showcase-hero">
       <view class="hero-copy">
         <text class="hero-kicker">Lucky UI Preview</text>
@@ -309,7 +310,7 @@ const lowRiskCount = computed(() => visibleCases.value.filter(item => item.riskL
 
 .showcase-page {
   height: 100vh;
-  padding: 32rpx;
+  padding: 24rpx;
   box-sizing: border-box;
   background: $test-bg-page;
 }

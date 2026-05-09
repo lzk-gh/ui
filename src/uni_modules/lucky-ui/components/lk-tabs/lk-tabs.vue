@@ -311,7 +311,7 @@ const scrollable = computed(() => panes.value.length > 5);
   <view
     :id="id"
     class="lk-tabs"
-    :class="['lk-tabs--' + type, { 'is-stretch': stretching }, customClass]"
+    :class="['lk-tabs--' + type, { 'is-stretch': stretching, 'is-borderless': !border }, customClass]"
     :style="rootStyle"
   >
     <!-- header 插槽 -->

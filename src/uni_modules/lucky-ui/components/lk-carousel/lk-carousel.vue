@@ -30,12 +30,12 @@ const indicatorInactiveColor = computed(() => props.indicatorInactiveColor || pr
 
 // Margin 处理
 const previousMargin = computed(() => {
-  if (props.card) return props.cardPrevMargin || 'var(--lk-rpx-60)';
+  if (props.card) return props.cardPrevMargin || '60rpx';
   if (props.peek) return props.peekPrevMargin;
   return '0';
 });
 const nextMargin = computed(() => {
-  if (props.card) return props.cardNextMargin || 'var(--lk-rpx-60)';
+  if (props.card) return props.cardNextMargin || '60rpx';
   if (props.peek) return props.peekNextMargin;
   return '0';
 });

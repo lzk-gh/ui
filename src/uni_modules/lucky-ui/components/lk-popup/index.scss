@@ -119,7 +119,6 @@
     position: relative;
     padding: var(--lk-rpx-32) var(--lk-rpx-48);
     flex-shrink: 0;
-    border-bottom: var(--lk-rpx-1) solid var(--lk-color-border-light);
   }
 
   @include e(title) {

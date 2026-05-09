@@ -10,6 +10,7 @@ const activeTab1 = ref('1');
 const activeTab2 = ref('1');
 const activeTab3 = ref('1');
 const activeTab4 = ref('1');
+const activeTextTab = ref('1');
 const activeTab6 = ref('home');
 const activeTab7 = ref('msg');
 const activeTab8 = ref('1');
@@ -205,6 +206,26 @@ function onMore() {
         <lk-tab-pane label="月榜" name="3">
           <view class="tab-content">
             <text class="tab-content__text">本月排行</text>
+          </view>
+        </lk-tab-pane>
+      </lk-tabs>
+    </demo-block>
+
+    <demo-block title="极简文本 · Text">
+      <lk-tabs v-model="activeTextTab" type="text" :border="false">
+        <lk-tab-pane label="资产" name="1">
+          <view class="tab-content">
+            <text class="tab-content__text">极简激活态仅放大并使用品牌色</text>
+          </view>
+        </lk-tab-pane>
+        <lk-tab-pane label="分析" name="2">
+          <view class="tab-content">
+            <text class="tab-content__text">无底边框、无指示线</text>
+          </view>
+        </lk-tab-pane>
+        <lk-tab-pane label="我的" name="3">
+          <view class="tab-content">
+            <text class="tab-content__text">适合紧凑导航</text>
           </view>
         </lk-tab-pane>
       </lk-tabs>

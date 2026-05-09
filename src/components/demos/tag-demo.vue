@@ -69,9 +69,12 @@ const toggleTag = (name: string) => {
 
     <demo-block title="自定义颜色">
       <view class="demo-row">
-        <lk-tag text-color="#ffffff" bg-color="#f56c6c">自定义背景</lk-tag>
-        <lk-tag type="outline" text-color="#f56c6c" bg-color="#f56c6c">自定义描边</lk-tag>
-        <lk-tag text-color="#ffffff" bg-color="#ffb400">白字橙底</lk-tag>
+        <lk-tag color="primary">品牌浅底</lk-tag>
+        <lk-tag color="#7c3aed">紫色浅底</lk-tag>
+        <lk-tag color="#0f9f6e">绿色浅底</lk-tag>
+        <lk-tag color="rgb(225, 91, 64)">暖色浅底</lk-tag>
+        <lk-tag color="#f56c6c">自定义红</lk-tag>
+        <lk-tag color="#ffb400">自定义橙</lk-tag>
       </view>
     </demo-block>
 

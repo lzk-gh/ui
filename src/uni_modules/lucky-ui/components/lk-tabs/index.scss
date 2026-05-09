@@ -32,6 +32,12 @@
     border-bottom: var(--lk-tabs-header-border);
   }
 
+  @include when(borderless) {
+    @include e(header) {
+      border-bottom: none;
+    }
+  }
+
   /* ── prefix / suffix 固定区 ────────────────── */
   @include e(prefix) {
     flex-shrink: 0;
@@ -249,6 +255,41 @@
     }
 
     @include e(line) {
+      display: none;
+    }
+  }
+
+  /* ── text 极简纯文本类型 ───────────────────── */
+  @include m(text) {
+    background-color: transparent;
+    border-radius: 0;
+
+    @include e(header) {
+      background: transparent;
+      border-bottom: none;
+    }
+
+    @include e(nav-wrap) {
+      padding: var(--lk-spacing-sm) var(--lk-spacing-md);
+    }
+
+    @include e(nav-item) {
+      padding: var(--lk-spacing-sm) var(--lk-spacing-lg);
+      background: transparent;
+      color: var(--lk-tabs-text-color);
+      transition:
+        color 0.2s ease,
+        font-size 0.2s ease,
+        font-weight 0.2s ease;
+
+      @include when(active) {
+        color: var(--lk-tabs-active-text-color);
+        font-size: calc(var(--lk-tabs-font-size) + var(--lk-rpx-2));
+        font-weight: 700;
+      }
+    }
+
+    @include e(indicator-wrap) {
       display: none;
     }
   }

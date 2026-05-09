@@ -17,6 +17,10 @@ const popId = `lk-tooltip-pop-${instance?.uid ?? Math.floor(Math.random() * 1000
 
 const innerOpen = ref(false);
 const resolvedPlacement = ref(props.placement);
+let supportsHover = true;
+// #ifdef MP
+supportsHover = false;
+// #endif
 const open = computed({
   get: () => {
     if (props.always) return true;
@@ -52,19 +56,19 @@ function doOpen(v = true, trigger: TooltipOpenTrigger | TooltipCloseTrigger = pr
 
 function onTriggerEnter(event?: unknown) {
   emit('mouseenter-trigger', event);
-  if (props.always || props.trigger !== 'hover') return;
+  if (!supportsHover || props.always || props.trigger !== 'hover') return;
   if (hideTimer) clearTimeout(hideTimer);
   showTimer = setTimeout(() => doOpen(true, 'hover', event), props.showDelay);
 }
 function onTriggerLeave(event?: unknown) {
   emit('mouseleave-trigger', event);
-  if (props.always || props.trigger !== 'hover') return;
+  if (!supportsHover || props.always || props.trigger !== 'hover') return;
   if (showTimer) clearTimeout(showTimer);
   hideTimer = setTimeout(() => doOpen(false, 'hover', event), props.hideDelay);
 }
 function onTriggerClick(event?: unknown) {
   emit('click-trigger', event);
-  if (props.always || props.trigger !== 'click') return;
+  if (props.always || (props.trigger !== 'click' && (supportsHover || props.trigger !== 'hover'))) return;
   doOpen(!open.value, 'click', event);
 }
 function onContentEnter(event?: unknown) {
