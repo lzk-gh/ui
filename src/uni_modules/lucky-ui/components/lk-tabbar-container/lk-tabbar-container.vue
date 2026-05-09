@@ -78,6 +78,10 @@ const activeIndex = computed(() => {
   return props.tabs.findIndex(tab => tab.id === activeId.value);
 });
 
+const activeTab = computed(() => {
+  return props.tabs.find(tab => tab.id === activeId.value);
+});
+
 const activeBgStyle = computed(() => {
   const count = props.tabs.length;
   if (count === 0 || activeIndex.value === -1) return { display: 'none' };
@@ -212,6 +216,16 @@ watch(
         />
 
         <view
+          v-if="activeMode === 'float' && activeTab"
+          class="tabbar-float-orb"
+          :style="activeBgStyle"
+        >
+          <view class="tabbar-float-orb__inner">
+            <lk-icon :name="resolveTabIcon(activeTab)" size="44" />
+          </view>
+        </view>
+
+        <view
           v-for="tab in tabs"
           :key="tab.id"
           class="tabbar-item"
@@ -267,6 +281,10 @@ $tabbar-safe-area-bottom: var(
   flex-direction: column;
   background: var(--lk-bg-page);
   overflow: hidden;
+
+  &--float {
+    overflow: visible;
+  }
 
   &__content {
     flex: 1;
@@ -349,6 +367,7 @@ $tabbar-safe-area-bottom: var(
   align-items: center;
   height: $tabbar-height;
   position: relative;
+  overflow: visible;
 }
 
 .tabbar-active-bg {
@@ -401,6 +420,34 @@ $tabbar-safe-area-bottom: var(
     left: var(--active-center);
     transform: translateX(-50%);
     box-shadow: 0 0 calc(var(--lk-spacing-sm) + var(--lk-spacing-xxs)) var(--lk-color-primary);
+  }
+}
+
+.tabbar-float-orb {
+  position: absolute;
+  top: calc(var(--lk-rpx-28) * -1);
+  left: var(--active-center);
+  width: var(--lk-control-height-md);
+  height: var(--lk-control-height-md);
+  z-index: 3;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition:
+    left 0.32s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.32s cubic-bezier(0.23, 1, 0.32, 1);
+
+  &__inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--lk-rpx-6) solid var(--lk-color-bg-container);
+    border-radius: 50%;
+    background: var(--lk-color-primary);
+    box-shadow: 0 var(--lk-rpx-10) var(--lk-rpx-28) rgba(var(--lk-brand-rgb), 0.36);
+    color: var(--lk-color-text-inverse);
+    box-sizing: border-box;
   }
 }
 
@@ -527,21 +574,13 @@ $tabbar-safe-area-bottom: var(
 
     .lk-tabbar-container--float & {
       color: var(--lk-color-primary);
+
       .tabbar-item__icon-wrapper {
-        transform: translateY(calc(var(--lk-spacing-xxl) * -1));
-        background: var(--lk-color-primary);
-        width: calc(var(--lk-control-height-lg) + var(--lk-spacing-xxs));
-        height: calc(var(--lk-control-height-lg) + var(--lk-spacing-xxs));
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 calc(var(--lk-spacing-xs) + var(--lk-spacing-xxs))
-          calc(var(--lk-spacing-lg) + var(--lk-spacing-xxs)) rgba(var(--lk-brand-rgb), 0.5);
-        color: var(--lk-color-text-inverse) !important;
+        opacity: 0;
+        transform: translateY(calc(var(--lk-rpx-8) * -1));
       }
+
       .tabbar-item__label {
-        transform: translateY(0);
         color: var(--lk-color-primary);
       }
     }
