@@ -35,6 +35,15 @@
           }
         },
         {
+          "path": "pull-refresh-page/index",
+          "style": {
+            "navigationBarTitleText": "页面下拉刷新",
+            "navigationStyle": "default",
+            "enablePullDownRefresh": true,
+            "backgroundTextStyle": "dark"
+          }
+        },
+        {
           "path": "search/index",
           "style": {
             "navigationBarTitleText": "搜索",

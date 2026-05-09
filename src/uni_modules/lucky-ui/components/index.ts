@@ -161,6 +161,9 @@ export * from './lk-keyboard/keyboard.props';
 // New: Countdown
 export { default as LkCountdown } from './lk-countdown/lk-countdown.vue';
 export * from './lk-countdown/countdown.props';
+// New: PullRefresh
+export { default as LkPullRefresh } from './lk-pull-refresh/lk-pull-refresh.vue';
+export * from './lk-pull-refresh/pull-refresh.props';
 // New: VerifyCode
 export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
 export * from './lk-verify-code/verify-code.props';
@@ -177,4 +180,3 @@ export * from './lk-meta-row/meta-row.props';
 // New: FAB (Floating Action Button)
 export { default as LkFab } from './lk-fab/lk-fab.vue';
 export * from './lk-fab/fab.props';
-

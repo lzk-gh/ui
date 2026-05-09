@@ -207,6 +207,12 @@ const componentMap: Record<string, any> = {
     icon: 'hourglass-split',
     color: 'info',
   },
+  'pull-refresh': {
+    title: 'PullRefresh 下拉刷新',
+    desc: '局部容器与页面级刷新',
+    icon: 'arrow-clockwise',
+    color: 'primary',
+  },
   loading: {
     title: 'Loading 加载',
     desc: '加载状态提示',
@@ -519,6 +525,7 @@ import CollapseDemo from '@/components/demos/collapse-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TimelineDemo from '@/components/demos/timeline-demo.vue';
 import ProgressDemo from '@/components/demos/progress-demo.vue';
+import PullRefreshDemo from '@/components/demos/pull-refresh-demo.vue';
 import LoadingDemo from '@/components/demos/loading-demo.vue';
 import CountdownDemo from '@/components/demos/countdown-demo.vue';
 import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
@@ -596,6 +603,7 @@ const demoComponentMap: Record<string, any> = {
   tabs: TabsDemo,
   timeline: TimelineDemo,
   progress: ProgressDemo,
+  'pull-refresh': PullRefreshDemo,
   loading: LoadingDemo,
   countdown: CountdownDemo,
   'number-roller': NumberRollerDemo,
@@ -716,6 +724,7 @@ const loadDemoComponent = async (name: string) => {
           <TabsDemo v-else-if="componentName === 'tabs'" />
           <TimelineDemo v-else-if="componentName === 'timeline'" />
           <ProgressDemo v-else-if="componentName === 'progress'" />
+          <PullRefreshDemo v-else-if="componentName === 'pull-refresh'" />
           <LoadingDemo v-else-if="componentName === 'loading'" />
           <CountdownDemo v-else-if="componentName === 'countdown'" />
           <NumberRollerDemo v-else-if="componentName === 'number-roller'" />

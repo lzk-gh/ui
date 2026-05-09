@@ -331,6 +331,15 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['需覆盖线形、圆形、不同百分比与状态色。'],
   },
   {
+    slug: 'pull-refresh',
+    title: 'PullRefresh 下拉刷新',
+    group: 'advanced',
+    verifyStatus: 'verified',
+    riskLevel: 'medium',
+    visualEnabled: false,
+    riskNotes: ['原生下拉触发依赖 scroll-view 与页面配置，需按 H5/小程序分别回归。'],
+  },
+  {
     slug: 'radio',
     title: 'Radio 单选框',
     group: 'form',

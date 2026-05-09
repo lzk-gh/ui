@@ -93,6 +93,7 @@ const categories = [
       { name: 'tabs', label: 'Tabs', desc: '标签页', icon: 'house' },
       { name: 'timeline', label: 'Timeline', desc: '时间轴', icon: 'hourglass-split' },
       { name: 'progress', label: 'Progress', desc: '进度条', icon: 'reception-4' },
+      { name: 'pull-refresh', label: 'PullRefresh', desc: '下拉刷新', icon: 'arrow-clockwise' },
       { name: 'loading', label: 'Loading', desc: '加载', icon: 'arrow-clockwise' },
       { name: 'countdown', label: 'Countdown', desc: '倒计时', icon: 'stopwatch' },
       { name: 'skeleton', label: 'Skeleton', desc: '骨架屏', icon: 'list-ul' },

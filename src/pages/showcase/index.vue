@@ -43,6 +43,7 @@ import NavbarDemo from '@/components/demos/navbar-demo.vue';
 import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
 import OverlayDemo from '@/components/demos/overlay-demo.vue';
 import ProgressDemo from '@/components/demos/progress-demo.vue';
+import PullRefreshDemo from '@/components/demos/pull-refresh-demo.vue';
 import RadioDemo from '@/components/demos/radio-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
@@ -275,6 +276,7 @@ const lowRiskCount = computed(
             <picker-demo v-else-if="item.slug === 'picker'" />
             <popup-demo v-else-if="item.slug === 'popup'" />
             <progress-demo v-else-if="item.slug === 'progress'" />
+            <pull-refresh-demo v-else-if="item.slug === 'pull-refresh'" />
             <radio-demo v-else-if="item.slug === 'radio'" />
             <rate-demo v-else-if="item.slug === 'rate'" />
             <fab-demo v-else-if="item.slug === 'fab'" />
