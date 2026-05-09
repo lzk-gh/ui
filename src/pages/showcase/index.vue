@@ -22,6 +22,7 @@ import ChartPieDemo from '@/components/demos/chart-pie-demo.vue';
 import CheckboxDemo from '@/components/demos/checkbox-demo.vue';
 import ChoiceDemo from '@/components/demos/choice-demo.vue';
 import CollapseDemo from '@/components/demos/collapse-demo.vue';
+import CountdownDemo from '@/components/demos/countdown-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
 import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
 import DividerDemo from '@/components/demos/divider-demo.vue';
@@ -94,7 +95,9 @@ const applyComponentSlug = (slug: string | undefined) => {
  */
 const readCurrentPageComponent = () => {
   const pages = getCurrentPages();
-  const current = pages[pages.length - 1] as unknown as { options?: Record<string, string | undefined> };
+  const current = pages[pages.length - 1] as unknown as {
+    options?: Record<string, string | undefined>;
+  };
   return current?.options?.component || '';
 };
 
@@ -182,8 +185,12 @@ const groupedCases = computed(() => {
 });
 
 const totalCount = computed(() => visibleCases.value.length);
-const verifiedCount = computed(() => visibleCases.value.filter(item => item.verifyStatus === 'verified').length);
-const lowRiskCount = computed(() => visibleCases.value.filter(item => item.riskLevel === 'low').length);
+const verifiedCount = computed(
+  () => visibleCases.value.filter(item => item.verifyStatus === 'verified').length
+);
+const lowRiskCount = computed(
+  () => visibleCases.value.filter(item => item.riskLevel === 'low').length
+);
 </script>
 
 <template>
@@ -246,6 +253,7 @@ const lowRiskCount = computed(() => visibleCases.value.filter(item => item.riskL
             <checkbox-demo v-else-if="item.slug === 'checkbox'" />
             <choice-demo v-else-if="item.slug === 'choice'" />
             <collapse-demo v-else-if="item.slug === 'collapse'" />
+            <countdown-demo v-else-if="item.slug === 'countdown'" />
             <divider-demo v-else-if="item.slug === 'divider'" />
             <empty-demo v-else-if="item.slug === 'empty'" />
             <curtain-demo v-else-if="item.slug === 'curtain'" />

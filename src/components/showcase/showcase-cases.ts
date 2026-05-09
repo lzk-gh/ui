@@ -149,6 +149,15 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['fixed 浮层、外链跳转与遮罩关闭需按 H5/App/小程序分别复核。'],
   },
   {
+    slug: 'countdown',
+    title: 'Countdown 倒计时',
+    group: 'basic',
+    verifyStatus: 'verified',
+    riskLevel: 'medium',
+    visualEnabled: false,
+    riskNotes: ['倒计时存在时间轴噪音，视觉回归需定格或以交互断言补充。'],
+  },
+  {
     slug: 'date-picker',
     title: 'DatePicker 日期选择',
     group: 'form',
@@ -218,7 +227,9 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     verifyStatus: 'verified',
     riskLevel: 'medium',
     visualEnabled: true,
-    riskNotes: ['聚合覆盖 area/ring/sparkline/stat-card/radar-lite，触摸点位与 webkit 渲染需平台复核。'],
+    riskNotes: [
+      '聚合覆盖 area/ring/sparkline/stat-card/radar-lite，触摸点位与 webkit 渲染需平台复核。',
+    ],
   },
   {
     slug: 'chart-bar',

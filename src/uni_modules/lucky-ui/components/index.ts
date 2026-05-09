@@ -158,6 +158,9 @@ export * from './lk-anchor/anchor.props';
 // New: Keyboard
 export { default as LkKeyboard } from './lk-keyboard/lk-keyboard.vue';
 export * from './lk-keyboard/keyboard.props';
+// New: Countdown
+export { default as LkCountdown } from './lk-countdown/lk-countdown.vue';
+export * from './lk-countdown/countdown.props';
 // New: VerifyCode
 export { default as LkVerifyCode } from './lk-verify-code/lk-verify-code.vue';
 export * from './lk-verify-code/verify-code.props';

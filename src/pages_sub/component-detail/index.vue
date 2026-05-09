@@ -237,6 +237,12 @@ const componentMap: Record<string, any> = {
     icon: 'segmented-nav',
     color: 'primary',
   },
+  countdown: {
+    title: 'Countdown 倒计时',
+    desc: '高精度活动倒计时',
+    icon: 'stopwatch',
+    color: 'danger',
+  },
   'number-roller': {
     title: 'NumberRoller 数字翻牌',
     desc: '流畅的数值增长展示',
@@ -424,7 +430,9 @@ const componentMap: Record<string, any> = {
 const componentName = ref('');
 const componentTitle = computed(() => componentMap[componentName.value]?.title || '组件详情');
 const componentDesc = computed(() => componentMap[componentName.value]?.desc || '');
-const componentMark = computed(() => componentTitle.value.split(' ')[0]?.slice(0, 1).toUpperCase() || 'L');
+const componentMark = computed(
+  () => componentTitle.value.split(' ')[0]?.slice(0, 1).toUpperCase() || 'L'
+);
 
 // 动态演示组件
 // 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if
@@ -512,6 +520,7 @@ import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TimelineDemo from '@/components/demos/timeline-demo.vue';
 import ProgressDemo from '@/components/demos/progress-demo.vue';
 import LoadingDemo from '@/components/demos/loading-demo.vue';
+import CountdownDemo from '@/components/demos/countdown-demo.vue';
 import NumberRollerDemo from '@/components/demos/number-roller-demo.vue';
 import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
 import EmptyDemo from '@/components/demos/empty-demo.vue';
@@ -588,6 +597,7 @@ const demoComponentMap: Record<string, any> = {
   timeline: TimelineDemo,
   progress: ProgressDemo,
   loading: LoadingDemo,
+  countdown: CountdownDemo,
   'number-roller': NumberRollerDemo,
   skeleton: SkeletonDemo,
   empty: EmptyDemo,
@@ -707,6 +717,7 @@ const loadDemoComponent = async (name: string) => {
           <TimelineDemo v-else-if="componentName === 'timeline'" />
           <ProgressDemo v-else-if="componentName === 'progress'" />
           <LoadingDemo v-else-if="componentName === 'loading'" />
+          <CountdownDemo v-else-if="componentName === 'countdown'" />
           <NumberRollerDemo v-else-if="componentName === 'number-roller'" />
           <SkeletonDemo v-else-if="componentName === 'skeleton'" />
           <EmptyDemo v-else-if="componentName === 'empty'" />
@@ -752,8 +763,6 @@ const loadDemoComponent = async (name: string) => {
             <text class="tip-desc">请先访问其他已实现的组件</text>
           </view>
         </view>
-
-
       </view>
     </scroll-view>
   </view>

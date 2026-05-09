@@ -81,6 +81,7 @@ declare module '@vue/runtime-core' {
     LkAnchor: typeof import('./components/lk-anchor/lk-anchor.vue')['default']
     LkAnchorLink: typeof import('./components/lk-anchor/lk-anchor-link.vue')['default']
     LkKeyboard: typeof import('./components/lk-keyboard/lk-keyboard.vue')['default']
+    LkCountdown: typeof import('./components/lk-countdown/lk-countdown.vue')['default']
     LkVerifyCode: typeof import('./components/lk-verify-code/lk-verify-code.vue')['default']
     LkNumberRoller: typeof import('./components/lk-number-roller/lk-number-roller.vue')['default']
     LkCurtain: typeof import('./components/lk-curtain/lk-curtain.vue')['default']
