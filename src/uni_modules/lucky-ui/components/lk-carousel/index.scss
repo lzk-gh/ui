@@ -31,7 +31,7 @@
 
     @include when(auto-height) {
       height: auto;
-      align-items: flex-start;
+      align-items: stretch;
     }
 
     /* 卡片模式 */

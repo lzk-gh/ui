@@ -102,7 +102,7 @@ function slideClass(item: FashionSlide) {
         indicator-active-color="var(--carousel-demo-on-media)"
         indicator-inactive-color="var(--carousel-demo-indicator-muted)"
         :indicator-clickable="true"
-        height="440rpx"
+        :auto-height="true"
         @click="handleClick"
       >
         <template #default="{ item }">
@@ -124,7 +124,7 @@ function slideClass(item: FashionSlide) {
         v-model:current="currentBars"
         :carousel-list="fashionSlides"
         indicator-type="dots"
-        height="360rpx"
+        :auto-height="true"
         @click="handleClick"
       >
         <template #default="{ item }">
@@ -141,7 +141,7 @@ function slideClass(item: FashionSlide) {
           v-model:current="currentBars"
           :carousel-list="fashionSlides"
           indicator-type="dots"
-          height="340rpx"
+          :auto-height="true"
         >
           <template #default="{ item }">
             <view class="simple-slide" :class="slideClass(item)">
@@ -159,7 +159,7 @@ function slideClass(item: FashionSlide) {
         indicator-type="bars"
         indicator-active-color="var(--carousel-demo-on-media)"
         indicator-inactive-color="var(--carousel-demo-indicator-muted)"
-        height="360rpx"
+        :auto-height="true"
       >
         <template #default="{ item }">
           <view class="simple-slide" :class="slideClass(item)">
@@ -175,7 +175,7 @@ function slideClass(item: FashionSlide) {
         :carousel-list="fashionSlides"
         indicator-position="top-right"
         indicator-type="number"
-        height="360rpx"
+        :auto-height="true"
       >
         <template #default="{ item }">
           <view class="simple-slide" :class="slideClass(item)">
@@ -192,7 +192,7 @@ function slideClass(item: FashionSlide) {
         :vertical="true"
         indicator-position="right"
         indicator-type="bars"
-        height="420rpx"
+        :auto-height="true"
       >
         <template #default="{ item }">
           <view class="vertical-slide" :class="slideClass(item)">
@@ -209,7 +209,7 @@ function slideClass(item: FashionSlide) {
           v-model:current="currentCard"
           :carousel-list="fashionSlides"
           :card="true"
-          height="400rpx"
+          :auto-height="true"
           card-prev-margin="56rpx"
           card-next-margin="56rpx"
           :card-scale="0.9"
@@ -260,6 +260,10 @@ function slideClass(item: FashionSlide) {
 .component-demo {
   --carousel-demo-on-media: var(--lk-color-text-inverse);
   --carousel-demo-indicator-muted: var(--lk-color-border-light);
+  --carousel-demo-hero-min-height: 440rpx;
+  --carousel-demo-slide-min-height: 340rpx;
+  --carousel-demo-vertical-min-height: 420rpx;
+  --carousel-demo-card-min-height: 400rpx;
 
   min-height: 100vh;
   padding-bottom: var(--lk-rpx-60);
@@ -270,9 +274,15 @@ function slideClass(item: FashionSlide) {
 .card-slide {
   position: relative;
   width: 100%;
-  height: 100%;
+  align-self: stretch;
+  min-height: var(--carousel-demo-slide-min-height);
   overflow: hidden;
   border-radius: inherit;
+  box-sizing: border-box;
+}
+
+.hero-slide {
+  min-height: var(--carousel-demo-hero-min-height);
 }
 
 .fashion-visual {
@@ -352,7 +362,8 @@ function slideClass(item: FashionSlide) {
 .simple-slide,
 .vertical-slide {
   width: 100%;
-  height: 100%;
+  align-self: stretch;
+  min-height: var(--carousel-demo-slide-min-height);
   display: flex;
   align-items: flex-end;
   padding: var(--lk-spacing-lg);
@@ -367,6 +378,7 @@ function slideClass(item: FashionSlide) {
 }
 
 .vertical-slide {
+  min-height: var(--carousel-demo-vertical-min-height);
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-end;
@@ -393,8 +405,13 @@ function slideClass(item: FashionSlide) {
   font-weight: 700;
 }
 
+.card-slide {
+  min-height: var(--carousel-demo-card-min-height);
+}
+
 .custom-content {
   width: 100%;
+  align-self: stretch;
   padding: var(--lk-spacing-sm);
   box-sizing: border-box;
 }
