@@ -8,6 +8,39 @@ defineOptions({ name: 'LkTabbar' });
 const props = defineProps(tabbarProps);
 const emit = defineEmits(tabbarEmits);
 
+type SafeAreaInfoLike = {
+  screenHeight?: number;
+  safeArea?: {
+    bottom?: number;
+  };
+  safeAreaInsets?: {
+    bottom?: number;
+  };
+};
+
+const systemInfo: SafeAreaInfoLike =
+  typeof uni !== 'undefined' ? (uni.getSystemInfoSync() as SafeAreaInfoLike) : {};
+
+let preferRuntimeSafeArea = false;
+// #ifdef MP || APP-PLUS
+preferRuntimeSafeArea = true;
+// #endif
+
+function resolveSafeAreaBottom(info: SafeAreaInfoLike) {
+  const insetBottom = info.safeAreaInsets?.bottom;
+  if (typeof insetBottom === 'number') return Math.max(insetBottom, 0);
+
+  const screenHeight = info.screenHeight;
+  const safeAreaBottom = info.safeArea?.bottom;
+  if (typeof screenHeight === 'number' && typeof safeAreaBottom === 'number') {
+    return Math.max(screenHeight - safeAreaBottom, 0);
+  }
+
+  return 0;
+}
+
+const safeAreaBottom = resolveSafeAreaBottom(systemInfo);
+
 // ============================================================================
 // 子项管理
 // ============================================================================
@@ -76,6 +109,9 @@ const rootStyle = computed(() => {
     backfaceVisibility: 'hidden',
   };
 
+  if (props.safeArea && (preferRuntimeSafeArea || safeAreaBottom > 0)) {
+    style['--lk-tabbar-safe-area-bottom'] = `${safeAreaBottom}px`;
+  }
   if (props.bgColor) style['--lk-tabbar-bg'] = props.bgColor;
   if (props.activeColor) style['--lk-tabbar-active-color'] = props.activeColor;
   if (props.inactiveColor) style['--lk-tabbar-inactive-color'] = props.inactiveColor;
@@ -87,6 +123,13 @@ const sliderStyle = computed(() => {
   return {
     left: `${sliderLeft.value}%`,
     width: `${sliderWidth.value}%`,
+  };
+});
+
+const placeholderStyle = computed(() => {
+  if (!props.safeArea || (!preferRuntimeSafeArea && safeAreaBottom <= 0)) return {};
+  return {
+    '--lk-tabbar-safe-area-bottom': `${safeAreaBottom}px`,
   };
 });
 
@@ -245,7 +288,12 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
   </view>
 
   <!-- fixed 时撑起占位，避免内容被遮挡 -->
-  <view v-if="fixed" class="lk-tabbar__placeholder" :class="{ 'lk-tabbar--safe-area': safeArea }" />
+  <view
+    v-if="fixed"
+    class="lk-tabbar__placeholder"
+    :class="{ 'lk-tabbar--safe-area': safeArea }"
+    :style="placeholderStyle"
+  />
 </template>
 
 <style lang="scss">

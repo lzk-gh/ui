@@ -9,6 +9,7 @@
 // ============================================================================
 $tabbar-height: var(--lk-tabbar-height, var(--lk-rpx-112));
 $tabbar-item-height: var(--lk-tabbar-item-height, var(--lk-control-height-md));
+$tabbar-safe-area-bottom: var(--lk-tabbar-safe-area-bottom, env(safe-area-inset-bottom));
 $tabbar-transition: cubic-bezier(0.4, 0, 0.2, 1); // Material Design 标准曲线
 $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
@@ -46,8 +47,8 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
   // 安全区适配
   &--safe-area {
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--lk-tabbar-safe-area-bottom, constant(safe-area-inset-bottom));
+    padding-bottom: $tabbar-safe-area-bottom;
   }
 
   // 毛玻璃效果
@@ -125,8 +126,8 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     width: 100%;
 
     &.lk-tabbar--safe-area {
-      padding-bottom: constant(safe-area-inset-bottom);
-      padding-bottom: env(safe-area-inset-bottom);
+      padding-bottom: var(--lk-tabbar-safe-area-bottom, constant(safe-area-inset-bottom));
+      padding-bottom: $tabbar-safe-area-bottom;
     }
   }
 }

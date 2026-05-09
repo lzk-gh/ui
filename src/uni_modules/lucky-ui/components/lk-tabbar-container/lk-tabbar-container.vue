@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue';
+import { computed, onMounted, watch, type StyleValue } from 'vue';
 import LkLoading from '../lk-loading/lk-loading.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import {
@@ -19,6 +19,39 @@ const props = defineProps(tabbarContainerProps);
 
 const emit = defineEmits(tabbarContainerEmits);
 
+type SafeAreaInfoLike = {
+  screenHeight?: number;
+  safeArea?: {
+    bottom?: number;
+  };
+  safeAreaInsets?: {
+    bottom?: number;
+  };
+};
+
+const systemInfo: SafeAreaInfoLike =
+  typeof uni !== 'undefined' ? (uni.getSystemInfoSync() as SafeAreaInfoLike) : {};
+
+let preferRuntimeSafeArea = false;
+// #ifdef MP || APP-PLUS
+preferRuntimeSafeArea = true;
+// #endif
+
+function resolveSafeAreaBottom(info: SafeAreaInfoLike) {
+  const insetBottom = info.safeAreaInsets?.bottom;
+  if (typeof insetBottom === 'number') return Math.max(insetBottom, 0);
+
+  const screenHeight = info.screenHeight;
+  const safeAreaBottom = info.safeArea?.bottom;
+  if (typeof screenHeight === 'number' && typeof safeAreaBottom === 'number') {
+    return Math.max(screenHeight - safeAreaBottom, 0);
+  }
+
+  return 0;
+}
+
+const safeAreaBottom = resolveSafeAreaBottom(systemInfo);
+
 const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
 
 /** 默认使用 block，与历史默认一致；宿主可通过 :mode 绑定全局状态 */
@@ -30,13 +63,15 @@ const containerClass = computed(() => [
   props.customClass,
 ]);
 
-const containerStyle = computed(() => {
-  if (typeof props.customStyle === 'string') {
-    return props.customStyle;
+const containerStyle = computed<StyleValue>(() => {
+  const style: Record<string, string> = {};
+  if (preferRuntimeSafeArea || safeAreaBottom > 0) {
+    style['--lk-tabbar-container-safe-area-bottom'] = `${safeAreaBottom}px`;
   }
-  return Object.entries((props.customStyle || {}) as Record<string, unknown>)
-    .map(([k, v]) => `${k}: ${v}`)
-    .join('; ');
+
+  if (!props.customStyle) return style;
+  if (typeof props.customStyle === 'string') return [style, props.customStyle];
+  return [style, props.customStyle as StyleValue];
 });
 
 const activeIndex = computed(() => {
@@ -220,6 +255,10 @@ watch(
 @use './index.scss';
 
 $tabbar-height: var(--lk-control-height-lg);
+$tabbar-safe-area-bottom: var(
+  --lk-tabbar-container-safe-area-bottom,
+  env(safe-area-inset-bottom)
+);
 
 .lk-tabbar-container {
   width: 100%;
@@ -294,12 +333,12 @@ $tabbar-height: var(--lk-control-height-lg);
     z-index: 300;
     background: var(--lk-color-bg-container);
     border-top: 1px solid var(--lk-color-border);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: $tabbar-safe-area-bottom;
     overflow: visible;
   }
 
   &__placeholder {
-    height: calc(#{$tabbar-height} + env(safe-area-inset-bottom));
+    height: calc(#{$tabbar-height} + #{$tabbar-safe-area-bottom});
     flex-shrink: 0;
   }
 }
