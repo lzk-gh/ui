@@ -146,6 +146,8 @@ defineProps<{
   --lk-waterfall-demo-edge: 16rpx;
   --lk-demo-block-bg: var(--test-bg-card);
   --lk-demo-block-border: var(--test-border-color);
+  --lk-demo-block-border-width: 1rpx;
+  --lk-demo-block-shadow: var(--test-shadow-sm);
 
   background: transparent;
 }

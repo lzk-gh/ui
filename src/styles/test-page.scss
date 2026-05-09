@@ -68,7 +68,7 @@ $test-preset-active-shadow: var(--test-preset-active-shadow);
   --test-gray-800: #1f2937;
   --test-gray-900: #111827;
 
-  --test-bg-page: #f5f5f7;
+  --test-bg-page: #f4f5f9;
   --test-bg-card: #ffffff;
   --test-bg-hover: rgba(0, 0, 0, 0.04);
   --test-bg-active: rgba(0, 0, 0, 0.08);
@@ -78,11 +78,11 @@ $test-preset-active-shadow: var(--test-preset-active-shadow);
   --test-text-tertiary: #9ca3af;
   --test-text-inverse: #ffffff;
 
-  --test-border-color: #e5e7eb;
+  --test-border-color: rgba(31, 41, 55, 0.06);
 
-  --test-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --test-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --test-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --test-shadow-sm: 0 18rpx 46rpx rgba(17, 24, 39, 0.04);
+  --test-shadow-md: 0 22rpx 58rpx rgba(17, 24, 39, 0.06);
+  --test-shadow-lg: 0 30rpx 80rpx rgba(17, 24, 39, 0.08);
 
   --test-gradient-primary: linear-gradient(
     135deg,
@@ -115,8 +115,8 @@ $test-preset-active-shadow: var(--test-preset-active-shadow);
   --test-gray-800: #e2e8f0;
   --test-gray-900: #f8fafc;
 
-  --test-bg-page: #0b1220;
-  --test-bg-card: #111827;
+  --test-bg-page: #0f1014;
+  --test-bg-card: #1b1c20;
   --test-bg-hover: rgba(255, 255, 255, 0.06);
   --test-bg-active: rgba(255, 255, 255, 0.12);
 
@@ -125,11 +125,11 @@ $test-preset-active-shadow: var(--test-preset-active-shadow);
   --test-text-tertiary: #94a3b8;
   --test-text-inverse: #ffffff;
 
-  --test-border-color: #1f2937;
+  --test-border-color: rgba(255, 255, 255, 0.06);
 
-  --test-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --test-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.45);
-  --test-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --test-shadow-sm: 0 16rpx 42rpx rgba(0, 0, 0, 0.22);
+  --test-shadow-md: 0 24rpx 64rpx rgba(0, 0, 0, 0.3);
+  --test-shadow-lg: 0 34rpx 88rpx rgba(0, 0, 0, 0.38);
 
   --test-gradient-primary: linear-gradient(
     135deg,
