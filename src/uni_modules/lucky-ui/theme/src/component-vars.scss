@@ -230,15 +230,15 @@ page,
   --lk-fill-secondary: var(--lk-fill-1);
   --lk-fill-primary: var(--lk-fill-2);
 
-  /* === 表单控件填充（Apple 风格 - 统一的输入类控件背景）=== */
-  /* 用于 Input、Stepper、Search 等输入类控件的统一背景色 */
-  --lk-bg-input: #{colors.$color-bg-input-light};
-  --lk-bg-fill-secondary: var(--lk-bg-input); // 别名，向后兼容
+  /* === 公共弱背景/轨道色 === */
+  /* 用于 Input、Stepper、Picker 选中底、Slider 轨道、NoticeBar 等公共组件弱背景 */
+  --lk-bg-input: var(--lk-fill-1);
+  --lk-bg-fill-secondary: var(--lk-fill-1); // 别名，向后兼容
 
   /* 向后兼容的旧变量名（映射到新的中性色变量） */
   --lk-color-fill-quaternary: var(--lk-fill-quaternary);
   --lk-color-fill-tertiary: var(--lk-fill-tertiary);
-  --lk-color-fill-secondary: var(--lk-bg-input); // 映射到新的控件填充色
+  --lk-color-fill-secondary: var(--lk-fill-1); // 公共组件弱背景/轨道色
   --lk-color-fill-primary: var(--lk-fill-primary);
 
   /* === 边框 === */
@@ -266,7 +266,7 @@ page,
   --lk-icon-color: var(--lk-text-primary);
 
   /* === 输入框 === */
-  // 使用统一的控件填充色（Apple 风格）
+  // 使用统一的公共弱背景/轨道色
   --lk-input-bg: var(--lk-bg-input);
   --lk-input-border: var(--lk-color-border);
   --lk-input-border-hover: var(--lk-brand-600);
@@ -287,23 +287,23 @@ page,
   --lk-switch-size-md: 52rpx;
   --lk-switch-size-lg: 64rpx;
   --lk-switch-color-on: var(--lk-color-primary);
-  --lk-switch-color-off: var(--lk-fill-tertiary);
+  --lk-switch-color-off: var(--lk-fill-1);
   --lk-switch-knob-color: #ffffff;
 
   /* === 滑块 === */
-  --lk-slider-track-color: var(--lk-fill-tertiary);
+  --lk-slider-track-color: var(--lk-fill-1);
   --lk-slider-fill-color: var(--lk-color-primary);
   --lk-slider-thumb-color: #ffffff;
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 
   /* === 评分 === */
   --lk-rate-color-fill: var(--lk-color-warning);
-  --lk-rate-color-void: var(--lk-fill-tertiary);
+  --lk-rate-color-void: var(--lk-fill-1);
   --lk-rate-icon-size: 48rpx;
   --lk-rate-gap: 8rpx;
 
   /* === 步进器 === */
-  --lk-stepper-bg: #{colors.$color-gray-100};
+  --lk-stepper-bg: var(--lk-fill-1);
 
   /* === 键盘 === */
   --lk-keyboard-bg: var(--lk-color-bg-elevated);
@@ -401,15 +401,15 @@ page,
   --lk-fill-secondary: var(--lk-fill-1);
   --lk-fill-primary: var(--lk-fill-2);
 
-  /* === 表单控件填充（Apple 风格 - 统一的输入类控件背景）=== */
-  /* 用于 Input、Stepper、Search 等输入类控件的统一背景色 */
-  --lk-bg-input: #{colors.$color-bg-input-dark};
-  --lk-bg-fill-secondary: var(--lk-bg-input); // 别名，向后兼容
+  /* === 公共弱背景/轨道色 === */
+  /* 用于 Input、Stepper、Picker 选中底、Slider 轨道、NoticeBar 等公共组件弱背景 */
+  --lk-bg-input: var(--lk-fill-1);
+  --lk-bg-fill-secondary: var(--lk-fill-1); // 别名，向后兼容
 
   /* 向后兼容的旧变量名（映射到新的中性色变量） */
   --lk-color-fill-quaternary: var(--lk-fill-quaternary);
   --lk-color-fill-tertiary: var(--lk-fill-tertiary);
-  --lk-color-fill-secondary: var(--lk-bg-input); // 映射到新的控件填充色
+  --lk-color-fill-secondary: var(--lk-fill-1); // 公共组件弱背景/轨道色
   --lk-color-fill-primary: var(--lk-fill-primary);
 
   /* === 边框 === */
@@ -438,7 +438,7 @@ page,
   --lk-icon-color: var(--lk-text-primary);
 
   /* === 输入框 === */
-  // 使用统一的控件填充色（Apple 风格）
+  // 使用统一的公共弱背景/轨道色
   --lk-input-bg: var(--lk-bg-input);
   --lk-input-border: var(--lk-color-border);
   --lk-input-border-hover: var(--lk-brand-500);
@@ -459,23 +459,23 @@ page,
   --lk-switch-size-md: 52rpx;
   --lk-switch-size-lg: 64rpx;
   --lk-switch-color-on: var(--lk-color-primary);
-  --lk-switch-color-off: var(--lk-fill-tertiary);
+  --lk-switch-color-off: var(--lk-fill-1);
   --lk-switch-knob-color: #ffffff;
 
   /* === 滑块 === */
-  --lk-slider-track-color: var(--lk-fill-tertiary);
+  --lk-slider-track-color: var(--lk-fill-1);
   --lk-slider-fill-color: var(--lk-color-primary);
   --lk-slider-thumb-color: #ffffff;
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 
   /* === 评分 === */
   --lk-rate-color-fill: var(--lk-color-warning);
-  --lk-rate-color-void: var(--lk-fill-tertiary);
+  --lk-rate-color-void: var(--lk-fill-1);
   --lk-rate-icon-size: 48rpx;
   --lk-rate-gap: 8rpx;
 
   /* === 步进器 === */
-  --lk-stepper-bg: rgba(255, 255, 255, 0.08);
+  --lk-stepper-bg: var(--lk-fill-1);
 
   /* === 键盘 === */
   --lk-keyboard-bg: var(--lk-color-bg-container);
