@@ -10,9 +10,9 @@
 
   /* ── 设计令牌 ─────────────────────────────── */
   --lk-tabs-nav-bg: transparent;
-  --lk-tabs-active-color: var(--lk-color-primary);
+  --lk-tabs-active-color: var(--lk-brand-600, var(--lk-color-primary));
   --lk-tabs-text-color: var(--lk-text-secondary);
-  --lk-tabs-active-text-color: var(--lk-color-primary);
+  --lk-tabs-active-text-color: var(--lk-brand-600, var(--lk-color-primary));
   --lk-tabs-line-height: var(--lk-spacing-xxs);
   --lk-tabs-line-radius: var(--lk-radius-full);
   --lk-tabs-font-size: var(--lk-font-size-base);
@@ -153,6 +153,7 @@
     position: relative;
     z-index: 1;
     line-height: 1.4;
+    color: inherit;
   }
 
   /* ── indicator-wrap ────────────────────────── */
