@@ -36,6 +36,7 @@
     "predev:h5": "pnpm run compat-check",
     "predev:mp-weixin": "pnpm run compat-check",
     "type-check": "vue-tsc --noEmit",
+    "type-check:changed": "node scripts/type-check-changed.js",
     "lint": "pnpm run lint:eslint && pnpm run lint:stylelint",
     "lint:eslint": "eslint --ext .js,.ts,.vue src",
     "lint:stylelint": "stylelint \"src/**/*.{css,scss,vue}\"",
