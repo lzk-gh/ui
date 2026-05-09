@@ -54,8 +54,13 @@ const safeAreaBottom = resolveSafeAreaBottom(systemInfo);
 
 const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
 
+const TABBAR_ICON_SIZE = 40;
+const slidingIndicatorModes = ['block', 'marker-top', 'marker-bottom', 'dot-slide'];
+
 /** 默认使用 block，与历史默认一致；宿主可通过 :mode 绑定全局状态 */
 const activeMode = computed(() => props.mode ?? 'block');
+
+const hasSlidingIndicator = computed(() => slidingIndicatorModes.includes(activeMode.value));
 
 const containerClass = computed(() => [
   'lk-tabbar-container',
@@ -209,7 +214,7 @@ watch(
       <view class="tabbar-wrapper">
         <!-- 激活项背景 (滑动指示器类模式) -->
         <view
-          v-if="['block', 'marker-top', 'marker-bottom', 'dot-slide'].includes(activeMode)"
+          v-if="hasSlidingIndicator"
           class="tabbar-active-bg"
           :class="[`is-${activeMode}`]"
           :style="activeBgStyle"
@@ -243,7 +248,7 @@ watch(
 
           <view class="tabbar-item__icon-wrapper">
             <view class="tabbar-item__icon">
-              <lk-icon :name="resolveTabIcon(tab)" size="44" />
+              <lk-icon :name="resolveTabIcon(tab)" :size="TABBAR_ICON_SIZE" />
               <!-- 徽标 -->
               <view v-if="tab.badge && tab.badge > 0" class="tabbar-item__badge">
                 {{ tab.badge > 99 ? '99+' : tab.badge }}
@@ -268,7 +273,7 @@ watch(
 <style lang="scss" scoped>
 @use './index.scss';
 
-$tabbar-height: var(--lk-control-height-lg);
+$tabbar-height: var(--lk-tabbar-container-height, var(--lk-rpx-112));
 $tabbar-safe-area-bottom: var(
   --lk-tabbar-container-safe-area-bottom,
   env(safe-area-inset-bottom)
@@ -380,8 +385,8 @@ $tabbar-safe-area-bottom: var(
   z-index: 0;
 
   &.is-block {
-    top: var(--lk-spacing-sm);
-    bottom: var(--lk-spacing-sm);
+    top: var(--lk-tabbar-container-active-inset-y);
+    bottom: var(--lk-tabbar-container-active-inset-y);
     background: var(--lk-color-primary);
     border-radius: var(--lk-radius-full);
     margin: 0 var(--lk-spacing-sm);
@@ -456,6 +461,7 @@ $tabbar-safe-area-bottom: var(
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--lk-tabbar-container-item-gap);
   flex: 1;
   height: $tabbar-height;
   min-width: 0;
@@ -538,7 +544,7 @@ $tabbar-safe-area-bottom: var(
 
     // Common Icon Animations
     .tabbar-item__icon {
-      transform: translateY(calc(var(--lk-rpx-2) * -1));
+      transform: translateY(var(--lk-tabbar-container-active-icon-translate-y));
     }
 
     // Mode Specifics
@@ -599,8 +605,8 @@ $tabbar-safe-area-bottom: var(
     display: flex;
     align-items: center;
     justify-content: center;
-    width: calc(var(--lk-control-height-xs) - var(--lk-spacing-xxs));
-    height: calc(var(--lk-control-height-xs) - var(--lk-spacing-xxs));
+    width: var(--lk-tabbar-container-icon-size);
+    height: var(--lk-tabbar-container-icon-size);
     flex-shrink: 0;
     color: inherit;
     transform: translateZ(0);
@@ -641,9 +647,9 @@ $tabbar-safe-area-bottom: var(
   }
 
   &__label {
-    margin-top: var(--lk-spacing-xxs);
+    margin-top: 0;
     font-size: var(--lk-font-size-sm);
-    line-height: var(--lk-line-height-base);
+    line-height: var(--lk-tabbar-container-label-line-height);
     height: auto;
     white-space: nowrap;
     overflow: hidden;
