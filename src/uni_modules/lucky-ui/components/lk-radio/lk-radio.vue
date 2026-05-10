@@ -125,7 +125,12 @@ function handleLabelClick() {
     <view class="lk-radio__icon-wrap">
       <slot name="icon" :checked="isChecked" :disabled="isDisabled">
         <view class="lk-radio__icon" :class="[`lk-radio__icon--${mergedShape}`]" :style="iconStyle">
-          <lk-icon class="lk-radio__check" name="check" :size="mergedIconSize" color="#fff" />
+          <lk-icon
+            class="lk-radio__check"
+            name="check"
+            :size="mergedIconSize"
+            color="var(--lk-radio-check-color)"
+          />
           <view class="lk-radio__dot" />
         </view>
       </slot>

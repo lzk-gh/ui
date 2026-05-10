@@ -135,8 +135,18 @@ function handleLabelClick() {
           :class="[`lk-checkbox__icon--${mergedShape}`]"
           :style="iconStyle"
         >
-          <lk-icon class="lk-checkbox__check" name="check" :size="mergedIconSize" color="#fff" />
-          <lk-icon class="lk-checkbox__dash" name="dash" :size="mergedIconSize" color="#fff" />
+          <lk-icon
+            class="lk-checkbox__check"
+            name="check"
+            :size="mergedIconSize"
+            color="var(--lk-checkbox-check-color)"
+          />
+          <lk-icon
+            class="lk-checkbox__dash"
+            name="dash"
+            :size="mergedIconSize"
+            color="var(--lk-checkbox-check-color)"
+          />
           <view class="lk-checkbox__dot" />
         </view>
       </slot>

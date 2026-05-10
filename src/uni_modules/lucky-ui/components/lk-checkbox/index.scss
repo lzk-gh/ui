@@ -81,7 +81,8 @@
       content: '';
       width: 45%;
       height: 45%;
-      background-color: var(--lk-color-text-inverse);
+      // 主色块上的圆点：用 --lk-checkbox-check-color（暗色下 text-inverse 为黑，不适用）
+      background-color: var(--lk-checkbox-check-color);
       border-radius: 50%;
     }
   }
