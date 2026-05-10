@@ -81,7 +81,8 @@
       content: '';
       width: 50%;
       height: 50%;
-      background-color: var(--lk-color-text-inverse);
+      // 主色块上的内点：用 --lk-radio-check-color（暗色下 text-inverse 为黑，不适用）
+      background-color: var(--lk-radio-check-color);
       border-radius: 50%;
     }
   }
