@@ -36,7 +36,7 @@ const borderRadius = computed(() => {
 const avatarStyle = computed(() => ({
   width: addUnit(props.size),
   height: addUnit(props.size),
-  background: props.bg || 'var(--lk-fill-2)',
+  background: props.bg || 'var(--lk-fill-1)',
   borderRadius: borderRadius.value,
   color: props.color || undefined,
 }));

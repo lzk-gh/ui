@@ -121,9 +121,6 @@ const toggleTag = (name: string) => {
 
 .selectable-tag {
   cursor: pointer;
-  &:active {
-    transform: scale(0.95);
-  }
 }
 
 .tag-group {

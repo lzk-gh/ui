@@ -16,6 +16,7 @@
   box-sizing: border-box;
   white-space: nowrap;
   vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
 
   // 默认使用中性填充色背景
   background: var(--lk-fill-1);
