@@ -171,15 +171,37 @@ function onConfirm() {
   emit('update:visible', false);
 }
 
+/** 与当前列选中索引的距离档位（0=中间行），用于字号/颜色分层 */
+function distBucket(ci: number, oi: number): 0 | 1 | 2 | 3 {
+  const sel = selectedIndexes.value[ci];
+  if (sel === undefined) return 3;
+  return Math.min(Math.abs(oi - sel), 3) as 0 | 1 | 2 | 3;
+}
+
+/** 分层样式挂在 text 上：小程序 picker-view 内纯文本节点可能不继承 view 的字号/颜色/transform */
+function itemLabelClass(ci: number, oi: number): string {
+  return `lk-picker__item-label lk-picker__item-label--dist${distBucket(ci, oi)}`;
+}
+
 // 计算 picker-view 高度
 const viewHeight = computed(() => `${props.itemHeight * props.visibleCount}rpx`);
 const viewWrapStyle = computed(() => `--lk-picker-item-height: ${props.itemHeight}rpx;`);
-const indicatorStyle = computed(() => [
-  `height: ${props.itemHeight}rpx`,
-  'background: transparent',
-  'border-top: 0',
-  'border-bottom: 0',
-].join(';'));
+// 各端指示层：小程序原生主要靠此字符串去默认上下边线；与 index.scss 中伪元素覆盖互为补充。
+const indicatorStyle = computed(() =>
+  [
+    `height: ${props.itemHeight}rpx`,
+    'background: transparent',
+    'border: none',
+    'border-width: 0',
+    'border-top: none',
+    'border-bottom: none',
+    'border-left: none',
+    'border-right: none',
+    'border-color: transparent',
+    'outline: none',
+    'box-shadow: none',
+  ].join(';')
+);
 // ⚠️可能存在平台差异：picker-view 的遮罩层由各端原生实现，需通过 mask-style 覆盖默认浅色渐隐。
 const maskStyle = computed(() => [
   'background-image: linear-gradient(to bottom, var(--lk-picker-bg), transparent), linear-gradient(to top, var(--lk-picker-bg), transparent)',
@@ -204,10 +226,10 @@ const style = computed(() => props.customStyle as StyleValue);
       <text class="lk-picker__title">{{ title }}</text>
     </view>
     <view class="lk-picker__view-wrap" :style="viewWrapStyle">
-      <view class="lk-picker__selection" />
       <picker-view
         :value="selectedIndexes"
         class="lk-picker__view"
+        indicator-class="lk-picker__indicator-host"
         :indicator-style="indicatorStyle"
         :mask-style="maskStyle"
         :style="{ height: viewHeight }"
@@ -220,7 +242,7 @@ const style = computed(() => props.customStyle as StyleValue);
             class="lk-picker__item"
             :style="{ height: itemHeight + 'rpx', lineHeight: itemHeight + 'rpx' }"
           >
-            {{ opt.label }}
+            <text :class="itemLabelClass(ci, oi)">{{ opt.label }}</text>
           </view>
         </picker-view-column>
       </picker-view>
@@ -246,10 +268,10 @@ const style = computed(() => props.customStyle as StyleValue);
         </view>
       </view>
       <view class="lk-picker__view-wrap" :style="viewWrapStyle">
-        <view class="lk-picker__selection" />
         <picker-view
           :value="selectedIndexes"
           class="lk-picker__view"
+          indicator-class="lk-picker__indicator-host"
           :indicator-style="indicatorStyle"
           :mask-style="maskStyle"
           :style="{ height: viewHeight }"
@@ -262,7 +284,7 @@ const style = computed(() => props.customStyle as StyleValue);
               class="lk-picker__item"
               :style="{ height: itemHeight + 'rpx', lineHeight: itemHeight + 'rpx' }"
             >
-              {{ opt.label }}
+              <text :class="itemLabelClass(ci, oi)">{{ opt.label }}</text>
             </view>
           </picker-view-column>
         </picker-view>

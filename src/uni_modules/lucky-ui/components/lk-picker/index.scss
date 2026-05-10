@@ -6,9 +6,6 @@
   --lk-picker-title-color: var(--lk-color-text);
   --lk-picker-cancel-color: var(--lk-color-text-secondary);
   --lk-picker-confirm-color: var(--lk-color-primary);
-  --lk-picker-item-color: var(--lk-color-text);
-  --lk-picker-indicator-bg: var(--lk-color-fill-secondary);
-  --lk-picker-indicator-border: var(--lk-color-border-light);
   --lk-picker-item-height: var(--lk-rpx-100);
 
   width: 100%;
@@ -65,43 +62,72 @@
     background: var(--lk-picker-bg);
   }
 
-  @include e(selection) {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    left: 0;
-    height: var(--lk-picker-item-height);
-    background: var(--lk-picker-indicator-bg);
-    border: 0;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-
   @include e(view) {
     position: relative;
     width: 100%;
-    background: var(--lk-picker-bg);
+    background: transparent;
   }
 
+  // 无中间底条；分层样式在 item-label（text）上：picker-view 内文本节点需显式挂载，否则小程序端易不继承 view 排版
   @include e(item) {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--lk-font-size-lg);
-    color: var(--lk-picker-item-color);
+    box-sizing: border-box;
     padding: 0 var(--lk-rpx-24);
+    overflow: hidden;
+  }
+
+  @include e(item-label) {
+    display: block;
+    max-width: 100%;
+    font-weight: 400;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transform-origin: center center;
+    transition:
+      transform 0.14s ease,
+      color 0.14s ease,
+      font-size 0.14s ease;
+
+    @include m(dist0) {
+      font-size: var(--lk-font-size-xl);
+      color: var(--lk-text-primary);
+      transform: scale(1);
+    }
+
+    @include m(dist1) {
+      font-size: var(--lk-font-size-lg);
+      color: var(--lk-text-regular);
+      transform: scale(0.96);
+    }
+
+    @include m(dist2) {
+      font-size: var(--lk-font-size-md);
+      color: var(--lk-text-secondary);
+      transform: scale(0.92);
+    }
+
+    @include m(dist3) {
+      font-size: var(--lk-font-size-sm);
+      color: var(--lk-text-placeholder);
+      transform: scale(0.88);
+    }
   }
 
-  // ⚠️可能存在平台差异：H5 的 picker-view indicator 背景层会盖住选中项文字。
-  // #ifdef H5
+  // ⚠️可能存在平台差异：H5/App-Vue 等用 DOM 渲染时，指示条伪元素画上下边线；小程序原生 picker-view 主要靠 indicator-style 去边线，外部样式未必生效。
+  .lk-picker__indicator-host,
+  .lk-picker__indicator-host::before,
+  .lk-picker__indicator-host::after,
   .uni-picker-view-indicator,
   .uni-picker-view-indicator::before,
   .uni-picker-view-indicator::after {
     background: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
-  // #endif
 }
