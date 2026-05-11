@@ -445,7 +445,7 @@ const componentMark = computed(
 const demoComponent = ref<any>(null);
 
 // 主题
-const { theme, toggleTheme } = useTheme();
+const { theme, toggleTheme, themeClass } = useTheme();
 
 const applyComponentName = (name?: string) => {
   if (!name) return;
@@ -655,7 +655,7 @@ const loadDemoComponent = async (name: string) => {
 </script>
 
 <template>
-  <view class="detail-page" :class="theme === 'dark' ? 'lk-theme-dark' : 'lk-theme-light'">
+  <view class="detail-page" :class="themeClass">
     <!-- 导航栏 -->
     <lk-navbar :title="componentTitle">
       <template #right>

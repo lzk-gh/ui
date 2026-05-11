@@ -8,24 +8,34 @@
     color var(--lk-transition-base),
     border-color var(--lk-transition-base),
     box-shadow var(--lk-transition-base) !important;
-
-  // 内部所有元素也继承过渡（慎用，可能会导致更严重的性能问题）
-  // * {
-  //   transition: inherit;
-  // }
 }
 
 // 针对小程序端的特殊优化：
 // 在切换瞬间禁用所有复杂的过渡，等切换完成后再恢复
 /* #ifdef H5 */
-.lk-theme-switching * {
+.lk-theme-switching,
+.lk-theme-switching *,
+.lk-theme-switching *::before,
+.lk-theme-switching *::after {
   transition: none !important;
   animation: none !important;
 }
 /* #endif */
 
 /* #ifndef H5 */
-.lk-theme-switching {
+/* 微信小程序/App 等非 H5 环境不支持 * 选择器，手动罗列基础标签 */
+.lk-theme-switching,
+.lk-theme-switching view,
+.lk-theme-switching text,
+.lk-theme-switching image,
+.lk-theme-switching scroll-view,
+.lk-theme-switching button,
+.lk-theme-switching input,
+.lk-theme-switching textarea,
+.lk-theme-switching label,
+.lk-theme-switching navigator,
+.lk-theme-switching swiper,
+.lk-theme-switching swiper-item {
   transition: none !important;
   animation: none !important;
 }

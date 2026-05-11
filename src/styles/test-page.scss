@@ -145,10 +145,38 @@ $test-preset-active-shadow: var(--test-preset-active-shadow);
 page {
   background-color: $test-bg-page;
   color: $test-text-primary;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
 }
+
+/* 瞬间切换，屏蔽一切过渡导致的 WebView 线程阻塞 */
+/* #ifndef MP-WEIXIN */
+.lk-theme-switching,
+.lk-theme-switching *,
+.lk-theme-switching *::before,
+.lk-theme-switching *::after {
+  transition: none !important;
+  animation: none !important;
+}
+/* #endif */
+
+/* #ifdef MP-WEIXIN */
+/* 微信小程序不支持 * 选择器，手动罗列常用基础组件以实现类似效果。
+   注意：应避免使用 [class*="lk-"] 等属性选择器，它们在复杂页面上非常缓慢。 */
+.lk-theme-switching,
+.lk-theme-switching view,
+.lk-theme-switching text,
+.lk-theme-switching image,
+.lk-theme-switching scroll-view,
+.lk-theme-switching button,
+.lk-theme-switching input,
+.lk-theme-switching textarea,
+.lk-theme-switching label,
+.lk-theme-switching navigator,
+.lk-theme-switching swiper,
+.lk-theme-switching swiper-item {
+  transition: none !important;
+  animation: none !important;
+}
+/* #endif */
 
 :root {
   --test-border-radius: 12rpx;
