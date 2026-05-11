@@ -70,7 +70,7 @@ export const keyboardProps = {
   /**
    * 确认按钮文本
    */
-  confirmText: LkProp.string('完成'),
+  confirmText: LkProp.string(''),
 
   /**
    * 是否显示确认按钮

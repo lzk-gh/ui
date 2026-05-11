@@ -8,11 +8,16 @@ import {
   type PickerValue,
 } from './picker.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkPicker' });
 
 const props = defineProps(pickerProps);
 const emit = defineEmits(pickerEmits);
+const { t } = useLocale('picker');
+
+const resolvedConfirmText = computed(() => props.confirmText || t('confirm'));
+const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
 
 // 当前选中的索引数组
 const selectedIndexes = ref<number[]>([]);
@@ -260,11 +265,11 @@ const style = computed(() => props.customStyle as StyleValue);
     <view :id="id" :class="cls" :style="style">
       <view class="lk-picker__toolbar">
         <view class="lk-picker__btn lk-picker__btn--cancel" @tap="onCancel">
-          {{ cancelText }}
+          {{ resolvedCancelText }}
         </view>
         <view class="lk-picker__title">{{ title }}</view>
         <view class="lk-picker__btn lk-picker__btn--confirm" @tap="onConfirm">
-          {{ confirmText }}
+          {{ resolvedConfirmText }}
         </view>
       </view>
       <view class="lk-picker__view-wrap" :style="viewWrapStyle">

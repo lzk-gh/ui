@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { verifyCodeProps, verifyCodeEmits, VerifyCodeStatus } from './verify-code.props';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkVerifyCode' });
 
 const props = defineProps(verifyCodeProps);
 const emit = defineEmits(verifyCodeEmits);
+const { t } = useLocale('verifyCode');
 
 // 内部状态
 const val = ref(props.modelValue || '');
@@ -40,9 +42,10 @@ const containerStyle = computed(() => {
 // 倒计时显示文字
 const countdownDisplayText = computed(() => {
   if (isCountingDown.value) {
-    return props.countdownText.replace('{s}', String(countdownRemaining.value));
+    const template = props.countdownText || t('countdown');
+    return template.replace('{s}', String(countdownRemaining.value));
   }
-  return val.value.length === 0 ? props.sendText : props.resendText;
+  return val.value.length === 0 ? (props.sendText || t('send')) : (props.resendText || t('resend'));
 });
 
 // 状态样式类

@@ -64,11 +64,11 @@ export const verifyCodeProps = {
   /** 倒计时时长（秒） */
   countdownDuration: LkProp.number(60),
   /** 发送按钮文字 */
-  sendText: LkProp.string('获取验证码'),
+  sendText: LkProp.string(''),
   /** 重新发送按钮文字 */
-  resendText: LkProp.string('重新获取'),
+  resendText: LkProp.string(''),
   /** 倒计时文字模板，{s}为秒数占位符 */
-  countdownText: LkProp.string('{s}s后重新获取'),
+  countdownText: LkProp.string(''),
   /** 单元格间距 */
   gap: LkProp.number(12),
   /** 单元格尺寸 */

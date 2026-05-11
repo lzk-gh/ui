@@ -2,6 +2,7 @@
 import type { StyleValue } from 'vue';
 import { computed, ref, watch } from 'vue';
 import { calendarEmits, calendarProps } from './calendar.props';
+import { useLocale } from '../../composables/useLocale';
 import {
   CalendarMode,
   CalendarView,
@@ -34,6 +35,7 @@ defineOptions({ name: 'LkCalendar' });
 
 const props = defineProps(calendarProps);
 const emit = defineEmits(calendarEmits);
+const { t } = useLocale('calendar');
 
 type TouchPoint = {
   clientX: number;
@@ -58,7 +60,7 @@ let swipeLast: TouchPoint | null = null;
 const mode = computed<CalendarMode>(() => (props.mode || props.type) as CalendarMode);
 const isReadonly = computed(() => props.readonly || mode.value === CalendarMode.Readonly);
 const weekLabels = computed(() => {
-  const labels = ['日', '一', '二', '三', '四', '五', '六'];
+  const labels = t('weekdays') as string[];
   return Array.from({ length: 7 }, (_, index) => labels[(props.firstDay + index) % 7]);
 });
 
@@ -202,7 +204,7 @@ const monthGroups = computed<CalendarMonthGroup[]>(() => {
   if (!isScrollView.value) {
     return [{
       key: formatDate(panelDate.value, 'YYYY-MM'),
-      title: `${panelYear.value}年${panelMonth.value}月`,
+      title: t('monthTitle', panelYear.value, panelMonth.value),
       days: days.value,
     }];
   }
@@ -214,7 +216,7 @@ const monthGroups = computed<CalendarMonthGroup[]>(() => {
     const source = getMonthGridDates(year, month, props.firstDay, false);
     return {
       key: formatDate(monthDate, 'YYYY-MM'),
-      title: `${year}年${month}月`,
+      title: t('monthTitle', year, month),
       days: source.map((date, dayIndex) => createDay(date, dayIndex, year, month)),
     };
   });
@@ -461,9 +463,15 @@ const scrollStyle = computed<StyleValue>(() => ({
     <view v-if="props.showHeader" class="lk-calendar__header">
       <view class="lk-calendar__nav" @tap="changeMonth(-1)">‹</view>
       <view class="lk-calendar__title">
-        <text class="lk-calendar__ym">{{ panelYear }}年{{ panelMonth }}月</text>
+        <text class="lk-calendar__ym">{{ t('monthTitle', panelYear, panelMonth) }}</text>
         <text class="lk-calendar__subtitle">
-          {{ currentView === 'week' ? '周视图' : currentView === 'scroll' ? '连续滚动' : '月视图' }}
+          {{
+            currentView === 'week'
+              ? t('viewWeek')
+              : currentView === 'scroll'
+                ? t('viewScroll')
+                : t('viewMonth')
+          }}
         </text>
       </view>
       <view class="lk-calendar__nav" @tap="changeMonth(1)">›</view>
@@ -475,32 +483,36 @@ const scrollStyle = computed<StyleValue>(() => ({
         :class="{ 'is-active': currentView === 'month' }"
         @tap="switchView(CalendarView.Month)"
       >
-        月
+        {{ t('viewMonth').charAt(0) }}
       </view>
       <view
         class="lk-calendar__switch-item"
         :class="{ 'is-active': currentView === 'week' }"
         @tap="switchView(CalendarView.Week)"
       >
-        周
+        {{ t('viewWeek').charAt(0) }}
       </view>
       <view
         class="lk-calendar__switch-item"
         :class="{ 'is-active': currentView === 'scroll' }"
         @tap="switchView(CalendarView.Scroll)"
       >
-        滚动
+        {{ t('viewScroll').slice(-2) }}
       </view>
     </view>
 
     <view v-if="props.showShortcuts" class="lk-calendar__shortcuts">
-      <view class="lk-calendar__chip" @tap="applyShortcut('today')">今天</view>
-      <view class="lk-calendar__chip" @tap="applyShortcut('tomorrow')">明天</view>
-      <view class="lk-calendar__chip" @tap="applyShortcut('thisWeek')">本周</view>
-      <view class="lk-calendar__chip" @tap="applyShortcut('thisMonth')">本月</view>
-      <view v-if="mode === 'range'" class="lk-calendar__chip" @tap="applyShortcut('last7')">近7天</view>
-      <view v-if="mode === 'range'" class="lk-calendar__chip" @tap="applyShortcut('last30')">近30天</view>
-      <view class="lk-calendar__chip is-plain" @tap="applyShortcut('clear')">清除</view>
+      <view class="lk-calendar__chip" @tap="applyShortcut('today')">{{ t('today') }}</view>
+      <view class="lk-calendar__chip" @tap="applyShortcut('tomorrow')">{{ t('tomorrow') }}</view>
+      <view class="lk-calendar__chip" @tap="applyShortcut('thisWeek')">{{ t('thisWeek') }}</view>
+      <view class="lk-calendar__chip" @tap="applyShortcut('thisMonth')">{{ t('thisMonth') }}</view>
+      <view v-if="mode === 'range'" class="lk-calendar__chip" @tap="applyShortcut('last7')">
+        {{ t('last7Days') }}
+      </view>
+      <view v-if="mode === 'range'" class="lk-calendar__chip" @tap="applyShortcut('last30')">
+        {{ t('last30Days') }}
+      </view>
+      <view class="lk-calendar__chip is-plain" @tap="applyShortcut('clear')">{{ t('clear') }}</view>
     </view>
 
     <view class="lk-calendar__week">
@@ -543,7 +555,7 @@ const scrollStyle = computed<StyleValue>(() => ({
               <view class="lk-calendar__day-main">
                 <text class="lk-calendar__day-text">{{ day.day }}</text>
                 <text v-if="props.showHoliday && (day.isHoliday || day.isWorkday)" class="lk-calendar__tag">
-                  {{ day.isWorkday ? '班' : '休' }}
+                  {{ day.isWorkday ? t('workdayTag') : t('holidayTag') }}
                 </text>
               </view>
               <text class="lk-calendar__day-sub">{{ getDaySubText(day) }}</text>
@@ -592,8 +604,9 @@ const scrollStyle = computed<StyleValue>(() => ({
           <view class="lk-calendar__day-main">
             <text class="lk-calendar__day-text">{{ day.day }}</text>
             <text v-if="props.showHoliday && (day.isHoliday || day.isWorkday)" class="lk-calendar__tag">
-              {{ day.isWorkday ? '班' : '休' }}
+              {{ day.isWorkday ? t('workdayTag') : t('holidayTag') }}
             </text>
+
           </view>
           <text class="lk-calendar__day-sub">{{ getDaySubText(day) }}</text>
           <view v-if="day.extra?.label || day.extra?.badge" class="lk-calendar__extra-row">

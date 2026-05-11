@@ -59,16 +59,16 @@ export const pullRefreshProps = {
   successDuration: LkProp.number(500),
 
   /** 下拉过程文案 */
-  pullingText: LkProp.string('下拉刷新'),
+  pullingText: LkProp.string(''),
 
   /** 释放刷新文案 */
-  loosingText: LkProp.string('释放刷新'),
+  loosingText: LkProp.string(''),
 
   /** 刷新中文案 */
-  loadingText: LkProp.string('刷新中'),
+  loadingText: LkProp.string(''),
 
   /** 刷新成功文案 */
-  successText: LkProp.string('刷新完成'),
+  successText: LkProp.string(''),
 } as const;
 
 export type PullRefreshProps = ExtractPropTypes<typeof pullRefreshProps>;

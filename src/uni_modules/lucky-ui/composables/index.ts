@@ -15,3 +15,5 @@ export type {
 
 export { usePagePullRefresh } from './usePagePullRefresh';
 export type { UsePagePullRefreshOptions } from './usePagePullRefresh';
+
+export { useLocale } from './useLocale';

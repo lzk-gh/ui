@@ -40,10 +40,10 @@ export const pickerProps = {
   title: LkProp.string(''),
 
   /** 确认按钮文字 */
-  confirmText: LkProp.string('确定'),
+  confirmText: LkProp.string(''),
 
   /** 取消按钮文字 */
-  cancelText: LkProp.string('取消'),
+  cancelText: LkProp.string(''),
 
   /** 是否显示 (popup 模式) */
   visible: LkProp.boolean(false),

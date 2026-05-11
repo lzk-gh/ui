@@ -4,12 +4,14 @@ import { computed, watch, ref } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import { actionSheetProps, actionSheetEmits, type Action } from './action-sheet.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkActionSheet' });
 
 const props = defineProps(actionSheetProps);
-
 const emit = defineEmits(actionSheetEmits);
+const { t } = useLocale('actionSheet');
+
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<number | string>(-1);
@@ -68,6 +70,7 @@ function cancel(event: unknown) {
 function onPopupModelChange(v: boolean) {
   emit('update:modelValue', v);
 }
+const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
 </script>
 
 <template>
@@ -113,12 +116,12 @@ function onPopupModelChange(v: boolean) {
       </view>
 
       <view
-        v-if="cancelText"
+        v-if="cancelText || t('cancel')"
         class="lk-action-sheet__cancel lk-ripple"
         :class="{ 'lk-ripple--active': rippleActive && activeIndex === 'cancel' }"
         @tap="cancel"
       >
-        {{ cancelText }}
+        <text class="lk-action-sheet__cancel-text">{{ resolvedCancelText }}</text>
         <view class="lk-ripple__wave" :style="rippleWaveStyle" />
       </view>
       <view v-if="safeArea" class="lk-action-sheet__safe" />

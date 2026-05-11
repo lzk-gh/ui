@@ -1,0 +1,63 @@
+export default {
+  name: 'zh-Hans',
+  lk: {
+    common: {
+      confirm: '确认',
+      cancel: '取消',
+      loading: '加载中...',
+      empty: '暂无数据',
+    },
+    calendar: {
+      title: '日期选择',
+      weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+      monthTitle: (year: number, month: number) => `${year}年${month}月`,
+      today: '今天',
+      tomorrow: '明天',
+      yesterday: '昨天',
+      thisWeek: '本周',
+      thisMonth: '本月',
+      last7Days: '近7天',
+      last30Days: '近30天',
+      clear: '清除',
+      viewMonth: '月视图',
+      viewWeek: '周视图',
+      viewScroll: '连续滚动',
+      holidayTag: '休',
+      workdayTag: '班',
+    },
+    empty: {
+      empty: { title: '暂无数据', description: '当前没有可展示的内容' },
+      search: { title: '未找到结果', description: '换个关键词再试试' },
+      network: { title: '网络异常', description: '请检查网络连接后重试' },
+      error: { title: '加载失败', description: '页面遇到了一点问题' },
+      permission: { title: '暂无权限', description: '开通权限后即可查看' },
+      inbox: { title: '消息为空', description: '新的消息会显示在这里' },
+      cart: { title: '购物车为空', description: '去添加一些喜欢的商品吧' },
+      favorite: { title: '暂无收藏', description: '收藏的内容会显示在这里' },
+    },
+    picker: {
+      confirm: '确认',
+      cancel: '取消',
+    },
+    verifyCode: {
+      send: '获取验证码',
+      resend: '重新获取',
+      countdown: '{s}s后重新获取',
+    },
+    keyboard: {
+      confirm: '完成',
+      hide: '收起',
+      abc: 'ABC',
+      province: '省份',
+    },
+    pullRefresh: {
+      pulling: '下拉刷新',
+      loosing: '释放刷新',
+      loading: '刷新中',
+      success: '刷新完成',
+    },
+    actionSheet: {
+      cancel: '取消',
+    },
+  },
+};

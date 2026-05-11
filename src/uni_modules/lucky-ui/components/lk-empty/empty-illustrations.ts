@@ -1,5 +1,6 @@
 import type { EmptyName } from './empty.props';
 import { DEFAULT_BRAND_COLOR } from '../../theme';
+import { Locale } from '../../locale';
 
 export interface EmptyPreset {
   title: string;
@@ -148,7 +149,13 @@ function createIllustrations(palette: EmptyPalette): Record<EmptyName, string> {
 };
 
 export function getEmptyPreset(name: EmptyName): EmptyPreset {
-  return emptyPresetText[name] || emptyPresetText.empty;
+  const title = Locale.t(`lk.empty.${name}.title`);
+  const description = Locale.t(`lk.empty.${name}.description`);
+
+  return {
+    title: title !== `lk.empty.${name}.title` ? title : (emptyPresetText[name]?.title || emptyPresetText.empty.title),
+    description: description !== `lk.empty.${name}.description` ? description : (emptyPresetText[name]?.description || emptyPresetText.empty.description),
+  };
 }
 
 export function getEmptyIllustrationSrc(name: EmptyName, color?: string): string {

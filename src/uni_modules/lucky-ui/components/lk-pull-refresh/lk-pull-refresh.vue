@@ -4,11 +4,13 @@ import { addUnit } from '../../core/src/utils/unit';
 import LkLoading from '../lk-loading/lk-loading.vue';
 import { PullRefreshStatus, pullRefreshEmits, pullRefreshProps } from './pull-refresh.props';
 import type { PullRefreshStatus as PullRefreshStatusType } from './pull-refresh.props';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkPullRefresh' });
 
 const props = defineProps(pullRefreshProps);
 const emit = defineEmits(pullRefreshEmits);
+const { t } = useLocale('pullRefresh');
 
 const status = ref<PullRefreshStatusType>(
   props.modelValue ? PullRefreshStatus.Refreshing : PullRefreshStatus.Idle
@@ -41,10 +43,10 @@ const rootStyle = computed(() => ({
 }));
 
 const indicatorText = computed(() => {
-  if (status.value === PullRefreshStatus.Refreshing) return props.loadingText;
-  if (status.value === PullRefreshStatus.Success) return props.successText;
-  if (status.value === PullRefreshStatus.Loosing) return props.loosingText;
-  return props.pullingText;
+  if (status.value === PullRefreshStatus.Refreshing) return props.loadingText || t('loading');
+  if (status.value === PullRefreshStatus.Success) return props.successText || t('success');
+  if (status.value === PullRefreshStatus.Loosing) return props.loosingText || t('loosing');
+  return props.pullingText || t('pulling');
 });
 
 const isIndicatorVisible = computed(

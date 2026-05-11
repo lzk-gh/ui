@@ -180,3 +180,6 @@ export * from './lk-meta-row/meta-row.props';
 // New: FAB (Floating Action Button)
 export { default as LkFab } from './lk-fab/lk-fab.vue';
 export * from './lk-fab/fab.props';
+
+// New: ConfigProvider
+export { default as LkConfigProvider } from './lk-config-provider/lk-config-provider.vue';

@@ -35,7 +35,7 @@ export const actionSheetProps = {
   },
 
   /** 取消按钮文字 */
-  cancelText: LkProp.string('取消'),
+  cancelText: LkProp.string(''),
 
   /** 点击选项后是否关闭 */
   closeOnClickAction: LkProp.boolean(true),

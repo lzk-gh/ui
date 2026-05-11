@@ -2,11 +2,13 @@
 import { ref, computed, watch } from 'vue';
 import { keyboardProps, keyboardEmits, type KeyboardKey } from './keyboard.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkKeyboard' });
 
 const props = defineProps(keyboardProps);
 const emit = defineEmits(keyboardEmits);
+const { t } = useLocale('keyboard');
 
 // 内部显示状态
 const isVisible = ref(props.visible);
@@ -90,75 +92,16 @@ const idCardLayout = computed((): KeyboardKey[][] => {
 
 // 车牌号键盘 - 省份简称
 const plateProvinces = [
-  '京',
-  '津',
-  '沪',
-  '渝',
-  '冀',
-  '豫',
-  '云',
-  '辽',
-  '黑',
-  '湘',
-  '皖',
-  '鲁',
-  '新',
-  '苏',
-  '浙',
-  '赣',
-  '鄂',
-  '桂',
-  '甘',
-  '晋',
-  '蒙',
-  '陕',
-  '吉',
-  '闽',
-  '贵',
-  '粤',
-  '青',
-  '藏',
-  '川',
-  '宁',
-  '琼',
+  '京', '津', '沪', '渝', '冀', '豫', '云', '辽', '黑', '湘',
+  '皖', '鲁', '新', '苏', '浙', '赣', '鄂', '桂', '甘', '晋',
+  '蒙', '陕', '吉', '闽', '贵', '粤', '青', '藏', '川', '宁', '琼'
 ];
 
 // 车牌号字母数字
 const plateAlphaNum = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z',
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M',
+  'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+  '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 ];
 
 // 车牌模式：省份 or 字母数字
@@ -179,7 +122,7 @@ const plateProvinceLayout = computed((): KeyboardKey[][] => {
 
   // 最后一行：切换按钮 + 删除
   rows.push([
-    { text: 'ABC', type: 'extra', value: '__switch__' },
+    { text: t('abc'), type: 'extra', value: '__switch__' },
     { text: '', type: 'delete' },
   ]);
 
@@ -201,7 +144,7 @@ const plateAlphaNumLayout = computed((): KeyboardKey[][] => {
 
   // 最后一行：切换按钮 + 删除
   rows.push([
-    { text: '省份', type: 'extra', value: '__switch__' },
+    { text: t('province'), type: 'extra', value: '__switch__' },
     { text: '', type: 'delete' },
   ]);
 
@@ -301,6 +244,8 @@ function onOverlayClick() {
 // 安全区域高度
 const safeBottom = uni.getSystemInfoSync().safeAreaInsets?.bottom || 0;
 
+const resolvedConfirmText = computed(() => props.confirmText || t('confirm'));
+
 // 样式计算
 const keyboardClass = computed(() => [
   'lk-keyboard',
@@ -356,7 +301,7 @@ function getKeyStyle(key: KeyboardKey) {
     <view v-if="title || showClose || showConfirm" class="lk-keyboard__header">
       <view class="lk-keyboard__header-left">
         <view v-if="showClose" class="lk-keyboard__close" @click="closeKeyboard">
-          <text class="lk-keyboard__close-text">收起</text>
+          <text class="lk-keyboard__close-text">{{ t('hide') }}</text>
         </view>
       </view>
       <view class="lk-keyboard__title">
@@ -364,7 +309,7 @@ function getKeyStyle(key: KeyboardKey) {
       </view>
       <view class="lk-keyboard__header-right">
         <view v-if="showConfirm" class="lk-keyboard__done" @click="onConfirm">
-          <text class="lk-keyboard__done-text">{{ confirmText }}</text>
+          <text class="lk-keyboard__done-text">{{ resolvedConfirmText }}</text>
         </view>
       </view>
     </view>
