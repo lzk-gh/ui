@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import {
+  computed,
+  ref,
+  watch,
+} from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import { popupProps, popupEmits } from './popup.props';
@@ -20,7 +24,6 @@ const closeOnOverlayResolved = computed(() => {
 const popupHeight = computed(() => addUnit(props.height) || '');
 const popupWidth = computed(() => addUnit(props.width) || '');
 
-// 根据 position 给出合理默认动画
 const defaultByPosition: Record<string, NonNullable<TransitionConfig['name']>> = {
   center: 'zoom-in',
   top: 'slide-down',
@@ -30,7 +33,6 @@ const defaultByPosition: Record<string, NonNullable<TransitionConfig['name']>> =
 };
 
 const transitionConfig = computed<TransitionConfig>(() => {
-  // 如果开启了拖拽且在底部，强制使用 fade，由 JS 接管位移动画
   if (props.position === 'bottom' && props.draggable) {
     return {
       name: 'fade',
@@ -40,7 +42,6 @@ const transitionConfig = computed<TransitionConfig>(() => {
     };
   }
 
-  // 优先使用 animationType
   if (props.animationType) {
     return {
       name: props.animationType,
@@ -49,7 +50,6 @@ const transitionConfig = computed<TransitionConfig>(() => {
       easing: props.easing ?? 'ease-out',
     };
   }
-  // 其次使用预设 animation
   if (props.animation && ANIMATION_PRESETS[props.animation]) {
     const p = ANIMATION_PRESETS[props.animation];
     return {
@@ -59,7 +59,6 @@ const transitionConfig = computed<TransitionConfig>(() => {
       easing: props.easing ?? p.easing ?? 'ease-out',
     };
   }
-  // 最后根据位置给默认
   const name = defaultByPosition[props.position] || 'zoom-in';
   return {
     name,
@@ -100,131 +99,221 @@ const wrapperStyle = computed(() => ({
   '--lk-popup-radius': props.radius,
 }));
 
-// --- 拖拽逻辑 (Bottom Sheet) ---
+const isBottomDraggable = computed(() => props.position === 'bottom' && props.draggable);
+
 const translateY = ref(0);
-const isDragging = ref(false);
+const isPanelGestureActive = ref(false);
+const internalContentScrollTop = ref(0);
+const internalContentScrollHeight = ref(0);
+
+type PopupTouchEvent = { touches?: ArrayLike<{ clientY?: number }> };
+
 const windowHeight = uni.getSystemInfoSync().windowHeight;
+
 let startY = 0;
 let startTranslateY = 0;
-let velocity = 0; // 速度
+let velocity = 0;
 let lastTime = 0;
 let lastY = 0;
 
-// 监听显示状态，初始化位置
-watch(
-  () => props.modelValue,
-  (val, oldVal) => {
-    if (val !== oldVal) emit(val ? 'open' : 'close');
-    if (props.position === 'bottom' && props.draggable) {
-      if (val) {
-        // 打开时，先置于底部，然后动画到半屏
-        translateY.value = windowHeight;
-        // 使用 setTimeout 确保在 display: true 渲染后执行动画
-        setTimeout(() => {
-          translateY.value = windowHeight * 0.5; // 默认半屏
-        }, 50);
-      } else {
-        // 关闭时，动画到底部
-        translateY.value = windowHeight;
-      }
-    }
-  }
-);
+const VELOCITY_THRESHOLD = 0.5;
+const SCROLL_BOUND_EPS = 6;
 
-function onTouchStart(e: TouchEvent) {
-  if (!props.draggable || props.position !== 'bottom') return;
-  isDragging.value = true;
-  startY = e.touches[0].clientY;
-  startTranslateY = translateY.value;
-  lastY = startY;
-  lastTime = Date.now();
-  velocity = 0;
+const snapPixelsSorted = computed(() => {
+  const raw = props.snapPoints.filter(n => typeof n === 'number' && n >= 0 && n <= 1);
+  const list = raw.length ? [...raw] : [0.5, 0.1];
+  return [...new Set(list.map(r => r * windowHeight))].sort((a, b) => a - b);
+});
+
+const initialOpenTranslateY = computed(() => {
+  const arr = props.snapPoints;
+  const first = typeof arr[0] === 'number' ? arr[0] : 0.5;
+  const clamped = Math.min(1, Math.max(0, first));
+  return clamped * windowHeight;
+});
+
+const minSnapY = computed(() => snapPixelsSorted.value[0] ?? windowHeight * 0.1);
+
+function touchClientY(e: PopupTouchEvent): number {
+  const y = e.touches?.[0]?.clientY;
+  return typeof y === 'number' ? y : 0;
 }
 
-function onTouchMove(e: TouchEvent) {
-  if (!isDragging.value) return;
-  const currentY = e.touches[0].clientY;
-  const currentTime = Date.now();
-  const deltaY = currentY - startY;
-  let nextY = startTranslateY + deltaY;
+function doubleRaf(cb: () => void): void {
+  const raf =
+    typeof globalThis.requestAnimationFrame === 'function'
+      ? globalThis.requestAnimationFrame.bind(globalThis)
+      : (fn: FrameRequestCallback) => globalThis.setTimeout(fn, 16);
+  raf(() => {
+    raf(cb);
+  });
+}
 
-  // 计算速度
+function preventTouchMoveIfPossible(e: unknown): void {
+  // #ifdef H5
+  const ev = e as { preventDefault?: () => void };
+  ev.preventDefault?.();
+  // #endif
+}
+
+function applyRubberBand(nextY: number): number {
+  const floor = minSnapY.value;
+  if (nextY < floor) {
+    return floor + (nextY - floor) * 0.3;
+  }
+  return nextY;
+}
+
+function updateVelocitySample(currentY: number): void {
+  const currentTime = Date.now();
   const timeDelta = currentTime - lastTime;
   if (timeDelta > 0) {
     velocity = (currentY - lastY) / timeDelta;
   }
   lastY = currentY;
   lastTime = currentTime;
-
-  // 阻尼效果：向上超过 10% 屏幕时（nextY < windowHeight * 0.1）
-  const maxTop = windowHeight * 0.1;
-  if (nextY < maxTop) {
-    nextY = maxTop + (nextY - maxTop) * 0.3; // 增加阻力
-  }
-
-  translateY.value = nextY;
 }
 
-function onTouchEnd() {
-  if (!isDragging.value) return;
-  isDragging.value = false;
+function resolveSnapTarget(currentY: number, vel: number): number {
+  const snaps = snapPixelsSorted.value;
+  const closeY = windowHeight;
+  const candidates = [...snaps, closeY];
 
+  if (vel > VELOCITY_THRESHOLD) {
+    const down = candidates.filter(p => p > currentY + 2);
+    return down.length ? Math.min(...down) : closeY;
+  }
+  if (vel < -VELOCITY_THRESHOLD) {
+    const up = candidates.filter(p => p < currentY - 2);
+    return up.length ? Math.max(...up) : (snaps[0] ?? currentY);
+  }
+
+  return candidates.reduce((best, p) =>
+    Math.abs(p - currentY) < Math.abs(best - currentY) ? p : best
+  );
+}
+
+function finalizeSheetPosition(): void {
   const current = translateY.value;
-  const half = windowHeight * 0.5;
-  const maxTop = windowHeight * 0.1;
-  const velocityThreshold = 0.5; // 速度阈值
+  const target = resolveSnapTarget(current, velocity);
 
-  // 根据速度快速判断方向
-  if (Math.abs(velocity) > velocityThreshold) {
-    if (velocity > 0) {
-      // 向下快速滑动
-      if (current > half) {
-        // 超过半屏 -> 关闭
-        translateY.value = windowHeight;
-        emit('update:modelValue', false);
-      } else {
-        // 回到半屏
-        translateY.value = half;
-      }
-    } else {
-      // 向上快速滑动
-      if (current < half) {
-        // 吸附到最高点（90%）
-        translateY.value = maxTop;
-      } else {
-        // 回到半屏
-        translateY.value = half;
-      }
-    }
+  if (target >= windowHeight - 2) {
+    translateY.value = windowHeight;
+    emit('update:modelValue', false);
     return;
   }
 
-  // 根据位置判断吸附点（降低阈值）
-  const threshold = 60; // 降低阈值，更容易触发
+  translateY.value = target;
+}
 
-  if (current > windowHeight - threshold) {
-    // 接近底部 -> 关闭
-    translateY.value = windowHeight;
-    emit('update:modelValue', false);
-  } else if (current > half + threshold) {
-    // 在半屏和底部之间 -> 回到半屏
-    translateY.value = half;
-  } else if (current > half - threshold) {
-    // 在半屏附近 -> 回到半屏
-    translateY.value = half;
-  } else {
-    // 接近顶部 -> 吸附到最高点（90%）
-    translateY.value = maxTop;
+watch(
+  () => props.modelValue,
+  (val, oldVal) => {
+    if (val !== oldVal) emit(val ? 'open' : 'close');
+    if (props.position === 'bottom' && props.draggable) {
+      if (val) {
+        translateY.value = windowHeight;
+        const target = initialOpenTranslateY.value;
+        doubleRaf(() => {
+          translateY.value = target;
+        });
+      } else {
+        translateY.value = windowHeight;
+      }
+    }
+  }
+);
+
+function onHandleTouchStart(e: PopupTouchEvent) {
+  if (!props.draggable || props.position !== 'bottom') return;
+  isPanelGestureActive.value = true;
+  startY = touchClientY(e);
+  startTranslateY = translateY.value;
+  lastY = startY;
+  lastTime = Date.now();
+  velocity = 0;
+}
+
+function onHandleTouchMove(e: PopupTouchEvent) {
+  if (!props.draggable || props.position !== 'bottom') return;
+  if (!isPanelGestureActive.value) return;
+  const currentY = touchClientY(e);
+  updateVelocitySample(currentY);
+  const deltaY = currentY - startY;
+  let nextY = startTranslateY + deltaY;
+  nextY = applyRubberBand(nextY);
+  translateY.value = nextY;
+  preventTouchMoveIfPossible(e);
+}
+
+function onHandleTouchEnd() {
+  if (!props.draggable || props.position !== 'bottom') return;
+  if (!isPanelGestureActive.value) return;
+  isPanelGestureActive.value = false;
+  finalizeSheetPosition();
+}
+
+function onContentScroll(e: { detail?: { scrollTop?: number; scrollHeight?: number } }) {
+  const d = e.detail;
+  internalContentScrollTop.value = typeof d?.scrollTop === 'number' ? d.scrollTop : 0;
+  if (typeof d?.scrollHeight === 'number' && d.scrollHeight > 0) {
+    internalContentScrollHeight.value = d.scrollHeight;
   }
 }
 
+function resolveNumber(value: unknown, fallback: number): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+function getGestureScrollTop(): number {
+  return Math.max(0, resolveNumber(props.contentScrollTop, internalContentScrollTop.value));
+}
+
+function getGestureScrollHeight(): number {
+  return Math.max(0, resolveNumber(props.contentScrollHeight, internalContentScrollHeight.value));
+}
+
+function getGestureViewportHeight(): number {
+  return Math.max(0, resolveNumber(props.contentViewportHeight, windowHeight - translateY.value));
+}
+
+function canExpandSheet(): boolean {
+  return translateY.value > minSnapY.value + 2;
+}
+
+function expandSheetFromContentLower(): void {
+  if (!props.draggable || props.position !== 'bottom' || isPanelGestureActive.value) return;
+  if (!canExpandSheet()) return;
+  velocity = -VELOCITY_THRESHOLD - 0.1;
+  finalizeSheetPosition();
+}
+
+function isContentAtLower(): boolean {
+  const vh = getGestureViewportHeight();
+  const sh = getGestureScrollHeight();
+  if (vh <= 0 || sh <= 0) return false;
+  return getGestureScrollTop() + vh >= sh - SCROLL_BOUND_EPS;
+}
+
+watch(
+  () => [props.contentScrollTop, props.contentScrollHeight, props.contentViewportHeight] as const,
+  () => {
+    if (isContentAtLower()) expandSheetFromContentLower();
+  }
+);
+
 const panelStyle = computed(() => {
   if (props.position === 'bottom' && props.draggable) {
+    const durationMs =
+      typeof transitionConfig.value.duration === 'number' ? transitionConfig.value.duration : 300;
+    const visibleHeight = Math.max(0, windowHeight - translateY.value);
     return {
       ...transitionStyles.value,
-      transform: `translateY(${translateY.value}px)`,
-      transition: isDragging.value ? 'none' : 'transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)', // 弹性动画
-      height: popupHeight.value || '100vh', // 拖拽模式下占满全屏高度以便上拉
+      height: `${visibleHeight}px`,
+      transform: 'none',
+      transition: isPanelGestureActive.value
+        ? 'none'
+        : `height ${Math.max(durationMs, 260) * 0.001}s cubic-bezier(0.18, 0.89, 0.32, 1.28)`,
       ...(popupWidth.value ? { width: popupWidth.value } : {}),
       borderRadius: props.round
         ? `var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0`
@@ -250,18 +339,17 @@ const panelStyle = computed(() => {
   />
   <view v-if="display" :class="wrapperClass" :style="wrapperStyle" @touchmove.stop>
     <view class="lk-popup__panel" :class="transitionClasses" :style="panelStyle">
-      <!-- Drag Handle -->
       <view
         v-if="position === 'bottom' && draggable"
         class="lk-popup__drag-handle"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
-        @touchend="onTouchEnd"
+        @touchstart.stop="onHandleTouchStart"
+        @touchmove.stop="onHandleTouchMove"
+        @touchend="onHandleTouchEnd"
+        @touchcancel="onHandleTouchEnd"
       >
         <view class="lk-popup__drag-bar" />
       </view>
 
-      <!-- Header -->
       <view v-if="title || $slots.title || closable" class="lk-popup__header">
         <view class="lk-popup__title">
           <slot name="title">{{ title }}</slot>
@@ -276,15 +364,30 @@ const panelStyle = computed(() => {
         </view>
       </view>
 
-      <!-- Content -->
+      <scroll-view
+        v-if="isBottomDraggable"
+        class="lk-popup__content"
+        :scroll-y="!isPanelGestureActive"
+        :show-scrollbar="false"
+        @scroll="onContentScroll"
+        @scrolltolower="expandSheetFromContentLower"
+      >
+        <slot />
+      </scroll-view>
+
       <!-- #ifdef H5 -->
-      <view class="lk-popup__content">
+      <view v-if="!isBottomDraggable" class="lk-popup__content">
         <slot />
       </view>
       <!-- #endif -->
 
       <!-- #ifdef MP || APP-PLUS -->
-      <scroll-view class="lk-popup__content" scroll-y :show-scrollbar="false">
+      <scroll-view
+        v-if="!isBottomDraggable"
+        class="lk-popup__content"
+        scroll-y
+        :show-scrollbar="false"
+      >
         <slot />
       </scroll-view>
       <!-- #endif -->

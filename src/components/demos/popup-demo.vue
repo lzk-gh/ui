@@ -9,6 +9,7 @@ const visible1 = ref(false);
 const visible2 = ref(false);
 const visibleRadius = ref(false);
 const visibleDraggable = ref(false);
+const visibleNestedScroll = ref(false);
 const visibleTop = ref(false);
 const visibleBottom = ref(false);
 const visibleLeft = ref(false);
@@ -20,7 +21,6 @@ const visibleWithTitle = ref(false);
 const visibleWithClose = ref(false);
 const visibleWithBoth = ref(false);
 const visibleCustomTitle = ref(false);
- 
 
 const showPopup1 = () => {
   visible1.value = true;
@@ -45,7 +45,6 @@ const showLeft = () => {
 const showRight = () => {
   visibleRight.value = true;
 };
-
 </script>
 
 <template>
@@ -166,6 +165,26 @@ const showRight = () => {
       </lk-popup>
     </demo-block>
 
+    <demo-block title="可拖拽 + 自定义滚动列表">
+      <lk-button type="primary" @click="visibleNestedScroll = true">滚动列表弹窗</lk-button>
+      <lk-popup
+        v-model="visibleNestedScroll"
+        position="bottom"
+        round
+        draggable
+        title="列表边界联动"
+        closable
+      >
+        <view class="nested-scroll-popup">
+          <view class="nested-scroll-header">
+            <text>列表自身负责滚动，弹层通过顶部手柄拖动</text>
+          </view>
+          <scroll-view class="nested-scroll-list" scroll-y>
+            <view v-for="i in 28" :key="i" class="nested-scroll-item"> 自定义列表项 {{ i }} </view>
+          </scroll-view>
+        </view>
+      </lk-popup>
+    </demo-block>
   </view>
 </template>
 
@@ -243,4 +262,31 @@ const showRight = () => {
   }
 }
 
+.nested-scroll-popup {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--lk-color-bg-container);
+}
+
+.nested-scroll-header {
+  flex-shrink: 0;
+  padding: 24rpx 40rpx;
+  color: var(--lk-color-text-secondary);
+  font-size: 26rpx;
+  line-height: 1.5;
+  border-bottom: 1rpx solid var(--lk-color-border-light);
+}
+
+.nested-scroll-list {
+  flex: 1;
+  height: 0;
+}
+
+.nested-scroll-item {
+  padding: 30rpx 40rpx;
+  border-bottom: 1rpx solid var(--lk-color-border-light);
+  color: var(--lk-color-text);
+  font-size: 30rpx;
+}
 </style>

@@ -11,8 +11,8 @@ phone: popup
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
-const show = ref(false)
+import { ref } from 'vue';
+const show = ref(false);
 </script>
 
 <template>
@@ -31,8 +31,8 @@ const show = ref(false)
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
-const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
+import { ref } from 'vue';
+const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('');
 </script>
 
 <template>
@@ -57,6 +57,22 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
 <lk-popup v-model="show" position="bottom" round draggable title="拖拽示例" closable>
   <view style="padding: 32rpx">向上展开、向下关闭</view>
 </lk-popup>
+```
+
+### 拖拽内容与滚动列表
+
+可拖拽底部弹层会默认托管内容区的纵向滚动。列表滚动时不再接管内容区的拖拽手势，滚动到底后会自动把弹层吸附到更高一档。
+
+普通长列表建议直接放入默认插槽，不要再套一层同向 `scroll-view`。如果业务必须使用自定义 `scroll-view`、虚拟列表等滚动容器，列表自身负责滚动，弹层通过顶部手柄拖动。
+
+```vue
+<template>
+  <lk-popup v-model="show" position="bottom" draggable>
+    <scroll-view scroll-y style="height: 600rpx">
+      <view v-for="i in 30" :key="i">列表项 {{ i }}</view>
+    </scroll-view>
+  </lk-popup>
+</template>
 ```
 
 ## 标题、关闭按钮与标题插槽
@@ -92,7 +108,9 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
   <lk-popup v-model="show" position="bottom" round>
     <view style="padding:32rpx">
       <!-- 顶部拖动条 -->
-      <view style="width:60rpx;height:8rpx;border-radius:4rpx;background:#e2e8f0;margin:0 auto 32rpx" />
+      <view
+        style="width:60rpx;height:8rpx;border-radius:4rpx;background:#e2e8f0;margin:0 auto 32rpx"
+      />
       <view>圆角底部弹框内容</view>
     </view>
   </lk-popup>
@@ -116,49 +134,54 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
 
 ### Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| modelValue | 是否显示（v-model） | `boolean` | `false` |
-| zIndex | 弹层层级 | `number` | `1000` |
-| position | 弹出位置 | `top \| bottom \| left \| right \| center` | `center` |
-| round | 是否圆角 | `boolean` | `true` |
-| radius | 圆角大小 | `string` | `24rpx` |
-| draggable | 是否开启拖拽，仅底部模式有效 | `boolean` | `false` |
-| title | 标题 | `string` | `''` |
-| closable | 是否显示关闭图标 | `boolean` | `false` |
-| closeIcon | 关闭图标名称 | `string` | `x-lg` |
-| closeIconPosition | 关闭图标位置 | `top-right \| top-left` | `top-right` |
-| overlay | 是否显示遮罩 | `boolean` | `true` |
-| closeOnOverlay | 点击遮罩关闭 | `boolean` | `true` |
-| closeOnClickOverlay | 点击遮罩关闭，兼容旧参数名 | `boolean` | `undefined` |
-| lockScroll | 锁定背景滚动 | `boolean` | `true` |
-| safeArea | 底部是否适配安全区 | `boolean` | `true` |
-| height | 弹层高度 | `string \| number` | `''` |
-| width | 弹层宽度 | `string \| number` | `''` |
-| animation | 动画预设名称 | `keyof ANIMATION_PRESETS` | `undefined` |
-| animationType | 动画类型 | `TransitionConfig['name']` | `undefined` |
-| duration | 动画持续时间 | `number` | `undefined` |
-| delay | 动画延迟 | `number` | `undefined` |
-| easing | 动画缓动函数 | `TransitionConfig['easing']` | `undefined` |
+| 参数                  | 说明                                                       | 类型                                       | 默认值       |
+| --------------------- | ---------------------------------------------------------- | ------------------------------------------ | ------------ |
+| modelValue            | 是否显示（v-model）                                        | `boolean`                                  | `false`      |
+| zIndex                | 弹层层级                                                   | `number`                                   | `1000`       |
+| position              | 弹出位置                                                   | `top \| bottom \| left \| right \| center` | `center`     |
+| round                 | 是否圆角                                                   | `boolean`                                  | `true`       |
+| radius                | 圆角大小                                                   | `string`                                   | `24rpx`      |
+| draggable             | 是否开启拖拽，仅底部模式有效                               | `boolean`                                  | `false`      |
+| contentDraggable      | 兼容旧参数，内容区不再接管拖拽手势                         | `boolean`                                  | `true`       |
+| contentScrollTop      | 兼容旧参数，自定义滚动内容的 scrollTop                     | `number`                                   | `undefined`  |
+| contentScrollHeight   | 兼容旧参数，自定义滚动内容的 scrollHeight                  | `number`                                   | `undefined`  |
+| contentViewportHeight | 兼容旧参数，自定义滚动内容的可视高度                       | `number`                                   | `undefined`  |
+| snapPoints            | 底部拖拽吸附点，值为 translateY 占窗口高度比例             | `number[]`                                 | `[0.5, 0.1]` |
+| title                 | 标题                                                       | `string`                                   | `''`         |
+| closable              | 是否显示关闭图标                                           | `boolean`                                  | `false`      |
+| closeIcon             | 关闭图标名称                                               | `string`                                   | `x-lg`       |
+| closeIconPosition     | 关闭图标位置                                               | `top-right \| top-left`                    | `top-right`  |
+| overlay               | 是否显示遮罩                                               | `boolean`                                  | `true`       |
+| closeOnOverlay        | 点击遮罩关闭                                               | `boolean`                                  | `true`       |
+| closeOnClickOverlay   | 点击遮罩关闭，兼容旧参数名                                 | `boolean`                                  | `undefined`  |
+| lockScroll            | 锁定背景滚动                                               | `boolean`                                  | `true`       |
+| safeArea              | 底部是否适配安全区                                         | `boolean`                                  | `true`       |
+| height                | 弹层高度                                                   | `string \| number`                         | `''`         |
+| width                 | 弹层宽度                                                   | `string \| number`                         | `''`         |
+| animation             | 动画预设名称                                               | `keyof ANIMATION_PRESETS`                  | `undefined`  |
+| animationType         | 动画类型                                                   | `TransitionConfig['name']`                 | `undefined`  |
+| duration              | 动画持续时间                                               | `number`                                   | `undefined`  |
+| delay                 | 动画延迟                                                   | `number`                                   | `undefined`  |
+| easing                | 动画缓动函数                                               | `TransitionConfig['easing']`               | `undefined`  |
 
 ### Events
 
-| 事件名 | 说明 | 回调参数 |
-|--------|------|----------|
-| update:modelValue | 显示状态变化 | `(visible: boolean)` |
-| open | `modelValue` 变为 `true` 时触发 | `()` |
-| close | `modelValue` 变为 `false` 时触发 | `()` |
-| click-overlay | 点击遮罩 | `()` |
-| click-close | 点击关闭图标 | `()` |
-| after-enter | 入场动画结束 | `()` |
-| after-leave | 离场动画结束 | `()` |
+| 事件名            | 说明                             | 回调参数             |
+| ----------------- | -------------------------------- | -------------------- |
+| update:modelValue | 显示状态变化                     | `(visible: boolean)` |
+| open              | `modelValue` 变为 `true` 时触发  | `()`                 |
+| close             | `modelValue` 变为 `false` 时触发 | `()`                 |
+| click-overlay     | 点击遮罩                         | `()`                 |
+| click-close       | 点击关闭图标                     | `()`                 |
+| after-enter       | 入场动画结束                     | `()`                 |
+| after-leave       | 离场动画结束                     | `()`                 |
 
 ### Slots
 
-| 插槽名 | 说明 |
-|--------|------|
-| title | 自定义标题区域 |
-| default | 弹出层内容 |
+| 插槽名  | 说明           |
+| ------- | -------------- |
+| title   | 自定义标题区域 |
+| default | 弹出层内容     |
 
 ## 使用建议
 
@@ -170,8 +193,8 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('')
 
 `lk-popup` 已纳入 needs-hardening showcase 回归，发布前按下面边界验收：
 
-| 场景 | 验收方式 | 要点 |
-|------|----------|------|
+| 场景       | 验收方式 | 要点                                                                                    |
+| ---------- | -------- | --------------------------------------------------------------------------------------- |
 | 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
-| 弹出方向 | 人工验收 | `top/bottom/left/right/center` 尺寸、圆角和安全区表现稳定 |
-| 交互关闭 | 人工验收 | 遮罩关闭、拖拽关闭、锁滚动与动画结束事件在目标端一致 |
+| 弹出方向   | 人工验收 | `top/bottom/left/right/center` 尺寸、圆角和安全区表现稳定                               |
+| 交互关闭   | 人工验收 | 遮罩关闭、拖拽关闭、锁滚动与动画结束事件在目标端一致                                    |

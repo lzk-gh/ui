@@ -16,9 +16,14 @@
     right: 0;
     bottom: 0;
 
+    @include e(panel) {
+      max-height: 90vh;
+    }
+
     @include when(round) {
       @include e(panel) {
-        border-radius: var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0;
+        border-radius: var(--lk-popup-radius, var(--lk-rpx-24))
+          var(--lk-popup-radius, var(--lk-rpx-24)) 0 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
       }
@@ -26,7 +31,20 @@
 
     @include when(draggable) {
       @include e(panel) {
-        border-radius: var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0 !important;
+        max-height: none;
+        overflow: hidden;
+        border-radius: var(--lk-popup-radius, var(--lk-rpx-24))
+          var(--lk-popup-radius, var(--lk-rpx-24)) 0 0 !important;
+      }
+
+      @include e(content) {
+        flex: 1;
+        min-height: 0;
+      }
+
+      @include e(safe) {
+        flex-shrink: 0;
+        background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
       }
     }
   }

@@ -46,6 +46,37 @@ export const popupProps = {
   /** 是否开启拖拽（仅 bottom 模式有效） */
   draggable: LkProp.boolean(false),
 
+  /** 兼容旧参数：内容区域不再接管拖拽手势，弹层通过手柄拖动 */
+  contentDraggable: LkProp.boolean(true),
+
+  /** 兼容旧参数：自定义滚动内容的 scrollTop */
+  contentScrollTop: {
+    type: Number,
+    default: undefined,
+  },
+
+  /** 兼容旧参数：自定义滚动内容的 scrollHeight */
+  contentScrollHeight: {
+    type: Number,
+    default: undefined,
+  },
+
+  /** 兼容旧参数：自定义滚动内容的可视高度 */
+  contentViewportHeight: {
+    type: Number,
+    default: undefined,
+  },
+
+  /**
+   * 底部拖拽吸附点：每个值为 translateY 占窗口高度的比例（0~1），例如 0.5 表示半屏、0.1 表示更接近全展开
+   */
+  snapPoints: {
+    type: Array as PropType<number[]>,
+    default: () => [0.5, 0.1],
+    validator: (v: unknown) =>
+      Array.isArray(v) && v.length > 0 && v.every(n => typeof n === 'number' && n >= 0 && n <= 1),
+  },
+
   /** 标题 */
   title: LkProp.string(''),
 
