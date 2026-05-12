@@ -16,13 +16,8 @@
   align-items: center;
   width: 100%;
   background: var(--_bg);
-  border: var(--lk-rpx-2) solid var(--_border);
   border-radius: var(--_radius);
   padding: 0 var(--_px);
-  transition:
-    border-color var(--lk-transition-fast),
-    box-shadow var(--lk-transition-fast),
-    background-color var(--lk-transition-fast);
 
   :root.lk-theme-booting & {
     transition: none !important;
@@ -147,19 +142,6 @@
     &:active {
       background: var(--lk-bg-active);
     }
-  }
-
-  &:hover:not(.is-disabled):not(.is-readonly):not(.is-fake) {
-    border-color: var(--_border-hover);
-  }
-
-  &:active:not(.is-disabled):not(.is-readonly):not(.is-fake) {
-    border-color: var(--_border-active);
-  }
-
-  &:focus-within:not(.is-disabled):not(.is-readonly):not(.is-fake) {
-    border-color: var(--_border-active);
-    box-shadow: var(--lk-input-shadow-focus);
   }
 
   @include when(disabled) {
