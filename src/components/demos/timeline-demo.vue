@@ -196,10 +196,10 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
 <style scoped lang="scss">
 .demo-page {
-  padding: 32rpx;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 32rpx;
+  gap: 24rpx;
   background: var(--lk-color-bg, #f2f2f7);
 }
 

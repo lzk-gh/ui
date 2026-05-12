@@ -111,6 +111,9 @@ $line-color: var(--lk-color-border);
 
 .lk-timeline-item__left {
   width: $left-col-width;
+  min-width: 0;
+  max-width: $left-col-width;
+  box-sizing: border-box;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -118,6 +121,17 @@ $line-color: var(--lk-color-border);
   justify-content: flex-start;
   padding-top: var(--lk-spacing-xxs);      // 与节点圆中心微对齐
   padding-right: var(--lk-spacing-md);
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  & > view,
+  & > text {
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 
   & > view:not(:first-child),
   & > text:not(:first-child) {
@@ -127,6 +141,12 @@ $line-color: var(--lk-color-border);
 
 // 左侧列 date 标签
 .lk-timeline-item__date {
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: right;
   font-size: var(--lk-font-size-xs);
   font-weight: 600;
   color: var(--lk-ti-accent);
@@ -137,6 +157,12 @@ $line-color: var(--lk-color-border);
 
 // 左侧列 time 文字
 .lk-timeline-item__time {
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: right;
   font-size: var(--lk-font-size-sm);
   font-weight: 500;
   color: var(--lk-color-text);
