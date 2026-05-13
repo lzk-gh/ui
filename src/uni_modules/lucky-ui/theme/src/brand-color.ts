@@ -39,9 +39,16 @@ export function generateShade(baseColor: string, level: number): string {
  */
 export function generateBrandVars(color: string): Record<string, string> {
   const vars: Record<string, string> = {};
+  const rgb = hexToRgb(color);
+
   LEVELS.forEach(level => {
     vars[`--lk-brand-${level}`] = generateShade(color, level);
   });
+
+  if (rgb) {
+    vars['--lk-brand-rgb'] = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
+  }
+
   return vars;
 }
 
@@ -84,11 +91,46 @@ export const DEFAULT_BRAND_COLOR = '#6965db';
  * 预设品牌色
  */
 export const PRESET_COLORS = [
-  { get name() { return Locale.t('lk.theme.colors.fantasyPurple'); }, value: '#6965db' },
-  { get name() { return Locale.t('lk.theme.colors.auroraBlue'); }, value: '#1890ff' },
-  { get name() { return Locale.t('lk.theme.colors.emerald'); }, value: '#52c41a' },
-  { get name() { return Locale.t('lk.theme.colors.vibrantOrange'); }, value: '#fa8c16' },
-  { get name() { return Locale.t('lk.theme.colors.chinaRed'); }, value: '#f5222d' },
-  { get name() { return Locale.t('lk.theme.colors.rosePink'); }, value: '#eb2f96' },
-  { get name() { return Locale.t('lk.theme.colors.geekCyan'); }, value: '#13c2c2' },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.fantasyPurple');
+    },
+    value: '#6965db',
+  },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.auroraBlue');
+    },
+    value: '#1890ff',
+  },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.emerald');
+    },
+    value: '#52c41a',
+  },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.vibrantOrange');
+    },
+    value: '#fa8c16',
+  },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.chinaRed');
+    },
+    value: '#f5222d',
+  },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.rosePink');
+    },
+    value: '#eb2f96',
+  },
+  {
+    get name() {
+      return Locale.t('lk.theme.colors.geekCyan');
+    },
+    value: '#13c2c2',
+  },
 ] as const;

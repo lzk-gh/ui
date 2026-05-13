@@ -6,12 +6,34 @@ import { ref, computed, readonly } from 'vue';
 
 export type Theme = 'light' | 'dark';
 
+const THEME_STORAGE_KEY = 'lk-theme';
+const BRAND_COLOR_STORAGE_KEY = 'lk-brand-color';
+const DEFAULT_BRAND_COLOR = '#6965db';
+
+function readStorageValue(key: string): unknown {
+  try {
+    return uni.getStorageSync(key);
+  } catch {
+    return undefined;
+  }
+}
+
+function readStoredTheme(): Theme {
+  const savedTheme = readStorageValue(THEME_STORAGE_KEY);
+  if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+  return getSystemTheme();
+}
+
+function readStoredBrandColor(): string {
+  const savedColor = readStorageValue(BRAND_COLOR_STORAGE_KEY);
+  return typeof savedColor === 'string' && savedColor ? savedColor : DEFAULT_BRAND_COLOR;
+}
+
 // ======================== 内部状态 ========================
-const _theme = ref<Theme>('light');
+const _theme = ref<Theme>(readStoredTheme());
 const _isSwitching = ref(false);
-const _brandColor = ref<string>('#6965db');
+const _brandColor = ref<string>(readStoredBrandColor());
 let switchingTimer: any = null;
-let saveTimer: any = null;
 
 // ======================== 工具函数 ========================
 
@@ -51,7 +73,7 @@ function generateBrandVars(color: string): Record<string, string> {
   const vars: Record<string, string> = {};
   const rgb = hexToRgb(color);
   const levels = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-  
+
   levels.forEach(level => {
     vars[`--lk-brand-${level}`] = generateShade(color, level);
   });
@@ -72,18 +94,15 @@ function serializeVars(vars: Record<string, string>): string {
 }
 
 /**
- * 持久化数据 (带防抖)
+ * 持久化数据
  */
 function persistData() {
-  if (saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try {
-      uni.setStorageSync('lk-theme', _theme.value);
-      uni.setStorageSync('lk-brand-color', _brandColor.value);
-    } catch (e) {
-      console.error('Theme persistence failed', e);
-    }
-  }, 500);
+  try {
+    uni.setStorageSync(THEME_STORAGE_KEY, _theme.value);
+    uni.setStorageSync(BRAND_COLOR_STORAGE_KEY, _brandColor.value);
+  } catch (e) {
+    console.error('Theme persistence failed', e);
+  }
 }
 
 /**
@@ -114,17 +133,17 @@ function applyToDOM() {
   // #ifdef H5
   if (typeof document !== 'undefined') {
     const root = document.documentElement;
-    
+
     // 应用主题类名
     root.classList.remove('lk-theme-light', 'lk-theme-dark');
     root.classList.add(`lk-theme-${_theme.value}`);
-    
+
     if (_isSwitching.value) {
       root.classList.add('lk-theme-switching');
     } else {
       root.classList.remove('lk-theme-switching');
     }
-    
+
     root.setAttribute('data-theme', _theme.value);
     root.style.colorScheme = _theme.value;
 
@@ -180,7 +199,7 @@ function performSetTheme(t: Theme) {
   applyToDOM();
 
   // 第二步：延迟一帧（给浏览器/WebView 时间渲染切换状态），然后真正修改颜色
-  const switchDelay = 32; 
+  const switchDelay = 32;
 
   setTimeout(() => {
     _theme.value = t;
@@ -201,18 +220,8 @@ function performSetTheme(t: Theme) {
  * 初始化主题系统
  */
 function initTheme() {
-  const savedTheme = uni.getStorageSync('lk-theme');
-  const savedColor = uni.getStorageSync('lk-brand-color');
-
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    _theme.value = savedTheme;
-  } else {
-    _theme.value = getSystemTheme();
-  }
-
-  if (savedColor) {
-    _brandColor.value = savedColor;
-  }
+  _theme.value = readStoredTheme();
+  _brandColor.value = readStoredBrandColor();
 
   applyToDOM();
   applySystemUI();
@@ -240,7 +249,7 @@ export function useTheme() {
     const base = `lk-theme-${_theme.value}`;
     return _isSwitching.value ? `${base} lk-theme-switching` : base;
   });
-  
+
   // 品牌色 CSS 变量字符串，用于内联 style 绑定
   const brandStyleVars = computed(() => {
     return serializeVars(generateBrandVars(_brandColor.value));
@@ -262,18 +271,26 @@ export function useTheme() {
  * 全局 Store 对象 (非 setup 环境)
  */
 export const themeStore = {
-  get theme() { return _theme.value; },
-  get isDark() { return _theme.value === 'dark'; },
+  get theme() {
+    return _theme.value;
+  },
+  get isDark() {
+    return _theme.value === 'dark';
+  },
   get themeClass() {
     const base = `lk-theme-${_theme.value}`;
     return _isSwitching.value ? `${base} lk-theme-switching` : base;
   },
-  get brandColor() { return _brandColor.value; },
+  get brandColor() {
+    return _brandColor.value;
+  },
   get brandStyleVars() {
     return serializeVars(generateBrandVars(_brandColor.value));
   },
   setTheme: performSetTheme,
-  toggleTheme() { performSetTheme(_theme.value === 'light' ? 'dark' : 'light'); },
+  toggleTheme() {
+    performSetTheme(_theme.value === 'light' ? 'dark' : 'light');
+  },
   setBrandColor,
   init: initTheme,
 };

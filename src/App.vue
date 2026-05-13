@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onLaunch } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
+import { generateBrandVars } from '@/uni_modules/lucky-ui/theme/src/brand-color';
 // #ifdef MP-WEIXIN
 // 仅微信小程序需要通过 loadFontFace 注入字体
 import { initLkIconsFont } from '@/uni_modules/lucky-ui/utils/init-lk-icons';
@@ -9,8 +10,12 @@ import { LK_ICONS_WOFF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/
 
 // #ifdef H5
 try {
-  const saved = uni.getStorageSync('lk-theme');
-  const initialTheme = saved === 'dark' || saved === 'light' ? saved : 'light';
+  const savedTheme = uni.getStorageSync('lk-theme');
+  const savedBrandColor = uni.getStorageSync('lk-brand-color');
+  const prefersDark =
+    typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+  const initialTheme =
+    savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : prefersDark ? 'dark' : 'light';
   if (typeof document !== 'undefined') {
     const root = document.documentElement;
     root.classList.add('lk-theme-booting');
@@ -18,6 +23,12 @@ try {
     root.classList.add(`lk-theme-${initialTheme}`);
     root.setAttribute('data-theme', initialTheme);
     root.style.colorScheme = initialTheme;
+
+    if (typeof savedBrandColor === 'string' && savedBrandColor) {
+      Object.entries(generateBrandVars(savedBrandColor)).forEach(([key, value]) => {
+        root.style.setProperty(key, value);
+      });
+    }
   }
 } catch {
   // ignore bootstrap theme errors
