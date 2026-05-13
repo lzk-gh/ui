@@ -114,18 +114,17 @@
         </lk-card>
       </template>
 
-      <!-- 底部加载状态与安全区占位 -->
+      <!-- 底部加载状态由外层贴底浮层承载，避免滚动内容高度抖动 -->
       <template #loading>
-        <view class="loading-footer">
-          <view v-if="isLoading" class="loading-status">
-            <view class="dot-jump"></view>
-            <view class="dot-jump"></view>
-            <view class="dot-jump"></view>
-          </view>
-          <view class="safe-area-bottom"></view>
-        </view>
+        <view class="waterfall-footer-anchor" />
       </template>
     </lk-waterfall>
+
+    <view v-if="isLoading" class="waterfall-loading-overlay">
+      <view class="loading-toast">
+        <lk-loading type="spinner" size="28" text="加载中" color="var(--test-primary)" />
+      </view>
+    </view>
 
     <!-- 交互增强：筛选弹窗 -->
     <lk-popup v-model="showFilter" position="right" width="600rpx">
@@ -203,6 +202,7 @@ import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 import LkChoice from '@/uni_modules/lucky-ui/components/lk-choice/lk-choice.vue';
 import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
+import LkLoading from '@/uni_modules/lucky-ui/components/lk-loading/lk-loading.vue';
 import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
 
 const props = withDefaults(
@@ -344,9 +344,15 @@ const goToDetail = (_item: WaterfallItem) => {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  position: relative;
   overflow: hidden;
   height: 100%;
   flex: 1;
+}
+
+.home-waterfall {
+  flex: 1;
+  min-height: 0;
 }
 
 :deep(.lk-waterfall__scroll) {
@@ -355,6 +361,11 @@ const goToDetail = (_item: WaterfallItem) => {
 
 :deep(.lk-waterfall__content) {
   width: 100%;
+}
+
+:deep(.lk-waterfall__footer) {
+  padding: 0;
+  pointer-events: none;
 }
 
 .header-container {
@@ -546,51 +557,53 @@ const goToDetail = (_item: WaterfallItem) => {
   }
 }
 
-.safe-area-bottom {
-  height: 150rpx;
-  flex-shrink: 0;
-}
-
-.loading-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.waterfall-footer-anchor {
   width: 100%;
+  height: 0;
 }
 
-.loading-status {
+.waterfall-loading-overlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 247, 250, 0),
+    rgba(245, 247, 250, 0.92)
+  );
+}
+
+.lk-theme-dark .waterfall-loading-overlay {
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0), rgba(17, 24, 39, 0.9));
+}
+
+.loading-toast {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12rpx;
-  padding: 30rpx 0;
+  min-height: 72rpx;
+  padding: 0 28rpx;
+  margin-bottom: 12rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 999rpx;
+  box-shadow: $test-shadow-sm;
 
-  .dot-jump {
-    width: 12rpx;
-    height: 12rpx;
-    background: $test-text-primary;
-    border-radius: 50%;
-    animation: dot-jump 0.6s infinite alternate;
-
-    &:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    &:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-  }
-}
-
-@keyframes dot-jump {
-  from {
-    transform: translateY(0);
-    opacity: 0.4;
+  :deep(.lk-loading) {
+    flex-direction: row;
+    gap: 12rpx;
   }
 
-  to {
-    transform: translateY(-10rpx);
-    opacity: 1;
+  :deep(.lk-loading__text) {
+    margin-top: 0;
+    color: $test-text-secondary;
+    font-size: 24rpx;
+    font-weight: 600;
   }
 }
 

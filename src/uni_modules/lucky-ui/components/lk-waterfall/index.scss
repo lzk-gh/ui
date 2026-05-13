@@ -10,17 +10,6 @@
   }
 }
 
-@keyframes lk-waterfall-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 // ======================== 主容器 ========================
 @include b(waterfall) {
   width: 100%;
@@ -62,14 +51,10 @@
     overflow: hidden;
     background: var(--lk-color-bg-elevated);
     box-shadow: var(--lk-shadow-sm);
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-    animation: lk-waterfall-fade-in 0.3s ease-out;
+    transition: box-shadow 0.2s ease;
     position: relative;
 
     &:active {
-      transform: scale(0.98);
       box-shadow: var(--lk-shadow-sm);
     }
 
