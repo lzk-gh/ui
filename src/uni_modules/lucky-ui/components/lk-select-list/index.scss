@@ -92,6 +92,7 @@
     @include when(selected) {
       border-color: var(--lk-select-list-selected-border);
       background: var(--lk-select-list-selected-bg);
+      box-shadow: none;
 
       .lk-select-list__title {
         color: var(--lk-select-list-selected-color);
