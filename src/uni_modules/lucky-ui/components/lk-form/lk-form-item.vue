@@ -10,10 +10,12 @@ import {
   type ValidateError,
   type FormItemContext,
 } from './context';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkFormItem' });
 const props = defineProps(formItemProps);
 const form = inject(formContextKey, null as FormContext | null);
+const { t } = useLocale('form');
 
 const status = ref<'idle' | 'validating' | 'success' | 'error'>('idle');
 const msg = ref('');
@@ -30,7 +32,8 @@ function computeReq() {
 }
 
 async function doValidate(trigger?: 'blur' | 'change') {
-  if (!props.prop || !form) return;
+  const prop = props.prop;
+  if (!prop || !form) return;
   const list = rules().filter(r => {
     if (!trigger || !r.trigger) return true;
     const arr = Array.isArray(r.trigger) ? r.trigger : [r.trigger];
@@ -41,12 +44,12 @@ async function doValidate(trigger?: 'blur' | 'change') {
     msg.value = '';
     return;
   }
-  const val = form.model[props.prop];
+  const val = form.model[prop];
   status.value = 'validating';
   msg.value = '';
   const errs: ValidateError[] = [];
   for (const rule of list) {
-    const m = rule.message || '验证失败';
+    const m: string = rule.message || t<string>('validationFailed');
     if (rule.required) {
       const empty =
         val === undefined ||
@@ -55,38 +58,38 @@ async function doValidate(trigger?: 'blur' | 'change') {
         (Array.isArray(val) && !val.length) ||
         (typeof val === 'number' && isNaN(val));
       if (empty) {
-        errs.push({ field: props.prop, message: m, rule });
+        errs.push({ field: prop, message: m, rule });
         continue;
       }
     }
     if (rule.min != null && typeof val === 'string' && val.length < rule.min) {
-      errs.push({ field: props.prop, message: m, rule });
+      errs.push({ field: prop, message: m, rule });
       continue;
     }
     if (rule.max != null && typeof val === 'string' && val.length > rule.max) {
-      errs.push({ field: props.prop, message: m, rule });
+      errs.push({ field: prop, message: m, rule });
       continue;
     }
     if (rule.min != null && typeof val === 'number' && val < rule.min) {
-      errs.push({ field: props.prop, message: m, rule });
+      errs.push({ field: prop, message: m, rule });
       continue;
     }
     if (rule.max != null && typeof val === 'number' && val > rule.max) {
-      errs.push({ field: props.prop, message: m, rule });
+      errs.push({ field: prop, message: m, rule });
       continue;
     }
     if (rule.pattern && typeof val === 'string' && !rule.pattern.test(val)) {
-      errs.push({ field: props.prop, message: m, rule });
+      errs.push({ field: prop, message: m, rule });
       continue;
     }
     if (rule.validator) {
       try {
         const r = await rule.validator(val, rule, form.model);
-        if (r === false) errs.push({ field: props.prop, message: m, rule });
-        else if (typeof r === 'string') errs.push({ field: props.prop, message: r, rule });
+        if (r === false) errs.push({ field: prop, message: m, rule });
+        else if (typeof r === 'string') errs.push({ field: prop, message: r, rule });
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : m;
-        errs.push({ field: props.prop, message: errorMessage || m, rule });
+        errs.push({ field: prop, message: errorMessage || m, rule });
       }
     }
   }

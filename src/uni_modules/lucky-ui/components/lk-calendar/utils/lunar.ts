@@ -1,5 +1,6 @@
 import { formatDate } from './date';
 import type { CalendarLunarInfo } from '../types';
+import { Locale } from '../../../locale';
 
 const LUNAR_INFO = [
   0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
@@ -20,42 +21,6 @@ const LUNAR_INFO = [
   0x14b63,
 ] as const;
 
-const LUNAR_MONTH_NAMES = ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊'];
-const LUNAR_DAY_PREFIX = ['初', '十', '廿', '三'];
-const LUNAR_FESTIVALS: Record<string, string> = {
-  '01-01': '春节',
-  '01-15': '元宵',
-  '02-02': '龙抬头',
-  '05-05': '端午',
-  '07-07': '七夕',
-  '07-15': '中元',
-  '08-15': '中秋',
-  '09-09': '重阳',
-  '10-01': '寒衣',
-  '12-08': '腊八',
-  '12-23': '小年',
-};
-
-const SOLAR_FESTIVALS: Record<string, string> = {
-  '01-01': '元旦',
-  '02-14': '情人节',
-  '03-08': '妇女节',
-  '03-12': '植树节',
-  '05-01': '劳动节',
-  '05-04': '青年节',
-  '06-01': '儿童节',
-  '07-01': '建党节',
-  '08-01': '建军节',
-  '09-10': '教师节',
-  '10-01': '国庆节',
-  '12-24': '平安夜',
-  '12-25': '圣诞节',
-};
-
-const SOLAR_TERM_NAMES = [
-  '小寒', '大寒', '立春', '雨水', '惊蛰', '春分', '清明', '谷雨', '立夏', '小满', '芒种', '夏至',
-  '小暑', '大暑', '立秋', '处暑', '白露', '秋分', '寒露', '霜降', '立冬', '小雪', '大雪', '冬至',
-];
 const SOLAR_TERM_INFO = [
   0, 21208, 42467, 63836, 85337, 107014, 128867, 150921, 173149, 195551, 218072, 240693,
   263343, 285989, 308563, 331033, 353350, 375494, 397447, 419210, 440795, 462224, 483532, 504758,
@@ -86,10 +51,12 @@ function monthDays(year: number, month: number) {
 }
 
 function lunarDayName(day: number) {
-  if (day === 10) return '初十';
-  if (day === 20) return '二十';
-  if (day === 30) return '三十';
-  return `${LUNAR_DAY_PREFIX[Math.floor(day / 10)]}${['十', '一', '二', '三', '四', '五', '六', '七', '八', '九'][day % 10]}`;
+  if (day === 10) return Locale.t('lk.calendar.lunarDay10');
+  if (day === 20) return Locale.t('lk.calendar.lunarDay20');
+  if (day === 30) return Locale.t('lk.calendar.lunarDay30');
+  const prefixes = Locale.t<string[]>('lk.calendar.lunarDayPrefixes');
+  const digits = Locale.t<string[]>('lk.calendar.lunarDayDigits');
+  return `${prefixes[Math.floor(day / 10)]}${digits[day % 10]}`;
 }
 
 function solarTermDate(year: number, index: number) {
@@ -103,15 +70,17 @@ function getSolarTerm(date: Date) {
   const month = date.getMonth();
   const day = date.getDate();
   const firstIndex = month * 2;
-  if (day === solarTermDate(year, firstIndex)) return SOLAR_TERM_NAMES[firstIndex];
-  if (day === solarTermDate(year, firstIndex + 1)) return SOLAR_TERM_NAMES[firstIndex + 1];
+  const names = Locale.t<string[]>('lk.calendar.solarTerms');
+  if (day === solarTermDate(year, firstIndex)) return names[firstIndex];
+  if (day === solarTermDate(year, firstIndex + 1)) return names[firstIndex + 1];
   return '';
 }
 
 export function getLunarInfo(date: Date): CalendarLunarInfo {
   const year = date.getFullYear();
   if (year < 1900 || year > 2050) {
-    return { text: '', festival: SOLAR_FESTIVALS[formatDate(date, 'MM-DD')] ?? '', solarTerm: '', isLeapMonth: false };
+    const solarFestivals = Locale.t<Record<string, string>>('lk.calendar.solarFestivals');
+    return { text: '', festival: solarFestivals[formatDate(date, 'MM-DD')] ?? '', solarTerm: '', isLeapMonth: false };
   }
 
   const baseDate = new Date(1900, 0, 31);
@@ -165,11 +134,12 @@ export function getLunarInfo(date: Date): CalendarLunarInfo {
   const lunarKey = `${lunarMonth < 10 ? `0${lunarMonth}` : lunarMonth}-${lunarDay < 10 ? `0${lunarDay}` : lunarDay}`;
   const solarKey = formatDate(date, 'MM-DD');
   const solarTerm = getSolarTerm(date);
-  const lunarFestival = LUNAR_FESTIVALS[lunarKey] ?? '';
-  const solarFestival = SOLAR_FESTIVALS[solarKey] ?? '';
+  const lunarFestival = Locale.t<Record<string, string>>('lk.calendar.lunarFestivals')[lunarKey] ?? '';
+  const solarFestival = Locale.t<Record<string, string>>('lk.calendar.solarFestivals')[solarKey] ?? '';
   const isLastDayOfYear = lunarMonth === 12 && lunarDay === monthDays(lunarYear, 12);
-  const festival = isLastDayOfYear ? '除夕' : lunarFestival || solarFestival;
-  const text = festival || solarTerm || (lunarDay === 1 ? `${isLeapMonth ? '闰' : ''}${LUNAR_MONTH_NAMES[lunarMonth - 1]}月` : lunarDayName(lunarDay));
+  const festival = isLastDayOfYear ? Locale.t('lk.calendar.lunarNewYearEve') : lunarFestival || solarFestival;
+  const months = Locale.t<string[]>('lk.calendar.lunarMonths');
+  const text = festival || solarTerm || (lunarDay === 1 ? `${isLeapMonth ? Locale.t('lk.calendar.leapMonthPrefix') : ''}${months[lunarMonth - 1]}${Locale.t('lk.calendar.lunarMonthSuffix')}` : lunarDayName(lunarDay));
 
   return {
     text,

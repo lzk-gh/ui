@@ -2,6 +2,7 @@
 import { computed, onMounted, watch, type StyleValue } from 'vue';
 import LkLoading from '../lk-loading/lk-loading.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
+import { useLocale } from '../../composables/useLocale';
 import {
   useTabbarContainer,
   initTabbarContainer,
@@ -18,6 +19,7 @@ defineOptions({ name: 'LkTabbarContainer' });
 const props = defineProps(tabbarContainerProps);
 
 const emit = defineEmits(tabbarContainerEmits);
+const { t } = useLocale('tabbarContainer');
 
 type SafeAreaInfoLike = {
   screenHeight?: number;
@@ -61,6 +63,9 @@ const slidingIndicatorModes = ['block', 'marker-top', 'marker-bottom', 'dot-slid
 const activeMode = computed(() => props.mode ?? 'block');
 
 const hasSlidingIndicator = computed(() => slidingIndicatorModes.includes(activeMode.value));
+const resolvedLoadingText = computed(() => props.loadingText || t('loading'));
+const resolvedErrorText = computed(() => props.errorText || t('loadFailed'));
+const resolvedRetryText = computed(() => props.retryText || t('retry'));
 
 const containerClass = computed(() => [
   'lk-tabbar-container',
@@ -180,14 +185,14 @@ watch(
           <!-- 加载中状态 -->
           <view v-if="getTabInstance(tab.id)?.loading" class="lk-tabbar-container__loading">
             <lk-loading type="spinner" size="64" />
-            <text class="loading-text">加载中...</text>
+            <text class="loading-text">{{ resolvedLoadingText }}</text>
           </view>
 
           <!-- 加载错误状态 -->
           <view v-else-if="getTabInstance(tab.id)?.error" class="lk-tabbar-container__error">
             <lk-icon name="exclamation-circle" size="80" />
-            <text class="error-text">加载失败</text>
-            <view class="error-retry" @click="retryLoad(tab.id)">点击重试</view>
+            <text class="error-text">{{ resolvedErrorText }}</text>
+            <view class="error-retry" @click="retryLoad(tab.id)">{{ resolvedRetryText }}</view>
           </view>
 
           <!-- Tab 内容组件 -->

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, type StyleValue } from 'vue';
 import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
+import { useLocale } from '../../composables/useLocale';
 import {
   uploadProps,
   uploadEmits,
@@ -12,6 +13,7 @@ defineOptions({ name: 'LkUpload' });
 
 const props = defineProps(uploadProps);
 const emit = defineEmits(uploadEmits);
+const { t } = useLocale('upload');
 
 /* ───────────── 内部文件列表 ───────────── */
 
@@ -53,6 +55,8 @@ const remainCount = computed(() => Math.max(0, props.maxCount - fileList.value.l
 const showAddBtn = computed(
   () => props.showUpload && fileList.value.length < props.maxCount && !props.disabled,
 );
+const resolvedUploadText = computed(() => props.uploadText || t('upload'));
+const uploadFailedText = computed(() => t('failed'));
 
 const rootClass = computed(() => [
   'lk-upload',
@@ -229,7 +233,7 @@ async function handleAfterChoose(items: UploadFile[]) {
 function doUpload(file: UploadFile) {
   file.status = UploadStatus.Uploading;
   file.progress = 0;
-  file.message = '上传中...';
+  file.message = t('uploading');
   syncModel([...fileList.value]);
 
   /* 自定义上传函数（可接入 Request 等外部请求工具） */
@@ -255,7 +259,7 @@ function doUpload(file: UploadFile) {
       },
       onFail(error: unknown) {
         file.status = UploadStatus.Fail;
-        file.message = '上传失败';
+        file.message = t('failed');
         syncModel([...fileList.value]);
         emit('fail', file, { error });
         if (props.autoRemoveFail) {
@@ -283,7 +287,7 @@ function doUpload(file: UploadFile) {
     },
     fail(err) {
       file.status = UploadStatus.Fail;
-      file.message = '上传失败';
+      file.message = t('failed');
       syncModel([...fileList.value]);
       emit('fail', file, { error: err });
 
@@ -433,7 +437,7 @@ defineExpose({
         <!-- 上传失败遮罩 -->
         <view v-if="f.status === 'fail'" class="lk-upload__mask lk-upload__mask--fail" @tap.stop="retryUpload(i)">
           <lk-icon name="arrow-clockwise" size="36" color="var(--lk-upload-mask-text)" />
-          <text class="lk-upload__mask-text">{{ f.message || '上传失败' }}</text>
+          <text class="lk-upload__mask-text">{{ f.message || uploadFailedText }}</text>
         </view>
 
         <!-- 删除按钮 -->
@@ -455,7 +459,7 @@ defineExpose({
       <view v-if="showAddBtn" class="lk-upload__add" @tap="onSelect">
         <slot name="trigger">
           <lk-icon :name="uploadIcon" size="44" />
-          <text v-if="uploadText" class="lk-upload__add-text">{{ uploadText }}</text>
+          <text v-if="resolvedUploadText" class="lk-upload__add-text">{{ resolvedUploadText }}</text>
         </slot>
         <text v-if="maxCount < 99" class="lk-upload__count">
           {{ fileList.length }}/{{ maxCount }}
@@ -465,11 +469,11 @@ defineExpose({
       <!-- 内置删除确认弹窗 -->
       <lk-modal
         v-model="deleteConfirmVisible"
-        title="删除确认"
+        :title="t('deleteTitle')"
         @confirm="onDeleteConfirm"
         @cancel="onDeleteCancel"
       >
-        <text>确定要删除该文件吗？</text>
+        <text>{{ t('deleteMessage') }}</text>
       </lk-modal>
     </view>
   </view>

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { countdownEmits, countdownProps, type CountdownTimeData } from './countdown.props';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkCountdown' });
 
 const props = defineProps(countdownProps);
 const emit = defineEmits(countdownEmits);
+const { t } = useLocale('countdown');
 
 type SegmentKind = 'value' | 'separator' | 'unit';
 
@@ -157,13 +159,13 @@ function pad(value: number, length: number) {
 
 function parseSegments(text: string) {
   const unitMap = {
-    day: props.unitMap.day || '天',
-    hour: props.unitMap.hour || '时',
-    minute: props.unitMap.minute || '分',
-    second: props.unitMap.second || '秒',
-    millisecond: props.unitMap.millisecond || '毫秒',
+    day: props.unitMap.day || t('day'),
+    hour: props.unitMap.hour || t('hour'),
+    minute: props.unitMap.minute || t('minute'),
+    second: props.unitMap.second || t('second'),
+    millisecond: props.unitMap.millisecond || t('millisecond'),
   };
-  const unitValues = Object.values(unitMap).filter(Boolean);
+  const unitValues = Object.values(unitMap).filter((item): item is string => !!item);
   const source = text || '0';
   const result: Segment[] = [];
   let index = 0;

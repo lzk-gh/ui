@@ -101,6 +101,10 @@ export const curtainProps = {
    */
   link: LkProp.string(''),
   /**
+   * 小程序端复制链接成功提示
+   */
+  copySuccessText: LkProp.string(''),
+  /**
    * 链接跳转类型
    */
   linkType: LkProp.enum(CurtainLinkTypes, 'navigateTo', 'Curtain.linkType'),

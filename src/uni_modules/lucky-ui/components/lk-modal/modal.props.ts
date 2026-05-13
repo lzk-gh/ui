@@ -50,10 +50,10 @@ export const modalProps = {
   showCancel: LkProp.boolean(true),
 
   /** 确认按钮文本（兼容旧参数名） */
-  confirmText: LkProp.string('确定'),
+  confirmText: LkProp.string(''),
 
   /** 取消按钮文本（兼容旧参数名） */
-  cancelText: LkProp.string('取消'),
+  cancelText: LkProp.string(''),
 
   /** 动画预设名称 */
   animation: {

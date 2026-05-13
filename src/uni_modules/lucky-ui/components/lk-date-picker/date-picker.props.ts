@@ -66,7 +66,11 @@ export const datePickerProps = {
     'DatePicker.pickerMode'
   ),
   /** 标题 */
-  title: LkProp.string('选择日期'),
+  title: LkProp.string(''),
+  /** 确认按钮文字 */
+  confirmText: LkProp.string(''),
+  /** 取消按钮文字 */
+  cancelText: LkProp.string(''),
   /** 主题颜色 */
   color: LkProp.string('primary'),
   /** 值类型 */

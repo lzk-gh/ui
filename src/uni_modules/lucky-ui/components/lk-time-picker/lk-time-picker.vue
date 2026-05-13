@@ -4,11 +4,13 @@ import { ref, watch, computed } from 'vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkButton from '../lk-button/lk-button.vue';
 import { timePickerProps, timePickerEmits } from './time-picker.props';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkTimePicker' });
 
 const props = defineProps(timePickerProps);
 const emit = defineEmits(timePickerEmits);
+const { t } = useLocale('timePicker');
 
 const show = ref(false);
 const timeParts = ref({ h: '', m: '', s: '' });
@@ -39,6 +41,9 @@ watch(
 
 const hasSecond = computed(() => props.format.includes('ss'));
 const display = computed(() => props.modelValue || '');
+const resolvedPlaceholder = computed(() => props.placeholder || t('placeholder'));
+const resolvedConfirmText = computed(() => props.confirmText || t('confirm'));
+const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
 const cls = computed(() => ['lk-time-picker', { 'is-disabled': props.disabled }, props.customClass]);
 const style = computed(() => props.customStyle as StyleValue);
 
@@ -106,7 +111,7 @@ const seconds = computed(() => gen(props.stepSecond, 60));
 <template>
   <view :id="id" :class="cls" :style="style" @tap="open">
     <text v-if="display" class="lk-time-picker__value">{{ display }}</text>
-    <text v-else class="lk-time-picker__placeholder">{{ placeholder }}</text>
+    <text v-else class="lk-time-picker__placeholder">{{ resolvedPlaceholder }}</text>
     <view v-if="clearable && display && !disabled" class="lk-time-picker__clear" @tap.stop="clear">×</view>
   </view>
   <lk-popup :model-value="show" position="bottom" @update:model-value="setShow">
@@ -144,8 +149,8 @@ const seconds = computed(() => gen(props.stepSecond, 60));
         </scroll-view>
       </view>
       <view class="lk-time-picker__actions">
-        <lk-button size="sm" variant="outline" @click="cancel">取消</lk-button>
-        <lk-button size="sm" @click="confirm">确定</lk-button>
+        <lk-button size="sm" variant="outline" @click="cancel">{{ resolvedCancelText }}</lk-button>
+        <lk-button size="sm" @click="confirm">{{ resolvedConfirmText }}</lk-button>
       </view>
     </view>
   </lk-popup>

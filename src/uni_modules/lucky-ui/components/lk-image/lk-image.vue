@@ -2,11 +2,13 @@
 import type { StyleValue } from 'vue';
 import { computed, reactive, watch } from 'vue';
 import { imageProps, imageEmits } from './image.props';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkImage' });
 
 const props = defineProps(imageProps);
 const emit = defineEmits(imageEmits);
+const { t } = useLocale('image');
 
 const state = reactive({
   loading: true,
@@ -68,7 +70,7 @@ const rootStyle = computed<StyleValue>(() => [
     />
     <view v-else-if="showError && state.error" class="lk-image__placeholder">
       <lk-icon name="image" size="44" />
-      <text class="lk-image__text">加载失败</text>
+      <text class="lk-image__text">{{ t('loadFailed') }}</text>
     </view>
   </view>
 </template>

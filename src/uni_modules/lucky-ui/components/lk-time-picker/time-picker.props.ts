@@ -14,7 +14,11 @@ export const timePickerProps = {
   /** 时间格式（支持裁剪秒） */
   format: LkProp.string('HH:mm:ss'),
   /** 占位文本 */
-  placeholder: LkProp.string('选择时间'),
+  placeholder: LkProp.string(''),
+  /** 确认按钮文字 */
+  confirmText: LkProp.string(''),
+  /** 取消按钮文字 */
+  cancelText: LkProp.string(''),
   /** 是否可清除 */
   clearable: LkProp.boolean(true),
   /** 是否禁用 */

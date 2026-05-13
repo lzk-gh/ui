@@ -20,14 +20,14 @@ const danger = '#ff6b6b';
 const success = '#8bd17c';
 
 export const emptyPresetText: Record<EmptyName, EmptyPreset> = {
-  empty: { title: '暂无数据', description: '当前没有可展示的内容' },
-  search: { title: '未找到结果', description: '换个关键词再试试' },
-  network: { title: '网络异常', description: '请检查网络连接后重试' },
-  error: { title: '加载失败', description: '页面遇到了一点问题' },
-  permission: { title: '暂无权限', description: '开通权限后即可查看' },
-  inbox: { title: '消息为空', description: '新的消息会显示在这里' },
-  cart: { title: '购物车为空', description: '去添加一些喜欢的商品吧' },
-  favorite: { title: '暂无收藏', description: '收藏的内容会显示在这里' },
+  empty: { title: 'No Data', description: 'No content to display' },
+  search: { title: 'No Results', description: 'Try different keywords' },
+  network: { title: 'Network Error', description: 'Please check your connection' },
+  error: { title: 'Loading Failed', description: 'Something went wrong' },
+  permission: { title: 'No Permission', description: 'Permission required to view' },
+  inbox: { title: 'No Messages', description: 'New messages will appear here' },
+  cart: { title: 'Cart Empty', description: 'Add items you like' },
+  favorite: { title: 'No Favorites', description: 'Your favorites will be here' },
 };
 
 export const emptyIllustrationMeta: Record<EmptyName, EmptyIllustrationMeta> = {

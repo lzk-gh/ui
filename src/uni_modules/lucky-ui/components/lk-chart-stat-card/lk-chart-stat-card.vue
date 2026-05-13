@@ -3,10 +3,12 @@ import type { StyleValue } from 'vue';
 import { computed } from 'vue';
 import LkChartSparkline from '../lk-chart-sparkline/lk-chart-sparkline.vue';
 import { chartStatCardProps, StatCardTrend } from './chart-stat-card.props';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkChartStatCard' });
 
 const props = defineProps(chartStatCardProps);
+const { t } = useLocale('chartStatCard');
 
 const classes = computed(() => [
   'lk-chart-stat-card',
@@ -26,9 +28,9 @@ const rootStyle = computed<StyleValue>(() => [
 
 const trendLabel = computed(() => {
   if (props.trendText) return props.trendText;
-  if (props.trend === StatCardTrend.Up) return '上升';
-  if (props.trend === StatCardTrend.Down) return '下降';
-  return '稳定';
+  if (props.trend === StatCardTrend.Up) return t('trendUp');
+  if (props.trend === StatCardTrend.Down) return t('trendDown');
+  return t('trendFlat');
 });
 
 const trendIcon = computed(() => {

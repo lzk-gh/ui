@@ -16,6 +16,7 @@ import {
   startOfDay,
 } from '../lk-calendar/utils/date';
 import LkPopup from '../lk-popup/lk-popup.vue';
+import { useLocale } from '../../composables/useLocale';
 import {
   DatePickerDisplayMode,
   DatePickerType,
@@ -42,6 +43,7 @@ type WheelOption = {
 
 const props = defineProps(datePickerProps);
 const emit = defineEmits(datePickerEmits);
+const { t } = useLocale('datePicker');
 
 const now = new Date();
 const popupVisible = ref(getControlledVisible());
@@ -53,6 +55,9 @@ const endTime = ref<TimeParts>(getTimeParts(now));
 const dateWheelIndexes = ref<number[]>([0, 0, 0]);
 const rootClass = computed(() => ['lk-date-picker', props.customClass]);
 const rootStyle = computed(() => props.customStyle as StyleValue);
+const resolvedTitle = computed(() => props.title || t('title'));
+const resolvedConfirmText = computed(() => props.confirmText || t('confirm'));
+const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
 
 const isRangeType = computed(
   () => props.type === DatePickerType.Range || props.type === DatePickerType.RangeDateTime
@@ -116,20 +121,20 @@ const dateWheelColumns = computed(() => {
 });
 const timeUnits = computed(() => {
   const units: Array<{ key: TimeUnit; label: string; step: number; max: number }> = [
-    { key: 'hour', label: '时', step: props.stepHour, max: 23 },
+    { key: 'hour', label: t('hour'), step: props.stepHour, max: 23 },
   ];
   if (props.timePrecision !== 'hour') {
-    units.push({ key: 'minute', label: '分', step: props.stepMinute, max: 59 });
+    units.push({ key: 'minute', label: t('minute'), step: props.stepMinute, max: 59 });
   }
   if (props.timePrecision === 'second') {
-    units.push({ key: 'second', label: '秒', step: props.stepSecond, max: 59 });
+    units.push({ key: 'second', label: t('second'), step: props.stepSecond, max: 59 });
   }
   return units;
 });
 const timePresets = computed(() => {
   const current = getTimeParts(new Date());
   return [
-    { label: '现在', value: current },
+    { label: t('now'), value: current },
     { label: '09:00', value: { hour: 9, minute: 0, second: 0 } },
     { label: '12:00', value: { hour: 12, minute: 0, second: 0 } },
     { label: '18:00', value: { hour: 18, minute: 0, second: 0 } },
@@ -454,15 +459,15 @@ syncFromValue();
     <view :id="id" :class="rootClass" :style="rootStyle">
       <view class="lk-date-picker__header">
         <view class="lk-date-picker__action lk-date-picker__action--cancel" @tap="close">
-          取消
+          {{ resolvedCancelText }}
         </view>
-        <text class="lk-date-picker__title">{{ title }}</text>
+        <text class="lk-date-picker__title">{{ resolvedTitle }}</text>
         <view
           class="lk-date-picker__action lk-date-picker__action--confirm"
           :class="{ 'is-disabled': confirmDisabled }"
           @tap="!confirmDisabled && confirm()"
         >
-          确定
+          {{ resolvedConfirmText }}
         </view>
       </view>
 
@@ -499,7 +504,7 @@ syncFromValue();
         <view v-if="showDateWheel" class="lk-date-picker__wheel-card">
           <view class="lk-date-picker__section-head">
             <text class="lk-date-picker__section-title">
-              {{ isYearMonth ? '选择年月' : '选择日期' }}
+              {{ isYearMonth ? t('selectYearMonth') : t('selectDate') }}
             </text>
           </view>
           <picker-view
@@ -527,7 +532,7 @@ syncFromValue();
           <view class="lk-date-picker__time-card">
             <view class="lk-date-picker__section-head">
               <text class="lk-date-picker__section-title">
-                {{ showEndTimeWheel ? '开始时间' : '选择时间' }}
+                {{ showEndTimeWheel ? t('startTime') : t('selectTime') }}
               </text>
               <text class="lk-date-picker__section-value">{{ formatTime(startTime) }}</text>
             </view>
@@ -566,7 +571,7 @@ syncFromValue();
 
           <view v-if="showEndTimeWheel" class="lk-date-picker__time-card">
             <view class="lk-date-picker__section-head">
-              <text class="lk-date-picker__section-title">结束时间</text>
+              <text class="lk-date-picker__section-title">{{ t('endTime') }}</text>
               <text class="lk-date-picker__section-value">{{ formatTime(endTime) }}</text>
             </view>
             <view class="lk-date-picker__time-preview">{{ formatTime(endTime) }}</view>

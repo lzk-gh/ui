@@ -4,6 +4,7 @@ import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import LkButton from '../lk-button/lk-button.vue';
 import { modalProps, modalEmits } from './modal.props';
+import { useLocale } from '../../composables/useLocale';
 import {
   useTransition,
   ANIMATION_PRESETS,
@@ -16,6 +17,10 @@ defineOptions({ name: 'LkModal' });
 const props = defineProps(modalProps);
 
 const emit = defineEmits(modalEmits);
+const { t } = useLocale('modal');
+
+const resolvedConfirmText = computed(() => props.confirmText || t('confirm'));
+const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
 
 // ==================== 动画配置计算 ====================
 const transitionConfig = computed<TransitionConfig>(() => {
@@ -161,10 +166,10 @@ function onCloseClick() {
               variant="soft"
               @click="cancel"
             >
-              {{ cancelText }}
+              {{ resolvedCancelText }}
             </lk-button>
             <lk-button class="lk-modal__footer-btn" block size="md" variant="solid" @click="confirm">
-              {{ confirmText }}
+              {{ resolvedConfirmText }}
             </lk-button>
           </template>
           <template v-else>
@@ -173,10 +178,10 @@ function onCloseClick() {
               class="lk-modal__text-btn lk-modal__text-btn--cancel"
               @click="cancel"
             >
-              {{ cancelText }}
+              {{ resolvedCancelText }}
             </view>
             <view class="lk-modal__text-btn lk-modal__text-btn--confirm" @click="confirm">
-              {{ confirmText }}
+              {{ resolvedConfirmText }}
             </view>
           </template>
         </slot>

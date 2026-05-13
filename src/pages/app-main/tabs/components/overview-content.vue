@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useThemeStore, PRESET_COLORS, DEFAULT_BRAND_COLOR } from '@/stores/theme';
+import { Locale, SUPPORTED_LOCALES, type LocaleCode } from '@/uni_modules/lucky-ui/locale';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 
 defineProps<{
   contentHeight: string;
@@ -11,6 +13,12 @@ defineProps<{
 const themeStore = useThemeStore();
 
 const searchKeyword = ref('');
+const currentLocale = ref(Locale.locale);
+const localeOptions = SUPPORTED_LOCALES;
+const showLocalePopup = ref(false);
+const currentLocaleLabel = computed(
+  () => localeOptions.find(locale => locale.value === currentLocale.value)?.label || currentLocale.value
+);
 
 // ============ 主题色配置 ============
 const currentBrandColor = ref(DEFAULT_BRAND_COLOR);
@@ -33,6 +41,12 @@ const applyCustomColor = () => {
     currentBrandColor.value = color;
     themeStore.setBrandColor(color);
   }
+};
+
+const setLocale = (lang: LocaleCode) => {
+  Locale.use(lang);
+  currentLocale.value = lang;
+  showLocalePopup.value = false;
 };
 
 // 初始化时恢复保存的颜色
@@ -72,6 +86,7 @@ const categories = [
       { name: 'textarea', label: 'Textarea', desc: '文本域', icon: 'house' },
       { name: 'radio', label: 'Radio', desc: '单选框', icon: 'record-circle' },
       { name: 'checkbox', label: 'Checkbox', desc: '复选框', icon: 'check-square' },
+      { name: 'select-list', label: 'SelectList', desc: '选择列表', icon: 'list-check' },
       { name: 'switch', label: 'Switch', desc: '开关', icon: 'toggle-on' },
       { name: 'stepper', label: 'Stepper', desc: '步进器', icon: 'plus-slash-minus' },
       { name: 'slider', label: 'Slider', desc: '滑块', icon: 'sliders' },
@@ -232,6 +247,34 @@ const navigateToDetail = (componentName: string) => {
           <lk-icon name="sliders" size="36" color="primary" />
           <text class="config-title">品牌主题色</text>
         </view>
+        <view class="locale-config-row">
+          <text class="custom-label">组件语言</text>
+          <view class="locale-trigger" @tap="showLocalePopup = true">
+            <text class="locale-trigger__value">{{ currentLocaleLabel }}</text>
+            <lk-icon name="chevron-down" size="28" color="textSecondary" />
+          </view>
+        </view>
+        <lk-popup
+          v-model="showLocalePopup"
+          position="bottom"
+          title="选择语言"
+          closable
+          height="90vh"
+        >
+          <view class="locale-popup-list">
+            <view
+              v-for="locale in localeOptions"
+              :key="locale.value"
+              class="locale-popup-item"
+              :class="{ active: currentLocale === locale.value }"
+              @tap="setLocale(locale.value)"
+            >
+              <text class="locale-popup-item__label">{{ locale.label }}</text>
+              <text class="locale-popup-item__code">{{ locale.value }}</text>
+              <lk-icon v-if="currentLocale === locale.value" name="check-circle-fill" size="32" color="primary" />
+            </view>
+          </view>
+        </lk-popup>
         <view class="color-presets">
           <view
             v-for="color in presetColors"
@@ -437,6 +480,70 @@ const navigateToDetail = (componentName: string) => {
   font-size: 30rpx;
   font-weight: 600;
   color: $test-text-primary;
+}
+
+.locale-config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 16rpx 0 24rpx;
+}
+
+.locale-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14rpx;
+  min-width: 248rpx;
+  height: 64rpx;
+  padding: 0 22rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 18rpx;
+}
+
+.locale-trigger__value {
+  color: $test-text-secondary;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.locale-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  padding: 8rpx 32rpx 24rpx;
+}
+
+.locale-popup-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  min-height: 78rpx;
+  padding: 0 24rpx;
+  border: 1rpx solid $test-border-color;
+  border-radius: 18rpx;
+  background: $test-bg-card;
+  box-shadow: none;
+
+  &.active {
+    border-color: $test-primary;
+    background: var(--lk-color-primary-soft);
+  }
+}
+
+.locale-popup-item__label {
+  flex: 1;
+  color: $test-text-primary;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.locale-popup-item__code {
+  color: $test-text-secondary;
+  font-size: 22rpx;
 }
 
 .color-presets {

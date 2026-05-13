@@ -9,12 +9,14 @@ import {
   type TransitionConfig,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
 import { addUnit } from '../../core/src/utils/unit';
+import { useLocale } from '../../composables/useLocale';
 import { curtainProps, curtainEmits } from './curtain.props';
 
 defineOptions({ name: 'LkCurtain' });
 
 const props = defineProps(curtainProps);
 const emit = defineEmits(curtainEmits);
+const { t } = useLocale('curtain');
 
 const slots = useSlots();
 
@@ -23,6 +25,7 @@ const heightStr = computed(() => addUnit(props.height));
 const closeOffsetStr = computed(() => addUnit(props.closeOffset) || 'var(--lk-rpx-24)');
 const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || 'var(--lk-rpx-36)');
 const hasDefaultSlot = computed(() => !!slots.default);
+const resolvedCopySuccessText = computed(() => props.copySuccessText || t('copySuccess'));
 const rootStyle = computed<(string | Record<string, string | number>)[]>(() => [
   (props.customStyle || '') as string,
   {
@@ -118,7 +121,7 @@ function onClick() {
   // #ifdef MP
   if (isHttp) {
     uni.setClipboardData({ data: props.link });
-    uni.showToast({ title: '链接已复制', icon: 'none' });
+    uni.showToast({ title: resolvedCopySuccessText.value, icon: 'none' });
     return;
   }
   // #endif

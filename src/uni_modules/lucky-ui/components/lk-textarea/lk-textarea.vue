@@ -4,11 +4,13 @@ import { computed, ref, inject } from 'vue';
 import type { TextareaEventPayload } from './textarea.props';
 import { textareaProps, textareaEmits } from './textarea.props';
 import { formContextKey } from '../lk-form/context';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkTextarea' });
 
 const props = defineProps(textareaProps);
 const emit = defineEmits(textareaEmits);
+const { t } = useLocale('textarea');
 
 const form = inject(formContextKey, null);
 const isFocused = ref(false);
@@ -28,6 +30,7 @@ const cls = computed(() => [
 const style = computed(() => props.customStyle as StyleValue);
 const currentCount = computed(() => String(props.modelValue || '').length);
 const isTextareaFocused = computed(() => props.focus || props.autofocus);
+const resolvedPlaceholder = computed(() => props.placeholder || t('placeholder'));
 
 function readTextareaValue(e: TextareaEventPayload): string {
   if (typeof e === 'object' && e !== null && 'detail' in e) {
@@ -114,7 +117,7 @@ function onClear() {
         class="lk-textarea__inner"
         :name="name"
         :value="modelValue"
-        :placeholder="placeholder"
+        :placeholder="resolvedPlaceholder"
         :placeholder-style="placeholderStyle"
         :placeholder-class="placeholderClass"
         :disabled="disabled || readonly"

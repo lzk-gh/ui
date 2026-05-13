@@ -56,7 +56,7 @@ export const textareaProps = {
   label: LkProp.string(''),
 
   /** 占位符 */
-  placeholder: LkProp.string('请输入内容'),
+  placeholder: LkProp.string(''),
 
   /** 占位符样式 */
   placeholderStyle: LkProp.string(''),

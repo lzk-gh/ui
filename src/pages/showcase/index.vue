@@ -2,7 +2,10 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 import { useThemeStore } from '@/stores/theme';
+import { Locale, SUPPORTED_LOCALES, type LocaleCode } from '@/uni_modules/lucky-ui/locale';
 import ComponentCase from '@/components/showcase/component-case.vue';
+import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import type { ShowcaseCase } from '@/components/showcase/showcase-cases';
 import { SHOWCASE_CASES } from '@/components/showcase/showcase-cases';
 import ActionSheetDemo from '@/components/demos/action-sheet-demo.vue';
@@ -46,6 +49,7 @@ import ProgressDemo from '@/components/demos/progress-demo.vue';
 import PullRefreshDemo from '@/components/demos/pull-refresh-demo.vue';
 import RadioDemo from '@/components/demos/radio-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
+import SelectListDemo from '@/components/demos/select-list-demo.vue';
 import SegmentedDemo from '@/components/demos/segmented-demo.vue';
 import StickyDemo from '@/components/demos/sticky-demo.vue';
 import SkeletonDemo from '@/components/demos/skeleton-demo.vue';
@@ -77,9 +81,15 @@ import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
  * 注意事项：通过 query `component` 控制，空值表示展示全部。
  */
 const currentSlug = ref('');
+const currentLocale = ref(Locale.locale);
+const localeOptions = SUPPORTED_LOCALES;
+const showLocalePopup = ref(false);
 const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
 const brandStyleVars = computed(() => themeStore.brandStyleVars);
+const currentLocaleLabel = computed(
+  () => localeOptions.find(locale => locale.value === currentLocale.value)?.label || currentLocale.value
+);
 
 /**
  * 读取并应用路由参数。
@@ -192,6 +202,12 @@ const verifiedCount = computed(
 const lowRiskCount = computed(
   () => visibleCases.value.filter(item => item.riskLevel === 'low').length
 );
+
+function setLocale(lang: LocaleCode) {
+  Locale.use(lang);
+  currentLocale.value = lang;
+  showLocalePopup.value = false;
+}
 </script>
 
 <template>
@@ -218,6 +234,34 @@ const lowRiskCount = computed(
           <text class="metric-label">低风险</text>
         </view>
       </view>
+      <view class="hero-config">
+        <text class="config-label">语言</text>
+        <view class="locale-trigger" @tap="showLocalePopup = true">
+          <text class="locale-trigger__value">{{ currentLocaleLabel }}</text>
+          <lk-icon name="chevron-down" size="28" color="textSecondary" />
+        </view>
+      </view>
+      <lk-popup
+        v-model="showLocalePopup"
+        position="bottom"
+        title="选择语言"
+        closable
+        height="90vh"
+      >
+        <view class="locale-popup-list">
+          <view
+            v-for="locale in localeOptions"
+            :key="locale.value"
+            class="locale-popup-item"
+            :class="{ 'is-active': currentLocale === locale.value }"
+            @tap="setLocale(locale.value)"
+          >
+            <text class="locale-popup-item__label">{{ locale.label }}</text>
+            <text class="locale-popup-item__code">{{ locale.value }}</text>
+            <lk-icon v-if="currentLocale === locale.value" name="check-circle-fill" size="32" color="primary" />
+          </view>
+        </view>
+      </lk-popup>
     </view>
 
     <view v-for="(groupItems, groupKey) in groupedCases" :key="groupKey" class="group-block">
@@ -253,6 +297,7 @@ const lowRiskCount = computed(
             <chart-pie-demo v-else-if="item.slug === 'chart-pie'" />
             <checkbox-demo v-else-if="item.slug === 'checkbox'" />
             <choice-demo v-else-if="item.slug === 'choice'" />
+            <select-list-demo v-else-if="item.slug === 'select-list'" />
             <collapse-demo v-else-if="item.slug === 'collapse'" />
             <countdown-demo v-else-if="item.slug === 'countdown'" />
             <divider-demo v-else-if="item.slug === 'divider'" />
@@ -374,6 +419,79 @@ const lowRiskCount = computed(
   background: $test-gray-50;
   border: 1rpx solid $test-border-color;
   border-radius: 28rpx;
+}
+
+.hero-config {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 20rpx 24rpx;
+  background: $test-bg-page;
+  border: 1rpx solid $test-border-color;
+  border-radius: 24rpx;
+}
+
+.config-label {
+  flex-shrink: 0;
+  color: $test-text-secondary;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.locale-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14rpx;
+  min-width: 248rpx;
+  height: 64rpx;
+  padding: 0 22rpx;
+  background: $test-bg-card;
+  border: 1rpx solid $test-border-color;
+  border-radius: 18rpx;
+}
+
+.locale-trigger__value {
+  color: $test-text-secondary;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.locale-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  padding: 8rpx 32rpx 24rpx;
+}
+
+.locale-popup-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  min-height: 78rpx;
+  padding: 0 24rpx;
+  border: 1rpx solid $test-border-color;
+  border-radius: 18rpx;
+  background: $test-bg-card;
+  box-shadow: none;
+
+  &.is-active {
+    border-color: $test-primary;
+    background: var(--lk-color-primary-soft);
+  }
+}
+
+.locale-popup-item__label {
+  flex: 1;
+  color: $test-text-primary;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.locale-popup-item__code {
+  color: $test-text-secondary;
+  font-size: 22rpx;
 }
 
 .metric-item {

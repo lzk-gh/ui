@@ -48,6 +48,15 @@ export const tabbarContainerProps = {
 
   /** 是否预加载所有 Tab */
   preloadAll: LkProp.boolean(true),
+
+  /** 加载中文案 */
+  loadingText: LkProp.string(''),
+
+  /** 加载失败文案 */
+  errorText: LkProp.string(''),
+
+  /** 重试文案 */
+  retryText: LkProp.string(''),
 } as const;
 
 export const tabbarContainerEmits = {
@@ -58,4 +67,3 @@ export const tabbarContainerEmits = {
 
 export type TabbarContainerProps = ExtractPropTypes<typeof tabbarContainerProps>;
 export type TabbarContainerEmits = typeof tabbarContainerEmits;
-

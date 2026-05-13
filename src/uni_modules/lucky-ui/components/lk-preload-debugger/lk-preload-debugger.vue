@@ -7,10 +7,12 @@ import {
   type PreloadStats,
   type PreloadEventHandler,
 } from '../../core/src/preload';
+import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkPreloadDebugger' });
 
 const props = defineProps(preloadDebuggerProps);
+const { t, locale } = useLocale('preloadDebugger');
 
 const manager = getPreloadManager();
 const isExpanded = ref(false);
@@ -48,7 +50,7 @@ const statusClass = computed(() => {
 });
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString('zh-CN', {
+  return date.toLocaleTimeString(locale.value, {
     hour12: false,
     hour: '2-digit',
     minute: '2-digit',
@@ -84,33 +86,39 @@ function toggleExpand() {
 function togglePause() {
   if (isPaused.value) {
     manager.resume();
-    addLog('info', '队列已恢复');
+    addLog('info', t('queueResumed'));
   } else {
     manager.pause();
-    addLog('info', '队列已暂停');
+    addLog('info', t('queuePaused'));
   }
   isPaused.value = !isPaused.value;
 }
 
 function handleClear() {
   manager.clear();
-  addLog('info', '队列已清空');
+  addLog('info', t('queueCleared'));
   updateStats();
 }
 
 // 事件处理器
 function handleTaskStart(event: Parameters<PreloadEventHandler>[0]) {
-  addLog('start', `开始: ${event.task?.resource || 'unknown'}`);
+  addLog('start', t('taskStart', { resource: event.task?.resource || t('unknown') }));
   updateStats();
 }
 
 function handleTaskComplete(event: Parameters<PreloadEventHandler>[0]) {
-  addLog('complete', `完成: ${event.task?.resource || 'unknown'}`);
+  addLog('complete', t('taskComplete', { resource: event.task?.resource || t('unknown') }));
   updateStats();
 }
 
 function handleTaskError(event: Parameters<PreloadEventHandler>[0]) {
-  addLog('error', `失败: ${event.task?.resource || 'unknown'} - ${event.error?.message || ''}`);
+  addLog(
+    'error',
+    t('taskError', {
+      resource: event.task?.resource || t('unknown'),
+      message: event.error?.message || '',
+    })
+  );
   updateStats();
 }
 
@@ -121,7 +129,7 @@ onMounted(() => {
   manager.on('task:complete', handleTaskComplete);
   manager.on('task:error', handleTaskError);
 
-  addLog('info', '调试面板已启动');
+  addLog('info', t('panelStarted'));
 });
 
 onUnmounted(() => {
@@ -139,9 +147,9 @@ onUnmounted(() => {
     :style="debuggerStyle"
   >
     <view class="lk-preload-debugger__header" @click="toggleExpand">
-      <text class="lk-preload-debugger__title">预加载调试</text>
+      <text class="lk-preload-debugger__title">{{ t('title') }}</text>
       <view class="lk-preload-debugger__badge" :class="statusClass">
-        {{ stats.running > 0 ? '运行中' : stats.pending > 0 ? '等待中' : '空闲' }}
+        {{ stats.running > 0 ? t('running') : stats.pending > 0 ? t('pending') : t('idle') }}
       </view>
     </view>
 
@@ -150,23 +158,23 @@ onUnmounted(() => {
       <view class="lk-preload-debugger__stats-wrapper">
         <view class="lk-preload-debugger__stats">
           <view class="stat-item">
-            <text class="stat-label">总任务</text>
+            <text class="stat-label">{{ t('total') }}</text>
             <text class="stat-value">{{ stats.total }}</text>
           </view>
           <view class="stat-item stat-item--running">
-            <text class="stat-label">运行中</text>
+            <text class="stat-label">{{ t('running') }}</text>
             <text class="stat-value">{{ stats.running }}</text>
           </view>
           <view class="stat-item stat-item--pending">
-            <text class="stat-label">等待中</text>
+            <text class="stat-label">{{ t('pending') }}</text>
             <text class="stat-value">{{ stats.pending }}</text>
           </view>
           <view class="stat-item stat-item--completed">
-            <text class="stat-label">已完成</text>
+            <text class="stat-label">{{ t('completed') }}</text>
             <text class="stat-value">{{ stats.completed }}</text>
           </view>
           <view class="stat-item stat-item--failed">
-            <text class="stat-label">失败</text>
+            <text class="stat-label">{{ t('failed') }}</text>
             <text class="stat-value">{{ stats.failed }}</text>
           </view>
         </view>
@@ -175,9 +183,9 @@ onUnmounted(() => {
       <!-- 控制按钮 -->
       <view class="lk-preload-debugger__actions">
         <view class="action-btn" :class="{ 'action-btn--active': isPaused }" @click="togglePause">
-          {{ isPaused ? '恢复' : '暂停' }}
+          {{ isPaused ? t('resume') : t('pause') }}
         </view>
-        <view class="action-btn action-btn--danger" @click="handleClear"> 清空 </view>
+        <view class="action-btn action-btn--danger" @click="handleClear">{{ t('clear') }}</view>
       </view>
 
       <!-- 日志列表 -->
@@ -192,7 +200,7 @@ onUnmounted(() => {
           <text class="log-time">{{ log.time }}</text>
           <text class="log-message">{{ log.message }}</text>
         </view>
-        <view v-if="logs.length === 0" class="log-empty"> 暂无日志 </view>
+        <view v-if="logs.length === 0" class="log-empty">{{ t('emptyLogs') }}</view>
       </scroll-view>
     </view>
   </view>

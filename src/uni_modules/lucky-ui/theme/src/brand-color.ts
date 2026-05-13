@@ -1,6 +1,7 @@
 /**
  * Lucky UI 品牌色工具
  */
+import { Locale } from '../../locale';
 
 const LEVELS = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 
@@ -83,11 +84,11 @@ export const DEFAULT_BRAND_COLOR = '#6965db';
  * 预设品牌色
  */
 export const PRESET_COLORS = [
-  { name: '幻紫', value: '#6965db' },
-  { name: '极光蓝', value: '#1890ff' },
-  { name: '翠绿', value: '#52c41a' },
-  { name: '活力橙', value: '#fa8c16' },
-  { name: '中国红', value: '#f5222d' },
-  { name: '玫瑰粉', value: '#eb2f96' },
-  { name: '极客青', value: '#13c2c2' },
+  { get name() { return Locale.t('lk.theme.colors.fantasyPurple'); }, value: '#6965db' },
+  { get name() { return Locale.t('lk.theme.colors.auroraBlue'); }, value: '#1890ff' },
+  { get name() { return Locale.t('lk.theme.colors.emerald'); }, value: '#52c41a' },
+  { get name() { return Locale.t('lk.theme.colors.vibrantOrange'); }, value: '#fa8c16' },
+  { get name() { return Locale.t('lk.theme.colors.chinaRed'); }, value: '#f5222d' },
+  { get name() { return Locale.t('lk.theme.colors.rosePink'); }, value: '#eb2f96' },
+  { get name() { return Locale.t('lk.theme.colors.geekCyan'); }, value: '#13c2c2' },
 ] as const;

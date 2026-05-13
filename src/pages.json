@@ -35,6 +35,13 @@
           }
         },
         {
+          "path": "i18n-preview/index",
+          "style": {
+            "navigationBarTitleText": "i18n Preview",
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "pull-refresh-page/index",
           "style": {
             "navigationBarTitleText": "页面下拉刷新",

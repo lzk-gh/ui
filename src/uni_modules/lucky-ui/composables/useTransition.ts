@@ -1,5 +1,6 @@
 import { ref, watch, computed, nextTick, isRef } from 'vue';
 import type { CSSProperties, Ref } from 'vue';
+import { Locale } from '../locale';
 
 /**
  * requestAnimationFrame 兼容处理
@@ -518,14 +519,22 @@ export interface AnimationCategory {
   animations: AnimationType[];
 }
 
+function transitionText(key: string): string {
+  return Locale.t(`lk.transition.${key}`);
+}
+
 /**
  * 动画分类列表
  */
 export const ANIMATION_CATEGORIES: AnimationCategory[] = [
   {
     category: 'fade',
-    title: 'Fade 淡入淡出',
-    description: '通过透明度和位移组合实现的淡入淡出效果',
+    get title() {
+      return transitionText('fadeTitle');
+    },
+    get description() {
+      return transitionText('fadeDescription');
+    },
     animations: [
       'fade',
       'fade-up',
@@ -540,14 +549,22 @@ export const ANIMATION_CATEGORIES: AnimationCategory[] = [
   },
   {
     category: 'slide',
-    title: 'Slide 滑动',
-    description: '从边缘滑入的动画效果',
+    get title() {
+      return transitionText('slideTitle');
+    },
+    get description() {
+      return transitionText('slideDescription');
+    },
     animations: ['slide-up', 'slide-down', 'slide-left', 'slide-right'],
   },
   {
     category: 'zoom',
-    title: 'Zoom 缩放',
-    description: '通过缩放和位移组合实现的缩放效果',
+    get title() {
+      return transitionText('zoomTitle');
+    },
+    get description() {
+      return transitionText('zoomDescription');
+    },
     animations: [
       'zoom-in',
       'zoom-in-up',
@@ -563,14 +580,22 @@ export const ANIMATION_CATEGORIES: AnimationCategory[] = [
   },
   {
     category: 'flip',
-    title: 'Flip 翻转',
-    description: '3D翻转动画效果',
+    get title() {
+      return transitionText('flipTitle');
+    },
+    get description() {
+      return transitionText('flipDescription');
+    },
     animations: ['flip-left', 'flip-right', 'flip-up', 'flip-down'],
   },
   {
     category: 'bounce',
-    title: 'Bounce 弹跳',
-    description: '带有弹性效果的进入动画',
+    get title() {
+      return transitionText('bounceTitle');
+    },
+    get description() {
+      return transitionText('bounceDescription');
+    },
     animations: [
       'bounce-in',
       'bounce-in-up',
@@ -581,8 +606,12 @@ export const ANIMATION_CATEGORIES: AnimationCategory[] = [
   },
   {
     category: 'rotate',
-    title: 'Rotate 旋转',
-    description: '旋转进入动画效果',
+    get title() {
+      return transitionText('rotateTitle');
+    },
+    get description() {
+      return transitionText('rotateDescription');
+    },
     animations: [
       'rotate-in',
       'rotate-in-up-left',
@@ -599,35 +628,45 @@ export const ANIMATION_CATEGORIES: AnimationCategory[] = [
 export const ANIMATION_PRESETS: Record<string, AnimationPreset> = {
   // 快速动画
   quick: {
-    name: '快速',
+    get name() {
+      return transitionText('presetQuick');
+    },
     animation: 'fade-up',
     duration: 200,
     easing: 'ease-out',
   },
   // 标准动画
   normal: {
-    name: '标准',
+    get name() {
+      return transitionText('presetNormal');
+    },
     animation: 'fade-up',
     duration: 300,
     easing: 'ease',
   },
   // 缓慢动画
   slow: {
-    name: '缓慢',
+    get name() {
+      return transitionText('presetSlow');
+    },
     animation: 'fade-up',
     duration: 500,
     easing: 'ease-in-out',
   },
   // 弹性动画
   bounce: {
-    name: '弹性',
+    get name() {
+      return transitionText('presetBounce');
+    },
     animation: 'bounce-in-up',
     duration: 600,
     easing: 'ease-out-back',
   },
   // 缩放动画
   scale: {
-    name: '缩放',
+    get name() {
+      return transitionText('presetScale');
+    },
     animation: 'zoom-in',
     duration: 300,
     easing: 'ease-out-cubic',

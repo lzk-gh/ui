@@ -156,7 +156,7 @@ export const uploadProps = {
   },
 
   /** 上传按钮文字 */
-  uploadText: LkProp.string('上传'),
+  uploadText: LkProp.string(''),
 
   /** 上传按钮图标 */
   uploadIcon: LkProp.string('plus'),

@@ -1,3 +1,5 @@
+import { Locale } from '../../../locale';
+
 /**
  * 格式化价格
  */
@@ -11,7 +13,7 @@ export function formatPrice(
     return `${currency}0.00`;
   }
 
-  return `${currency}${num.toLocaleString('zh-CN', {
+  return `${currency}${num.toLocaleString(Locale.locale, {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   })}`;
@@ -76,11 +78,19 @@ export function formatRelativeTime(time: string | number | Date): string {
   const month = day * 30;
   const year = day * 365;
 
-  if (absDiff < minute) return '刚刚';
-  if (absDiff < hour) return `${Math.floor(absDiff / minute)}分钟${isInPast ? '前' : '后'}`;
-  if (absDiff < day) return `${Math.floor(absDiff / hour)}小时${isInPast ? '前' : '后'}`;
-  if (absDiff < week) return `${Math.floor(absDiff / day)}天${isInPast ? '前' : '后'}`;
-  if (absDiff < month) return `${Math.floor(absDiff / week)}周${isInPast ? '前' : '后'}`;
-  if (absDiff < year) return `${Math.floor(absDiff / month)}个月${isInPast ? '前' : '后'}`;
-  return `${Math.floor(absDiff / year)}年${isInPast ? '前' : '后'}`;
+  if (absDiff < minute) return Locale.t('lk.time.justNow');
+  if (absDiff < hour) return formatRelative(Math.floor(absDiff / minute), 'minute', isInPast);
+  if (absDiff < day) return formatRelative(Math.floor(absDiff / hour), 'hour', isInPast);
+  if (absDiff < week) return formatRelative(Math.floor(absDiff / day), 'day', isInPast);
+  if (absDiff < month) return formatRelative(Math.floor(absDiff / week), 'week', isInPast);
+  if (absDiff < year) return formatRelative(Math.floor(absDiff / month), 'month', isInPast);
+  return formatRelative(Math.floor(absDiff / year), 'year', isInPast);
+}
+
+function formatRelative(value: number, unitKey: string, isInPast: boolean): string {
+  return Locale.t('lk.time.relative', {
+    value,
+    unit: Locale.t(`lk.time.${unitKey}`),
+    suffix: Locale.t(isInPast ? 'lk.time.past' : 'lk.time.future'),
+  });
 }

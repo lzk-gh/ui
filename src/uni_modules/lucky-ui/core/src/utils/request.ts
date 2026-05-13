@@ -2,6 +2,7 @@
  * uniapp 请求工具
  * 基于 @dcloudio/types 官方类型定义
  */
+import { Locale } from '../../../locale';
 
 /**
  * 扩展的请求配置
@@ -209,7 +210,7 @@ export class Request {
       retry: 0,
       retryDelay: 1000,
       loading: false,
-      loadingText: '加载中...',
+      loadingText: Locale.t('lk.common.loading'),
       header: {
         'Content-Type': 'application/json',
       },
@@ -274,7 +275,7 @@ export class Request {
   private showLoading(text?: string): void {
     if (this.loadingCount === 0) {
       uni.showLoading({
-        title: text || '加载中...',
+        title: text || Locale.t('lk.common.loading'),
         mask: true,
       });
     }
