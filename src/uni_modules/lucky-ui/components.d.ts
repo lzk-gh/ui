@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     LkRadioGroup: typeof import('./components/lk-radio/lk-radio-group.vue')['default']
     LkTag: typeof import('./components/lk-tag/lk-tag.vue')['default']
     LkChoice: typeof import('./components/lk-choice/lk-choice.vue')['default']
+    LkSelectList: typeof import('./components/lk-select-list/lk-select-list.vue')['default']
     LkBadge: typeof import('./components/lk-badge/lk-badge.vue')['default']
     LkAvatar: typeof import('./components/lk-avatar/lk-avatar.vue')['default']
     LkLoading: typeof import('./components/lk-loading/lk-loading.vue')['default']

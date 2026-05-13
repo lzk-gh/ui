@@ -115,6 +115,12 @@ const componentMap: Record<string, any> = {
     icon: 'check-square-fill',
     color: 'success',
   },
+  'select-list': {
+    title: 'SelectList 选择列表',
+    desc: '支持单选、多选、禁用和多列网格的列表选择组件',
+    icon: 'list-check',
+    color: 'success',
+  },
   switch: {
     title: 'Switch 开关',
     desc: '开关切换组件',
@@ -508,6 +514,7 @@ import InputDemo from '@/components/demos/input-demo.vue';
 import TextareaDemo from '@/components/demos/textarea-demo.vue';
 import RadioDemo from '@/components/demos/radio-demo.vue';
 import CheckboxDemo from '@/components/demos/checkbox-demo.vue';
+import SelectListDemo from '@/components/demos/select-list-demo.vue';
 import SwitchDemo from '@/components/demos/switch-demo.vue';
 import StepperDemo from '@/components/demos/stepper-demo.vue';
 import SliderDemo from '@/components/demos/slider-demo.vue';
@@ -586,6 +593,7 @@ const demoComponentMap: Record<string, any> = {
   textarea: TextareaDemo,
   radio: RadioDemo,
   checkbox: CheckboxDemo,
+  'select-list': SelectListDemo,
   switch: SwitchDemo,
   stepper: StepperDemo,
   slider: SliderDemo,
@@ -708,6 +716,7 @@ const loadDemoComponent = async (name: string) => {
           <TextareaDemo v-else-if="componentName === 'textarea'" />
           <RadioDemo v-else-if="componentName === 'radio'" />
           <CheckboxDemo v-else-if="componentName === 'checkbox'" />
+          <SelectListDemo v-else-if="componentName === 'select-list'" />
           <SwitchDemo v-else-if="componentName === 'switch'" />
           <StepperDemo v-else-if="componentName === 'stepper'" />
           <SliderDemo v-else-if="componentName === 'slider'" />

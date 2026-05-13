@@ -268,6 +268,15 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['单选、多选、禁用和长文本选项需要持续回归。'],
   },
   {
+    slug: 'select-list',
+    title: 'SelectList 选择列表',
+    group: 'form',
+    verifyStatus: 'verified',
+    riskLevel: 'low',
+    visualEnabled: true,
+    riskNotes: ['需覆盖单选、多选、禁用、max 限制与选中态样式配置。'],
+  },
+  {
     slug: 'anchor',
     title: 'Anchor 锚点',
     group: 'advanced',

@@ -25,6 +25,8 @@ export { default as LkTag } from './lk-tag/lk-tag.vue';
 export * from './lk-tag/tag.props';
 export { default as LkChoice } from './lk-choice/lk-choice.vue';
 export * from './lk-choice/choice.props';
+export { default as LkSelectList } from './lk-select-list/lk-select-list.vue';
+export * from './lk-select-list/select-list.props';
 export { default as LkBadge } from './lk-badge/lk-badge.vue';
 export * from './lk-badge/badge.props';
 export { default as LkAvatar } from './lk-avatar/lk-avatar.vue';
