@@ -34,6 +34,7 @@ export default defineConfig({
             { text: '介绍', link: '/guide/' },
             { text: '安装与引入', link: '/guide/install' },
             { text: '主题定制', link: '/guide/theme' },
+            { text: '国际化', link: '/guide/i18n' },
           ],
         },
       ],
