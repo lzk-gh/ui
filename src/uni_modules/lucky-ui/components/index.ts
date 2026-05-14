@@ -112,6 +112,10 @@ export * from './lk-watermark/watermark.props';
 export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
 export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
 export * from './lk-carousel/carousel.props';
+export { default as LkCalendar } from './lk-calendar/lk-calendar.vue';
+export * from './lk-calendar/calendar.props';
+export { default as LkCalendarPicker } from './lk-calendar-picker/lk-calendar-picker.vue';
+export * from './lk-calendar-picker/calendar-picker.props';
 export { default as LkBacktop } from './lk-backtop/lk-backtop.vue';
 export * from './lk-backtop/backtop.props';
 

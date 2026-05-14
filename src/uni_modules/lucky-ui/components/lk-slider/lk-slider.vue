@@ -8,7 +8,6 @@ import {
   onMounted,
   nextTick,
   type CSSProperties,
-  type StyleValue,
 } from 'vue';
 import { formContextKey } from '../lk-form/context';
 import type { SliderValue } from './slider.props';
@@ -166,8 +165,12 @@ function getPointX(e: Event | SliderPointerEvent): number {
   );
 }
 
+function formatDisplayValue(value: number) {
+  return props.formatValue ? props.formatValue(value) : value;
+}
+
 // 修正后的步长计算逻辑：基于 min 的相对偏移
-function formatValue(percent: number): number {
+function formatStepValue(percent: number): number {
   const range = props.max - props.min;
   const rawValue = props.min + range * percent;
 
@@ -199,7 +202,7 @@ function updateValue(clientX: number, isClick = false): SliderValue | null {
   if (rect.width <= 0) return null;
 
   const percent = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-  const newValue = formatValue(percent);
+  const newValue = formatStepValue(percent);
 
   let index = draggingIndex.value;
   if (isClick || index === -1) {
@@ -298,7 +301,9 @@ onMounted(() => nextTick(() => measureTrack()));
       <view class="lk-slider__thumb-wrapper" :style="getThumbStyle(0)">
         <slot name="button" :value="currentVal[0]">
           <view class="lk-slider__thumb" :style="blockCustomStyle">
-            <view v-if="showValue" class="lk-slider__tooltip">{{ currentVal[0] }}</view>
+            <view v-if="showValue" class="lk-slider__tooltip">
+              {{ formatDisplayValue(currentVal[0]) }}
+            </view>
           </view>
         </slot>
       </view>
@@ -307,14 +312,18 @@ onMounted(() => nextTick(() => measureTrack()));
       <view v-if="range" class="lk-slider__thumb-wrapper" :style="getThumbStyle(1)">
         <slot name="button" :value="currentVal[1]">
           <view class="lk-slider__thumb" :style="blockCustomStyle">
-            <view v-if="showValue" class="lk-slider__tooltip">{{ currentVal[1] }}</view>
+            <view v-if="showValue" class="lk-slider__tooltip">
+              {{ formatDisplayValue(currentVal[1]) }}
+            </view>
           </view>
         </slot>
       </view>
     </view>
 
     <!-- 单滑块独立值显示（range 模式下值已内嵌在 thumb tooltip 中）-->
-    <text v-if="showValue && !range" class="lk-slider__value">{{ currentVal[0] }}</text>
+    <text v-if="showValue && showValueText && !range" class="lk-slider__value">
+      {{ formatDisplayValue(currentVal[0]) }}
+    </text>
   </view>
 </template>
 

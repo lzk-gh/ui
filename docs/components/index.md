@@ -1,6 +1,6 @@
 # 组件总览
 
-Lucky UI 共收录 **68+** 个公开组件，按功能分为以下几类。
+Lucky UI 共收录 **69+** 个公开组件，按功能分为以下几类。
 
 ::: tip 右侧实时预览
 每个组件文档页右侧都有**手机模拟器**，
@@ -44,6 +44,8 @@ Lucky UI 共收录 **68+** 个公开组件，按功能分为以下几类。
 | [Upload 上传](./upload) | 图片/文件选择与预览 |
 | [Picker 选择器](./picker) | 单列、多列与级联选择 |
 | [Time Picker 时间选择](./time-picker) | 时/分/秒选择 |
+| [Calendar 日历](./calendar) | 日期、区间与多日期选择 |
+| [CalendarPicker 日历选择器](./calendar-picker) | 弹层式日期与时间范围选择 |
 | [Keyboard 键盘](./keyboard) | 数字/身份证/车牌等模式 |
 | [Verify Code 验证码](./verify-code) | N 格验证码输入框 |
 

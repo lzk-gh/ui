@@ -62,6 +62,8 @@ declare module '@vue/runtime-core' {
     LkWatermark: typeof import('./components/lk-watermark/lk-watermark.vue')['default']
     LkCarousel: typeof import('./components/lk-carousel/lk-carousel.vue')['default']
     LkCarouselItem: typeof import('./components/lk-carousel/lk-carousel-item.vue')['default']
+    LkCalendar: typeof import('./components/lk-calendar/lk-calendar.vue')['default']
+    LkCalendarPicker: typeof import('./components/lk-calendar-picker/lk-calendar-picker.vue')['default']
     LkBacktop: typeof import('./components/lk-backtop/lk-backtop.vue')['default']
     LkChartArea: typeof import('./components/lk-chart-area/lk-chart-area.vue')['default']
     LkChartBar: typeof import('./components/lk-chart-bar/lk-chart-bar.vue')['default']

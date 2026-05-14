@@ -163,6 +163,18 @@ const componentMap: Record<string, any> = {
     icon: 'clock-fill',
     color: 'warning',
   },
+  calendar: {
+    title: 'Calendar 日历',
+    desc: '现代化日期、区间与多选日历',
+    icon: 'calendar-date',
+    color: 'primary',
+  },
+  'calendar-picker': {
+    title: 'CalendarPicker 日历选择器',
+    desc: '弹层式日期与时间范围选择',
+    icon: 'calendar-date',
+    color: 'primary',
+  },
   keyboard: {
     title: 'Keyboard 虚拟键盘',
     desc: '多功能虚拟键盘，支持数字/身份证/车牌',
@@ -434,10 +446,6 @@ const componentMark = computed(
   () => componentTitle.value.split(' ')[0]?.slice(0, 1).toUpperCase() || 'L'
 );
 
-// 动态演示组件
-// 保留原变量，避免其他平台编译差异；小程序端已改用静态 v-if
-const demoComponent = ref<any>(null);
-
 // 主题
 const { theme, toggleTheme, themeClass } = useTheme();
 
@@ -445,7 +453,6 @@ const applyComponentName = (name?: string) => {
   if (!name) return;
   if (componentName.value === name) return;
   componentName.value = name;
-  loadDemoComponent(name);
 };
 
 const readCurrentPageComponent = () => {
@@ -510,6 +517,8 @@ import RateDemo from '@/components/demos/rate-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
 import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
+import CalendarDemo from '@/components/demos/calendar-demo.vue';
+import CalendarPickerDemo from '@/components/demos/calendar-picker-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
 import VerifyCodeDemo from '@/components/demos/verify-code-demo.vue';
 
@@ -556,94 +565,6 @@ import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
 import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
 import PreloadDemo from '@/components/demos/preload-demo.vue';
-
-// 演示组件映射
-const demoComponentMap: Record<string, any> = {
-  // 基础组件
-  button: ButtonDemo,
-  icon: IconDemo,
-  tag: TagDemo,
-  badge: BadgeDemo,
-  avatar: AvatarDemo,
-  divider: DividerDemo,
-  'notice-bar': NoticeBarDemo,
-  image: ImageDemo,
-  grid: GridDemo,
-  space: SpaceDemo,
-  'meta-row': MetaRowDemo,
-  choice: ChoiceDemo,
-
-  // 表单组件
-  form: FormDemo,
-  input: InputDemo,
-  textarea: TextareaDemo,
-  radio: RadioDemo,
-  checkbox: CheckboxDemo,
-  'select-list': SelectListDemo,
-  switch: SwitchDemo,
-  stepper: StepperDemo,
-  slider: SliderDemo,
-  rate: RateDemo,
-  upload: UploadDemo,
-  picker: PickerDemo,
-  'time-picker': TimePickerDemo,
-  keyboard: KeyboardDemo,
-  'verify-code': VerifyCodeDemo,
-
-  // 数据展示组件
-  card: CardDemo,
-  cell: CellDemo,
-  collapse: CollapseDemo,
-  tabs: TabsDemo,
-  timeline: TimelineDemo,
-  progress: ProgressDemo,
-  'pull-refresh': PullRefreshDemo,
-  loading: LoadingDemo,
-  countdown: CountdownDemo,
-  'number-roller': NumberRollerDemo,
-  skeleton: SkeletonDemo,
-  empty: EmptyDemo,
-  carousel: CarouselDemo,
-  segmented: SegmentedDemo,
-  backtop: BacktopDemo,
-  fab: FabDemo,
-
-  // 反馈组件
-  modal: ModalDemo,
-  popup: PopupDemo,
-  toast: ToastDemo,
-  'action-sheet': ActionSheetDemo,
-  overlay: OverlayDemo,
-  tooltip: TooltipDemo,
-  dropdown: DropdownDemo,
-  transition: TransitionDemo,
-
-  // 导航组件
-  navbar: NavbarDemo,
-  tabbar: TabbarDemo,
-  'tabbar-container': TabbarContainerDemo,
-  'index-bar': IndexBarDemo,
-  anchor: AnchorDemo,
-  sticky: StickyDemo,
-
-  // 高级组件
-  'virtual-list': VirtualListDemo,
-  watermark: WatermarkDemo,
-  waterfall: WaterfallDemo,
-  curtain: CurtainDemo,
-  'horizontal-scroll': HorizontalScrollDemo,
-  preload: PreloadDemo,
-};
-
-// 加载对应的演示组件
-const loadDemoComponent = async (name: string) => {
-  try {
-    demoComponent.value = demoComponentMap[name] || null;
-    console.log('加载组件演示:', name, demoComponent.value ? '成功' : '暂无');
-  } catch (error) {
-    console.error('加载组件演示失败:', error);
-  }
-};
 </script>
 
 <template>
@@ -708,6 +629,8 @@ const loadDemoComponent = async (name: string) => {
           <UploadDemo v-else-if="componentName === 'upload'" />
           <PickerDemo v-else-if="componentName === 'picker'" />
           <TimePickerDemo v-else-if="componentName === 'time-picker'" />
+          <CalendarDemo v-else-if="componentName === 'calendar'" />
+          <CalendarPickerDemo v-else-if="componentName === 'calendar-picker'" />
           <KeyboardDemo v-else-if="componentName === 'keyboard'" />
           <VerifyCodeDemo v-else-if="componentName === 'verify-code'" />
 

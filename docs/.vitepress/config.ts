@@ -83,6 +83,8 @@ export default defineConfig({
             { text: 'Upload 文件上传', link: '/components/upload' },
             { text: 'Picker 选择器', link: '/components/picker' },
             { text: 'Time Picker 时间选择', link: '/components/time-picker' },
+            { text: 'Calendar 日历', link: '/components/calendar' },
+            { text: 'CalendarPicker 日历选择器', link: '/components/calendar-picker' },
             { text: 'Keyboard 键盘', link: '/components/keyboard' },
             { text: 'Verify Code 验证码', link: '/components/verify-code' },
           ],

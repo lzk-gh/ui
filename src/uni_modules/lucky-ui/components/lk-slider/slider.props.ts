@@ -35,6 +35,12 @@ export const sliderProps = {
   /** 是否显示当前值 */
   showValue: LkProp.boolean(false),
 
+  /** 格式化显示值 */
+  formatValue: LkProp.func<(value: number) => string | number>(),
+
+  /** 是否显示滑块右侧独立值，仅单滑块模式生效 */
+  showValueText: LkProp.boolean(true),
+
   /** 尺寸 */
   size: LkProp.enum(sliderSizeValues, 'default', 'Slider.size'),
 

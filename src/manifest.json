@@ -56,7 +56,9 @@
     "themeLocation": "theme.json",
     "appid": "wxb517e760a35104de",
     "setting": {
-      "urlCheck": false
+      "urlCheck": false,
+      "ignoreDevUnusedFiles": false,
+      "ignoreUploadUnusedFiles": false
     },
     "usingComponents": true
   },

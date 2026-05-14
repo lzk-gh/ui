@@ -15,6 +15,8 @@ import BacktopDemo from '@/components/demos/backtop-demo.vue';
 import BadgeDemo from '@/components/demos/badge-demo.vue';
 import ButtonDemo from '@/components/demos/button-demo.vue';
 import CardDemo from '@/components/demos/card-demo.vue';
+import CalendarDemo from '@/components/demos/calendar-demo.vue';
+import CalendarPickerDemo from '@/components/demos/calendar-picker-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import CellDemo from '@/components/demos/cell-demo.vue';
 import ChartBarDemo from '@/components/demos/chart-bar-demo.vue';
@@ -334,6 +336,8 @@ function setLocale(lang: LocaleCode) {
             <sticky-demo v-else-if="item.slug === 'sticky'" />
             <textarea-demo v-else-if="item.slug === 'textarea'" />
             <time-picker-demo v-else-if="item.slug === 'time-picker'" />
+            <calendar-demo v-else-if="item.slug === 'calendar'" />
+            <calendar-picker-demo v-else-if="item.slug === 'calendar-picker'" />
             <timeline-demo v-else-if="item.slug === 'timeline'" />
             <toast-demo v-else-if="item.slug === 'toast'" />
             <upload-demo v-else-if="item.slug === 'upload'" />

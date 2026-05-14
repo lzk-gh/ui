@@ -116,6 +116,8 @@ const categories = [
       { name: 'rate', label: 'Rate', desc: '评分', icon: 'star' },
       { name: 'upload', label: 'Upload', desc: '上传', icon: 'cloud-upload' },
       { name: 'picker', label: 'Picker', desc: '选择器', icon: 'sliders' },
+      { name: 'calendar', label: 'Calendar', desc: '日历', icon: 'calendar-date' },
+      { name: 'calendar-picker', label: 'CalendarPicker', desc: '日历选择器', icon: 'calendar-date' },
       { name: 'keyboard', label: 'Keyboard', desc: '虚拟键盘', icon: 'keyboard' },
       { name: 'verify-code', label: 'VerifyCode', desc: '验证码', icon: 'shield-lock' },
     ],
