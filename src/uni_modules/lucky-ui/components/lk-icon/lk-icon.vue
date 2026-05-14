@@ -82,5 +82,5 @@ function handleClick(e: Event) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-icon.scss';
 </style>

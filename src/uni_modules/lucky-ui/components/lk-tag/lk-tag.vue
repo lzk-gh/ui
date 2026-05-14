@@ -128,5 +128,5 @@ const customStyle = computed<CSSProperties>(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-tag.scss';
 </style>

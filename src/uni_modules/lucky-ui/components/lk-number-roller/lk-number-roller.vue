@@ -167,5 +167,5 @@ function buildSegments(value: string): Segment[] {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-number-roller.scss';
 </style>

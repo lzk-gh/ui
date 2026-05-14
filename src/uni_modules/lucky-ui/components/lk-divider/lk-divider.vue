@@ -88,5 +88,5 @@ const classes = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-divider.scss';
 </style>

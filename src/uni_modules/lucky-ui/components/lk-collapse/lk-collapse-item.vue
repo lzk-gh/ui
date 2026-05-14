@@ -75,5 +75,5 @@ function onHeaderTap(e: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-collapse.scss';
 </style>

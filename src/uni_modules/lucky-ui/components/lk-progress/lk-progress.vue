@@ -66,5 +66,5 @@ const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-progress.scss';
 </style>

@@ -406,5 +406,5 @@ const currentIcon = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-fab.scss';
 </style>

@@ -787,14 +787,14 @@ const loadDemoComponent = async (name: string) => {
 </template>
 
 <style scoped lang="scss">
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .detail-page {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .page-content {
@@ -813,10 +813,10 @@ const loadDemoComponent = async (name: string) => {
   gap: 30rpx;
   padding: 36rpx;
   margin-bottom: 32rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 36rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 }
 
 .info-header {
@@ -832,13 +832,13 @@ const loadDemoComponent = async (name: string) => {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: $test-primary-soft;
+  background: test.$test-primary-soft;
   border: 1rpx solid rgba(var(--test-primary-rgb), 0.2);
   border-radius: 32rpx;
 }
 
 .info-mark {
-  color: $test-primary;
+  color: test.$test-primary;
   font-size: 44rpx;
   font-weight: 800;
   line-height: 1;
@@ -853,20 +853,20 @@ const loadDemoComponent = async (name: string) => {
 }
 
 .info-kicker {
-  color: $test-primary;
+  color: test.$test-primary;
   font-size: 22rpx;
   font-weight: 700;
 }
 
 .info-title {
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 42rpx;
   font-weight: 800;
   line-height: 1.16;
 }
 
 .info-desc {
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 26rpx;
   line-height: 1.5;
 }
@@ -879,11 +879,11 @@ const loadDemoComponent = async (name: string) => {
 
 .meta-pill {
   padding: 10rpx 18rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 22rpx;
   font-weight: 700;
-  background: $test-gray-50;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-gray-50;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 999rpx;
 }
 
@@ -909,31 +909,31 @@ const loadDemoComponent = async (name: string) => {
   align-items: center;
   justify-content: center;
   padding: 120rpx 48rpx;
-  background: $test-bg-card;
+  background: test.$test-bg-card;
   border-radius: 28rpx;
-  border: 2rpx dashed $test-border-color;
+  border: 2rpx dashed test.$test-border-color;
 }
 
 .tip-text {
   font-size: 28rpx;
   font-weight: 600;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   margin-top: 24rpx;
 }
 
 .tip-desc {
   font-size: 24rpx;
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   margin-top: 12rpx;
 }
 
 // API 区域（测试页面样式）
 .api-section {
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
-  border-radius: $test-border-radius;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
+  border-radius: test.$test-border-radius;
   overflow: hidden;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 }
 
 .section-title {
@@ -943,6 +943,6 @@ const loadDemoComponent = async (name: string) => {
   padding: 32rpx 32rpx 24rpx;
   font-size: 32rpx;
   font-weight: 700;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
 }
 </style>

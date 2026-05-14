@@ -297,5 +297,5 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-tabbar.scss';
 </style>

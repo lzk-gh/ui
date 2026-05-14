@@ -297,5 +297,5 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-anchor.scss';
 </style>

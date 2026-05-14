@@ -61,8 +61,8 @@ onLaunch(async () => {
 </script>
 
 <style lang="scss">
-@use '@/uni_modules/lucky-ui/theme/src/index.scss' as *;
-@use '@/styles/test-page.scss' as *;
+@use '@/uni_modules/lucky-ui/theme/src/index.scss';
+@use '@/styles/test-page.scss' as test;
 
 /* 彻底隐藏原生 tabBar，防止加载时闪烁 */
 /* #ifdef H5 */

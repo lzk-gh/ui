@@ -112,5 +112,5 @@ function onClick(e: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-switch.scss';
 </style>

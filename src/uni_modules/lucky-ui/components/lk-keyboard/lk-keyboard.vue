@@ -345,5 +345,5 @@ function getKeyStyle(key: KeyboardKey) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-keyboard.scss';
 </style>

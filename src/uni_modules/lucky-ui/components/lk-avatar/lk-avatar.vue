@@ -74,5 +74,5 @@ function onError() {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-avatar.scss';
 </style>

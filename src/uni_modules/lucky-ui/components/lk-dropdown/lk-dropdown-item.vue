@@ -46,5 +46,5 @@ function click(event: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-dropdown.scss';
 </style>

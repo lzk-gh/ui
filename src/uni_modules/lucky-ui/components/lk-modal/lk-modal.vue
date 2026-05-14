@@ -191,5 +191,5 @@ function onCloseClick() {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-modal.scss';
 </style>

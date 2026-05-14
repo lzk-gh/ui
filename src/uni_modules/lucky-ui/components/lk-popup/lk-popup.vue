@@ -398,5 +398,5 @@ const panelStyle = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-popup.scss';
 </style>

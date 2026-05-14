@@ -186,12 +186,12 @@ onMounted(() => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .checkout-wrapper {
   display: flex;
   flex-direction: column;
-  background-color: $test-bg-page;
+  background-color: test.$test-bg-page;
   flex: 1;
   overflow: hidden;
   padding-top: 0;
@@ -216,26 +216,26 @@ onMounted(() => {
   .nav-title {
     font-size: 34rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
   }
 
   .icon-btn {
     width: 80rpx;
     height: 80rpx;
-    background: $test-bg-card;
+    background: test.$test-bg-card;
     border-radius: 50%;
-    border: 1px solid $test-border-color;
+    border: 1px solid test.$test-border-color;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: $test-shadow-sm;
+    box-shadow: test.$test-shadow-sm;
   }
 }
 
 .drag-handle {
   width: 80rpx;
   height: 10rpx;
-  background-color: $test-border-color;
+  background-color: test.$test-border-color;
   border-radius: 10rpx;
   margin: 20rpx auto 10rpx;
 }
@@ -270,13 +270,13 @@ onMounted(() => {
       .item-title {
         font-size: 30rpx;
         font-weight: bold;
-        color: $test-text-primary;
+        color: test.$test-text-primary;
         display: block;
       }
 
       .item-sub {
         font-size: 24rpx;
-        color: $test-text-secondary;
+        color: test.$test-text-secondary;
       }
     }
 
@@ -288,7 +288,7 @@ onMounted(() => {
       .item-price {
         font-size: 32rpx;
         font-weight: bold;
-        color: $test-text-primary;
+        color: test.$test-text-primary;
       }
     }
   }
@@ -303,7 +303,7 @@ onMounted(() => {
 
   :deep(.subtotal .lk-cell__title),
   :deep(.subtotal .lk-cell__value) {
-    color: $test-text-primary;
+    color: test.$test-text-primary;
     font-weight: bold;
     font-size: 34rpx;
   }

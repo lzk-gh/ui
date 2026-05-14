@@ -34,5 +34,5 @@ const containerStyle = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-horizontal-scroll.scss';
 </style>

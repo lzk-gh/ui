@@ -276,7 +276,7 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-tabbar-container.scss';
 
 $tabbar-height: var(--lk-tabbar-container-height, var(--lk-rpx-112));
 $tabbar-safe-area-bottom: var(

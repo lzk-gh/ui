@@ -76,5 +76,5 @@ const rootStyle = computed<StyleValue>(() => [
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-image.scss';
 </style>

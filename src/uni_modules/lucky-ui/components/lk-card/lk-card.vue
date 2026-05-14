@@ -112,5 +112,5 @@ function handleFooterClick(event: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-card.scss';
 </style>

@@ -336,5 +336,5 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-chart-radar-lite.scss';
 </style>

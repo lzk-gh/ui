@@ -12,5 +12,5 @@ defineOptions({ name: 'LkToastManager' });
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-toast.scss';
 </style>

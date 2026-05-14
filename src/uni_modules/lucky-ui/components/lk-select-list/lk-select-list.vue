@@ -174,5 +174,5 @@ function onSelect(option: SelectListOption) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-select-list.scss';
 </style>

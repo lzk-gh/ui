@@ -128,5 +128,5 @@ function onPageChange(index: number, oldIndex?: number) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-grid.scss';
 </style>

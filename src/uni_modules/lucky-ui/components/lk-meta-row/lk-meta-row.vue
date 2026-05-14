@@ -61,5 +61,5 @@ const customStyleResolved = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-meta-row.scss';
 </style>

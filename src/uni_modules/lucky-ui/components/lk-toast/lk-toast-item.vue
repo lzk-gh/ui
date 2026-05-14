@@ -36,5 +36,5 @@ const { classes, styles, display } = useTransition(
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-toast.scss';
 </style>

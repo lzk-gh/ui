@@ -117,5 +117,5 @@ function onTap(event: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-tabbar.scss';
 </style>

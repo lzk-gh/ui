@@ -160,5 +160,5 @@ function emitNativeEvent(
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-button.scss';
 </style>

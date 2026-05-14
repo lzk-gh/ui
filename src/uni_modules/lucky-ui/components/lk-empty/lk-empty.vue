@@ -114,5 +114,5 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-empty.scss';
 </style>

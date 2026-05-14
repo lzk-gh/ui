@@ -45,12 +45,12 @@ const goBack = () => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   width: 100%;
   min-height: 100vh;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .analytics-page {
@@ -71,18 +71,18 @@ const goBack = () => {
   flex-direction: column;
   align-items: center;
   padding: 20rpx;
-  background: $test-gray-50;
+  background: test.$test-gray-50;
   border-radius: 16rpx;
 
   .stat-value {
     font-size: 36rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
   }
 
   .stat-label {
     font-size: 24rpx;
-    color: $test-text-secondary;
+    color: test.$test-text-secondary;
     margin-top: 8rpx;
   }
 }
@@ -97,7 +97,7 @@ const goBack = () => {
 
   .placeholder-text {
     font-size: 26rpx;
-    color: $test-text-tertiary;
+    color: test.$test-text-tertiary;
   }
 }
 </style>

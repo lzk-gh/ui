@@ -14,5 +14,5 @@ const props = defineProps(indexAnchorProps);
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-index-bar.scss';
 </style>

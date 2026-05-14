@@ -260,5 +260,5 @@ defineExpose({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-pull-refresh.scss';
 </style>

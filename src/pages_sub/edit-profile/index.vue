@@ -38,12 +38,12 @@ const goBack = () => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   width: 100%;
   min-height: 100vh;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .edit-profile-page {
@@ -59,7 +59,7 @@ const goBack = () => {
   .change-avatar {
     margin-top: 16rpx;
     font-size: 26rpx;
-    color: $test-primary;
+    color: test.$test-primary;
   }
 }
 </style>

@@ -50,12 +50,12 @@ const goBack = () => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   width: 100%;
   min-height: 100vh;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
   display: flex;
   flex-direction: column;
 }
@@ -74,7 +74,7 @@ const goBack = () => {
   .product-title {
     font-size: 36rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
     display: block;
     margin-bottom: 16rpx;
   }
@@ -90,7 +90,7 @@ const goBack = () => {
 
     .original-price {
       font-size: 26rpx;
-      color: $test-text-tertiary;
+      color: test.$test-text-tertiary;
       text-decoration: line-through;
       margin-left: 16rpx;
     }
@@ -98,7 +98,7 @@ const goBack = () => {
 
   .product-desc {
     font-size: 28rpx;
-    color: $test-text-secondary;
+    color: test.$test-text-secondary;
     line-height: 1.6;
   }
 }
@@ -107,7 +107,7 @@ const goBack = () => {
   display: flex;
   gap: 24rpx;
   padding: 30rpx;
-  background: $test-bg-card;
-  border-top: 1px solid $test-border-color;
+  background: test.$test-bg-card;
+  border-top: 1px solid test.$test-border-color;
 }
 </style>

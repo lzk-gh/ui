@@ -43,5 +43,5 @@ onBeforeUnmount(() => tabs?.unregister({ name: props.name, label: props.label })
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-tabs.scss';
 </style>

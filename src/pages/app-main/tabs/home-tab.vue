@@ -34,7 +34,7 @@ const contentHeight = computed(() => '100%');
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .tab-page {
   width: 100%;
@@ -42,7 +42,7 @@ const contentHeight = computed(() => '100%');
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .tab-page__content {
@@ -57,14 +57,14 @@ const contentHeight = computed(() => '100%');
   justify-content: center;
   width: 64rpx;
   height: 64rpx;
-  background: $test-primary-soft;
-  color: $test-primary;
+  background: test.$test-primary-soft;
+  color: test.$test-primary;
   border-radius: 50%;
   transition: all 0.3s;
 
   &:active {
-    background: $test-primary;
-    color: $test-text-inverse;
+    background: test.$test-primary;
+    color: test.$test-text-inverse;
     transform: scale(0.9);
   }
 }

@@ -283,5 +283,5 @@ defineExpose({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-countdown.scss';
 </style>

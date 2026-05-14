@@ -72,5 +72,5 @@ const klass = computed(() => [
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-space.scss';
 </style>

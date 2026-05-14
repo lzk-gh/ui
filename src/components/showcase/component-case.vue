@@ -42,7 +42,7 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .component-case {
   display: flex;
@@ -72,14 +72,14 @@ defineProps<{
 }
 
 .case-title {
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 34rpx;
   font-weight: 800;
   line-height: 1.25;
 }
 
 .group-label {
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   font-size: 22rpx;
   font-weight: 600;
 }
@@ -134,11 +134,11 @@ defineProps<{
 
 .risk-item {
   padding: 8rpx 14rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 22rpx;
   line-height: 1.4;
-  background: $test-gray-50;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-gray-50;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 999rpx;
 }
 

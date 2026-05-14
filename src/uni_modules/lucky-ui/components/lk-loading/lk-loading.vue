@@ -103,5 +103,5 @@ const _type = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-loading.scss';
 </style>

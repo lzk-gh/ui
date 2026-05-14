@@ -374,11 +374,11 @@ const navigateToDetail = (componentName: string) => {
   </scroll-view>
 </template>
 <style scoped lang="scss">
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .overview-content {
   width: 100%;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
   flex: 1;
 }
 
@@ -391,12 +391,12 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   flex-direction: column;
   gap: 30rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 36rpx;
   padding: 40rpx;
   margin-bottom: 32rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 }
 
 .stats-copy {
@@ -406,20 +406,20 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .stats-kicker {
-  color: $test-primary;
+  color: test.$test-primary;
   font-size: 22rpx;
   font-weight: 700;
 }
 
 .stats-title {
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 48rpx;
   font-weight: 800;
   line-height: 1.1;
 }
 
 .stats-desc {
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 24rpx;
   line-height: 1.5;
 }
@@ -428,8 +428,8 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: stretch;
   padding: 24rpx 28rpx;
-  background: $test-gray-50;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-gray-50;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 28rpx;
 }
 
@@ -442,31 +442,31 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .stats-number {
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 36rpx;
   font-weight: 800;
   line-height: 1;
 }
 
 .stats-label {
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   font-size: 22rpx;
 }
 
 .stats-divider {
   width: 1rpx;
-  background: $test-border-color;
+  background: test.$test-border-color;
   margin: 0 24rpx;
 }
 
 // 主题色配置卡片
 .theme-config-card {
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 32rpx;
   padding: 32rpx;
   margin-bottom: 32rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 }
 
 .config-header {
@@ -479,7 +479,7 @@ const navigateToDetail = (componentName: string) => {
 .config-title {
   font-size: 30rpx;
   font-weight: 600;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
 }
 
 .locale-config-row {
@@ -498,13 +498,13 @@ const navigateToDetail = (componentName: string) => {
   min-width: 248rpx;
   height: 64rpx;
   padding: 0 22rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 18rpx;
 }
 
 .locale-trigger__value {
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 24rpx;
   font-weight: 700;
 }
@@ -523,26 +523,26 @@ const navigateToDetail = (componentName: string) => {
   gap: 12rpx;
   min-height: 78rpx;
   padding: 0 24rpx;
-  border: 1rpx solid $test-border-color;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 18rpx;
-  background: $test-bg-card;
+  background: test.$test-bg-card;
   box-shadow: none;
 
   &.active {
-    border-color: $test-primary;
+    border-color: test.$test-primary;
     background: var(--lk-color-primary-soft);
   }
 }
 
 .locale-popup-item__label {
   flex: 1;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 28rpx;
   font-weight: 700;
 }
 
 .locale-popup-item__code {
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 22rpx;
 }
 
@@ -560,13 +560,13 @@ const navigateToDetail = (componentName: string) => {
   gap: 8rpx;
   padding: 16rpx 8rpx;
   border-radius: 24rpx;
-  background: $test-gray-50;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-gray-50;
+  border: 1rpx solid test.$test-border-color;
   transition: all 0.2s;
 
   &.active {
     background: var(--preset-color);
-    box-shadow: $test-preset-active-shadow;
+    box-shadow: test.$test-preset-active-shadow;
 
     .color-dot {
       border-color: #fff;
@@ -594,7 +594,7 @@ const navigateToDetail = (componentName: string) => {
 
 .color-name {
   font-size: 22rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   transition: color 0.2s;
 }
 
@@ -603,13 +603,13 @@ const navigateToDetail = (componentName: string) => {
   align-items: center;
   justify-content: space-between;
   padding: 16rpx 0;
-  border-top: 1rpx solid $test-border-color;
+  border-top: 1rpx solid test.$test-border-color;
   margin-bottom: 24rpx;
 }
 
 .custom-label {
   font-size: 26rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
 }
 
 .color-input-wrapper {
@@ -622,36 +622,36 @@ const navigateToDetail = (componentName: string) => {
   width: 180rpx;
   height: 56rpx;
   padding: 0 16rpx;
-  border: 1rpx solid $test-border-color;
-  border-radius: $test-border-radius;
+  border: 1rpx solid test.$test-border-color;
+  border-radius: test.$test-border-radius;
   font-size: 26rpx;
   font-family: monospace;
-  color: $test-text-primary;
-  background: $test-bg-card;
+  color: test.$test-text-primary;
+  background: test.$test-bg-card;
 }
 
 .color-preview {
   width: 56rpx;
   height: 56rpx;
-  border-radius: $test-border-radius;
-  border: 2rpx solid $test-border-color;
+  border-radius: test.$test-border-radius;
+  border: 2rpx solid test.$test-border-color;
 }
 
 .color-scale-preview {
   padding-top: 16rpx;
-  border-top: 1rpx solid $test-border-color;
+  border-top: 1rpx solid test.$test-border-color;
 }
 
 .scale-label {
   display: block;
   font-size: 24rpx;
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   margin-bottom: 16rpx;
 }
 
 .scale-row {
   display: flex;
-  border-radius: $test-border-radius;
+  border-radius: test.$test-border-radius;
   overflow: hidden;
 }
 
@@ -674,24 +674,24 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 28rpx;
   padding: 24rpx 32rpx;
   margin-bottom: 32rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 }
 
 .search-input {
   flex: 1;
   font-size: 28rpx;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   height: 40rpx;
   line-height: 40rpx;
 }
 
 .search-placeholder {
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
 }
 
 // 分类区域
@@ -710,14 +710,14 @@ const navigateToDetail = (componentName: string) => {
   flex: 1;
   font-size: 32rpx;
   font-weight: 800;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
 }
 
 .category-count {
   font-size: 24rpx;
-  color: $test-text-secondary;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  color: test.$test-text-secondary;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   padding: 6rpx 18rpx;
   border-radius: 999rpx;
 }
@@ -730,21 +730,21 @@ const navigateToDetail = (componentName: string) => {
 }
 
 .component-card {
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 28rpx;
   padding: 28rpx 20rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
   transition: all 0.3s;
 
   &:active {
     transform: scale(0.95);
-    background: $test-bg-hover;
-    box-shadow: $test-shadow-md;
+    background: test.$test-bg-hover;
+    box-shadow: test.$test-shadow-md;
   }
 }
 
@@ -754,8 +754,8 @@ const navigateToDetail = (componentName: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $test-primary;
-  background: $test-gray-50;
+  color: test.$test-primary;
+  background: test.$test-gray-50;
   border-radius: 24rpx;
   margin-bottom: 8rpx;
 }
@@ -763,13 +763,13 @@ const navigateToDetail = (componentName: string) => {
 .card-name {
   font-size: 26rpx;
   font-weight: 500;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   text-align: center;
 }
 
 .card-desc {
   font-size: 22rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   text-align: center;
 }
 
@@ -785,11 +785,11 @@ const navigateToDetail = (componentName: string) => {
 .empty-text {
   font-size: 32rpx;
   font-weight: 500;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
 }
 
 .empty-desc {
   font-size: 26rpx;
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
 }
 </style>

@@ -58,5 +58,5 @@ function onClick(event: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-badge.scss';
 </style>

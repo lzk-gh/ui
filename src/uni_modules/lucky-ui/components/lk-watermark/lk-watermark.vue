@@ -76,5 +76,5 @@ const itemStyle = computed<StyleValue>(() => ({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-watermark.scss';
 </style>

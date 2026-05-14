@@ -32,7 +32,7 @@
 - 策略稳定：`lk-preload-debugger` 属于开发调试能力，本轮已从公开评分分布中排除，只保留内部工具状态。
 - 风险收敛：`lk-button`、`lk-badge`、`lk-cell` 已补平铺文档入口，进入 Release Candidate；`lk-icon`、`lk-index-bar`、`lk-sticky` 已补直接文档并从 B 升至 A。
 - 加固第一批：`lk-avatar`、`lk-divider`、`lk-tag` 已补平铺文档入口；`lk-icon`、`lk-anchor`、`lk-index-bar`、`lk-sticky`、`lk-avatar`、`lk-divider`、`lk-tag` 已接入 showcase verified。
-- 加固第二批：`lk-curtain`、`lk-horizontal-scroll` 已补 `index.scss`；`lk-toast` 已补 props 导出；`lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 已接入 showcase verified。
+- 加固第二批：`lk-curtain`、`lk-horizontal-scroll` 已补 组件同名 SCSS；`lk-toast` 已补 props 导出；`lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 已接入 showcase verified。
 - 加固第三批：`lk-modal`、`lk-popup`、`lk-tabbar`、`lk-tabbar-container` 已接入 showcase verified；`lk-tabbar` 已补独立底部导航展示，避免与容器能力混淆。
 - 加固第四批：`lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表已接入 showcase verified；`chart-lite` 聚合覆盖 `lk-chart-area/ring/sparkline/stat-card/radar-lite`。
 - 加固第五批：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card`、`lk-calendar` 已接入 showcase verified。
@@ -43,7 +43,7 @@
 - 加固第十批：`lk-picker`、`lk-tooltip`、`lk-waterfall`、`lk-tabbar-container` 已补 high-risk showcase 自动回归基线与发布验收说明。
 - 加固第十一批：`lk-virtual-list`、`lk-keyboard`、`lk-curtain`、`lk-toast`、`lk-fab`、`lk-tabbar`、`lk-modal`、`lk-popup` 已补 needs-hardening showcase 自动回归基线与发布验收说明。
 - 加固第十二批：`lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表已补 dynamic-visual showcase 自动回归基线与发布验收说明；`lk-chart-area/ring/sparkline/stat-card/radar-lite` 继续按聚合口径追溯。
-- 结构补齐：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 已补 `index.scss` 并改为组件样式入口。
+- 结构补齐：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 已补 组件同名 SCSS 并改为组件样式入口。
 - B/C 清零：`lk-keyboard`、`lk-virtual-list` 已补 showcase verified 标记；公开组件评分中不再存在 B/C/D。
 - 未发布前去重：重复数字键盘入口已彻底移除，避免键盘能力重复入口进入首批公开包。
 - 新增能力：`lk-empty` 已补源码、props、样式、导出、全局类型、文档、Demo、showcase verified 与 ManyPixels 素材许可说明，进入 Release Candidate。
@@ -188,7 +188,7 @@
 
 - 首批发布收敛：已补 `lk-button`、`lk-badge`、`lk-cell` 平铺文档入口，并将组件总览与侧边栏切到公开规范入口。
 - 需加固第一批：已补 `lk-avatar`、`lk-divider`、`lk-tag` 平铺文档入口，并将 `lk-icon`、`lk-anchor`、`lk-index-bar`、`lk-sticky`、`lk-avatar`、`lk-divider`、`lk-tag` 接入 showcase verified。
-- 需加固第二批：已补 `lk-curtain`、`lk-horizontal-scroll` 的 `index.scss`，补齐 `lk-toast` props 导出，并将 `lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 接入 showcase verified。
+- 需加固第二批：已补 `lk-curtain`、`lk-horizontal-scroll` 的 组件同名 SCSS，补齐 `lk-toast` props 导出，并将 `lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 接入 showcase verified。
 - 需加固第三批：已将 `lk-modal`、`lk-popup`、`lk-tabbar`、`lk-tabbar-container` 接入 showcase verified，并为 `lk-tabbar` 补独立演示以区分 `lk-tabbar-container`。
 - 需加固第四批：已将 `lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表接入 showcase verified，并在子组件评分中标记聚合 showcase 依据。
 - 需加固第五批：已将 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card`、`lk-calendar` 接入 showcase verified。
@@ -203,7 +203,7 @@
 - 入口去重：未发布前已移除重复数字键盘入口的组件源码、文档、Demo、导出、全局类型和 showcase 入口。
 - 新增空态组件：`lk-empty` 已按公开组件标准接入组件库、文档、Demo、showcase 与评分报告，并补 ManyPixels 素材来源说明。
 - 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
-- 结构资产补齐：已为 `lk-tabbar-container` 抽出并导出 props 资产；已为 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 补 `index.scss`。
+- 结构资产补齐：已为 `lk-tabbar-container` 抽出并导出 props 资产；已为 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 补 组件同名 SCSS。
 
 ## 下一阶段规划
 
@@ -217,7 +217,7 @@
 
 1. B/C 组件治理已完成，公开评分中 B/C/D 均为 0。
 2. fixed/filter/webkit/动态组件风险已补组件级说明；high-risk 与核心 medium-risk 组件已补展示台自动回归和人工验收边界，下一步按目标平台补实际降级实现。
-3. 图表类 `index.scss` 缺口已补齐，`chart-lite` 聚合 showcase 与标准图表 `bar/line/pie` showcase 已补。
+3. 图表类 组件同名 SCSS 缺口已补齐，`chart-lite` 聚合 showcase 与标准图表 `bar/line/pie` showcase 已补。
 
 ### 3. 测试基线
 

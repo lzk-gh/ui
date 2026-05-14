@@ -621,5 +621,5 @@ const scrollStyle = computed<StyleValue>(() => ({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-calendar.scss';
 </style>

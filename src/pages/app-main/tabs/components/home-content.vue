@@ -337,10 +337,10 @@ const goToDetail = (_item: WaterfallItem) => {
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .home-content {
-  background-color: $test-bg-page;
+  background-color: test.$test-bg-page;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -386,14 +386,14 @@ const goToDetail = (_item: WaterfallItem) => {
 
     .welcome-text {
       font-size: 24rpx;
-      color: $test-text-tertiary;
+      color: test.$test-text-tertiary;
       margin-bottom: 4rpx;
     }
 
     .user-name {
       font-size: 36rpx;
       font-weight: bold;
-      color: $test-text-primary;
+      color: test.$test-text-primary;
     }
   }
 }
@@ -422,8 +422,8 @@ const goToDetail = (_item: WaterfallItem) => {
     flex: 1;
     height: 100rpx;
     min-height: 100rpx;
-    --_bg: #{$test-bg-card};
-    --_border: #{$test-border-color};
+    --_bg: #{test.$test-bg-card};
+    --_border: #{test.$test-border-color};
     --_radius: 24rpx;
     --_height: 100rpx;
     --_px: 30rpx;
@@ -438,7 +438,7 @@ const goToDetail = (_item: WaterfallItem) => {
       flex: 1;
       margin-left: 20rpx;
       font-size: 28rpx;
-      color: $test-text-tertiary;
+      color: test.$test-text-tertiary;
 
       :deep(.lk-notice-bar) {
         height: 100%;
@@ -448,7 +448,7 @@ const goToDetail = (_item: WaterfallItem) => {
 
       :deep(.lk-notice-bar__message) {
         font-size: 28rpx;
-        color: $test-text-tertiary;
+        color: test.$test-text-tertiary;
       }
     }
   }
@@ -470,7 +470,7 @@ const goToDetail = (_item: WaterfallItem) => {
     width: 100%;
     border-radius: 24rpx;
     overflow: hidden;
-    background-color: $test-gray-100;
+    background-color: test.$test-gray-100;
 
     .product-image-skeleton {
       position: absolute;
@@ -516,7 +516,7 @@ const goToDetail = (_item: WaterfallItem) => {
     .product-title {
       font-size: 28rpx;
       font-weight: bold;
-      color: $test-text-primary;
+      color: test.$test-text-primary;
       display: block;
       margin-bottom: 6rpx;
       white-space: nowrap;
@@ -526,7 +526,7 @@ const goToDetail = (_item: WaterfallItem) => {
 
     .product-type {
       font-size: 22rpx;
-      color: $test-text-secondary;
+      color: test.$test-text-secondary;
       display: block;
       margin-bottom: 10rpx;
     }
@@ -539,7 +539,7 @@ const goToDetail = (_item: WaterfallItem) => {
       .product-price {
         font-size: 32rpx;
         font-weight: bold;
-        color: $test-text-primary;
+        color: test.$test-text-primary;
       }
 
       .rating-box {
@@ -549,7 +549,7 @@ const goToDetail = (_item: WaterfallItem) => {
 
         .rating-text {
           font-size: 24rpx;
-          color: $test-text-primary;
+          color: test.$test-text-primary;
           font-weight: 500;
         }
       }
@@ -589,10 +589,10 @@ const goToDetail = (_item: WaterfallItem) => {
   min-height: 72rpx;
   padding: 0 28rpx;
   margin-bottom: 12rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 999rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 
   :deep(.lk-loading) {
     flex-direction: row;
@@ -601,7 +601,7 @@ const goToDetail = (_item: WaterfallItem) => {
 
   :deep(.lk-loading__text) {
     margin-top: 0;
-    color: $test-text-secondary;
+    color: test.$test-text-secondary;
     font-size: 24rpx;
     font-weight: 600;
   }
@@ -612,24 +612,24 @@ const goToDetail = (_item: WaterfallItem) => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: $test-bg-page;
+  background-color: test.$test-bg-page;
 
   .filter-header {
     padding: 40rpx;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: $test-bg-card;
+    background-color: test.$test-bg-card;
 
     .filter-title {
       font-size: 36rpx;
       font-weight: bold;
-      color: $test-text-primary;
+      color: test.$test-text-primary;
     }
 
     .reset-btn {
       font-size: 26rpx;
-      color: $test-primary;
+      color: test.$test-primary;
     }
   }
 
@@ -644,7 +644,7 @@ const goToDetail = (_item: WaterfallItem) => {
       .group-title {
         font-size: 30rpx;
         font-weight: bold;
-        color: $test-text-primary;
+        color: test.$test-text-primary;
         margin-bottom: 24rpx;
         display: block;
       }
@@ -686,7 +686,7 @@ const goToDetail = (_item: WaterfallItem) => {
         }
 
         .dash {
-          color: $test-text-tertiary;
+          color: test.$test-text-tertiary;
         }
       }
     }
@@ -694,7 +694,7 @@ const goToDetail = (_item: WaterfallItem) => {
 
   .filter-footer {
     padding: 40rpx;
-    background-color: $test-bg-card;
+    background-color: test.$test-bg-card;
   }
 }
 </style>

@@ -157,5 +157,5 @@ const seconds = computed(() => gen(props.stepSecond, 60));
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-time-picker.scss';
 </style>

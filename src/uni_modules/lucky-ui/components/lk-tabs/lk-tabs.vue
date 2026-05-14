@@ -400,5 +400,5 @@ const scrollable = computed(() => panes.value.length > 5);
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-tabs.scss';
 </style>

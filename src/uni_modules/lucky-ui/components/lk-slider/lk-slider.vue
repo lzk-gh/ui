@@ -319,5 +319,5 @@ onMounted(() => nextTick(() => measureTrack()));
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-slider.scss';
 </style>

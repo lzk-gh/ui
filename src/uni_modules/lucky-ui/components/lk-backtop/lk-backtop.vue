@@ -111,5 +111,5 @@ const classes = computed(() => [
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-backtop.scss';
 </style>

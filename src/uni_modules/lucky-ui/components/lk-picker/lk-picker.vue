@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import type { StyleValue } from 'vue';
 import { computed, ref, watch } from 'vue';
 import {
@@ -191,7 +191,7 @@ function itemLabelClass(ci: number, oi: number): string {
 // 计算 picker-view 高度
 const viewHeight = computed(() => `${props.itemHeight * props.visibleCount}rpx`);
 const viewWrapStyle = computed(() => `--lk-picker-item-height: ${props.itemHeight}rpx;`);
-// 各端指示层：小程序原生主要靠此字符串去默认上下边线；与 index.scss 中伪元素覆盖互为补充。
+// 各端指示层：小程序原生主要靠此字符串去默认上下边线；与 lk-picker.scss 中伪元素覆盖互为补充。
 const indicatorStyle = computed(() =>
   [
     `height: ${props.itemHeight}rpx`,
@@ -299,5 +299,5 @@ const style = computed(() => props.customStyle as StyleValue);
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-picker.scss';
 </style>

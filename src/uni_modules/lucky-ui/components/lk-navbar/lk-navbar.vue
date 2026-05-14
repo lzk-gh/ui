@@ -210,5 +210,5 @@ function onRightClick(event: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-navbar.scss';
 </style>

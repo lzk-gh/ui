@@ -44,12 +44,12 @@ const handleLogin = () => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   width: 100%;
   min-height: 100vh;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .auth-page {
@@ -63,14 +63,14 @@ const handleLogin = () => {
   .title {
     font-size: 48rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
     display: block;
     margin-bottom: 16rpx;
   }
 
   .subtitle {
     font-size: 28rpx;
-    color: $test-text-secondary;
+    color: test.$test-text-secondary;
   }
 }
 

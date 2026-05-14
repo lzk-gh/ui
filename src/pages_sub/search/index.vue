@@ -46,12 +46,12 @@ const goBack = () => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   width: 100%;
   min-height: 100vh;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .search-page {
@@ -65,7 +65,7 @@ const goBack = () => {
 .section-title {
   font-size: 30rpx;
   font-weight: bold;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   margin-bottom: 24rpx;
   display: block;
 }

@@ -21,5 +21,5 @@ defineProps({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-cell.scss';
 </style>

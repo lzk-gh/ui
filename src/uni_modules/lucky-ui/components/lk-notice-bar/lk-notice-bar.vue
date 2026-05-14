@@ -206,5 +206,5 @@ function click(event?: unknown) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-notice-bar.scss';
 </style>

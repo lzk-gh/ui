@@ -94,5 +94,5 @@ provide(collapseInjectionKey, {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-collapse.scss';
 </style>

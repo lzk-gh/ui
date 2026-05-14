@@ -72,5 +72,5 @@ const trendIcon = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-chart-stat-card.scss';
 </style>

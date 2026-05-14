@@ -220,5 +220,5 @@ watch(
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-stepper.scss';
 </style>

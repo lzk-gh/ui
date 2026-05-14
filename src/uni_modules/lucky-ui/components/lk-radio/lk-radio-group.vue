@@ -45,5 +45,5 @@ const groupClass = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-radio.scss';
 </style>

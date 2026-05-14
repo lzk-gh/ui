@@ -230,10 +230,10 @@ const addToCart = () => {
 
 
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .detail-content {
-  background-color: $test-bg-page;
+  background-color: test.$test-bg-page;
   position: relative;
   flex: 1;
 }
@@ -252,12 +252,12 @@ const addToCart = () => {
   .fav-btn {
     width: 80rpx;
     height: 80rpx;
-    background: $test-bg-card;
+    background: test.$test-bg-card;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: $test-shadow-sm;
+    box-shadow: test.$test-shadow-sm;
   }
 }
 
@@ -280,7 +280,7 @@ const addToCart = () => {
     .product-title {
       font-size: 44rpx;
       font-weight: bold;
-      color: $test-text-primary;
+      color: test.$test-text-primary;
       display: block;
       margin-bottom: 12rpx;
     }
@@ -292,20 +292,20 @@ const addToCart = () => {
 
       .rating-val {
         font-size: 28rpx;
-        color: $test-text-primary;
+        color: test.$test-text-primary;
         font-weight: 500;
       }
 
       .reviews-count {
         font-size: 24rpx;
-        color: $test-primary;
+        color: test.$test-primary;
       }
     }
   }
 
   .stepper-box {
     :deep(.lk-stepper) {
-      background: $test-gray-100;
+      background: test.$test-gray-100;
       border-radius: 40rpx;
     }
   }
@@ -314,11 +314,11 @@ const addToCart = () => {
 .desc-text {
   font-size: 26rpx;
   line-height: 40rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
 
   .read-more {
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
     margin-left: 10rpx;
     text-decoration: underline;
   }
@@ -330,7 +330,7 @@ const addToCart = () => {
   .review-title {
     font-size: 32rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
   }
 
   .view-all-reviews {
@@ -338,7 +338,7 @@ const addToCart = () => {
     align-items: center;
     gap: 4rpx;
     font-size: 24rpx;
-    color: $test-primary;
+    color: test.$test-primary;
   }
 
   .review-item {
@@ -357,13 +357,13 @@ const addToCart = () => {
         .review-user-name {
           font-size: 26rpx;
           font-weight: bold;
-          color: $test-text-primary;
+          color: test.$test-text-primary;
         }
       }
 
       .review-text {
         font-size: 24rpx;
-        color: $test-text-secondary;
+        color: test.$test-text-secondary;
         line-height: 36rpx;
       }
     }
@@ -388,12 +388,12 @@ const addToCart = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid $test-border-color;
+  border-bottom: 1px solid test.$test-border-color;
 
   .popup-title {
     font-size: 36rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
   }
 }
 
@@ -407,7 +407,7 @@ const addToCart = () => {
   display: flex;
   gap: 24rpx;
   padding: 40rpx;
-  border-bottom: 1px solid $test-border-color;
+  border-bottom: 1px solid test.$test-border-color;
 
   .review-body {
     flex: 1;
@@ -420,18 +420,18 @@ const addToCart = () => {
       .u-name {
         font-size: 28rpx;
         font-weight: bold;
-        color: $test-text-primary;
+        color: test.$test-text-primary;
       }
 
       .u-date {
         font-size: 24rpx;
-        color: $test-text-secondary;
+        color: test.$test-text-secondary;
       }
     }
 
     .u-text {
       font-size: 26rpx;
-      color: $test-text-secondary;
+      color: test.$test-text-secondary;
       line-height: 40rpx;
       margin: 16rpx 0;
       display: block;
@@ -450,7 +450,7 @@ const addToCart = () => {
 
 .full-desc {
   font-size: 28rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   line-height: 44rpx;
 }
 
@@ -462,18 +462,18 @@ const addToCart = () => {
     width: 70rpx;
     height: 70rpx;
     border-radius: 50%;
-    border: 1px solid $test-border-color;
+    border: 1px solid test.$test-border-color;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24rpx;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
     transition: all 0.3s;
 
     &.active {
-      background: $test-text-primary;
-      border-color: $test-text-primary;
-      color: $test-text-inverse;
+      background: test.$test-text-primary;
+      border-color: test.$test-text-primary;
+      color: test.$test-text-inverse;
     }
   }
 }
@@ -490,7 +490,7 @@ const addToCart = () => {
     transition: all 0.3s;
 
     &.active {
-      border-color: $test-text-primary;
+      border-color: test.$test-text-primary;
       transform: scale(1.1);
     }
   }
@@ -506,7 +506,7 @@ const addToCart = () => {
     align-items: center;
     justify-content: center;
     gap: 20rpx;
-    box-shadow: $test-shadow-md;
+    box-shadow: test.$test-shadow-md;
 
     .btn-text-content {
       display: flex;
@@ -514,13 +514,13 @@ const addToCart = () => {
       gap: 12rpx;
 
       .main-text {
-        color: $test-text-inverse;
+        color: test.$test-text-inverse;
         font-size: 32rpx;
         font-weight: bold;
       }
 
       .original-price {
-        color: $test-text-tertiary;
+        color: test.$test-text-tertiary;
         font-size: 22rpx;
         text-decoration: line-through;
       }

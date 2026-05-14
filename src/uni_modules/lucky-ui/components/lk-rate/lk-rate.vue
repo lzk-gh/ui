@@ -127,5 +127,5 @@ function onTap(_e: unknown, index: number) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-rate.scss';
 </style>

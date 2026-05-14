@@ -95,5 +95,5 @@ function onTouchMove(e: TouchEvent) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-overlay.scss';
 </style>

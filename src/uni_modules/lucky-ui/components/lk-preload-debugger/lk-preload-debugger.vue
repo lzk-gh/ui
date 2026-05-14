@@ -207,7 +207,7 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-preload-debugger.scss';
 
 .lk-preload-debugger {
   position: fixed;

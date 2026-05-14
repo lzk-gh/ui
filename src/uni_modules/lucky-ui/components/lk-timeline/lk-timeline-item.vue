@@ -166,6 +166,6 @@ function onTap(ev: Event) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-timeline.scss';
 </style>
 

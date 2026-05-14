@@ -260,5 +260,5 @@ watch(
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-tooltip.scss';
 </style>

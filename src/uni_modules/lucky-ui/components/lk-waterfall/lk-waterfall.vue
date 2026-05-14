@@ -491,5 +491,5 @@ function getCardStyle(card: PlacedCard): CSSProperties {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-waterfall.scss';
 </style>

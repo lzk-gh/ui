@@ -167,5 +167,5 @@ defineExpose({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-form.scss';
 </style>

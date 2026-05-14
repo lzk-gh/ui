@@ -18,5 +18,5 @@ defineProps({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './demo-block.scss';
 </style>

@@ -49,12 +49,12 @@ const handleCheckIn = () => {
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   width: 100%;
   min-height: 100vh;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .check-in-page {
@@ -73,12 +73,12 @@ const handleCheckIn = () => {
     .points {
       font-size: 30rpx;
       font-weight: bold;
-      color: $test-text-primary;
+      color: test.$test-text-primary;
     }
 
     .streak {
       font-size: 26rpx;
-      color: $test-primary;
+      color: test.$test-primary;
     }
   }
 }
@@ -93,7 +93,7 @@ const handleCheckIn = () => {
 
   .placeholder-text {
     font-size: 26rpx;
-    color: $test-text-tertiary;
+    color: test.$test-text-tertiary;
   }
 }
 </style>

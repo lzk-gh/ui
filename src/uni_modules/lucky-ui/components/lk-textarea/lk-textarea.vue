@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import type { StyleValue } from 'vue';
 import { computed, ref, inject } from 'vue';
 import type { TextareaEventPayload } from './textarea.props';
@@ -175,5 +175,5 @@ function onClear() {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-textarea.scss';
 </style>

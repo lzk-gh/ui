@@ -35,7 +35,7 @@ src/uni_modules/lucky-ui/
 │   └── src/
 │       ├── tokens/      # Design Tokens
 │       ├── base/        # 基础样式层
-│       └── index.scss   # 主样式入口
+│       └── lk-button.scss   # 组件样式入口
 └── composables/         # 跨组件复用 Composables
 ```
 

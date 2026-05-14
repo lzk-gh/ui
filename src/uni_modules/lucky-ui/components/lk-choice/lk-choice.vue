@@ -79,5 +79,5 @@ function itemClass(option: any) {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-choice.scss';
 </style>

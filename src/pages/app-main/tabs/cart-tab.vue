@@ -17,7 +17,7 @@ const contentHeight = computed(() => '100%');
   </view>
 </template>
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .tab-page {
   width: 100%;
@@ -25,6 +25,6 @@ const contentHeight = computed(() => '100%');
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 </style>

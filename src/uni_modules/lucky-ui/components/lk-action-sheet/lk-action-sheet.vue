@@ -130,5 +130,5 @@ const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-action-sheet.scss';
 </style>

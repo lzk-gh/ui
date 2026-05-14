@@ -320,5 +320,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-carousel.scss';
 </style>

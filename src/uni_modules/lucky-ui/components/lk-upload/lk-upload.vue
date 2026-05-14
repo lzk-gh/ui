@@ -480,5 +480,5 @@ defineExpose({
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-upload.scss';
 </style>

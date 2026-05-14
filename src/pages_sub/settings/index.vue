@@ -115,11 +115,11 @@ const goBack = () => {
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .page-container {
   min-height: 100vh;
-  background-color: $test-bg-page;
+  background-color: test.$test-bg-page;
   display: flex;
   flex-direction: column;
 }
@@ -141,7 +141,7 @@ const goBack = () => {
 .section-title {
   font-size: 28rpx;
   font-weight: bold;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   margin: 40rpx 10rpx 20rpx;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -175,7 +175,7 @@ const goBack = () => {
 .color-name {
   text-align: center;
   font-size: 24rpx;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   margin-top: 10rpx;
 }
 
@@ -183,7 +183,7 @@ const goBack = () => {
   margin-top: 60rpx;
   text-align: center;
   font-size: 24rpx;
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   font-style: italic;
 }
 </style>

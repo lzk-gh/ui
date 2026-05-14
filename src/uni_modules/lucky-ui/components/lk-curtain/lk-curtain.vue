@@ -186,5 +186,5 @@ function onClick() {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss';
+@use './lk-curtain.scss';
 </style>

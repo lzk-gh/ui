@@ -361,13 +361,13 @@ function setLocale(lang: LocaleCode) {
 </template>
 
 <style scoped lang="scss">
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .showcase-page {
   height: 100vh;
   padding: 24rpx;
   box-sizing: border-box;
-  background: $test-bg-page;
+  background: test.$test-bg-page;
 }
 
 .showcase-hero {
@@ -376,10 +376,10 @@ function setLocale(lang: LocaleCode) {
   gap: 30rpx;
   margin-bottom: 40rpx;
   padding: 40rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 36rpx;
-  box-shadow: $test-shadow-sm;
+  box-shadow: test.$test-shadow-sm;
 }
 
 .hero-copy {
@@ -390,7 +390,7 @@ function setLocale(lang: LocaleCode) {
 
 .hero-kicker {
   display: block;
-  color: $test-primary;
+  color: test.$test-primary;
   font-size: 22rpx;
   font-weight: 700;
   letter-spacing: 0;
@@ -398,7 +398,7 @@ function setLocale(lang: LocaleCode) {
 
 .hero-title {
   display: block;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 48rpx;
   font-weight: 800;
   line-height: 1.1;
@@ -406,7 +406,7 @@ function setLocale(lang: LocaleCode) {
 
 .hero-desc {
   display: block;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 24rpx;
   line-height: 1.5;
 }
@@ -416,8 +416,8 @@ function setLocale(lang: LocaleCode) {
   align-items: center;
   justify-content: space-between;
   padding: 24rpx 28rpx;
-  background: $test-gray-50;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-gray-50;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 28rpx;
 }
 
@@ -427,14 +427,14 @@ function setLocale(lang: LocaleCode) {
   justify-content: space-between;
   gap: 20rpx;
   padding: 20rpx 24rpx;
-  background: $test-bg-page;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-page;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 24rpx;
 }
 
 .config-label {
   flex-shrink: 0;
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 24rpx;
   font-weight: 700;
 }
@@ -447,13 +447,13 @@ function setLocale(lang: LocaleCode) {
   min-width: 248rpx;
   height: 64rpx;
   padding: 0 22rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 18rpx;
 }
 
 .locale-trigger__value {
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 24rpx;
   font-weight: 700;
 }
@@ -471,26 +471,26 @@ function setLocale(lang: LocaleCode) {
   gap: 12rpx;
   min-height: 78rpx;
   padding: 0 24rpx;
-  border: 1rpx solid $test-border-color;
+  border: 1rpx solid test.$test-border-color;
   border-radius: 18rpx;
-  background: $test-bg-card;
+  background: test.$test-bg-card;
   box-shadow: none;
 
   &.is-active {
-    border-color: $test-primary;
+    border-color: test.$test-primary;
     background: var(--lk-color-primary-soft);
   }
 }
 
 .locale-popup-item__label {
   flex: 1;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 28rpx;
   font-weight: 700;
 }
 
 .locale-popup-item__code {
-  color: $test-text-secondary;
+  color: test.$test-text-secondary;
   font-size: 22rpx;
 }
 
@@ -503,20 +503,20 @@ function setLocale(lang: LocaleCode) {
 }
 
 .metric-value {
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 34rpx;
   font-weight: 800;
 }
 
 .metric-label {
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   font-size: 20rpx;
 }
 
 .metric-divider {
   width: 1rpx;
   height: 44rpx;
-  background: $test-border-color;
+  background: test.$test-border-color;
 }
 
 .showcase-block {
@@ -536,7 +536,7 @@ function setLocale(lang: LocaleCode) {
 
 .group-title {
   display: block;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 32rpx;
   font-weight: 800;
 }
@@ -546,9 +546,9 @@ function setLocale(lang: LocaleCode) {
   height: 48rpx;
   padding: 0 16rpx;
   border-radius: 999rpx;
-  background: $test-bg-card;
-  border: 1rpx solid $test-border-color;
-  color: $test-text-secondary;
+  background: test.$test-bg-card;
+  border: 1rpx solid test.$test-border-color;
+  color: test.$test-text-secondary;
   font-size: 22rpx;
   font-weight: 700;
   line-height: 48rpx;
@@ -563,7 +563,7 @@ function setLocale(lang: LocaleCode) {
 
 .empty-title {
   display: block;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
   font-size: 30rpx;
   font-weight: 600;
 }
@@ -571,7 +571,7 @@ function setLocale(lang: LocaleCode) {
 .empty-desc {
   display: block;
   margin-top: 10rpx;
-  color: $test-text-tertiary;
+  color: test.$test-text-tertiary;
   font-size: 24rpx;
 }
 </style>

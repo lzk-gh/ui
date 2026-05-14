@@ -124,5 +124,5 @@ onMounted(() => setTimeout(updateSlider, 50));
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-segmented.scss';
 </style>

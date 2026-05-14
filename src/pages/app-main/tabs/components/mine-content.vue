@@ -219,10 +219,10 @@ const goToSettings = () => {
 
 
 <style lang="scss" scoped>
-@use '@/styles/test-page.scss' as *;
+@use '@/styles/test-page.scss' as test;
 
 .mine-content {
-  background-color: $test-bg-page;
+  background-color: test.$test-bg-page;
   position: relative;
   flex: 1;
   padding-top: 0;
@@ -235,7 +235,7 @@ const goToSettings = () => {
   left: 0;
   right: 0;
   height: 460rpx;
-  background: linear-gradient(180deg, $test-text-primary 0%, $test-primary 100%);
+  background: linear-gradient(180deg, test.$test-text-primary 0%, test.$test-primary 100%);
   border-bottom-left-radius: 40rpx;
   border-bottom-right-radius: 40rpx;
 }
@@ -284,7 +284,7 @@ const goToSettings = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-right: 1px solid $test-border-color;
+    border-right: 1px solid test.$test-border-color;
 
     &:last-child {
       border-right: none;
@@ -293,12 +293,12 @@ const goToSettings = () => {
     .stat-value {
       font-size: 36rpx;
       font-weight: bold;
-      color: $test-text-primary;
+      color: test.$test-text-primary;
     }
 
     .stat-label {
       font-size: 22rpx;
-      color: $test-text-secondary;
+      color: test.$test-text-secondary;
       margin-top: 8rpx;
     }
   }
@@ -308,12 +308,12 @@ const goToSettings = () => {
   .section-title {
     font-size: 32rpx;
     font-weight: bold;
-    color: $test-text-primary;
+    color: test.$test-text-primary;
   }
 
   .view-all {
     font-size: 24rpx;
-    color: $test-primary;
+    color: test.$test-primary;
   }
 }
 
@@ -327,7 +327,7 @@ const goToSettings = () => {
 
   .status-label {
     font-size: 24rpx;
-    color: $test-text-secondary;
+    color: test.$test-text-secondary;
     line-height: 1.3;
     max-width: 100%;
     white-space: nowrap;
@@ -342,7 +342,7 @@ const goToSettings = () => {
   padding: 20rpx;
   font-size: 26rpx;
   font-weight: bold;
-  color: $test-text-primary;
+  color: test.$test-text-primary;
 }
 
 .logout-btn-wrap {

@@ -613,5 +613,5 @@ syncFromValue();
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-date-picker.scss';
 </style>

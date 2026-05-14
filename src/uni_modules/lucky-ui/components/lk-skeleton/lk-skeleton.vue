@@ -64,5 +64,5 @@ const hostStyle = computed(() => {
 </template>
 
 <style lang="scss">
-@use './index.scss';
+@use './lk-skeleton.scss';
 </style>
