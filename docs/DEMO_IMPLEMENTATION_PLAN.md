@@ -43,7 +43,6 @@
 - **Stepper** 步进器(最小最大值)
 - **Slider** 滑块(范围、步长)
 - **Rate** 评分(半星、只读)
-- **DatePicker** 日期选择器
 - **TimePicker** 时间选择器
 - **DateRangePicker** 日期范围选择器
 - **DateTimePicker** 日期时间选择器
@@ -186,7 +185,6 @@
 ### 5. 高级组件演示(可选单独页面)
 
 #### 组件列表
-- **Calendar** 日历(内联、弹出、范围选择)
 - **Cascader** 级联选择器(省市区)
 - **Tree** 树形控件(展开、勾选、懒加载)
 - **VirtualList** 虚拟列表(大数据量渲染)

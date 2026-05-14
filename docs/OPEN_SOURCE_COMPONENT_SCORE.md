@@ -22,7 +22,7 @@
 | B | 0 |
 | C | 0 |
 | D | 0 |
-| 公开首批候选（Release Candidate） | 28 |
+| 公开首批候选（Release Candidate） | 26 |
 | 需加固组件（Needs Hardening） | 0 |
 | 内部工具（Internal） | 1 |
 
@@ -35,8 +35,8 @@
 - 加固第二批：`lk-curtain`、`lk-horizontal-scroll` 已补 组件同名 SCSS；`lk-toast` 已补 props 导出；`lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 已接入 showcase verified。
 - 加固第三批：`lk-modal`、`lk-popup`、`lk-tabbar`、`lk-tabbar-container` 已接入 showcase verified；`lk-tabbar` 已补独立底部导航展示，避免与容器能力混淆。
 - 加固第四批：`lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表已接入 showcase verified；`chart-lite` 聚合覆盖 `lk-chart-area/ring/sparkline/stat-card/radar-lite`。
-- 加固第五批：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card`、`lk-calendar` 已接入 showcase verified。
-- 加固第六批：`lk-date-picker`、`lk-dropdown`、`lk-grid`、`lk-loading`、`lk-navbar`、`lk-number-roller` 已接入 showcase verified。
+- 加固第五批：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card` 已接入 showcase verified。
+- 加固第六批：`lk-dropdown`、`lk-grid`、`lk-loading`、`lk-navbar`、`lk-number-roller` 已接入 showcase verified。
 - 加固第七批：`lk-overlay`、`lk-skeleton`、`lk-space`、`lk-switch`、`lk-textarea`、`lk-time-picker` 已接入 showcase verified。
 - 加固第八批：`lk-backtop`、`lk-upload`、`lk-verify-code`、`lk-watermark` 已接入 showcase verified。
 - 加固第九批：`lk-action-sheet`、`lk-badge`、`lk-cell`、`lk-checkbox`、`lk-collapse`、`lk-form`、`lk-image`、`lk-notice-bar`、`lk-progress`、`lk-radio`、`lk-rate`、`lk-segmented`、`lk-slider`、`lk-stepper`、`lk-picker`、`lk-tabs`、`lk-tooltip`、`lk-waterfall`、`lk-meta-row` 已对齐 showcase verified 源数据与渲染入口。
@@ -120,7 +120,6 @@
 | lk-backtop | 95 | A | 20 | 20 | 20 | 20 | 15 | direct | direct | verified | fixed；webkit；showcase verified |
 | lk-badge | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-button | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
-| lk-calendar | 98 | A | 20 | 20 | 20 | 20 | 18 | direct | direct | verified | webkit；showcase verified |
 | lk-card | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-carousel | 93 | A | 20 | 20 | 20 | 16 | 17 | direct | direct | verified | CSS filter；showcase verified |
 | lk-cell | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
@@ -136,7 +135,6 @@
 | lk-choice | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-collapse | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-curtain | 94 | A | 20 | 20 | 20 | 20 | 14 | direct | direct | verified | fixed；浏览器 API；showcase verified |
-| lk-date-picker | 98 | A | 20 | 20 | 20 | 20 | 18 | direct | direct | verified | webkit；showcase verified |
 | lk-divider | 99 | A | 20 | 19 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-dropdown | 97 | A | 20 | 20 | 20 | 20 | 17 | direct | direct | verified | fixed；showcase verified |
 | lk-empty | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified；ManyPixels 素材许可说明 |
@@ -191,8 +189,8 @@
 - 需加固第二批：已补 `lk-curtain`、`lk-horizontal-scroll` 的 组件同名 SCSS，补齐 `lk-toast` props 导出，并将 `lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 接入 showcase verified。
 - 需加固第三批：已将 `lk-modal`、`lk-popup`、`lk-tabbar`、`lk-tabbar-container` 接入 showcase verified，并为 `lk-tabbar` 补独立演示以区分 `lk-tabbar-container`。
 - 需加固第四批：已将 `lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表接入 showcase verified，并在子组件评分中标记聚合 showcase 依据。
-- 需加固第五批：已将 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card`、`lk-calendar` 接入 showcase verified。
-- 需加固第六批：已将 `lk-date-picker`、`lk-dropdown`、`lk-grid`、`lk-loading`、`lk-navbar`、`lk-number-roller` 接入 showcase verified。
+- 需加固第五批：已将 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card` 接入 showcase verified。
+- 需加固第六批：已将 `lk-dropdown`、`lk-grid`、`lk-loading`、`lk-navbar`、`lk-number-roller` 接入 showcase verified。
 - 需加固第七批：已将 `lk-overlay`、`lk-skeleton`、`lk-space`、`lk-switch`、`lk-textarea`、`lk-time-picker` 接入 showcase verified。
 - 需加固第八批：已将 `lk-backtop`、`lk-upload`、`lk-verify-code`、`lk-watermark` 接入 showcase verified。
 - 需加固第九批：已将报告中已计为 verified、但 showcase 源数据仍为 pending 的组件统一对齐，并补齐展示台渲染分支。

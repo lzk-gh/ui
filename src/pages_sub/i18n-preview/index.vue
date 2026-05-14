@@ -3,11 +3,9 @@ import { computed, ref } from 'vue';
 import { Locale, SUPPORTED_LOCALES, type LocaleCode } from '@/uni_modules/lucky-ui/locale';
 import LkActionSheet from '@/uni_modules/lucky-ui/components/lk-action-sheet/lk-action-sheet.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkCalendar from '@/uni_modules/lucky-ui/components/lk-calendar/lk-calendar.vue';
 import LkCard from '@/uni_modules/lucky-ui/components/lk-card/lk-card.vue';
 import LkChartStatCard from '@/uni_modules/lucky-ui/components/lk-chart-stat-card/lk-chart-stat-card.vue';
 import LkCountdown from '@/uni_modules/lucky-ui/components/lk-countdown/lk-countdown.vue';
-import LkDatePicker from '@/uni_modules/lucky-ui/components/lk-date-picker/lk-date-picker.vue';
 import LkEmpty from '@/uni_modules/lucky-ui/components/lk-empty/lk-empty.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
@@ -27,9 +25,7 @@ const showLangPopup = ref(false);
 const showModal = ref(false);
 const showPicker = ref(false);
 const showActionSheet = ref(false);
-const showDatePicker = ref(false);
 const timeValue = ref('');
-const dateValue = ref(null);
 const pickerValue = ref('');
 const textareaValue = ref('');
 
@@ -96,7 +92,6 @@ function setLang(lang: LocaleCode) {
     <lk-card title="Picker">
       <view class="row">
         <lk-button @click="showPicker = true">Picker</lk-button>
-        <lk-button variant="soft" @click="showDatePicker = true">DatePicker</lk-button>
       </view>
       <view class="time-wrap">
         <lk-time-picker v-model="timeValue" />
@@ -118,8 +113,7 @@ function setLang(lang: LocaleCode) {
       </view>
     </lk-card>
 
-    <lk-card title="Calendar & Data">
-      <lk-calendar show-lunar show-holiday />
+    <lk-card title="Data">
       <view class="meta-list">
         <text>Relative: {{ relativeTime }}</text>
         <text>Animation: {{ firstAnimation.title }} / {{ firstAnimation.description }}</text>
@@ -140,8 +134,6 @@ function setLang(lang: LocaleCode) {
       :columns="pickerColumns"
       title="Fruit"
     />
-
-    <lk-date-picker v-model:show="showDatePicker" v-model:value="dateValue" />
 
     <lk-action-sheet
       v-model="showActionSheet"

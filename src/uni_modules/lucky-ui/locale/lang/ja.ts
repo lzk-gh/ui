@@ -1,4 +1,4 @@
-import en from './en';
+﻿import en from './en';
 
 export default {
   ...en,
@@ -26,35 +26,6 @@ export default {
       month: 'か月',
       year: '年',
     },
-    calendar: {
-      ...en.lk.calendar,
-      title: '日付選択',
-      weekdays: ['日', '月', '火', '水', '木', '金', '土'],
-      monthTitle: (year: number, month: number) => `${year}年${month}月`,
-      today: '今日',
-      tomorrow: '明日',
-      yesterday: '昨日',
-      thisWeek: '今週',
-      thisMonth: '今月',
-      last7Days: '直近7日',
-      last30Days: '直近30日',
-      clear: 'クリア',
-      viewMonth: '月表示',
-      viewWeek: '週表示',
-      viewScroll: '連続スクロール',
-      holidayTag: '休',
-      workdayTag: '勤',
-      holidays: {
-        newYear: '元日',
-        springFestival: '春節',
-        makeUpWorkday: '振替出勤日',
-        qingming: '清明節',
-        laborDay: '労働節',
-        dragonBoat: '端午節',
-        midAutumn: '中秋節',
-        nationalDay: '国慶節',
-      },
-    },
     empty: {
       empty: { title: 'データがありません', description: '表示できる内容がありません' },
       search: { title: '結果がありません', description: '別のキーワードをお試しください' },
@@ -67,20 +38,6 @@ export default {
     },
     picker: { confirm: '確認', cancel: 'キャンセル' },
     form: { validationFailed: '検証に失敗しました' },
-    datePicker: {
-      title: '日付を選択',
-      confirm: 'OK',
-      cancel: 'キャンセル',
-      selectDate: '日付を選択',
-      selectYearMonth: '年月を選択',
-      selectTime: '時刻を選択',
-      startTime: '開始時刻',
-      endTime: '終了時刻',
-      now: '現在',
-      hour: '時',
-      minute: '分',
-      second: '秒',
-    },
     timePicker: { placeholder: '時刻を選択', confirm: 'OK', cancel: 'キャンセル' },
     modal: { confirm: 'OK', cancel: 'キャンセル' },
     upload: {

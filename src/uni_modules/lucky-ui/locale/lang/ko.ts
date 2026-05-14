@@ -1,4 +1,4 @@
-import en from './en';
+﻿import en from './en';
 
 export default {
   ...en,
@@ -26,35 +26,6 @@ export default {
       month: '개월',
       year: '년',
     },
-    calendar: {
-      ...en.lk.calendar,
-      title: '날짜 선택',
-      weekdays: ['일', '월', '화', '수', '목', '금', '토'],
-      monthTitle: (year: number, month: number) => `${year}년 ${month}월`,
-      today: '오늘',
-      tomorrow: '내일',
-      yesterday: '어제',
-      thisWeek: '이번 주',
-      thisMonth: '이번 달',
-      last7Days: '최근 7일',
-      last30Days: '최근 30일',
-      clear: '지우기',
-      viewMonth: '월 보기',
-      viewWeek: '주 보기',
-      viewScroll: '연속 스크롤',
-      holidayTag: '휴',
-      workdayTag: '근',
-      holidays: {
-        newYear: '신정',
-        springFestival: '춘절',
-        makeUpWorkday: '대체 근무일',
-        qingming: '청명절',
-        laborDay: '노동절',
-        dragonBoat: '단오절',
-        midAutumn: '중추절',
-        nationalDay: '국경절',
-      },
-    },
     empty: {
       empty: { title: '데이터 없음', description: '표시할 내용이 없습니다' },
       search: { title: '결과 없음', description: '다른 키워드로 시도해 보세요' },
@@ -67,20 +38,6 @@ export default {
     },
     picker: { confirm: '확인', cancel: '취소' },
     form: { validationFailed: '검증에 실패했습니다' },
-    datePicker: {
-      title: '날짜 선택',
-      confirm: '확인',
-      cancel: '취소',
-      selectDate: '날짜 선택',
-      selectYearMonth: '년월 선택',
-      selectTime: '시간 선택',
-      startTime: '시작 시간',
-      endTime: '종료 시간',
-      now: '현재',
-      hour: '시',
-      minute: '분',
-      second: '초',
-    },
     timePicker: { placeholder: '시간 선택', confirm: '확인', cancel: '취소' },
     modal: { confirm: '확인', cancel: '취소' },
     upload: {

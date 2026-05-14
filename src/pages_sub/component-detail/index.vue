@@ -363,18 +363,6 @@ const componentMap: Record<string, any> = {
   },
 
   // 高级组件
-  calendar: {
-    title: 'Calendar 日历',
-    desc: '日历选择组件',
-    icon: 'calendar3',
-    color: 'primary',
-  },
-  'date-picker': {
-    title: 'DatePicker 日期选择',
-    desc: '日期选择器',
-    icon: 'calendar-date-fill',
-    color: 'success',
-  },
   'virtual-list': {
     title: 'VirtualList 虚拟列表',
     desc: '长列表优化组件',
@@ -562,8 +550,6 @@ import AnchorDemo from '@/components/demos/anchor-demo.vue';
 import StickyDemo from '@/components/demos/sticky-demo.vue';
 
 // 高级组件
-import CalendarDemo from '@/components/demos/calendar-demo.vue';
-import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
 import VirtualListDemo from '@/components/demos/virtual-list-demo.vue';
 import WatermarkDemo from '@/components/demos/watermark-demo.vue';
 import WaterfallDemo from '@/components/demos/waterfall-demo.vue';
@@ -641,8 +627,6 @@ const demoComponentMap: Record<string, any> = {
   sticky: StickyDemo,
 
   // 高级组件
-  calendar: CalendarDemo,
-  'date-picker': DatePickerDemo,
   'virtual-list': VirtualListDemo,
   watermark: WatermarkDemo,
   waterfall: WaterfallDemo,
@@ -760,8 +744,6 @@ const loadDemoComponent = async (name: string) => {
           <AnchorDemo v-else-if="componentName === 'anchor'" />
           <StickyDemo v-else-if="componentName === 'sticky'" />
 
-          <CalendarDemo v-else-if="componentName === 'calendar'" />
-          <DatePickerDemo v-else-if="componentName === 'date-picker'" />
           <VirtualListDemo v-else-if="componentName === 'virtual-list'" />
           <WatermarkDemo v-else-if="componentName === 'watermark'" />
           <WaterfallDemo v-else-if="componentName === 'waterfall'" />

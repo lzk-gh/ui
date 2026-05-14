@@ -65,9 +65,7 @@
 - ✅ Tabbar 标签栏 - tabbar-demo.vue
 - ✅ Breadcrumb 面包屑 - breadcrumb-demo.vue
 
-### 6️⃣ 高级组件 (6个)
-- ✅ Calendar 日历 - calendar-demo.vue
-- ✅ DatePicker 日期选择 - date-picker-demo.vue
+### 6️⃣ 高级组件 (4个)
 - ✅ TimePicker 时间选择 - time-picker-demo.vue
 - ✅ Cascader 级联选择 - cascader-demo.vue
 - ✅ Tree 树形控件 - tree-demo.vue
@@ -122,8 +120,6 @@ src/
 │       ├── navbar-demo.vue
 │       ├── tabbar-demo.vue
 │       ├── breadcrumb-demo.vue
-│       ├── calendar-demo.vue
-│       ├── date-picker-demo.vue
 │       ├── time-picker-demo.vue
 │       ├── cascader-demo.vue
 │       ├── tree-demo.vue

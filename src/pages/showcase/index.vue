@@ -14,7 +14,6 @@ import AvatarDemo from '@/components/demos/avatar-demo.vue';
 import BacktopDemo from '@/components/demos/backtop-demo.vue';
 import BadgeDemo from '@/components/demos/badge-demo.vue';
 import ButtonDemo from '@/components/demos/button-demo.vue';
-import CalendarDemo from '@/components/demos/calendar-demo.vue';
 import CardDemo from '@/components/demos/card-demo.vue';
 import CarouselDemo from '@/components/demos/carousel-demo.vue';
 import CellDemo from '@/components/demos/cell-demo.vue';
@@ -27,7 +26,6 @@ import ChoiceDemo from '@/components/demos/choice-demo.vue';
 import CollapseDemo from '@/components/demos/collapse-demo.vue';
 import CountdownDemo from '@/components/demos/countdown-demo.vue';
 import CurtainDemo from '@/components/demos/curtain-demo.vue';
-import DatePickerDemo from '@/components/demos/date-picker-demo.vue';
 import DividerDemo from '@/components/demos/divider-demo.vue';
 import DropdownDemo from '@/components/demos/dropdown-demo.vue';
 import EmptyDemo from '@/components/demos/empty-demo.vue';
@@ -282,7 +280,6 @@ function setLocale(lang: LocaleCode) {
         >
           <template #demo>
             <button-demo v-if="item.slug === 'button'" />
-            <calendar-demo v-else-if="item.slug === 'calendar'" />
             <card-demo v-else-if="item.slug === 'card'" />
             <icon-demo v-else-if="item.slug === 'icon'" />
             <avatar-demo v-else-if="item.slug === 'avatar'" />
@@ -303,7 +300,6 @@ function setLocale(lang: LocaleCode) {
             <divider-demo v-else-if="item.slug === 'divider'" />
             <empty-demo v-else-if="item.slug === 'empty'" />
             <curtain-demo v-else-if="item.slug === 'curtain'" />
-            <date-picker-demo v-else-if="item.slug === 'date-picker'" />
             <dropdown-demo v-else-if="item.slug === 'dropdown'" />
             <form-demo v-else-if="item.slug === 'form'" />
             <image-demo v-else-if="item.slug === 'image'" />

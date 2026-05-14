@@ -55,8 +55,6 @@ declare module '@vue/runtime-core' {
     LkTimelineItem: typeof import('./components/lk-timeline/lk-timeline-item.vue')['default']
     LkDivider: typeof import('./components/lk-divider/lk-divider.vue')['default']
     LkSegmented: typeof import('./components/lk-segmented/lk-segmented.vue')['default']
-    LkCalendar: typeof import('./components/lk-calendar/lk-calendar.vue')['default']
-    LkDatePicker: typeof import('./components/lk-date-picker/lk-date-picker.vue')['default']
     LkTimePicker: typeof import('./components/lk-time-picker/lk-time-picker.vue')['default']
     LkUpload: typeof import('./components/lk-upload/lk-upload.vue')['default']
     LkVirtualList: typeof import('./components/lk-virtual-list/lk-virtual-list.vue')['default']

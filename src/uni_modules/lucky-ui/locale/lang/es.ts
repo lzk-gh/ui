@@ -1,4 +1,4 @@
-import en from './en';
+﻿import en from './en';
 
 export default {
   ...en,
@@ -26,41 +26,6 @@ export default {
       month: 'mes',
       year: 'año',
     },
-    calendar: {
-      ...en.lk.calendar,
-      title: 'Seleccionar fecha',
-      weekdays: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-      monthTitle: (year: number, month: number) => {
-        const months = [
-          'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-          'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
-        ];
-        return `${months[month - 1]} ${year}`;
-      },
-      today: 'Hoy',
-      tomorrow: 'Mañana',
-      yesterday: 'Ayer',
-      thisWeek: 'Esta semana',
-      thisMonth: 'Este mes',
-      last7Days: 'Últimos 7 días',
-      last30Days: 'Últimos 30 días',
-      clear: 'Limpiar',
-      viewMonth: 'Mes',
-      viewWeek: 'Semana',
-      viewScroll: 'Desplazar',
-      holidayTag: 'F',
-      workdayTag: 'T',
-      holidays: {
-        newYear: 'Año Nuevo',
-        springFestival: 'Fiesta de Primavera',
-        makeUpWorkday: 'Día laborable compensado',
-        qingming: 'Qingming',
-        laborDay: 'Día del Trabajo',
-        dragonBoat: 'Festival del Bote del Dragón',
-        midAutumn: 'Festival del Medio Otoño',
-        nationalDay: 'Día Nacional',
-      },
-    },
     empty: {
       empty: { title: 'Sin datos', description: 'No hay contenido para mostrar' },
       search: { title: 'Sin resultados', description: 'Prueba con otras palabras clave' },
@@ -73,20 +38,6 @@ export default {
     },
     picker: { confirm: 'Confirmar', cancel: 'Cancelar' },
     form: { validationFailed: 'La validación falló' },
-    datePicker: {
-      title: 'Seleccionar fecha',
-      confirm: 'OK',
-      cancel: 'Cancelar',
-      selectDate: 'Seleccionar fecha',
-      selectYearMonth: 'Seleccionar mes',
-      selectTime: 'Seleccionar hora',
-      startTime: 'Hora de inicio',
-      endTime: 'Hora de fin',
-      now: 'Ahora',
-      hour: 'h',
-      minute: 'min',
-      second: 's',
-    },
     timePicker: { placeholder: 'Seleccionar hora', confirm: 'OK', cancel: 'Cancelar' },
     modal: { confirm: 'OK', cancel: 'Cancelar' },
     upload: {

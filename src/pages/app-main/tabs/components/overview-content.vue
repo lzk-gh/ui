@@ -187,8 +187,6 @@ const categories = [
     icon: 'stars',
     color: 'purple',
     components: [
-      { name: 'calendar', label: 'Calendar', desc: '日历', icon: 'calendar3' },
-      { name: 'date-picker', label: 'DatePicker', desc: '日期选择', icon: 'calendar-event' },
       { name: 'virtual-list', label: 'VirtualList', desc: '虚拟列表', icon: 'list-columns' },
       { name: 'watermark', label: 'Watermark', desc: '水印', icon: 'shield-check' },
       { name: 'waterfall', label: 'Waterfall', desc: '瀑布流', icon: 'grid-3x2' },

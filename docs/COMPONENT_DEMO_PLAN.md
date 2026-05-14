@@ -84,9 +84,7 @@
 
 ### 🚀 可选独立页面 - 高级组件
 
-#### 日期时间组件 (5个)
-- **LkCalendar** - 日历
-- **LkDatePicker** - 日期选择
+#### 日期时间组件 (3个)
 - **LkTimePicker** - 时间选择
 - **LkDateRangePicker** - 日期范围
 - **LkDateTimePicker** - 日期时间选择
@@ -244,7 +242,7 @@ const handleClick = () => {
 - Drawer, Popup, ActionSheet, Dropdown
 
 ### P3 - 高级组件 (最后完成)
-- Calendar, DatePicker, Cascader, Tree
+- Cascader, Tree
 - VirtualList, Carousel, Upload
 
 ---

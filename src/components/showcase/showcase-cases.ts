@@ -23,15 +23,6 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['点击态在小程序按压反馈与 H5 不一致。'],
   },
   {
-    slug: 'calendar',
-    title: 'Calendar 日历',
-    group: 'advanced',
-    verifyStatus: 'verified',
-    riskLevel: 'medium',
-    visualEnabled: true,
-    riskNotes: ['日期范围、多选和滚动定位需覆盖不同平台尺寸与 webkit 渲染差异。'],
-  },
-  {
     slug: 'card',
     title: 'Card 卡片',
     group: 'basic',
@@ -156,15 +147,6 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskLevel: 'medium',
     visualEnabled: false,
     riskNotes: ['倒计时存在时间轴噪音，视觉回归需定格或以交互断言补充。'],
-  },
-  {
-    slug: 'date-picker',
-    title: 'DatePicker 日期选择',
-    group: 'form',
-    verifyStatus: 'verified',
-    riskLevel: 'medium',
-    visualEnabled: false,
-    riskNotes: ['弹层、日历面板与滚轮模式组合复杂，需以交互断言补充截图验证。'],
   },
   {
     slug: 'dropdown',

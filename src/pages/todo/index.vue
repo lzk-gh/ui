@@ -18,25 +18,21 @@ import LkForm from '@/uni_modules/lucky-ui/components/lk-form/lk-form.vue';
 import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
 import LkRate from '@/uni_modules/lucky-ui/components/lk-rate/lk-rate.vue';
 import LkSlider from '@/uni_modules/lucky-ui/components/lk-slider/lk-slider.vue';
-import LkCell from '@/uni_modules/lucky-ui/components/lk-cell/lk-cell.vue';
 import LkRadioGroup from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio-group.vue';
 import LkRadio from '@/uni_modules/lucky-ui/components/lk-radio/lk-radio.vue';
 import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
 import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue';
-import LkDatePicker from '@/uni_modules/lucky-ui/components/lk-date-picker/lk-date-picker.vue';
 import LkToast from '@/uni_modules/lucky-ui/components/lk-toast/lk-toast.vue';
 import LkSticky from '@/uni_modules/lucky-ui/components/lk-sticky/lk-sticky.vue';
 import LkStepper from '@/uni_modules/lucky-ui/components/lk-stepper/lk-stepper.vue';
 import LkTooltip from '@/uni_modules/lucky-ui/components/lk-tooltip/lk-tooltip.vue';
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
 import LkCurtain from '@/uni_modules/lucky-ui/components/lk-curtain/lk-curtain.vue';
-import type { DatePickerValue } from '@/uni_modules/lucky-ui/components/lk-date-picker/date-picker.props';
 
 const { theme, themeClass, toggleTheme } = useTheme();
 const searchQuery = ref('');
 const filterStatus = ref('all');
 const showAddPopup = ref(false);
-const showDatePicker = ref(false);
 const showCelebration = ref(false);
 const toastRef = ref();
 
@@ -150,11 +146,6 @@ const handleStatusChange = (item: any) => {
   } else {
     item.progress = 0;
   }
-};
-
-const handleDateConfirm = (value: DatePickerValue) => {
-  formModel.value.dueDate = typeof value === 'string' ? value : '';
-  showDatePicker.value = false;
 };
 
 const handleSubmit = () => {
@@ -442,11 +433,11 @@ const handleEdit = (item: any) => {
               </view>
             </view>
 
-            <lk-cell
-              title="截止日期"
-              :value="formModel.dueDate || '请选择'"
-              is-link
-              @click="showDatePicker = true"
+            <lk-input
+              v-model="formModel.dueDate"
+              label="截止日期"
+              placeholder="YYYY-MM-DD"
+              suffix-icon="calendar-date"
             />
 
             <view class="form-item">
@@ -468,16 +459,6 @@ const handleEdit = (item: any) => {
         </lk-form>
       </view>
     </lk-popup>
-
-    <!-- 日期选择器 -->
-    <lk-date-picker
-      v-model:show="showDatePicker"
-      :value="formModel.dueDate"
-      type="date"
-      title="选择截止日期"
-      value-type="string"
-      @confirm="handleDateConfirm"
-    />
 
     <lk-toast ref="toastRef" />
 
