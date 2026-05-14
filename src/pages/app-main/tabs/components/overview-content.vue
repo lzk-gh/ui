@@ -179,7 +179,6 @@ const categories = [
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
       { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' },
       { name: 'fab', label: 'Fab', desc: '悬浮按钮', icon: 'plus-circle-fill' },
-      { name: 'index-bar', label: 'IndexBar', desc: '字母索引', icon: 'list-task' },
       { name: 'anchor', label: 'Anchor', desc: '页面锚点', icon: 'signpost-split' },
       { name: 'sticky', label: 'Sticky', desc: '粘性布局', icon: 'pin-angle' },
     ],

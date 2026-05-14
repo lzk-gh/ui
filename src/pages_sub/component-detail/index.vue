@@ -355,12 +355,6 @@ const componentMap: Record<string, any> = {
     icon: 'plus-circle-fill',
     color: 'primary',
   },
-  'index-bar': {
-    title: 'IndexBar 索引栏',
-    desc: '字母索引快速定位',
-    icon: 'sort-alpha-down',
-    color: 'primary',
-  },
   anchor: {
     title: 'Anchor 锚点',
     desc: '页面锚点与激活',
@@ -554,7 +548,6 @@ import TransitionDemo from '@/components/demos/transition-demo.vue';
 import NavbarDemo from '@/components/demos/navbar-demo.vue';
 import TabbarDemo from '@/components/demos/tabbar-demo.vue';
 import TabbarContainerDemo from '@/components/demos/tabbar-container-demo.vue';
-import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
 import AnchorDemo from '@/components/demos/anchor-demo.vue';
 import StickyDemo from '@/components/demos/sticky-demo.vue';
 
@@ -663,7 +656,6 @@ import PreloadDemo from '@/components/demos/preload-demo.vue';
           <NavbarDemo v-else-if="componentName === 'navbar'" />
           <TabbarDemo v-else-if="componentName === 'tabbar'" />
           <TabbarContainerDemo v-else-if="componentName === 'tabbar-container'" />
-          <IndexBarDemo v-else-if="componentName === 'index-bar'" />
           <AnchorDemo v-else-if="componentName === 'anchor'" />
           <StickyDemo v-else-if="componentName === 'sticky'" />
 

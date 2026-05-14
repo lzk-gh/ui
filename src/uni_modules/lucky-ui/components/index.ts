@@ -149,10 +149,6 @@ export * from './lk-picker/picker.props';
 // New: Space
 export { default as LkSpace } from './lk-space/lk-space.vue';
 export * from './lk-space/space.props';
-// New: IndexBar
-export { default as LkIndexBar } from './lk-index-bar/lk-index-bar.vue';
-export { default as LkIndexAnchor } from './lk-index-bar/lk-index-anchor.vue';
-export * from './lk-index-bar/index-bar.props';
 // New: Anchor
 export { default as LkAnchor } from './lk-anchor/lk-anchor.vue';
 export { default as LkAnchorLink } from './lk-anchor/lk-anchor-link.vue';

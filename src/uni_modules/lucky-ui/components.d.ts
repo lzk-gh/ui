@@ -77,8 +77,6 @@ declare module '@vue/runtime-core' {
     LkSticky: typeof import('./components/lk-sticky/lk-sticky.vue')['default']
     LkPicker: typeof import('./components/lk-picker/lk-picker.vue')['default']
     LkSpace: typeof import('./components/lk-space/lk-space.vue')['default']
-    LkIndexBar: typeof import('./components/lk-index-bar/lk-index-bar.vue')['default']
-    LkIndexAnchor: typeof import('./components/lk-index-bar/lk-index-anchor.vue')['default']
     LkAnchor: typeof import('./components/lk-anchor/lk-anchor.vue')['default']
     LkAnchorLink: typeof import('./components/lk-anchor/lk-anchor-link.vue')['default']
     LkKeyboard: typeof import('./components/lk-keyboard/lk-keyboard.vue')['default']

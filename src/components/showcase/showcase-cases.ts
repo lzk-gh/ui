@@ -268,15 +268,6 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['滚动定位依赖节点查询，嵌套滚动容器需按平台复核。'],
   },
   {
-    slug: 'index-bar',
-    title: 'IndexBar 索引栏',
-    group: 'advanced',
-    verifyStatus: 'verified',
-    riskLevel: 'medium',
-    visualEnabled: true,
-    riskNotes: ['fixed 索引浮层和触摸滑动需按小程序与 H5 分别复核。'],
-  },
-  {
     slug: 'input',
     title: 'Input 输入框',
     group: 'form',

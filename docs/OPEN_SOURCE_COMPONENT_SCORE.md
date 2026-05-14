@@ -1,6 +1,6 @@
 # Lucky UI 组件开源发布评分报告（第二轮）
 
-> 生成时间：2026-05-08；范围：`src/uni_modules/lucky-ui/components/` 下 69 个 `lk-*` 组件。
+> 生成时间：2026-05-08；范围：`src/uni_modules/lucky-ui/components/` 下 68 个 `lk-*` 组件。
 > 本轮为第一轮修复后的重新评分，并已追加新组件 `lk-empty` 的开源成熟度记录。
 
 ## 评分口径
@@ -16,9 +16,9 @@
 
 | 指标 | 数量 |
 |------|------|
-| 实际 `lk-*` 目录 | 69 |
-| 公开评分组件 | 68 |
-| A | 68 |
+| 实际 `lk-*` 目录 | 68 |
+| 公开评分组件 | 67 |
+| A | 67 |
 | B | 0 |
 | C | 0 |
 | D | 0 |
@@ -30,8 +30,8 @@
 
 - 明显改善：`lk-choice` 已从 B 升至 A，直接文档与 Demo 已补齐；`lk-tabbar-container` 已从 C 升至 A，直接文档、Demo 与 props 导出已补齐。
 - 策略稳定：`lk-preload-debugger` 属于开发调试能力，本轮已从公开评分分布中排除，只保留内部工具状态。
-- 风险收敛：`lk-button`、`lk-badge`、`lk-cell` 已补平铺文档入口，进入 Release Candidate；`lk-icon`、`lk-index-bar`、`lk-sticky` 已补直接文档并从 B 升至 A。
-- 加固第一批：`lk-avatar`、`lk-divider`、`lk-tag` 已补平铺文档入口；`lk-icon`、`lk-anchor`、`lk-index-bar`、`lk-sticky`、`lk-avatar`、`lk-divider`、`lk-tag` 已接入 showcase verified。
+- 风险收敛：`lk-button`、`lk-badge`、`lk-cell` 已补平铺文档入口，进入 Release Candidate；`lk-icon`、`lk-sticky` 已补直接文档并从 B 升至 A。
+- 加固第一批：`lk-avatar`、`lk-divider`、`lk-tag` 已补平铺文档入口；`lk-icon`、`lk-anchor`、`lk-sticky`、`lk-avatar`、`lk-divider`、`lk-tag` 已接入 showcase verified。
 - 加固第二批：`lk-curtain`、`lk-horizontal-scroll` 已补 组件同名 SCSS；`lk-toast` 已补 props 导出；`lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 已接入 showcase verified。
 - 加固第三批：`lk-modal`、`lk-popup`、`lk-tabbar`、`lk-tabbar-container` 已接入 showcase verified；`lk-tabbar` 已补独立底部导航展示，避免与容器能力混淆。
 - 加固第四批：`lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表已接入 showcase verified；`chart-lite` 聚合覆盖 `lk-chart-area/ring/sparkline/stat-card/radar-lite`。
@@ -144,7 +144,6 @@
 | lk-horizontal-scroll | 97 | A | 20 | 19 | 20 | 20 | 18 | direct | direct | verified | webkit；showcase verified |
 | lk-icon | 94 | A | 20 | 20 | 20 | 16 | 18 | direct | direct | verified | custom 入口不足；webkit；showcase verified |
 | lk-image | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
-| lk-index-bar | 93 | A | 20 | 20 | 20 | 16 | 17 | direct | direct | verified | custom 入口不足；fixed；showcase verified |
 | lk-input | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
 | lk-keyboard | 86 | A | 20 | 20 | 20 | 16 | 10 | direct | direct | verified | custom 入口不足；fixed；CSS filter；webkit；showcase verified |
 | lk-loading | 93 | A | 20 | 19 | 20 | 16 | 18 | direct | direct | verified | custom 入口不足；webkit；showcase verified |
@@ -185,7 +184,7 @@
 ## 本轮完成项
 
 - 首批发布收敛：已补 `lk-button`、`lk-badge`、`lk-cell` 平铺文档入口，并将组件总览与侧边栏切到公开规范入口。
-- 需加固第一批：已补 `lk-avatar`、`lk-divider`、`lk-tag` 平铺文档入口，并将 `lk-icon`、`lk-anchor`、`lk-index-bar`、`lk-sticky`、`lk-avatar`、`lk-divider`、`lk-tag` 接入 showcase verified。
+- 需加固第一批：已补 `lk-avatar`、`lk-divider`、`lk-tag` 平铺文档入口，并将 `lk-icon`、`lk-anchor`、`lk-sticky`、`lk-avatar`、`lk-divider`、`lk-tag` 接入 showcase verified。
 - 需加固第二批：已补 `lk-curtain`、`lk-horizontal-scroll` 的 组件同名 SCSS，补齐 `lk-toast` props 导出，并将 `lk-curtain`、`lk-horizontal-scroll`、`lk-toast`、`lk-fab` 接入 showcase verified。
 - 需加固第三批：已将 `lk-modal`、`lk-popup`、`lk-tabbar`、`lk-tabbar-container` 接入 showcase verified，并为 `lk-tabbar` 补独立演示以区分 `lk-tabbar-container`。
 - 需加固第四批：已将 `lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表接入 showcase verified，并在子组件评分中标记聚合 showcase 依据。
@@ -200,7 +199,7 @@
 - 调试能力隔离：`lk-preload-debugger` 继续作为 `preload` 文档中的开发工具说明，不纳入组件总览首批清单与公开组件入口。
 - 入口去重：未发布前已移除重复数字键盘入口的组件源码、文档、Demo、导出、全局类型和 showcase 入口。
 - 新增空态组件：`lk-empty` 已按公开组件标准接入组件库、文档、Demo、showcase 与评分报告，并补 ManyPixels 素材来源说明。
-- 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-virtual-list`、`lk-index-bar`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
+- 风险组件治理：已为 `lk-tabbar-container`、`lk-keyboard`、`lk-virtual-list`、`lk-sticky`、`lk-icon` 补兼容/发布说明，并补齐键盘与虚拟列表 showcase verified 标记。
 - 结构资产补齐：已为 `lk-tabbar-container` 抽出并导出 props 资产；已为 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie` 补 组件同名 SCSS。
 
 ## 下一阶段规划
@@ -233,4 +232,4 @@
 
 - 高分抽查：`lk-action-sheet`、`lk-input`、`lk-form`、`lk-rate`、`lk-tooltip` 均可追溯到源码、直接文档、直接 Demo 与 showcase verified。
 - 低分/特殊抽查：`lk-preload-debugger`、`lk-tabbar-container`、`lk-curtain`、`lk-toast`、`lk-keyboard` 均可从文档、Demo、导出、全局类型、样式入口或兼容风险中追溯风险原因。
-- 组件总数校验：实际 `lk-*` 目录数 69，报告全量评分表 69 行。
+- 组件总数校验：实际 `lk-*` 目录数 68，报告全量评分表 68 行。

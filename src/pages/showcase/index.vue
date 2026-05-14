@@ -37,7 +37,6 @@ import GridDemo from '@/components/demos/grid-demo.vue';
 import HorizontalScrollDemo from '@/components/demos/horizontal-scroll-demo.vue';
 import IconDemo from '@/components/demos/icon-demo.vue';
 import ImageDemo from '@/components/demos/image-demo.vue';
-import IndexBarDemo from '@/components/demos/index-bar-demo.vue';
 import InputDemo from '@/components/demos/input-demo.vue';
 import LoadingDemo from '@/components/demos/loading-demo.vue';
 import NoticeBarDemo from '@/components/demos/notice-bar-demo.vue';
@@ -308,7 +307,6 @@ function setLocale(lang: LocaleCode) {
             <input-demo v-else-if="item.slug === 'input'" />
             <grid-demo v-else-if="item.slug === 'grid'" />
             <anchor-demo v-else-if="item.slug === 'anchor'" />
-            <index-bar-demo v-else-if="item.slug === 'index-bar'" />
             <horizontal-scroll-demo v-else-if="item.slug === 'horizontal-scroll'" />
             <loading-demo v-else-if="item.slug === 'loading'" />
             <modal-demo v-else-if="item.slug === 'modal'" />
