@@ -37,13 +37,13 @@ Lucky UI 共收录 **68+** 个公开组件，按功能分为以下几类。
 | [Textarea 文本域](./textarea) | 多行文本，支持自适应高度 |
 | [Radio 单选框](./radio) | 单选，支持 dot/check 两种图标 |
 | [Checkbox 复选框](./checkbox) | 多选，支持全选/中间态 |
+| [SelectList 选择列表](./select-list) | 单选/多选卡片式选择，支持网格与最大可选数 |
 | [Switch 开关](./switch) | 布尔值开关，颜色可定制 |
 | [Stepper 步进器](./stepper) | 数量增减控件 |
 | [Slider 滑块](./slider) | 范围选择，支持区间模式 |
 | [Rate 评分](./rate) | 星级评分，支持交互与只读 |
 | [Upload 上传](./upload) | 图片/文件选择与预览 |
 | [Picker 选择器](./picker) | 单列、多列与级联选择 |
-| [Time Picker 时间选择](./time-picker) | 时/分/秒选择 |
 | [Calendar 日历](./calendar) | 日期、区间与多日期选择 |
 | [CalendarPicker 日历选择器](./calendar-picker) | 弹层式日期与时间范围选择 |
 | [Keyboard 键盘](./keyboard) | 数字/身份证/车牌等模式 |
@@ -57,9 +57,10 @@ Lucky UI 共收录 **68+** 个公开组件，按功能分为以下几类。
 | [Carousel 轮播](./carousel) | 自动播放、指示点、Loop |
 | [Collapse 折叠面板](./collapse) | 手风琴/多展开模式 |
 | [Timeline 时间轴](./timeline) | 纵向时间线 |
-| [Steps 步骤条](./steps) | 横向/纵向步骤指引 |
 | [Progress 进度条](./progress) | 线形/圆形进度 |
+| [PullRefresh 下拉刷新](./pull-refresh) | 局部容器刷新与页面级刷新能力 |
 | [Loading 加载](./loading) | 多形态加载动效 |
+| [Countdown 倒计时](./countdown) | 活动、支付、任务时限倒计时 |
 | [Skeleton 骨架屏](./skeleton) | 内容加载中的占位动画 |
 | [Empty 空状态](./empty) | 数据为空、搜索无结果和异常状态占位 |
 | [Number Roller 数字滚动](./number-roller) | 数值变化卷动动效 |
@@ -75,6 +76,7 @@ Lucky UI 共收录 **68+** 个公开组件，按功能分为以下几类。
 | [ChartBar 柱状图](./chart-bar) | Canvas 绘制柱形图 |
 | [ChartLine 折线图](./chart-line) | Canvas 绘制折线/面积图 |
 | [ChartPie 饼图](./chart-pie) | Canvas 绘制饼图/环形图 |
+| [ChartLite 轻量图表](./chart-lite) | 聚合 Area/Ring/Sparkline/StatCard/RadarLite |
 
 ## 导航
 

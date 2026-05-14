@@ -157,12 +157,6 @@ const componentMap: Record<string, any> = {
     icon: 'menu-button-wide',
     color: 'success',
   },
-  'time-picker': {
-    title: 'TimePicker 时间选择',
-    desc: '时间点选择组件',
-    icon: 'clock-fill',
-    color: 'warning',
-  },
   calendar: {
     title: 'Calendar 日历',
     desc: '现代化日期、区间与多选日历',
@@ -273,7 +267,6 @@ const componentMap: Record<string, any> = {
     icon: 'speedometer',
     color: 'info',
   },
-
   // 反馈组件
   modal: {
     title: 'Modal 模态框',
@@ -510,7 +503,6 @@ import SliderDemo from '@/components/demos/slider-demo.vue';
 import RateDemo from '@/components/demos/rate-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
 import PickerDemo from '@/components/demos/picker-demo.vue';
-import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import CalendarDemo from '@/components/demos/calendar-demo.vue';
 import CalendarPickerDemo from '@/components/demos/calendar-picker-demo.vue';
 import KeyboardDemo from '@/components/demos/keyboard-demo.vue';
@@ -621,7 +613,6 @@ import PreloadDemo from '@/components/demos/preload-demo.vue';
           <RateDemo v-else-if="componentName === 'rate'" />
           <UploadDemo v-else-if="componentName === 'upload'" />
           <PickerDemo v-else-if="componentName === 'picker'" />
-          <TimePickerDemo v-else-if="componentName === 'time-picker'" />
           <CalendarDemo v-else-if="componentName === 'calendar'" />
           <CalendarPickerDemo v-else-if="componentName === 'calendar-picker'" />
           <KeyboardDemo v-else-if="componentName === 'keyboard'" />

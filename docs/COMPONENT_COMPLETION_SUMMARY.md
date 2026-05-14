@@ -65,8 +65,7 @@
 - ✅ Tabbar 标签栏 - tabbar-demo.vue
 - ✅ Breadcrumb 面包屑 - breadcrumb-demo.vue
 
-### 6️⃣ 高级组件 (4个)
-- ✅ TimePicker 时间选择 - time-picker-demo.vue
+### 6️⃣ 高级组件 (3个)
 - ✅ Cascader 级联选择 - cascader-demo.vue
 - ✅ Tree 树形控件 - tree-demo.vue
 - ✅ VirtualList 虚拟列表 - virtual-list-demo.vue
@@ -120,7 +119,6 @@ src/
 │       ├── navbar-demo.vue
 │       ├── tabbar-demo.vue
 │       ├── breadcrumb-demo.vue
-│       ├── time-picker-demo.vue
 │       ├── cascader-demo.vue
 │       ├── tree-demo.vue
 │       └── virtual-list-demo.vue
@@ -201,8 +199,7 @@ src/
 3. **Rate 尺寸**: 修复 `:size="40"` 应为 `size="40"`
 4. **Table 列配置**: 添加必需的 `key` 属性
 5. **Tree 数据结构**: 修复 `key/title` 应为 `label/value`
-6. **TimePicker v-model**: 修复布尔值应为字符串类型
-7. **Dropdown name属性**: 为所有 DropdownItem 添加必需的 name 属性
+6. **Dropdown name属性**: 为所有 DropdownItem 添加必需的 name 属性
 
 ## 🎨 设计规范
 

@@ -38,7 +38,6 @@ export default {
     },
     picker: { confirm: '確認', cancel: '取消' },
     form: { validationFailed: '驗證失敗' },
-    timePicker: { placeholder: '選擇時間', confirm: '確定', cancel: '取消' },
     modal: { confirm: '確定', cancel: '取消' },
     upload: {
       upload: '上傳',

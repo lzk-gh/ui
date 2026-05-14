@@ -97,6 +97,7 @@ const categories = [
       { name: 'image', label: 'Image', desc: '图片', icon: 'image' },
       { name: 'grid', label: 'Grid', desc: '栅格布局', icon: 'grid-3x3-gap' },
       { name: 'space', label: 'Space', desc: '元素间距', icon: 'arrows-expand' },
+      { name: 'choice', label: 'Choice', desc: '快选项', icon: 'ui-checks' },
     ],
   },
   {
@@ -177,6 +178,7 @@ const categories = [
     components: [
       { name: 'navbar', label: 'Navbar', desc: '导航栏', icon: 'layout-text-window' },
       { name: 'tabbar', label: 'Tabbar', desc: '标签栏', icon: 'layout-three-columns' },
+      { name: 'tabbar-container', label: 'TabbarContainer', desc: 'Tab 容器', icon: 'layout-three-columns' },
       { name: 'backtop', label: 'Backtop', desc: '回到顶部', icon: 'arrow-up-circle' },
       { name: 'fab', label: 'Fab', desc: '悬浮按钮', icon: 'plus-circle-fill' },
       { name: 'anchor', label: 'Anchor', desc: '页面锚点', icon: 'signpost-split' },

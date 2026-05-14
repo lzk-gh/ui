@@ -12,7 +12,6 @@ import LkModal from '@/uni_modules/lucky-ui/components/lk-modal/lk-modal.vue';
 import LkPicker from '@/uni_modules/lucky-ui/components/lk-picker/lk-picker.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
 import LkTextarea from '@/uni_modules/lucky-ui/components/lk-textarea/lk-textarea.vue';
-import LkTimePicker from '@/uni_modules/lucky-ui/components/lk-time-picker/lk-time-picker.vue';
 import LkUpload from '@/uni_modules/lucky-ui/components/lk-upload/lk-upload.vue';
 import LkVerifyCode from '@/uni_modules/lucky-ui/components/lk-verify-code/lk-verify-code.vue';
 import { ANIMATION_CATEGORIES, ANIMATION_PRESETS } from '@/uni_modules/lucky-ui/composables/useTransition';
@@ -25,7 +24,6 @@ const showLangPopup = ref(false);
 const showModal = ref(false);
 const showPicker = ref(false);
 const showActionSheet = ref(false);
-const timeValue = ref('');
 const pickerValue = ref('');
 const textareaValue = ref('');
 
@@ -92,9 +90,6 @@ function setLang(lang: LocaleCode) {
     <lk-card title="Picker">
       <view class="row">
         <lk-button @click="showPicker = true">Picker</lk-button>
-      </view>
-      <view class="time-wrap">
-        <lk-time-picker v-model="timeValue" />
       </view>
     </lk-card>
 
@@ -217,7 +212,6 @@ function setLang(lang: LocaleCode) {
   font-size: var(--lk-font-size-sm);
 }
 
-.time-wrap,
 .upload-wrap {
   margin-top: var(--lk-spacing-md);
 }

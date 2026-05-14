@@ -4,7 +4,7 @@ import { Locale } from '../locale';
 export function useLocale(componentName?: string) {
   const t = <T = string>(path: string, ...args: unknown[]): T => {
     if (componentName) {
-      // 尝试访问组件命名空间下的翻译，如 lk.timePicker.placeholder
+      // 尝试访问组件命名空间下的翻译，如 lk.modal.confirm
       const componentPath = `lk.${componentName}.${path}`;
       const result = Locale.t<T | string>(componentPath, ...args);
       if (result !== componentPath) return result as T;

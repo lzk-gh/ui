@@ -97,8 +97,6 @@ export { default as LkDivider } from './lk-divider/lk-divider.vue';
 export * from './lk-divider/divider.props';
 export { default as LkSegmented } from './lk-segmented/lk-segmented.vue';
 export * from './lk-segmented/segmented.props';
-export { default as LkTimePicker } from './lk-time-picker/lk-time-picker.vue';
-export * from './lk-time-picker/time-picker.props';
 export { default as LkUpload } from './lk-upload/lk-upload.vue';
 export * from './lk-upload/upload.props';
 
@@ -179,5 +177,3 @@ export * from './lk-meta-row/meta-row.props';
 export { default as LkFab } from './lk-fab/lk-fab.vue';
 export * from './lk-fab/fab.props';
 
-// New: ConfigProvider
-export { default as LkConfigProvider } from './lk-config-provider/lk-config-provider.vue';

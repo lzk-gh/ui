@@ -37,7 +37,7 @@
 - 加固第四批：`lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表已接入 showcase verified；`chart-lite` 聚合覆盖 `lk-chart-area/ring/sparkline/stat-card/radar-lite`。
 - 加固第五批：`lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card` 已接入 showcase verified。
 - 加固第六批：`lk-dropdown`、`lk-grid`、`lk-loading`、`lk-navbar`、`lk-number-roller` 已接入 showcase verified。
-- 加固第七批：`lk-overlay`、`lk-skeleton`、`lk-space`、`lk-switch`、`lk-textarea`、`lk-time-picker` 已接入 showcase verified。
+- 加固第七批：`lk-overlay`、`lk-skeleton`、`lk-space`、`lk-switch`、`lk-textarea` 已接入 showcase verified。
 - 加固第八批：`lk-backtop`、`lk-upload`、`lk-verify-code`、`lk-watermark` 已接入 showcase verified。
 - 加固第九批：`lk-action-sheet`、`lk-badge`、`lk-cell`、`lk-checkbox`、`lk-collapse`、`lk-form`、`lk-image`、`lk-notice-bar`、`lk-progress`、`lk-radio`、`lk-rate`、`lk-segmented`、`lk-slider`、`lk-stepper`、`lk-picker`、`lk-tabs`、`lk-tooltip`、`lk-waterfall`、`lk-meta-row` 已对齐 showcase verified 源数据与渲染入口。
 - 加固第十批：`lk-picker`、`lk-tooltip`、`lk-waterfall`、`lk-tabbar-container` 已补 high-risk showcase 自动回归基线与发布验收说明。
@@ -171,7 +171,6 @@
 | lk-tabs | 98 | A | 20 | 20 | 20 | 20 | 18 | direct | direct | verified | webkit；showcase verified |
 | lk-tag | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-textarea | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
-| lk-time-picker | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified | showcase verified |
 | lk-timeline | 93 | A | 20 | 19 | 20 | 16 | 18 | direct | direct | verified | custom 入口不足；webkit；showcase verified |
 | lk-toast | 93 | A | 20 | 20 | 20 | 16 | 17 | direct | direct | verified | custom 入口不足；fixed；showcase verified |
 | lk-tooltip | 100 | A | 20 | 20 | 20 | 20 | 20 | direct | direct | verified |  |
@@ -190,7 +189,7 @@
 - 需加固第四批：已将 `lk-timeline`、`lk-carousel` 与 `chart-lite` 聚合图表接入 showcase verified，并在子组件评分中标记聚合 showcase 依据。
 - 需加固第五批：已将 `lk-chart-bar`、`lk-chart-line`、`lk-chart-pie`、`lk-choice`、`lk-card` 接入 showcase verified。
 - 需加固第六批：已将 `lk-dropdown`、`lk-grid`、`lk-loading`、`lk-navbar`、`lk-number-roller` 接入 showcase verified。
-- 需加固第七批：已将 `lk-overlay`、`lk-skeleton`、`lk-space`、`lk-switch`、`lk-textarea`、`lk-time-picker` 接入 showcase verified。
+- 需加固第七批：已将 `lk-overlay`、`lk-skeleton`、`lk-space`、`lk-switch`、`lk-textarea` 接入 showcase verified。
 - 需加固第八批：已将 `lk-backtop`、`lk-upload`、`lk-verify-code`、`lk-watermark` 接入 showcase verified。
 - 需加固第九批：已将报告中已计为 verified、但 showcase 源数据仍为 pending 的组件统一对齐，并补齐展示台渲染分支。
 - 需加固第十批：已为 `lk-picker`、`lk-tooltip`、`lk-waterfall`、`lk-tabbar-container` 补 `tests/visual/high-risk-showcase.spec.ts`，并在对应文档中明确自动回归与人工平台验收边界。

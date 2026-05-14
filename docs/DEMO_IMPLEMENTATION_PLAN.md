@@ -43,9 +43,7 @@
 - **Stepper** 步进器(最小最大值)
 - **Slider** 滑块(范围、步长)
 - **Rate** 评分(半星、只读)
-- **TimePicker** 时间选择器
 - **DateRangePicker** 日期范围选择器
-- **DateTimePicker** 日期时间选择器
 
 #### 实现示例
 ```vue

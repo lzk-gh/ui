@@ -101,8 +101,7 @@
 ### 6. 布局组件 (Layout) - 0个
 - (暂无独立布局组件,使用 uni-app 内置布局)
 
-### 7. 高级组件 (Advanced) - 7个
-- TimePicker 时间选择
+### 7. 高级组件 (Advanced) - 6个
 - Cascader 级联选择
 - Tree 树形控件
 - VirtualList 虚拟列表

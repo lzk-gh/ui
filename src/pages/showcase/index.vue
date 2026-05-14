@@ -61,7 +61,6 @@ import TabbarContainerDemo from '@/components/demos/tabbar-container-demo.vue';
 import TabsDemo from '@/components/demos/tabs-demo.vue';
 import TagDemo from '@/components/demos/tag-demo.vue';
 import TextareaDemo from '@/components/demos/textarea-demo.vue';
-import TimePickerDemo from '@/components/demos/time-picker-demo.vue';
 import TimelineDemo from '@/components/demos/timeline-demo.vue';
 import ToastDemo from '@/components/demos/toast-demo.vue';
 import UploadDemo from '@/components/demos/upload-demo.vue';
@@ -333,7 +332,6 @@ function setLocale(lang: LocaleCode) {
             <tabbar-container-demo v-else-if="item.slug === 'tabbar-container'" />
             <sticky-demo v-else-if="item.slug === 'sticky'" />
             <textarea-demo v-else-if="item.slug === 'textarea'" />
-            <time-picker-demo v-else-if="item.slug === 'time-picker'" />
             <calendar-demo v-else-if="item.slug === 'calendar'" />
             <calendar-picker-demo v-else-if="item.slug === 'calendar-picker'" />
             <timeline-demo v-else-if="item.slug === 'timeline'" />

@@ -38,7 +38,6 @@ export default {
     },
     picker: { confirm: '確認', cancel: 'キャンセル' },
     form: { validationFailed: '検証に失敗しました' },
-    timePicker: { placeholder: '時刻を選択', confirm: 'OK', cancel: 'キャンセル' },
     modal: { confirm: 'OK', cancel: 'キャンセル' },
     upload: {
       upload: 'アップロード',

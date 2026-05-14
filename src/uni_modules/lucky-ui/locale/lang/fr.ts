@@ -38,7 +38,6 @@ export default {
     },
     picker: { confirm: 'Confirmer', cancel: 'Annuler' },
     form: { validationFailed: 'Échec de la validation' },
-    timePicker: { placeholder: 'Sélectionner une heure', confirm: 'OK', cancel: 'Annuler' },
     modal: { confirm: 'OK', cancel: 'Annuler' },
     upload: {
       upload: 'Téléverser',

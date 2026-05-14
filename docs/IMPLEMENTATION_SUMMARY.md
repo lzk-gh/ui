@@ -184,7 +184,7 @@ docs/
 | 数据展示 | 13 | ⏳ | Card, Cell, Collapse, Table, Tabs, Timeline, Steps, Progress, Loading, Skeleton, Carousel, Segmented, Pagination |
 | 反馈组件 | 8 | ✅ | Modal, Popup, Toast, ActionSheet, Drawer, Overlay, Tooltip, Dropdown |
 | 导航组件 | 3 | ⏳ | Navbar, Tabbar, Breadcrumb |
-| 高级组件 | 7 | ⏳ | TimePicker, Cascader, Tree, VirtualList |
+| 高级组件 | 6 | ⏳ | Cascader, Tree, VirtualList |
 | **总计** | **52** | **3/6** | 总览页已覆盖全部 52 个组件 |
 
 ## 🚀 下一步计划

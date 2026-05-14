@@ -39,11 +39,6 @@
     form: {
       validationFailed: '验证失败',
     },
-    timePicker: {
-      placeholder: '选择时间',
-      confirm: '确定',
-      cancel: '取消',
-    },
     modal: {
       confirm: '确定',
       cancel: '取消',

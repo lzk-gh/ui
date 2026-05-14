@@ -39,11 +39,6 @@
     form: {
       validationFailed: 'Validation failed',
     },
-    timePicker: {
-      placeholder: 'Select Time',
-      confirm: 'OK',
-      cancel: 'Cancel',
-    },
     modal: {
       confirm: 'OK',
       cancel: 'Cancel',

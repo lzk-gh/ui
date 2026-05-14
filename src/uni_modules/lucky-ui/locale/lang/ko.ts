@@ -38,7 +38,6 @@ export default {
     },
     picker: { confirm: '확인', cancel: '취소' },
     form: { validationFailed: '검증에 실패했습니다' },
-    timePicker: { placeholder: '시간 선택', confirm: '확인', cancel: '취소' },
     modal: { confirm: '확인', cancel: '취소' },
     upload: {
       upload: '업로드',

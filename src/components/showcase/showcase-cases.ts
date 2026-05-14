@@ -457,15 +457,6 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
     riskNotes: ['自适应高度、计数器、前后插槽和长文本换行需要持续回归。'],
   },
   {
-    slug: 'time-picker',
-    title: 'TimePicker 时间选择',
-    group: 'form',
-    verifyStatus: 'verified',
-    riskLevel: 'low',
-    visualEnabled: true,
-    riskNotes: ['格式化、清空、禁用和时间范围选择需要持续回归。'],
-  },
-  {
     slug: 'calendar',
     title: 'Calendar 日历',
     group: 'form',

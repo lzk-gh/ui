@@ -115,7 +115,9 @@ function getSystemTheme(): Theme {
     if (systemInfo.theme === 'dark' || systemInfo.theme === 'light') {
       return systemInfo.theme;
     }
-  } catch {}
+  } catch {
+    // System theme is optional; fallback keeps theme deterministic.
+  }
   // #endif
 
   // #ifdef H5

@@ -84,10 +84,8 @@
 
 ### 🚀 可选独立页面 - 高级组件
 
-#### 日期时间组件 (3个)
-- **LkTimePicker** - 时间选择
+#### 日期时间组件 (1个)
 - **LkDateRangePicker** - 日期范围
-- **LkDateTimePicker** - 日期时间选择
 
 #### 高级选择器 (4个)
 - **LkCascader** - 级联选择
