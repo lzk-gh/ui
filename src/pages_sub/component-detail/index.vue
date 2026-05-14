@@ -894,7 +894,6 @@ const loadDemoComponent = async (name: string) => {
   // 统一 Demo 预览背景：与组件默认容器色区分，避免视觉叠色误判
   --lk-demo-block-bg: var(--test-bg-card);
   --lk-demo-block-border: var(--test-border-color);
-  --lk-waterfall-demo-edge: 24rpx;
   background: transparent;
 }
 

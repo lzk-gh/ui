@@ -381,8 +381,8 @@ onMounted(() => {
         :items="list"
         :gutter="12"
         :row-gap="12"
-        :padding-x="12"
-        :padding-y="16"
+        :padding-x="0"
+        :padding-y="0"
         :height="waterfallHeight"
         :card-radius="12"
         :lower-threshold="200"
@@ -396,14 +396,21 @@ onMounted(() => {
         @card-click="onCardClick"
         @scroll="onScroll"
       >
-        <template #item="{ item, loading }">
-          <view class="card" :class="{ 'card--loading': loading }">
+        <template #item="{ item, loading: imageLoading, onImageLoad, onImageError }">
+          <view class="card" :class="{ 'card--loading': imageLoading }">
             <!-- 图片区域 -->
             <view
               class="card__image-wrapper"
               :style="{ paddingBottom: `${(item.ratio || 1) * 100}%` }"
             >
-              <image class="card__image" :src="item.image" mode="aspectFill" :lazy-load="true" />
+              <image
+                class="card__image"
+                :src="item.image"
+                mode="aspectFill"
+                :lazy-load="true"
+                @load="onImageLoad"
+                @error="onImageError"
+              />
               <!-- 图片上的标签 -->
               <view v-if="item.tag" class="card__tag">{{ item.tag }}</view>
             </view>
@@ -502,8 +509,8 @@ onMounted(() => {
 
 .waterfall-shell {
   width: 100%;
-  margin-left: calc(var(--lk-waterfall-demo-edge, 0rpx) * -1);
-  margin-right: calc(var(--lk-waterfall-demo-edge, 0rpx) * -1);
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 // ======================== 卡片样式 ========================

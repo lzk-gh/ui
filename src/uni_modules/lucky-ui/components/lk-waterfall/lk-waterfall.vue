@@ -15,6 +15,7 @@ import {
   computed,
   getCurrentInstance,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   watch,
@@ -71,7 +72,8 @@ function addUnit(val: string | number | undefined, unit = 'px'): string {
 
 // ======================== 响应式状态 ========================
 
-const uid = getCurrentInstance()?.uid ?? Math.floor(Math.random() * 1e6);
+const instance = getCurrentInstance();
+const uid = instance?.uid ?? Math.floor(Math.random() * 1e6);
 const rootId = `lk-waterfall-${uid}`;
 
 /** 容器宽度 */
@@ -92,6 +94,8 @@ const processedIndex = ref(0);
 const isProcessing = ref(false);
 /** 初始化完成 */
 const isReady = ref(false);
+/** 图片加载兜底定时器 */
+const imageLoadTimers = new Map<string | number, ReturnType<typeof setTimeout>>();
 
 // ======================== 计算属性 ========================
 
@@ -178,6 +182,7 @@ function processNewItems() {
     };
 
     cardList.value.push(card);
+    scheduleImageLoadTimeout(card);
 
     if (isLeft) {
       leftHeight.value += height + rowGapPx.value;
@@ -196,6 +201,7 @@ function processNewItems() {
  * 重置布局
  */
 function resetLayout() {
+  clearAllImageLoadTimers();
   cardList.value = [];
   leftHeight.value = paddingYPx.value;
   rightHeight.value = paddingYPx.value;
@@ -235,12 +241,42 @@ function setCardLoadingState(card: PlacedCard, state: WaterfallLoadingState) {
   card.loadingState = state;
 }
 
+function clearImageLoadTimer(card: PlacedCard) {
+  const timer = imageLoadTimers.get(card.id);
+  if (!timer) return;
+  clearTimeout(timer);
+  imageLoadTimers.delete(card.id);
+}
+
+function clearAllImageLoadTimers() {
+  imageLoadTimers.forEach(timer => clearTimeout(timer));
+  imageLoadTimers.clear();
+}
+
+function scheduleImageLoadTimeout(card: PlacedCard) {
+  if (card.loadingState !== 'loading') return;
+  if (props.imageLoadTimeout <= 0) return;
+
+  clearImageLoadTimer(card);
+  const timer = setTimeout(() => {
+    const currentCard = cardList.value.find(item => item.id === card.id);
+    if (currentCard?.loadingState === 'loading') {
+      setCardLoadingState(currentCard, 'loaded');
+    }
+    imageLoadTimers.delete(card.id);
+  }, props.imageLoadTimeout);
+
+  imageLoadTimers.set(card.id, timer);
+}
+
 function onImageLoaded(card: PlacedCard) {
+  clearImageLoadTimer(card);
   setCardLoadingState(card, 'loaded');
   emit('image-loaded', card.item, card.index);
 }
 
 function onImageError(card: PlacedCard) {
+  clearImageLoadTimer(card);
   setCardLoadingState(card, 'error');
   emit('image-error', card.item, card.index);
 }
@@ -251,7 +287,9 @@ async function measureContainer() {
   await nextTick();
 
   return new Promise<void>(resolve => {
-    const query = uni.createSelectorQuery();
+    const query = instance?.proxy
+      ? uni.createSelectorQuery().in(instance.proxy)
+      : uni.createSelectorQuery();
     query
       .select(`#${rootId}`)
       .boundingClientRect(rect => {
@@ -281,6 +319,10 @@ onMounted(async () => {
   await measureContainer();
   resetLayout();
   processNewItems();
+});
+
+onBeforeUnmount(() => {
+  clearAllImageLoadTimers();
 });
 
 // 监听数据变化
@@ -430,7 +472,13 @@ function getCardStyle(card: PlacedCard): CSSProperties {
         <view
           v-for="card in cardList"
           :key="card.id"
-          class="lk-waterfall__card"
+          :class="[
+            'lk-waterfall__card',
+            {
+              'lk-waterfall__card--loading': card.loadingState === 'loading',
+              'lk-waterfall__card--error': card.loadingState === 'error',
+            },
+          ]"
           :style="getCardStyle(card)"
           @click="onCardClick(card)"
         >
