@@ -24,7 +24,6 @@ const DAY = 24 * HOUR;
 
 let timer: ReturnType<typeof setTimeout> | null = null;
 let deadline = 0;
-let expectedTime = 0;
 
 const remaining = ref(0);
 const running = ref(false);
@@ -47,12 +46,14 @@ const interval = computed(() => (props.millisecond ? 30 : SECOND));
 
 const baseDuration = computed(() => Math.max(0, normalizeDuration()));
 
-const timeData = computed(() => getTimeData(visibleRemaining.value));
+const timeData = computed(() => getTimeData(displayRemaining.value));
 
 const visibleRemaining = computed(() => {
   if (props.showZero) return remaining.value;
   return finished.value ? 0 : remaining.value;
 });
+
+const displayRemaining = computed(() => normalizeDisplayRemaining(visibleRemaining.value));
 
 const formattedText = computed(() => {
   const formatted = props.formatter?.(timeData.value);
@@ -75,8 +76,7 @@ watch(
   () => {
     if (!running.value) return;
     clearTimer();
-    expectedTime = Date.now() + interval.value;
-    timer = setTimeout(tick, interval.value);
+    scheduleTick(remaining.value);
   }
 );
 
@@ -126,6 +126,11 @@ function getTimeData(total: number): CountdownTimeData {
     seconds,
     milliseconds,
   };
+}
+
+function normalizeDisplayRemaining(total: number) {
+  if (props.millisecond || total <= 0) return Math.max(0, total);
+  return Math.ceil(total / SECOND) * SECOND;
 }
 
 function formatTime(format: string, data: CountdownTimeData) {
@@ -193,17 +198,21 @@ function parseSegments(text: string) {
 function tick() {
   const next = Math.max(0, deadline - Date.now());
   remaining.value = next;
-  emit('change', getTimeData(next));
+  emit('change', getTimeData(normalizeDisplayRemaining(next)));
 
   if (next <= 0) {
     finish();
     return;
   }
 
-  const now = Date.now();
-  const drift = Math.max(0, now - expectedTime);
-  expectedTime = now + interval.value;
-  timer = setTimeout(tick, Math.max(16, interval.value - drift));
+  scheduleTick(next);
+}
+
+function scheduleTick(currentRemaining: number) {
+  const delay = props.millisecond
+    ? interval.value
+    : currentRemaining % SECOND || SECOND;
+  timer = setTimeout(tick, Math.max(16, delay));
 }
 
 function start() {
@@ -212,9 +221,8 @@ function start() {
   running.value = true;
   finished.value = false;
   deadline = Date.now() + remaining.value;
-  expectedTime = Date.now() + interval.value;
   emit('start');
-  timer = setTimeout(tick, interval.value);
+  scheduleTick(remaining.value);
 }
 
 function pause() {
@@ -231,7 +239,7 @@ function reset(autoStart = props.autoStart) {
   finished.value = false;
   remaining.value = baseDuration.value;
   emit('reset', remaining.value);
-  emit('change', getTimeData(remaining.value));
+  emit('change', getTimeData(normalizeDisplayRemaining(remaining.value)));
   if (autoStart && remaining.value > 0) start();
   if (remaining.value <= 0) finished.value = true;
 }
