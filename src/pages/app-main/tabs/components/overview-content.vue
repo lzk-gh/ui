@@ -4,6 +4,7 @@ import { useThemeStore, PRESET_COLORS, DEFAULT_BRAND_COLOR } from '@/stores/them
 import { Locale, SUPPORTED_LOCALES, type LocaleCode } from '@/uni_modules/lucky-ui/locale';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkPopup from '@/uni_modules/lucky-ui/components/lk-popup/lk-popup.vue';
+import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
 
 defineProps<{
   contentHeight: string;
@@ -16,6 +17,7 @@ const searchKeyword = ref('');
 const currentLocale = ref(Locale.locale);
 const localeOptions = SUPPORTED_LOCALES;
 const showLocalePopup = ref(false);
+const PREVIEW_ICON_BRAND_STORAGE_KEY = 'lk-preview-icon-follow-brand';
 const currentLocaleLabel = computed(
   () => localeOptions.find(locale => locale.value === currentLocale.value)?.label || currentLocale.value
 );
@@ -23,6 +25,10 @@ const currentLocaleLabel = computed(
 // ============ 主题色配置 ============
 const currentBrandColor = ref(DEFAULT_BRAND_COLOR);
 const customColorInput = ref('');
+const previewIconsFollowBrand = ref(true);
+const previewIconColor = computed(() => (previewIconsFollowBrand.value ? 'primary' : 'text'));
+const previewCategoryIconColor = (color: string) =>
+  previewIconsFollowBrand.value ? color : 'text';
 
 // 预设主题色
 const presetColors = PRESET_COLORS;
@@ -43,6 +49,15 @@ const applyCustomColor = () => {
   }
 };
 
+const togglePreviewIconColor = (value: boolean | string | number) => {
+  previewIconsFollowBrand.value = Boolean(value);
+  try {
+    uni.setStorageSync(PREVIEW_ICON_BRAND_STORAGE_KEY, previewIconsFollowBrand.value);
+  } catch {
+    // Storage is best-effort in preview pages.
+  }
+};
+
 const setLocale = (lang: LocaleCode) => {
   Locale.use(lang);
   currentLocale.value = lang;
@@ -54,6 +69,14 @@ onMounted(() => {
   if (themeStore.brandColor) {
     currentBrandColor.value = themeStore.brandColor;
     customColorInput.value = themeStore.brandColor;
+  }
+  try {
+    const savedFollowBrand = uni.getStorageSync(PREVIEW_ICON_BRAND_STORAGE_KEY);
+    if (typeof savedFollowBrand === 'boolean') {
+      previewIconsFollowBrand.value = savedFollowBrand;
+    }
+  } catch {
+    // Storage is best-effort in preview pages.
   }
 });
 
@@ -254,6 +277,18 @@ const navigateToDetail = (componentName: string) => {
             <lk-icon name="chevron-down" size="28" color="textSecondary" />
           </view>
         </view>
+        <view class="icon-brand-row">
+          <view class="icon-brand-copy">
+            <text class="custom-label">预览图标跟随品牌色</text>
+            <text class="icon-brand-hint">关闭后使用默认文字色</text>
+          </view>
+          <lk-switch
+            :model-value="previewIconsFollowBrand"
+            size="sm"
+            :active-color="currentBrandColor"
+            @update:model-value="togglePreviewIconColor"
+          />
+        </view>
         <lk-popup
           v-model="showLocalePopup"
           position="bottom"
@@ -342,7 +377,7 @@ const navigateToDetail = (componentName: string) => {
       <!-- 组件分类 -->
       <view v-for="category in filteredCategories" :key="category.name" class="category-section">
         <view class="category-header">
-          <lk-icon :name="category.icon" size="40" :color="category.color" />
+          <lk-icon :name="category.icon" size="40" :color="previewCategoryIconColor(category.color)" />
           <text class="category-title">{{ category.name }}</text>
           <text class="category-count">{{ category.components.length }}</text>
         </view>
@@ -356,7 +391,7 @@ const navigateToDetail = (componentName: string) => {
             @click="navigateToDetail(comp.name)"
           >
             <view class="card-icon">
-              <lk-icon :name="comp.icon" size="48" />
+              <lk-icon :name="comp.icon" size="48" :color="previewIconColor" />
             </view>
             <text class="card-name">{{ comp.label }}</text>
             <text class="card-desc">{{ comp.desc }}</text>
@@ -488,6 +523,25 @@ const navigateToDetail = (componentName: string) => {
   justify-content: space-between;
   gap: 20rpx;
   padding: 16rpx 0 24rpx;
+}
+
+.icon-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 0 0 24rpx;
+}
+
+.icon-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.icon-brand-hint {
+  color: test.$test-text-tertiary;
+  font-size: 22rpx;
 }
 
 .locale-trigger {

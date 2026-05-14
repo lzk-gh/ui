@@ -1,10 +1,22 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
+import LkSwitch from '@/uni_modules/lucky-ui/components/lk-switch/lk-switch.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
 import { ICON_CODEPOINTS } from '@/uni_modules/lucky-ui/components/lk-icon/codepoints';
 
+const PREVIEW_ICON_BRAND_STORAGE_KEY = 'lk-preview-icon-follow-brand';
 const searchKeyword = ref('');
+const previewIconsFollowBrand = ref(true);
+
+try {
+  const savedFollowBrand = uni.getStorageSync(PREVIEW_ICON_BRAND_STORAGE_KEY);
+  if (typeof savedFollowBrand === 'boolean') {
+    previewIconsFollowBrand.value = savedFollowBrand;
+  }
+} catch {
+  // Storage is best-effort in demo pages.
+}
 
 const allIconNames = Object.keys(ICON_CODEPOINTS).sort((leftName, rightName) =>
   leftName.localeCompare(rightName)
@@ -19,6 +31,17 @@ const filteredIcons = computed(() => {
   }
   return allIconNames.filter(name => name.includes(keyword)).slice(0, 60);
 });
+
+const previewIconColor = computed(() => (previewIconsFollowBrand.value ? 'primary' : 'text'));
+
+const togglePreviewIconColor = (value: boolean | string | number) => {
+  previewIconsFollowBrand.value = Boolean(value);
+  try {
+    uni.setStorageSync(PREVIEW_ICON_BRAND_STORAGE_KEY, previewIconsFollowBrand.value);
+  } catch {
+    // Storage is best-effort in demo pages.
+  }
+};
 
 const iconGroups = computed(() => {
   const groupRules = [
@@ -76,6 +99,18 @@ const copyIconUsage = (name: string) => {
     </demo-block>
 
     <demo-block title="图标检索（前 60 个）">
+      <view class="preview-control">
+        <view class="preview-control__copy">
+          <text class="preview-control__label">图标跟随品牌色</text>
+          <text class="preview-control__hint">关闭后使用默认文字色</text>
+        </view>
+        <lk-switch
+          :model-value="previewIconsFollowBrand"
+          size="sm"
+          active-color="var(--lk-color-primary)"
+          @update:model-value="togglePreviewIconColor"
+        />
+      </view>
       <view class="search-wrap">
         <lk-icon name="search" color="textSecondary" size="28" />
         <input
@@ -92,7 +127,7 @@ const copyIconUsage = (name: string) => {
           class="icon-item"
           @click="copyIconUsage(iconName)"
         >
-          <lk-icon :name="iconName" size="40" color="primary" />
+          <lk-icon :name="iconName" size="40" :color="previewIconColor" />
           <text class="icon-label">{{ iconName }}</text>
         </view>
       </view>
@@ -171,6 +206,35 @@ const copyIconUsage = (name: string) => {
   color: var(--lk-color-text-secondary);
   font-size: 23rpx;
   line-height: 1.5;
+}
+
+.preview-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 14rpx 16rpx;
+  border-radius: var(--lk-radius-md);
+  border: 2rpx solid var(--lk-color-border);
+  background: var(--lk-color-bg-surface);
+  margin-bottom: 18rpx;
+}
+
+.preview-control__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.preview-control__label {
+  color: var(--lk-color-text);
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.preview-control__hint {
+  color: var(--lk-color-text-tertiary);
+  font-size: 22rpx;
 }
 
 .search-wrap {
