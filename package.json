@@ -54,6 +54,7 @@
     "docs:preview": "vitepress preview docs",
     "report:showcase": "node scripts/export-showcase-report.js",
     "test:visual": "playwright test tests/visual",
+    "test:unit": "vitest run",
     "test:mp": "node tests/miniprogram/run-miniprogram-tests.js"
   },
   "dependencies": {
@@ -107,6 +108,7 @@
     "svgtofont": "^6.4.0",
     "typescript": "^4.9.4",
     "vite": "5.2.8",
+    "vitest": "^2.1.9",
     "vitepress": "^1.5.0",
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^1.0.24"

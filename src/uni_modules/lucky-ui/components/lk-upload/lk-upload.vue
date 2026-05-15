@@ -8,6 +8,12 @@ import {
   UploadStatus,
   type UploadFile,
 } from './upload.props';
+import {
+  createH5UploadFiles,
+  createMpImageUploadFiles,
+  createMpVideoUploadFile,
+  isImageUrl,
+} from './upload.utils';
 
 defineOptions({ name: 'LkUpload' });
 
@@ -36,16 +42,6 @@ const pendingDeleteIndex = ref(-1);
 let _uid = 0;
 function genUid(): string {
   return `lk-upload-${Date.now()}-${++_uid}`;
-}
-
-/** 是否为图片 url */
-function isImageUrl(url: string): boolean {
-  if (!url) return false;
-  return /\.(png|jpe?g|gif|svg|webp|bmp|ico)(\?.*)?$/i.test(url) ||
-    url.startsWith('blob:') ||
-    url.startsWith('data:image') ||
-    url.startsWith('wxfile://') ||
-    url.startsWith('http://tmp');
 }
 
 /** 剩余可选数量 */
@@ -120,16 +116,8 @@ function chooseFileMp() {
     uni.chooseVideo({
       sourceType: props.sourceType as string[],
       compressed: props.sizeType.includes('compressed'),
-      success(res: { tempFilePath: string; size: number }) {
-        const file: UploadFile = {
-          uid: genUid(),
-          name: res.tempFilePath?.split('/').pop() || 'video',
-          url: res.tempFilePath,
-          size: res.size,
-          type: 'video/*',
-          status: UploadStatus.Ready,
-        };
-        handleAfterChoose([file]);
+      success(res: { tempFilePath: string; size: number; name?: string; type?: string }) {
+        handleAfterChoose([createMpVideoUploadFile(res, genUid)]);
       },
     });
     return;
@@ -141,16 +129,8 @@ function chooseFileMp() {
     sourceType: props.sourceType as string[],
     success(res: UniApp.ChooseImageSuccessCallbackResult) {
       const paths = Array.isArray(res.tempFilePaths) ? res.tempFilePaths : [];
-      const infos = (res.tempFiles as Array<{ size: number }>) || [];
-      const items: UploadFile[] = paths.map((p, i) => ({
-        uid: genUid(),
-        name: p.split('/').pop() || `image_${i}`,
-        url: p,
-        size: infos[i]?.size,
-        type: 'image/*',
-        status: UploadStatus.Ready,
-      }));
-      handleAfterChoose(items);
+      const infos = (res.tempFiles as Array<{ size?: number; name?: string; type?: string }>) || [];
+      handleAfterChoose(createMpImageUploadFiles(paths, infos, genUid));
     },
   });
 }
@@ -165,16 +145,7 @@ function chooseFileH5() {
 
   input.onchange = () => {
     const rawFiles = Array.from(input.files || []);
-    const items: UploadFile[] = rawFiles.slice(0, remainCount.value).map((f) => ({
-      uid: genUid(),
-      name: f.name,
-      url: URL.createObjectURL(f),
-      size: f.size,
-      type: f.type,
-      status: UploadStatus.Ready,
-      file: f,
-    }));
-    handleAfterChoose(items);
+    handleAfterChoose(createH5UploadFiles(rawFiles, remainCount.value, genUid));
   };
   input.click();
 }
