@@ -6,6 +6,14 @@ import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 
 import LkIcon from '../lk-icon/lk-icon.vue';
 import { buttonProps, buttonEmits } from './button.props';
+import {
+  isButtonNativeDisabled,
+  isButtonRippleEnabled,
+  resolveButtonClass,
+  resolveButtonFormType,
+  shouldEmitButtonEvent,
+  type ButtonNativeEventName,
+} from './button.utils';
 
 defineOptions({ name: 'LkButton' });
 
@@ -14,55 +22,33 @@ const emit = defineEmits(buttonEmits);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
-const cls = computed(() => [
-  'lk-ripple',
-  'lk-button',
-  `lk-button--${props.variant}`,
-  `lk-button--${props.size}`,
-  `lk-button--shape-${props.shape}`,
-  {
-    'is-loading': props.loading,
-    'is-disabled': props.disabled,
-    'is-block': props.block,
-    'lk-ripple--active': rippleActive.value,
-  },
-  props.customClass,
-]);
+const cls = computed(() => resolveButtonClass({
+  variant: props.variant,
+  size: props.size,
+  shape: props.shape,
+  loading: props.loading,
+  disabled: props.disabled,
+  block: props.block,
+  rippleActive: rippleActive.value,
+  customClass: props.customClass,
+}));
 
-const formType = computed(() => (props.nativeType === 'button' ? '' : props.nativeType));
-const isNativeDisabled = computed(() => props.disabled || props.loading);
+const formType = computed(() => resolveButtonFormType(props.nativeType));
+const isNativeDisabled = computed(() => isButtonNativeDisabled(props));
 const style = computed(() => props.customStyle as StyleValue);
 
-const isRippleEnabled = computed(() => props.ripple && props.variant !== 'text');
+const isRippleEnabled = computed(() => isButtonRippleEnabled(props));
 
 function onClick(e: unknown) {
-  if (props.disabled || props.loading) return;
+  if (!shouldEmitButtonEvent(props)) return;
   if (isRippleEnabled.value) {
     triggerRipple(e);
   }
   emit('click', e);
 }
 
-function emitNativeEvent(
-  name:
-    | 'getuserinfo'
-    | 'getphonenumber'
-    | 'getrealtimephonenumber'
-    | 'error'
-    | 'opensetting'
-    | 'launchapp'
-    | 'contact'
-    | 'chooseavatar'
-    | 'agreeprivacyauthorization'
-    | 'addgroupapp'
-    | 'chooseaddress'
-    | 'chooseinvoicetitle'
-    | 'subscribe'
-    | 'login'
-    | 'im',
-  e: unknown
-) {
-  if (props.disabled || props.loading) return;
+function emitNativeEvent(name: ButtonNativeEventName, e: unknown) {
+  if (!shouldEmitButtonEvent(props)) return;
   switch (name) {
     case 'getuserinfo':
       emit('getuserinfo', e);
