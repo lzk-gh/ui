@@ -3,7 +3,6 @@ import type { StyleValue } from 'vue';
 import { computed, ref, watch } from 'vue';
 import { useLocale } from '../../composables/useLocale';
 import {
-  CalendarMode,
   CalendarViewMode,
   calendarEmits,
   calendarProps,
@@ -11,6 +10,29 @@ import {
   type CalendarMarker,
   type CalendarValue,
 } from './calendar.props';
+import {
+  addCalendarDays,
+  addCalendarMonths,
+  createCalendarDay,
+  createCalendarDays,
+  createCalendarMarkerMap,
+  formatCalendarDate,
+  getCalendarMonthStart,
+  getCalendarViewDateValue,
+  normalizeCalendarValue,
+  parseCalendarDate,
+  resolveCalendarDateClass,
+  resolveCalendarGridClass,
+  resolveCalendarGridStyle,
+  resolveCalendarMarkerType,
+  resolveCalendarRootClass,
+  resolveCalendarSelectedSummary,
+  resolveCalendarWeekdays,
+  resolveCalendarInitialDate,
+  resolveNextCalendarValue,
+  resolveCalendarDayClass,
+  shouldShowCalendarMarkers,
+} from './calendar.utils';
 
 defineOptions({ name: 'LkCalendar' });
 
@@ -42,55 +64,35 @@ type CalendarTouchEvent = {
   touches?: ArrayLike<{ clientX?: number; clientY?: number; pageX?: number; pageY?: number }>;
 };
 
-function pad(value: number) {
-  return value < 10 ? `0${value}` : `${value}`;
-}
-
 function formatDate(date: Date) {
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  return formatCalendarDate(date);
 }
 
 function parseDate(value: string) {
-  const match = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(value || '');
-  if (!match) return null;
-  const year = Number(match[1]);
-  const month = Number(match[2]) - 1;
-  const day = Number(match[3] || 1);
-  const date = new Date(year, month, day);
-  if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
-    return null;
-  }
-  return date;
+  return parseCalendarDate(value);
 }
 
 function addDays(date: Date, amount: number) {
-  const next = new Date(date);
-  next.setDate(next.getDate() + amount);
-  return next;
+  return addCalendarDays(date, amount);
 }
 
 function addMonths(date: Date, amount: number) {
-  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+  return addCalendarMonths(date, amount);
 }
 
 function monthStart(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), 1);
-}
-
-function clampWeekStart(value: number) {
-  return Math.min(6, Math.max(0, Number.isFinite(value) ? value : 1));
+  return getCalendarMonthStart(date);
 }
 
 function normalizeValue(value: CalendarValue): string[] {
-  if (Array.isArray(value)) return value.filter(Boolean).sort();
-  return value ? [value] : [];
+  return normalizeCalendarValue(value);
 }
 
 function resolveInitialDate() {
-  const viewDate = parseDate(props.viewDate);
-  if (viewDate) return viewDate;
-  const selected = parseDate(normalizeValue(props.modelValue)[0] || '');
-  return selected || new Date();
+  return resolveCalendarInitialDate({
+    viewDate: props.viewDate,
+    modelValue: props.modelValue,
+  });
 }
 
 const today = formatDate(new Date());
@@ -114,14 +116,7 @@ const touchState = {
 };
 
 const markerMap = computed(() => {
-  const map = new Map<string, CalendarMarker[]>();
-  props.markers.forEach(marker => {
-    if (!parseDate(marker.date)) return;
-    const list = map.get(marker.date) || [];
-    list.push({ type: 'dot', ...marker });
-    map.set(marker.date, list);
-  });
-  return map;
+  return createCalendarMarkerMap(props.markers);
 });
 
 const selectedValues = computed(() => normalizeValue(props.modelValue));
@@ -134,10 +129,12 @@ const weekdayNames = computed(() => {
   return Array.isArray(values) && values.length >= 7 ? values : fallbackWeekdayNames;
 });
 const weekdays = computed(() => {
-  const start = clampWeekStart(props.firstDayOfWeek);
-  return Array.from({ length: 7 }, (_, index) => weekdayNames.value[(start + index) % 7]);
+  return resolveCalendarWeekdays({
+    weekdayNames: weekdayNames.value,
+    firstDayOfWeek: props.firstDayOfWeek,
+  });
 });
-const viewDateValue = computed(() => `${cursor.value.getFullYear()}-${pad(cursor.value.getMonth() + 1)}`);
+const viewDateValue = computed(() => getCalendarViewDateValue(cursor.value));
 const panelTitle = computed(() => props.title || monthNames.value[cursor.value.getMonth()]);
 const panelSubTitle = computed(() => {
   if (!props.showYear) return '';
@@ -146,124 +143,67 @@ const panelSubTitle = computed(() => {
 
 const selectedSummary = computed(() => {
   const values = selectedValues.value;
-  if (!values.length) return t('selectDate');
-  if (props.mode === CalendarMode.Range) {
-    return values.length > 1 ? `${values[0]} ${t('rangeSeparator')} ${values[1]}` : t('selectEndDate');
-  }
-  if (props.mode === CalendarMode.Multiple) return t('multipleSelected', { count: values.length });
-  return values[0];
+  return resolveCalendarSelectedSummary({
+    values,
+    mode: props.mode,
+    selectDateText: t('selectDate'),
+    selectEndDateText: t('selectEndDate'),
+    rangeSeparator: t('rangeSeparator'),
+    multipleSelectedText: t('multipleSelected', { count: values.length }),
+  });
 });
 
 const cls = computed(() => [
-  'lk-calendar',
-  `lk-calendar--${props.size}`,
-  `lk-calendar--${props.mode}`,
-  `lk-calendar--${props.viewMode}`,
-  {
-    'is-disabled': props.disabled,
-    'is-readonly': props.readonly,
-  },
-  props.customClass,
+  ...resolveCalendarRootClass({
+    size: props.size,
+    mode: props.mode,
+    viewMode: props.viewMode,
+    disabled: props.disabled,
+    readonly: props.readonly,
+    customClass: props.customClass,
+  }),
 ]);
 const style = computed(() => props.customStyle as StyleValue);
 const gridStyle = computed(
-  () =>
-    ({
-      transform: `translate3d(${dragOffset.value}px, 0, 0)`,
-      transition: isDragging.value || isSwitching.value ? 'none' : '',
-    }) as StyleValue
+  () => resolveCalendarGridStyle({
+    dragOffset: dragOffset.value,
+    dragging: isDragging.value,
+    switching: isSwitching.value,
+  }) as StyleValue
 );
 const gridClass = computed(() => [
-  'lk-calendar__grid',
-  {
-    'is-dragging': isDragging.value,
-    'is-switching': isSwitching.value,
-    'is-switching-prev': isSwitching.value && switchDirection.value === 'prev',
-    'is-switching-next': isSwitching.value && switchDirection.value === 'next',
-  },
+  ...resolveCalendarGridClass({
+    dragging: isDragging.value,
+    switching: isSwitching.value,
+    switchDirection: switchDirection.value,
+  }),
 ]);
 
-function isOutOfBounds(date: string) {
-  return Boolean((props.minDate && date < props.minDate) || (props.maxDate && date > props.maxDate));
-}
-
-function isInRange(date: string, values: string[]) {
-  if (props.mode !== CalendarMode.Range || values.length < 2) return false;
-  return date > values[0] && date < values[1];
-}
-
-function isBlockedDate(date: string) {
-  return isOutOfBounds(date) || props.disabledDates.includes(date);
-}
-
-function hasBlockedDateBetween(start: string, end: string) {
-  const startDate = parseDate(start);
-  const endDate = parseDate(end);
-  if (!startDate || !endDate) return false;
-
-  const cursorDate = addDays(startDate < endDate ? startDate : endDate, 1);
-  const limit = startDate < endDate ? endDate : startDate;
-  while (cursorDate < limit) {
-    if (isBlockedDate(formatDate(cursorDate))) return true;
-    cursorDate.setDate(cursorDate.getDate() + 1);
-  }
-  return false;
-}
-
-function startOfWeek(date: Date) {
-  const offset = (date.getDay() - clampWeekStart(props.firstDayOfWeek) + 7) % 7;
-  return addDays(date, -offset);
-}
-
 function createDay(date: Date): CalendarDay {
-  const dateText = formatDate(date);
-  const currentMonth = cursor.value.getMonth();
-  const currentYear = cursor.value.getFullYear();
-  const values = selectedValues.value;
-  const isRangeStart = props.mode === CalendarMode.Range && values[0] === dateText;
-  const isRangeEnd = props.mode === CalendarMode.Range && values[1] === dateText;
-  const inRange = isInRange(dateText, values);
-  const weekStart = clampWeekStart(props.firstDayOfWeek);
-  const weekEnd = (weekStart + 6) % 7;
-
-  return {
-    date: dateText,
-    day: date.getDate(),
-    month: date.getMonth() + 1,
-    year: date.getFullYear(),
-    weekday: date.getDay(),
-    isToday: dateText === today,
-    isCurrentMonth: date.getMonth() === currentMonth && date.getFullYear() === currentYear,
-    isSelected:
-      props.mode === CalendarMode.Range
-        ? isRangeStart || isRangeEnd
-        : values.includes(dateText),
-    isRangeStart,
-    isRangeEnd,
-    isRangeRowStart: (isRangeStart || inRange) && date.getDay() === weekStart,
-    isRangeRowEnd: (isRangeEnd || inRange) && date.getDay() === weekEnd,
-    isInRange: inRange,
-    isDisabled:
-      props.disabled ||
-      isBlockedDate(dateText) ||
-      (props.viewMode === CalendarViewMode.Month &&
-        !props.showAdjacentDays &&
-        (date.getMonth() !== currentMonth || date.getFullYear() !== currentYear)),
-    markers: markerMap.value.get(dateText) || [],
-  };
+  return createCalendarDay({
+    date,
+    cursor: cursor.value,
+    today,
+    values: selectedValues.value,
+    mode: props.mode,
+    viewMode: props.viewMode,
+    firstDayOfWeek: props.firstDayOfWeek,
+    disabled: props.disabled,
+    minDate: props.minDate,
+    maxDate: props.maxDate,
+    disabledDates: props.disabledDates,
+    showAdjacentDays: props.showAdjacentDays,
+    markerMap: markerMap.value,
+  });
 }
 
 const days = computed(() => {
-  if (props.viewMode === CalendarViewMode.Week) {
-    const weekStart = startOfWeek(cursor.value);
-    return Array.from({ length: 7 }, (_, index) => createDay(addDays(weekStart, index)));
-  }
-
-  const first = monthStart(cursor.value);
-  const offset = (first.getDay() - clampWeekStart(props.firstDayOfWeek) + 7) % 7;
-  const gridStart = addDays(first, -offset);
-
-  return Array.from({ length: 42 }, (_, index) => createDay(addDays(gridStart, index)));
+  return createCalendarDays({
+    viewMode: props.viewMode,
+    cursor: cursor.value,
+    firstDayOfWeek: props.firstDayOfWeek,
+    createDay,
+  });
 });
 
 function emitPanelChange() {
@@ -407,25 +347,14 @@ function onTouchEnd() {
 }
 
 function nextValue(day: CalendarDay): CalendarValue {
-  if (props.mode === CalendarMode.Multiple) {
-    const exists = selectedValues.value.includes(day.date);
-    return exists
-      ? selectedValues.value.filter(item => item !== day.date)
-      : [...selectedValues.value, day.date].sort();
-  }
-
-  if (props.mode === CalendarMode.Range) {
-    const [start, end] = selectedValues.value;
-    if (!start || end) return [day.date];
-    if (day.date < start) {
-      if (hasBlockedDateBetween(day.date, start)) return [day.date];
-      return [day.date, start];
-    }
-    if (hasBlockedDateBetween(start, day.date)) return [day.date];
-    return [start, day.date];
-  }
-
-  return day.date;
+  return resolveNextCalendarValue({
+    day,
+    mode: props.mode,
+    selectedValues: selectedValues.value,
+    minDate: props.minDate,
+    maxDate: props.maxDate,
+    disabledDates: props.disabledDates,
+  });
 }
 
 function selectDay(day: CalendarDay) {
@@ -446,49 +375,33 @@ function selectDay(day: CalendarDay) {
 }
 
 function dayClass(day: CalendarDay) {
-  return [
-    'lk-calendar__day',
-    {
-      'is-hidden': !props.showAdjacentDays && !day.isCurrentMonth,
-      'is-muted': !day.isCurrentMonth,
-      'is-week-mode': props.viewMode === CalendarViewMode.Week,
-      'is-today': day.isToday,
-      'is-selected': day.isSelected,
-      'is-in-range': day.isInRange,
-      'is-range-start': day.isRangeStart,
-      'is-range-end': day.isRangeEnd,
-      'is-range-row-start': day.isRangeRowStart,
-      'is-range-row-end': day.isRangeRowEnd,
-      'is-weekend': day.weekday === 0 || day.weekday === 6,
-      'is-disabled': day.isDisabled,
-      'has-marker': day.markers.length,
-    },
-  ];
+  return resolveCalendarDayClass({
+    day,
+    showAdjacentDays: props.showAdjacentDays,
+    viewMode: props.viewMode,
+  });
 }
 
 function dateClass(day: CalendarDay) {
-  return [
-    'lk-calendar__date',
-    {
-      'is-muted': !day.isCurrentMonth,
-      'is-disabled': day.isDisabled,
-      'is-week-mode': props.viewMode === CalendarViewMode.Week,
-      'is-weekend': day.weekday === 0 || day.weekday === 6,
-      'is-selected': day.isSelected,
-      'is-in-range': day.isInRange,
-      'is-today': day.isToday,
-    },
-  ];
+  return resolveCalendarDateClass({
+    day,
+    viewMode: props.viewMode,
+  });
 }
 
 function shouldShowMarkers(day: CalendarDay) {
-  return Boolean((props.showAdjacentDays || day.isCurrentMonth) && day.markers.length && !day.isDisabled);
+  return shouldShowCalendarMarkers({
+    day,
+    showAdjacentDays: props.showAdjacentDays,
+  });
 }
 
 function markerType(day: CalendarDay, marker: CalendarMarker) {
-  if (day.isToday && (marker.label === t('today') || marker.label === '今')) return 'dot';
-  if (day.isSelected && marker.type === 'badge') return 'dot';
-  return marker.type || 'dot';
+  return resolveCalendarMarkerType({
+    day,
+    marker,
+    todayText: t('today'),
+  });
 }
 
 watch(
