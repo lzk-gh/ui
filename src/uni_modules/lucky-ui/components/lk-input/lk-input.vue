@@ -5,6 +5,18 @@ import { formContextKey } from '../lk-form/context';
 import type { InputEventPayload, InputValue } from './input.props';
 import { inputProps, inputEmits } from './input.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
+import {
+  applyInputMaxlength,
+  hasInputValue,
+  readInputValue,
+  resolveFakeInputText,
+  resolveInputClass,
+  resolveInputCount,
+  resolveInputNativeState,
+  shouldShowPasswordToggle,
+  shouldShowSuffix,
+  shouldShowTrailingBalance,
+} from './input.utils';
 
 defineOptions({ name: 'LkInput' });
 
@@ -18,23 +30,15 @@ const inner = ref<InputValue>(props.modelValue);
 const composing = ref(false);
 const passwordVisible = ref(false);
 
-const nativeType = computed(() => (props.type === 'password' ? 'text' : props.type));
-const nativePassword = computed(() => props.type === 'password' && !passwordVisible.value);
+const nativeState = computed(() => resolveInputNativeState({
+  type: props.type,
+  passwordVisible: passwordVisible.value,
+}));
+const nativeType = computed(() => nativeState.value.nativeType);
+const nativePassword = computed(() => nativeState.value.nativePassword);
 
 const style = computed(() => props.customStyle as StyleValue);
 const isFocused = computed(() => props.focus || props.autofocus);
-
-function readInputValue(e: InputEventPayload): InputValue {
-  if (typeof e === 'object' && e !== null && 'detail' in e) {
-    const detail = e.detail as { value?: InputValue } | undefined;
-    if (detail?.value !== undefined) return detail.value;
-  }
-  if (typeof e === 'object' && e !== null && 'target' in e) {
-    const target = e.target as { value?: InputValue } | null | undefined;
-    if (target?.value !== undefined) return target.value;
-  }
-  return '';
-}
 
 function commit(val: InputValue, change = false) {
   inner.value = val;
@@ -47,10 +51,7 @@ function commit(val: InputValue, change = false) {
 }
 
 function onInput(e: InputEventPayload) {
-  let v = readInputValue(e);
-  if (props.maxlength > -1 && String(v).length > props.maxlength) {
-    v = String(v).slice(0, props.maxlength);
-  }
+  const v = applyInputMaxlength(readInputValue(e), props.maxlength);
   if (!composing.value) commit(v, false);
 }
 function onBlur(e: InputEventPayload) {
@@ -80,7 +81,7 @@ function onCompositionEnd(e: InputEventPayload) {
   onInput(e);
 }
 function clear() {
-  if (props.disabled || props.readonly || !inner.value) return;
+  if (props.disabled || props.readonly || !hasInputValue(inner.value)) return;
   commit('', true);
   emit('clear');
 }
@@ -96,46 +97,67 @@ function onFakeClick(e: unknown) {
 }
 
 const count = computed(() => {
-  if (!props.showCount && !props.showWordLimit) return '';
-  const len = String(inner.value ?? '').length;
-  return props.maxlength > -1 ? `${len}/${props.maxlength}` : `${len}`;
+  return resolveInputCount({
+    value: inner.value,
+    maxlength: props.maxlength,
+    showCount: props.showCount,
+    showWordLimit: props.showWordLimit,
+  });
 });
 
 const classes = computed(() => [
-  'lk-input',
-  `lk-input--${props.size}`,
-  {
-    'is-disabled': props.disabled,
-    'is-readonly': props.readonly,
-    'is-fake': props.fake,
-    'is-borderless': props.borderless,
-    'is-center-align': props.inputAlign === 'center',
-    'has-leading': !!props.prefixIcon,
-    'has-trailing': showTrailingBalance.value,
-    'has-count': !!count.value,
-  },
-  props.customClass,
+  ...resolveInputClass({
+    size: props.size,
+    disabled: props.disabled,
+    readonly: props.readonly,
+    fake: props.fake,
+    borderless: props.borderless,
+    inputAlign: props.inputAlign,
+    prefixIcon: props.prefixIcon,
+    trailingBalance: showTrailingBalance.value,
+    count: count.value,
+    customClass: props.customClass,
+  }),
 ]);
 
 const fakeDisplayText = computed(() => {
-  return props.fakeText || props.placeholder || '';
+  return resolveFakeInputText(props.fakeText, props.placeholder);
 });
 
 const showPasswordToggle = computed(() => {
-  return props.showPassword && props.type === 'password' && !props.disabled && !props.readonly && !props.fake;
+  return shouldShowPasswordToggle({
+    showPassword: props.showPassword,
+    type: props.type,
+    disabled: props.disabled,
+    readonly: props.readonly,
+    fake: props.fake,
+  });
 });
 
-const showSuffix = computed(() => (slots.suffix || props.suffixIcon) && !showPasswordToggle.value);
+const showSuffix = computed(() => shouldShowSuffix({
+  hasSuffixSlot: !!slots.suffix,
+  suffixIcon: props.suffixIcon,
+  showPasswordToggle: showPasswordToggle.value,
+}));
 const showTrailingBalance = computed(
-  () =>
-    props.inputAlign === 'center' &&
-    !props.prefixIcon &&
-    !slots.prefix &&
-    (showPasswordToggle.value ||
-      !!showSuffix.value ||
-      (!!inner.value && props.clearable) ||
-      !!count.value)
+  () => shouldShowTrailingBalance({
+    inputAlign: props.inputAlign,
+    prefixIcon: props.prefixIcon,
+    hasPrefixSlot: !!slots.prefix,
+    showPasswordToggle: showPasswordToggle.value,
+    showSuffix: showSuffix.value,
+    value: inner.value,
+    clearable: props.clearable,
+    count: count.value,
+  })
 );
+const showClear = computed(() => (
+  props.clearable &&
+  !props.disabled &&
+  !props.readonly &&
+  hasInputValue(inner.value) &&
+  !props.fake
+));
 
 watch(
   () => props.modelValue,
@@ -204,7 +226,7 @@ watch(
 
     <!-- 清空按钮 -->
     <view
-      v-if="clearable && !disabled && !readonly && inner && !fake"
+      v-if="showClear"
       class="lk-input__clear"
       @click.stop="clear"
     >
