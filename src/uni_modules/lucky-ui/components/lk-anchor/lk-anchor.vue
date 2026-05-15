@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { ref, provide, onMounted, onBeforeUnmount, nextTick, watch, computed } from 'vue';
 import { anchorProps } from './anchor.props';
+import {
+  normalizeAnchorTargets,
+  resolveActiveAnchorByScroll,
+  resolveAnchorProgrammaticState,
+  resolveAnchorScrollIntoViewId,
+  resolveAnchorScrollTop,
+  resolveAnchorStyle,
+  resolveAnchorTargetId,
+  resolveAnchorNumber,
+} from './anchor.utils';
+import type { AnchorTarget, AnchorTargetInput } from './anchor.utils';
 
 defineOptions({ name: 'LkAnchor' });
 const props = defineProps(anchorProps);
@@ -10,21 +21,14 @@ type AnchorChild = { props?: { href?: string } };
 const children = ref<AnchorChild[]>([]);
 const activeHref = ref('');
 const scrollIntoViewId = ref('');
-const targets = ref<{ href: string; top: number; height: number }[]>([]);
+const targets = ref<AnchorTarget[]>([]);
 const pendingTargetHref = ref('');
 const isProgrammaticScrolling = ref(false);
 
 let scrollUnlockTimer: ReturnType<typeof setTimeout> | null = null;
 let scrollSettleTimer: ReturnType<typeof setTimeout> | null = null;
 
-const anchorStyle = computed(() => {
-  const style: Record<string, string> = {};
-  if (props.bgColor) style['--lk-anchor-bg-sidebar'] = props.bgColor;
-  if (props.activeBgColor) style['--lk-anchor-bg-active'] = props.activeBgColor;
-  if (props.textColor) style['--lk-anchor-text-color'] = props.textColor;
-  if (props.activeColor) style['--lk-anchor-active-color'] = props.activeColor;
-  return style;
-});
+const anchorStyle = computed(() => resolveAnchorStyle(props));
 
 function register(child: AnchorChild) {
   children.value.push(child);
@@ -35,17 +39,8 @@ function unregister(child: AnchorChild) {
   if (idx > -1) children.value.splice(idx, 1);
 }
 
-function setTargets(nextTargets: Array<{ href: string; top: number; height?: number }>, baseScrollTop: number = 0) {
-  const normalized = (Array.isArray(nextTargets) ? nextTargets : [])
-    .map(item => ({
-      href: item.href,
-      top: Number(item.top || 0),
-      height: Number(item.height || 0),
-    }))
-    .filter(item => !!item.href)
-    .sort((a, b) => a.top - b.top);
-
-  targets.value = normalized;
+function setTargets(nextTargets: AnchorTargetInput[], baseScrollTop: number = 0) {
+  targets.value = normalizeAnchorTargets(nextTargets);
   resolveActiveByScroll(baseScrollTop);
 }
 
@@ -105,7 +100,7 @@ async function measureTargets(baseScrollTop: number = 0) {
       const rect = results[startIndex + idx];
       if (!rect) return null;
       // 核心计算公式：目标元素视口Top - 容器视口Top + 此时传入的容器已滚动距离
-      const top = (rect.top || 0) - (containerRect?.top || 0) + Number(baseScrollTop || 0);
+      const top = (rect.top || 0) - (containerRect?.top || 0) + resolveAnchorNumber(baseScrollTop);
       return { href, top, height: rect.height || 0 };
     })
     .filter((i): i is { href: string; top: number; height: number } => !!i)
@@ -118,25 +113,12 @@ async function measureTargets(baseScrollTop: number = 0) {
 }
 
 function resolveActiveByScroll(scrollTop: number, headerHeight: number = 0) {
-  if (targets.value.length === 0) return;
-  const offset = Number(props.headerOffset) + headerHeight + 10; // +10 稍微增加一点容错
-  let active = '';
-
-  for (let i = 0; i < targets.value.length; i++) {
-    const item = targets.value[i];
-    const nextItem = targets.value[i + 1];
-    if (scrollTop + offset >= item.top) {
-      if (!nextItem || scrollTop + offset < nextItem.top) {
-        active = item.href;
-        break;
-      }
-    }
-  }
-
-  // 如果没找到，且滚动条很小，默认第一个
-  if (!active && targets.value.length > 0 && scrollTop < targets.value[0].top) {
-    active = targets.value[0].href;
-  }
+  const active = resolveActiveAnchorByScroll({
+    targets: targets.value,
+    scrollTop,
+    headerOffset: props.headerOffset,
+    headerHeight,
+  });
 
   if (active && active !== activeHref.value) {
     activeHref.value = active;
@@ -145,21 +127,24 @@ function resolveActiveByScroll(scrollTop: number, headerHeight: number = 0) {
 }
 
 function resolveProgrammaticScroll(scrollTop: number, headerHeight: number = 0) {
-  if (!isProgrammaticScrolling.value || !pendingTargetHref.value) return false;
-
-  const target = targets.value.find(item => item.href === pendingTargetHref.value);
-  if (!target) {
+  const state = resolveAnchorProgrammaticState({
+    isProgrammaticScrolling: isProgrammaticScrolling.value,
+    pendingTargetHref: pendingTargetHref.value,
+    targets: targets.value,
+    scrollTop,
+    headerOffset: props.headerOffset,
+    headerHeight,
+  });
+  if (!state.handled) return false;
+  if (state.shouldFinish) {
     finishProgrammaticScroll();
     return false;
   }
 
-  const offset = Number(props.headerOffset) + headerHeight + 10;
-  const reached = scrollTop + offset >= Math.max(0, target.top - 6);
-
-  if (reached) {
-    if (activeHref.value !== target.href) {
-      activeHref.value = target.href;
-      emit('change', target.href);
+  if (state.reached) {
+    if (activeHref.value !== state.targetHref) {
+      activeHref.value = state.targetHref;
+      emit('change', state.targetHref);
     }
     clearScrollTimers();
     scrollSettleTimer = setTimeout(() => {
@@ -184,7 +169,7 @@ function onScroll(scrollTop: number, headerHeight: number = 0) {
 }
 
 function handleClick(href: string) {
-  const targetId = (href || '').replace(/^#/, '');
+  const targetId = resolveAnchorTargetId(href);
   if (!targetId) return;
 
   clearScrollTimers();
@@ -196,7 +181,7 @@ function handleClick(href: string) {
   }
   let handled = false;
   const target = targets.value.find(item => item.href === targetId);
-  const offset = Number(props.headerOffset) || 0;
+  const offset = resolveAnchorNumber(props.headerOffset);
 
   // #ifdef H5
   try {
@@ -207,7 +192,7 @@ function handleClick(href: string) {
         const measuredTop = targets.value.find(item => item.href === targetId)?.top;
         const top =
           typeof measuredTop === 'number'
-            ? Math.max(0, measuredTop - offset)
+            ? resolveAnchorScrollTop({ targetTop: measuredTop, headerOffset: offset })
             : targetElement.getBoundingClientRect().top -
               container.getBoundingClientRect().top +
               container.scrollTop;
@@ -224,7 +209,7 @@ function handleClick(href: string) {
     try {
       if (target) {
         uni.pageScrollTo({
-          scrollTop: Math.max(0, target.top - offset),
+          scrollTop: resolveAnchorScrollTop({ targetTop: target.top, headerOffset: offset }),
           duration: 300,
         });
       } else {
@@ -242,7 +227,7 @@ function handleClick(href: string) {
 }
 
 watch(activeHref, val => {
-  if (val) scrollIntoViewId.value = `anchor-link-${val}`;
+  scrollIntoViewId.value = resolveAnchorScrollIntoViewId(val);
 });
 
 watch(
