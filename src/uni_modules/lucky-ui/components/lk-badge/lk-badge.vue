@@ -2,34 +2,38 @@
 import type { StyleValue } from 'vue';
 import { computed } from 'vue';
 import { badgeEmits, badgeProps } from './badge.props';
+import {
+  resolveBadgeClass,
+  resolveBadgeClickPayload,
+  resolveBadgeDisplayValue,
+  resolveBadgeStyle,
+  shouldShowBadge,
+} from './badge.utils';
 defineOptions({ name: 'LkBadge' });
 
 const props = defineProps(badgeProps);
 const emit = defineEmits(badgeEmits);
 
-const typeBgMap: Record<string, string> = {
-  primary: 'var(--lk-color-primary)',
-  success: 'var(--lk-color-success)',
-  warning: 'var(--lk-color-warning)',
-  danger: 'var(--lk-color-danger)',
-  info: 'var(--lk-color-info)',
-};
+const displayValue = computed(() => resolveBadgeDisplayValue({
+  value: props.value,
+  max: props.max,
+  dot: props.dot,
+}));
 
-const displayValue = computed(() => {
-  if (props.dot) return '';
-  const val = props.value;
-  if (typeof val === 'number' && val > props.max) return `${props.max  }+`;
-  return val;
-});
+const visible = computed(() => shouldShowBadge({
+  hidden: props.hidden,
+  dot: props.dot,
+  value: props.value,
+}));
 
 /**
  * 小程序端优先使用直出样式，确保语义色稳定生效
  */
-const badgeStyle = computed(() => ({
-  right: `${(props.offset as [number, number])[0]}rpx`,
-  top: `${(props.offset as [number, number])[1]}rpx`,
-  color: props.color || undefined,
-  background: props.bgColor || typeBgMap[props.type] || undefined,
+const badgeStyle = computed(() => resolveBadgeStyle({
+  offset: props.offset as [number, number],
+  color: props.color,
+  bgColor: props.bgColor,
+  type: props.type,
 }));
 
 const mergedBadgeStyle = computed<StyleValue>(() => [
@@ -37,8 +41,18 @@ const mergedBadgeStyle = computed<StyleValue>(() => [
   props.customStyle as StyleValue,
 ]);
 
+const badgeClass = computed(() => resolveBadgeClass({
+  type: props.type,
+  dot: props.dot,
+  customClass: props.customClass,
+}));
+
 function onClick(event: unknown) {
-  emit('click', { value: props.value, displayValue: displayValue.value, event });
+  emit('click', resolveBadgeClickPayload({
+    value: props.value,
+    displayValue: displayValue.value,
+    event,
+  }));
 }
 </script>
 
@@ -46,9 +60,9 @@ function onClick(event: unknown) {
   <view :id="id" class="lk-badge-wrapper">
     <slot />
     <view
-      v-if="!hidden && (dot || value !== '')"
+      v-if="visible"
       class="lk-badge"
-      :class="[`lk-badge--${type}`, { 'is-dot': dot }, customClass]"
+      :class="badgeClass"
       :style="mergedBadgeStyle"
       @tap="onClick"
     >
