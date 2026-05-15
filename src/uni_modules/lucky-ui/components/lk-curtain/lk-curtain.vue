@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, useSlots } from 'vue';
 
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
@@ -6,11 +7,21 @@ import LkIcon from '../lk-icon/lk-icon.vue';
 
 import {
   useTransition,
-  type TransitionConfig,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
-import { addUnit } from '../../core/src/utils/unit';
 import { useLocale } from '../../composables/useLocale';
 import { curtainProps, curtainEmits } from './curtain.props';
+import {
+  isCurtainHttpLink,
+  resolveCurtainCloseStyle,
+  resolveCurtainContentStyle,
+  resolveCurtainCopySuccessText,
+  resolveCurtainHeight,
+  resolveCurtainRootStyle,
+  resolveCurtainTransitionConfig,
+  resolveCurtainWidth,
+  shouldCloseCurtainOnOverlay,
+  shouldNavigateCurtainLink,
+} from './curtain.utils';
 
 defineOptions({ name: 'LkCurtain' });
 
@@ -20,51 +31,36 @@ const { t } = useLocale('curtain');
 
 const slots = useSlots();
 
-const widthStr = computed(() => addUnit(props.width));
-const heightStr = computed(() => addUnit(props.height));
-const closeOffsetStr = computed(() => addUnit(props.closeOffset) || 'var(--lk-rpx-24)');
-const closeOffsetBottomStr = computed(() => addUnit(props.closeOffsetBottom) || 'var(--lk-rpx-36)');
+const widthStr = computed(() => resolveCurtainWidth(props.width));
+const heightStr = computed(() => resolveCurtainHeight(props.height));
 const hasDefaultSlot = computed(() => !!slots.default);
-const resolvedCopySuccessText = computed(() => props.copySuccessText || t('copySuccess'));
-const rootStyle = computed<(string | Record<string, string | number>)[]>(() => [
-  (props.customStyle || '') as string,
-  {
-    zIndex: props.zIndex,
-    pointerEvents: props.show ? 'auto' : 'none',
-  },
-]);
+const resolvedCopySuccessText = computed(() => resolveCurtainCopySuccessText({
+  copySuccessText: props.copySuccessText,
+  fallback: t('copySuccess'),
+}));
+const rootStyle = computed(() => resolveCurtainRootStyle({
+  customStyle: props.customStyle as StyleValue,
+  zIndex: props.zIndex,
+  show: props.show,
+}));
 
 const contentStyle = computed(() => {
-  return {
+  return resolveCurtainContentStyle({
     zIndex: props.zIndex + 1,
     width: widthStr.value,
     height: heightStr.value,
-  };
+  });
 });
 
 const closeStyle = computed(() => {
-  const offset = ensureNegativeOffset(
-    props.closePosition === 'bottom' ? closeOffsetBottomStr.value : closeOffsetStr.value
-  );
-
-  if (props.closePosition === 'bottom') {
-    return { bottom: offset };
-  }
-
-  const styles: Record<string, string> = {};
-  if (props.closePosition.includes('top')) styles.top = offset;
-  if (props.closePosition.includes('bottom')) styles.bottom = offset;
-  if (props.closePosition.includes('left')) styles.left = offset;
-  if (props.closePosition.includes('right')) styles.right = offset;
-
-  return styles;
+  return resolveCurtainCloseStyle({
+    closePosition: props.closePosition,
+    closeOffset: props.closeOffset,
+    closeOffsetBottom: props.closeOffsetBottom,
+  });
 });
 
-const transitionConfig = computed<TransitionConfig>(() => ({
-  name: 'zoom-in',
-  duration: 220,
-  easing: 'ease-out',
-}));
+const transitionConfig = computed(() => resolveCurtainTransitionConfig());
 
 const {
   classes: contentClasses,
@@ -72,19 +68,9 @@ const {
   display,
 } = useTransition(() => props.show, transitionConfig.value);
 
-function ensureNegativeOffset(value: string) {
-  // 移除可能存在的单位，转换为数值
-  const num = parseFloat(value);
-  const unit = value.replace(num.toString(), '');
-
-  // 确保偏移值是负数，这样关闭按钮才会溢出到内容区域外
-  const offset = Math.abs(num);
-  return `-${offset}${unit || 'rpx'}`;
-}
-
 function onOverlayClick() {
   emit('click-overlay');
-  if (props.closeOnClickOverlay) {
+  if (shouldCloseCurtainOnOverlay(props.closeOnClickOverlay)) {
     onClose();
   }
 }
@@ -96,9 +82,9 @@ function onClose() {
 
 function onClick() {
   emit('click');
-  if (!props.link) return;
+  if (!shouldNavigateCurtainLink(props.link)) return;
 
-  const isHttp = /^https?:\/\//.test(props.link);
+  const isHttp = isCurtainHttpLink(props.link);
 
   // #ifdef H5
   if (isHttp) {
