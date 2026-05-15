@@ -20,55 +20,30 @@ import {
   ref,
   watch,
   type CSSProperties,
+  type StyleValue,
 } from 'vue';
 import { waterfallProps, waterfallEmits } from './waterfall.props';
-import type { WaterfallItem, PlacedCard, WaterfallLoadingState } from './waterfall.props';
+import type { PlacedCard, WaterfallLoadingState } from './waterfall.props';
+import {
+  extractWaterfallScrollTop,
+  placeWaterfallCards,
+  resolveWaterfallCardStyle,
+  resolveWaterfallClass,
+  resolveWaterfallColumnStyle,
+  resolveWaterfallColumnWidth,
+  resolveWaterfallContainerStyle,
+  resolveWaterfallContentStyle,
+  resolveWaterfallFooterStyle,
+  resolveWaterfallPx,
+  resolveWaterfallRightColumnLeft,
+  resolveWaterfallSkeletonPadding,
+  resolveWaterfallTotalHeight,
+  resolveWaterfallUnit,
+  shouldWaterfallLoadMore,
+} from './waterfall.utils';
 
 const props = defineProps(waterfallProps);
 const emit = defineEmits(waterfallEmits);
-
-// ======================== 工具函数 ========================
-
-/**
- * 单位转换: rpx/px/number -> px
- */
-function toPx(val: string | number | undefined, fallback = 0): number {
-  if (val === undefined || val === null) return fallback;
-  if (typeof val === 'number') return val;
-  const v = String(val).trim();
-  if (v === '100vh') {
-    const sys = uni.getSystemInfoSync?.();
-    return sys?.windowHeight || 600;
-  }
-  if (v.endsWith('%')) {
-    const percent = parseFloat(v);
-    if (!isNaN(percent)) {
-      const sys = uni.getSystemInfoSync?.();
-      const base = containerHeight.value || sys?.windowHeight || 600;
-      return (base * percent) / 100;
-    }
-  }
-  if (v.endsWith('rpx') || v.endsWith('upx')) {
-    const n = parseFloat(v);
-    return typeof uni !== 'undefined' && uni.upx2px ? uni.upx2px(n) : n / 2;
-  }
-  if (v.endsWith('px')) return parseFloat(v);
-  if (v.endsWith('vh')) {
-    const sys = uni.getSystemInfoSync?.();
-    return ((sys?.windowHeight || 600) * parseFloat(v)) / 100;
-  }
-  const num = parseFloat(v);
-  return isNaN(num) ? fallback : num;
-}
-
-/**
- * 添加单位
- */
-function addUnit(val: string | number | undefined, unit = 'px'): string {
-  if (val === undefined || val === null) return '';
-  if (typeof val === 'string') return val;
-  return `${val}${unit}`;
-}
 
 // ======================== 响应式状态 ========================
 
@@ -99,52 +74,54 @@ const imageLoadTimers = new Map<string | number, ReturnType<typeof setTimeout>>(
 
 // ======================== 计算属性 ========================
 
-const gutterPx = computed(() => toPx(props.gutter, 16));
-const rowGapPx = computed(() => toPx(props.rowGap, 16));
-const paddingXPx = computed(() => toPx(props.paddingX, 16));
-const paddingYPx = computed(() => toPx(props.paddingY, 16));
-const heightPx = computed(() => toPx(props.height, 600));
-const cardRadiusPx = computed(() => toPx(props.cardRadius, 16));
+function getSystemInfo() {
+  return uni.getSystemInfoSync?.();
+}
+
+function upx2px(value: number) {
+  return typeof uni !== 'undefined' && uni.upx2px ? uni.upx2px(value) : value / 2;
+}
+
+const unitContext = computed(() => ({
+  systemInfo: getSystemInfo(),
+  containerHeight: containerHeight.value,
+  upx2px,
+}));
+
+const gutterPx = computed(() => resolveWaterfallPx(props.gutter, 16, unitContext.value));
+const rowGapPx = computed(() => resolveWaterfallPx(props.rowGap, 16, unitContext.value));
+const paddingXPx = computed(() => resolveWaterfallPx(props.paddingX, 16, unitContext.value));
+const paddingYPx = computed(() => resolveWaterfallPx(props.paddingY, 16, unitContext.value));
+const heightPx = computed(() => resolveWaterfallPx(props.height, 600, unitContext.value));
+const cardRadiusPx = computed(() => resolveWaterfallPx(props.cardRadius, 16, unitContext.value));
 
 /** 单列宽度 */
 const columnWidth = computed(() => {
-  const availableWidth = containerWidth.value - paddingXPx.value * 2 - gutterPx.value;
-  return Math.max(0, availableWidth / 2);
+  return resolveWaterfallColumnWidth({
+    containerWidth: containerWidth.value,
+    paddingX: paddingXPx.value,
+    gutter: gutterPx.value,
+  });
 });
 
 /** 右列左边距 */
-const rightColumnLeft = computed(() => paddingXPx.value + columnWidth.value + gutterPx.value);
+const rightColumnLeft = computed(() =>
+  resolveWaterfallRightColumnLeft({
+    paddingX: paddingXPx.value,
+    columnWidth: columnWidth.value,
+    gutter: gutterPx.value,
+  })
+);
 
 /** 总高度 */
 const totalHeight = computed(
-  () => Math.max(leftHeight.value, rightHeight.value) + paddingYPx.value
+  () =>
+    resolveWaterfallTotalHeight({
+      leftHeight: leftHeight.value,
+      rightHeight: rightHeight.value,
+      paddingY: paddingYPx.value,
+    })
 );
-
-// ======================== 高度计算 ========================
-
-/**
- * 计算卡片高度 (同步计算，基于 ratio)
- */
-function calculateCardHeight(item: WaterfallItem): number {
-  const colWidth = columnWidth.value;
-  if (colWidth <= 0) return props.estimateHeight;
-
-  // 1. 优先使用 ratio (最可靠)
-  if (item.ratio && item.ratio > 0) {
-    const imageHeight = colWidth * item.ratio;
-    return Math.round(imageHeight + (item.extraHeight ?? props.defaultExtraHeight));
-  }
-
-  // 2. 使用预设的宽高
-  if (item.imageWidth && item.imageHeight && item.imageWidth > 0 && item.imageHeight > 0) {
-    const scale = colWidth / item.imageWidth;
-    const imageHeight = item.imageHeight * scale;
-    return Math.round(imageHeight + (item.extraHeight ?? props.defaultExtraHeight));
-  }
-
-  // 3. 降级使用估算高度
-  return props.estimateHeight;
-}
 
 // ======================== 贪心布局算法 ========================
 
@@ -158,40 +135,26 @@ function processNewItems() {
 
   isProcessing.value = true;
 
-  const startIndex = processedIndex.value;
-  const items = props.items;
+  const result = placeWaterfallCards({
+    items: props.items,
+    startIndex: processedIndex.value,
+    leftHeight: leftHeight.value,
+    rightHeight: rightHeight.value,
+    paddingX: paddingXPx.value,
+    rightColumnLeft: rightColumnLeft.value,
+    columnWidth: columnWidth.value,
+    rowGap: rowGapPx.value,
+    estimateHeight: props.estimateHeight,
+    defaultExtraHeight: props.defaultExtraHeight,
+  });
 
-  // 同步处理所有新增项
-  for (let i = startIndex; i < items.length; i++) {
-    const item = items[i];
-    const height = calculateCardHeight(item);
-
-    // 贪心算法: 放入较短的列
-    const isLeft = leftHeight.value <= rightHeight.value;
-
-    const card: PlacedCard = {
-      index: i,
-      id: item.id ?? i,
-      column: isLeft ? 0 : 1,
-      top: isLeft ? leftHeight.value : rightHeight.value,
-      left: isLeft ? paddingXPx.value : rightColumnLeft.value,
-      width: columnWidth.value,
-      height,
-      loadingState: item.image ? 'loading' : 'loaded',
-      item,
-    };
-
+  result.cards.forEach(card => {
     cardList.value.push(card);
     scheduleImageLoadTimeout(card);
-
-    if (isLeft) {
-      leftHeight.value += height + rowGapPx.value;
-    } else {
-      rightHeight.value += height + rowGapPx.value;
-    }
-
-    processedIndex.value = i + 1;
-  }
+  });
+  leftHeight.value = result.leftHeight;
+  rightHeight.value = result.rightHeight;
+  processedIndex.value = result.processedIndex;
 
   isProcessing.value = false;
   isReady.value = true;
@@ -212,8 +175,7 @@ function resetLayout() {
 // ======================== 事件处理 ========================
 
 function onScroll(e: { detail?: { scrollTop?: number }; scrollTop?: number }) {
-  const detail = e.detail || e;
-  scrollTop.value = detail.scrollTop || 0;
+  scrollTop.value = extractWaterfallScrollTop(e);
 
   emit('scroll', {
     scrollTop: scrollTop.value,
@@ -221,8 +183,12 @@ function onScroll(e: { detail?: { scrollTop?: number }; scrollTop?: number }) {
   });
 
   // 检查是否需要加载更多
-  const remainingHeight = totalHeight.value - scrollTop.value - heightPx.value;
-  if (remainingHeight < props.lowerThreshold) {
+  if (shouldWaterfallLoadMore({
+    totalHeight: totalHeight.value,
+    scrollTop: scrollTop.value,
+    viewportHeight: heightPx.value,
+    lowerThreshold: props.lowerThreshold,
+  })) {
     emit('load-more');
   }
 }
@@ -350,34 +316,47 @@ watch(columnWidth, (newWidth, oldWidth) => {
 
 // ======================== 样式计算 ========================
 
-const containerStyle = computed<CSSProperties>(() => ({
-  height: addUnit(heightPx.value),
-}));
+const rootClass = computed(() => resolveWaterfallClass(props.customClass));
 
-const contentStyle = computed<CSSProperties>(() => ({
-  position: 'relative',
-  minHeight: addUnit(totalHeight.value),
-}));
+const containerStyle = computed<StyleValue>(() =>
+  resolveWaterfallContainerStyle({
+    heightPx: heightPx.value,
+    customStyle: props.customStyle,
+  })
+);
 
-const columnStyle = computed<CSSProperties>(() => ({
-  width: addUnit(columnWidth.value),
-}));
+const contentStyle = computed<CSSProperties>(() => resolveWaterfallContentStyle(totalHeight.value));
+
+const columnStyle = computed<CSSProperties>(() => resolveWaterfallColumnStyle(columnWidth.value));
+
+const skeletonPaddingStyle = computed<CSSProperties>(() =>
+  resolveWaterfallSkeletonPadding({
+    paddingY: paddingYPx.value,
+    paddingX: paddingXPx.value,
+  })
+);
+
+const footerStyle = computed<CSSProperties>(() =>
+  resolveWaterfallFooterStyle({
+    totalHeight: totalHeight.value,
+    paddingY: paddingYPx.value,
+  })
+);
 
 /** 获取卡片的绝对定位样式 */
 function getCardStyle(card: PlacedCard): CSSProperties {
-  return {
-    position: 'absolute',
-    top: addUnit(card.top),
-    left: addUnit(card.left ?? 0),
-    width: addUnit(card.width),
-    height: addUnit(card.height),
-    borderRadius: addUnit(cardRadiusPx.value),
-  };
+  return resolveWaterfallCardStyle({
+    top: card.top,
+    left: card.left,
+    width: card.width,
+    height: card.height,
+    cardRadius: cardRadiusPx.value,
+  });
 }
 </script>
 
 <template>
-  <view :id="rootId" class="lk-waterfall" :style="containerStyle">
+  <view :id="rootId" :class="rootClass" :style="containerStyle">
     <scroll-view
       class="lk-waterfall__scroll"
       scroll-y
@@ -396,7 +375,7 @@ function getCardStyle(card: PlacedCard): CSSProperties {
       <view
         v-if="showSkeleton && !isReady"
         class="lk-waterfall__init-skeleton"
-        :style="{ padding: `${addUnit(paddingYPx)} ${addUnit(paddingXPx)}` }"
+        :style="skeletonPaddingStyle"
       >
         <view class="lk-waterfall__columns">
           <view class="lk-waterfall__column" :style="columnStyle">
@@ -406,8 +385,8 @@ function getCardStyle(card: PlacedCard): CSSProperties {
               class="lk-waterfall__skeleton-card"
               :style="{
                 height: `${180 + i * 40}px`,
-                borderRadius: addUnit(cardRadiusPx),
-                marginBottom: addUnit(rowGapPx),
+                borderRadius: resolveWaterfallUnit(cardRadiusPx),
+                marginBottom: resolveWaterfallUnit(rowGapPx),
               }"
             >
               <lk-skeleton
@@ -438,8 +417,8 @@ function getCardStyle(card: PlacedCard): CSSProperties {
               class="lk-waterfall__skeleton-card"
               :style="{
                 height: `${220 + i * 30}px`,
-                borderRadius: addUnit(cardRadiusPx),
-                marginBottom: addUnit(rowGapPx),
+                borderRadius: resolveWaterfallUnit(cardRadiusPx),
+                marginBottom: resolveWaterfallUnit(rowGapPx),
               }"
             >
               <lk-skeleton
@@ -518,12 +497,7 @@ function getCardStyle(card: PlacedCard): CSSProperties {
         <view
           v-if="cardList.length > 0"
           class="lk-waterfall__footer"
-          :style="{
-            position: 'absolute',
-            top: addUnit(totalHeight - paddingYPx),
-            left: 0,
-            right: 0,
-          }"
+          :style="footerStyle"
         >
           <slot name="loading">
             <view class="lk-waterfall__loading">

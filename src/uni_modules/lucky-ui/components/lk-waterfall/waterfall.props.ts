@@ -17,8 +17,13 @@ export interface WaterfallItem {
   ratio?: number;
   /** 额外高度 (如卡片标题区域) */
   extraHeight?: number;
+  title?: string;
+  author?: string;
+  avatarColor?: string;
+  likes?: number;
+  tag?: string;
   /** 任意扩展字段 */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
