@@ -4,6 +4,16 @@ import { gridEmits, gridProps, type GridItem } from './grid.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import {
+  paginateGridItems,
+  resolveGridClickResult,
+  resolveGridContainerClass,
+  resolveGridGap,
+  resolveGridInnerGapStyle,
+  resolveGridItemClass,
+  resolveGridItemStyle,
+  resolveGridStyle,
+} from './grid.utils';
 
 defineOptions({ name: 'LkGrid' });
 
@@ -14,57 +24,31 @@ const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<string | number>(-1);
 
 // 间距统一使用 rpx，确保跨端一致
-const gapValue = computed(() => (props.gap !== undefined ? props.gap : 12));
+const gapValue = computed(() => resolveGridGap(props.gap));
 
-const gridStyle = computed(() => {
-  const gap = gapValue.value;
-  return {
-    gridTemplateColumns: props.columns
-      ? `repeat(${props.columns}, 1fr)`
-      : 'repeat(auto-fill, minmax(100px, 1fr))',
-    // 容器使用负 margin 补偿子项的 margin，替代 gap
-    margin: `0 -${gap / 2}rpx -${gap}rpx -${gap / 2}rpx`,
-  };
-});
+const gridStyle = computed(() => resolveGridStyle({
+  columns: props.columns,
+  gap: gapValue.value,
+}));
 
-const itemStyle = computed(() => {
-  const gap = gapValue.value;
-  return {
-    margin: `0 ${gap / 2}rpx ${gap}rpx ${gap / 2}rpx`,
-  };
-});
+const itemStyle = computed(() => resolveGridItemStyle(gapValue.value));
 
-const innerGapStyle = computed(() => {
-  return {
-    marginTop: `${props.itemGap || 8}rpx`,
-  };
-});
+const innerGapStyle = computed(() => resolveGridInnerGapStyle(props.itemGap));
 
-const containerClass = computed(() => ['lk-grid-container', { 'is-clipped': props.clip }]);
+const containerClass = computed(() => resolveGridContainerClass(props.clip));
 
 // 计算分页：当启用 carousel 时按 (columns * rows) 分页
-const pages = computed(() => {
-  const list = props.items || [];
-  const cols = props.columns || 1;
-  const rows = props.rows || 1;
-  const perPage = Math.max(1, cols * rows);
-  const res: (typeof list)[] = [];
-  for (let i = 0; i < list.length; i += perPage) {
-    res.push(list.slice(i, i + perPage));
-  }
-  return res;
-});
+const pages = computed(() => paginateGridItems(props.items || [], props.columns, props.rows));
 
 function onItemClick(item: GridItem, index: number, pageIndex: number = 0, event?: unknown) {
-  // Generate unique key for grid item
-  const uniqueKey = `${pageIndex}-${index}`;
-  activeIndex.value = uniqueKey;
-  if (item.disabled) {
-    emit('click-disabled', { item, index, pageIndex, event });
+  const result = resolveGridClickResult({ item, index, pageIndex, event });
+  activeIndex.value = result.activeIndex;
+  if (result.eventName === 'click-disabled') {
+    emit('click-disabled', result.payload);
     return;
   }
   triggerRipple(event);
-  emit('click', { item, index, pageIndex, event });
+  emit('click', result.payload);
 }
 
 function onPageChange(index: number, oldIndex?: number) {
@@ -88,10 +72,13 @@ function onPageChange(index: number, oldIndex?: number) {
           v-for="(it, idx) in page"
           :key="idx"
           class="lk-grid__item lk-ripple"
-          :class="{
-            'lk-ripple--active': rippleActive && activeIndex === `${pageIndex}-${idx}`,
-            'is-disabled': it.disabled,
-          }"
+          :class="resolveGridItemClass({
+            rippleActive,
+            activeIndex,
+            pageIndex: Number(pageIndex),
+            index: Number(idx),
+            disabled: it.disabled,
+          })"
           :style="itemStyle"
           @tap="onItemClick(it, Number(idx), Number(pageIndex), $event)"
         >
@@ -110,10 +97,13 @@ function onPageChange(index: number, oldIndex?: number) {
           v-for="(item, index) in items"
           :key="index"
           class="lk-grid__item lk-ripple"
-          :class="{
-            'lk-ripple--active': rippleActive && activeIndex === `0-${index}`,
-            'is-disabled': item.disabled,
-          }"
+          :class="resolveGridItemClass({
+            rippleActive,
+            activeIndex,
+            pageIndex: 0,
+            index,
+            disabled: item.disabled,
+          })"
           :style="itemStyle"
           @tap="onItemClick(item, index, 0, $event)"
         >
