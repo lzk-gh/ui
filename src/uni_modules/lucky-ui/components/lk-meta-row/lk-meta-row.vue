@@ -1,46 +1,39 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 import { metaRowProps } from './meta-row.props';
+import {
+  resolveMetaRowClass,
+  resolveMetaRowRootStyle,
+  resolveMetaRowSideStyle,
+  resolveMetaRowStyleVars,
+} from './meta-row.utils';
 
 defineOptions({ name: 'LkMetaRow' });
 
 const props = defineProps(metaRowProps);
 
-const cls = computed(() => [
-  'lk-meta-row',
-  `lk-meta-row--${props.align}`,
-  props.customClass,
-]);
-
-const styleVars = computed(() => ({
-  '--lk-meta-row-gap': addUnit(props.gap),
-  '--lk-meta-row-main-gap': addUnit(props.mainGap),
+const cls = computed(() => resolveMetaRowClass({
+  align: props.align,
+  customClass: props.customClass,
 }));
 
-const startStyle = computed(() => ({
-  width: addUnit(props.startWidth),
-  minWidth: addUnit(props.startWidth),
+const styleVars = computed(() => resolveMetaRowStyleVars({
+  gap: props.gap,
+  mainGap: props.mainGap,
 }));
 
-const endStyle = computed(() => ({
-  width: addUnit(props.endWidth),
-  minWidth: addUnit(props.endWidth),
-}));
+const startStyle = computed(() => resolveMetaRowSideStyle(props.startWidth));
 
-const customStyleResolved = computed(() => {
-  if (typeof props.customStyle === 'string') {
-    return props.customStyle;
-  }
-  if (props.customStyle && typeof props.customStyle === 'object') {
-    return props.customStyle as Record<string, string | number>;
-  }
-  return undefined;
-});
+const endStyle = computed(() => resolveMetaRowSideStyle(props.endWidth));
+
+const rootStyle = computed(() => resolveMetaRowRootStyle({
+  styleVars: styleVars.value,
+  customStyle: props.customStyle,
+}));
 </script>
 
 <template>
-  <view :id="id" :class="cls" :style="[styleVars, customStyleResolved]">
+  <view :id="id" :class="cls" :style="rootStyle">
     <view class="lk-meta-row__start" :style="startStyle">
       <slot name="start" />
     </view>
