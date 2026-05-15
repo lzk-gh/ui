@@ -2,6 +2,20 @@
 import { computed, inject, useSlots, type ComputedRef } from 'vue';
 import { timelineItemProps } from './timeline-item.props';
 import type { TimelineDirection, TimelineDotVariant, TimelineLineVariant, TimelineLineMode } from './timeline.props';
+import {
+  defaultTimelineContext,
+  hasTimelineLeftContent,
+  isTimelineItemActive,
+  resolveTimelineAccentColor,
+  resolveTimelineDisplayNumber,
+  resolveTimelineInheritedValue,
+  resolveTimelineItemClass,
+  resolveTimelineItemState,
+  resolveTimelineItemStyle,
+  resolveTimelineLineAnimated,
+  resolveTimelineLineClass,
+  resolveTimelineTrackClass,
+} from './timeline.utils';
 
 defineOptions({ name: 'LkTimelineItem' });
 
@@ -26,73 +40,80 @@ const injectedRaw = inject<ComputedRef<TimelineCtx>>(
 );
 const ctx = computed<TimelineCtx>(
   () =>
-    injectedRaw?.value ?? {
-      direction: 'vertical',
-      total: 4,
-      showLine: true,
-      activeIndex: -1,
-      dotVariant: 'filled',
-      lineVariant: 'solid',
-      lineMode: 'normal',
-      lineAnimated: false,
-    }
+    injectedRaw?.value ?? defaultTimelineContext
 );
 
-const isActive = computed(
-  () =>
-    props.status === 'active' ||
-    (props.index >= 0 && props.index === ctx.value.activeIndex)
-);
-const isCompleted = computed(() => props.status === 'completed');
-const isPending = computed(() => props.status === 'pending');
-const isError = computed(() => props.status === 'error');
+const isActive = computed(() => isTimelineItemActive({
+  status: props.status,
+  index: props.index,
+  activeIndex: ctx.value.activeIndex,
+}));
+const state = computed(() => resolveTimelineItemState(props.status));
+const isCompleted = computed(() => state.value.completed);
+const isPending = computed(() => state.value.pending);
+const isError = computed(() => state.value.error);
 const isHorizontal = computed(() => ctx.value.direction === 'horizontal');
 
 // 节点样式优先用 item 自身的，否则继承父级
-const dotVariant = computed(() => props.dotVariant || ctx.value.dotVariant || 'filled');
+const dotVariant = computed(() => resolveTimelineInheritedValue(
+  props.dotVariant as TimelineDotVariant | '',
+  ctx.value.dotVariant,
+  'filled'
+));
 
 // 线轴样式优先用 item 自身的，否则继承父级
-const lineVariant = computed(() => (props.lineVariant as TimelineLineVariant) || ctx.value.lineVariant || 'solid');
-const lineMode = computed(() => (props.lineMode as TimelineLineMode) || ctx.value.lineMode || 'normal');
-const lineAnimated = computed(() => (props.lineAnimated !== undefined ? props.lineAnimated : ctx.value.lineAnimated));
+const lineVariant = computed(() => resolveTimelineInheritedValue(
+  props.lineVariant as TimelineLineVariant | '',
+  ctx.value.lineVariant,
+  'solid'
+));
+const lineMode = computed(() => resolveTimelineInheritedValue(
+  props.lineMode as TimelineLineMode | '',
+  ctx.value.lineMode,
+  'normal'
+));
+const lineAnimated = computed(() => resolveTimelineLineAnimated(
+  props.lineAnimated,
+  ctx.value.lineAnimated
+));
 
 // 节点显示数字（numbered 时）
-const displayNumber = computed(() => (props.index >= 0 ? props.index + 1 : ''));
+const displayNumber = computed(() => resolveTimelineDisplayNumber(props.index));
 
 // 品牌色统一：所有状态均使用 primary，pending 在 SCSS 层降透明
-const accentColor = computed(() => {
-  if (props.color) return props.color;
-  return 'var(--lk-color-primary, #007aff)';
-});
+const accentColor = computed(() => resolveTimelineAccentColor(props.color));
 
 // 是否显示左侧列（有 left 插槽或 time/date prop）
-const hasLeft = computed(() => !!(slots.left || props.time || props.date));
-
-const itemClass = computed(() => [
-  'lk-timeline-item',
-  isHorizontal.value ? 'lk-timeline-item--horizontal' : 'lk-timeline-item--vertical',
-  hasLeft.value && 'has-left',
-  isActive.value && 'is-active',
-  isCompleted.value && 'is-completed',
-  isPending.value && 'is-pending',
-  isError.value && 'is-error',
-]);
-
-const trackClass = computed(() => ({
-  'is-last': props.last || !ctx.value.showLine,
+const hasLeft = computed(() => hasTimelineLeftContent({
+  hasLeftSlot: !!slots.left,
+  time: props.time,
+  date: props.date,
 }));
 
-const lineClass = computed(() => [
-  'lk-timeline-item__line',
-  `is-${lineVariant.value}`,
-  `is-${lineMode.value}`,
-  lineAnimated.value && 'is-animated',
-]);
+const itemClass = computed(() => resolveTimelineItemClass({
+  horizontal: isHorizontal.value,
+  hasLeft: hasLeft.value,
+  active: isActive.value,
+  completed: isCompleted.value,
+  pending: isPending.value,
+  error: isError.value,
+}));
 
-const itemStyle = computed(() => ({
-  '--lk-ti-accent': accentColor.value,
-  '--lk-ti-index': props.index >= 0 ? props.index : 0,
-  '--lk-ti-total': ctx.value.total,
+const trackClass = computed(() => resolveTimelineTrackClass({
+  last: props.last,
+  showLine: ctx.value.showLine,
+}));
+
+const lineClass = computed(() => resolveTimelineLineClass({
+  lineVariant: lineVariant.value,
+  lineMode: lineMode.value,
+  lineAnimated: lineAnimated.value,
+}));
+
+const itemStyle = computed(() => resolveTimelineItemStyle({
+  accentColor: accentColor.value,
+  index: props.index,
+  total: ctx.value.total,
 }));
 
 function onTap(ev: Event) {

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
 import { timelineProps } from './timeline.props';
+import { resolveTimelineContext, resolveTimelineRootClass } from './timeline.utils';
 
 defineOptions({ name: 'LkTimeline' });
 
 const props = defineProps(timelineProps);
 
-const ctx = computed(() => ({
+const ctx = computed(() => resolveTimelineContext({
   direction: props.direction,
   total: props.total,
   showLine: props.showLine,
@@ -19,10 +20,7 @@ const ctx = computed(() => ({
 
 provide('LkTimelineCtx', ctx);
 
-const rootClass = computed(() => [
-  'lk-timeline',
-  `lk-timeline--${props.direction}`,
-]);
+const rootClass = computed(() => resolveTimelineRootClass(props.direction));
 </script>
 
 <template>
