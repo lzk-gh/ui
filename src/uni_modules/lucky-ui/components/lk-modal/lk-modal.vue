@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import LkButton from '../lk-button/lk-button.vue';
@@ -7,10 +7,23 @@ import { modalProps, modalEmits } from './modal.props';
 import { useLocale } from '../../composables/useLocale';
 import {
   useTransition,
-  ANIMATION_PRESETS,
   type TransitionConfig,
-  type TransitionName,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
+import {
+  canTriggerModalAction,
+  resolveModalFooterClass,
+  resolveModalHeaderClass,
+  resolveModalPanelStyle,
+  resolveModalRootStyle,
+  resolveModalText,
+  resolveModalTransitionConfig,
+  resolveModalTransitionDelay,
+  resolveModalTransitionDuration,
+  resolveModalTransitionEasing,
+  resolveModalTransitionName,
+  shouldCloseModalOnOverlay,
+  shouldModalHeaderRender,
+} from './modal.utils';
 
 defineOptions({ name: 'LkModal' });
 
@@ -18,52 +31,49 @@ const props = defineProps(modalProps);
 
 const emit = defineEmits(modalEmits);
 const { t } = useLocale('modal');
+const slots = useSlots();
 
-const resolvedConfirmText = computed(() => props.confirmText || t('confirm'));
-const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
+const resolvedConfirmText = computed(() => resolveModalText({
+  value: props.confirmText,
+  fallback: t('confirm'),
+}));
+const resolvedCancelText = computed(() => resolveModalText({
+  value: props.cancelText,
+  fallback: t('cancel'),
+}));
 
 // ==================== 动画配置计算 ====================
 const transitionConfig = computed<TransitionConfig>(() => {
-  // 如果传了 animationType，则完全自定义
-  if (props.animationType) {
-    return {
-      name: props.animationType,
-      duration: props.duration,
-      delay: props.delay,
-      easing: props.easing,
-    };
-  }
-
-  // 否则走预设
-  const preset = ANIMATION_PRESETS[props.animation] || ANIMATION_PRESETS.scale;
-  return {
-    name: preset.animation,
-    duration: props.duration ?? preset.duration,
-    delay: props.delay ?? preset.delay ?? 0,
-    easing: props.easing ?? preset.easing,
-  };
+  return resolveModalTransitionConfig({
+    animationType: props.animationType,
+    animation: props.animation,
+    duration: props.duration,
+    delay: props.delay,
+    easing: props.easing,
+  });
 });
 
-const transitionName = computed<TransitionName>(() => {
-  const name = transitionConfig.value.name;
-  if (typeof name === 'string') return name as TransitionName;
-  return 'fade';
-});
+const transitionName = computed(() => resolveModalTransitionName(transitionConfig.value));
 
-const transitionDuration = computed<number>(() => {
-  const duration = transitionConfig.value.duration;
-  return typeof duration === 'number' ? duration : 300;
-});
+const transitionDuration = computed<number>(() =>
+  resolveModalTransitionDuration(transitionConfig.value)
+);
 
-const transitionDelay = computed<number>(() => {
-  const delay = transitionConfig.value.delay;
-  return typeof delay === 'number' ? delay : 0;
-});
+const transitionDelay = computed<number>(() => resolveModalTransitionDelay(transitionConfig.value));
 
-const transitionEasing = computed<string>(() => {
-  const easing = transitionConfig.value.easing;
-  return typeof easing === 'string' ? easing : 'ease';
-});
+const transitionEasing = computed<string>(() => resolveModalTransitionEasing(transitionConfig.value));
+
+const rootStyle = computed(() => resolveModalRootStyle(props.zIndex));
+const panelStyle = computed(() => resolveModalPanelStyle({
+  transitionStyles: transitionStyles.value,
+  width: props.width,
+}));
+const showResolvedHeader = computed(() => shouldModalHeaderRender({
+  showHeader: props.showHeader,
+  title: props.title,
+  showClose: props.showClose,
+  hasHeaderSlot: !!slots.header,
+}));
 
 // ==================== useTransition ====================
 const {
@@ -90,19 +100,22 @@ const {
 // ==================== 关闭逻辑 ====================
 function close() {
   // 如果正在离开，直接返回（防止重复触发）
-  if (state.value.leaving) return;
+  if (!canTriggerModalAction(state.value.leaving)) return;
   emit('update:modelValue', false);
 }
 
 function confirm() {
-  if (state.value.leaving) return;
+  if (!canTriggerModalAction(state.value.leaving)) return;
   emit('confirm');
   emit('update:modelValue', false);
 }
 
 function onOverlayClick() {
   emit('click-overlay');
-  if (props.closeOnOverlay) close();
+  if (shouldCloseModalOnOverlay({
+    leaving: state.value.leaving,
+    closeOnOverlay: props.closeOnOverlay,
+  })) close();
 }
 
 function cancel() {
@@ -127,17 +140,17 @@ function onCloseClick() {
   />
 
   <!-- 模态框主体：动画容器 -->
-  <view v-if="display" class="lk-modal" :style="{ zIndex: zIndex + 1 }">
+  <view v-if="display" class="lk-modal" :style="rootStyle">
     <view
       class="lk-modal__panel"
       :class="transitionClasses"
-      :style="{ ...transitionStyles, width }"
+      :style="panelStyle"
     >
       <!-- Header -->
       <view
-        v-if="showHeader && (title || showClose || $slots.header)"
+        v-if="showResolvedHeader"
         class="lk-modal__header"
-        :class="[`is-title-${titleAlign}`]"
+        :class="resolveModalHeaderClass(titleAlign)"
       >
         <slot name="header">
           <text class="lk-modal__title">{{ title }}</text>
@@ -154,7 +167,7 @@ function onCloseClick() {
       <view
         v-if="showFooter"
         class="lk-modal__footer"
-        :class="[`is-footer-${footerType}`, { 'has-cancel': showCancel }]"
+        :class="resolveModalFooterClass({ footerType, showCancel })"
       >
         <slot name="footer">
           <template v-if="footerType === 'button'">
