@@ -4,6 +4,7 @@ import LkTabs from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tabs.vue';
 import LkTabPane from '@/uni_modules/lucky-ui/components/lk-tabs/lk-tab-pane.vue';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.vue';
+import type { TabsValue } from '@/uni_modules/lucky-ui/components/lk-tabs/tabs.props';
 
 // ── 基础 demos ───────────────────────────────
 const activeTab1 = ref('1');
@@ -106,8 +107,8 @@ const scrollIconMap: Record<string, string> = {
   is8: 'map-fill',
   is9: 'calendar-fill',
 };
-function getScrollIcon(name: string) {
-  return scrollIconMap[name] || 'app';
+function getScrollIcon(name: TabsValue) {
+  return scrollIconMap[String(name)] || 'app';
 }
 
 // ── 公共 helpers ─────────────────────────────
@@ -117,8 +118,8 @@ const tabIconMap: Record<string, string> = {
   star: 'heart-fill',
   user: 'gear-fill',
 };
-function getTabIcon(name: string) {
-  return tabIconMap[name] || 'app';
+function getTabIcon(name: TabsValue) {
+  return tabIconMap[String(name)] || 'app';
 }
 
 const badgeMap: Record<string, string> = {
@@ -126,8 +127,8 @@ const badgeMap: Record<string, string> = {
   notify: '12',
   todo: '',
 };
-function getBadge(name: string) {
-  return badgeMap[name] || '';
+function getBadge(name: TabsValue) {
+  return badgeMap[String(name)] || '';
 }
 
 function onBack() {

@@ -2,12 +2,29 @@
 import type { StyleValue } from 'vue';
 import { ref, provide, watch, onMounted, nextTick, computed, getCurrentInstance } from 'vue';
 import { tabsProps, tabsEmits, type TabPaneContext, type TabsValue } from './tabs.props';
+import {
+  findTabPaneIndex,
+  getTabsTouchPoint,
+  removeTabPane,
+  resolveTabNavItemClass,
+  resolveTabsInitialValue,
+  resolveTabsLineStyle,
+  resolveTabsOverflow,
+  resolveTabsRootClass,
+  resolveTabsRootStyle,
+  resolveTabsScrollable,
+  resolveTabsSetActive,
+  resolveTabsStretching,
+  resolveTabsSwipe,
+  upsertTabPane,
+  type TabsTouchEventLike,
+} from './tabs.utils';
 
 defineOptions({ name: 'LkTabs' });
 
 const props = defineProps(tabsProps);
 const emit = defineEmits(tabsEmits);
-const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
+const rootStyle = computed<StyleValue>(() => resolveTabsRootStyle(props.customStyle as StyleValue));
 
 const current = ref(props.modelValue);
 watch(
@@ -15,18 +32,17 @@ watch(
   v => (current.value = v)
 );
 
-const panes = ref<any[]>([]);
+const panes = ref<TabPaneContext[]>([]);
 const instance = getCurrentInstance();
 
 function register(pane: TabPaneContext) {
-  const idx = panes.value.findIndex(p => p.name === pane.name);
-  if (idx === -1) {
-    panes.value.push(pane);
-  } else {
-    panes.value[idx] = pane;
-  }
-  if (!current.value && panes.value.length > 0) {
-    current.value = panes.value[0].name;
+  panes.value = upsertTabPane(panes.value, pane);
+  const initialValue = resolveTabsInitialValue({
+    current: current.value,
+    panes: panes.value,
+  });
+  if (initialValue !== null) {
+    current.value = initialValue;
     emit('update:modelValue', current.value);
   }
   nextTick(() => {
@@ -36,7 +52,7 @@ function register(pane: TabPaneContext) {
 }
 
 function unregister(pane: TabPaneContext) {
-  panes.value = panes.value.filter(p => p.name !== pane.name);
+  panes.value = removeTabPane(panes.value, pane);
   nextTick(() => {
     scrollActiveIntoView();
     updateLinePosition();
@@ -44,21 +60,26 @@ function unregister(pane: TabPaneContext) {
 }
 
 function setActive(name: TabsValue, event?: unknown, source: 'click' | 'swipe' = 'click') {
-  const index = panes.value.findIndex(p => p.name === name);
-  const pane = panes.value[index];
+  const result = resolveTabsSetActive({
+    current: current.value,
+    panes: panes.value,
+    name,
+    source,
+  });
+  const { index, pane } = result;
   if (source === 'click') {
     const payload = { name, pane, index, event };
     emit('click', name, pane, index, event);
     emit('tab-click', payload);
-    if (pane?.disabled) {
+    if (result.kind === 'disabled') {
       emit('click-disabled', payload);
       return;
     }
   }
-  if (name === current.value) return;
-  current.value = name;
-  emit('update:modelValue', name);
-  emit('change', name, pane, index);
+  if (result.kind !== 'change') return;
+  current.value = result.name;
+  emit('update:modelValue', result.name);
+  emit('change', result.name, pane, index);
 }
 
 provide('LkTabs', {
@@ -68,11 +89,18 @@ provide('LkTabs', {
   lazy: props.lazy,
 });
 
-const activeIndex = computed(() => panes.value.findIndex(p => p.name === current.value));
+const activeIndex = computed(() => findTabPaneIndex(panes.value, current.value));
 
 // ── 滚动居中 ──────────────────────────────────
 // 使用 scroll-left 代替 scroll-into-view 实现精准居中
 const scrollLeft = ref(0);
+interface TabsScrollOffsetResult {
+  scrollLeft?: number;
+}
+
+interface TabsScrollOffsetNode {
+  scrollOffset?: () => unknown;
+}
 
 /**
  * 将当前激活的 tab 滚动到 scroll-view 可视区域的中间位置
@@ -82,17 +110,18 @@ function scrollActiveIntoView() {
   if (idx < 0) return;
 
   nextTick(() => {
-    let query = (uni as any)?.createSelectorQuery?.();
+    let query = uni?.createSelectorQuery?.();
     if (!query) return;
     if (query.in && instance?.proxy) query = query.in(instance.proxy);
 
     query.select('.lk-tabs__nav').boundingClientRect();
     query.selectAll('.lk-tabs__nav-item').boundingClientRect();
 
-    query.exec((res: any[]) => {
-      if (!res || !res[0] || !res[1] || !res[1][idx]) return;
-      const navRect = res[0];
-      const itemRects = res[1];
+    query.exec((res: unknown[]) => {
+      if (!res || !res[0] || !res[1]) return;
+      const navRect = res[0] as UniApp.NodeInfo;
+      const itemRects = res[1] as UniApp.NodeInfo[];
+      if (!itemRects[idx]) return;
       const navWidth = navRect.width || 0;
       const navLeft = navRect.left || 0;
 
@@ -143,22 +172,23 @@ function updateLinePosition() {
   if (idx < 0) return;
 
   nextTick(() => {
-    let query = (uni as any)?.createSelectorQuery?.();
+    let query = uni?.createSelectorQuery?.();
     if (!query) return;
     if (query.in && instance?.proxy) query = query.in(instance.proxy);
 
     query.select('.lk-tabs__nav').boundingClientRect();
-    if (query.select('.lk-tabs__nav').scrollOffset) {
-      query.select('.lk-tabs__nav').scrollOffset();
+    const navNode = query.select('.lk-tabs__nav') as unknown as TabsScrollOffsetNode;
+    if (navNode.scrollOffset) {
+      navNode.scrollOffset();
     }
     query.selectAll('.lk-tabs__nav-item').boundingClientRect();
 
-    query.exec((res: any[]) => {
+    query.exec((res: unknown[]) => {
       if (!res) return;
-      const navRect = res[0];
+      const navRect = res[0] as UniApp.NodeInfo;
       const hasOffset = res.length >= 3;
-      const offsetObj = hasOffset ? res[1] : null;
-      const itemRects = hasOffset ? res[2] : res[1];
+      const offsetObj = hasOffset ? res[1] as TabsScrollOffsetResult : null;
+      const itemRects = (hasOffset ? res[2] : res[1]) as UniApp.NodeInfo[];
       if (!navRect || !itemRects || !itemRects[idx]) return;
 
       const activeItem = itemRects[idx];
@@ -174,10 +204,7 @@ function updateLinePosition() {
       indicatorLeft.value = translateX;
       indicatorWidth.value = lineWidth;
 
-      lineStyle.value = {
-        transform: `translateX(${translateX}px)`,
-        width: `${lineWidth}px`,
-      };
+      lineStyle.value = resolveTabsLineStyle({ translateX, width: lineWidth });
     });
   });
 }
@@ -189,27 +216,32 @@ let overflowCheckTimer: ReturnType<typeof setTimeout> | null = null;
 
 function checkOverflow() {
   nextTick(() => {
-    let query = (uni as any)?.createSelectorQuery?.();
+    let query = uni?.createSelectorQuery?.();
     if (!query) return;
     if (query.in && instance?.proxy) query = query.in(instance.proxy);
 
     query.select('.lk-tabs__nav').boundingClientRect();
     query.selectAll('.lk-tabs__nav-item').boundingClientRect();
 
-    query.exec((res: any[]) => {
+    query.exec((res: unknown[]) => {
       if (!res || !res[0] || !res[1]) return;
-      const navRect = res[0];
-      const itemRects = res[1] as any[];
+      const navRect = res[0] as UniApp.NodeInfo;
+      const itemRects = res[1] as UniApp.NodeInfo[];
       if (!itemRects.length) return;
 
       const navLeft = navRect.left || 0;
-      const navRight = navLeft + (navRect.width || 0);
       const firstLeft = itemRects[0]?.left || 0;
       const lastRight = (itemRects[itemRects.length - 1]?.left || 0) +
         (itemRects[itemRects.length - 1]?.width || 0);
+      const overflow = resolveTabsOverflow({
+        navLeft,
+        navWidth: navRect.width || 0,
+        firstLeft,
+        lastRight,
+      });
 
-      overflowLeft.value = firstLeft < navLeft - 2;
-      overflowRight.value = lastRight > navRight + 2;
+      overflowLeft.value = overflow.left;
+      overflowRight.value = overflow.right;
     });
   });
 }
@@ -253,9 +285,9 @@ let deltaY = 0;
 let isTracking = false;
 const SWIPE_THRESHOLD = 50;
 
-function onTouchStart(e: any) {
+function onTouchStart(e: TouchEvent | TabsTouchEventLike) {
   if (!props.swipeable) return;
-  const t = e?.changedTouches?.[0] || e?.touches?.[0];
+  const t = getTabsTouchPoint(e);
   if (!t) return;
   isTracking = true;
   startX = t.pageX;
@@ -263,9 +295,9 @@ function onTouchStart(e: any) {
   deltaX = 0;
   deltaY = 0;
 }
-function onTouchMove(e: any) {
+function onTouchMove(e: TouchEvent | TabsTouchEventLike) {
   if (!isTracking || !props.swipeable) return;
-  const t = e?.changedTouches?.[0] || e?.touches?.[0];
+  const t = getTabsTouchPoint(e);
   if (!t) return;
   deltaX = t.pageX - startX;
   deltaY = t.pageY - startY;
@@ -273,45 +305,43 @@ function onTouchMove(e: any) {
 function onTouchEnd() {
   if (!isTracking || !props.swipeable) return;
   isTracking = false;
-  if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
-  const idx = panes.value.findIndex(p => p.name === current.value);
-  if (idx < 0) return;
-  if (deltaX < 0 && idx < panes.value.length - 1) {
-    const nextIndex = idx + 1;
-    const nextPane = panes.value[nextIndex];
-    if (nextPane.disabled) return;
-    setActive(nextPane.name, undefined, 'swipe');
-    emit('swipe-change', {
-      name: nextPane.name,
-      pane: nextPane,
-      index: nextIndex,
-      direction: 'next',
-    });
-  } else if (deltaX > 0 && idx > 0) {
-    const nextIndex = idx - 1;
-    const nextPane = panes.value[nextIndex];
-    if (nextPane.disabled) return;
-    setActive(nextPane.name, undefined, 'swipe');
-    emit('swipe-change', {
-      name: nextPane.name,
-      pane: nextPane,
-      index: nextIndex,
-      direction: 'prev',
-    });
-  }
+  const result = resolveTabsSwipe({
+    panes: panes.value,
+    current: current.value,
+    deltaX,
+    deltaY,
+    threshold: SWIPE_THRESHOLD,
+  });
+  if (!result) return;
+  setActive(result.pane.name, undefined, 'swipe');
+  emit('swipe-change', {
+    name: result.pane.name,
+    pane: result.pane,
+    index: result.index,
+    direction: result.direction,
+  });
 }
 
 // 多 tab 时不 stretch（避免把 tab 压扁），少 tab 才 stretch
-const stretching = computed(() => props.stretch && panes.value.length <= 5);
+const stretching = computed(() => resolveTabsStretching({
+  stretch: props.stretch,
+  paneCount: panes.value.length,
+}));
 // 是否可滚动（超过 5 个时自然溢出滚动）
-const scrollable = computed(() => panes.value.length > 5);
+const scrollable = computed(() => resolveTabsScrollable(panes.value.length));
+const rootClass = computed(() => resolveTabsRootClass({
+  type: props.type,
+  stretching: stretching.value,
+  border: props.border,
+  customClass: props.customClass,
+}));
 </script>
 
 <template>
   <view
     :id="id"
     class="lk-tabs"
-    :class="['lk-tabs--' + type, { 'is-stretch': stretching, 'is-borderless': !border }, customClass]"
+    :class="rootClass"
     :style="rootStyle"
   >
     <!-- header 插槽 -->
@@ -346,7 +376,10 @@ const scrollable = computed(() => panes.value.length > 5);
             :id="'lk-tab-' + pane.name"
             :key="pane.name"
             class="lk-tabs__nav-item"
-            :class="{ 'is-active': pane.name === current, 'is-disabled': pane.disabled }"
+            :class="resolveTabNavItemClass({
+              active: pane.name === current,
+              disabled: pane.disabled,
+            })"
             @tap="setActive(pane.name, $event)"
           >
             <!-- tab 插槽 -->
