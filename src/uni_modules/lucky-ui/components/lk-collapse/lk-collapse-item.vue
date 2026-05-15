@@ -3,6 +3,11 @@ import { computed, inject } from 'vue';
 import type { PropType } from 'vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 import { collapseInjectionKey, type CollapseName } from './collapse.props';
+import {
+  resolveCollapseBodyStyle,
+  resolveCollapseHeaderClass,
+  resolveCollapseItemClass,
+} from './collapse.utils';
 
 defineOptions({ name: 'LkCollapseItem' });
 
@@ -17,8 +22,17 @@ const emit = defineEmits({
 });
 const collapse = inject(collapseInjectionKey);
 const open = computed(() => collapse?.active.value.includes(props.name) ?? false);
+const itemClass = computed(() => resolveCollapseItemClass({
+  open: open.value,
+  disabled: props.disabled,
+}));
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
+const headerClass = computed(() => resolveCollapseHeaderClass(rippleActive.value));
+const bodyStyle = computed(() => resolveCollapseBodyStyle({
+  animationDuration: collapse?.animationDuration,
+  animationTiming: collapse?.animationTiming,
+}));
 
 function toggle(event?: unknown) {
   if (props.disabled) {
@@ -42,10 +56,10 @@ function onHeaderTap(e: unknown) {
 </script>
 
 <template>
-  <view class="lk-collapse-item" :class="{ 'is-open': open, 'is-disabled': disabled }">
+  <view class="lk-collapse-item" :class="itemClass">
     <view
       class="lk-collapse-item__header lk-ripple"
-      :class="{ 'lk-ripple--active': rippleActive }"
+      :class="headerClass"
       @tap="onHeaderTap"
     >
       <view class="lk-ripple__content">
@@ -64,10 +78,7 @@ function onHeaderTap(e: unknown) {
     <view
       v-show="open"
       class="lk-collapse-item__body"
-      :style="{
-        '--lk-collapse-anim-duration': collapse?.animationDuration,
-        '--lk-collapse-anim-timing': collapse?.animationTiming,
-      }"
+      :style="bodyStyle"
     >
       <slot />
     </view>

@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch, type StyleValue } from 'vue';
-import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 import {
   collapseEmits,
   collapseInjectionKey,
   collapseProps,
   type CollapseName,
 } from './collapse.props';
+import {
+  getCollapseEmitValue,
+  resolveCollapseRootClass,
+  resolveCollapseRootStyle,
+  resolveCollapseToggle,
+  syncCollapseActive,
+} from './collapse.utils';
 
 defineOptions({ name: 'LkCollapse' });
 
@@ -17,61 +23,40 @@ const active = ref<CollapseName[]>([]);
 watch(() => props.modelValue, sync, { immediate: true });
 
 function sync() {
-  if (props.accordion) {
-    const value = Array.isArray(props.modelValue) ? props.modelValue[0] : props.modelValue;
-    active.value = value === '' || value === undefined ? [] : [value];
-  } else {
-    active.value = Array.isArray(props.modelValue) ? [...props.modelValue] : [];
-  }
-}
-
-function getEmitValue(value: CollapseName[]) {
-  return props.accordion ? value[0] : value;
+  active.value = syncCollapseActive({
+    modelValue: props.modelValue,
+    accordion: props.accordion,
+  });
 }
 
 function toggle(name: CollapseName, event?: unknown) {
-  const wasOpen = active.value.includes(name);
-  emit('item-click', { name, expanded: wasOpen, event });
-
-  let next: CollapseName[];
-  if (props.accordion) {
-    next = wasOpen ? [] : [name];
-    emit('update:modelValue', next[0] ?? '');
-  } else {
-    const set = new Set(active.value);
-    if (set.has(name)) {
-      set.delete(name);
-    } else {
-      set.add(name);
-    }
-    next = Array.from(set);
-    emit('update:modelValue', next);
-  }
-  active.value = Array.isArray(next) ? next : [next];
-  const emitValue = getEmitValue(active.value);
+  const result = resolveCollapseToggle({
+    active: active.value,
+    name,
+    accordion: props.accordion,
+  });
+  emit('item-click', { name, expanded: result.wasOpen, event });
+  emit('update:modelValue', result.modelValue);
+  active.value = result.next;
+  const emitValue = getCollapseEmitValue(active.value, props.accordion);
   emit('change', emitValue, name);
-  if (wasOpen) {
+  if (result.wasOpen) {
     emit('close', name, emitValue);
   } else {
     emit('open', name, emitValue);
   }
 }
 
-const rootClass = computed(() => [
-  'lk-collapse',
-  `lk-collapse--${props.variant}`,
-  props.customClass,
-  {
-    'is-bordered': props.bordered,
-  },
-]);
+const rootClass = computed(() => resolveCollapseRootClass({
+  variant: props.variant,
+  customClass: props.customClass,
+  bordered: props.bordered,
+}));
 
-const rootStyle = computed<StyleValue>(() => [
-  props.customStyle as StyleValue,
-  {
-    '--lk-collapse-gap': addUnit(props.gap),
-  },
-]);
+const rootStyle = computed<StyleValue>(() => resolveCollapseRootStyle({
+  customStyle: props.customStyle as StyleValue,
+  gap: props.gap,
+}));
 
 function clickDisabled(name: CollapseName, event?: unknown) {
   emit('click-disabled', { name, event });
