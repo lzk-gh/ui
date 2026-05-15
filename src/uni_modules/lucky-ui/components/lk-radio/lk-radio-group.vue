@@ -4,6 +4,7 @@ import { provide, computed, inject } from 'vue';
 import type { RadioValue } from './radio.props';
 import { radioGroupProps, radioGroupEmits } from './radio.props';
 import { formContextKey } from '../lk-form/context';
+import { resolveRadioGroupClass } from './radio.utils';
 
 defineOptions({ name: 'LkRadioGroup' });
 
@@ -34,7 +35,10 @@ provide(LK_RADIO_GROUP_KEY, {
 });
 
 const groupClass = computed(() => {
-  return ['lk-radio-group', `lk-radio-group--${props.direction}`, props.customClass];
+  return resolveRadioGroupClass({
+    direction: props.direction,
+    customClass: props.customClass,
+  });
 });
 </script>
 

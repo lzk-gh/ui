@@ -3,8 +3,18 @@ import type { StyleValue } from 'vue';
 import { inject, computed } from 'vue';
 import type { RadioValue } from './radio.props';
 import { radioProps, radioEmits } from './radio.props';
-import { addUnit } from '../../core/src/utils/unit';
 import LkIcon from '../lk-icon/lk-icon.vue';
+import {
+  isRadioChecked,
+  isRadioDisabled,
+  resolveRadioClass,
+  resolveRadioIconSize,
+  resolveRadioIconStyle,
+  resolveRadioIconType,
+  resolveRadioShape,
+  resolveRadioSize,
+  resolveRadioValue,
+} from './radio.utils';
 
 // 使用 Symbol.for 保证跨模块一致性
 const LK_RADIO_GROUP_KEY = Symbol.for('LkRadioGroup');
@@ -28,69 +38,60 @@ type RadioGroupContext = {
 
 const group = inject<RadioGroupContext | null>(LK_RADIO_GROUP_KEY, null);
 
-const radioValue = computed(() => (props.name !== '' ? props.name : props.label));
+const radioValue = computed(() => resolveRadioValue(props.name, props.label));
 const style = computed(() => props.customStyle as StyleValue);
 
 const isChecked = computed(() => {
-  if (group) {
-    return group.props.modelValue === radioValue.value;
-  }
-  return props.modelValue === radioValue.value;
+  return isRadioChecked({
+    group: group?.props,
+    modelValue: props.modelValue,
+    radioValue: radioValue.value,
+  });
 });
 
 const isDisabled = computed(() => {
-  return props.disabled || !!group?.props.disabled;
+  return isRadioDisabled({
+    disabled: props.disabled,
+    group: group?.props,
+  });
 });
 
 const mergedShape = computed(() => {
-  return props.shape || (group && group.props.shape) || 'circle';
+  return resolveRadioShape(props.shape, group?.props);
 });
 
 const mergedIconType = computed(() => {
-  return props.iconType || (group && group.props.iconType) || 'dot';
+  return resolveRadioIconType(props.iconType, group?.props);
 });
 
 const mergedSize = computed(() => {
-  return group ? group.props.size : 'md';
+  return resolveRadioSize(group?.props);
 });
 
 const mergedIconSize = computed(() => {
-  if (props.iconSize) return props.iconSize;
-  return mergedSize.value === 'sm' ? 24 : mergedSize.value === 'lg' ? 36 : 30;
+  return resolveRadioIconSize({
+    iconSize: props.iconSize,
+    size: mergedSize.value,
+  });
 });
 
 const radioClass = computed(() => {
-  return [
-    'lk-radio',
-    `lk-radio--${mergedSize.value}`,
-    `lk-radio--${mergedShape.value}`,
-    `lk-radio--icon-${mergedIconType.value}`,
-    {
-      'lk-radio--checked': isChecked.value,
-      'lk-radio--disabled': isDisabled.value,
-    },
-    props.customClass,
-  ];
+  return resolveRadioClass({
+    size: mergedSize.value,
+    shape: mergedShape.value,
+    iconType: mergedIconType.value,
+    checked: isChecked.value,
+    disabled: isDisabled.value,
+    customClass: props.customClass,
+  });
 });
 
 const iconStyle = computed(() => {
-  const nextStyle: Record<string, string> = {};
-  const activeColor = props.activeColor || (group && group.props.activeColor);
-
-  if (isChecked.value && activeColor) {
-    nextStyle.borderColor = activeColor;
-    nextStyle.backgroundColor = activeColor;
-  }
-
-  if (props.iconSize) {
-    const size = addUnit(props.iconSize);
-    if (size) {
-      nextStyle.width = size;
-      nextStyle.height = size;
-    }
-  }
-
-  return nextStyle;
+  return resolveRadioIconStyle({
+    checked: isChecked.value,
+    activeColor: props.activeColor || group?.props.activeColor || '',
+    iconSize: props.iconSize,
+  });
 });
 
 function handleToggle(event?: unknown) {
