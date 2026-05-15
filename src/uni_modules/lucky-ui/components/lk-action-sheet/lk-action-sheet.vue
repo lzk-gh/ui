@@ -5,6 +5,17 @@ import LkPopup from '../lk-popup/lk-popup.vue';
 import { actionSheetProps, actionSheetEmits, type Action } from './action-sheet.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 import { useLocale } from '../../composables/useLocale';
+import {
+  canSelectAction,
+  createActionSheetPayload,
+  resolveActionSheetCancelClass,
+  resolveActionSheetCancelText,
+  resolveActionSheetItemClass,
+  resolveActionSheetItemStyle,
+  resolveActionSheetListClass,
+  resolveActionSheetRootStyle,
+  shouldCloseAfterAction,
+} from './action-sheet.utils';
 
 defineOptions({ name: 'LkActionSheet' });
 
@@ -15,7 +26,9 @@ const { t } = useLocale('actionSheet');
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<number | string>(-1);
-const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
+const rootStyle = computed<StyleValue>(() =>
+  resolveActionSheetRootStyle(props.customStyle as StyleValue)
+);
 
 /**
  * 监听 modelValue 变化，打开或关闭动作面板
@@ -39,15 +52,15 @@ function hide() {
  * @param event 事件对象
  */
 function onSelect(act: Action, idx: number, event: unknown) {
-  if (act.disabled || act.loading) return;
+  if (!canSelectAction(act)) return;
 
   activeIndex.value = idx;
   triggerRipple(event);
 
-  const payload = { action: act, index: idx, event };
+  const payload = createActionSheetPayload({ action: act, index: idx, event });
   emit('click-action', payload);
   emit('select', payload);
-  if (props.closeOnClickAction) hide();
+  if (shouldCloseAfterAction(props.closeOnClickAction)) hide();
 }
 
 /**
@@ -70,7 +83,10 @@ function cancel(event: unknown) {
 function onPopupModelChange(v: boolean) {
   emit('update:modelValue', v);
 }
-const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
+const resolvedCancelText = computed(() => resolveActionSheetCancelText({
+  cancelText: props.cancelText,
+  fallback: t('cancel'),
+}));
 </script>
 
 <template>
@@ -95,17 +111,21 @@ const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
         <text v-if="description" class="lk-action-sheet__desc">{{ description }}</text>
       </view>
 
-      <view class="lk-action-sheet__list" :class="{ 'is-no-head': !(title || description) }">
+      <view
+        class="lk-action-sheet__list"
+        :class="resolveActionSheetListClass({ title, description })"
+      >
         <view
           v-for="(a, i) in actions"
           :key="i"
           class="lk-action-sheet__item lk-ripple"
-          :class="{
-            'is-disabled': a.disabled,
-            'is-loading': a.loading,
-            'lk-ripple--active': rippleActive && activeIndex === i,
-          }"
-          :style="{ color: a.color || 'inherit' }"
+          :class="resolveActionSheetItemClass({
+            action: a,
+            rippleActive,
+            activeIndex,
+            index: i,
+          })"
+          :style="resolveActionSheetItemStyle(a)"
           @tap="onSelect(a, i, $event)"
         >
           <text class="lk-action-sheet__name">{{ a.name }}</text>
@@ -118,7 +138,7 @@ const resolvedCancelText = computed(() => props.cancelText || t('cancel'));
       <view
         v-if="cancelText || t('cancel')"
         class="lk-action-sheet__cancel lk-ripple"
-        :class="{ 'lk-ripple--active': rippleActive && activeIndex === 'cancel' }"
+        :class="resolveActionSheetCancelClass({ rippleActive, activeIndex })"
         @tap="cancel"
       >
         <text class="lk-action-sheet__cancel-text">{{ resolvedCancelText }}</text>
