@@ -3,8 +3,18 @@ import type { StyleValue } from 'vue';
 import { inject, computed } from 'vue';
 import type { CheckboxValue } from './checkbox.props';
 import { checkboxProps, checkboxEmits } from './checkbox.props';
-import { addUnit } from '../../core/src/utils/unit';
 import LkIcon from '../lk-icon/lk-icon.vue';
+import {
+  isCheckboxChecked,
+  isCheckboxDisabled,
+  resolveCheckboxClass,
+  resolveCheckboxIconSize,
+  resolveCheckboxIconStyle,
+  resolveCheckboxIconType,
+  resolveCheckboxShape,
+  resolveCheckboxSize,
+  resolveCheckboxValue,
+} from './checkbox.utils';
 
 // 导入 Symbol key （同文件内定义）
 const LK_CHECKBOX_GROUP_KEY = Symbol.for('LkCheckboxGroup');
@@ -28,70 +38,62 @@ type CheckboxGroupContext = {
 
 const group = inject<CheckboxGroupContext | null>(LK_CHECKBOX_GROUP_KEY, null);
 
-const checkboxValue = computed(() => (props.name !== '' ? props.name : props.label));
+const checkboxValue = computed(() => resolveCheckboxValue(props.name, props.label));
 const style = computed(() => props.customStyle as StyleValue);
 
 const isChecked = computed(() => {
-  if (group) {
-    return group.props.modelValue.includes(checkboxValue.value);
-  }
-  return !!props.modelValue;
+  return isCheckboxChecked({
+    group: group?.props,
+    modelValue: props.modelValue,
+    checkboxValue: checkboxValue.value,
+  });
 });
 
 const isDisabled = computed(() => {
-  return props.disabled || !!group?.props.disabled;
+  return isCheckboxDisabled({
+    disabled: props.disabled,
+    group: group?.props,
+  });
 });
 
 const mergedShape = computed(() => {
-  return props.shape || (group && group.props.shape) || 'square';
+  return resolveCheckboxShape(props.shape, group?.props);
 });
 
 const mergedIconType = computed(() => {
-  return props.iconType || (group && group.props.iconType) || 'check';
+  return resolveCheckboxIconType(props.iconType, group?.props);
 });
 
 const mergedSize = computed(() => {
-  return group ? group.props.size : 'md';
+  return resolveCheckboxSize(group?.props);
 });
 
 const mergedIconSize = computed(() => {
-  if (props.iconSize) return props.iconSize;
-  return mergedSize.value === 'sm' ? 24 : mergedSize.value === 'lg' ? 36 : 30;
+  return resolveCheckboxIconSize({
+    iconSize: props.iconSize,
+    size: mergedSize.value,
+  });
 });
 
 const checkboxClass = computed(() => {
-  return [
-    'lk-checkbox',
-    `lk-checkbox--${mergedSize.value}`,
-    `lk-checkbox--${mergedShape.value}`,
-    `lk-checkbox--icon-${mergedIconType.value}`,
-    {
-      'lk-checkbox--checked': isChecked.value,
-      'lk-checkbox--disabled': isDisabled.value,
-      'lk-checkbox--indeterminate': props.indeterminate,
-    },
-    props.customClass,
-  ];
+  return resolveCheckboxClass({
+    size: mergedSize.value,
+    shape: mergedShape.value,
+    iconType: mergedIconType.value,
+    checked: isChecked.value,
+    disabled: isDisabled.value,
+    indeterminate: props.indeterminate,
+    customClass: props.customClass,
+  });
 });
 
 const iconStyle = computed(() => {
-  const nextStyle: Record<string, string> = {};
-  const activeColor = props.activeColor || (group && group.props.activeColor);
-
-  if ((isChecked.value || props.indeterminate) && activeColor) {
-    nextStyle.borderColor = activeColor;
-    nextStyle.backgroundColor = activeColor;
-  }
-
-  if (props.iconSize) {
-    const size = addUnit(props.iconSize);
-    if (size) {
-      nextStyle.width = size;
-      nextStyle.height = size;
-    }
-  }
-
-  return nextStyle;
+  return resolveCheckboxIconStyle({
+    checked: isChecked.value,
+    indeterminate: props.indeterminate,
+    activeColor: props.activeColor || group?.props.activeColor || '',
+    iconSize: props.iconSize,
+  });
 });
 
 function handleToggle(event?: unknown) {

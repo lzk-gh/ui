@@ -4,6 +4,7 @@ import { provide, computed, inject } from 'vue';
 import type { CheckboxValue } from './checkbox.props';
 import { checkboxGroupProps, checkboxGroupEmits } from './checkbox.props';
 import { formContextKey } from '../lk-form/context';
+import { resolveCheckboxGroupClass, resolveCheckboxGroupToggle } from './checkbox.utils';
 
 defineOptions({ name: 'LkCheckboxGroup' });
 
@@ -28,20 +29,18 @@ function updateValue(value: CheckboxValue[], changedValue: CheckboxValue, checke
 }
 
 function toggleValue(name: CheckboxValue) {
-  const value = [...props.modelValue];
-  const index = value.indexOf(name);
-  if (index !== -1) {
-    value.splice(index, 1);
-    updateValue(value, name, false);
-  } else {
-    // max === 0 表示不限制
-    if (props.max === 0 || value.length < props.max) {
-      value.push(name);
-      updateValue(value, name, true);
-    } else {
-      emit('overlimit', name, props.max);
-    }
+  const result = resolveCheckboxGroupToggle({
+    currentValue: props.modelValue,
+    name,
+    max: props.max,
+  });
+
+  if (result.overlimit) {
+    emit('overlimit', name, props.max);
+    return;
   }
+
+  updateValue(result.value, name, result.checked);
 }
 
 provide(LK_CHECKBOX_GROUP_KEY, {
@@ -50,7 +49,10 @@ provide(LK_CHECKBOX_GROUP_KEY, {
 });
 
 const groupClass = computed(() => {
-  return ['lk-checkbox-group', `lk-checkbox-group--${props.direction}`, props.customClass];
+  return resolveCheckboxGroupClass({
+    direction: props.direction,
+    customClass: props.customClass,
+  });
 });
 </script>
 
