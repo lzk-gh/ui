@@ -2,6 +2,12 @@
 import { inject, computed } from 'vue';
 import type { Ref } from 'vue';
 import type { DropdownSelectPayload, DropdownValue } from './dropdown.props';
+import {
+  canSelectDropdownItem,
+  createDropdownItemPayload,
+  resolveDropdownItemActive,
+  resolveDropdownItemClass,
+} from './dropdown.utils';
 
 defineOptions({ name: 'LkDropdownItem' });
 
@@ -20,11 +26,21 @@ interface DropdownContext {
 }
 
 const dropdown = inject<DropdownContext | null>('LkDropdown', null);
-const active = computed(() => dropdown?.active.value === props.name);
+const active = computed(() => resolveDropdownItemActive({
+  activeValue: dropdown?.active.value,
+  name: props.name,
+}));
+const itemClass = computed(() => resolveDropdownItemClass({
+  active: active.value,
+  disabled: props.disabled,
+}));
 
 function click(event: unknown) {
-  const payload = { name: props.name, event };
-  if (props.disabled) {
+  const payload = createDropdownItemPayload({
+    name: props.name,
+    event,
+  });
+  if (!canSelectDropdownItem(props.disabled)) {
     emit('click-disabled', payload);
     return;
   }
@@ -36,7 +52,7 @@ function click(event: unknown) {
 <template>
   <view
     class="lk-dropdown-item"
-    :class="{ 'is-active': active, 'is-disabled': disabled }"
+    :class="itemClass"
     @tap="click"
   >
     <lk-icon v-if="icon" :name="icon" size="34" class="lk-dropdown-item__icon" />

@@ -7,17 +7,27 @@ import {
   type DropdownSelectPayload,
   type DropdownValue,
 } from './dropdown.props';
+import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import {
-  useTransition,
-  ANIMATION_PRESETS,
-  type TransitionConfig,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
+  resolveDropdownMaskStyle,
+  resolveDropdownMenuStyle,
+  resolveDropdownNextOpen,
+  resolveDropdownRootClass,
+  resolveDropdownRootStyle,
+  resolveDropdownTransitionConfig,
+  shouldCloseDropdownOnSelect,
+  shouldRenderDropdownMask,
+  shouldToggleDropdownOnClick,
+  shouldToggleDropdownOnHover,
+} from './dropdown.utils';
 
 defineOptions({ name: 'LkDropdown' });
 
 const props = defineProps(dropdownProps);
 const emit = defineEmits(dropdownEmits);
-const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
+const rootStyle = computed<StyleValue>(() =>
+  resolveDropdownRootStyle(props.customStyle as StyleValue)
+);
 
 const open = ref(false);
 const active = ref(props.modelValue);
@@ -27,7 +37,10 @@ watch(
 );
 
 function toggle(v?: boolean) {
-  const next = v !== undefined ? v : !open.value;
+  const next = resolveDropdownNextOpen({
+    targetOpen: v,
+    currentOpen: open.value,
+  });
   if (next === open.value) return;
   open.value = next;
   if (next) {
@@ -43,18 +56,18 @@ function selectItem(name: DropdownValue, payload: DropdownSelectPayload) {
   emit('update:modelValue', name);
   emit('select', payload);
   emit('change', name, payload);
-  if (props.closeOnSelect) toggle(false);
+  if (shouldCloseDropdownOnSelect(props.closeOnSelect)) toggle(false);
 }
 
 function onTriggerEnter() {
-  if (props.trigger === 'hover') toggle(true);
+  if (shouldToggleDropdownOnHover(props.trigger)) toggle(true);
 }
 function onTriggerLeave() {
-  if (props.trigger === 'hover') toggle(false);
+  if (shouldToggleDropdownOnHover(props.trigger)) toggle(false);
 }
 function onTriggerClick(event: unknown) {
   emit('click-trigger', event);
-  if (props.trigger === 'click') toggle();
+  if (shouldToggleDropdownOnClick(props.trigger)) toggle();
 }
 
 function onClickOutside(event: unknown) {
@@ -68,36 +81,14 @@ provide('LkDropdown', {
   closeOnSelect: props.closeOnSelect,
 });
 
-const defaultByPlacement: Record<string, NonNullable<TransitionConfig['name']>> = {
-  bottom: 'fade-up',
-  top: 'fade-down',
-  left: 'fade-right',
-  right: 'fade-left',
-};
-const transitionConfig = computed<TransitionConfig>(() => {
-  if (props.animationType)
-    return {
-      name: props.animationType,
-      duration: props.duration,
-      delay: props.delay,
-      easing: props.easing,
-    };
-  if (props.animation && ANIMATION_PRESETS[props.animation]) {
-    const p = ANIMATION_PRESETS[props.animation];
-    return {
-      name: p.animation,
-      duration: props.duration ?? p.duration ?? 180,
-      delay: props.delay ?? p.delay ?? 0,
-      easing: props.easing ?? p.easing ?? 'ease-out',
-    };
-  }
-  return {
-    name: defaultByPlacement[props.placement] || 'fade',
-    duration: props.duration,
-    delay: props.delay,
-    easing: props.easing,
-  };
-});
+const transitionConfig = computed(() => resolveDropdownTransitionConfig({
+  animationType: props.animationType,
+  animation: props.animation,
+  placement: props.placement,
+  duration: props.duration,
+  delay: props.delay,
+  easing: props.easing,
+}));
 const {
   classes: menuClasses,
   styles: menuStyles,
@@ -106,21 +97,34 @@ const {
   onAfterEnter: () => emit('after-enter'),
   onAfterLeave: () => emit('after-leave'),
 });
+const rootClass = computed(() => resolveDropdownRootClass({
+  placement: props.placement,
+  customClass: props.customClass,
+}));
+const maskStyle = computed(() => resolveDropdownMaskStyle(props.zIndex));
+const menuStyle = computed(() => resolveDropdownMenuStyle({
+  transitionStyles: menuStyles.value,
+  zIndex: props.zIndex,
+}));
 </script>
 
 <template>
   <view
     :id="id"
     class="lk-dropdown"
-    :class="[`lk-dropdown--placement-${placement}`, customClass]"
+    :class="rootClass"
     :style="rootStyle"
     @mouseenter="onTriggerEnter"
     @mouseleave="onTriggerLeave"
   >
     <view
-      v-if="display && trigger === 'click' && closeOnClickOutside"
+      v-if="shouldRenderDropdownMask({
+        display,
+        trigger,
+        closeOnClickOutside,
+      })"
       class="lk-dropdown__mask"
-      :style="{ zIndex }"
+      :style="maskStyle"
       @tap="onClickOutside"
     />
 
@@ -131,7 +135,7 @@ const {
       v-if="display"
       class="lk-dropdown__menu lk-elevated"
       :class="menuClasses"
-      :style="[menuStyles, { zIndex: zIndex + 2 }]"
+      :style="menuStyle"
     >
       <slot name="menu" />
     </view>
