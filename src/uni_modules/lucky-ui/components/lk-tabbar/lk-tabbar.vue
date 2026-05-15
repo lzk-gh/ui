@@ -1,7 +1,25 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, provide, ref, watch, onMounted, nextTick } from 'vue';
 import { tabbarEmits, tabbarProps, TabbarMode, type TabbarItemConfig } from './tabbar.props';
 import { tabbarContextKey, type TabbarValue } from './context';
+import {
+  isTabbarBumpItem,
+  resolveTabbarIndex,
+  resolveTabbarItemActive,
+  resolveTabbarItemClass,
+  resolveTabbarListItemIcon,
+  resolveTabbarPlaceholderStyle,
+  resolveTabbarRootClass,
+  resolveTabbarRootStyle,
+  resolveTabbarSafeAreaBottom,
+  resolveTabbarSliderMetrics,
+  resolveTabbarSliderStyle,
+  resolveTabbarStyleLayers,
+  shouldShowTabbarBadge,
+  shouldSwitchTabbarPage,
+  resolveTabbarIconColor,
+} from './tabbar.utils';
 
 defineOptions({ name: 'LkTabbar' });
 
@@ -25,21 +43,7 @@ let preferRuntimeSafeArea = false;
 // #ifdef MP || APP-PLUS
 preferRuntimeSafeArea = true;
 // #endif
-
-function resolveSafeAreaBottom(info: SafeAreaInfoLike) {
-  const insetBottom = info.safeAreaInsets?.bottom;
-  if (typeof insetBottom === 'number') return Math.max(insetBottom, 0);
-
-  const screenHeight = info.screenHeight;
-  const safeAreaBottom = info.safeArea?.bottom;
-  if (typeof screenHeight === 'number' && typeof safeAreaBottom === 'number') {
-    return Math.max(screenHeight - safeAreaBottom, 0);
-  }
-
-  return 0;
-}
-
-const safeAreaBottom = resolveSafeAreaBottom(systemInfo);
+const safeAreaBottom = resolveTabbarSafeAreaBottom(systemInfo);
 
 // ============================================================================
 // 子项管理
@@ -71,12 +75,14 @@ function updateSliderPosition(index: number) {
 
   nextTick(() => {
     const totalItems = props.list.length || itemCount.value;
-    if (totalItems <= 0) return;
-
-    // 每个项目的宽度比例
-    const itemWidth = 100 / totalItems;
-    sliderLeft.value = index * itemWidth;
-    sliderWidth.value = itemWidth;
+    const metrics = resolveTabbarSliderMetrics({
+      mode: props.mode,
+      totalItems,
+      index,
+    });
+    if (!metrics) return;
+    sliderLeft.value = metrics.left;
+    sliderWidth.value = metrics.width;
   });
 }
 
@@ -84,7 +90,7 @@ function updateSliderPosition(index: number) {
 watch(
   () => props.modelValue,
   val => {
-    const index = typeof val === 'number' ? val : parseInt(val as string, 10) || 0;
+    const index = resolveTabbarIndex(val);
     updateSliderPosition(index);
   },
   { immediate: true }
@@ -92,46 +98,44 @@ watch(
 
 // 首次加载时更新滑块位置
 onMounted(() => {
-  const index =
-    typeof props.modelValue === 'number'
-      ? props.modelValue
-      : parseInt(props.modelValue as string, 10) || 0;
-  updateSliderPosition(index);
+  updateSliderPosition(resolveTabbarIndex(props.modelValue));
 });
 
 // ============================================================================
 // 样式计算
 // ============================================================================
-const rootStyle = computed(() => {
-  const style: Record<string, string | number> = {
-    zIndex: props.zIndex,
-    transform: 'translateZ(0)',
-    backfaceVisibility: 'hidden',
-  };
+const rootStyle = computed(() => resolveTabbarRootStyle({
+  zIndex: props.zIndex,
+  safeArea: props.safeArea,
+  preferRuntimeSafeArea,
+  safeAreaBottom,
+  bgColor: props.bgColor,
+  activeColor: props.activeColor,
+  inactiveColor: props.inactiveColor,
+}));
+const tabbarStyle = computed<StyleValue>(() => resolveTabbarStyleLayers({
+  rootStyle: rootStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
-  if (props.safeArea && (preferRuntimeSafeArea || safeAreaBottom > 0)) {
-    style['--lk-tabbar-safe-area-bottom'] = `${safeAreaBottom}px`;
-  }
-  if (props.bgColor) style['--lk-tabbar-bg'] = props.bgColor;
-  if (props.activeColor) style['--lk-tabbar-active-color'] = props.activeColor;
-  if (props.inactiveColor) style['--lk-tabbar-inactive-color'] = props.inactiveColor;
+const sliderStyle = computed(() => resolveTabbarSliderStyle({
+  left: sliderLeft.value,
+  width: sliderWidth.value,
+}));
 
-  return style;
-});
-
-const sliderStyle = computed(() => {
-  return {
-    left: `${sliderLeft.value}%`,
-    width: `${sliderWidth.value}%`,
-  };
-});
-
-const placeholderStyle = computed(() => {
-  if (!props.safeArea || (!preferRuntimeSafeArea && safeAreaBottom <= 0)) return {};
-  return {
-    '--lk-tabbar-safe-area-bottom': `${safeAreaBottom}px`,
-  };
-});
+const placeholderStyle = computed(() => resolveTabbarPlaceholderStyle({
+  safeArea: props.safeArea,
+  preferRuntimeSafeArea,
+  safeAreaBottom,
+}));
+const rootClass = computed(() => resolveTabbarRootClass({
+  customClass: props.customClass,
+  mode: props.mode,
+  fixed: props.fixed,
+  safeArea: props.safeArea,
+  border: props.border,
+  glassBg: props.glassBg,
+}));
 
 // ============================================================================
 // 事件处理
@@ -152,7 +156,10 @@ function setActive(val: TabbarValue, index: number, event?: unknown) {
   updateSliderPosition(index);
 
   // 如果开启了页面跳转
-  if (props.switchPage && item?.pagePath) {
+  if (item?.pagePath && shouldSwitchTabbarPage({
+    switchPage: props.switchPage,
+    item,
+  })) {
     uni.switchTab({
       url: item.pagePath,
       success: result => emit('switch-page-success', { value: val, item, index, result }),
@@ -182,32 +189,32 @@ provide(tabbarContextKey, {
 // ============================================================================
 // 辅助计算
 // ============================================================================
-const isBumpMode = computed(() => props.mode === TabbarMode.Bump);
 const isSliderMode = computed(() => props.mode === TabbarMode.Slider);
-const middleIndex = computed(() => Math.floor((props.list.length || itemCount.value) / 2));
 
 // 判断某个项是否是中间凸起项
 function isBumpItem(index: number) {
-  if (!isBumpMode.value) return false;
   const total = props.list.length || itemCount.value;
-  return total % 2 === 1 && index === middleIndex.value;
+  return isTabbarBumpItem({
+    mode: props.mode,
+    total,
+    index,
+  });
 }
 
 function getItemIconColor(active: boolean, bump: boolean) {
-  if (bump) return 'var(--lk-color-text-inverse)';
-  if (active) return props.activeColor || 'var(--lk-color-primary)';
-  return props.inactiveColor || 'var(--lk-color-text-secondary)';
-}
-
-function resolveFillIconName(iconName: string) {
-  if (!iconName || iconName.endsWith('-fill')) return iconName;
-  return `${iconName}-fill`;
+  return resolveTabbarIconColor({
+    active,
+    bump,
+    activeColor: props.activeColor,
+    inactiveColor: props.inactiveColor,
+  });
 }
 
 function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
-  if (active && item.selectedIcon) return item.selectedIcon;
-  if (active && item.activeIconFill) return resolveFillIconName(item.icon);
-  return item.icon;
+  return resolveTabbarListItemIcon({
+    item,
+    active,
+  });
 }
 </script>
 
@@ -216,17 +223,8 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
     :id="id"
     ref="tabbarRef"
     class="lk-tabbar"
-    :class="[
-      customClass,
-      `lk-tabbar--${mode}`,
-      {
-        'lk-tabbar--fixed': fixed,
-        'lk-tabbar--safe-area': safeArea,
-        'lk-tabbar--border': border,
-        'lk-tabbar--glass': glassBg,
-      },
-    ]"
-    :style="[rootStyle, customStyle as any]"
+    :class="rootClass"
+    :style="tabbarStyle"
   >
     <!-- Slider 模式下的滑块指示器 -->
     <view v-if="isSliderMode" class="lk-tabbar__slider" :style="sliderStyle">
@@ -240,10 +238,10 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
           v-for="(item, index) in list"
           :key="index"
           class="lk-tabbar-item"
-          :class="{
-            'is-active': modelValue === index,
-            'lk-tabbar-item--bump': isBumpItem(index),
-          }"
+          :class="resolveTabbarItemClass({
+            active: resolveTabbarItemActive(modelValue, index),
+            bump: isBumpItem(index),
+          })"
           @tap="onItemClick(index, item, $event)"
         >
           <!-- 凸起模式的特殊背景 -->
@@ -253,7 +251,7 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
             <!-- 自定义图标(图片) -->
             <template v-if="item.customIcon">
               <image
-                :src="resolveListItemIcon(item, modelValue === index)"
+                :src="resolveListItemIcon(item, resolveTabbarItemActive(modelValue, index))"
                 class="lk-tabbar-item__custom-icon"
                 mode="aspectFit"
               />
@@ -261,9 +259,9 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
             <!-- lk-icon 内置图标 -->
             <template v-else>
               <lk-icon
-                :name="resolveListItemIcon(item, modelValue === index)"
+                :name="resolveListItemIcon(item, resolveTabbarItemActive(modelValue, index))"
                 :size="isBumpItem(index) ? 52 : 44"
-                :color="getItemIconColor(modelValue === index, isBumpItem(index))"
+                :color="getItemIconColor(resolveTabbarItemActive(modelValue, index), isBumpItem(index))"
               />
             </template>
 
@@ -271,7 +269,10 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
             <view v-if="item.dot" class="lk-tabbar-item__dot" />
             <!-- 徽标 -->
             <view
-              v-else-if="item.badge !== undefined && item.badge !== ''"
+              v-else-if="shouldShowTabbarBadge({
+                dot: item.dot,
+                badge: item.badge,
+              })"
               class="lk-tabbar-item__badge"
             >
               <text>{{ item.badge }}</text>

@@ -2,6 +2,16 @@
 import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
 import { tabbarContextKey } from './context';
 import { tabbarItemProps } from './tabbar-item.props';
+import {
+  isTabbarBumpItem,
+  resolveTabbarBadgeText,
+  resolveTabbarFillIconName,
+  resolveTabbarIconColor,
+  resolveTabbarItemActive,
+  resolveTabbarItemClass,
+  resolveTabbarItemLabelStyle,
+  shouldShowTabbarBadge,
+} from './tabbar.utils';
 
 defineOptions({ name: 'LkTabbarItem' });
 
@@ -25,7 +35,7 @@ onUnmounted(() => {
 });
 
 // 是否激活
-const isActive = computed(() => tabbar?.active.value === props.name);
+const isActive = computed(() => resolveTabbarItemActive(tabbar?.active.value, props.name));
 
 // 当前模式
 const mode = computed(() => tabbar?.mode.value || 'fixed');
@@ -33,26 +43,27 @@ const mode = computed(() => tabbar?.mode.value || 'fixed');
 // 是否为 bump 模式的中间项
 const isBumpItem = computed(() => {
   if (mode.value !== 'bump' || !tabbar) return false;
-  const total = tabbar.itemCount.value;
-  const middle = Math.floor(total / 2);
-  return total % 2 === 1 && itemIndex.value === middle;
+  return isTabbarBumpItem({
+    mode: mode.value,
+    total: tabbar.itemCount.value,
+    index: itemIndex.value,
+  });
 });
+const itemClass = computed(() => resolveTabbarItemClass({
+  active: isActive.value,
+  bump: isBumpItem.value,
+}));
 
 // 徽标显示
-const showBadge = computed(() => {
-  if (props.dot) return false;
-  return props.badge !== '' && props.badge !== null && typeof props.badge !== 'undefined';
-});
+const showBadge = computed(() => shouldShowTabbarBadge({
+  dot: props.dot,
+  badge: props.badge,
+}));
 
-const badgeText = computed(() => String(props.badge));
+const badgeText = computed(() => resolveTabbarBadgeText(props.badge));
 
 const activeColor = computed(() => tabbar?.activeColor.value || 'var(--lk-color-primary)');
 const inactiveColor = computed(() => tabbar?.inactiveColor.value || 'var(--lk-color-text-secondary)');
-
-function resolveFillIconName(iconName: string) {
-  if (!iconName || iconName.endsWith('-fill')) return iconName;
-  return `${iconName}-fill`;
-}
 
 // 当前应该显示的图标
 const currentIcon = computed(() => {
@@ -60,20 +71,27 @@ const currentIcon = computed(() => {
     return props.selectedIcon;
   }
   if (isActive.value && props.activeIconFill) {
-    return resolveFillIconName(props.icon);
+    return resolveTabbarFillIconName(props.icon);
   }
   return props.icon;
 });
 
 const iconColor = computed(() => {
-  if (isBumpItem.value) return 'var(--lk-color-text-inverse)';
-  if (isActive.value) return activeColor.value;
-  return inactiveColor.value;
+  return resolveTabbarIconColor({
+    active: isActive.value,
+    bump: isBumpItem.value,
+    activeColor: activeColor.value,
+    inactiveColor: inactiveColor.value,
+  });
 });
 
 const labelStyle = computed(() => {
-  if (isBumpItem.value) return '';
-  return `color: ${isActive.value ? activeColor.value : inactiveColor.value}`;
+  return resolveTabbarItemLabelStyle({
+    active: isActive.value,
+    bump: isBumpItem.value,
+    activeColor: activeColor.value,
+    inactiveColor: inactiveColor.value,
+  });
 });
 
 // 点击处理
@@ -85,10 +103,7 @@ function onTap(event: unknown) {
 <template>
   <view
     class="lk-tabbar-item"
-    :class="{
-      'is-active': isActive,
-      'lk-tabbar-item--bump': isBumpItem,
-    }"
+    :class="itemClass"
     @tap="onTap"
   >
     <!-- 凸起模式的特殊背景 -->
