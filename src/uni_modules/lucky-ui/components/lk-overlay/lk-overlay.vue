@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { overlayProps, overlayEmits } from './overlay.props';
 import { useTransition } from '../../composables/useTransition';
+import {
+  resolveOverlayStyle,
+  resolveOverlayVisible,
+  shouldCloseOverlayOnClick,
+  shouldLockOverlayScroll,
+  shouldPreventOverlayTouchMove,
+} from './overlay.utils';
 
 defineOptions({ name: 'LkOverlay' });
 
@@ -9,7 +17,10 @@ const props = defineProps(overlayProps);
 const emit = defineEmits(overlayEmits);
 
 // 外部受控值（优先使用 modelValue）
-const externalShow = computed(() => (props.modelValue ?? props.show) as boolean);
+const externalShow = computed(() => resolveOverlayVisible({
+  modelValue: props.modelValue,
+  show: props.show,
+}));
 
 // ==================== 动画管理 ====================
 const {
@@ -27,10 +38,17 @@ const {
     onAfterLeave: () => emit('after-leave'),
   }
 );
+const overlayStyle = computed(() => resolveOverlayStyle({
+  zIndex: props.zIndex,
+  background: props.background,
+  opacity: props.opacity,
+  transitionStyles: transitionStyles.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 function onClick(event?: unknown) {
   emit('click', event);
-  if (props.closeOnClick) {
+  if (shouldCloseOverlayOnClick(props.closeOnClick)) {
     emit('update:show', false);
     emit('update:modelValue', false);
     emit('close', event);
@@ -38,7 +56,10 @@ function onClick(event?: unknown) {
 }
 
 function lock() {
-  if (!props.lockScroll) return;
+  if (!shouldLockOverlayScroll({
+    visible: externalShow.value,
+    lockScroll: props.lockScroll,
+  })) return;
   // #ifdef H5
   document.body.style.overflow = 'hidden';
   // #endif
@@ -67,7 +88,7 @@ onBeforeUnmount(unlock);
 
 function onTouchMove(e: TouchEvent) {
   emit('touchmove', e);
-  if (props.lockScroll) {
+  if (shouldPreventOverlayTouchMove(props.lockScroll)) {
     e.preventDefault();
   }
 }
@@ -79,14 +100,7 @@ function onTouchMove(e: TouchEvent) {
     :id="id"
     class="lk-overlay"
     :class="[customClass, transitionClasses]"
-    :style="[
-      {
-        zIndex: props.zIndex,
-        '--lk-overlay-bg': props.background || `rgba(0,0,0,${props.opacity})`,
-      },
-      transitionStyles,
-      customStyle as any,
-    ]"
+    :style="overlayStyle"
     @tap="onClick"
     @touchmove="onTouchMove"
   >
