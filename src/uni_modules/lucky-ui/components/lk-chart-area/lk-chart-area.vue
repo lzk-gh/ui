@@ -13,6 +13,16 @@ import {
 } from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
 import { chartAreaEmits, chartAreaProps } from './chart-area.props';
+import {
+  areChartAreaTooltipStatesEqual,
+  CHART_AREA_EMPTY_TOOLTIP,
+  getChartAreaEffectStrength,
+  resolveChartAreaClass,
+  resolveChartAreaHeightStyle,
+  resolveChartAreaRootStyle,
+  resolveChartAreaTooltipState,
+  resolveChartAreaTooltipStyle,
+} from './chart-area.utils';
 
 defineOptions({ name: 'LkChartArea' });
 
@@ -29,29 +39,19 @@ const wrapperId = computed(() => props.id || uid('lk-chart-area'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const hoverIndex = ref(-1);
 const effectPhase = ref(0);
-const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
+const tooltipState = ref(CHART_AREA_EMPTY_TOOLTIP);
 
-const heightStyle = computed(() => {
-  const height = props.height;
-  if (typeof height === 'number') return `${height}rpx`;
-  if (/^\d+$/.test(String(height))) return `${height}rpx`;
-  return String(height);
-});
+const heightStyle = computed(() => resolveChartAreaHeightStyle(props.height));
 
-const rootStyle = computed<StyleValue>(() => [
-  {
-    height: heightStyle.value,
-  },
-  props.customStyle as StyleValue,
-]);
+const rootStyle = computed<StyleValue>(() => resolveChartAreaRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
-const classes = computed(() => [
-  'lk-chart-area',
-  {
-    'is-interactive': props.tooltip,
-  },
-  props.customClass,
-]);
+const classes = computed(() => resolveChartAreaClass({
+  tooltip: props.tooltip,
+  customClass: props.customClass,
+}));
 
 const chart = useChartCanvas({
   wrapperId: wrapperId.value,
@@ -59,38 +59,24 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
-const tooltipStyle = computed<StyleValue>(() => ({
-  left: `${tooltipState.value.x}px`,
-  top: `${tooltipState.value.y}px`,
-  width: `${tooltipState.value.width}px`,
-  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
-}));
+const tooltipStyle = computed<StyleValue>(() => resolveChartAreaTooltipStyle(tooltipState.value));
 
 function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
-  const gap = chart.px(12);
-  const minWidth = chart.px(48);
-  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
-  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
-  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
-  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
-  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
-  const current = tooltipState.value;
-  if (
-    current.visible &&
-    current.x === left &&
-    current.y === y &&
-    current.width === width &&
-    current.arrowX === arrowX &&
-    current.text === text
-  ) {
-    return;
-  }
-  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+  const next = resolveChartAreaTooltipState({
+    x,
+    y,
+    text,
+    textWidth,
+    chartWidth: chart.size.value.width,
+    px: chart.px,
+  });
+  if (areChartAreaTooltipStatesEqual(tooltipState.value, next)) return;
+  tooltipState.value = next;
 }
 
 function hideTooltip() {
   if (!tooltipState.value.visible) return;
-  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
+  tooltipState.value = CHART_AREA_EMPTY_TOOLTIP;
 }
 
 function resolveColor() {
@@ -114,9 +100,7 @@ function drawSmoothPath(ctx: MaybeCanvas2DContext, points: LiteChartPosition[]) 
 }
 
 function getEffectStrength() {
-  if (props.effect === LiteChartEffect.None) return 0;
-  if (props.effect === LiteChartEffect.Subtle) return 0.65;
-  return 1;
+  return getChartAreaEffectStrength(props.effect);
 }
 
 chart.setRenderer((info, progress) => {

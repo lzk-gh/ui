@@ -10,6 +10,13 @@ import {
 } from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
 import { chartSparklineEmits, chartSparklineProps } from './chart-sparkline.props';
+import {
+  getChartSparklineEffectStrength,
+  resolveChartSparklineActiveIndex,
+  resolveChartSparklineClass,
+  resolveChartSparklineHeightStyle,
+  resolveChartSparklineRootStyle,
+} from './chart-sparkline.utils';
 
 defineOptions({ name: 'LkChartSparkline' });
 
@@ -27,27 +34,17 @@ const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const hoverIndex = ref(-1);
 const effectPhase = ref(0);
 
-const heightStyle = computed(() => {
-  const height = props.height;
-  if (typeof height === 'number') return `${height}rpx`;
-  if (/^\d+$/.test(String(height))) return `${height}rpx`;
-  return String(height);
-});
+const heightStyle = computed(() => resolveChartSparklineHeightStyle(props.height));
 
-const rootStyle = computed<StyleValue>(() => [
-  {
-    height: heightStyle.value,
-  },
-  props.customStyle as StyleValue,
-]);
+const rootStyle = computed<StyleValue>(() => resolveChartSparklineRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
-const classes = computed(() => [
-  'lk-chart-sparkline',
-  {
-    'is-interactive': props.tooltip,
-  },
-  props.customClass,
-]);
+const classes = computed(() => resolveChartSparklineClass({
+  tooltip: props.tooltip,
+  customClass: props.customClass,
+}));
 
 const chart = useChartCanvas({
   wrapperId: wrapperId.value,
@@ -71,9 +68,7 @@ function drawLine(ctx: MaybeCanvas2DContext, points: Array<{ x: number; y: numbe
 }
 
 function getEffectStrength() {
-  if (props.effect === LiteChartEffect.None) return 0;
-  if (props.effect === LiteChartEffect.Subtle) return 0.65;
-  return 1;
+  return getChartSparklineEffectStrength(props.effect);
 }
 
 chart.setRenderer((info, progress) => {
@@ -137,12 +132,11 @@ chart.setRenderer((info, progress) => {
     ctx.restore();
   }
 
-  const activeIndex =
-    hoverIndex.value >= 0 && hoverIndex.value < animatedPoints.length
-      ? hoverIndex.value
-      : props.showEndPoint
-        ? animatedPoints.length - 1
-        : -1;
+  const activeIndex = resolveChartSparklineActiveIndex({
+    hoverIndex: hoverIndex.value,
+    pointCount: animatedPoints.length,
+    showEndPoint: props.showEndPoint,
+  });
 
   if (activeIndex >= 0) {
     const active = animatedPoints[activeIndex];

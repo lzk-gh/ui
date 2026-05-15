@@ -8,6 +8,16 @@ import {
   type PreloadEventHandler,
 } from '../../core/src/preload';
 import { useLocale } from '../../composables/useLocale';
+import {
+  createPreloadDebuggerLog,
+  resolvePreloadDebuggerBadgeClass,
+  resolvePreloadDebuggerClass,
+  resolvePreloadDebuggerStatusLabel,
+  resolvePreloadDebuggerStyle,
+  trimPreloadDebuggerLogs,
+  type PreloadDebuggerLogItem,
+  type PreloadDebuggerLogType,
+} from './preload-debugger.utils';
 
 defineOptions({ name: 'LkPreloadDebugger' });
 
@@ -26,28 +36,18 @@ const stats = ref<PreloadStats>({
   cancelled: 0,
 });
 
-interface LogItem {
-  id: string;
-  type: 'start' | 'complete' | 'error' | 'info';
-  time: string;
-  message: string;
-}
-
-const logs = ref<LogItem[]>([]);
+const logs = ref<PreloadDebuggerLogItem[]>([]);
 const lastLogId = ref('');
 
-const debuggerClass = computed(() => [
-  `lk-preload-debugger--${props.position}`,
-  props.customClass,
-]);
+const debuggerClass = computed(() => resolvePreloadDebuggerClass({
+  position: props.position,
+  customClass: props.customClass,
+}));
 
-const debuggerStyle = computed(() => props.customStyle as StyleValue);
+const debuggerStyle = computed(() => resolvePreloadDebuggerStyle(props.customStyle as StyleValue));
 
-const statusClass = computed(() => {
-  if (stats.value.running > 0) return 'lk-preload-debugger__badge--running';
-  if (stats.value.pending > 0) return 'lk-preload-debugger__badge--pending';
-  return 'lk-preload-debugger__badge--idle';
-});
+const statusClass = computed(() => resolvePreloadDebuggerBadgeClass(stats.value));
+const statusLabel = computed(() => resolvePreloadDebuggerStatusLabel({ stats: stats.value, t }));
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString(locale.value, {
@@ -58,19 +58,17 @@ function formatTime(date: Date): string {
   });
 }
 
-function addLog(type: LogItem['type'], message: string) {
+function addLog(type: PreloadDebuggerLogType, message: string) {
   const id = `log_${Date.now()}`;
-  logs.value.push({
+  logs.value.push(createPreloadDebuggerLog({
     id,
     type,
     time: formatTime(new Date()),
     message,
-  });
+  }));
 
   // 保持最多 50 条日志
-  if (logs.value.length > 50) {
-    logs.value.shift();
-  }
+  logs.value = trimPreloadDebuggerLogs(logs.value);
 
   lastLogId.value = id;
 }
@@ -142,14 +140,13 @@ onUnmounted(() => {
 <template>
   <view
     v-if="props.visible"
-    class="lk-preload-debugger"
     :class="debuggerClass"
     :style="debuggerStyle"
   >
     <view class="lk-preload-debugger__header" @click="toggleExpand">
       <text class="lk-preload-debugger__title">{{ t('title') }}</text>
       <view class="lk-preload-debugger__badge" :class="statusClass">
-        {{ stats.running > 0 ? t('running') : stats.pending > 0 ? t('pending') : t('idle') }}
+        {{ statusLabel }}
       </view>
     </view>
 
