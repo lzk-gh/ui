@@ -1,0 +1,121 @@
+import type { CSSProperties } from 'vue';
+import type { TagSize, TagType } from './tag.props';
+
+export interface ResolveTagStyleOptions {
+  type: TagType;
+  color: string;
+  textColor: string;
+  bgColor: string;
+}
+
+export interface ResolveTagClassOptions {
+  type: TagType;
+  size: TagSize;
+  disabled: boolean;
+  round: boolean;
+  closable: boolean;
+  customClass: unknown;
+}
+
+export function expandShortHex(hex: string): string {
+  return hex
+    .split('')
+    .map((char) => char + char)
+    .join('');
+}
+
+export function toSoftColor(color: string): string {
+  const value = color.trim();
+  const hex = value.replace('#', '');
+  const normalized = hex.length === 3 ? expandShortHex(hex) : hex;
+
+  if (/^[0-9a-fA-F]{6}$/.test(normalized)) {
+    const r = parseInt(normalized.slice(0, 2), 16);
+    const g = parseInt(normalized.slice(2, 4), 16);
+    const b = parseInt(normalized.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, 0.12)`;
+  }
+
+  const rgb = value.match(/^rgba?\(([^)]+)\)$/i);
+  if (rgb) {
+    const [r, g, b] = rgb[1].split(',').map((part) => part.trim());
+    if (r && g && b) return `rgba(${r}, ${g}, ${b}, 0.12)`;
+  }
+
+  return color;
+}
+
+export function resolveTagSemanticColor(color: string): { text: string; bg: string } {
+  const value = color.trim();
+  const colorMap: Record<string, { text: string; bg: string }> = {
+    primary: {
+      text: 'var(--lk-brand-600)',
+      bg: 'rgba(var(--lk-brand-rgb, 105, 101, 219), 0.1)',
+    },
+    success: {
+      text: 'var(--lk-color-success)',
+      bg: 'var(--lk-color-success-soft, rgba(82, 196, 26, 0.12))',
+    },
+    warning: {
+      text: 'var(--lk-color-warning)',
+      bg: 'var(--lk-color-warning-soft, rgba(250, 173, 20, 0.14))',
+    },
+    danger: {
+      text: 'var(--lk-color-danger)',
+      bg: 'var(--lk-color-danger-soft, rgba(255, 77, 79, 0.12))',
+    },
+    info: {
+      text: 'var(--lk-color-info)',
+      bg: 'var(--lk-color-info-soft, rgba(24, 144, 255, 0.12))',
+    },
+  };
+
+  return colorMap[value] || { text: value, bg: toSoftColor(value) };
+}
+
+export function resolveTagStyle(options: ResolveTagStyleOptions): CSSProperties {
+  const style: CSSProperties = {};
+
+  if (options.color) {
+    const semanticColor = resolveTagSemanticColor(options.color);
+    style.color = semanticColor.text;
+    style.background = semanticColor.bg;
+    style.boxShadow = 'none';
+  }
+
+  if (options.bgColor) {
+    if (options.type === 'outline') {
+      style.boxShadow = `inset 0 0 0 var(--lk-rpx-2) ${options.bgColor}`;
+      style.background = 'transparent';
+    } else {
+      style.background = options.bgColor;
+    }
+  }
+
+  if (options.textColor) {
+    style.color = options.textColor;
+  }
+
+  return style;
+}
+
+export function resolveTagClass(options: ResolveTagClassOptions) {
+  return [
+    `lk-tag--${options.type}`,
+    `lk-tag--${options.size}`,
+    {
+      'is-disabled': options.disabled,
+      'is-round': options.round,
+      'is-closable': options.closable,
+    },
+    options.customClass,
+  ];
+}
+
+export function resolveTagEventName(
+  eventName: 'click' | 'close',
+  disabled: boolean,
+): 'click' | 'close' | 'click-disabled' | 'close-disabled' {
+  if (!disabled) return eventName;
+  return eventName === 'click' ? 'click-disabled' : 'close-disabled';
+}
