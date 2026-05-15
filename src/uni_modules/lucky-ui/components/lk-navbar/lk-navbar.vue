@@ -2,6 +2,16 @@
 import { computed, type StyleValue } from 'vue';
 import { navbarProps, navbarEmits } from './navbar.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import {
+  resolveNavbarContentHeight,
+  resolveNavbarContentStyle,
+  resolveNavbarMergedStyle,
+  resolveNavbarPlaceholderStyle,
+  resolveNavbarRootClass,
+  resolveNavbarSafeStyle,
+  resolveNavbarShowBack,
+  shouldNavigateBack,
+} from './navbar.utils';
 
 defineOptions({ name: 'LkNavbar' });
 
@@ -32,29 +42,27 @@ const windowWidth: number = typeof sys.windowWidth === 'number' ? sys.windowWidt
 
 const showBackComputed = computed(() => {
   // leftArrow 为兼容属性：若用户显式传入，以它为准
-  return typeof props.leftArrow === 'boolean' ? props.leftArrow : props.showBack;
+  return resolveNavbarShowBack({
+    leftArrow: props.leftArrow,
+    showBack: props.showBack,
+  });
 });
 
-const rootClass = computed(() => [
-  'lk-navbar',
-  `lk-navbar--${props.variant}`,
-  `lk-navbar--title-${props.titleAlign}`,
-  props.customClass,
-  {
-    'is-fixed': props.fixed,
-    'is-border': props.border,
-    'is-shadow': props.shadow,
-    'has-background': !!props.background,
-  },
-]);
+const rootClass = computed(() => resolveNavbarRootClass({
+  variant: props.variant,
+  titleAlign: props.titleAlign,
+  customClass: props.customClass,
+  fixed: props.fixed,
+  border: props.border,
+  shadow: props.shadow,
+  background: props.background,
+}));
 
-const mergedStyle = computed<StyleValue>(() => {
-  const style: Record<string, string | number> = { zIndex: props.zIndex };
-  if (props.background) style.background = props.background;
-  if (!props.customStyle) return style;
-  if (typeof props.customStyle === 'string') return [style, props.customStyle];
-  return [style, props.customStyle as StyleValue];
-});
+const mergedStyle = computed<StyleValue>(() => resolveNavbarMergedStyle({
+  zIndex: props.zIndex,
+  background: props.background,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 type MenuButtonInfoLike = {
   height?: number;
@@ -72,18 +80,10 @@ if (typeof uni !== 'undefined' && uni.getMenuButtonBoundingClientRect) {
 
 // 计算导航栏内容高度
 // 在小程序中，导航栏高度应该与胶囊按钮对齐
-const navbarContentHeight = computed(() => {
-  // #ifdef MP
-  const capsuleHeight = menuButtonInfo.height ?? 0;
-  const capsuleTop = menuButtonInfo.top ?? 0;
-  if (capsuleHeight > 0) {
-    // 胶囊按钮的高度 + 上下间距（胶囊距离状态栏的距离 * 2）
-    return capsuleHeight + (capsuleTop - statusBarHeight) * 2;
-  }
-  // #endif
-  // H5 或无胶囊信息时使用默认高度 44px (约 var(--lk-rpx-88))
-  return 44;
-});
+const navbarContentHeight = computed(() => resolveNavbarContentHeight({
+  statusBarHeight,
+  menuButtonInfo,
+}));
 
 function rpxToPx(value: number) {
   return typeof uni !== 'undefined' && typeof uni.upx2px === 'function'
@@ -91,33 +91,28 @@ function rpxToPx(value: number) {
     : value / 2;
 }
 
-const capsuleSafeStyle = computed<Record<string, string>>(() => {
-  if (!props.fixed || !props.safeArea) return {} as Record<string, string>;
+const capsuleSafeStyle = computed<Record<string, string>>(() => resolveNavbarSafeStyle({
+  fixed: props.fixed,
+  safeArea: props.safeArea,
+  menuButtonLeft: menuButtonInfo.left,
+  windowWidth,
+  rpxToPx,
+}));
 
-  // #ifdef MP
-  if (typeof menuButtonInfo.left === 'number' && windowWidth > 0) {
-    const defaultPadding = rpxToPx(16);
-    const capsuleGap = rpxToPx(8);
-    const capsuleReserve = windowWidth - menuButtonInfo.left;
-    const safePadding = Math.max(defaultPadding, capsuleReserve + capsuleGap);
-    return {
-      '--lk-navbar-content-padding-right': `${safePadding}px`,
-    };
-  }
-  // #endif
-
-  return {} as Record<string, string>;
-});
-
-const contentStyle = computed<StyleValue>(() => ({
-  height: `${navbarContentHeight.value}px`,
-  ...capsuleSafeStyle.value,
+const contentStyle = computed<StyleValue>(() => resolveNavbarContentStyle({
+  navbarContentHeight: navbarContentHeight.value,
+  capsuleSafeStyle: capsuleSafeStyle.value,
+}));
+const placeholderStyle = computed<StyleValue>(() => resolveNavbarPlaceholderStyle({
+  safeArea: props.safeArea,
+  statusBarHeight,
+  navbarContentHeight: navbarContentHeight.value,
 }));
 
 function tryNavigateBack() {
   try {
     const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : [];
-    if (Array.isArray(pages) && pages.length > 1) {
+    if (shouldNavigateBack(pages)) {
       uni.navigateBack({ delta: 1 });
     }
   } catch {
@@ -203,9 +198,7 @@ function onRightClick(event: unknown) {
   <view
     v-if="fixed && placeholder"
     class="lk-navbar__placeholder"
-    :style="{
-      height: (safeArea ? statusBarHeight : 0) + navbarContentHeight + 'px',
-    }"
+    :style="placeholderStyle"
   />
 </template>
 
