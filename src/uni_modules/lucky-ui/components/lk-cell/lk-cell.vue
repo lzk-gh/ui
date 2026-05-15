@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { cellProps, cellEmits } from './cell.props';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import {
+  resolveCellClass,
+  resolveCellStyle,
+  resolveCellTapAction,
+  shouldTriggerCellRipple,
+} from './cell.utils';
 
 defineOptions({ name: 'LkCell' });
 
@@ -9,12 +17,24 @@ const emit = defineEmits(cellEmits);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
+const cellClass = computed(() => resolveCellClass({
+  customClass: props.customClass,
+  clickable: props.clickable,
+  ripple: props.ripple,
+  disabled: props.disabled,
+  center: props.center,
+  rippleActive: rippleActive.value,
+}));
+
+const cellStyle = computed(() => resolveCellStyle(props.customStyle as StyleValue));
+
 function onTap(e: unknown) {
-  if (props.disabled) {
+  const action = resolveCellTapAction(props.disabled);
+  if (action === 'click-disabled') {
     emit('click-disabled', e);
     return;
   }
-  if (props.clickable && props.ripple) {
+  if (shouldTriggerCellRipple(props)) {
     triggerRipple(e);
   }
   emit('click', e);
@@ -25,17 +45,8 @@ function onTap(e: unknown) {
   <view
     :id="id"
     class="lk-cell"
-    :class="[
-      customClass,
-      {
-        'lk-ripple': clickable && ripple,
-        'is-clickable': clickable,
-        'is-disabled': disabled,
-        'is-center': center,
-        'lk-ripple--active': rippleActive,
-      },
-    ]"
-    :style="customStyle as any"
+    :class="cellClass"
+    :style="cellStyle"
     @tap="onTap"
   >
     <view class="lk-cell__left">
