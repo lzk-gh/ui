@@ -9,6 +9,21 @@ import {
 } from './picker.props';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import { useLocale } from '../../composables/useLocale';
+import {
+  getPickerOptionsByIndexes,
+  getPickerValueByIndexes,
+  resolveCascadePickerIndexes,
+  resolvePickerClass,
+  resolvePickerColumns,
+  resolvePickerIndicatorStyle,
+  resolvePickerItemLabelClass,
+  resolvePickerMaskStyle,
+  resolvePickerViewHeight,
+  resolvePickerViewWrapStyle,
+  resolvePickerIndexes,
+  syncPickerInnerValueFromModel,
+  type PickerPrimitiveValue,
+} from './picker.utils';
 
 defineOptions({ name: 'LkPicker' });
 
@@ -24,38 +39,14 @@ const selectedIndexes = ref<number[]>([]);
 // 内部值
 const innerValue = ref<(string | number)[]>([]);
 
-// 标准化列数据
-function normalizeColumns(cols: PickerOption[] | PickerOption[][]): PickerOption[][] {
-  if (!Array.isArray(cols) || cols.length === 0) return [];
-  if (Array.isArray(cols[0])) return cols as PickerOption[][];
-  return [cols as PickerOption[]];
-}
-
 // 计算列数据
 const computedColumns = computed<PickerOption[][]>(() => {
-  if (props.mode === 'cascade' && Array.isArray(props.columns)) {
-    // 级联模式：根据当前选择动态计算列
-    return buildCascadeColumns(props.columns as PickerOption[], innerValue.value);
-  }
-
-  return normalizeColumns(props.columns);
+  return resolvePickerColumns({
+    mode: props.mode,
+    columns: props.columns,
+    innerValue: innerValue.value,
+  });
 });
-
-// 构建级联列
-function buildCascadeColumns(data: PickerOption[], value: (string | number)[]): PickerOption[][] {
-  const result: PickerOption[][] = [];
-  let currentLevel = data;
-
-  for (let i = 0; currentLevel && currentLevel.length > 0; i++) {
-    result.push(currentLevel);
-    const idx =
-      value[i] !== undefined ? currentLevel.findIndex(item => item.value === value[i]) : 0;
-    const selected = currentLevel[Math.max(0, idx)] || currentLevel[0];
-    currentLevel = selected?.children || [];
-  }
-
-  return result;
-}
 
 // 根据 modelValue 初始化选中索引
 function initIndexes() {
@@ -68,40 +59,39 @@ function initIndexes() {
   }
 
   if (props.mode === 'single') {
-    const idx = cols[0].findIndex(o => o.value === mv);
-    selectedIndexes.value = [Math.max(0, idx)];
+    selectedIndexes.value = resolvePickerIndexes({
+      mode: props.mode,
+      columns: cols,
+      modelValue: mv,
+    });
   } else {
     const arr = Array.isArray(mv) ? mv : [];
     innerValue.value = arr.slice();
-    selectedIndexes.value = cols.map((col, i) => {
-      const idx = col.findIndex(o => o.value === arr[i]);
-      return Math.max(0, idx);
+    selectedIndexes.value = resolvePickerIndexes({
+      mode: props.mode,
+      columns: cols,
+      modelValue: mv,
     });
   }
 }
 
 function syncInnerValueFromModel() {
-  if (props.mode === 'cascade' || props.mode === 'multi') {
-    innerValue.value = Array.isArray(props.modelValue)
-      ? (props.modelValue as (string | number)[]).slice()
-      : [];
-  }
+  innerValue.value = syncPickerInnerValueFromModel({
+    mode: props.mode,
+    modelValue: props.modelValue,
+  });
 }
 
 function getValueByIndexes(indexes: number[]): PickerValue {
-  const cols = computedColumns.value;
-
-  if (props.mode === 'single') {
-    return cols[0]?.[indexes[0]]?.value ?? '';
-  }
-
-  return cols.map((col, i) => col[indexes[i]]?.value ?? '');
+  return getPickerValueByIndexes({
+    mode: props.mode,
+    columns: computedColumns.value,
+    indexes,
+  });
 }
 
 function getOptionsByIndexes(indexes: number[]): PickerOption[] {
-  return computedColumns.value
-    .map((col, i) => col[indexes[i]])
-    .filter((item): item is PickerOption => !!item);
+  return getPickerOptionsByIndexes(computedColumns.value, indexes);
 }
 
 function resetDraftSelection() {
@@ -132,26 +122,17 @@ watch(
 
 // picker-view change 事件
 function onChange(e: { detail: { value: number[] } }) {
-  const idxs = [...(e?.detail?.value || [])];
-
-  // 检测是否级联列变化
-  if (props.mode === 'cascade') {
-    for (let i = 0; i < idxs.length; i++) {
-      if (idxs[i] !== selectedIndexes.value[i]) {
-        // 重置后续列的索引
-        for (let j = i + 1; j < idxs.length; j++) {
-          idxs[j] = 0;
-        }
-        break;
-      }
-    }
-  }
+  const idxs = resolveCascadePickerIndexes({
+    nextIndexes: e?.detail?.value || [],
+    previousIndexes: selectedIndexes.value,
+    mode: props.mode,
+  });
 
   selectedIndexes.value = idxs;
 
   // 滚动时只更新内部草稿，避免频繁触发 v-model 与 change。
   if (props.mode !== 'single') {
-    innerValue.value = getValueByIndexes(idxs) as (string | number)[];
+    innerValue.value = getValueByIndexes(idxs) as PickerPrimitiveValue[];
   }
 
   const value = getValueByIndexes(idxs);
@@ -176,50 +157,32 @@ function onConfirm() {
   emit('update:visible', false);
 }
 
-/** 与当前列选中索引的距离档位（0=中间行），用于字号/颜色分层 */
-function distBucket(ci: number, oi: number): 0 | 1 | 2 | 3 {
-  const sel = selectedIndexes.value[ci];
-  if (sel === undefined) return 3;
-  return Math.min(Math.abs(oi - sel), 3) as 0 | 1 | 2 | 3;
-}
-
 /** 分层样式挂在 text 上：小程序 picker-view 内纯文本节点可能不继承 view 的字号/颜色/transform */
 function itemLabelClass(ci: number, oi: number): string {
-  return `lk-picker__item-label lk-picker__item-label--dist${distBucket(ci, oi)}`;
+  return resolvePickerItemLabelClass({
+    selectedIndexes: selectedIndexes.value,
+    columnIndex: ci,
+    optionIndex: oi,
+  });
 }
 
 // 计算 picker-view 高度
-const viewHeight = computed(() => `${props.itemHeight * props.visibleCount}rpx`);
-const viewWrapStyle = computed(() => `--lk-picker-item-height: ${props.itemHeight}rpx;`);
+const viewHeight = computed(() => resolvePickerViewHeight({
+  itemHeight: props.itemHeight,
+  visibleCount: props.visibleCount,
+}));
+const viewWrapStyle = computed(() => resolvePickerViewWrapStyle(props.itemHeight));
 // 各端指示层：小程序原生主要靠此字符串去默认上下边线；与 lk-picker.scss 中伪元素覆盖互为补充。
 const indicatorStyle = computed(() =>
-  [
-    `height: ${props.itemHeight}rpx`,
-    'background: transparent',
-    'border: none',
-    'border-width: 0',
-    'border-top: none',
-    'border-bottom: none',
-    'border-left: none',
-    'border-right: none',
-    'border-color: transparent',
-    'outline: none',
-    'box-shadow: none',
-  ].join(';')
+  resolvePickerIndicatorStyle(props.itemHeight)
 );
 // ⚠️可能存在平台差异：picker-view 的遮罩层由各端原生实现，需通过 mask-style 覆盖默认浅色渐隐。
-const maskStyle = computed(() => [
-  'background-image: linear-gradient(to bottom, var(--lk-picker-bg), transparent), linear-gradient(to top, var(--lk-picker-bg), transparent)',
-  'background-position: top, bottom',
-  'background-size: 100% 50%',
-  'background-repeat: no-repeat',
-].join(';'));
+const maskStyle = computed(() => resolvePickerMaskStyle());
 const cls = computed(() => [
-  'lk-picker',
-  {
-    'lk-picker--inline': props.inline,
-  },
-  props.customClass,
+  ...resolvePickerClass({
+    inline: props.inline,
+    customClass: props.customClass,
+  }),
 ]);
 const style = computed(() => props.customStyle as StyleValue);
 </script>
