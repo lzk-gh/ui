@@ -1,78 +1,68 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { numberRollerProps } from './number-roller.props';
+import {
+  buildNumberRollerSegments,
+  NUMBER_ROLLER_DIGITS_POOL,
+  normalizeNumberRollerValue,
+  primeNumberRollerDigits,
+  resolveNumberRollerClass,
+  resolveNumberRollerRenderSegments,
+  resolveNumberRollerRootStyle,
+  resolveNumberRollerStyle,
+  resolveNumberRollerTargetDigits,
+  resolveNumberRollerTrackStyle,
+  type NumberRollerAnimatedDigits,
+  type NumberRollerSegment,
+} from './number-roller.utils';
+import type { StyleValue } from 'vue';
 
 defineOptions({ name: 'LkNumberRoller' });
 
 const props = defineProps(numberRollerProps);
 
-const digitsPool = Object.freeze(Array.from({ length: 10 }, (_, i) => i));
+const digitsPool = NUMBER_ROLLER_DIGITS_POOL;
 
-interface DigitSegment {
-  key: string;
-  type: 'digit';
-  digit: number;
-}
+const classes = computed(() => resolveNumberRollerClass(props.customClass));
 
-interface SymbolSegment {
-  key: string;
-  type: 'symbol';
-  symbol: string;
-}
-
-type Segment = DigitSegment | SymbolSegment;
-
-const classes = computed(() => ['lk-number-roller', props.customClass]);
-
-const rollerStyle = computed(() => ({
-  '--lk-number-roller-speed': props.autoplay ? `${Math.max(props.speed, 16)}ms` : '0ms',
-  '--lk-number-roller-easing': props.easing,
-  '--lk-number-roller-digit-height': `${props.digitHeight}rpx`,
+const rollerStyle = computed(() => resolveNumberRollerStyle({
+  autoplay: props.autoplay,
+  speed: props.speed,
+  easing: props.easing,
+  digitHeight: props.digitHeight,
 }));
 
-function trackStyle(digit: number) {
-  return {
-    transform: `translate3d(0, calc(${digit} * -1 * var(--lk-number-roller-digit-height)), 0)`,
-  };
-}
+const rootStyle = computed(() =>
+  resolveNumberRollerRootStyle(rollerStyle.value, props.customStyle as StyleValue)
+);
 
-const formattedText = computed(() => normalizeValue(props.value));
+const formattedText = computed(() => normalizeNumberRollerValue(props.value, {
+  formatter: props.formatter,
+  decimals: props.decimals,
+  grouping: props.grouping,
+  groupSeparator: props.groupSeparator,
+  decimalSeparator: props.decimalSeparator,
+}));
 
-const segments = computed<Segment[]>(() => buildSegments(formattedText.value));
+const segments = computed<NumberRollerSegment[]>(() => buildNumberRollerSegments(formattedText.value));
 
-const animatedDigitByKey = ref<Record<string, number>>({});
+const animatedDigitByKey = ref<NumberRollerAnimatedDigits>({});
 
-const renderSegments = computed<Segment[]>(() => {
-  if (!props.autoplay) return segments.value;
-  return segments.value.map(seg => {
-    if (seg.type !== 'digit') return seg;
-    const current = animatedDigitByKey.value[seg.key];
-    return {
-      ...seg,
-      digit: typeof current === 'number' ? current : seg.digit,
-    } as Segment;
-  });
-});
+const renderSegments = computed<NumberRollerSegment[]>(() => resolveNumberRollerRenderSegments({
+  autoplay: props.autoplay,
+  segments: segments.value,
+  animatedDigitByKey: animatedDigitByKey.value,
+}));
 
 function primeAndAnimateDigits() {
   if (!props.autoplay) return;
-  const next: Record<string, number> = { ...animatedDigitByKey.value };
-  let hasNewKey = false;
-  for (const seg of segments.value) {
-    if (seg.type !== 'digit') continue;
-    if (!(seg.key in next)) {
-      next[seg.key] = 0;
-      hasNewKey = true;
-    }
-  }
-  if (hasNewKey) animatedDigitByKey.value = next;
+  const { next, changed } = primeNumberRollerDigits(segments.value, animatedDigitByKey.value);
+  if (changed) animatedDigitByKey.value = next;
   nextTick(() => {
-    const updated: Record<string, number> = { ...animatedDigitByKey.value };
-    for (const seg of segments.value) {
-      if (seg.type !== 'digit') continue;
-      updated[seg.key] = seg.digit;
-    }
-    animatedDigitByKey.value = updated;
+    animatedDigitByKey.value = resolveNumberRollerTargetDigits(
+      segments.value,
+      animatedDigitByKey.value
+    );
   });
 }
 
@@ -86,74 +76,16 @@ watch(
     primeAndAnimateDigits();
   }
 );
-
-function normalizeValue(value: number | string): string {
-  const formatted = props.formatter?.(value);
-  if (formatted !== undefined && formatted !== null) {
-    const custom = String(formatted).trim();
-    return custom || '0';
-  }
-
-  if (typeof value === 'number') {
-    return formatNumeric(value, String(value));
-  }
-
-  const raw = String(value ?? '').trim();
-  if (!raw) return '0';
-
-  if (/^-?\d+(\.\d+)?$/.test(raw)) {
-    return formatNumeric(Number(raw), raw);
-  }
-
-  return raw;
-}
-
-function formatNumeric(num: number, raw: string): string {
-  const decimals =
-    typeof props.decimals === 'number' && props.decimals >= 0
-      ? props.decimals
-      : extractDecimalLength(raw);
-  const normalized = decimals !== null ? num.toFixed(decimals) : raw;
-  return injectSeparators(normalized);
-}
-
-function extractDecimalLength(text: string): number | null {
-  if (!text.includes('.')) return null;
-  const decimal = text.split('.')[1];
-  return decimal && decimal.length > 0 ? decimal.length : null;
-}
-
-function injectSeparators(input: string): string {
-  const [intRaw, decimalRaw = ''] = input.split('.');
-  const sign = intRaw.startsWith('-') ? '-' : '';
-  const absoluteInt = sign ? intRaw.slice(1) : intRaw;
-  const groupedInt = props.grouping
-    ? absoluteInt.replace(/\B(?=(\d{3})+(?!\d))/g, props.groupSeparator)
-    : absoluteInt;
-  const decimalPart = decimalRaw ? `${props.decimalSeparator}${decimalRaw}` : '';
-  const result = `${sign}${groupedInt}${decimalPart}`;
-  return result || '0';
-}
-
-function buildSegments(value: string): Segment[] {
-  const source = value || '0';
-  return source.split('').map((char, index) => {
-    if (/^\d$/.test(char)) {
-      return { key: `digit-${index}`, type: 'digit', digit: Number(char) } as Segment;
-    }
-    return { key: `symbol-${index}-${char}`, type: 'symbol', symbol: char } as Segment;
-  });
-}
 </script>
 
 <template>
-  <view :class="classes" :style="[rollerStyle, props.customStyle as any]">
+  <view :class="classes" :style="rootStyle">
     <template v-for="segment in renderSegments" :key="segment.key">
       <view v-if="segment.type === 'digit'" class="lk-number-roller__segment">
         <view class="lk-number-roller__window">
           <view
             class="lk-number-roller__track"
-            :style="trackStyle(segment.digit)"
+            :style="resolveNumberRollerTrackStyle(segment.digit)"
           >
             <text v-for="digit in digitsPool" :key="digit" class="lk-number-roller__digit">{{
               digit
