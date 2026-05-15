@@ -1,10 +1,18 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { ref, computed, watch } from 'vue';
 import { onPageScroll } from '@dcloudio/uni-app';
 import { backtopProps, backtopEmits } from './backtop.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
-import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 import { scrollToTop } from '@/uni_modules/lucky-ui/core/src/utils/scroll';
+import {
+  createBacktopPayload,
+  resolveBacktopClass,
+  resolveBacktopStyle,
+  resolveBacktopVisible,
+  resolveBacktopWrapperStyle,
+  shouldBacktopScrollPage,
+} from './backtop.utils';
 
 /**
  * Backtop 回到顶部
@@ -22,7 +30,10 @@ let framePending = false;
 let latestScrollTop = 0;
 
 function syncVisibleFromScrollTop(scrollTop: number) {
-  const next = scrollTop >= props.visibilityHeight;
+  const next = resolveBacktopVisible({
+    scrollTop,
+    visibilityHeight: props.visibilityHeight,
+  });
   if (next !== visible.value) {
     visible.value = next;
     emit('change:visible', next, scrollTop);
@@ -30,7 +41,10 @@ function syncVisibleFromScrollTop(scrollTop: number) {
 }
 
 const computedVisible = computed(() => {
-  return props.usePageScroll ? visible.value : props.scrollTop >= props.visibilityHeight;
+  return resolveBacktopVisible({
+    scrollTop: props.usePageScroll ? latestScrollTop : props.scrollTop,
+    visibilityHeight: props.visibilityHeight,
+  });
 });
 
 if (props.usePageScroll) {
@@ -56,7 +70,7 @@ if (props.usePageScroll) {
 
 function toTop(event?: unknown) {
   emit('click', event);
-  if (props.usePageScroll) {
+  if (shouldBacktopScrollPage(props.usePageScroll)) {
     scrollToTop({
       duration: props.duration,
       easing: props.easing,
@@ -64,31 +78,33 @@ function toTop(event?: unknown) {
     });
   }
   // 无论哪种模式都抛出事件，受控模式由外部自行将容器滚动置 0
-  emit('to-top', {
+  emit('to-top', createBacktopPayload({
     usePageScroll: props.usePageScroll,
     duration: props.duration,
     easing: props.easing,
     event,
-  });
+  }));
 }
 
 const wrapperStyle = computed(() => {
-  const r = addUnit(props.right) || 'var(--lk-rpx-32)';
-  const b = addUnit(props.bottom) || 'var(--lk-rpx-80)';
-  return {
-    right: r,
-    bottom: b,
-    zIndex: String(props.zIndex),
-  } as Record<string, string>;
+  return resolveBacktopWrapperStyle({
+    right: props.right,
+    bottom: props.bottom,
+    zIndex: props.zIndex,
+  });
 });
 
-const classes = computed(() => [
-  'lk-backtop',
-  `lk-backtop--${props.size}`,
-  `lk-backtop--shape-${props.shape}`,
-  { 'is-visible': computedVisible.value },
-  props.customClass,
-]);
+const backtopStyle = computed<StyleValue>(() => resolveBacktopStyle({
+  wrapperStyle: wrapperStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
+
+const classes = computed(() => resolveBacktopClass({
+  size: props.size,
+  shape: props.shape,
+  visible: computedVisible.value,
+  customClass: props.customClass,
+}));
 </script>
 
 <template>
@@ -96,7 +112,7 @@ const classes = computed(() => [
     v-show="computedVisible"
     :id="id"
     :class="classes"
-    :style="[wrapperStyle, customStyle as any]"
+    :style="backtopStyle"
     aria-label="Back to top"
     role="button"
     @tap="toTop"
