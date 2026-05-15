@@ -7,11 +7,27 @@ import {
   getCurrentInstance,
   onMounted,
   nextTick,
-  type CSSProperties,
+  type StyleValue,
 } from 'vue';
 import { formContextKey } from '../lk-form/context';
 import type { SliderValue } from './slider.props';
 import { sliderProps, sliderEmits } from './slider.props';
+import {
+  formatSliderDisplayValue,
+  getSliderEmitValue,
+  getSliderPointX,
+  initSliderValue,
+  resolveSliderBarStyle,
+  resolveSliderBlockStyle,
+  resolveSliderRootClass,
+  resolveSliderRootStyle,
+  resolveSliderStops,
+  resolveSliderThumbStyle,
+  resolveSliderTrackStyle,
+  resolveSliderUpdate,
+  shouldValidateSliderField,
+  type SliderPointerEvent,
+} from './slider.utils';
 
 defineOptions({ name: 'LkSlider' });
 
@@ -37,96 +53,76 @@ watch(
 );
 
 function initValue(val: number | number[]) {
-  if (props.range) {
-    if (Array.isArray(val)) {
-      currentVal.value = [val[0] ?? props.min, val[1] ?? props.max];
-    } else {
-      currentVal.value = [props.min, Number(val)];
-    }
-  } else {
-    currentVal.value = [Array.isArray(val) ? val[0] : Number(val)];
-  }
+  currentVal.value = initSliderValue({
+    value: val,
+    range: props.range,
+    min: props.min,
+    max: props.max,
+  });
 }
 
 // --- 计算属性 ---
 
-function getPercent(value: number) {
-  const range = props.max - props.min;
-  if (range <= 0) return 0;
-  return Math.max(0, Math.min(100, ((value - props.min) / range) * 100));
-}
-
 // 计算间断点的位置数组
 const stops = computed(() => {
-  if (!props.showStops || props.step <= 0) return [];
-  const range = props.max - props.min;
-  const stepCount = Math.floor(range / props.step);
-  const result: number[] = [];
-
-  // 超过 50 个点就不显示了，避免性能问题和密集恐惧症
-  if (stepCount > 50) return [];
-
-  for (let i = 1; i < stepCount; i++) {
-    result.push(((i * props.step) / range) * 100);
-  }
-  return result;
+  return resolveSliderStops({
+    showStops: props.showStops,
+    step: props.step,
+    min: props.min,
+    max: props.max,
+  });
 });
 
 const barStyle = computed(() => {
-  const style: CSSProperties = {};
-  if (props.activeColor) style.backgroundColor = props.activeColor;
-  if (dragging.value) style.transition = 'none';
-
-  if (props.range) {
-    const p1 = getPercent(Math.min(currentVal.value[0], currentVal.value[1]));
-    const p2 = getPercent(Math.max(currentVal.value[0], currentVal.value[1]));
-    style.left = `${p1}%`;
-    style.width = `${p2 - p1}%`;
-  } else {
-    style.width = `${getPercent(currentVal.value[0])}%`;
-  }
-  return style;
+  return resolveSliderBarStyle({
+    activeColor: props.activeColor,
+    dragging: dragging.value,
+    range: props.range,
+    values: currentVal.value,
+    min: props.min,
+    max: props.max,
+  });
 });
 
 const rootClass = computed(() => [
-  'lk-slider',
-  `lk-slider--${props.size}`,
-  { 'is-disabled': props.disabled, 'is-dragging': dragging.value },
-  props.customClass,
+  ...resolveSliderRootClass({
+    size: props.size,
+    disabled: props.disabled,
+    dragging: dragging.value,
+    customClass: props.customClass,
+  }),
 ]);
 
 const rootStyle = computed(() => {
-  const style: CSSProperties = {
-    ...(props.customStyle as CSSProperties),
-  };
-  if (props.activeColor) style['--_active-bg'] = props.activeColor;
-  if (props.inactiveColor) style['--_inactive-bg'] = props.inactiveColor;
-  return style;
+  return resolveSliderRootStyle({
+    customStyle: props.customStyle as StyleValue,
+    activeColor: props.activeColor,
+    inactiveColor: props.inactiveColor,
+  });
 });
 
 const trackStyle = computed(() => {
-  const style: CSSProperties = {};
-  if (props.barHeight) style.height = props.barHeight;
-  if (props.inactiveColor) style.backgroundColor = props.inactiveColor;
-  return style;
+  return resolveSliderTrackStyle({
+    barHeight: props.barHeight,
+    inactiveColor: props.inactiveColor,
+  });
 });
 
 function getThumbStyle(index: number) {
-  const percent = getPercent(currentVal.value[index]);
-  const style: CSSProperties = { left: `${percent}%` };
-  if (dragging.value) style.transition = 'none';
-  style.zIndex = draggingIndex.value === index ? 2 : 1;
-  return style;
+  return resolveSliderThumbStyle({
+    value: currentVal.value[index],
+    min: props.min,
+    max: props.max,
+    dragging: dragging.value,
+    active: draggingIndex.value === index,
+  });
 }
 
 const blockCustomStyle = computed(() => {
-  const style: CSSProperties = {};
-  if (props.blockSize) {
-    style.width = props.blockSize;
-    style.height = props.blockSize;
-  }
-  if (props.blockColor) style.backgroundColor = props.blockColor;
-  return style;
+  return resolveSliderBlockStyle({
+    blockSize: props.blockSize,
+    blockColor: props.blockColor,
+  });
 });
 
 // --- 逻辑 ---
@@ -145,88 +141,55 @@ function measureTrack(): Promise<{ left: number; width: number }> {
   });
 }
 
-type SliderPointerEvent = {
-  changedTouches?: ArrayLike<{ clientX?: number }>;
-  touches?: ArrayLike<{ clientX?: number }>;
-  clientX?: number;
-  detail?: number | { x?: number };
-};
-
 function getPointX(e: Event | SliderPointerEvent): number {
-  const event = e as SliderPointerEvent;
-  const detailX =
-    typeof event.detail === 'object' && event.detail !== null ? event.detail.x : undefined;
-  return (
-    event.changedTouches?.[0]?.clientX ??
-    event.touches?.[0]?.clientX ??
-    event.clientX ??
-    detailX ??
-    0
-  );
+  return getSliderPointX(e);
 }
 
 function formatDisplayValue(value: number) {
-  return props.formatValue ? props.formatValue(value) : value;
-}
-
-// 修正后的步长计算逻辑：基于 min 的相对偏移
-function formatStepValue(percent: number): number {
-  const range = props.max - props.min;
-  const rawValue = props.min + range * percent;
-
-  const step = props.step > 0 ? props.step : 1;
-  // 计算走了多少个 step
-  const steps = Math.round((rawValue - props.min) / step);
-  // 重新计算吸附后的值
-  let val = props.min + steps * step;
-
-  // 精度修正 (解决 0.1 + 0.2 != 0.3 问题)
-  val = parseFloat(val.toFixed(2));
-
-  return Math.min(props.max, Math.max(props.min, val));
+  return formatSliderDisplayValue(value, props.formatValue);
 }
 
 function emitValue(): SliderValue {
-  return props.range ? [...currentVal.value].sort((a, b) => a - b) : currentVal.value[0];
+  return getSliderEmitValue({
+    range: props.range,
+    values: currentVal.value,
+  });
 }
 
 function commitChange() {
   const finalVal = emitValue();
   emit('change', finalVal);
-  if (props.validateEvent && props.prop) form?.emitFieldChange(props.prop, finalVal);
+  if (shouldValidateSliderField({ validateEvent: props.validateEvent, prop: props.prop })) {
+    form?.emitFieldChange(props.prop, finalVal);
+  }
   return finalVal;
 }
 
 function updateValue(clientX: number, isClick = false): SliderValue | null {
-  const rect = trackRect.value;
-  if (rect.width <= 0) return null;
+  const result = resolveSliderUpdate({
+    clientX,
+    rect: trackRect.value,
+    values: currentVal.value,
+    draggingIndex: draggingIndex.value,
+    isClick,
+    range: props.range,
+    min: props.min,
+    max: props.max,
+    step: props.step,
+  });
 
-  const percent = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-  const newValue = formatStepValue(percent);
-
-  let index = draggingIndex.value;
-  if (isClick || index === -1) {
-    if (props.range) {
-      const dist0 = Math.abs(currentVal.value[0] - newValue);
-      const dist1 = Math.abs(currentVal.value[1] - newValue);
-      index = dist0 <= dist1 ? 0 : 1;
-    } else {
-      index = 0;
-    }
-    draggingIndex.value = index;
+  if (!result) return null;
+  if (isClick || draggingIndex.value === -1) {
+    draggingIndex.value = result.draggingIndex;
   }
 
-  if (currentVal.value[index] !== newValue) {
-    const nextVal = [...currentVal.value];
-    nextVal[index] = newValue;
-    currentVal.value = nextVal;
-
-    const nextEmitValue = emitValue();
-    emit('update:modelValue', nextEmitValue);
-    emit('input', nextEmitValue);
-    return nextEmitValue;
+  if (result.changed) {
+    currentVal.value = result.values;
+    emit('update:modelValue', result.emitValue);
+    emit('input', result.emitValue);
   }
-  return emitValue();
+
+  return result.emitValue;
 }
 
 async function onTouchStart(e: Event | SliderPointerEvent) {
