@@ -13,6 +13,19 @@ import {
   tabbarContainerProps,
   type TabConfig,
 } from './tabbar-container.props';
+import {
+  getTabbarContainerPreloadIds,
+  isTabbarContainerSlidingMode,
+  resolveTabbarContainerActiveBgStyle,
+  resolveTabbarContainerBadgeText,
+  resolveTabbarContainerClass,
+  resolveTabbarContainerCopyText,
+  resolveTabbarContainerIcon,
+  resolveTabbarContainerSafeAreaBottom,
+  resolveTabbarContainerStyle,
+  shouldChangeTabbarContainerTab,
+  shouldShowTabbarContainerBadge,
+} from './tabbar-container.utils';
 
 defineOptions({ name: 'LkTabbarContainer' });
 
@@ -39,50 +52,39 @@ let preferRuntimeSafeArea = false;
 preferRuntimeSafeArea = true;
 // #endif
 
-function resolveSafeAreaBottom(info: SafeAreaInfoLike) {
-  const insetBottom = info.safeAreaInsets?.bottom;
-  if (typeof insetBottom === 'number') return Math.max(insetBottom, 0);
-
-  const screenHeight = info.screenHeight;
-  const safeAreaBottom = info.safeArea?.bottom;
-  if (typeof screenHeight === 'number' && typeof safeAreaBottom === 'number') {
-    return Math.max(screenHeight - safeAreaBottom, 0);
-  }
-
-  return 0;
-}
-
-const safeAreaBottom = resolveSafeAreaBottom(systemInfo);
+const safeAreaBottom = resolveTabbarContainerSafeAreaBottom(systemInfo);
 
 const { activeId, switchTab, preloadTabs, getTabInstance, isVisited } = useTabbarContainer();
 
 const TABBAR_ICON_SIZE = 40;
-const slidingIndicatorModes = ['block', 'marker-top', 'marker-bottom', 'dot-slide'];
 
 /** 默认使用 block，与历史默认一致；宿主可通过 :mode 绑定全局状态 */
 const activeMode = computed(() => props.mode ?? 'block');
 
-const hasSlidingIndicator = computed(() => slidingIndicatorModes.includes(activeMode.value));
-const resolvedLoadingText = computed(() => props.loadingText || t('loading'));
-const resolvedErrorText = computed(() => props.errorText || t('loadFailed'));
-const resolvedRetryText = computed(() => props.retryText || t('retry'));
+const hasSlidingIndicator = computed(() => isTabbarContainerSlidingMode(activeMode.value));
+const resolvedLoadingText = computed(() => resolveTabbarContainerCopyText({
+  value: props.loadingText,
+  fallback: t('loading'),
+}));
+const resolvedErrorText = computed(() => resolveTabbarContainerCopyText({
+  value: props.errorText,
+  fallback: t('loadFailed'),
+}));
+const resolvedRetryText = computed(() => resolveTabbarContainerCopyText({
+  value: props.retryText,
+  fallback: t('retry'),
+}));
 
-const containerClass = computed(() => [
-  'lk-tabbar-container',
-  `lk-tabbar-container--${activeMode.value}`,
-  props.customClass,
-]);
+const containerClass = computed(() => resolveTabbarContainerClass({
+  mode: activeMode.value,
+  customClass: props.customClass,
+}));
 
-const containerStyle = computed<StyleValue>(() => {
-  const style: Record<string, string> = {};
-  if (preferRuntimeSafeArea || safeAreaBottom > 0) {
-    style['--lk-tabbar-container-safe-area-bottom'] = `${safeAreaBottom}px`;
-  }
-
-  if (!props.customStyle) return style;
-  if (typeof props.customStyle === 'string') return [style, props.customStyle];
-  return [style, props.customStyle as StyleValue];
-});
+const containerStyle = computed<StyleValue>(() => resolveTabbarContainerStyle({
+  preferRuntimeSafeArea,
+  safeAreaBottom,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 const activeIndex = computed(() => {
   return props.tabs.findIndex(tab => tab.id === activeId.value);
@@ -92,37 +94,24 @@ const activeTab = computed(() => {
   return props.tabs.find(tab => tab.id === activeId.value);
 });
 
-const activeBgStyle = computed(() => {
-  const count = props.tabs.length;
-  if (count === 0 || activeIndex.value === -1) return { display: 'none' };
-
-  const width = 100 / count;
-  const left = activeIndex.value * width;
-
-  return {
-    '--item-width': `${width}%`,
-    '--item-left': `${left}%`,
-    '--item-count': count,
-    '--active-index': activeIndex.value,
-    '--active-center': `${left + width / 2}%`,
-  };
-});
-
-function resolveFillIconName(iconName: string) {
-  if (!iconName || iconName.endsWith('-fill')) return iconName;
-  return `${iconName}-fill`;
-}
+const activeBgStyle = computed(() => resolveTabbarContainerActiveBgStyle({
+  count: props.tabs.length,
+  activeIndex: activeIndex.value,
+}));
 
 function resolveTabIcon(tab: TabConfig) {
-  if (tab.id !== activeId.value) return tab.icon;
-  if (tab.selectedIcon) return tab.selectedIcon;
-  if (tab.activeIconFill) return resolveFillIconName(tab.icon);
-  return tab.icon;
+  return resolveTabbarContainerIcon({
+    tab,
+    activeId: activeId.value,
+  });
 }
 
 // 处理 Tab 点击
 async function handleTabClick(tab: TabConfig) {
-  if (tab.id === activeId.value) return;
+  if (!shouldChangeTabbarContainerTab({
+    nextTabId: tab.id,
+    activeId: activeId.value,
+  })) return;
 
   const oldTabId = activeId.value;
   emit('beforeChange', tab.id, oldTabId);
@@ -153,8 +142,10 @@ onMounted(() => {
   // 预加载其他 Tab
   if (props.preloadAll) {
     setTimeout(() => {
-      const otherTabs = props.tabs.filter(t => t.id !== activeId.value).map(t => t.id);
-      preloadTabs(otherTabs);
+      preloadTabs(getTabbarContainerPreloadIds({
+        tabs: props.tabs,
+        activeId: activeId.value,
+      }));
     }, props.preloadDelay);
   }
 });
@@ -255,8 +246,11 @@ watch(
             <view class="tabbar-item__icon">
               <lk-icon :name="resolveTabIcon(tab)" :size="TABBAR_ICON_SIZE" />
               <!-- 徽标 -->
-              <view v-if="tab.badge && tab.badge > 0" class="tabbar-item__badge">
-                {{ tab.badge > 99 ? '99+' : tab.badge }}
+              <view
+                v-if="shouldShowTabbarContainerBadge(tab.badge)"
+                class="tabbar-item__badge"
+              >
+                {{ resolveTabbarContainerBadgeText(tab.badge) }}
               </view>
               <!-- 小红点 -->
               <view v-else-if="tab.dot" class="tabbar-item__dot" />
