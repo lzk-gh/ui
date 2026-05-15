@@ -7,66 +7,49 @@ import {
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import { popupProps, popupEmits } from './popup.props';
-import { addUnit } from '../../core/src/utils/unit';
 import {
   useTransition,
-  ANIMATION_PRESETS,
-  type TransitionConfig,
 } from '@/uni_modules/lucky-ui/composables/useTransition';
+import {
+  applyPopupRubberBand,
+  canExpandPopupSheet,
+  getPopupInitialOpenTranslateY,
+  getPopupMinSnapY,
+  getPopupTouchClientY,
+  isPopupBottomDraggable,
+  isPopupContentAtLower,
+  normalizePopupSnapPixels,
+  POPUP_VELOCITY_THRESHOLD,
+  resolvePopupCloseOnOverlay,
+  resolvePopupNumber,
+  resolvePopupPanelStyle,
+  resolvePopupSize,
+  resolvePopupSnapTarget,
+  resolvePopupTransitionConfig,
+  resolvePopupWrapperClass,
+  resolvePopupWrapperStyle,
+} from './popup.utils';
 
 defineOptions({ name: 'LkPopup' });
 
 const props = defineProps(popupProps);
 const emit = defineEmits(popupEmits);
-const closeOnOverlayResolved = computed(() => {
-  return props.closeOnClickOverlay ?? props.closeOnOverlay;
-});
-const popupHeight = computed(() => addUnit(props.height) || '');
-const popupWidth = computed(() => addUnit(props.width) || '');
+const closeOnOverlayResolved = computed(() => resolvePopupCloseOnOverlay({
+  closeOnClickOverlay: props.closeOnClickOverlay,
+  closeOnOverlay: props.closeOnOverlay,
+}));
+const popupHeight = computed(() => resolvePopupSize(props.height));
+const popupWidth = computed(() => resolvePopupSize(props.width));
 
-const defaultByPosition: Record<string, NonNullable<TransitionConfig['name']>> = {
-  center: 'zoom-in',
-  top: 'slide-down',
-  bottom: 'slide-up',
-  left: 'slide-left',
-  right: 'slide-right',
-};
-
-const transitionConfig = computed<TransitionConfig>(() => {
-  if (props.position === 'bottom' && props.draggable) {
-    return {
-      name: 'fade',
-      duration: props.duration ?? 260,
-      delay: props.delay,
-      easing: props.easing ?? 'ease-out',
-    };
-  }
-
-  if (props.animationType) {
-    return {
-      name: props.animationType,
-      duration: props.duration ?? 260,
-      delay: props.delay,
-      easing: props.easing ?? 'ease-out',
-    };
-  }
-  if (props.animation && ANIMATION_PRESETS[props.animation]) {
-    const p = ANIMATION_PRESETS[props.animation];
-    return {
-      name: p.animation,
-      duration: props.duration ?? p.duration ?? 260,
-      delay: props.delay ?? p.delay,
-      easing: props.easing ?? p.easing ?? 'ease-out',
-    };
-  }
-  const name = defaultByPosition[props.position] || 'zoom-in';
-  return {
-    name,
-    duration: props.duration ?? 260,
-    delay: props.delay ?? 0,
-    easing: props.easing ?? 'ease-out',
-  };
-});
+const transitionConfig = computed(() => resolvePopupTransitionConfig({
+  position: props.position,
+  draggable: props.draggable,
+  animation: props.animation,
+  animationType: props.animationType,
+  duration: props.duration,
+  delay: props.delay,
+  easing: props.easing,
+}));
 
 const {
   classes: transitionClasses,
@@ -88,18 +71,22 @@ function onCloseClick() {
 }
 
 const wrapperClass = computed(() => [
-  'lk-popup',
-  `lk-popup--${props.position}`,
-  { 'is-round': props.round },
-  { 'is-draggable': props.position === 'bottom' && props.draggable },
+  ...resolvePopupWrapperClass({
+    position: props.position,
+    round: props.round,
+    draggable: props.draggable,
+  }),
 ]);
 
-const wrapperStyle = computed(() => ({
-  zIndex: props.zIndex + 1,
-  '--lk-popup-radius': props.radius,
+const wrapperStyle = computed(() => resolvePopupWrapperStyle({
+  zIndex: props.zIndex,
+  radius: props.radius,
 }));
 
-const isBottomDraggable = computed(() => props.position === 'bottom' && props.draggable);
+const isBottomDraggable = computed(() => isPopupBottomDraggable({
+  position: props.position,
+  draggable: props.draggable,
+}));
 
 const translateY = ref(0);
 const isPanelGestureActive = ref(false);
@@ -116,27 +103,27 @@ let velocity = 0;
 let lastTime = 0;
 let lastY = 0;
 
-const VELOCITY_THRESHOLD = 0.5;
-const SCROLL_BOUND_EPS = 6;
-
 const snapPixelsSorted = computed(() => {
-  const raw = props.snapPoints.filter(n => typeof n === 'number' && n >= 0 && n <= 1);
-  const list = raw.length ? [...raw] : [0.5, 0.1];
-  return [...new Set(list.map(r => r * windowHeight))].sort((a, b) => a - b);
+  return normalizePopupSnapPixels({
+    snapPoints: props.snapPoints,
+    windowHeight,
+  });
 });
 
 const initialOpenTranslateY = computed(() => {
-  const arr = props.snapPoints;
-  const first = typeof arr[0] === 'number' ? arr[0] : 0.5;
-  const clamped = Math.min(1, Math.max(0, first));
-  return clamped * windowHeight;
+  return getPopupInitialOpenTranslateY({
+    snapPoints: props.snapPoints,
+    windowHeight,
+  });
 });
 
-const minSnapY = computed(() => snapPixelsSorted.value[0] ?? windowHeight * 0.1);
+const minSnapY = computed(() => getPopupMinSnapY({
+  snapPixels: snapPixelsSorted.value,
+  windowHeight,
+}));
 
 function touchClientY(e: PopupTouchEvent): number {
-  const y = e.touches?.[0]?.clientY;
-  return typeof y === 'number' ? y : 0;
+  return getPopupTouchClientY(e);
 }
 
 function doubleRaf(cb: () => void): void {
@@ -157,11 +144,10 @@ function preventTouchMoveIfPossible(e: unknown): void {
 }
 
 function applyRubberBand(nextY: number): number {
-  const floor = minSnapY.value;
-  if (nextY < floor) {
-    return floor + (nextY - floor) * 0.3;
-  }
-  return nextY;
+  return applyPopupRubberBand({
+    nextY,
+    minSnapY: minSnapY.value,
+  });
 }
 
 function updateVelocitySample(currentY: number): void {
@@ -175,22 +161,12 @@ function updateVelocitySample(currentY: number): void {
 }
 
 function resolveSnapTarget(currentY: number, vel: number): number {
-  const snaps = snapPixelsSorted.value;
-  const closeY = windowHeight;
-  const candidates = [...snaps, closeY];
-
-  if (vel > VELOCITY_THRESHOLD) {
-    const down = candidates.filter(p => p > currentY + 2);
-    return down.length ? Math.min(...down) : closeY;
-  }
-  if (vel < -VELOCITY_THRESHOLD) {
-    const up = candidates.filter(p => p < currentY - 2);
-    return up.length ? Math.max(...up) : (snaps[0] ?? currentY);
-  }
-
-  return candidates.reduce((best, p) =>
-    Math.abs(p - currentY) < Math.abs(best - currentY) ? p : best
-  );
+  return resolvePopupSnapTarget({
+    currentY,
+    velocity: vel,
+    snapPixels: snapPixelsSorted.value,
+    windowHeight,
+  });
 }
 
 function finalizeSheetPosition(): void {
@@ -262,7 +238,7 @@ function onContentScroll(e: { detail?: { scrollTop?: number; scrollHeight?: numb
 }
 
 function resolveNumber(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+  return resolvePopupNumber(value, fallback);
 }
 
 function getGestureScrollTop(): number {
@@ -278,21 +254,25 @@ function getGestureViewportHeight(): number {
 }
 
 function canExpandSheet(): boolean {
-  return translateY.value > minSnapY.value + 2;
+  return canExpandPopupSheet({
+    translateY: translateY.value,
+    minSnapY: minSnapY.value,
+  });
 }
 
 function expandSheetFromContentLower(): void {
   if (!props.draggable || props.position !== 'bottom' || isPanelGestureActive.value) return;
   if (!canExpandSheet()) return;
-  velocity = -VELOCITY_THRESHOLD - 0.1;
+  velocity = -POPUP_VELOCITY_THRESHOLD - 0.1;
   finalizeSheetPosition();
 }
 
 function isContentAtLower(): boolean {
-  const vh = getGestureViewportHeight();
-  const sh = getGestureScrollHeight();
-  if (vh <= 0 || sh <= 0) return false;
-  return getGestureScrollTop() + vh >= sh - SCROLL_BOUND_EPS;
+  return isPopupContentAtLower({
+    scrollTop: getGestureScrollTop(),
+    viewportHeight: getGestureViewportHeight(),
+    scrollHeight: getGestureScrollHeight(),
+  });
 }
 
 watch(
@@ -303,28 +283,19 @@ watch(
 );
 
 const panelStyle = computed(() => {
-  if (props.position === 'bottom' && props.draggable) {
-    const durationMs =
-      typeof transitionConfig.value.duration === 'number' ? transitionConfig.value.duration : 300;
-    const visibleHeight = Math.max(0, windowHeight - translateY.value);
-    return {
-      ...transitionStyles.value,
-      height: `${visibleHeight}px`,
-      transform: 'none',
-      transition: isPanelGestureActive.value
-        ? 'none'
-        : `height ${Math.max(durationMs, 260) * 0.001}s cubic-bezier(0.18, 0.89, 0.32, 1.28)`,
-      ...(popupWidth.value ? { width: popupWidth.value } : {}),
-      borderRadius: props.round
-        ? `var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0`
-        : '0',
-    };
-  }
-  return {
-    ...transitionStyles.value,
-    ...(popupHeight.value ? { height: popupHeight.value } : {}),
-    ...(popupWidth.value ? { width: popupWidth.value } : {}),
-  };
+  return resolvePopupPanelStyle({
+    position: props.position,
+    draggable: props.draggable,
+    transitionStyles: transitionStyles.value,
+    height: popupHeight.value,
+    width: popupWidth.value,
+    transitionDuration:
+      typeof transitionConfig.value.duration === 'number' ? transitionConfig.value.duration : 300,
+    isGestureActive: isPanelGestureActive.value,
+    windowHeight,
+    translateY: translateY.value,
+    round: props.round,
+  });
 });
 </script>
 
