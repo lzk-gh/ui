@@ -1,9 +1,26 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue';
 import { computed, onUnmounted, ref, watch } from 'vue';
-import { addUnit } from '../../core/src/utils/unit';
 import LkLoading from '../lk-loading/lk-loading.vue';
 import { PullRefreshStatus, pullRefreshEmits, pullRefreshProps } from './pull-refresh.props';
 import type { PullRefreshStatus as PullRefreshStatusType } from './pull-refresh.props';
+import {
+  getNextPullRefreshScrollTop,
+  getPullRefreshDistance,
+  isPullRefreshIndicatorVisible,
+  normalizePullRefreshSuccessDuration,
+  resolvePullingStatus,
+  resolvePullRefreshClass,
+  resolvePullRefreshIndicatorStyle,
+  resolvePullRefreshIndicatorText,
+  resolvePullRefreshInitialStatus,
+  resolvePullRefreshMergedStyle,
+  resolvePullRefreshProgress,
+  resolvePullRefreshRootStyle,
+  shouldIgnorePulling,
+  shouldShowRefreshSuccess,
+  type PullRefreshPullingEventLike,
+} from './pull-refresh.utils';
 import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkPullRefresh' });
@@ -12,61 +29,51 @@ const props = defineProps(pullRefreshProps);
 const emit = defineEmits(pullRefreshEmits);
 const { t } = useLocale('pullRefresh');
 
-const status = ref<PullRefreshStatusType>(
-  props.modelValue ? PullRefreshStatus.Refreshing : PullRefreshStatus.Idle
-);
+const status = ref<PullRefreshStatusType>(resolvePullRefreshInitialStatus(props.modelValue));
 const triggered = ref(props.modelValue);
 const refresherActive = ref(props.modelValue);
 const pullingDistance = ref(0);
 const scrollTop = ref(0);
 let successTimer: ReturnType<typeof setTimeout> | null = null;
 
-interface RefresherPullingEvent {
-  detail?: {
-    dy?: number;
-  };
-}
-
-const classes = computed(() => [
-  'lk-pull-refresh',
-  `lk-pull-refresh--${status.value}`,
-  {
-    'is-disabled': props.disabled,
-    'is-active': isIndicatorVisible.value,
-  },
-  props.customClass,
-]);
-
-const rootStyle = computed(() => ({
-  height: addUnit(props.height),
-  background: props.background,
+const classes = computed(() => resolvePullRefreshClass({
+  status: status.value,
+  disabled: props.disabled,
+  indicatorVisible: isIndicatorVisible.value,
+  customClass: props.customClass,
 }));
 
-const indicatorText = computed(() => {
-  if (status.value === PullRefreshStatus.Refreshing) return props.loadingText || t('loading');
-  if (status.value === PullRefreshStatus.Success) return props.successText || t('success');
-  if (status.value === PullRefreshStatus.Loosing) return props.loosingText || t('loosing');
-  return props.pullingText || t('pulling');
-});
-
-const isIndicatorVisible = computed(
-  () =>
-    refresherActive.value &&
-    (status.value === PullRefreshStatus.Refreshing ||
-      status.value === PullRefreshStatus.Success ||
-      pullingDistance.value > 0)
+const rootStyle = computed(() => resolvePullRefreshRootStyle({
+  height: props.height,
+  background: props.background,
+}));
+const mergedStyle = computed<StyleValue>(() =>
+  resolvePullRefreshMergedStyle(rootStyle.value, props.customStyle as StyleValue)
 );
 
-const progress = computed(() => {
-  if (status.value === PullRefreshStatus.Refreshing || status.value === PullRefreshStatus.Success) {
-    return 1;
-  }
-  return Math.min(1, pullingDistance.value / Math.max(1, props.threshold));
-});
+const indicatorText = computed(() => resolvePullRefreshIndicatorText({
+  status: status.value,
+  loadingText: props.loadingText || t('loading'),
+  successText: props.successText || t('success'),
+  loosingText: props.loosingText || t('loosing'),
+  pullingText: props.pullingText || t('pulling'),
+}));
 
-const indicatorStyle = computed(() => ({
-  opacity: isIndicatorVisible.value ? 1 : 0,
-  transform: `translate3d(0, ${Math.min(18, progress.value * 18)}rpx, 0)`,
+const isIndicatorVisible = computed(() => isPullRefreshIndicatorVisible({
+  refresherActive: refresherActive.value,
+  status: status.value,
+  pullingDistance: pullingDistance.value,
+}));
+
+const progress = computed(() => resolvePullRefreshProgress({
+  status: status.value,
+  pullingDistance: pullingDistance.value,
+  threshold: props.threshold,
+}));
+
+const indicatorStyle = computed(() => resolvePullRefreshIndicatorStyle({
+  visible: isIndicatorVisible.value,
+  progress: progress.value,
 }));
 
 watch(
@@ -87,19 +94,18 @@ onUnmounted(() => {
   clearSuccessTimer();
 });
 
-function onPulling(event: RefresherPullingEvent) {
-  if (props.disabled || status.value === PullRefreshStatus.Refreshing) return;
-  const distance = Number(event?.detail?.dy ?? 0);
-  pullingDistance.value = Math.max(0, distance);
+function onPulling(event: PullRefreshPullingEventLike) {
+  if (shouldIgnorePulling({ disabled: props.disabled, status: status.value })) return;
+  pullingDistance.value = getPullRefreshDistance(event);
   if (pullingDistance.value <= 0) {
     resetIndicator();
     return;
   }
   refresherActive.value = true;
-  status.value =
-    pullingDistance.value >= props.threshold
-      ? PullRefreshStatus.Loosing
-      : PullRefreshStatus.Pulling;
+  status.value = resolvePullingStatus({
+    distance: pullingDistance.value,
+    threshold: props.threshold,
+  });
 }
 
 function onRefresh() {
@@ -151,7 +157,7 @@ function finish() {
 }
 
 function scrollToTop() {
-  scrollTop.value = scrollTop.value === 0 ? 1 : 0;
+  scrollTop.value = getNextPullRefreshScrollTop(scrollTop.value);
   setTimeout(() => {
     scrollTop.value = 0;
   }, 0);
@@ -161,14 +167,14 @@ function settleRefresh() {
   triggered.value = false;
   pullingDistance.value = 0;
   if (status.value === PullRefreshStatus.Success) return;
-  if (status.value === PullRefreshStatus.Refreshing && props.showSuccess) {
+  if (shouldShowRefreshSuccess({ status: status.value, showSuccess: props.showSuccess })) {
     clearSuccessTimer();
     status.value = PullRefreshStatus.Success;
     successTimer = setTimeout(
       () => {
         status.value = PullRefreshStatus.Idle;
       },
-      Math.max(0, props.successDuration)
+      normalizePullRefreshSuccessDuration(props.successDuration)
     );
     return;
   }
@@ -198,7 +204,7 @@ defineExpose({
 </script>
 
 <template>
-  <view :id="props.id" :class="classes" :style="[rootStyle, props.customStyle as any]">
+  <view :id="props.id" :class="classes" :style="mergedStyle">
     <view class="lk-pull-refresh__indicator" :style="indicatorStyle">
       <slot
         v-if="isIndicatorVisible"
