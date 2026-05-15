@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { virtualListProps } from './virtual-list.props';
-
-// Utility: Convert rpx/px/number to px
-function toPx(val: string | number | undefined, fallback = 0): number {
-  if (val === undefined || val === null) return fallback;
-  if (typeof val === 'number') return val;
-  const v = String(val).trim();
-  if (v.endsWith('rpx') || v.endsWith('upx')) {
-    const n = parseFloat(v);
-    // @ts-ignore
-    return typeof uni !== 'undefined' && uni.upx2px ? uni.upx2px(n) : n;
-  }
-  if (v.endsWith('px')) return parseFloat(v);
-  const num = parseFloat(v);
-  return isNaN(num) ? fallback : num;
-}
+import {
+  clampVirtualListIndex,
+  extractVirtualListScrollTop,
+  resolveVirtualListClass,
+  resolveVirtualListItemPx,
+  resolveVirtualListMetrics,
+  resolveVirtualListOverscan,
+  resolveVirtualListOverscanBoost,
+  resolveVirtualListPx,
+  resolveVirtualListRootStyle,
+  resolveVirtualWindow,
+  shouldEmitVirtualPrefetch,
+  shouldEmitVirtualReachBottom,
+  shouldResetVirtualPrefetch,
+  shouldResetVirtualReachBottom,
+} from './virtual-list.utils';
+import type { VirtualListScrollEvent } from './virtual-list.utils';
 
 const props = defineProps(virtualListProps);
 
-const wrapperRef = ref<any>();
+const wrapperRef = ref<unknown>();
 const currentScrollTop = ref(0);
 // Ensure scroll-top is always a number to avoid native event handler errors in some runtimes
 const boundScrollTop = ref<number>(0);
@@ -34,12 +36,12 @@ type RAFHandle = number;
 const hasRAF = typeof requestAnimationFrame === 'function';
 function rAF(cb: (t: number) => void): RAFHandle {
   return hasRAF
-    ? (requestAnimationFrame as any)(cb)
+    ? requestAnimationFrame(cb)
     : (setTimeout(
         () =>
           cb(
-            typeof performance !== 'undefined' && (performance as any).now
-              ? (performance as any).now()
+            typeof performance !== 'undefined' && typeof performance.now === 'function'
+              ? performance.now()
               : Date.now()
           ),
         16
@@ -47,27 +49,40 @@ function rAF(cb: (t: number) => void): RAFHandle {
 }
 
 function cAF(id: RAFHandle) {
-  if (hasRAF) (cancelAnimationFrame as any)(id);
-  else clearTimeout(id as unknown as any);
+  if (hasRAF) cancelAnimationFrame(id);
+  else clearTimeout(id);
 }
 
 // 根据滚动速度动态增加 overscan 行数
 const currentOverscanBoost = ref(0);
 
-const itemPx = computed(() => Math.round(toPx(props.itemHeight, 100)));
-const containerHeightPx = computed(() => toPx(props.height, 600));
-const lowerThresholdPx = computed(() => toPx(props.lowerThreshold, 80));
+function upx2px(value: number) {
+  return typeof uni !== 'undefined' && uni.upx2px ? uni.upx2px(value) : value;
+}
+const itemPx = computed(() => resolveVirtualListItemPx(props.itemHeight, upx2px));
+const containerHeightPx = computed(() => resolveVirtualListPx(props.height, 600, upx2px));
+const lowerThresholdPx = computed(() => resolveVirtualListPx(props.lowerThreshold, 80, upx2px));
 // const overscanCount = computed(() => props.buffer);
-const overscanBase = computed(() => props.buffer);
-const overscanDynamic = computed(() =>
-  props.dynamicOverscan ? Math.min(props.maxOverscanRows, currentOverscanBoost.value) : 0
+const overscanCount = computed(() =>
+  resolveVirtualListOverscan({
+    buffer: props.buffer,
+    dynamicOverscan: props.dynamicOverscan,
+    maxOverscanRows: props.maxOverscanRows,
+    currentOverscanBoost: currentOverscanBoost.value,
+  })
 );
-const overscanCount = computed(() => overscanBase.value + overscanDynamic.value);
 
 const list = computed(() => props.items);
-const totalHeight = computed(() => list.value.length * itemPx.value);
-const baseVisibleCount = computed(() => Math.ceil(containerHeightPx.value / itemPx.value));
-const visibleCount = computed(() => baseVisibleCount.value + overscanCount.value * 2);
+const windowInfo = computed(() =>
+  resolveVirtualWindow({
+    itemCount: list.value.length,
+    itemPx: itemPx.value,
+    containerHeightPx: containerHeightPx.value,
+    scrollTop: currentScrollTop.value,
+    overscanCount: overscanCount.value,
+  })
+);
+const visibleCount = computed(() => windowInfo.value.visibleCount);
 
 const windowStart = ref(0);
 const startIndex = computed(() => windowStart.value);
@@ -76,15 +91,26 @@ const endIndex = computed(() =>
 );
 const visibleItems = computed(() => list.value.slice(startIndex.value, endIndex.value));
 
-const offsetY = computed(() => windowStart.value * itemPx.value);
-const renderedHeight = computed(() => (endIndex.value - startIndex.value) * itemPx.value);
-const topPadding = computed(() => offsetY.value);
-const bottomPadding = computed(() =>
-  Math.max(0, totalHeight.value - topPadding.value - renderedHeight.value)
+const metrics = computed(() =>
+  resolveVirtualListMetrics({
+    itemCount: list.value.length,
+    itemPx: itemPx.value,
+    start: startIndex.value,
+    end: endIndex.value,
+    reserveRows: props.reserveRows,
+  })
 );
-const reservePadding = computed(() => props.reserveRows * itemPx.value);
-const bottomPaddingTotal = computed(() => bottomPadding.value + reservePadding.value);
-const totalScrollable = computed(() => totalHeight.value + reservePadding.value);
+const totalHeight = computed(() => metrics.value.totalHeight);
+const topPadding = computed(() => metrics.value.topPadding);
+const bottomPaddingTotal = computed(() => metrics.value.bottomPaddingTotal);
+const totalScrollable = computed(() => metrics.value.totalScrollable);
+const rootClass = computed(() => resolveVirtualListClass(props.customClass));
+const rootStyle = computed(() =>
+  resolveVirtualListRootStyle({
+    heightPx: containerHeightPx.value,
+    customStyle: props.customStyle,
+  })
+);
 
 const emit = defineEmits(['scroll', 'reach-bottom', 'prefetch']);
 
@@ -109,12 +135,13 @@ watch(
   newLen => {
     nearBottomEmitted.value = false;
     prefetchEmitted.value = false;
-    const maxStart = Math.max(0, newLen - visibleCount.value);
-    const derivedStart = Math.max(
-      0,
-      Math.floor(currentScrollTop.value / itemPx.value) - overscanCount.value
-    );
-    windowStart.value = Math.min(derivedStart, maxStart);
+    windowStart.value = resolveVirtualWindow({
+      itemCount: newLen,
+      itemPx: itemPx.value,
+      containerHeightPx: containerHeightPx.value,
+      scrollTop: currentScrollTop.value,
+      overscanCount: overscanCount.value,
+    }).start;
     if (newLen > prevLength.value) {
       // Temporarily disable anchoring/animation on append for anti-jitter
       const needRestoreAnchoring = localScrollAnchoring.value;
@@ -137,14 +164,20 @@ function flushScroll() {
   currentScrollTop.value = top;
 
   // 动态 overscan：根据本帧移动距离估算需要增加的行数
-  const deltaRows = Math.abs(delta) / Math.max(1, itemPx.value);
-  currentOverscanBoost.value = Math.min(
-    props.maxOverscanRows,
-    Math.floor(deltaRows * props.overscanBoostFactor)
-  );
+  currentOverscanBoost.value = resolveVirtualListOverscanBoost({
+    delta,
+    itemPx: itemPx.value,
+    maxOverscanRows: props.maxOverscanRows,
+    overscanBoostFactor: props.overscanBoostFactor,
+  });
 
-  const anchorRow = Math.floor(top / Math.max(1, itemPx.value));
-  const desiredStart = Math.max(0, anchorRow - overscanCount.value);
+  const desiredStart = resolveVirtualWindow({
+    itemCount: list.value.length,
+    itemPx: itemPx.value,
+    containerHeightPx: containerHeightPx.value,
+    scrollTop: top,
+    overscanCount: overscanCount.value,
+  }).start;
   if (desiredStart !== windowStart.value) windowStart.value = desiredStart;
 
   emit('scroll', {
@@ -155,19 +188,27 @@ function flushScroll() {
 
   // 到底与预取触发在 rAF 中合并，避免抖动
   const remain = totalHeight.value - (top + containerHeightPx.value);
-  if (remain <= lowerThresholdPx.value && !nearBottomEmitted.value) {
+  if (shouldEmitVirtualReachBottom({
+    remain,
+    lowerThresholdPx: lowerThresholdPx.value,
+    emitted: nearBottomEmitted.value,
+  })) {
     nearBottomEmitted.value = true;
     emit('reach-bottom');
-  } else if (remain > lowerThresholdPx.value * 2) {
+  } else if (shouldResetVirtualReachBottom({ remain, lowerThresholdPx: lowerThresholdPx.value })) {
     nearBottomEmitted.value = false;
   }
 
   if (props.prefetchRows > 0) {
     const remainingItems = list.value.length - endIndex.value;
-    if (remainingItems <= props.prefetchRows && !prefetchEmitted.value) {
+    if (shouldEmitVirtualPrefetch({
+      remainingItems,
+      prefetchRows: props.prefetchRows,
+      emitted: prefetchEmitted.value,
+    })) {
       prefetchEmitted.value = true;
       emit('prefetch');
-    } else if (remainingItems > props.prefetchRows * 2) {
+    } else if (shouldResetVirtualPrefetch({ remainingItems, prefetchRows: props.prefetchRows })) {
       prefetchEmitted.value = false;
     }
   }
@@ -182,8 +223,8 @@ function scheduleFlush() {
   });
 }
 
-function onScroll(e: any) {
-  const top = e?.detail?.scrollTop ?? e?.target?.scrollTop ?? 0;
+function onScroll(e: VirtualListScrollEvent) {
+  const top = extractVirtualListScrollTop(e);
   latestScrollTop.value = top;
   scheduleFlush();
 }
@@ -193,7 +234,7 @@ function onScrollToLower() {
 }
 
 function scrollToIndex(index: number) {
-  const i = Math.max(0, Math.min(index, list.value.length - 1));
+  const i = clampVirtualListIndex(index, list.value.length);
   const top = i * itemPx.value;
   boundScrollTop.value = top;
   latestScrollTop.value = top;
@@ -228,8 +269,8 @@ defineExpose({ scrollToIndex, scrollToTop });
   <scroll-view
     ref="wrapperRef"
     scroll-y
-    class="lk-virtual-list"
-    :style="{ height: containerHeightPx + 'px' }"
+    :class="rootClass"
+    :style="rootStyle"
     :lower-threshold="lowerThresholdPx"
     :scroll-top="boundScrollTop"
     :scroll-with-animation="localScrollWithAnimation"

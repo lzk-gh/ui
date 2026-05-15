@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-export type AnyItem = Record<string, any>;
+export type AnyItem = Record<string, unknown> & { id?: PropertyKey };
 
 /** 定位策略 */
 const VirtualListPositionStrategy = {

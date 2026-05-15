@@ -39,7 +39,7 @@ function onReachBottom() {
   loadNextPage();
 }
 
-function onScroll(data: any) {
+function onScroll(_data: { scrollTop: number; start: number; end: number }) {
   // 可用于调试滚动窗口：start/end
   // console.log('滚动事件', data);
 }
