@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
 import { computed, onBeforeUnmount, onMounted, ref, useSlots } from 'vue';
-import { addUnit } from '../../core/src/utils/unit';
 import { DEFAULT_BRAND_COLOR, loadBrandColor } from '../../theme';
 import { emptyEmits, emptyProps } from './empty.props';
 import { getEmptyIllustrationSrc, getEmptyPreset } from './empty-illustrations';
+import {
+  isReadableBrandColor,
+  resolveEmptyColor,
+  resolveEmptyDescription,
+  resolveEmptyImage,
+  resolveEmptyImageStyle,
+  resolveEmptyRootClass,
+  resolveEmptyRootStyle,
+  resolveEmptyTitle,
+} from './empty.utils';
 
 defineOptions({ name: 'LkEmpty' });
 
@@ -15,29 +24,35 @@ const runtimeBrandColor = ref(DEFAULT_BRAND_COLOR);
 let brandObserver: MutationObserver | null = null;
 
 const preset = computed(() => getEmptyPreset(props.name));
-const resolvedTitle = computed(() => props.title || preset.value.title);
-const resolvedDescription = computed(() => props.description || preset.value.description);
-const resolvedColor = computed(() => props.color || runtimeBrandColor.value);
-const resolvedImage = computed(
-  () => props.image || props.src || getEmptyIllustrationSrc(props.name, resolvedColor.value)
-);
+const resolvedTitle = computed(() => resolveEmptyTitle({
+  title: props.title,
+  preset: preset.value,
+}));
+const resolvedDescription = computed(() => resolveEmptyDescription({
+  description: props.description,
+  preset: preset.value,
+}));
+const resolvedColor = computed(() => resolveEmptyColor({
+  color: props.color,
+  runtimeBrandColor: runtimeBrandColor.value,
+}));
+const resolvedImage = computed(() => resolveEmptyImage({
+  image: props.image,
+  src: props.src,
+  name: props.name,
+  color: resolvedColor.value,
+  getIllustrationSrc: getEmptyIllustrationSrc,
+}));
 
-const rootClass = computed(() => [
-  'lk-empty',
-  `lk-empty--${props.layout}`,
-  {
-    'lk-empty--no-image': !props.showImage,
-  },
-  props.customClass,
-]);
+const rootClass = computed(() => resolveEmptyRootClass({
+  layout: props.layout,
+  showImage: props.showImage,
+  customClass: props.customClass,
+}));
 
-const imageStyle = computed<StyleValue>(() => {
-  const size = addUnit(props.imageSize);
-  return {
-    width: size,
-    height: size,
-  };
-});
+const rootStyle = computed<StyleValue>(() => resolveEmptyRootStyle(props.customStyle as StyleValue));
+
+const imageStyle = computed<StyleValue>(() => resolveEmptyImageStyle(props.imageSize));
 
 function handleLoad(event: unknown) {
   emit('load', event);
@@ -54,7 +69,7 @@ function readBrandColor() {
     const cssColor =
       rootStyle.getPropertyValue('--lk-color-primary').trim() ||
       rootStyle.getPropertyValue('--lk-brand-600').trim();
-    if (/^#[a-f\d]{6}$/i.test(cssColor) || /^rgba?\(/i.test(cssColor)) return cssColor;
+    if (isReadableBrandColor(cssColor)) return cssColor;
   }
   // #endif
   return loadBrandColor() || DEFAULT_BRAND_COLOR;
@@ -85,7 +100,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <view :id="props.id" :class="rootClass" :style="props.customStyle as StyleValue">
+  <view :id="props.id" :class="rootClass" :style="rootStyle">
     <view v-if="props.showImage" class="lk-empty__image-wrap">
       <slot name="image">
         <image
