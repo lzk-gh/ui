@@ -4,7 +4,17 @@ import { computed, ref, watch, inject } from 'vue';
 import type { StepperAction } from './stepper.props';
 import { stepperProps, stepperEmits } from './stepper.props';
 import { formContextKey } from '../lk-form/context';
-import { addUnit } from '../../core/src/utils/unit';
+import {
+  formatStepperValue,
+  isStepperMinusDisabled,
+  isStepperPlusDisabled,
+  normalizeStepperBlurValue,
+  readStepperInputValue,
+  resolveStepperChange,
+  resolveStepperClass,
+  resolveStepperStyle,
+  shouldValidateStepperField,
+} from './stepper.utils';
 
 defineOptions({ name: 'LkStepper' });
 
@@ -14,79 +24,67 @@ const form = inject(formContextKey, null);
 
 const current = ref(format(props.modelValue));
 
-// --- 核心逻辑：格式化与精度处理 ---
-
-// 解决浮点数精度问题 (0.1 + 0.2 = 0.300000004)
-function add(num1: number, num2: number) {
-  const card = Math.pow(10, 10);
-  return Math.round((num1 + num2) * card) / card;
-}
-
-// 严格限制范围与整数
-function clamp(value: number): number {
-  let num = value;
-  if (props.integer) {
-    num = Math.floor(num);
-  }
-  return Math.max(Number(props.min), Math.min(Number(props.max), num));
-}
-
 function format(value: string | number): string {
-  if (value === '') return '';
-  let num = Number(value);
-  if (isNaN(num)) num = Number(props.min);
-
-  return String(clamp(num));
+  return formatStepperValue({
+    value,
+    min: props.min,
+    max: props.max,
+    integer: props.integer,
+  });
 }
 
 // --- 计算属性 ---
 
 const isMinusDisabled = computed(
-  () => props.disabled || Number(current.value) <= Number(props.min)
+  () => isStepperMinusDisabled({
+    disabled: props.disabled,
+    current: current.value,
+    min: props.min,
+  })
 );
 
-const isPlusDisabled = computed(() => props.disabled || Number(current.value) >= Number(props.max));
+const isPlusDisabled = computed(() => isStepperPlusDisabled({
+  disabled: props.disabled,
+  current: current.value,
+  max: props.max,
+}));
 
 const wrapperStyle = computed(() => {
-  const style: Record<string, string> = {};
-  if (props.buttonSize) {
-    const buttonSize = addUnit(props.buttonSize);
-    if (buttonSize) style['--stepper-btn-size'] = buttonSize;
-  }
-  if (props.inputWidth) {
-    const inputWidth = addUnit(props.inputWidth);
-    if (inputWidth) style['--stepper-input-width'] = inputWidth;
-  }
-  return [style, props.customStyle] as StyleValue;
+  return resolveStepperStyle({
+    buttonSize: props.buttonSize,
+    inputWidth: props.inputWidth,
+    customStyle: props.customStyle as StyleValue,
+  });
 });
+
+const classes = computed(() => resolveStepperClass({
+  customClass: props.customClass,
+  size: props.size,
+  disabled: props.disabled,
+}));
 
 // --- 事件处理 ---
 
 // 统一变更处理
 async function handleChange(type: StepperAction, val?: string) {
-  if (props.disabled) return;
+  const result = resolveStepperChange({
+    action: type,
+    inputValue: val,
+    current: current.value,
+    disabled: props.disabled,
+    min: props.min,
+    max: props.max,
+    step: props.step,
+    integer: props.integer,
+  });
 
-  const stepNum = Number(props.step);
-  let nextVal: number;
-
-  if (type === 'input') {
-    nextVal = Number(val);
-  } else {
-    // 按钮点击
-    const now = Number(current.value || 0);
-    if (type === 'minus' && isMinusDisabled.value) {
-      emit('overlimit', 'minus', Number(props.min));
-      return;
-    }
-    if (type === 'plus' && isPlusDisabled.value) {
-      emit('overlimit', 'plus', Number(props.max));
-      return;
-    }
-    nextVal = type === 'minus' ? add(now, -stepNum) : add(now, stepNum);
+  if (result.type === 'disabled') return;
+  if (result.type === 'overlimit') {
+    emit('overlimit', result.action, result.limit);
+    return;
   }
 
-  // 限制范围
-  const clampedVal = clamp(nextVal);
+  const clampedVal = result.value;
   emit('before-change', clampedVal, type);
 
   // 拦截逻辑
@@ -111,23 +109,26 @@ async function handleChange(type: StepperAction, val?: string) {
   emit('change', clampedVal, type);
   if (type === 'plus') emit('plus', clampedVal);
   if (type === 'minus') emit('minus', clampedVal);
-  if (props.validateEvent && props.prop) {
+  if (shouldValidateStepperField({ validateEvent: props.validateEvent, prop: props.prop })) {
     form?.emitFieldChange(props.prop, clampedVal);
   }
 }
 
 // 输入框事件
 function onInput(e: Event | { detail?: { value?: string }; target?: { value?: string } }) {
-  const event = e as { detail?: { value?: string }; target?: { value?: string } | null };
-  const value = event.detail?.value ?? event.target?.value ?? '';
+  const value = readStepperInputValue(e);
   current.value = value;
   emit('input', value);
 }
 
 function onBlur(e: unknown) {
-  const val = Number(current.value);
   // Blur 时强制修正格式和范围
-  handleChange('input', String(clamp(isNaN(val) ? Number(props.min) : val)));
+  handleChange('input', normalizeStepperBlurValue({
+    current: current.value,
+    min: props.min,
+    max: props.max,
+    integer: props.integer,
+  }));
   emit('blur', e);
 }
 
@@ -185,7 +186,7 @@ watch(
   <view
     :id="id"
     class="lk-stepper"
-    :class="[customClass, `lk-stepper--${size}`, { 'is-disabled': disabled }]"
+    :class="classes"
     :style="wrapperStyle"
   >
     <view
