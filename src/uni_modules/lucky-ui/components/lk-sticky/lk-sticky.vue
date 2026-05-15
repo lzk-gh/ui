@@ -8,6 +8,14 @@ import {
   nextTick,
 } from 'vue';
 import { stickyProps } from './sticky.props';
+import {
+  resolveStickyClass,
+  resolveStickyRootMargin,
+  resolveStickyStateFromRatio,
+  resolveStickyStyle,
+  resolveStickyViewportOffset,
+  shouldEmitStickyChange,
+} from './sticky.utils';
 
 defineOptions({ name: 'LkSticky' });
 
@@ -23,11 +31,8 @@ type MpStickyObserver = {
 };
 let io: IntersectionObserver | MpStickyObserver | null = null;
 
-const style = computed((): Record<string, string | number> => ({
-  position: 'sticky',
-  top: `${props.offsetTop  }rpx`,
-  zIndex: props.zIndex,
-}));
+const stickyClass = computed(() => resolveStickyClass(props.customClass));
+const stickyStyle = computed(() => resolveStickyStyle(props));
 
 function observe() {
   // 使用 IntersectionObserver 观察占位变化，判断是否吸顶
@@ -44,13 +49,13 @@ function observe() {
       const h5Observer = new IntersectionObserver(
         entries => {
           const entry = entries[0];
-          const nowSticky = entry.intersectionRatio === 0; // 到达顶部时不可见
-          if (nowSticky !== isSticky.value) {
+          const nowSticky = resolveStickyStateFromRatio(entry.intersectionRatio); // 到达顶部时不可见
+          if (shouldEmitStickyChange(isSticky.value, nowSticky)) {
             isSticky.value = nowSticky;
             emit('change', isSticky.value);
           }
         },
-        { rootMargin: `-${props.offsetTop}px 0px 0px 0px`, threshold: [0, 1] }
+        { rootMargin: resolveStickyRootMargin(props.offsetTop), threshold: [0, 1] }
       );
       h5Observer.observe(sentry);
       io = h5Observer;
@@ -65,10 +70,10 @@ function observe() {
     };
     if (uniAny && uniAny.createIntersectionObserver) {
       const mpObserver = uniAny.createIntersectionObserver(getCurrentInstance());
-      mpObserver.relativeToViewport({ top: props.offsetTop });
+      mpObserver.relativeToViewport(resolveStickyViewportOffset(props.offsetTop));
       mpObserver.observe('.lk-sticky__sentry', (res: { intersectionRatio?: number }) => {
-        const nowSticky = (res.intersectionRatio ?? 1) === 0;
-        if (nowSticky !== isSticky.value) {
+        const nowSticky = resolveStickyStateFromRatio(res.intersectionRatio);
+        if (shouldEmitStickyChange(isSticky.value, nowSticky)) {
           isSticky.value = nowSticky;
           emit('change', isSticky.value);
         }
@@ -98,7 +103,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <view ref="root" class="lk-sticky" :style="style">
+  <view ref="root" :class="stickyClass" :style="stickyStyle">
     <view
       class="lk-sticky__sentry"
       style="position: absolute; top: 0; left: 0; width: 1px; height: 1px"
