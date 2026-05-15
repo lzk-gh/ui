@@ -1,9 +1,28 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue';
+import type { CSSProperties, StyleValue } from 'vue';
 import { ref, computed, watch, onMounted } from 'vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import { fabProps, fabEmits, type FabAction } from './fab.props';
+import {
+  canClickFabAction,
+  resolveFabActionClass,
+  resolveFabActionStyle,
+  resolveFabCurrentIcon,
+  resolveFabDirection,
+  resolveFabDragPosition,
+  resolveFabFinalPosition,
+  resolveFabIconStyle,
+  resolveFabInitialPosition,
+  resolveFabIsAtRightSide,
+  resolveFabMainClass,
+  resolveFabMainStyle,
+  resolveFabRootStyle,
+  resolveFabSafeBottom,
+  shouldCloseFabOnOverlay,
+  shouldToggleFabOnClick,
+  toFabRpx,
+} from './fab.utils';
 
 defineOptions({ name: 'LkFab' });
 
@@ -16,23 +35,18 @@ const windowWidth = systemInfo.windowWidth;
 const windowHeight = systemInfo.windowHeight;
 const safeBottom = systemInfo.safeAreaInsets?.bottom || 0;
 
-// 单位转换
-function toRpx(val: string | number): number {
-  if (typeof val === 'number') return val;
-  if (val.endsWith('rpx')) return parseFloat(val);
-  if (val.endsWith('px')) return parseFloat(val) * 2;
-  return parseFloat(val);
-}
-
 function rpx2px(rpx: number): number {
   return uni.upx2px(rpx);
 }
 
 // 尺寸计算
-const sizePx = computed(() => rpx2px(toRpx(props.size)));
-const actionSizePx = computed(() => rpx2px(toRpx(props.actionSize)));
-const offsetPx = computed(() => rpx2px(toRpx(props.offset)));
-const safeBottomPx = computed(() => (props.safeAreaInsetBottom ? safeBottom : 0));
+const sizePx = computed(() => rpx2px(toFabRpx(props.size)));
+const actionSizePx = computed(() => rpx2px(toFabRpx(props.actionSize)));
+const offsetPx = computed(() => rpx2px(toFabRpx(props.offset)));
+const safeBottomPx = computed(() => resolveFabSafeBottom({
+  safeAreaInsetBottom: props.safeAreaInsetBottom,
+  safeBottom,
+}));
 
 // 位置状态
 const posX = ref(0);
@@ -53,28 +67,17 @@ let lastTime = 0;
 
 // 初始化位置
 function initPosition() {
-  const offset = offsetPx.value;
-  const size = sizePx.value;
-  const safeB = safeBottomPx.value;
-
-  switch (props.position) {
-    case 'bottom-right':
-      posX.value = windowWidth - size - offset;
-      posY.value = windowHeight - size - offset - safeB;
-      break;
-    case 'bottom-left':
-      posX.value = offset;
-      posY.value = windowHeight - size - offset - safeB;
-      break;
-    case 'top-right':
-      posX.value = windowWidth - size - offset;
-      posY.value = offset + (systemInfo.statusBarHeight || 0);
-      break;
-    case 'top-left':
-      posX.value = offset;
-      posY.value = offset + (systemInfo.statusBarHeight || 0);
-      break;
-  }
+  const position = resolveFabInitialPosition({
+    position: props.position,
+    windowWidth,
+    windowHeight,
+    sizePx: sizePx.value,
+    offsetPx: offsetPx.value,
+    safeBottomPx: safeBottomPx.value,
+    statusBarHeight: systemInfo.statusBarHeight || 0,
+  });
+  posX.value = position.x;
+  posY.value = position.y;
 }
 
 onMounted(() => {
@@ -132,25 +135,21 @@ function onTouchMove(e: TouchEvent) {
     hasMoved = true;
   }
 
-  // 更新位置（带边界限制）
-  const size = sizePx.value;
-  let newX = startPosX + dx;
-  let newY = startPosY + dy;
+  const next = resolveFabDragPosition({
+    startPosX,
+    startPosY,
+    dx,
+    dy,
+    windowWidth,
+    windowHeight,
+    sizePx: sizePx.value,
+    safeBottomPx: safeBottomPx.value,
+    statusBarHeight: systemInfo.statusBarHeight || 0,
+  });
 
-  // 边界阻尼
-  const minX = 0;
-  const maxX = windowWidth - size;
-  const minY = systemInfo.statusBarHeight || 0;
-  const maxY = windowHeight - size - safeBottomPx.value;
-
-  if (newX < minX) newX = minX - (minX - newX) * 0.3;
-  if (newX > maxX) newX = maxX + (newX - maxX) * 0.3;
-  if (newY < minY) newY = minY - (minY - newY) * 0.3;
-  if (newY > maxY) newY = maxY + (newY - maxY) * 0.3;
-
-  posX.value = newX;
-  posY.value = newY;
-  emit('drag-move', { x: newX, y: newY, event: e });
+  posX.value = next.x;
+  posY.value = next.y;
+  emit('drag-move', { x: next.x, y: next.y, event: e });
 }
 
 function onTouchEnd(e?: TouchEvent) {
@@ -158,35 +157,23 @@ function onTouchEnd(e?: TouchEvent) {
   isDragging.value = false;
 
   const duration = Date.now() - dragStartTime;
-  const size = sizePx.value;
-  const minX = 0;
-  const maxX = windowWidth - size;
-  const minY = systemInfo.statusBarHeight || 0;
-  const maxY = windowHeight - size - safeBottomPx.value;
+  const finalPosition = resolveFabFinalPosition({
+    x: posX.value,
+    y: posY.value,
+    windowWidth,
+    windowHeight,
+    sizePx: sizePx.value,
+    safeBottomPx: safeBottomPx.value,
+    statusBarHeight: systemInfo.statusBarHeight || 0,
+    magnetic: props.magnetic,
+    offsetPx: offsetPx.value,
+    velocityX: velocity.x,
+  });
 
-  // 修正超出边界
-  let finalX = Math.max(minX, Math.min(maxX, posX.value));
-  const finalY = Math.max(minY, Math.min(maxY, posY.value));
+  posX.value = finalPosition.x;
+  posY.value = finalPosition.y;
 
-  // 磁吸效果：吸附到最近的边
-  if (props.magnetic) {
-    const centerX = finalX + size / 2;
-    const offset = offsetPx.value;
-
-    // 根据速度预测最终位置
-    const predictX = centerX + velocity.x * 150;
-
-    if (predictX < windowWidth / 2) {
-      finalX = offset;
-    } else {
-      finalX = windowWidth - size - offset;
-    }
-  }
-
-  posX.value = finalX;
-  posY.value = finalY;
-
-  emit('drag-end', { x: finalX, y: finalY, event: e });
+  emit('drag-end', { x: finalPosition.x, y: finalPosition.y, event: e });
 
   // 如果是点击而非拖拽，触发点击
   if (!hasMoved && duration < 200) {
@@ -197,7 +184,7 @@ function onTouchEnd(e?: TouchEvent) {
 // 点击处理
 function handleClick(event?: unknown) {
   emit('click', event);
-  if (props.actions.length > 0) {
+  if (shouldToggleFabOnClick(props.actions.length)) {
     toggleExpand();
   }
 }
@@ -213,7 +200,7 @@ function toggleExpand() {
 }
 
 function handleActionClick(action: FabAction, event?: unknown) {
-  if (action.disabled) {
+  if (!canClickFabAction(action)) {
     emit('action-disabled', action, event);
     return;
   }
@@ -226,7 +213,7 @@ function handleActionClick(action: FabAction, event?: unknown) {
 
 function handleOverlayClick(event?: unknown) {
   emit('overlay-click', event);
-  if (props.closeOnOverlay) {
+  if (shouldCloseFabOnOverlay(props.closeOnOverlay)) {
     isExpanded.value = false;
     emit('update:modelValue', false);
     emit('close');
@@ -234,133 +221,79 @@ function handleOverlayClick(event?: unknown) {
 }
 
 // 样式计算
-const themeColors: Record<string, string> = {
-  primary: 'var(--lk-color-primary)',
-};
-
 const mainStyle = computed((): CSSProperties & Record<string, string | number> => {
-  const color = themeColors[props.color] || props.color;
-  return {
-    left: `${posX.value}px`,
-    top: `${posY.value}px`,
-    width: `${sizePx.value}px`,
-    height: `${sizePx.value}px`,
+  return resolveFabMainStyle({
+    posX: posX.value,
+    posY: posY.value,
+    sizePx: sizePx.value,
     zIndex: props.zIndex,
-    '--fab-color': color,
-    transition: isDragging.value
-      ? 'none'
-      : 'left 0.35s cubic-bezier(0.25, 1, 0.5, 1), top 0.35s cubic-bezier(0.25, 1, 0.5, 1)',
-  };
+    color: props.color,
+    dragging: isDragging.value,
+  });
 });
 
-const mainClass = computed(() => [
-  'lk-fab__main',
-  {
-    'is-expanded': isExpanded.value,
-    'is-dragging': isDragging.value,
-    'is-blur': props.blur,
-  },
-]);
+const mainClass = computed(() => resolveFabMainClass({
+  expanded: isExpanded.value,
+  dragging: isDragging.value,
+  blur: props.blur,
+}));
+const rootStyle = computed<StyleValue>(() => resolveFabRootStyle({
+  zIndex: props.zIndex,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 const resolvedDirection = computed(() => {
-  const preferred = props.direction;
-  const gap = rpx2px(24);
-  const needed = (actionSizePx.value + gap) * Math.max(props.actions.length, 1);
-  const size = sizePx.value;
-
-  const spaces: Record<'up' | 'down' | 'left' | 'right', number> = {
-    up: Math.max(0, posY.value - (systemInfo.statusBarHeight || 0)),
-    down: Math.max(0, windowHeight - safeBottomPx.value - (posY.value + size)),
-    left: Math.max(0, posX.value),
-    right: Math.max(0, windowWidth - (posX.value + size)),
-  };
-
-  if (spaces[preferred] >= needed) {
-    return preferred;
-  }
-
-  const priorities: Record<'up' | 'down' | 'left' | 'right', Array<'up' | 'down' | 'left' | 'right'>> = {
-    up: ['up', 'down', 'left', 'right'],
-    down: ['down', 'up', 'left', 'right'],
-    left: ['left', 'right', 'up', 'down'],
-    right: ['right', 'left', 'up', 'down'],
-  };
-
-  for (const dir of priorities[preferred]) {
-    if (spaces[dir] >= needed) {
-      emit('direction-change', dir, preferred);
-      return dir;
-    }
-  }
-
-  const next = (Object.entries(spaces).sort((a, b) => b[1] - a[1])[0]?.[0] || preferred) as
-    | 'up'
-    | 'down'
-    | 'left'
-    | 'right';
-  if (next !== preferred) emit('direction-change', next, preferred);
+  const next = resolveFabDirection({
+    preferred: props.direction,
+    actionSizePx: actionSizePx.value,
+    gapPx: rpx2px(24),
+    actionCount: props.actions.length,
+    sizePx: sizePx.value,
+    posX: posX.value,
+    posY: posY.value,
+    windowWidth,
+    windowHeight,
+    safeBottomPx: safeBottomPx.value,
+    statusBarHeight: systemInfo.statusBarHeight || 0,
+  });
+  if (next !== props.direction) emit('direction-change', next, props.direction);
   return next;
 });
 
 // 子按钮位置计算
 function getActionStyle(index: number) {
-  const gap = rpx2px(24);
-  const distance = (actionSizePx.value + gap) * (index + 1);
-  const mainCenter = sizePx.value / 2;
-  const actionCenter = actionSizePx.value / 2;
-  const offsetToCenter = mainCenter - actionCenter;
-
-  let x = offsetToCenter;
-  let y = offsetToCenter;
-
-  switch (resolvedDirection.value) {
-    case 'up':
-      y = -distance + offsetToCenter;
-      break;
-    case 'down':
-      y = distance + offsetToCenter;
-      break;
-    case 'left':
-      x = -distance + offsetToCenter;
-      break;
-    case 'right':
-      x = distance + offsetToCenter;
-      break;
-  }
-
-  return {
-    width: `${actionSizePx.value}px`,
-    height: `${actionSizePx.value}px`,
-    transform: isExpanded.value
-      ? `translate(${x}px, ${y}px) scale(1)`
-      : `translate(${offsetToCenter}px, ${offsetToCenter}px) scale(0)`,
-    opacity: isExpanded.value ? 1 : 0,
-    transitionDelay: isExpanded.value
-      ? `${index * 0.05}s`
-      : `${(props.actions.length - index - 1) * 0.03}s`,
-  } as CSSProperties;
+  return resolveFabActionStyle({
+    index,
+    actionSizePx: actionSizePx.value,
+    gapPx: rpx2px(24),
+    sizePx: sizePx.value,
+    direction: resolvedDirection.value,
+    expanded: isExpanded.value,
+    actionCount: props.actions.length,
+  });
 }
 
 // 图标旋转
-const iconStyle = computed(() => ({
-  transform: isExpanded.value && !props.activeIcon ? 'rotate(45deg)' : 'rotate(0deg)',
-  transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+const iconStyle = computed(() => resolveFabIconStyle({
+  expanded: isExpanded.value,
+  activeIcon: props.activeIcon,
 }));
 
-const isAtRightSide = computed(() => {
-  return posX.value + sizePx.value / 2 > windowWidth / 2;
-});
+const isAtRightSide = computed(() => resolveFabIsAtRightSide({
+  posX: posX.value,
+  sizePx: sizePx.value,
+  windowWidth,
+}));
 
-const currentIcon = computed(() => {
-  if (isExpanded.value && props.activeIcon) {
-    return props.activeIcon;
-  }
-  return props.icon;
-});
+const currentIcon = computed(() => resolveFabCurrentIcon({
+  expanded: isExpanded.value,
+  icon: props.icon,
+  activeIcon: props.activeIcon,
+}));
 </script>
 
 <template>
-  <view :id="id" class="lk-fab" :class="customClass" :style="[{ zIndex }, customStyle as any]">
+  <view :id="id" class="lk-fab" :class="customClass" :style="rootStyle">
     <!-- 遮罩 -->
     <LkOverlay
       v-if="overlay"
@@ -382,12 +315,11 @@ const currentIcon = computed(() => {
         v-for="(action, index) in actions"
         :key="action.key"
         class="lk-fab__action"
-        :class="{
-          'is-disabled': action.disabled,
-          'is-blur': blur,
-          'is-at-right': isAtRightSide,
-          'is-at-left': !isAtRightSide,
-        }"
+        :class="resolveFabActionClass({
+          action,
+          blur,
+          atRightSide: isAtRightSide,
+        })"
         :style="getActionStyle(index)"
         @tap.stop="handleActionClick(action, $event)"
       >
