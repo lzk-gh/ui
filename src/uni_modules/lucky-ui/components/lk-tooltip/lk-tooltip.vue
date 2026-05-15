@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
 import { ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue';
-import {
-  useTransition,
-  ANIMATION_PRESETS,
-  type TransitionConfig,
-} from '@/uni_modules/lucky-ui/composables/useTransition';
+import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import { tooltipProps, tooltipEmits } from './tooltip.props';
+import {
+  canMutateTooltipOpen,
+  canUpdateTooltipOpen,
+  createTooltipPayload,
+  getFallbackPlacement,
+  resolveTooltipOpen,
+  resolveTooltipPlacementClass,
+  resolveTooltipPopStyle,
+  resolveTooltipTransitionConfig,
+  shouldKeepTooltipContentHover,
+  shouldOpenTooltipOnTriggerEnter,
+  shouldToggleTooltipOnTriggerClick,
+} from './tooltip.utils';
 
 defineOptions({ name: 'LkTooltip' });
 
@@ -23,11 +32,14 @@ supportsHover = false;
 // #endif
 const open = computed({
   get: () => {
-    if (props.always) return true;
-    return props.modelValue === undefined ? innerOpen.value : props.modelValue;
+    return resolveTooltipOpen({
+      always: props.always,
+      modelValue: props.modelValue,
+      innerOpen: innerOpen.value,
+    });
   },
   set: (v: boolean) => {
-    if (props.always) return; // 常驻时忽略外部变更
+    if (!canMutateTooltipOpen(props.always)) return; // 常驻时忽略外部变更
     if (props.modelValue === undefined) innerOpen.value = v;
     emit('update:modelValue', v);
   },
@@ -39,16 +51,30 @@ let hideTimer: ReturnType<typeof setTimeout> | null = null;
 type TooltipOpenTrigger = 'hover' | 'click' | 'manual' | 'default';
 type TooltipCloseTrigger = TooltipOpenTrigger | 'disabled' | 'content';
 
-function doOpen(v = true, trigger: TooltipOpenTrigger | TooltipCloseTrigger = props.trigger, event?: unknown) {
-  if (props.disabled || props.always) return;
-  if (open.value === v) return;
+function doOpen(
+  v = true,
+  trigger: TooltipOpenTrigger | TooltipCloseTrigger = props.trigger,
+  event?: unknown
+) {
+  if (!canUpdateTooltipOpen({
+    disabled: props.disabled,
+    always: props.always,
+    currentOpen: open.value,
+    nextOpen: v,
+  })) return;
   open.value = v;
   if (v) {
-    const payload = { trigger: trigger as TooltipOpenTrigger, event };
+    const payload = createTooltipPayload({
+      trigger: trigger as TooltipOpenTrigger,
+      event,
+    });
     emit('show', payload);
     emit('open', payload);
   } else {
-    const payload = { trigger: trigger as TooltipCloseTrigger, event };
+    const payload = createTooltipPayload({
+      trigger: trigger as TooltipCloseTrigger,
+      event,
+    });
     emit('hide', payload);
     emit('close', payload);
   }
@@ -56,29 +82,47 @@ function doOpen(v = true, trigger: TooltipOpenTrigger | TooltipCloseTrigger = pr
 
 function onTriggerEnter(event?: unknown) {
   emit('mouseenter-trigger', event);
-  if (!supportsHover || props.always || props.trigger !== 'hover') return;
+  if (!shouldOpenTooltipOnTriggerEnter({
+    supportsHover,
+    always: props.always,
+    trigger: props.trigger,
+  })) return;
   if (hideTimer) clearTimeout(hideTimer);
   showTimer = setTimeout(() => doOpen(true, 'hover', event), props.showDelay);
 }
 function onTriggerLeave(event?: unknown) {
   emit('mouseleave-trigger', event);
-  if (!supportsHover || props.always || props.trigger !== 'hover') return;
+  if (!shouldOpenTooltipOnTriggerEnter({
+    supportsHover,
+    always: props.always,
+    trigger: props.trigger,
+  })) return;
   if (showTimer) clearTimeout(showTimer);
   hideTimer = setTimeout(() => doOpen(false, 'hover', event), props.hideDelay);
 }
 function onTriggerClick(event?: unknown) {
   emit('click-trigger', event);
-  if (props.always || (props.trigger !== 'click' && (supportsHover || props.trigger !== 'hover'))) return;
+  if (!shouldToggleTooltipOnTriggerClick({
+    always: props.always,
+    trigger: props.trigger,
+    supportsHover,
+  })) return;
   doOpen(!open.value, 'click', event);
 }
 function onContentEnter(event?: unknown) {
   emit('mouseenter-content', event);
-  if (props.always || props.trigger !== 'hover') return;
+  if (!shouldKeepTooltipContentHover({
+    always: props.always,
+    trigger: props.trigger,
+  })) return;
   if (hideTimer) clearTimeout(hideTimer);
 }
 function onContentLeave(event?: unknown) {
   emit('mouseleave-content', event);
-  if (props.always || props.trigger !== 'hover') return;
+  if (!shouldKeepTooltipContentHover({
+    always: props.always,
+    trigger: props.trigger,
+  })) return;
   hideTimer = setTimeout(() => doOpen(false, 'content', event), props.hideDelay);
 }
 
@@ -96,39 +140,37 @@ watch(
   }
 );
 
-function getFallbackPlacement(current: string, rect: Record<string, number>, vw: number, vh: number) {
-  const edge = 12;
-  const overflowTop = rect.top < edge;
-  const overflowBottom = rect.bottom > vh - edge;
-  const overflowLeft = rect.left < edge;
-  const overflowRight = rect.right > vw - edge;
-
-  if (current === 'top' && overflowTop) return 'bottom';
-  if (current === 'bottom' && overflowBottom) return 'top';
-  if (current === 'left' && overflowLeft) return 'right';
-  if (current === 'right' && overflowRight) return 'left';
-
-  if (overflowTop && !overflowBottom) return 'bottom';
-  if (overflowBottom && !overflowTop) return 'top';
-  if (overflowLeft && !overflowRight) return 'right';
-  if (overflowRight && !overflowLeft) return 'left';
-
-  return current;
-}
+type TooltipRect = Record<'top' | 'right' | 'bottom' | 'left', number>;
+type TooltipSelectorNode = {
+  boundingClientRect: (callback: (rect?: TooltipRect) => void) => TooltipSelectorQuery;
+};
+type TooltipSelectorQuery = {
+  in?: (component: unknown) => TooltipSelectorQuery;
+  select: (selector: string) => TooltipSelectorNode;
+  exec: () => void;
+};
+type TooltipUni = {
+  createSelectorQuery?: () => TooltipSelectorQuery;
+  getSystemInfoSync: () => {
+    windowWidth?: number;
+    windowHeight?: number;
+  };
+};
 
 function adjustPlacementByViewport() {
   if (!display.value) return;
 
   nextTick(() => {
-    let query = (uni as any)?.createSelectorQuery?.();
+    const uniApi = uni as unknown as TooltipUni;
+    let query = uniApi.createSelectorQuery?.();
     if (!query) return;
     if (query.in && instance?.proxy) query = query.in(instance.proxy);
 
     query
       .select(`#${popId}`)
-      .boundingClientRect((rect: any) => {
+      .boundingClientRect(rect => {
         if (!rect) return;
-        const sys = uni.getSystemInfoSync();
+        const sys = uniApi.getSystemInfoSync();
         const vw = sys.windowWidth || 375;
         const vh = sys.windowHeight || 667;
         const next = getFallbackPlacement(props.placement, rect, vw, vh) as typeof props.placement;
@@ -143,17 +185,12 @@ function adjustPlacementByViewport() {
 }
 
 // 计算方位 class 与偏移变量
-const placementClass = computed(() => `is-${resolvedPlacement.value}`);
-const popStyle = computed(() => {
-  const style: Record<string, string | number> = {
-    '--lk-tooltip-offset': `${props.offset}rpx`,
-    zIndex: props.zIndex,
-  };
-  if (props.width !== undefined && props.width !== null && props.width !== '') {
-    style.width = typeof props.width === 'number' ? `${props.width}rpx` : String(props.width);
-  }
-  return style;
-});
+const placementClass = computed(() => resolveTooltipPlacementClass(resolvedPlacement.value));
+const popStyle = computed(() => resolveTooltipPopStyle({
+  offset: props.offset,
+  zIndex: props.zIndex,
+  width: props.width,
+}));
 
 onMounted(() => {
   if (props.always || props.disabled) return;
@@ -166,38 +203,14 @@ onMounted(() => {
   }
 });
 
-// 动画：默认按 placement 给出轻微的方向感
-const defaultByPlacement: Record<string, NonNullable<TransitionConfig['name']>> = {
-  top: 'fade-down',
-  bottom: 'fade-up',
-  left: 'fade-right',
-  right: 'fade-left',
-};
-
-const transitionConfig = computed<TransitionConfig>(() => {
-  if (props.animationType)
-    return {
-      name: props.animationType,
-      duration: props.duration,
-      delay: props.delay,
-      easing: props.easing,
-    };
-  if (props.animation && ANIMATION_PRESETS[props.animation]) {
-    const p = ANIMATION_PRESETS[props.animation];
-    return {
-      name: p.animation,
-      duration: props.duration ?? p.duration ?? 180,
-      delay: props.delay ?? p.delay ?? 0,
-      easing: props.easing ?? p.easing ?? 'ease-out',
-    };
-  }
-  return {
-    name: defaultByPlacement[resolvedPlacement.value] || 'fade',
-    duration: props.duration,
-    delay: props.delay,
-    easing: props.easing,
-  };
-});
+const transitionConfig = computed(() => resolveTooltipTransitionConfig({
+  animationType: props.animationType,
+  animation: props.animation,
+  placement: resolvedPlacement.value,
+  duration: props.duration,
+  delay: props.delay,
+  easing: props.easing,
+}));
 
 const {
   classes: tipClasses,
