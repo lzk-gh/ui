@@ -2,6 +2,15 @@
 import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated, watch } from 'vue';
 import type { StyleValue } from 'vue';
 import { noticeBarEmits, noticeBarProps } from './notice-bar.props';
+import {
+  resolveNoticeBarClickPayload,
+  resolveNoticeBarDisplayMessages,
+  resolveNoticeBarInterval,
+  resolveNoticeBarScrollMode,
+  resolveNoticeBarStyle,
+  resolveNoticeBarVerticalList,
+  resolveNoticeBarVerticalStyle,
+} from './notice-bar.utils';
 
 defineOptions({ name: 'LkNoticeBar' });
 
@@ -9,40 +18,22 @@ const props = defineProps(noticeBarProps);
 const emit = defineEmits(noticeBarEmits);
 
 // 计算最终要绑定的样式：当用户希望无背景时，不设置 background 和 color
-const styleObj = computed<StyleValue>(() => {
-  const noBg = props.noBackground;
-
-  // 当为无背景模式时：
-  // - 不注入 background 与 color（由父级继承）
-  // - 自动移除 padding 与圆角以获得更“扁平”的外观
-  if (noBg) {
-    return [{
-      padding: '0',
-      borderRadius: '0',
-    }, props.customStyle as StyleValue];
-  }
-
-  return [{
-    background: props.background,
-    color: props.color,
-  }, props.customStyle as StyleValue];
-});
+const styleObj = computed<StyleValue>(() => resolveNoticeBarStyle({
+  noBackground: props.noBackground,
+  background: props.background,
+  color: props.color,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 // 判断滚动方向
-const scrollMode = computed(() => {
-  if (props.scrollable === false) return 'none';
-  if (props.scrollable === true || props.scrollable === 'horizontal') return 'horizontal';
-  if (props.scrollable === 'vertical') return 'vertical';
-  return 'none';
-});
+const scrollMode = computed(() => resolveNoticeBarScrollMode(props.scrollable));
 
 // 显示的消息列表（用于竖向滚动）
-const displayMessages = computed(() => {
-  if (scrollMode.value === 'vertical') {
-    return props.messages.length > 0 ? props.messages : [props.text];
-  }
-  return [];
-});
+const displayMessages = computed(() => resolveNoticeBarDisplayMessages({
+  scrollMode: scrollMode.value,
+  messages: props.messages,
+  text: props.text,
+}));
 
 // 竖向逐条滚动相关状态
 const currentIndex = ref(0); // 当前可视的索引
@@ -53,10 +44,12 @@ const resetTimer = ref<number | ReturnType<typeof setTimeout> | null>(null);
 const resumeTimer = ref<number | ReturnType<typeof setTimeout> | null>(null);
 
 // 竖向渲染列表（最后追加第一项以实现无缝滚动）
-const verticalList = computed(() => {
-  if (displayMessages.value.length === 0) return [] as string[];
-  return [...displayMessages.value, displayMessages.value[0]] as string[];
-});
+const verticalList = computed(() => resolveNoticeBarVerticalList(displayMessages.value));
+const verticalListStyle = computed(() => resolveNoticeBarVerticalStyle({
+  verticalListLength: verticalList.value.length,
+  currentIndex: currentIndex.value,
+  enableTransition: enableTransition.value,
+}));
 
 function stopVerticalLoop() {
   if (verticalTimer.value) {
@@ -77,7 +70,7 @@ function startVerticalLoop() {
   stopVerticalLoop();
   // 单条不滚动
   if (scrollMode.value !== 'vertical' || displayMessages.value.length <= 1) return;
-  const interval = Math.max(0.5, props.speed) * 1000; // 每条停留时长（秒）
+  const interval = resolveNoticeBarInterval(props.speed); // 每条停留时长（秒）
   verticalTimer.value = setInterval(() => {
     // 检查是否即将到达补位项（最后一项）
     if (currentIndex.value === displayMessages.value.length - 1) {
@@ -140,13 +133,13 @@ function close(event?: unknown) {
 }
 
 function click(event?: unknown) {
-  emit('click', {
-    text: scrollMode.value === 'vertical'
-      ? displayMessages.value[currentIndex.value] || ''
-      : props.text,
-    index: scrollMode.value === 'vertical' ? currentIndex.value : 0,
+  emit('click', resolveNoticeBarClickPayload({
+    scrollMode: scrollMode.value,
+    displayMessages: displayMessages.value,
+    currentIndex: currentIndex.value,
+    text: props.text,
     event,
-  });
+  }));
 }
 </script>
 
@@ -174,10 +167,7 @@ function click(event?: unknown) {
         <view
           ref="verticalListEl"
           class="lk-notice-bar__vertical-list"
-          :style="{
-            transform: `translateY(-${verticalList.length ? (currentIndex * 100) / verticalList.length : 0}%)`,
-            transition: enableTransition ? 'transform 0.3s ease-in-out' : 'none',
-          }"
+          :style="verticalListStyle"
         >
           <view v-for="(msg, index) in verticalList" :key="index" class="lk-notice-bar__message">
             {{ msg }}
