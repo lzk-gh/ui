@@ -4,6 +4,27 @@ import { computed, ref, watch, onUnmounted } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
 import { chartLineProps, chartLineEmits } from './chart-line.props';
+import {
+  areChartLineTooltipStatesEqual,
+  buildChartLineRenderPoints,
+  CHART_LINE_EMPTY_TOOLTIP,
+  clampChartLineIndex,
+  getChartLineBezierSegments,
+  getChartLineHoverIndexFromPoint,
+  getChartLineXAxisLabelStride,
+  isChartLineAutoAnimating,
+  normalizeChartLineValues,
+  resolveChartLineAutoTransition,
+  resolveChartLineHeightStyle,
+  resolveChartLineInitialHoverIndex,
+  resolveChartLineInterpolatedTooltip,
+  resolveChartLineLayout,
+  resolveChartLineRootStyle,
+  resolveChartLineTooltipState,
+  resolveChartLineTooltipStyle,
+  resolveChartLineTooltipText,
+  resolveChartLineValueRange,
+} from './chart-line.utils';
 
 defineOptions({ name: 'LkChartLine' });
 
@@ -19,29 +40,27 @@ function uid(prefix: string) {
 const wrapperId = computed(() => props.id || uid('lk-chart-line'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 
-const heightStyle = computed(() => {
-  const h = props.height;
-  if (typeof h === 'number') return `${h}rpx`;
-  if (typeof h === 'string' && /^\d+$/.test(h)) return `${h}rpx`;
-  return String(h);
-});
+const heightStyle = computed(() => resolveChartLineHeightStyle(props.height));
+const rootStyle = computed<StyleValue>(() => resolveChartLineRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 const hoverIndex = ref(-1);
 const autoFrom = ref<number | null>(null);
 const autoTo = ref<number | null>(null);
 const autoT = ref(1);
 const pulse = ref(0);
-const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
+const tooltipState = ref({ ...CHART_LINE_EMPTY_TOOLTIP });
 
 let autoTimer: number | undefined;
 
-function clampIndex(i: number, len: number) {
-  if (len <= 0) return -1;
-  return Math.max(0, Math.min(len - 1, i));
-}
-
 function isAutoAnimating() {
-  return autoFrom.value != null && autoTo.value != null && autoT.value < 1;
+  return isChartLineAutoAnimating({
+    autoFrom: autoFrom.value,
+    autoTo: autoTo.value,
+    autoT: autoT.value,
+  });
 }
 
 function triggerPulse() {
@@ -60,7 +79,7 @@ function triggerPulse() {
 
 function setHover(idx: number) {
   const len = (props.data || []).length;
-  const clamped = clampIndex(idx, len);
+  const clamped = clampChartLineIndex(idx, len);
   if (clamped !== hoverIndex.value) {
     hoverIndex.value = clamped;
     emit('hoverChange', clamped);
@@ -70,10 +89,15 @@ function setHover(idx: number) {
 function animateHoverTo(nextIndex: number) {
   const len = (props.data || []).length;
   if (len <= 0) return;
-  const from = clampIndex(hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value, len);
-  const to = clampIndex(nextIndex, len);
-  autoFrom.value = from;
-  autoTo.value = to;
+  const transition = resolveChartLineAutoTransition({
+    hoverIndex: hoverIndex.value,
+    defaultIndex: props.defaultIndex,
+    nextIndex,
+    length: len,
+  });
+  if (!transition) return;
+  autoFrom.value = transition.from;
+  autoTo.value = transition.to;
   autoT.value = 0;
   triggerPulse();
   chart.animateTo(
@@ -84,7 +108,7 @@ function animateHoverTo(nextIndex: number) {
     },
     () => {
       autoT.value = 1;
-      setHover(to);
+      setHover(transition.to);
       autoFrom.value = null;
       autoTo.value = null;
     }
@@ -97,69 +121,24 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
-const tooltipStyle = computed<StyleValue>(() => ({
-  left: `${tooltipState.value.x}px`,
-  top: `${tooltipState.value.y}px`,
-  width: `${tooltipState.value.width}px`,
-  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
-}));
+const tooltipStyle = computed<StyleValue>(() => resolveChartLineTooltipStyle(tooltipState.value));
 
 function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
-  const gap = chart.px(12);
-  const minWidth = chart.px(48);
-  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
-  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
-  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
-  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
-  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
-  const current = tooltipState.value;
-  if (
-    current.visible &&
-    current.x === left &&
-    current.y === y &&
-    current.width === width &&
-    current.arrowX === arrowX &&
-    current.text === text
-  ) {
-    return;
-  }
-  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+  const next = resolveChartLineTooltipState({
+    x,
+    y,
+    text,
+    textWidth,
+    chartWidth: chart.size.value.width,
+    px: chart.px,
+  });
+  if (areChartLineTooltipStatesEqual(tooltipState.value, next)) return;
+  tooltipState.value = next;
 }
 
 function hideTooltip() {
   if (!tooltipState.value.visible) return;
-  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
-}
-
-type Pt = { x: number; y: number; v: number; label?: string };
-
-function catmullRomToBezier(points: Pt[]) {
-  // 返回每段的控制点：[{cp1x,cp1y,cp2x,cp2y,endx,endy}]
-  const result: Array<{
-    cp1x: number;
-    cp1y: number;
-    cp2x: number;
-    cp2y: number;
-    x: number;
-    y: number;
-  }> = [];
-  const n = points.length;
-  if (n < 2) return result;
-
-  for (let i = 0; i < n - 1; i += 1) {
-    const p0 = points[Math.max(0, i - 1)];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[Math.min(n - 1, i + 2)];
-
-    const cp1x = p1.x + (p2.x - p0.x) / 6;
-    const cp1y = p1.y + (p2.y - p0.y) / 6;
-    const cp2x = p2.x - (p3.x - p1.x) / 6;
-    const cp2y = p2.y - (p3.y - p1.y) / 6;
-
-    result.push({ cp1x, cp1y, cp2x, cp2y, x: p2.x, y: p2.y });
-  }
-  return result;
+  tooltipState.value = { ...CHART_LINE_EMPTY_TOOLTIP };
 }
 
 chart.setRenderer((info, progress) => {
@@ -170,29 +149,27 @@ chart.setRenderer((info, progress) => {
 
   const palette = buildBrandPalette(resolveBrandBaseColor());
 
-  const xLabelH = props.showXAxisLabel ? 18 : 0;
-  const yLabelW = props.showAxis ? 36 : 0;
-  const innerW = Math.max(0, size.width - pad * 2 - yLabelW);
-  const innerH = Math.max(0, size.height - pad * 2 - xLabelH);
-  if (!d.length || innerW <= 0 || innerH <= 0) {
+  const layout = resolveChartLineLayout({
+    width: size.width,
+    height: size.height,
+    padding: pad,
+    showXAxisLabel: props.showXAxisLabel,
+    showAxis: props.showAxis,
+    length: d.length,
+  });
+  if (!d.length || layout.innerWidth <= 0 || layout.innerHeight <= 0) {
     hideTooltip();
     return;
   }
 
-  const values = d.map(i => (Number.isFinite(i.value) ? i.value : 0));
-  const minV = Math.min(...values);
-  const maxV = Math.max(...values);
-  const span = Math.max(1e-6, maxV - minV);
-
-  const plotLeft = pad + yLabelW;
-  const plotTop = pad;
-  const plotBottom = pad + innerH;
-
-  const pts: Pt[] = d.map((it, i) => {
-    const x = plotLeft + (innerW * i) / Math.max(1, d.length - 1);
-    const v = (it.value - minV) / span;
-    const y = plotTop + innerH - v * innerH * progress;
-    return { x, y, v: it.value, label: it.label };
+  const values = normalizeChartLineValues(d);
+  const range = resolveChartLineValueRange(values);
+  const pts = buildChartLineRenderPoints({
+    data: d,
+    layout,
+    min: range.min,
+    span: range.span,
+    progress,
   });
 
   // axis/grid
@@ -202,50 +179,50 @@ chart.setRenderer((info, progress) => {
   if (props.showAxis) {
     const ticks = Math.max(2, props.yAxisTicks);
     for (let t = 0; t <= ticks; t += 1) {
-      const y = plotBottom - (innerH * t) / ticks;
+      const y = layout.plotBottom - (layout.innerHeight * t) / ticks;
       ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.08);
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(plotLeft, y + 0.5);
-      ctx.lineTo(plotLeft + innerW, y + 0.5);
+      ctx.moveTo(layout.plotLeft, y + 0.5);
+      ctx.lineTo(layout.plotLeft + layout.innerWidth, y + 0.5);
       ctx.stroke();
 
-      const val = minV + (span * t) / ticks;
+      const val = range.min + (range.span * t) / ticks;
       ctx.fillStyle = rgbaFromHex(palette.brand800, 0.55);
       ctx.textAlign = 'right';
-      ctx.fillText(String(Math.round(val)), plotLeft - 6, y);
+      ctx.fillText(String(Math.round(val)), layout.plotLeft - 6, y);
     }
     // y axis
     ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.15);
     ctx.beginPath();
-    ctx.moveTo(plotLeft + 0.5, plotTop);
-    ctx.lineTo(plotLeft + 0.5, plotBottom);
+    ctx.moveTo(layout.plotLeft + 0.5, layout.plotTop);
+    ctx.lineTo(layout.plotLeft + 0.5, layout.plotBottom);
     ctx.stroke();
   }
   // x axis baseline
   ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.15);
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(plotLeft, plotBottom + 0.5);
-  ctx.lineTo(plotLeft + innerW, plotBottom + 0.5);
+  ctx.moveTo(layout.plotLeft, layout.plotBottom + 0.5);
+  ctx.lineTo(layout.plotLeft + layout.innerWidth, layout.plotBottom + 0.5);
   ctx.stroke();
   ctx.restore();
 
   // optional area gradient (to x axis)
   if (props.areaGradient) {
-    const segs = catmullRomToBezier(pts);
+    const segs = getChartLineBezierSegments(pts);
     ctx.save();
-    const g = ctx.createLinearGradient(0, plotTop, 0, plotBottom);
+    const g = ctx.createLinearGradient(0, layout.plotTop, 0, layout.plotBottom);
     g.addColorStop(0, rgbaFromHex(palette.brand600, 0.22));
     g.addColorStop(1, rgbaFromHex(palette.brand600, 0));
     ctx.fillStyle = g;
     ctx.beginPath();
-    ctx.moveTo(pts[0].x, plotBottom);
+    ctx.moveTo(pts[0].x, layout.plotBottom);
     ctx.lineTo(pts[0].x, pts[0].y);
     for (const s of segs) {
       ctx.bezierCurveTo(s.cp1x, s.cp1y, s.cp2x, s.cp2y, s.x, s.y);
     }
-    ctx.lineTo(pts[pts.length - 1].x, plotBottom);
+    ctx.lineTo(pts[pts.length - 1].x, layout.plotBottom);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
@@ -254,7 +231,7 @@ chart.setRenderer((info, progress) => {
   // line (bezier)
   ctx.save();
   if (props.gradient) {
-    const lg = ctx.createLinearGradient(plotLeft, 0, plotLeft + innerW, 0);
+    const lg = ctx.createLinearGradient(layout.plotLeft, 0, layout.plotLeft + layout.innerWidth, 0);
     lg.addColorStop(0, palette.brand400);
     lg.addColorStop(0.6, palette.brand600);
     lg.addColorStop(1, palette.brand800);
@@ -268,7 +245,7 @@ chart.setRenderer((info, progress) => {
 
   ctx.beginPath();
   ctx.moveTo(pts[0].x, pts[0].y);
-  const segs = catmullRomToBezier(pts);
+  const segs = getChartLineBezierSegments(pts);
   for (const s of segs) {
     ctx.bezierCurveTo(s.cp1x, s.cp1y, s.cp2x, s.cp2y, s.x, s.y);
   }
@@ -300,20 +277,23 @@ chart.setRenderer((info, progress) => {
     if (isAutoAnimating() && autoFrom.value != null && autoTo.value != null) {
       const a = pts[autoFrom.value];
       const b = pts[autoTo.value];
-      cursorX = a.x + (b.x - a.x) * autoT.value;
-      cursorY = a.y + (b.y - a.y) * autoT.value;
-      const v = a.v + (b.v - a.v) * autoT.value;
-      const label = (d[autoTo.value]?.label ? String(d[autoTo.value]?.label) : '') || '';
-      cursorText = label
-        ? `${label}: ${Math.round(v * 100) / 100}`
-        : String(Math.round(v * 100) / 100);
+      const tooltip = resolveChartLineInterpolatedTooltip({
+        from: a,
+        to: b,
+        t: autoT.value,
+      });
+      cursorX = tooltip.x;
+      cursorY = tooltip.y;
+      cursorText = tooltip.text;
     } else {
-      const idx = hasHover ? hoverIndex.value : clampIndex(props.defaultIndex, pts.length);
+      const idx = hasHover ? hoverIndex.value : clampChartLineIndex(props.defaultIndex, pts.length);
       const p = pts[idx];
       cursorX = p.x;
       cursorY = p.y;
-      const label = p.label ? String(p.label) : '';
-      cursorText = label ? `${label}: ${p.v}` : String(p.v);
+      cursorText = resolveChartLineTooltipText({
+        label: p.label,
+        value: p.v,
+      });
     }
   }
 
@@ -322,8 +302,8 @@ chart.setRenderer((info, progress) => {
     ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.18 + 0.18 * pulse.value);
     ctx.lineWidth = 1 + 1 * pulse.value;
     ctx.beginPath();
-    ctx.moveTo(cursorX + 0.5, plotTop);
-    ctx.lineTo(cursorX + 0.5, plotBottom);
+    ctx.moveTo(cursorX + 0.5, layout.plotTop);
+    ctx.lineTo(cursorX + 0.5, layout.plotBottom);
     ctx.stroke();
     ctx.restore();
 
@@ -333,8 +313,7 @@ chart.setRenderer((info, progress) => {
   }
 
   if (props.showXAxisLabel) {
-    const step = innerW / Math.max(1, d.length - 1);
-    const stride = Math.max(1, Math.ceil(d.length / 6));
+    const stride = getChartLineXAxisLabelStride(d.length);
     ctx.save();
     ctx.font = '10px sans-serif';
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.55);
@@ -343,8 +322,8 @@ chart.setRenderer((info, progress) => {
     for (let i = 0; i < d.length; i += stride) {
       const label = d[i].label ? String(d[i].label) : '';
       if (!label) continue;
-      const x = plotLeft + step * i;
-      ctx.fillText(label, x, plotBottom + 6);
+      const x = layout.plotLeft + layout.step * i;
+      ctx.fillText(label, x, layout.plotBottom + 6);
     }
     ctx.restore();
   }
@@ -365,10 +344,12 @@ watch(
   () => props.data,
   () => {
     if (!chart.ready.value) return;
-    hoverIndex.value =
-      props.tooltipAlways || props.autoTooltip
-        ? clampIndex(props.defaultIndex, (props.data || []).length)
-        : -1;
+    hoverIndex.value = resolveChartLineInitialHoverIndex({
+      tooltipAlways: props.tooltipAlways,
+      autoTooltip: props.autoTooltip,
+      defaultIndex: props.defaultIndex,
+      length: (props.data || []).length,
+    });
     triggerIntro();
   },
   { deep: true }
@@ -392,11 +373,11 @@ watch(
     if (!props.tooltip || len <= 0) return;
 
     if (props.autoTooltip) {
-      hoverIndex.value = clampIndex(props.defaultIndex, len);
+      hoverIndex.value = clampChartLineIndex(props.defaultIndex, len);
       autoTimer = setInterval(
         () => {
           if (!chart.ready.value) return;
-          const current = clampIndex(
+          const current = clampChartLineIndex(
             hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value,
             len
           );
@@ -409,7 +390,7 @@ watch(
     }
 
     if (props.tooltipAlways) {
-      hoverIndex.value = clampIndex(props.defaultIndex, len);
+      hoverIndex.value = clampChartLineIndex(props.defaultIndex, len);
       chart.scheduleRender(1);
     }
   },
@@ -431,13 +412,22 @@ function onMove(e: unknown) {
   if (!d.length) return;
 
   const pad = chart.px(props.padding);
-  const yLabelW = props.showAxis ? 36 : 0;
-  const innerW = Math.max(0, chart.size.value.width - pad * 2 - yLabelW);
-  if (innerW <= 0) return;
+  const layout = resolveChartLineLayout({
+    width: chart.size.value.width,
+    height: chart.size.value.height,
+    padding: pad,
+    showXAxisLabel: props.showXAxisLabel,
+    showAxis: props.showAxis,
+    length: d.length,
+  });
+  if (layout.innerWidth <= 0) return;
 
-  const plotLeft = pad + yLabelW;
-  const step = innerW / Math.max(1, d.length - 1);
-  const idx = Math.max(0, Math.min(d.length - 1, Math.round((p.x - plotLeft) / step)));
+  const idx = getChartLineHoverIndexFromPoint({
+    x: p.x,
+    plotLeft: layout.plotLeft,
+    step: layout.step,
+    length: d.length,
+  });
   if (hoverIndex.value !== idx) {
     hoverIndex.value = idx;
     emit('hoverChange', idx);
@@ -450,7 +440,7 @@ function onEnd() {
   if (!props.tooltip) return;
   const len = (props.data || []).length;
   const keep = props.tooltipAlways || props.autoTooltip;
-  const next = keep ? clampIndex(props.defaultIndex, len) : -1;
+  const next = keep ? clampChartLineIndex(props.defaultIndex, len) : -1;
   if (hoverIndex.value !== next) {
     hoverIndex.value = next;
     emit('hoverChange', next);
@@ -471,7 +461,7 @@ onUnmounted(() => {
     :id="wrapperId"
     class="lk-chart"
     :class="props.customClass"
-    :style="[{ height: heightStyle }, props.customStyle as any]"
+    :style="rootStyle"
     @touchstart="onMove"
     @touchmove="onMove"
     @touchend="onEnd"
