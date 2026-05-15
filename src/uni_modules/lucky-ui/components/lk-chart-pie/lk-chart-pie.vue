@@ -3,7 +3,33 @@ import type { StyleValue } from 'vue';
 import { computed, ref, watch, onUnmounted } from 'vue';
 import { useChartCanvas } from '../../composables/useChartCanvas';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
-import { chartPieProps, chartPieEmits, type PieChartSlice } from './chart-pie.props';
+import { chartPieProps, chartPieEmits } from './chart-pie.props';
+import {
+  areChartPieTooltipStatesEqual,
+  CHART_PIE_EMPTY_TOOLTIP,
+  CHART_PIE_START_ANGLE,
+  clampChartPieIndex,
+  getChartPieCapSweep,
+  getChartPieEffectiveIndex,
+  getChartPieIndexByAngle,
+  getChartPieNextAutoTooltipIndex,
+  getChartPieOverlapAngle,
+  getChartPieSliceSweep,
+  getChartPieTotal,
+  getValidChartPieSlices,
+  isChartPiePointInside,
+  normalizeChartPieAngle,
+  resolveChartPieCenterText,
+  resolveChartPieDonutBounds,
+  resolveChartPieGeometry,
+  resolveChartPieHeightStyle,
+  resolveChartPieInitialHoverIndex,
+  resolveChartPieRootStyle,
+  resolveChartPieSliceColor,
+  resolveChartPieTooltipState,
+  resolveChartPieTooltipStyle,
+  resolveChartPieTooltipText,
+} from './chart-pie.utils';
 
 defineOptions({ name: 'LkChartPie' });
 
@@ -19,23 +45,17 @@ function uid(prefix: string) {
 const wrapperId = computed(() => props.id || uid('lk-chart-pie'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 
-const heightStyle = computed(() => {
-  const h = props.height;
-  if (typeof h === 'number') return `${h}rpx`;
-  if (typeof h === 'string' && /^\d+$/.test(h)) return `${h}rpx`;
-  return String(h);
-});
+const heightStyle = computed(() => resolveChartPieHeightStyle(props.height));
+const rootStyle = computed<StyleValue>(() => resolveChartPieRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 const hoverIndex = ref(-1);
 const pulse = ref(0);
-const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
+const tooltipState = ref({ ...CHART_PIE_EMPTY_TOOLTIP });
 
 let autoTimer: number | undefined;
-
-function clampIndex(i: number, len: number) {
-  if (len <= 0) return -1;
-  return Math.max(0, Math.min(len - 1, i));
-}
 
 function triggerPulse() {
   if (!props.highlightPulse) return;
@@ -57,108 +77,83 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
-const tooltipStyle = computed<StyleValue>(() => ({
-  left: `${tooltipState.value.x}px`,
-  top: `${tooltipState.value.y}px`,
-  width: `${tooltipState.value.width}px`,
-  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
-}));
+const tooltipStyle = computed<StyleValue>(() => resolveChartPieTooltipStyle(tooltipState.value));
 
 function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
-  const gap = chart.px(12);
-  const minWidth = chart.px(48);
-  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
-  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
-  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
-  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
-  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
-  const current = tooltipState.value;
-  if (
-    current.visible &&
-    current.x === left &&
-    current.y === y &&
-    current.width === width &&
-    current.arrowX === arrowX &&
-    current.text === text
-  ) {
-    return;
-  }
-  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+  const next = resolveChartPieTooltipState({
+    x,
+    y,
+    text,
+    textWidth,
+    chartWidth: chart.size.value.width,
+    px: chart.px,
+  });
+  if (areChartPieTooltipStatesEqual(tooltipState.value, next)) return;
+  tooltipState.value = next;
 }
 
 function hideTooltip() {
   if (!tooltipState.value.visible) return;
-  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
-}
-
-function resolveSliceColor(
-  slice: PieChartSlice,
-  index: number,
-  palette: ReturnType<typeof buildBrandPalette>
-) {
-  if (slice.color) return slice.color;
-  const candidates = [
-    palette.brand600,
-    palette.brand500,
-    palette.brand700,
-    palette.brand400,
-    palette.brand800,
-  ];
-  return candidates[index % candidates.length];
+  tooltipState.value = { ...CHART_PIE_EMPTY_TOOLTIP };
 }
 
 chart.setRenderer((info, progress) => {
   const { ctx, size } = info;
-  const d = (props.data || []).filter(i => Number.isFinite(i.value) && i.value > 0);
+  const d = getValidChartPieSlices(props.data || []);
   const pad = info.px(props.padding);
 
   const palette = buildBrandPalette(resolveBrandBaseColor());
 
-  const w = size.width;
-  const h = size.height;
-  const cx = w / 2;
-  const cy = h / 2;
-
-  const radius = Math.max(0, Math.min(w, h) / 2 - pad);
-  if (!d.length || radius <= 0) {
+  const geometry = resolveChartPieGeometry({
+    width: size.width,
+    height: size.height,
+    padding: pad,
+  });
+  if (!d.length || geometry.radius <= 0) {
     hideTooltip();
     return;
   }
 
-  const total = d.reduce((s, it) => s + it.value, 0);
+  const total = getChartPieTotal(d);
   if (total <= 0) {
     hideTooltip();
     return;
   }
 
-  const startBase = -Math.PI / 2;
-  let start = startBase;
+  let start = CHART_PIE_START_ANGLE;
 
   // effective hover for always/auto
-  const hasHover = hoverIndex.value >= 0 && hoverIndex.value < d.length;
-  const effectiveIndex = props.tooltip
-    ? hasHover
-      ? hoverIndex.value
-      : props.tooltipAlways || props.autoTooltip
-        ? clampIndex(props.defaultIndex, d.length)
-        : -1
-    : -1;
+  const effectiveIndex = getChartPieEffectiveIndex({
+    tooltip: props.tooltip,
+    hoverIndex: hoverIndex.value,
+    autoTooltip: props.autoTooltip,
+    tooltipAlways: props.tooltipAlways,
+    defaultIndex: props.defaultIndex,
+    length: d.length,
+  });
 
   if (props.donut) {
-    const thickness = Math.max(2, info.px(props.donutWidth));
+    const bounds = resolveChartPieDonutBounds({
+      radius: geometry.radius,
+      donutWidth: info.px(props.donutWidth),
+    });
     ctx.save();
-    ctx.lineWidth = thickness;
+    ctx.lineWidth = bounds.thickness;
     ctx.lineCap = 'round';
 
     if (props.showTrack) {
       ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.08);
       ctx.beginPath();
-      ctx.arc(cx, cy, Math.max(1, radius - thickness / 2), 0, Math.PI * 2);
+      ctx.arc(geometry.cx, geometry.cy, bounds.arcRadius, 0, Math.PI * 2);
       ctx.stroke();
     }
 
     const segmentCount = d.length;
-    const overlapAngle = segmentCount > 1 ? Math.min((thickness * 1.6) / Math.max(1, radius), Math.PI / 8) : 0;
+    const overlapAngle = getChartPieOverlapAngle({
+      segmentCount,
+      thickness: bounds.thickness,
+      radius: geometry.radius,
+    });
     const drawnSegments: Array<{
       color: string;
       start: number;
@@ -171,15 +166,15 @@ chart.setRenderer((info, progress) => {
       ctx.lineCap = lineCap;
       ctx.strokeStyle = color;
       ctx.beginPath();
-      ctx.arc(cx, cy, Math.max(1, radius - thickness / 2), from, to);
+      ctx.arc(geometry.cx, geometry.cy, bounds.arcRadius, from, to);
       ctx.stroke();
     }
 
     for (let i = 0; i < d.length; i += 1) {
       const slice = d[i];
-      const sweep = (slice.value / total) * Math.PI * 2;
+      const sweep = getChartPieSliceSweep({ value: slice.value, total });
       const end = start + sweep * progress;
-      const color = resolveSliceColor(slice, i, palette);
+      const color = resolveChartPieSliceColor(slice, i, palette);
 
       drawDonutArc(color, start, end, segmentCount > 1 ? 'butt' : 'round');
       const actualEnd = end;
@@ -194,11 +189,11 @@ chart.setRenderer((info, progress) => {
       // hover highlight
       if (props.tooltip && effectiveIndex === i) {
         ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.18 + 0.22 * pulse.value);
-        ctx.lineWidth = thickness + 4 + 4 * pulse.value;
+        ctx.lineWidth = bounds.thickness + 4 + 4 * pulse.value;
         ctx.beginPath();
-        ctx.arc(cx, cy, Math.max(1, radius - thickness / 2), start, end);
+        ctx.arc(geometry.cx, geometry.cy, bounds.arcRadius, start, end);
         ctx.stroke();
-        ctx.lineWidth = thickness;
+        ctx.lineWidth = bounds.thickness;
       }
 
       start += sweep;
@@ -206,7 +201,11 @@ chart.setRenderer((info, progress) => {
 
     if (segmentCount > 1) {
       drawnSegments.forEach(segment => {
-        const capSweep = Math.min(overlapAngle, segment.sweep, segment.fullSweep * 0.45);
+        const capSweep = getChartPieCapSweep({
+          overlapAngle,
+          sweep: segment.sweep,
+          fullSweep: segment.fullSweep,
+        });
         if (capSweep <= 0) return;
         const capEnd = segment.end;
         const capStart = capEnd - capSweep;
@@ -218,15 +217,15 @@ chart.setRenderer((info, progress) => {
   } else {
     for (let i = 0; i < d.length; i += 1) {
       const slice = d[i];
-      const sweep = (slice.value / total) * Math.PI * 2;
+      const sweep = getChartPieSliceSweep({ value: slice.value, total });
       const end = start + sweep * progress;
-      const color = resolveSliceColor(slice, i, palette);
+      const color = resolveChartPieSliceColor(slice, i, palette);
 
       ctx.save();
       ctx.fillStyle = color;
       ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, start, end);
+      ctx.moveTo(geometry.cx, geometry.cy);
+      ctx.arc(geometry.cx, geometry.cy, geometry.radius, start, end);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
@@ -237,34 +236,37 @@ chart.setRenderer((info, progress) => {
 
   // center info (avoid “just a ring”)
   if (props.showCenterText) {
-    const title = props.centerTitle || 'Total';
-    const active = effectiveIndex >= 0 ? d[effectiveIndex] : null;
-    const activeLabel = active?.label ? String(active.label) : '';
-    const activePercent = active ? Math.round((active.value / total) * 1000) / 10 : null;
+    const centerText = resolveChartPieCenterText({
+      showCenterText: props.showCenterText,
+      centerTitle: props.centerTitle,
+      activeSlice: effectiveIndex >= 0 ? d[effectiveIndex] : null,
+      total,
+    });
 
     ctx.save();
     ctx.textAlign = 'center';
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.6);
     ctx.font = '12px sans-serif';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(activeLabel || title, cx, cy - 2);
+    ctx.fillText(centerText?.title || '', geometry.cx, geometry.cy - 2);
 
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.92);
     ctx.font = `bold 18px sans-serif`;
     ctx.textBaseline = 'top';
-    const main =
-      activePercent != null ? `${activePercent}%` : String(Math.round(total * 100) / 100);
-    ctx.fillText(main, cx, cy + 2);
+    ctx.fillText(centerText?.main || '', geometry.cx, geometry.cy + 2);
     ctx.restore();
   }
 
   // tooltip
   if (props.tooltip && effectiveIndex >= 0 && effectiveIndex < d.length) {
     const slice = d[effectiveIndex];
-    const percent = Math.round((slice.value / total) * 1000) / 10;
-    const label = slice.label ? String(slice.label) : '';
-    const text = label ? `${label}: ${percent}%` : `${percent}%`;
-    showTooltip(cx, cy - radius * 0.6, text, ctx.measureText(text).width);
+    const text = resolveChartPieTooltipText({ slice, total });
+    showTooltip(
+      geometry.cx,
+      geometry.cy - geometry.radius * 0.6,
+      text,
+      ctx.measureText(text).width
+    );
   } else {
     hideTooltip();
   }
@@ -285,10 +287,12 @@ watch(
   () => props.data,
   () => {
     if (!chart.ready.value) return;
-    hoverIndex.value =
-      props.tooltipAlways || props.autoTooltip
-        ? clampIndex(props.defaultIndex, (props.data || []).length)
-        : -1;
+    hoverIndex.value = resolveChartPieInitialHoverIndex({
+      tooltipAlways: props.tooltipAlways,
+      autoTooltip: props.autoTooltip,
+      defaultIndex: props.defaultIndex,
+      length: getValidChartPieSlices(props.data || []).length,
+    });
     triggerIntro();
   },
   { deep: true }
@@ -308,17 +312,19 @@ watch(
       clearInterval(autoTimer);
       autoTimer = undefined;
     }
-    const len = (props.data || []).filter(i => Number.isFinite(i.value) && i.value > 0).length;
+    const len = getValidChartPieSlices(props.data || []).length;
     if (!props.tooltip || len <= 0) return;
 
     if (props.autoTooltip) {
-      hoverIndex.value = clampIndex(props.defaultIndex, len);
+      hoverIndex.value = clampChartPieIndex(props.defaultIndex, len);
       autoTimer = setInterval(
         () => {
           if (!chart.ready.value) return;
-          const next =
-            (clampIndex(hoverIndex.value < 0 ? props.defaultIndex : hoverIndex.value, len) + 1) %
-            len;
+          const next = getChartPieNextAutoTooltipIndex({
+            hoverIndex: hoverIndex.value,
+            defaultIndex: props.defaultIndex,
+            length: len,
+          });
           hoverIndex.value = next;
           emit('hoverChange', next);
           triggerPulse();
@@ -330,7 +336,7 @@ watch(
     }
 
     if (props.tooltipAlways) {
-      hoverIndex.value = clampIndex(props.defaultIndex, len);
+      hoverIndex.value = clampChartPieIndex(props.defaultIndex, len);
       refresh();
     }
   },
@@ -349,61 +355,39 @@ function onMove(e: unknown) {
   const p = chart.getRelativePoint(e);
   if (!p) return;
 
-  const w = chart.size.value.width;
-  const h = chart.size.value.height;
-  const cx = w / 2;
-  const cy = h / 2;
+  const geometry = resolveChartPieGeometry({
+    width: chart.size.value.width,
+    height: chart.size.value.height,
+    padding: chart.px(props.padding),
+  });
 
-  const dx = p.x - cx;
-  const dy = p.y - cy;
+  const dx = p.x - geometry.cx;
+  const dy = p.y - geometry.cy;
   const dist = Math.sqrt(dx * dx + dy * dy);
 
-  const pad = chart.px(props.padding);
-  const radius = Math.max(0, Math.min(w, h) / 2 - pad);
-  if (radius <= 0) return;
+  if (geometry.radius <= 0) return;
 
-  if (props.donut) {
-    const thickness = Math.max(2, chart.px(props.donutWidth));
-    const rOuter = radius;
-    const rInner = Math.max(0, radius - thickness);
-    if (dist < rInner || dist > rOuter) {
-      if (hoverIndex.value !== -1) {
-        hoverIndex.value = -1;
-        emit('hoverChange', -1);
-        refresh();
-      }
-      return;
+  if (!isChartPiePointInside({
+    distance: dist,
+    donut: props.donut,
+    radius: geometry.radius,
+    donutWidth: chart.px(props.donutWidth),
+  })) {
+    if (hoverIndex.value !== -1) {
+      hoverIndex.value = -1;
+      emit('hoverChange', -1);
+      refresh();
     }
-  } else {
-    if (dist > radius) {
-      if (hoverIndex.value !== -1) {
-        hoverIndex.value = -1;
-        emit('hoverChange', -1);
-        refresh();
-      }
-      return;
-    }
+    return;
   }
 
-  let angle = Math.atan2(dy, dx);
-  // 转换到以 -PI/2 为起点、顺时针累加的角度
-  angle -= -Math.PI / 2;
-  if (angle < 0) angle += Math.PI * 2;
+  const angle = normalizeChartPieAngle(dx, dy);
 
-  const d = (props.data || []).filter(i => Number.isFinite(i.value) && i.value > 0);
-  const total = d.reduce((s, it) => s + it.value, 0);
+  const d = getValidChartPieSlices(props.data || []);
+  const total = getChartPieTotal(d);
   if (!d.length || total <= 0) return;
 
-  let acc = 0;
-  let idx = -1;
-  for (let i = 0; i < d.length; i += 1) {
-    const sweep = (d[i].value / total) * Math.PI * 2;
-    if (angle >= acc && angle < acc + sweep) {
-      idx = i;
-      break;
-    }
-    acc += sweep;
-  }
+  const idx = getChartPieIndexByAngle({ angle, data: d, total });
 
   if (idx !== -1 && hoverIndex.value !== idx) {
     hoverIndex.value = idx;
@@ -415,9 +399,9 @@ function onMove(e: unknown) {
 
 function onEnd() {
   if (!props.tooltip) return;
-  const len = (props.data || []).filter(i => Number.isFinite(i.value) && i.value > 0).length;
+  const len = getValidChartPieSlices(props.data || []).length;
   const keep = props.tooltipAlways || props.autoTooltip;
-  const next = keep ? clampIndex(props.defaultIndex, len) : -1;
+  const next = keep ? clampChartPieIndex(props.defaultIndex, len) : -1;
   if (hoverIndex.value !== next) {
     hoverIndex.value = next;
     emit('hoverChange', next);
@@ -438,7 +422,7 @@ onUnmounted(() => {
     :id="wrapperId"
     class="lk-chart"
     :class="props.customClass"
-    :style="[{ height: heightStyle }, props.customStyle as any]"
+    :style="rootStyle"
     @touchstart="onMove"
     @touchmove="onMove"
     @touchend="onEnd"
