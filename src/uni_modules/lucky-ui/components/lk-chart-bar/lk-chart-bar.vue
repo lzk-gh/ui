@@ -10,7 +10,26 @@ import {
   hexToRgb,
   rgbaFromHex,
 } from '../../utils/chart-colors';
-import { chartBarProps, chartBarEmits, type BarChartItem } from './chart-bar.props';
+import { chartBarProps, chartBarEmits } from './chart-bar.props';
+import {
+  areChartBarTooltipStatesEqual,
+  CHART_BAR_EMPTY_TOOLTIP,
+  clampChartBarIndex,
+  getChartBarEffectiveIndex,
+  getChartBarHoverIndexFromPoint,
+  getChartBarMaxValue,
+  getChartBarNextAutoTooltipIndex,
+  getChartBarXAxisLabelInterval,
+  normalizeChartBarValues,
+  resolveChartBarHeightStyle,
+  resolveChartBarInitialHoverIndex,
+  resolveChartBarItemColor,
+  resolveChartBarLayout,
+  resolveChartBarRootStyle,
+  resolveChartBarTooltipState,
+  resolveChartBarTooltipStyle,
+  resolveChartBarTooltipText,
+} from './chart-bar.utils';
 
 defineOptions({ name: 'LkChartBar' });
 
@@ -26,30 +45,27 @@ function uid(prefix: string) {
 const wrapperId = computed(() => props.id || uid('lk-chart-bar'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 
-const heightStyle = computed(() => {
-  const h = props.height;
-  if (typeof h === 'number') return `${h}rpx`;
-  if (typeof h === 'string' && /^\d+$/.test(h)) return `${h}rpx`;
-  return String(h);
-});
+const heightStyle = computed(() => resolveChartBarHeightStyle(props.height));
+const rootStyle = computed<StyleValue>(() => resolveChartBarRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 const hoverIndex = ref<number>(-1);
 const pulse = ref(0);
-const tooltipState = ref({ visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' });
+const tooltipState = ref({ ...CHART_BAR_EMPTY_TOOLTIP });
 
 let autoTimer: number | undefined;
 
-function clampIndex(i: number, len: number) {
-  if (len <= 0) return -1;
-  return Math.max(0, Math.min(len - 1, i));
-}
-
 function getEffectiveIndex(len: number) {
-  if (!props.tooltip) return -1;
-  const hasHover = hoverIndex.value >= 0 && hoverIndex.value < len;
-  if (hasHover) return hoverIndex.value;
-  if (props.autoTooltip || props.tooltipAlways) return clampIndex(props.defaultIndex, len);
-  return -1;
+  return getChartBarEffectiveIndex({
+    tooltip: props.tooltip,
+    hoverIndex: hoverIndex.value,
+    autoTooltip: props.autoTooltip,
+    tooltipAlways: props.tooltipAlways,
+    defaultIndex: props.defaultIndex,
+    length: len,
+  });
 }
 
 function triggerPulse() {
@@ -95,22 +111,6 @@ function roundedTopRectPath(
   ctx.closePath();
 }
 
-function resolveItemColor(
-  item: BarChartItem,
-  index: number,
-  palette: ReturnType<typeof buildBrandPalette>
-) {
-  if (item.color) return item.color;
-  const candidates = [
-    palette.brand600,
-    palette.brand500,
-    palette.brand700,
-    palette.brand400,
-    palette.brand800,
-  ];
-  return candidates[index % candidates.length];
-}
-
 function buildGradient(ctx: MaybeCanvas2DContext, x: number, y: number, h: number, baseHex: string) {
   const base = hexToRgb(baseHex) ?? { r: 105, g: 101, b: 219 };
   const top = mixRgb({ r: 255, g: 255, b: 255 }, base, 0.35);
@@ -120,38 +120,24 @@ function buildGradient(ctx: MaybeCanvas2DContext, x: number, y: number, h: numbe
   return g;
 }
 
-const tooltipStyle = computed<StyleValue>(() => ({
-  left: `${tooltipState.value.x}px`,
-  top: `${tooltipState.value.y}px`,
-  width: `${tooltipState.value.width}px`,
-  '--lk-chart-tooltip-arrow-x': `${tooltipState.value.arrowX}px`,
-}));
+const tooltipStyle = computed<StyleValue>(() => resolveChartBarTooltipStyle(tooltipState.value));
 
 function showTooltip(x: number, y: number, text: string, textWidth = text.length * 7) {
-  const gap = chart.px(12);
-  const minWidth = chart.px(48);
-  const maxWidth = Math.max(minWidth, Math.min(chart.px(320), chart.size.value.width - gap * 2));
-  const width = Math.min(maxWidth, Math.max(minWidth, textWidth + chart.px(32)));
-  const maxLeft = Math.max(gap, chart.size.value.width - width - gap);
-  const left = Math.max(gap, Math.min(x - width / 2, maxLeft));
-  const arrowX = Math.max(chart.px(12), Math.min(x - left, width - chart.px(12)));
-  const current = tooltipState.value;
-  if (
-    current.visible &&
-    current.x === left &&
-    current.y === y &&
-    current.width === width &&
-    current.arrowX === arrowX &&
-    current.text === text
-  ) {
-    return;
-  }
-  tooltipState.value = { visible: true, x: left, y, width, arrowX, text };
+  const next = resolveChartBarTooltipState({
+    x,
+    y,
+    text,
+    textWidth,
+    chartWidth: chart.size.value.width,
+    px: chart.px,
+  });
+  if (areChartBarTooltipStatesEqual(tooltipState.value, next)) return;
+  tooltipState.value = next;
 }
 
 function hideTooltip() {
   if (!tooltipState.value.visible) return;
-  tooltipState.value = { visible: false, x: 0, y: 0, width: 0, arrowX: 0, text: '' };
+  tooltipState.value = { ...CHART_BAR_EMPTY_TOOLTIP };
 }
 
 chart.setRenderer((info, progress) => {
@@ -162,26 +148,23 @@ chart.setRenderer((info, progress) => {
 
   const palette = buildBrandPalette(resolveBrandBaseColor());
 
-  const xLabelH = props.showXAxisLabel ? 18 : 0;
-  const yLabelW = props.showAxis ? 36 : 0;
-  const innerW = Math.max(0, size.width - pad * 2 - yLabelW);
-  const innerH = Math.max(0, size.height - pad * 2 - xLabelH);
+  const layout = resolveChartBarLayout({
+    width: size.width,
+    height: size.height,
+    padding: pad,
+    showXAxisLabel: props.showXAxisLabel,
+    showAxis: props.showAxis,
+    length: d.length,
+    maxBarWidth: info.px(props.maxBarWidth),
+  });
 
-  if (!d.length || innerW <= 0 || innerH <= 0) {
+  if (!d.length || layout.innerWidth <= 0 || layout.innerHeight <= 0) {
     hideTooltip();
     return;
   }
 
-  const values = d.map(i => (Number.isFinite(i.value) ? Math.max(0, i.value) : 0));
-  const maxV = Math.max(1, ...values);
-
-  const plotLeft = pad + yLabelW;
-  const plotTop = pad;
-  const plotBottom = pad + innerH;
-  const step = innerW / d.length;
-  const maxBarW = info.px(props.maxBarWidth);
-  const autoBarW = step * 0.62;
-  const barW = Math.max(2, Math.min(autoBarW, maxBarW > 0 ? maxBarW : autoBarW));
+  const values = normalizeChartBarValues(d);
+  const maxV = getChartBarMaxValue(values);
 
   // axis/grid
   ctx.save();
@@ -190,32 +173,32 @@ chart.setRenderer((info, progress) => {
   if (props.showAxis) {
     const ticks = Math.max(2, props.yAxisTicks);
     for (let t = 0; t <= ticks; t += 1) {
-      const y = plotBottom - (innerH * t) / ticks;
+      const y = layout.plotBottom - (layout.innerHeight * t) / ticks;
       ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.08);
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(plotLeft, y + 0.5);
-      ctx.lineTo(plotLeft + innerW, y + 0.5);
+      ctx.moveTo(layout.plotLeft, y + 0.5);
+      ctx.lineTo(layout.plotLeft + layout.innerWidth, y + 0.5);
       ctx.stroke();
 
       const val = (maxV * t) / ticks;
       ctx.fillStyle = rgbaFromHex(palette.brand800, 0.55);
       ctx.textAlign = 'right';
-      ctx.fillText(String(Math.round(val)), plotLeft - 6, y);
+      ctx.fillText(String(Math.round(val)), layout.plotLeft - 6, y);
     }
     // y axis
     ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.15);
     ctx.beginPath();
-    ctx.moveTo(plotLeft + 0.5, plotTop);
-    ctx.lineTo(plotLeft + 0.5, plotBottom);
+    ctx.moveTo(layout.plotLeft + 0.5, layout.plotTop);
+    ctx.lineTo(layout.plotLeft + 0.5, layout.plotBottom);
     ctx.stroke();
   }
   // x axis baseline
   ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.15);
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(plotLeft, plotBottom + 0.5);
-  ctx.lineTo(plotLeft + innerW, plotBottom + 0.5);
+  ctx.moveTo(layout.plotLeft, layout.plotBottom + 0.5);
+  ctx.lineTo(layout.plotLeft + layout.innerWidth, layout.plotBottom + 0.5);
   ctx.stroke();
   ctx.restore();
 
@@ -224,11 +207,11 @@ chart.setRenderer((info, progress) => {
 
   for (let i = 0; i < d.length; i += 1) {
     const v = values[i] * progress;
-    const h = (v / maxV) * innerH;
-    const x = plotLeft + i * step + (step - barW) / 2;
-    const y = plotTop + (innerH - h);
+    const h = (v / maxV) * layout.innerHeight;
+    const x = layout.plotLeft + i * layout.step + (layout.step - layout.barWidth) / 2;
+    const y = layout.plotTop + (layout.innerHeight - h);
 
-    const baseHex = resolveItemColor(d[i], i, palette);
+    const baseHex = resolveChartBarItemColor(d[i], i, palette);
     const fill = props.gradient ? buildGradient(ctx, x, y, h, baseHex) : baseHex;
 
     ctx.save();
@@ -238,27 +221,26 @@ chart.setRenderer((info, progress) => {
     } else {
       ctx.globalAlpha = 0.92;
     }
-    roundedTopRectPath(ctx, x, y, barW, h, radius);
+    roundedTopRectPath(ctx, x, y, layout.barWidth, h, radius);
     ctx.fill();
 
     if (props.tooltip && effectiveIndex === i) {
       ctx.globalAlpha = 1;
       ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.25 + 0.25 * pulse.value);
       ctx.lineWidth = 2 + 2 * pulse.value;
-      roundedTopRectPath(ctx, x, y, barW, h, radius);
+      roundedTopRectPath(ctx, x, y, layout.barWidth, h, radius);
       ctx.stroke();
     }
     ctx.restore();
 
     // tooltip
     if (props.tooltip && effectiveIndex === i) {
-      const label = d[i].label ? String(d[i].label) : '';
-      const text = label ? `${label}: ${values[i]}` : String(values[i]);
-      showTooltip(x + barW / 2, y, text, ctx.measureText(text).width);
+      const text = resolveChartBarTooltipText(d[i], values[i]);
+      showTooltip(x + layout.barWidth / 2, y, text, ctx.measureText(text).width);
       tooltipRendered = true;
     }
 
-    if (props.showXAxisLabel && i % Math.max(1, Math.ceil(d.length / 6)) === 0) {
+    if (props.showXAxisLabel && i % getChartBarXAxisLabelInterval(d.length) === 0) {
       const label = d[i].label ? String(d[i].label) : '';
       if (label) {
         ctx.save();
@@ -266,7 +248,7 @@ chart.setRenderer((info, progress) => {
         ctx.fillStyle = rgbaFromHex(palette.brand800, 0.55);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        ctx.fillText(label, x + barW / 2, plotBottom + 6);
+        ctx.fillText(label, x + layout.barWidth / 2, layout.plotBottom + 6);
         ctx.restore();
       }
     }
@@ -290,10 +272,12 @@ watch(
   () => props.data,
   () => {
     if (!chart.ready.value) return;
-    hoverIndex.value =
-      props.tooltipAlways || props.autoTooltip
-        ? clampIndex(props.defaultIndex, (props.data || []).length)
-        : -1;
+    hoverIndex.value = resolveChartBarInitialHoverIndex({
+      tooltipAlways: props.tooltipAlways,
+      autoTooltip: props.autoTooltip,
+      defaultIndex: props.defaultIndex,
+      length: (props.data || []).length,
+    });
     triggerIntro();
   },
   { deep: true }
@@ -317,11 +301,14 @@ watch(
     if (!props.tooltip || len <= 0) return;
 
     if (props.autoTooltip) {
-      hoverIndex.value = clampIndex(props.defaultIndex, len);
+      hoverIndex.value = clampChartBarIndex(props.defaultIndex, len);
       autoTimer = setInterval(
         () => {
           if (!chart.ready.value) return;
-          const next = (clampIndex(hoverIndex.value, len) + 1) % len;
+          const next = getChartBarNextAutoTooltipIndex({
+            hoverIndex: hoverIndex.value,
+            length: len,
+          });
           hoverIndex.value = next;
           emit('hoverChange', next);
           triggerPulse();
@@ -333,7 +320,7 @@ watch(
     }
 
     if (props.tooltipAlways) {
-      hoverIndex.value = clampIndex(props.defaultIndex, len);
+      hoverIndex.value = clampChartBarIndex(props.defaultIndex, len);
       refresh();
     }
   },
@@ -355,13 +342,23 @@ function onMove(e: unknown) {
   if (!d.length) return;
 
   const pad = chart.px(props.padding);
-  const yLabelW = props.showAxis ? 36 : 0;
-  const innerW = Math.max(0, chart.size.value.width - pad * 2 - yLabelW);
-  if (innerW <= 0) return;
+  const layout = resolveChartBarLayout({
+    width: chart.size.value.width,
+    height: chart.size.value.height,
+    padding: pad,
+    showXAxisLabel: props.showXAxisLabel,
+    showAxis: props.showAxis,
+    length: d.length,
+    maxBarWidth: chart.px(props.maxBarWidth),
+  });
+  if (layout.innerWidth <= 0) return;
 
-  const plotLeft = pad + yLabelW;
-  const step = innerW / d.length;
-  const idx = Math.max(0, Math.min(d.length - 1, Math.floor((p.x - plotLeft) / step)));
+  const idx = getChartBarHoverIndexFromPoint({
+    x: p.x,
+    plotLeft: layout.plotLeft,
+    step: layout.step,
+    length: d.length,
+  });
   if (hoverIndex.value !== idx) {
     hoverIndex.value = idx;
     emit('hoverChange', idx);
@@ -374,7 +371,7 @@ function onEnd() {
   if (!props.tooltip) return;
   const len = (props.data || []).length;
   const keep = props.tooltipAlways || props.autoTooltip;
-  const next = keep ? clampIndex(props.defaultIndex, len) : -1;
+  const next = keep ? clampChartBarIndex(props.defaultIndex, len) : -1;
   if (hoverIndex.value !== next) {
     hoverIndex.value = next;
     emit('hoverChange', next);
@@ -395,7 +392,7 @@ onUnmounted(() => {
     :id="wrapperId"
     class="lk-chart"
     :class="props.customClass"
-      :style="[{ height: heightStyle }, props.customStyle as any]"
+    :style="rootStyle"
     @touchstart="onMove"
     @touchmove="onMove"
     @touchend="onEnd"
