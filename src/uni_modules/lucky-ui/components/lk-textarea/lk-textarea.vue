@@ -5,6 +5,16 @@ import type { TextareaEventPayload } from './textarea.props';
 import { textareaProps, textareaEmits } from './textarea.props';
 import { formContextKey } from '../lk-form/context';
 import { useLocale } from '../../composables/useLocale';
+import {
+  applyTextareaMaxlength,
+  isTextareaNativeFocused,
+  readTextareaValue,
+  resolveTextareaClass,
+  resolveTextareaCount,
+  resolveTextareaPlaceholder,
+  shouldShowTextareaClear,
+  shouldShowTextareaFooter,
+} from './textarea.utils';
 
 defineOptions({ name: 'LkTextarea' });
 
@@ -16,39 +26,32 @@ const form = inject(formContextKey, null);
 const isFocused = ref(false);
 
 const cls = computed(() => [
-  'lk-textarea',
-  `lk-textarea--${props.variant}`,
-  {
-    'is-disabled': props.disabled,
-    'is-focused': isFocused.value,
-    'is-auto-height': props.autoHeight,
-    'has-label': !!props.label,
-  },
-  props.customClass,
+  ...resolveTextareaClass({
+    variant: props.variant,
+    disabled: props.disabled,
+    focused: isFocused.value,
+    autoHeight: props.autoHeight,
+    label: props.label,
+    customClass: props.customClass,
+  }),
 ]);
 
 const style = computed(() => props.customStyle as StyleValue);
-const currentCount = computed(() => String(props.modelValue || '').length);
-const isTextareaFocused = computed(() => props.focus || props.autofocus);
-const resolvedPlaceholder = computed(() => props.placeholder || t('placeholder'));
-
-function readTextareaValue(e: TextareaEventPayload): string {
-  if (typeof e === 'object' && e !== null && 'detail' in e) {
-    const detail = e.detail as { value?: string } | undefined;
-    if (detail?.value !== undefined) return detail.value;
-  }
-  if (typeof e === 'object' && e !== null && 'target' in e) {
-    const target = e.target as { value?: string } | null | undefined;
-    if (target?.value !== undefined) return target.value;
-  }
-  return '';
-}
+const currentCount = computed(() => resolveTextareaCount(props.modelValue));
+const isTextareaFocused = computed(() => isTextareaNativeFocused({
+  focus: props.focus,
+  autofocus: props.autofocus,
+}));
+const resolvedPlaceholder = computed(() => resolveTextareaPlaceholder(props.placeholder, t('placeholder')));
+const showClear = computed(() => shouldShowTextareaClear({
+  clearable: props.clearable,
+  value: props.modelValue,
+  disabled: props.disabled,
+  readonly: props.readonly,
+}));
 
 function onInput(e: TextareaEventPayload) {
-  let val = readTextareaValue(e);
-  if (props.maxlength !== -1 && val.length > props.maxlength) {
-    val = val.substring(0, props.maxlength);
-  }
+  const val = applyTextareaMaxlength(readTextareaValue(e), props.maxlength);
   emit('update:modelValue', val);
   emit('input', val);
 }
@@ -152,7 +155,7 @@ function onClear() {
       <!-- 清空按钮 -->
       <view v-if="clearable || $slots.suffix" class="lk-textarea__suffix">
         <view
-          v-if="clearable && modelValue && !disabled && !readonly"
+          v-if="showClear"
           class="lk-textarea__clear"
           @tap.stop.prevent="onClear"
         >
@@ -163,7 +166,14 @@ function onClear() {
     </view>
 
     <!-- 底部栏：左侧 footer 插槽，右侧计数 -->
-    <view v-if="(showCount && maxlength !== -1) || $slots.footer" class="lk-textarea__footer">
+    <view
+      v-if="shouldShowTextareaFooter({
+        showCount,
+        maxlength,
+        hasFooterSlot: !!$slots.footer,
+      })"
+      class="lk-textarea__footer"
+    >
       <view class="lk-textarea__footer-slot">
         <slot name="footer" />
       </view>
