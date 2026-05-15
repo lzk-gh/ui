@@ -3,12 +3,11 @@
 import type { StyleValue } from 'vue';
 import { ref, watch, nextTick, getCurrentInstance, computed, onMounted } from 'vue';
 import { segmentedProps, segmentedEmits, type SegmentedOption } from './segmented.props';
-
-/* 工具：把 var(--lk-rpx-16) / 20px -> 真实 px */
-function toPx(v: string | number) {
-  if (typeof v === 'number') return v;
-  return /rpx$/.test(v) ? uni.upx2px(parseFloat(v)) : parseFloat(v);
-}
+import {
+  resolveSegmentedRootStyle,
+  resolveSegmentedSelection,
+  resolveSegmentedSliderStyle,
+} from './segmented.utils';
 
 defineOptions({ name: 'LkSegmented' });
 const props = defineProps(segmentedProps);
@@ -19,34 +18,36 @@ const active = ref(props.modelValue);
 const sliderStyle = ref<Record<string, string>>({ opacity: '0' });
 
 /* 根节点注入变量 */
-const rootStyle = computed<StyleValue>(() => {
-  const s: Record<string, string> = {
-    '--lk-seg-radius': props.radius || 'var(--lk-radius-pill)',
-    '--lk-seg-duration': `${props.duration}ms`,
-    '--lk-seg-easing': props.easing,
-    '--lk-seg-inset': props.inset,
-    '--lk-seg-gutter': props.gutter,
-  };
-  if (props.height) s['--lk-seg-height'] = props.height;
-  return [s, props.customStyle as StyleValue];
-});
+const rootStyle = computed<StyleValue>(() => resolveSegmentedRootStyle({
+  radius: props.radius,
+  duration: props.duration,
+  easing: props.easing,
+  inset: props.inset,
+  gutter: props.gutter,
+  height: props.height,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 /* 选择 */
 function select(opt: SegmentedOption, event?: unknown) {
+  const result = resolveSegmentedSelection({
+    option: opt,
+    activeValue: active.value,
+  });
+
   emit('click', { value: opt.value, option: opt, event });
-  if (opt.disabled) {
+  if (result.disabled) {
     emit('click-disabled', { value: opt.value, option: opt, event });
     return;
   }
-  if (opt.value === active.value) {
+  if (result.reselected) {
     emit('reselect', { value: opt.value, option: opt, event });
     return;
   }
-  const oldValue = active.value;
-  active.value = opt.value;
-  emit('update:modelValue', opt.value);
-  emit('select', { value: opt.value, option: opt, oldValue });
-  emit('change', opt.value, opt, oldValue);
+  active.value = result.value;
+  emit('update:modelValue', result.value);
+  emit('select', { value: result.value, option: opt, oldValue: result.oldValue });
+  emit('change', result.value, opt, result.oldValue);
   // 增加延时确保 DOM 更新完毕
   setTimeout(updateSlider, 50);
 }
@@ -75,22 +76,15 @@ function updateSlider() {
     const items = res?.[1];
     if (!wrap || !items?.length) return;
 
-    const idx = props.options.findIndex(o => o.value === active.value);
-    if (idx < 0 || !items[idx]) {
-      sliderStyle.value.opacity = '0';
-      return;
-    }
-
-    // 修复：直接计算相对于父容器的偏移，不再引入 CSS 变量计算
-    const offset = items[idx].left - wrap.left;
-    sliderStyle.value = {
-      width: `${items[idx].width}px`,
-      transform: `translateX(${offset}px)`,
-      opacity: '1',
-      transition: props.animated
-        ? `width ${props.duration}ms ${props.easing}, transform ${props.duration}ms ${props.easing}, opacity 180ms ease`
-        : 'none',
-    };
+    sliderStyle.value = resolveSegmentedSliderStyle({
+      wrap,
+      items,
+      options: props.options,
+      activeValue: active.value,
+      animated: props.animated,
+      duration: props.duration,
+      easing: props.easing,
+    });
   });
 }
 

@@ -3,6 +3,12 @@ import type { StyleValue } from 'vue';
 import { ref, watch, computed, inject } from 'vue';
 import { formContextKey } from '../lk-form/context';
 import { rateProps, rateEmits } from './rate.props';
+import {
+  createRateStars,
+  getRateStarStatus,
+  normalizeRateSize,
+  resolveRateSelection,
+} from './rate.utils';
 import LkIcon from '../lk-icon/lk-icon.vue';
 
 defineOptions({ name: 'LkRate' });
@@ -21,13 +27,8 @@ watch(
   }
 );
 
-// 尺寸归一化µ支持 40 / '40' / 'var(--lk-rpx-40)'）
-const iconSize = computed(() => {
-  const s = props.size;
-  if (typeof s === 'number') return `${s}rpx`;
-  if (/^\d+$/.test(s)) return `${s}rpx`;
-  return s;
-});
+// 尺寸归一化，支持 40 / '40' / 'var(--lk-rpx-40)'
+const iconSize = computed(() => normalizeRateSize(props.size));
 
 // 颜色
 const activeColor = computed(() => props.color || 'var(--lk-color-warning)');
@@ -39,13 +40,11 @@ const voidIcon = computed(() => props.iconVoid || 'star');
 const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 // 生成 1~count 的数组
-const stars = computed(() => Array.from({ length: props.count }, (_, i) => i + 1));
+const stars = computed(() => createRateStars(props.count));
 
 // 获取每个星的状态：full | void
 function getStarStatus(index: number): 'full' | 'void' {
-  const val = innerValue.value;
-  if (val >= index) return 'full';
-  return 'void';
+  return getRateStarStatus(innerValue.value, index);
 }
 
 function getStarIcon(index: number) {
@@ -60,7 +59,15 @@ function getStarColor(index: number) {
 }
 
 function select(index: number, event?: unknown) {
-  if (props.disabled || props.readonly) {
+  const result = resolveRateSelection({
+    currentValue: innerValue.value,
+    index,
+    allowClear: props.allowClear,
+    disabled: props.disabled,
+    readonly: props.readonly,
+  });
+
+  if (result.blocked) {
     emit('click-disabled', {
       value: innerValue.value,
       index,
@@ -71,17 +78,16 @@ function select(index: number, event?: unknown) {
     return;
   }
 
-  let newValue = index;
-  const oldValue = innerValue.value;
+  const newValue = result.value;
+  const oldValue = result.oldValue;
   emit('click', { value: newValue, oldValue, index, event });
 
   // 点击当前已选中的星才清零
-  if (props.allowClear && innerValue.value === newValue) {
-    newValue = 0;
+  if (result.cleared) {
     emit('clear', { oldValue, index, event });
   }
 
-  if (newValue === oldValue) return;
+  if (!result.changed) return;
 
   innerValue.value = newValue;
   emit('update:modelValue', newValue);
