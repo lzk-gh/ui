@@ -9,11 +9,24 @@ import LkIcon from '../lk-icon/lk-icon.vue';
 import LkPopup from '../lk-popup/lk-popup.vue';
 import LkSlider from '../lk-slider/lk-slider.vue';
 import {
-  CalendarPickerTimePrecision,
   calendarPickerEmits,
   calendarPickerProps,
   type CalendarPickerValue,
 } from './calendar-picker.props';
+import {
+  canOpenCalendarPicker,
+  formatCalendarPickerTime,
+  getCalendarPickerTimeMax,
+  getCalendarPickerTimeStep,
+  getCalendarPickerTimeUnit,
+  mergeCalendarPickerTime,
+  normalizeCalendarPickerValue,
+  parseCalendarPickerTime,
+  resolveCalendarPickerClass,
+  resolveCalendarPickerDisplayValue,
+  resolveCalendarPickerResetValue,
+  syncCalendarPickerDraft,
+} from './calendar-picker.utils';
 
 defineOptions({ name: 'LkCalendarPicker' });
 
@@ -21,7 +34,6 @@ const props = defineProps(calendarPickerProps);
 const emit = defineEmits(calendarPickerEmits);
 const { t } = useLocale('calendarPicker');
 
-const DATE_TIME_RE = /^(\d{4}-\d{2}-\d{2})(?:[ T](\d{2}:\d{2}(?::\d{2})?))?$/;
 const innerShow = ref(props.show);
 const tempValue = ref<CalendarValue>(normalizePickerValue(props.modelValue));
 const startTime = ref(parseTime(props.defaultStartTime, 0));
@@ -29,12 +41,11 @@ const endTime = ref(parseTime(props.defaultEndTime, 86399));
 const panelDate = ref(props.viewDate);
 
 const cls = computed(() => [
-  'lk-calendar-picker',
-  {
-    'is-disabled': props.disabled,
-    'is-readonly': props.readonly,
-  },
-  props.customClass,
+  ...resolveCalendarPickerClass({
+    disabled: props.disabled,
+    readonly: props.readonly,
+    customClass: props.customClass,
+  }),
 ]);
 const style = computed(() => props.customStyle as StyleValue);
 const resolvedTitle = computed(() => props.title || t('title'));
@@ -44,82 +55,67 @@ const resolvedResetText = computed(() => props.resetText || t('reset'));
 const hasValue = computed(() => normalizePickerValue(props.modelValue).length > 0);
 const displayValue = computed(() => {
   const values = normalizePickerValue(props.modelValue);
-  if (!values.length) return resolvedPlaceholder.value;
-  if (props.mode === CalendarMode.Range && values.length > 1) {
-    return `${values[0]} ${t('rangeSeparator')} ${values[1]}`;
-  }
-  if (props.mode === CalendarMode.Multiple) return t('multipleSelected', { count: values.length });
-  return values[0] || resolvedPlaceholder.value;
+  return resolveCalendarPickerDisplayValue({
+    modelValue: props.modelValue,
+    mode: props.mode,
+    placeholder: resolvedPlaceholder.value,
+    rangeSeparator: t('rangeSeparator'),
+    multipleSelectedText: t('multipleSelected', { count: values.length }),
+  });
 });
 const confirmDisabled = computed(() => normalizePickerValue(tempValue.value).length === 0);
-const timeUnit = computed(() => {
-  if (props.timePrecision === CalendarPickerTimePrecision.Hour) return 3600;
-  if (props.timePrecision === CalendarPickerTimePrecision.Second) return 1;
-  return 60;
-});
-const timeMax = computed(() => 86400 - timeUnit.value);
-const timeStep = computed(() => Math.max(1, props.timeStep) * timeUnit.value);
+const timeUnit = computed(() => getCalendarPickerTimeUnit(props.timePrecision));
+const timeMax = computed(() => getCalendarPickerTimeMax(timeUnit.value));
+const timeStep = computed(() => getCalendarPickerTimeStep({
+  timeStep: props.timeStep,
+  timeUnit: timeUnit.value,
+}));
 const shouldShowEndTime = computed(() => props.showTime && props.mode === CalendarMode.Range);
 const endTimeDisabled = computed(() => normalizePickerValue(tempValue.value).length < 2);
 
 function normalizePickerValue(value: CalendarPickerValue): string[] {
-  if (Array.isArray(value)) return value.filter(Boolean);
-  return value ? [value] : [];
-}
-
-function datePart(value: string) {
-  return DATE_TIME_RE.exec(value)?.[1] || value;
-}
-
-function timePart(value: string) {
-  return DATE_TIME_RE.exec(value)?.[2] || '';
+  return normalizeCalendarPickerValue(value);
 }
 
 function parseTime(value: string, fallback: number) {
-  const parts = /^(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(value || '');
-  if (!parts) return fallback;
-  const hour = Math.min(23, Math.max(0, Number(parts[1])));
-  const minute = Math.min(59, Math.max(0, Number(parts[2])));
-  const second = Math.min(59, Math.max(0, Number(parts[3] || 0)));
-  return hour * 3600 + minute * 60 + second;
+  return parseCalendarPickerTime(value, fallback);
 }
 
 function formatTime(value: number) {
-  const total = Math.min(86399, Math.max(0, Math.round(value)));
-  const hour = Math.floor(total / 3600);
-  const minute = Math.floor((total % 3600) / 60);
-  const second = total % 60;
-  const hh = hour < 10 ? `0${hour}` : `${hour}`;
-  const mm = minute < 10 ? `0${minute}` : `${minute}`;
-  const ss = second < 10 ? `0${second}` : `${second}`;
-  if (props.timePrecision === CalendarPickerTimePrecision.Hour) return `${hh}:00`;
-  if (props.timePrecision === CalendarPickerTimePrecision.Second) return `${hh}:${mm}:${ss}`;
-  return `${hh}:${mm}`;
+  return formatCalendarPickerTime({
+    value,
+    precision: props.timePrecision,
+  });
 }
 
 function mergeTime(value: CalendarValue): CalendarPickerValue {
-  const values = normalizePickerValue(value);
-  if (!props.showTime) return Array.isArray(value) ? values : values[0] || '';
-
-  const withTime = values.map((item, index) => {
-    const seconds = index === 1 && props.mode === CalendarMode.Range ? endTime.value : startTime.value;
-    return `${datePart(item)} ${formatTime(seconds)}`;
+  return mergeCalendarPickerTime({
+    value,
+    showTime: props.showTime,
+    mode: props.mode,
+    startTime: startTime.value,
+    endTime: endTime.value,
+    precision: props.timePrecision,
   });
-  return Array.isArray(value) ? withTime : withTime[0] || '';
 }
 
 function syncDraftFromValue(value: CalendarPickerValue) {
-  const values = normalizePickerValue(value);
-  tempValue.value = Array.isArray(value) ? values.map(item => datePart(item)) : datePart(values[0] || '');
-  const firstTime = timePart(values[0] || '');
-  const secondTime = timePart(values[1] || '');
-  startTime.value = firstTime ? parseTime(firstTime, startTime.value) : parseTime(props.defaultStartTime, 0);
-  endTime.value = secondTime ? parseTime(secondTime, endTime.value) : parseTime(props.defaultEndTime, 86399);
-  panelDate.value = props.viewDate || datePart(values[0] || '') || '';
+  const draft = syncCalendarPickerDraft({
+    value,
+    viewDate: props.viewDate,
+    defaultStartTime: props.defaultStartTime,
+    defaultEndTime: props.defaultEndTime,
+    currentStartTime: startTime.value,
+    currentEndTime: endTime.value,
+  });
+  tempValue.value = draft.tempValue;
+  startTime.value = draft.startTime;
+  endTime.value = draft.endTime;
+  panelDate.value = draft.panelDate;
 }
 
 function open() {
-  if (props.disabled || props.readonly) return;
+  if (!canOpenCalendarPicker({ disabled: props.disabled, readonly: props.readonly })) return;
   syncDraftFromValue(props.modelValue);
   innerShow.value = true;
 }
@@ -129,11 +125,12 @@ function close() {
 }
 
 function reset() {
-  tempValue.value = props.mode === CalendarMode.Single ? '' : [];
+  const value = resolveCalendarPickerResetValue(props.mode);
+  tempValue.value = value;
   startTime.value = parseTime(props.defaultStartTime, 0);
   endTime.value = parseTime(props.defaultEndTime, 86399);
-  emit('update:modelValue', props.mode === CalendarMode.Single ? '' : []);
-  emit('change', props.mode === CalendarMode.Single ? '' : []);
+  emit('update:modelValue', value);
+  emit('change', value);
   emit('reset');
 }
 
