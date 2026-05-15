@@ -4,7 +4,20 @@ import { computed, onUnmounted, ref, watch } from 'vue';
 import { useChartCanvas, type MaybeCanvas2DContext } from '../../composables/useChartCanvas';
 import { LiteChartEffect, movingWindow } from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
-import { chartRadarLiteProps, type RadarLiteItem } from './chart-radar-lite.props';
+import { chartRadarLiteProps } from './chart-radar-lite.props';
+import {
+  buildRadarLitePoints,
+  getChartRadarLiteEffectStrength,
+  getChartRadarLiteLevels,
+  getRadarLiteLoopDistance,
+  getRadarLitePoint,
+  normalizeRadarLiteData,
+  normalizeRadarLiteLoopPhase,
+  resolveChartRadarLiteClass,
+  resolveChartRadarLiteGeometry,
+  resolveChartRadarLiteHeightStyle,
+  resolveChartRadarLiteRootStyle,
+} from './chart-radar-lite.utils';
 
 defineOptions({ name: 'LkChartRadarLite' });
 
@@ -16,34 +29,18 @@ function uid(prefix: string) {
   return `${prefix}-${Date.now()}-${uidSeed}`;
 }
 
-interface RadarPoint {
-  label: string;
-  value: number;
-  ratio: number;
-  angle: number;
-  x: number;
-  y: number;
-}
-
 const wrapperId = computed(() => props.id || uid('lk-chart-radar-lite'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const effectPhase = ref(0);
 
-const heightStyle = computed(() => {
-  const height = props.height;
-  if (typeof height === 'number') return `${height}rpx`;
-  if (/^\d+$/.test(String(height))) return `${height}rpx`;
-  return String(height);
-});
+const heightStyle = computed(() => resolveChartRadarLiteHeightStyle(props.height));
 
-const rootStyle = computed<StyleValue>(() => [
-  {
-    height: heightStyle.value,
-  },
-  props.customStyle as StyleValue,
-]);
+const rootStyle = computed<StyleValue>(() => resolveChartRadarLiteRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
-const classes = computed(() => ['lk-chart-radar-lite', props.customClass]);
+const classes = computed(() => resolveChartRadarLiteClass(props.customClass));
 
 const chart = useChartCanvas({
   wrapperId: wrapperId.value,
@@ -51,14 +48,7 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
-const normalizedData = computed(() =>
-  (props.data || [])
-    .filter(item => item.label && Number.isFinite(item.value))
-    .map(item => ({
-      ...item,
-      max: Math.max(1, item.max ?? props.max),
-    }))
-);
+const normalizedData = computed(() => normalizeRadarLiteData(props.data || [], props.max));
 
 function resolveColor() {
   const palette = buildBrandPalette(resolveBrandBaseColor());
@@ -67,16 +57,7 @@ function resolveColor() {
 }
 
 function getEffectStrength() {
-  if (props.effect === LiteChartEffect.None) return 0;
-  if (props.effect === LiteChartEffect.Subtle) return 0.65;
-  return 1;
-}
-
-function getPoint(cx: number, cy: number, radius: number, angle: number, ratio: number) {
-  return {
-    x: cx + Math.cos(angle) * radius * ratio,
-    y: cy + Math.sin(angle) * radius * ratio,
-  };
+  return getChartRadarLiteEffectStrength(props.effect);
 }
 
 function drawPolygon(
@@ -93,40 +74,6 @@ function drawPolygon(
   if (closePath) ctx.closePath();
 }
 
-function normalizeLoopPhase(value: number) {
-  const phase = value % 1;
-  return phase < 0 ? phase + 1 : phase;
-}
-
-function getLoopDistance(a: number, b: number) {
-  const start = normalizeLoopPhase(a);
-  const end = normalizeLoopPhase(b);
-  const forward = Math.abs(end - start);
-  return Math.min(forward, 1 - forward);
-}
-
-function buildRadarPoints(
-  data: Array<RadarLiteItem & { max: number }>,
-  cx: number,
-  cy: number,
-  radius: number
-) {
-  const count = data.length;
-  return data.map((item, index): RadarPoint => {
-    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / count;
-    const ratio = Math.max(0, Math.min(1, item.value / item.max));
-    const point = getPoint(cx, cy, radius, angle, ratio);
-    return {
-      label: item.label,
-      value: item.value,
-      ratio,
-      angle,
-      x: point.x,
-      y: point.y,
-    };
-  });
-}
-
 chart.setRenderer((info, progress) => {
   const { ctx, size } = info;
   const data = normalizedData.value;
@@ -136,16 +83,24 @@ chart.setRenderer((info, progress) => {
   const color = resolveColor();
   const effectStrength = getEffectStrength();
   const padding = info.px(props.padding);
-  const cx = size.width / 2;
-  const cy = size.height / 2;
-  const radius = Math.max(1, Math.min(size.width, size.height) / 2 - padding);
-  const levels = Math.max(2, Math.round(props.levels));
+  const geometry = resolveChartRadarLiteGeometry({
+    width: size.width,
+    height: size.height,
+    padding,
+  });
+  const levels = getChartRadarLiteLevels(props.levels);
   const fullPoints = data.map((item, index) => {
     const angle = -Math.PI / 2 + (Math.PI * 2 * index) / data.length;
     return {
       label: item.label,
       angle,
-      ...getPoint(cx, cy, radius, angle, 1),
+      ...getRadarLitePoint({
+        cx: geometry.cx,
+        cy: geometry.cy,
+        radius: geometry.radius,
+        angle,
+        ratio: 1,
+      }),
     };
   });
 
@@ -154,25 +109,43 @@ chart.setRenderer((info, progress) => {
   ctx.lineWidth = 1;
   for (let level = 1; level <= levels; level += 1) {
     const ratio = level / levels;
-    const gridPoints = fullPoints.map(point => getPoint(cx, cy, radius, point.angle, ratio));
+    const gridPoints = fullPoints.map(point => getRadarLitePoint({
+      cx: geometry.cx,
+      cy: geometry.cy,
+      radius: geometry.radius,
+      angle: point.angle,
+      ratio,
+    }));
     drawPolygon(ctx, gridPoints);
     ctx.stroke();
   }
   fullPoints.forEach(point => {
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
+    ctx.moveTo(geometry.cx, geometry.cy);
     ctx.lineTo(point.x, point.y);
     ctx.stroke();
   });
   ctx.restore();
 
-  const radarPoints = buildRadarPoints(data, cx, cy, radius).map(point => ({
+  const radarPoints = buildRadarLitePoints({
+    data,
+    cx: geometry.cx,
+    cy: geometry.cy,
+    radius: geometry.radius,
+  }).map(point => ({
     ...point,
-    x: cx + (point.x - cx) * progress,
-    y: cy + (point.y - cy) * progress,
+    x: geometry.cx + (point.x - geometry.cx) * progress,
+    y: geometry.cy + (point.y - geometry.cy) * progress,
   }));
 
-  const fillGradient = ctx.createRadialGradient(cx, cy, 1, cx, cy, radius);
+  const fillGradient = ctx.createRadialGradient(
+    geometry.cx,
+    geometry.cy,
+    1,
+    geometry.cx,
+    geometry.cy,
+    geometry.radius
+  );
   fillGradient.addColorStop(0, rgbaFromHex(color, 0.3));
   fillGradient.addColorStop(1, rgbaFromHex(color, 0.12));
   ctx.save();
@@ -187,40 +160,53 @@ chart.setRenderer((info, progress) => {
   if (effectStrength > 0) {
     const scanAngle = -Math.PI / 2 + Math.PI * 2 * effectPhase.value;
     const scanTail = 0.26 + effectStrength * 0.08;
-    const beamX = cx + Math.cos(scanAngle) * radius;
-    const beamY = cy + Math.sin(scanAngle) * radius;
+    const beamX = geometry.cx + Math.cos(scanAngle) * geometry.radius;
+    const beamY = geometry.cy + Math.sin(scanAngle) * geometry.radius;
 
     ctx.save();
     ctx.beginPath();
     drawPolygon(ctx, fullPoints);
     ctx.clip();
 
-    const scanGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    const scanGradient = ctx.createRadialGradient(
+      geometry.cx,
+      geometry.cy,
+      0,
+      geometry.cx,
+      geometry.cy,
+      geometry.radius
+    );
     scanGradient.addColorStop(0, rgbaFromHex(palette.brand100, 0.18 * effectStrength));
     scanGradient.addColorStop(0.52, rgbaFromHex(color, 0.15 * effectStrength));
     scanGradient.addColorStop(1, rgbaFromHex(color, 0));
     ctx.fillStyle = scanGradient;
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, scanAngle - scanTail, scanAngle + 0.03);
+    ctx.moveTo(geometry.cx, geometry.cy);
+    ctx.arc(geometry.cx, geometry.cy, geometry.radius, scanAngle - scanTail, scanAngle + 0.03);
     ctx.closePath();
     ctx.fill();
 
-    const beamGradient = ctx.createLinearGradient(cx, cy, beamX, beamY);
+    const beamGradient = ctx.createLinearGradient(geometry.cx, geometry.cy, beamX, beamY);
     beamGradient.addColorStop(0, rgbaFromHex(palette.brand100, 0));
     beamGradient.addColorStop(0.45, rgbaFromHex(color, 0.12 * effectStrength));
     beamGradient.addColorStop(1, rgbaFromHex(palette.brand100, 0.92 * effectStrength));
     ctx.strokeStyle = beamGradient;
     ctx.lineWidth = 2.4 + effectStrength * 1.4;
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
+    ctx.moveTo(geometry.cx, geometry.cy);
     ctx.lineTo(beamX, beamY);
     ctx.stroke();
 
     ctx.fillStyle = rgbaFromHex(color, 0.08 * effectStrength);
     ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.72, scanAngle - scanTail * 0.68, scanAngle + 0.01);
-    ctx.lineTo(cx, cy);
+    ctx.arc(
+      geometry.cx,
+      geometry.cy,
+      geometry.radius * 0.72,
+      scanAngle - scanTail * 0.68,
+      scanAngle + 0.01
+    );
+    ctx.lineTo(geometry.cx, geometry.cy);
     ctx.closePath();
     ctx.fill();
 
@@ -234,8 +220,8 @@ chart.setRenderer((info, progress) => {
   if (props.showPoint) {
     ctx.save();
     radarPoints.forEach(point => {
-      const pointPhase = normalizeLoopPhase((point.angle + Math.PI / 2) / (Math.PI * 2));
-      const proximity = getLoopDistance(effectPhase.value, pointPhase);
+      const pointPhase = normalizeRadarLiteLoopPhase((point.angle + Math.PI / 2) / (Math.PI * 2));
+      const proximity = getRadarLiteLoopDistance(effectPhase.value, pointPhase);
       const directionalBoost = proximity < 0.12 ? 1 - proximity / 0.12 : 0;
       const highlight = effectStrength
         ? Math.max(movingWindow(effectPhase.value, pointPhase, 0.18), directionalBoost)
@@ -262,9 +248,19 @@ chart.setRenderer((info, progress) => {
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.68);
     ctx.textBaseline = 'middle';
     fullPoints.forEach(point => {
-      const labelPoint = getPoint(cx, cy, radius + 18, point.angle, 1);
+      const labelPoint = getRadarLitePoint({
+        cx: geometry.cx,
+        cy: geometry.cy,
+        radius: geometry.radius + 18,
+        angle: point.angle,
+        ratio: 1,
+      });
       ctx.textAlign =
-        Math.abs(labelPoint.x - cx) < 8 ? 'center' : labelPoint.x > cx ? 'left' : 'right';
+        Math.abs(labelPoint.x - geometry.cx) < 8
+          ? 'center'
+          : labelPoint.x > geometry.cx
+            ? 'left'
+            : 'right';
       ctx.fillText(point.label, labelPoint.x, labelPoint.y);
     });
     ctx.restore();

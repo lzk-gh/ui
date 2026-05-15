@@ -5,6 +5,20 @@ import { useChartCanvas } from '../../composables/useChartCanvas';
 import { LiteChartEffect, movingWindow, oscillate } from '../../core/src/chart';
 import { buildBrandPalette, resolveBrandBaseColor, rgbaFromHex } from '../../utils/chart-colors';
 import { chartRingProps, type RingChartSegment } from './chart-ring.props';
+import {
+  getChartRingCapSweep,
+  getChartRingEffectStrength,
+  getChartRingOverlapAngle,
+  getChartRingTotal,
+  normalizeChartRingSegments,
+  resolveChartRingCenterSubtitle,
+  resolveChartRingCenterTitle,
+  resolveChartRingClass,
+  resolveChartRingGeometry,
+  resolveChartRingHeightStyle,
+  resolveChartRingRootStyle,
+  resolveChartRingSegmentColor,
+} from './chart-ring.utils';
 
 defineOptions({ name: 'LkChartRing' });
 
@@ -20,21 +34,14 @@ const wrapperId = computed(() => props.id || uid('lk-chart-ring'));
 const canvasId = computed(() => `${wrapperId.value}__canvas`);
 const effectPhase = ref(0);
 
-const heightStyle = computed(() => {
-  const height = props.height;
-  if (typeof height === 'number') return `${height}rpx`;
-  if (/^\d+$/.test(String(height))) return `${height}rpx`;
-  return String(height);
-});
+const heightStyle = computed(() => resolveChartRingHeightStyle(props.height));
 
-const rootStyle = computed<StyleValue>(() => [
-  {
-    height: heightStyle.value,
-  },
-  props.customStyle as StyleValue,
-]);
+const rootStyle = computed<StyleValue>(() => resolveChartRingRootStyle({
+  heightStyle: heightStyle.value,
+  customStyle: props.customStyle as StyleValue,
+}));
 
-const classes = computed(() => ['lk-chart-ring', props.customClass]);
+const classes = computed(() => resolveChartRingClass(props.customClass));
 
 const chart = useChartCanvas({
   wrapperId: wrapperId.value,
@@ -42,46 +49,33 @@ const chart = useChartCanvas({
   autoSize: true,
 });
 
-const normalizedSegments = computed<RingChartSegment[]>(() => {
-  if (props.segments.length) {
-    return props.segments.filter(item => Number.isFinite(item.value) && item.value > 0);
-  }
-  const max = Math.max(1, props.max);
-  return [
-    {
-      label: props.title || 'Progress',
-      value: Math.max(0, Math.min(props.value, max)),
-    },
-  ];
-});
+const normalizedSegments = computed<RingChartSegment[]>(() => normalizeChartRingSegments({
+  segments: props.segments,
+  value: props.value,
+  max: props.max,
+  title: props.title,
+}));
 
-const centerTitle = computed(() => {
-  if (props.title) return props.title;
-  if (props.segments.length) {
-    const total = normalizedSegments.value.reduce((sum, item) => sum + item.value, 0);
-    return `${Math.round(total)}`;
-  }
-  const percent = Math.round(
-    (Math.max(0, Math.min(props.value, props.max)) / Math.max(1, props.max)) * 100
-  );
-  return `${percent}%`;
-});
+const centerTitle = computed(() => resolveChartRingCenterTitle({
+  title: props.title,
+  segments: props.segments,
+  normalizedSegments: normalizedSegments.value,
+  value: props.value,
+  max: props.max,
+}));
 
-const centerSubtitle = computed(
-  () => props.subtitle || (props.segments.length ? 'Total' : 'Completed')
-);
+const centerSubtitle = computed(() => resolveChartRingCenterSubtitle({
+  subtitle: props.subtitle,
+  segments: props.segments,
+}));
 
 function resolveSegmentColor(segment: RingChartSegment, index: number) {
-  if (segment.color) return segment.color;
   const palette = buildBrandPalette(resolveBrandBaseColor());
-  const colors = [palette.brand600, palette.brand400, palette.brand700, palette.brand300];
-  return colors[index % colors.length];
+  return resolveChartRingSegmentColor(segment, index, palette);
 }
 
 function getEffectStrength() {
-  if (props.effect === LiteChartEffect.None) return 0;
-  if (props.effect === LiteChartEffect.Subtle) return 0.65;
-  return 1;
+  return getChartRingEffectStrength(props.effect);
 }
 
 chart.setRenderer((info, progress) => {
@@ -89,9 +83,12 @@ chart.setRenderer((info, progress) => {
   const palette = buildBrandPalette(resolveBrandBaseColor());
   const strokeWidth = Math.max(2, info.px(props.strokeWidth));
   const padding = info.px(props.padding);
-  const cx = size.width / 2;
-  const cy = size.height / 2;
-  const radius = Math.max(1, Math.min(size.width, size.height) / 2 - padding - strokeWidth / 2);
+  const geometry = resolveChartRingGeometry({
+    width: size.width,
+    height: size.height,
+    padding,
+    strokeWidth,
+  });
   const segments = normalizedSegments.value;
   if (!segments.length) return;
   const effectStrength = getEffectStrength();
@@ -103,17 +100,23 @@ chart.setRenderer((info, progress) => {
   if (props.showTrack) {
     ctx.strokeStyle = rgbaFromHex(palette.brand800, 0.08);
     ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.arc(geometry.cx, geometry.cy, geometry.radius, 0, Math.PI * 2);
     ctx.stroke();
   }
 
-  const total = props.segments.length
-    ? segments.reduce((sum, item) => sum + item.value, 0)
-    : Math.max(1, props.max);
+  const total = getChartRingTotal({
+    hasSegments: props.segments.length > 0,
+    segments,
+    max: props.max,
+  });
   let start = -Math.PI / 2;
   const pulse = effectStrength > 0 ? oscillate(effectPhase.value) * effectStrength : 0;
   const segmentCount = segments.length;
-  const overlapAngle = segmentCount > 1 ? Math.min((strokeWidth * 1.6) / radius, Math.PI / 8) : 0;
+  const overlapAngle = getChartRingOverlapAngle({
+    segmentCount,
+    strokeWidth,
+    radius: geometry.radius,
+  });
   const drawnSegments: Array<{
     color: string;
     start: number;
@@ -126,7 +129,7 @@ chart.setRenderer((info, progress) => {
     ctx.lineCap = lineCap;
     ctx.strokeStyle = color;
     ctx.beginPath();
-    ctx.arc(cx, cy, radius, from, to);
+    ctx.arc(geometry.cx, geometry.cy, geometry.radius, from, to);
     ctx.stroke();
   }
 
@@ -145,8 +148,8 @@ chart.setRenderer((info, progress) => {
         0.22
       );
       const sweepAngle = start + (sweep || 0) * effectPhase.value;
-      const sweepX = cx + Math.cos(sweepAngle) * radius;
-      const sweepY = cy + Math.sin(sweepAngle) * radius;
+      const sweepX = geometry.cx + Math.cos(sweepAngle) * geometry.radius;
+      const sweepY = geometry.cy + Math.sin(sweepAngle) * geometry.radius;
       ctx.save();
       ctx.fillStyle = rgbaFromHex(color, 0.08 + highlight * 0.08 + pulse * 0.04);
       ctx.beginPath();
@@ -160,7 +163,11 @@ chart.setRenderer((info, progress) => {
 
   if (segmentCount > 1) {
     drawnSegments.forEach(segment => {
-      const capSweep = Math.min(overlapAngle, segment.sweep, segment.fullSweep * 0.45);
+      const capSweep = getChartRingCapSweep({
+        overlapAngle,
+        sweep: segment.sweep,
+        fullSweep: segment.fullSweep,
+      });
       if (capSweep <= 0) return;
       const capEnd = segment.end;
       const capStart = capEnd - capSweep;
@@ -176,10 +183,10 @@ chart.setRenderer((info, progress) => {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.95);
     ctx.font = 'bold 22px sans-serif';
-    ctx.fillText(centerTitle.value, cx, cy - 8);
+    ctx.fillText(centerTitle.value, geometry.cx, geometry.cy - 8);
     ctx.fillStyle = rgbaFromHex(palette.brand800, 0.55);
     ctx.font = '12px sans-serif';
-    ctx.fillText(centerSubtitle.value, cx, cy + 18);
+    ctx.fillText(centerSubtitle.value, geometry.cx, geometry.cy + 18);
     ctx.restore();
   }
 });

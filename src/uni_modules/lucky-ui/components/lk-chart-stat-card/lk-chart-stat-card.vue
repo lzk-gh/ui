@@ -2,7 +2,13 @@
 import type { StyleValue } from 'vue';
 import { computed } from 'vue';
 import LkChartSparkline from '../lk-chart-sparkline/lk-chart-sparkline.vue';
-import { chartStatCardProps, StatCardTrend } from './chart-stat-card.props';
+import { chartStatCardProps } from './chart-stat-card.props';
+import {
+  resolveChartStatCardClass,
+  resolveChartStatCardRootStyle,
+  resolveChartStatCardTrendIcon,
+  resolveChartStatCardTrendLabel,
+} from './chart-stat-card.utils';
 import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkChartStatCard' });
@@ -10,34 +16,26 @@ defineOptions({ name: 'LkChartStatCard' });
 const props = defineProps(chartStatCardProps);
 const { t } = useLocale('chartStatCard');
 
-const classes = computed(() => [
-  'lk-chart-stat-card',
-  `is-${props.trend}`,
-  {
-    'is-chartless': !props.showChart,
-  },
-  props.customClass,
-]);
+const classes = computed(() => resolveChartStatCardClass({
+  trend: props.trend,
+  showChart: props.showChart,
+  customClass: props.customClass,
+}));
 
-const rootStyle = computed<StyleValue>(() => [
-  {
-    '--lk-chart-stat-accent': props.color === 'primary' ? 'var(--lk-color-primary)' : props.color,
-  },
-  props.customStyle as StyleValue,
-]);
+const rootStyle = computed<StyleValue>(() => resolveChartStatCardRootStyle({
+  color: props.color,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 const trendLabel = computed(() => {
-  if (props.trendText) return props.trendText;
-  if (props.trend === StatCardTrend.Up) return t('trendUp');
-  if (props.trend === StatCardTrend.Down) return t('trendDown');
-  return t('trendFlat');
+  return resolveChartStatCardTrendLabel({
+    trendText: props.trendText,
+    trend: props.trend,
+    t,
+  });
 });
 
-const trendIcon = computed(() => {
-  if (props.trend === StatCardTrend.Up) return '↗';
-  if (props.trend === StatCardTrend.Down) return '↘';
-  return '→';
-});
+const trendIcon = computed(() => resolveChartStatCardTrendIcon(props.trend));
 </script>
 
 <template>
