@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { CSSProperties, StyleValue } from 'vue';
+import type { StyleValue } from 'vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
 import { cardEmits, cardProps } from './card.props';
+import {
+  resolveCardBodyStyle,
+  resolveCardClass,
+  resolveCardFooterStyle,
+  resolveCardHeaderStyle,
+  resolveCardRootStyle,
+  resolveCardStyle,
+} from './card.utils';
 
 defineOptions({ name: 'LkCard' });
 
@@ -11,46 +19,27 @@ const emit = defineEmits(cardEmits);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 
-const cardClass = computed(() => {
-  return [
-    'lk-card',
-    props.customClass,
-    {
-      'is-border': props.border,
-      'lk-ripple': props.ripple,
-      'lk-ripple--active': props.ripple && rippleActive.value,
-    },
-  ];
-});
+const cardClass = computed(() => resolveCardClass({
+  customClass: props.customClass,
+  border: props.border,
+  ripple: props.ripple,
+  rippleActive: rippleActive.value,
+}));
 
-const cardStyle = computed<CSSProperties>(() => {
-  const style: CSSProperties = {};
-  const shadowMap: Record<string, string> = {
-    none: 'none',
-    never: 'none',
-    sm: 'var(--test-shadow-sm, var(--lk-shadow-sm))',
-    md: 'var(--test-shadow-md, var(--lk-shadow-base))',
-    base: 'var(--test-shadow-md, var(--lk-shadow-base))',
-    lg: 'var(--test-shadow-lg, var(--lk-shadow-lg))',
-  };
+const cardStyle = computed(() => resolveCardStyle({
+  transparent: props.transparent,
+  bgColor: props.bgColor,
+  overflow: props.overflow,
+  shadow: props.shadow,
+}));
 
-  if (props.transparent) {
-    style['--_bg'] = 'transparent';
-  } else if (props.bgColor) {
-    style['--_bg'] = props.bgColor;
-  }
+const rootStyle = computed<StyleValue>(() =>
+  resolveCardRootStyle(cardStyle.value, props.customStyle as StyleValue)
+);
 
-  style['--_overflow'] = props.overflow;
-
-  const shadow = shadowMap[props.shadow];
-  if (shadow) {
-    style['--_shadow'] = shadow;
-  }
-
-  return style;
-});
-
-const rootStyle = computed<StyleValue>(() => [cardStyle.value, props.customStyle as StyleValue]);
+const headerStyle = computed(() => resolveCardHeaderStyle(props.padding));
+const bodyStyle = computed(() => resolveCardBodyStyle(props.padding));
+const footerStyle = computed(() => resolveCardFooterStyle(props.padding));
 
 /**
  * 处理点击事件
@@ -81,7 +70,7 @@ function handleFooterClick(event: unknown) {
     <view
       v-if="title || $slots.header"
       class="lk-card__header"
-      :style="{ padding: `${padding} ${padding} 0` }"
+      :style="headerStyle"
     >
       <view class="lk-card__title" @tap="handleHeaderClick">
         <slot name="header">
@@ -95,7 +84,7 @@ function handleFooterClick(event: unknown) {
     </view>
 
     <!-- 内容主体 -->
-    <view class="lk-card__body" :style="{ padding }">
+    <view class="lk-card__body" :style="bodyStyle">
       <slot />
     </view>
 
@@ -103,7 +92,7 @@ function handleFooterClick(event: unknown) {
     <view
       v-if="$slots.footer"
       class="lk-card__footer"
-      :style="{ padding: `0 ${padding} ${padding}` }"
+      :style="footerStyle"
       @tap="handleFooterClick"
     >
       <slot name="footer" />
