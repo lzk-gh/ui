@@ -1,16 +1,17 @@
 import { LkProp, baseProps } from '../common/props';
 import type { PropType } from 'vue';
+import type { ChoiceOption, ChoiceValue } from './choice.utils';
 
 export const choiceProps = {
   ...baseProps,
   /** 绑定值 */
   modelValue: {
-    type: [String, Number, Array] as PropType<string | number | any[] | null>,
+    type: [String, Number, Array] as PropType<ChoiceValue | ChoiceValue[] | null>,
     default: null,
   },
   /** 选项列表 */
   options: {
-    type: Array as PropType<Array<{ label: string; value: any; icon?: string }>>,
+    type: Array as PropType<ChoiceOption[]>,
     default: () => [],
   },
   /** 是否多选 */

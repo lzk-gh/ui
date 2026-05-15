@@ -1,62 +1,56 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { choiceProps, choiceEmits } from './choice.props';
 import LkIcon from '../lk-icon/lk-icon.vue';
+import {
+  isChoiceSelected,
+  resolveChoiceContainerStyle,
+  resolveChoiceItemClass,
+  resolveChoiceSelection,
+  type ChoiceOption,
+  type ChoiceValue,
+} from './choice.utils';
 
 defineOptions({ name: 'LkChoice' });
 
 const props = defineProps(choiceProps);
 const emit = defineEmits(choiceEmits);
 
-function isSelected(value: any) {
-  if (props.multiple) {
-    return Array.isArray(props.modelValue) && props.modelValue.includes(value);
-  }
-  return props.modelValue === value;
+function isSelected(value: ChoiceValue) {
+  return isChoiceSelected({
+    modelValue: props.modelValue,
+    value,
+    multiple: props.multiple,
+  });
 }
 
-function handleSelect(option: any) {
+function handleSelect(option: ChoiceOption) {
   const value = option.value;
-  if (isSelected(value)) {
-    if (!props.allowUnselect) return;
-    if (props.multiple) {
-      const currentValues = Array.isArray(props.modelValue) ? props.modelValue : [];
-      const newValue = currentValues.filter(v => v !== value);
-      emit('update:modelValue', newValue);
-      emit('change', newValue);
-    } else {
-      emit('update:modelValue', null);
-      emit('change', null);
-    }
-  } else {
-    if (props.multiple) {
-      const currentValues = Array.isArray(props.modelValue) ? props.modelValue : [];
-      const newValue = [...currentValues, value];
-      emit('update:modelValue', newValue);
-      emit('change', newValue);
-    } else {
-      emit('update:modelValue', value);
-      emit('change', value);
-    }
+  const result = resolveChoiceSelection({
+    modelValue: props.modelValue,
+    value,
+    multiple: props.multiple,
+    allowUnselect: props.allowUnselect,
+  });
+
+  if (result.changed) {
+    emit('update:modelValue', result.value);
+    emit('change', result.value);
   }
   emit('click', option);
 }
 
-const containerStyle = computed(() => {
-  const g = props.gap || 0;
-  return {
-    margin: `-${g / 2}rpx`,
-    '--lk-choice-gap': `${g}rpx`,
-    ...(typeof props.customStyle === 'object' ? props.customStyle : {}),
-  };
-});
+const containerStyle = computed(() => resolveChoiceContainerStyle({
+  gap: props.gap || 0,
+  customStyle: props.customStyle as StyleValue,
+}));
 
-function itemClass(option: any) {
-  return [
-    'lk-choice__item',
-    `lk-choice__item--${props.size}`,
-    { 'is-selected': isSelected(option.value) },
-  ];
+function itemClass(option: ChoiceOption) {
+  return resolveChoiceItemClass({
+    size: props.size,
+    selected: isSelected(option.value),
+  });
 }
 </script>
 
