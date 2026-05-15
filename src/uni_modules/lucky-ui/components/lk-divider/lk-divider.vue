@@ -2,6 +2,11 @@
 import type { StyleValue } from 'vue';
 import { computed, useSlots } from 'vue';
 import { dividerProps } from './divider.props';
+import {
+  hasDividerText,
+  resolveDividerClass,
+  resolveDividerLineStyle,
+} from './divider.utils';
 
 /**
  * LkDivider 分割线
@@ -17,54 +22,26 @@ const props = defineProps(dividerProps);
 const slots = useSlots();
 const dividerStyle = computed(() => props.customStyle as StyleValue);
 
-const hasText = computed(() => !!(props.text || slots.default));
+const hasText = computed(() => hasDividerText({
+  text: props.text,
+  hasDefaultSlot: Boolean(slots.default),
+}));
 
 // 动态计算左右线条的 flex 比例/宽度
-const lineStyle = computed(() => {
-  const pos = props.textPosition;
-  if (pos === 'left' || pos === 'right' || pos === 'center' || !hasText.value || props.vertical) {
-    return { left: {}, right: {} };
-  }
+const lineStyle = computed(() => resolveDividerLineStyle({
+  textPosition: props.textPosition,
+  hasText: hasText.value,
+  vertical: props.vertical,
+}));
 
-  const leftStyle: Record<string, string> = {};
-  const rightStyle: Record<string, string> = {};
-
-  const strPos = String(pos);
-  const numVal = parseFloat(strPos);
-  // 判断是否为百分比（纯数字或带 % 号）
-  const isPercent = typeof pos === 'number' || strPos.endsWith('%') || /^\d+(\.\d+)?$/.test(strPos);
-
-  if (isPercent && !isNaN(numVal)) {
-    // 方案：按百分比分配左右线条占据的“剩余空间”
-    const leftRatio = Math.max(0, Math.min(100, numVal));
-    const rightRatio = 100 - leftRatio;
-    leftStyle.flex = `${leftRatio}`;
-    rightStyle.flex = `${rightRatio}`;
-  } else {
-    // 方案：指定左侧固定宽度，右侧占满剩余空间
-    leftStyle.flex = `0 0 ${strPos}`;
-    rightStyle.flex = '1';
-  }
-
-  return { left: leftStyle, right: rightStyle };
-});
-
-const classes = computed(() => {
-  const pos = props.textPosition;
-  const isStandardPos = pos === 'left' || pos === 'right' || pos === 'center';
-  
-  return [
-    'lk-divider',
-    isStandardPos ? `lk-divider--${pos}` : 'lk-divider--custom-pos',
-    {
-      'is-vertical': props.vertical,
-      'is-dashed': props.dashed,
-      'is-hairline': props.hairline,
-      'has-text': hasText.value,
-    },
-    props.customClass
-  ];
-});
+const classes = computed(() => resolveDividerClass({
+  textPosition: props.textPosition,
+  vertical: props.vertical,
+  dashed: props.dashed,
+  hairline: props.hairline,
+  hasText: hasText.value,
+  customClass: props.customClass,
+}));
 </script>
 
 <template>
