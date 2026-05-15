@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { verifyCodeProps, verifyCodeEmits, VerifyCodeStatus } from './verify-code.props';
+import {
+  normalizeVerifyCodeValue,
+  resolveVerifyCodeActiveIndex,
+  resolveVerifyCodeCellClass,
+  resolveVerifyCodeCellStyle,
+  resolveVerifyCodeContainerStyle,
+  resolveVerifyCodeCountdownText,
+  resolveVerifyCodeFocusIndex,
+  resolveVerifyCodeInputValue,
+  resolveVerifyCodeKeydownValue,
+  resolveVerifyCodeRootClass,
+  resolveVerifyCodeStatusClass,
+  shouldFinishVerifyCode,
+  type VerifyCodeInputEventLike,
+  type VerifyCodeKeydownEventLike,
+} from './verify-code.utils';
 import { useLocale } from '../../composables/useLocale';
 
 defineOptions({ name: 'LkVerifyCode' });
@@ -9,9 +25,14 @@ const props = defineProps(verifyCodeProps);
 const emit = defineEmits(verifyCodeEmits);
 const { t } = useLocale('verifyCode');
 
+interface FocusableInput {
+  focus?: () => void;
+  blur?: () => void;
+}
+
 // 内部状态
 const val = ref(props.modelValue || '');
-const inputRef = ref<any>(null);
+const inputRef = ref<FocusableInput | null>(null);
 const isFocused = ref(false);
 const focusIndex = ref(0);
 
@@ -21,48 +42,49 @@ const countdownRemaining = ref(0);
 let countdownTimer: ReturnType<typeof setInterval> | null = null;
 
 // 当前激活的单元格索引（基于输入值长度）
-const activeIndex = computed(() => {
-  return Math.min(val.value.length, props.length - 1);
-});
+const activeIndex = computed(() => resolveVerifyCodeActiveIndex(val.value, props.length));
 
 // 计算样式
-const cellStyle = computed(() => ({
-  width: `${props.cellSize}rpx`,
-  height: `${props.cellSize}rpx`,
-  fontSize: `${props.fontSize}rpx`,
+const cellStyle = computed(() => resolveVerifyCodeCellStyle({
+  cellSize: props.cellSize,
+  fontSize: props.fontSize,
 }));
 
-const containerStyle = computed(() => {
-  const g = props.gap || 0;
-  return {
-    '--lk-verify-code-gap': `${g}rpx`,
-  };
-});
+const containerStyle = computed(() => resolveVerifyCodeContainerStyle(props.gap));
 
 // 倒计时显示文字
-const countdownDisplayText = computed(() => {
-  if (isCountingDown.value) {
-    const template = props.countdownText || t('countdown');
-    return template.replace('{s}', String(countdownRemaining.value));
-  }
-  return val.value.length === 0 ? (props.sendText || t('send')) : (props.resendText || t('resend'));
-});
+const countdownDisplayText = computed(() => resolveVerifyCodeCountdownText({
+  isCountingDown: isCountingDown.value,
+  countdownRemaining: countdownRemaining.value,
+  value: val.value,
+  countdownText: props.countdownText || t('countdown'),
+  sendText: props.sendText || t('send'),
+  resendText: props.resendText || t('resend'),
+}));
 
 // 状态样式类
-const statusClass = computed(() => {
-  if (props.status === VerifyCodeStatus.Error) return 'is-error';
-  if (props.status === VerifyCodeStatus.Success) return 'is-success';
-  if (isFocused.value) return 'is-focus';
-  return '';
-});
+const statusClass = computed(() => resolveVerifyCodeStatusClass({
+  status: props.status,
+  isFocused: isFocused.value,
+}));
+
+const rootClass = computed(() => resolveVerifyCodeRootClass({
+  variant: props.variant,
+  statusClass: statusClass.value,
+  disabled: props.disabled,
+}));
 
 // 监听外部值变化
 watch(
   () => props.modelValue,
   v => {
     if (v !== val.value) {
-      val.value = v || '';
-      focusIndex.value = v?.length || 0;
+      val.value = normalizeVerifyCodeValue({
+        value: v,
+        type: props.type,
+        length: props.length,
+      });
+      focusIndex.value = resolveVerifyCodeFocusIndex(val.value, props.length);
     }
   }
 );
@@ -108,58 +130,49 @@ function onBlur() {
 }
 
 // 处理输入
-function onInput(e: any) {
+function onInput(e: Event | VerifyCodeInputEventLike) {
   if (props.disabled) return;
 
-  let v = e?.detail?.value ?? e?.target?.value ?? '';
-
-  // 根据类型过滤
-  if (props.type === 'number') {
-    v = v.replace(/\D+/g, '');
-  }
-
-  // 限制长度
-  if (v.length > props.length) {
-    v = v.slice(0, props.length);
-  }
+  const v = resolveVerifyCodeInputValue({
+    event: e,
+    type: props.type,
+    length: props.length,
+  });
 
   val.value = v;
-  focusIndex.value = v.length;
+  focusIndex.value = resolveVerifyCodeFocusIndex(v, props.length);
   emit('update:modelValue', v);
 
   // 输入完成
-  if (v.length === props.length) {
+  if (shouldFinishVerifyCode(v, props.length)) {
     emit('finish', v);
   }
 }
 
 // 处理粘贴（H5平台）
-function onPaste(e: any) {
+function onPaste(e: ClipboardEvent) {
   if (props.disabled) return;
 
   // #ifdef H5
   try {
-    const clipboardData = e?.clipboardData || (window as any).clipboardData;
-    let pastedText = clipboardData?.getData('text') || '';
-
-    // 过滤非法字符
-    if (props.type === 'number') {
-      pastedText = pastedText.replace(/\D+/g, '');
-    }
-
-    // 限制长度
-    pastedText = pastedText.slice(0, props.length);
+    const legacyWindow = window as unknown as { clipboardData?: DataTransfer };
+    const clipboardData = e.clipboardData || legacyWindow.clipboardData;
+    const pastedText = normalizeVerifyCodeValue({
+      value: clipboardData?.getData('text') || '',
+      type: props.type,
+      length: props.length,
+    });
 
     if (pastedText) {
       val.value = pastedText;
-      focusIndex.value = pastedText.length;
+      focusIndex.value = resolveVerifyCodeFocusIndex(pastedText, props.length);
       emit('update:modelValue', pastedText);
 
-      if (pastedText.length === props.length) {
+      if (shouldFinishVerifyCode(pastedText, props.length)) {
         emit('finish', pastedText);
       }
 
-      e.preventDefault();
+      e.preventDefault?.();
     }
   } catch (err) {
     console.warn('Paste handling failed', err);
@@ -168,15 +181,17 @@ function onPaste(e: any) {
 }
 
 // 处理键盘输入（支持退格）
-function onKeydown(e: any) {
+function onKeydown(e: KeyboardEvent | VerifyCodeKeydownEventLike) {
   if (props.disabled) return;
 
-  const key = e?.key || e?.detail?.key;
-  if (key === 'Backspace' && val.value.length > 0) {
-    // 退格删除最后一位
-    const newVal = val.value.slice(0, -1);
+  const newVal = resolveVerifyCodeKeydownValue({
+    event: e,
+    currentValue: val.value,
+  });
+
+  if (newVal !== null) {
     val.value = newVal;
-    focusIndex.value = Math.max(0, newVal.length);
+    focusIndex.value = resolveVerifyCodeFocusIndex(newVal, props.length);
     emit('update:modelValue', newVal);
   }
 }
@@ -230,14 +245,15 @@ function clear() {
 
 // 设置值（支持 SMS 自动填充）
 function setValue(code: string) {
-  if (props.type === 'number') {
-    code = code.replace(/\D+/g, '');
-  }
-  code = code.slice(0, props.length);
+  code = normalizeVerifyCodeValue({
+    value: code,
+    type: props.type,
+    length: props.length,
+  });
   val.value = code;
-  focusIndex.value = code.length;
+  focusIndex.value = resolveVerifyCodeFocusIndex(code, props.length);
   emit('update:modelValue', code);
-  if (code.length === props.length) {
+  if (shouldFinishVerifyCode(code, props.length)) {
     emit('finish', code);
   }
 }
@@ -268,7 +284,7 @@ onUnmounted(() => {
 <template>
   <view
     class="lk-verify-code"
-    :class="[`lk-verify-code--${props.variant}`, statusClass, { 'is-disabled': props.disabled }]"
+    :class="rootClass"
   >
     <!-- 隐藏的真实输入框 -->
     <input
@@ -292,17 +308,19 @@ onUnmounted(() => {
         v-for="(_, index) in props.length"
         :key="index"
         class="lk-verify-code__cell"
-        :class="{
-          'is-active': isFocused && index === activeIndex && val.length < props.length,
-          'is-filled': index < val.length,
-          'is-next': index === val.length,
-        }"
+        :class="resolveVerifyCodeCellClass({
+          index,
+          isFocused,
+          activeIndex,
+          valueLength: val.length,
+          length: props.length,
+        })"
         :style="[
           cellStyle,
           props.focusColor && isFocused && index === activeIndex
             ? { borderColor: props.focusColor }
             : {},
-          props.errorColor && props.status === 'error' ? { borderColor: props.errorColor } : {},
+          props.errorColor && props.status === VerifyCodeStatus.Error ? { borderColor: props.errorColor } : {},
         ]"
         @click.stop="onCellClick(index)"
       >
