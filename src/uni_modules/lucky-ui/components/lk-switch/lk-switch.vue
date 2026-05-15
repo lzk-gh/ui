@@ -3,6 +3,15 @@ import type { StyleValue } from 'vue';
 import { computed, ref, inject } from 'vue';
 import { switchProps, switchEmits } from './switch.props';
 import { formContextKey } from '../lk-form/context';
+import {
+  canToggleSwitch,
+  isSwitchChecked,
+  resolveSwitchClass,
+  resolveSwitchNextValue,
+  resolveSwitchPromptText,
+  resolveSwitchStyle,
+  shouldValidateSwitchField,
+} from './switch.utils';
 
 defineOptions({ name: 'LkSwitch' });
 
@@ -12,35 +21,56 @@ const emit = defineEmits(switchEmits);
 const form = inject(formContextKey, null);
 
 // 是否选中
-const isChecked = computed(() => props.modelValue === props.activeValue);
+const isChecked = computed(() => isSwitchChecked({
+  modelValue: props.modelValue,
+  activeValue: props.activeValue,
+}));
 
 // 防重复触发标记
 const changing = ref(false);
 
 // 动态样式：支持自定义颜色
 const rootStyle = computed(() => {
-  const style: Record<string, string> = {};
-  if (props.activeColor) {
-    style['--switch-active-color'] = props.activeColor;
-  }
-  if (props.inactiveColor) {
-    style['--switch-inactive-color'] = props.inactiveColor;
-  }
-  return [style, props.customStyle] as StyleValue;
+  return resolveSwitchStyle({
+    activeColor: props.activeColor,
+    inactiveColor: props.inactiveColor,
+    customStyle: props.customStyle as StyleValue,
+  });
 });
 
 // 内嵌文字
 const promptText = computed(() => {
-  if (!props.inlinePrompt) return '';
-  if (isChecked.value) return props.activeText || 'ON';
-  return props.inactiveText || 'OFF';
+  return resolveSwitchPromptText({
+    inlinePrompt: props.inlinePrompt,
+    checked: isChecked.value,
+    activeText: props.activeText,
+    inactiveText: props.inactiveText,
+  });
 });
+
+const classes = computed(() => resolveSwitchClass({
+  customClass: props.customClass,
+  size: props.size,
+  checked: isChecked.value,
+  disabled: props.disabled,
+  loading: props.loading,
+  changing: changing.value,
+  inlinePrompt: props.inlinePrompt,
+}));
 
 // 切换逻辑
 async function toggle() {
-  if (props.disabled || props.loading || changing.value) return;
+  if (!canToggleSwitch({
+    disabled: props.disabled,
+    loading: props.loading,
+    changing: changing.value,
+  })) return;
 
-  const nextValue = isChecked.value ? props.inactiveValue : props.activeValue;
+  const nextValue = resolveSwitchNextValue({
+    checked: isChecked.value,
+    activeValue: props.activeValue,
+    inactiveValue: props.inactiveValue,
+  });
   emit('before-change', nextValue);
 
   // 轻震动反馈（只在支持的平台上触发）
@@ -73,13 +103,17 @@ async function toggle() {
   emit('change', nextValue);
 
   // 表单联动验证
-  if (props.validateEvent && props.prop) {
+  if (shouldValidateSwitchField({ validateEvent: props.validateEvent, prop: props.prop })) {
     form?.emitFieldChange(props.prop, nextValue);
   }
 }
 
 function onClick(e: unknown) {
-  if (props.disabled || props.loading || changing.value) return;
+  if (!canToggleSwitch({
+    disabled: props.disabled,
+    loading: props.loading,
+    changing: changing.value,
+  })) return;
   emit('click', e, isChecked.value);
   toggle();
 }
@@ -89,16 +123,7 @@ function onClick(e: unknown) {
   <view
     :id="id"
     class="lk-switch"
-    :class="[
-      customClass,
-      `lk-switch--${size}`,
-      {
-        'is-checked': isChecked,
-        'is-disabled': disabled,
-        'is-loading': loading || changing,
-        'has-prompt': inlinePrompt,
-      },
-    ]"
+    :class="classes"
     :style="rootStyle"
     :aria-checked="isChecked"
     role="switch"
