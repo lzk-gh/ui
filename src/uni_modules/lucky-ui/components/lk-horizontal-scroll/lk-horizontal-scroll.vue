@@ -1,30 +1,33 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { horizontalScrollProps } from './horizontal-scroll.props';
-import { addUnit } from '../../core/src/utils/unit';
+import {
+  resolveHorizontalScrollClass,
+  resolveHorizontalScrollContainerStyle,
+  resolveHorizontalScrollRootStyle,
+  shouldShowHorizontalScrollbar,
+} from './horizontal-scroll.utils';
 
 defineOptions({ name: 'LkHorizontalScroll' });
 
 const props = defineProps(horizontalScrollProps);
 
-const containerStyle = computed(() => {
-  const gap = addUnit(props.gap);
-  const padding = addUnit(props.padding);
-  return {
-    '--lk-hs-gap': gap,
-    paddingLeft: padding,
-    paddingRight: padding,
-  };
-});
+const rootClass = computed(() => resolveHorizontalScrollClass(props.customClass));
+const rootStyle = computed(() => resolveHorizontalScrollRootStyle(props.customStyle as StyleValue));
+const showScrollbar = computed(() => shouldShowHorizontalScrollbar(props.hideScrollbar));
+const containerStyle = computed(() => resolveHorizontalScrollContainerStyle({
+  gap: props.gap,
+  padding: props.padding,
+}));
 </script>
 
 <template>
   <scroll-view
-    class="lk-horizontal-scroll"
-    :class="customClass"
-    :style="customStyle"
+    :class="rootClass"
+    :style="rootStyle"
     scroll-x
-    :show-scrollbar="!hideScrollbar"
+    :show-scrollbar="showScrollbar"
     enable-flex
   >
     <view class="lk-horizontal-scroll__container" :style="containerStyle">
