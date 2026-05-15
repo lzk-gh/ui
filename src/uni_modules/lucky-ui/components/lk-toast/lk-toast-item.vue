@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import { toastStore, type ToastItem } from './toast-manager';
+import { resolveToastManagerItemClass } from './toast.utils';
 
 defineOptions({ name: 'LkToastItem' });
 
@@ -26,7 +27,7 @@ const { classes, styles, display } = useTransition(
   <view
     v-if="display"
     class="lk-toast-mgr__item"
-    :class="['pos-' + item.position]"
+    :class="resolveToastManagerItemClass(item.position)"
     @click="toastStore.close(item.id)"
   >
     <view class="lk-toast-mgr__inner" :class="classes" :style="styles">

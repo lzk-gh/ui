@@ -1,33 +1,18 @@
 import { ref, reactive } from 'vue';
-import type { ToastTransitionName } from './toast.props';
-
-export interface ToastItem {
-  id: number;
-  message: string;
-  transition?: ToastTransitionName;
-  duration: number;
-  position: 'top' | 'center' | 'bottom';
-  visible: boolean;
-}
+import { createToastItem, shouldScheduleToastClose, type ToastItem } from './toast.utils';
+export type { ToastItem } from './toast.utils';
 
 const list = ref<ToastItem[]>([]);
 let seed = 0;
 
 export function useToast() {
   function show(opts: Partial<ToastItem> | string) {
-    const opt: ToastItem = {
+    const opt = createToastItem({
       id: ++seed,
-      message: typeof opts === 'string' ? opts : opts.message || '',
-      transition:
-        (typeof opts === 'string' ? undefined : opts.transition) ||
-        ((typeof opts !== 'string' && opts.position === 'top') ? 'slide-down' : 
-         (typeof opts !== 'string' && opts.position === 'center') ? 'zoom-in' : 'slide-up'),
-      duration: typeof opts === 'string' ? 2000 : (opts.duration ?? 2000),
-      position: (typeof opts === 'string' ? 'center' : opts.position) || 'center',
-      visible: true,
-    };
+      input: opts,
+    });
     list.value.push(opt);
-    if (opt.duration > 0) {
+    if (shouldScheduleToastClose(opt.duration)) {
       setTimeout(() => hide(opt.id), opt.duration);
     }
     return opt.id;

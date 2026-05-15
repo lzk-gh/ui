@@ -2,6 +2,14 @@
 import { watch, computed, onUnmounted } from 'vue';
 import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import { toastProps, toastEmits } from './toast.props';
+import {
+  resolveToastOverlayClass,
+  resolveToastOverlayStyle,
+  resolveToastRootClass,
+  resolveToastRootStyle,
+  resolveToastTransition,
+  shouldScheduleToastClose,
+} from './toast.utils';
 
 defineOptions({ name: 'LkToast' });
 
@@ -20,7 +28,7 @@ function clearTimers() {
 
 function scheduleClose() {
   clearTimers();
-  if (props.duration > 0) {
+  if (shouldScheduleToastClose(props.duration)) {
     timer = setTimeout(() => close(), props.duration);
   }
 }
@@ -46,11 +54,16 @@ function close() {
 
 // 使用动画 composable
 const transitionName = computed(() => {
-  if (props.transition !== 'slide-up') return props.transition;
-  if (props.position === 'top') return 'slide-down';
-  if (props.position === 'center') return 'zoom-in';
-  return 'slide-up';
+  return resolveToastTransition({
+    transition: props.transition,
+    position: props.position,
+  });
 });
+
+const overlayClass = computed(() => resolveToastOverlayClass(props.forbidClick));
+const overlayStyle = computed(() => resolveToastOverlayStyle(props.zIndex));
+const rootClass = computed(() => resolveToastRootClass(props.position));
+const rootStyle = computed(() => resolveToastRootStyle(props.zIndex));
 
 const {
   classes: transitionClasses,
@@ -71,14 +84,14 @@ onUnmounted(() => clearTimers());
   <view
     v-if="overlay && show"
     class="lk-toast__overlay"
-    :class="{ 'is-lock': forbidClick }"
-    :style="{ zIndex }"
+    :class="overlayClass"
+    :style="overlayStyle"
   />
   <view
     v-if="display"
     class="lk-toast"
-    :class="[`lk-toast--${position}`]"
-    :style="{ zIndex: zIndex + 1 }"
+    :class="rootClass"
+    :style="rootStyle"
   >
     <view class="lk-toast__inner" :class="transitionClasses" :style="transitionStyles">
       <text class="lk-toast__text"
