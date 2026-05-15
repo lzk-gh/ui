@@ -15,6 +15,11 @@ export const WatermarkSize = {
 } as const;
 export type WatermarkSize = (typeof WatermarkSize)[keyof typeof WatermarkSize];
 
+const optionalStringNumberProp = {
+  type: [String, Number] as PropType<string | number | undefined>,
+  default: undefined,
+};
+
 export const watermarkProps = {
   ...baseProps,
 
@@ -44,16 +49,16 @@ export const watermarkProps = {
   zIndex: LkProp.number(8),
 
   /** 单个水印宽度 */
-  width: LkProp.stringNumber(undefined as any),
+  width: optionalStringNumberProp,
 
   /** 单个水印高度 */
-  height: LkProp.stringNumber(undefined as any),
+  height: optionalStringNumberProp,
 
   /** 横向间距 */
-  gapX: LkProp.stringNumber(undefined as any),
+  gapX: optionalStringNumberProp,
 
   /** 纵向间距 */
-  gapY: LkProp.stringNumber(undefined as any),
+  gapY: optionalStringNumberProp,
 
   /** 行数 */
   rows: LkProp.number(6),
@@ -71,7 +76,7 @@ export const watermarkProps = {
   skewY: LkProp.number(0),
 
   /** 字体大小 */
-  fontSize: LkProp.stringNumber(undefined as any),
+  fontSize: optionalStringNumberProp,
 
   /** 字体粗细 */
   fontWeight: LkProp.stringNumber(500),

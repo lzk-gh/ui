@@ -1,65 +1,57 @@
 <script setup lang="ts">
 import { computed, type StyleValue } from 'vue';
-import { addUnit } from '@/uni_modules/lucky-ui/core/src/utils/unit';
 import { watermarkProps } from './watermark.props';
+import {
+  normalizeWatermarkContent,
+  resolveWatermarkClass,
+  resolveWatermarkItemStyle,
+  resolveWatermarkItems,
+  resolveWatermarkLayerStyle,
+  resolveWatermarkParams,
+  resolveWatermarkRootStyle,
+} from './watermark.utils';
 
 defineOptions({ name: 'LkWatermark' });
 
 const props = defineProps(watermarkProps);
 
-const normalizedContent = computed(() => {
-  const content = Array.isArray(props.content) ? props.content : [props.content];
-  return content.filter(item => item !== '');
-});
-
-const DEFAULT_SIZE_MAP = {
-  sm: { width: 170, height: 112, fontSize: 20, gapX: 40, gapY: 34 },
-  md: { width: 260, height: 168, fontSize: 24, gapX: 60, gapY: 48 },
-  lg: { width: 340, height: 224, fontSize: 32, gapX: 82, gapY: 64 },
-} as const;
+const normalizedContent = computed(() => normalizeWatermarkContent(props.content));
 
 const effectiveParams = computed(() => {
-  const sizeConfig = DEFAULT_SIZE_MAP[props.size as keyof typeof DEFAULT_SIZE_MAP] || DEFAULT_SIZE_MAP.md;
-
-  return {
-    width: props.width ?? sizeConfig.width,
-    height: props.height ?? sizeConfig.height,
-    fontSize: props.fontSize ?? sizeConfig.fontSize,
-    gapX: props.gapX ?? sizeConfig.gapX,
-    gapY: props.gapY ?? sizeConfig.gapY,
-  };
+  return resolveWatermarkParams(props.size, {
+    width: props.width,
+    height: props.height,
+    fontSize: props.fontSize,
+    gapX: props.gapX,
+    gapY: props.gapY,
+  });
 });
 
-const cellCount = computed(() => Math.max(1, props.rows) * Math.max(1, props.columns));
-const watermarkItems = computed(() => Array.from({ length: cellCount.value }, (_, index) => index));
+const watermarkItems = computed(() => resolveWatermarkItems(props.rows, props.columns));
 
-const rootClass = computed(() => [
-  'lk-watermark',
-  `lk-watermark--${props.variant}`,
-  `is-size-${props.size}`,
-  props.customClass,
-  {
-    'is-full-page': props.fullPage,
-  },
-]);
+const rootClass = computed(() => resolveWatermarkClass(props));
 
-const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
+const rootStyle = computed<StyleValue>(() => resolveWatermarkRootStyle(props.customStyle));
 
-const layerStyle = computed<StyleValue>(() => ({
-  zIndex: props.zIndex,
-  color: props.color || undefined,
-  opacity: props.opacity,
-  gap: `${addUnit(effectiveParams.value.gapY)} ${addUnit(effectiveParams.value.gapX)}`,
-  gridTemplateColumns: `repeat(${Math.max(1, props.columns)}, ${addUnit(effectiveParams.value.width)})`,
-}));
+const layerStyle = computed<StyleValue>(() =>
+  resolveWatermarkLayerStyle({
+    zIndex: props.zIndex,
+    color: props.color,
+    opacity: props.opacity,
+    columns: props.columns,
+    params: effectiveParams.value,
+  })
+);
 
-const itemStyle = computed<StyleValue>(() => ({
-  width: addUnit(effectiveParams.value.width),
-  height: addUnit(effectiveParams.value.height),
-  transform: `rotate(${props.rotate}deg) skew(${props.skewX}deg, ${props.skewY}deg)`,
-  fontSize: addUnit(effectiveParams.value.fontSize),
-  fontWeight: props.fontWeight,
-}));
+const itemStyle = computed<StyleValue>(() =>
+  resolveWatermarkItemStyle({
+    params: effectiveParams.value,
+    rotate: props.rotate,
+    skewX: props.skewX,
+    skewY: props.skewY,
+    fontWeight: props.fontWeight,
+  })
+);
 </script>
 
 <template>
