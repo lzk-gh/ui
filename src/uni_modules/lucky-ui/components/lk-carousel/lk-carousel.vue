@@ -2,97 +2,123 @@
 import type { StyleValue } from 'vue';
 import { ref, computed, watch, nextTick, getCurrentInstance, onMounted, useSlots } from 'vue';
 import { carouselEmits, carouselProps } from './carousel.props';
+import {
+  clampCarouselIndex,
+  getCarouselLength,
+  getCarouselRectHeight,
+  getCarouselSwiperCurrent,
+  isCarouselAutoplayEnabled,
+  isCarouselCircular,
+  isCarouselIndicatorOutside,
+  isCarouselIndicatorVertical,
+  resolveCarouselCardStyleVars,
+  resolveCarouselHeightProp,
+  resolveCarouselIndicatorClass,
+  resolveCarouselIndicatorInactiveColor,
+  resolveCarouselIndicatorPosition,
+  resolveCarouselIndicatorSpace,
+  resolveCarouselIndicatorStyle,
+  resolveCarouselIndicatorsClass,
+  resolveCarouselItemClass,
+  resolveCarouselNextMargin,
+  resolveCarouselOuterStyle,
+  resolveCarouselPreviousMargin,
+  resolveCarouselRootStyle,
+  resolveCarouselSwiperStyle,
+  shouldShowCarouselIndicators,
+  shouldUpdateCarouselActive,
+  type CarouselChangeSource,
+  type CarouselSwiperChangeEventLike,
+} from './carousel.utils';
 import lkCarouselItem from './lk-carousel-item.vue';
 
 const props = defineProps(carouselProps);
 const emit = defineEmits(carouselEmits);
 
 const innerCurrent = ref(props.current);
-const length = computed(() => props.carouselList?.length || 0);
+const length = computed(() => getCarouselLength(props.carouselList));
 const slots = useSlots();
 const hasDefaultSlot = computed(() => !!slots.default);
-const autoplayEnabled = computed(() => props.autoPlay && length.value > 1);
-const circular = computed(() => !!props.loop && length.value > 1);
+const autoplayEnabled = computed(() => isCarouselAutoplayEnabled({
+  autoPlay: props.autoPlay,
+  length: length.value,
+}));
+const circular = computed(() => isCarouselCircular({
+  loop: props.loop,
+  length: length.value,
+}));
 
 // 指示器位置
-const resolvedIndicatorPosition = computed(() => {
-  if (props.indicatorPosition && props.indicatorPosition !== 'auto') return props.indicatorPosition;
-  return props.vertical ? 'right' : 'bottom';
-});
-const indicatorVertical = computed(() =>
-  ['left', 'right'].includes(resolvedIndicatorPosition.value)
-);
-const showIndicators = computed(
-  () => props.showIndicators && props.indicatorType !== 'none' && length.value > 1
-);
-const indicatorOutside = computed(() => !props.indicatorOverlay && showIndicators.value);
-const indicatorInactiveColor = computed(() => props.indicatorInactiveColor || props.indicatorColor || undefined);
+const resolvedIndicatorPosition = computed(() => resolveCarouselIndicatorPosition({
+  indicatorPosition: props.indicatorPosition,
+  vertical: props.vertical,
+}));
+const indicatorVertical = computed(() => isCarouselIndicatorVertical(resolvedIndicatorPosition.value));
+const showIndicators = computed(() => shouldShowCarouselIndicators({
+  showIndicators: props.showIndicators,
+  indicatorType: props.indicatorType,
+  length: length.value,
+}));
+const indicatorOutside = computed(() => isCarouselIndicatorOutside({
+  indicatorOverlay: props.indicatorOverlay,
+  showIndicators: showIndicators.value,
+}));
+const indicatorInactiveColor = computed(() => resolveCarouselIndicatorInactiveColor({
+  indicatorInactiveColor: props.indicatorInactiveColor,
+  indicatorColor: props.indicatorColor,
+}));
 
 // Margin 处理
-const previousMargin = computed(() => {
-  if (props.card) return props.cardPrevMargin || '60rpx';
-  if (props.peek) return props.peekPrevMargin;
-  return '0';
-});
-const nextMargin = computed(() => {
-  if (props.card) return props.cardNextMargin || '60rpx';
-  if (props.peek) return props.peekNextMargin;
-  return '0';
-});
+const previousMargin = computed(() => resolveCarouselPreviousMargin({
+  card: props.card,
+  cardPrevMargin: props.cardPrevMargin,
+  peek: props.peek,
+  peekPrevMargin: props.peekPrevMargin,
+}));
+const nextMargin = computed(() => resolveCarouselNextMargin({
+  card: props.card,
+  cardNextMargin: props.cardNextMargin,
+  peek: props.peek,
+  peekNextMargin: props.peekNextMargin,
+}));
 
 // 高度处理
 const currentHeight = ref<number>(0);
 const indicatorHeightPx = ref<number>(0);
 const instance = getCurrentInstance();
 
-const heightProp = computed(() => {
-  if (!props.height) return 'var(--lk-rpx-320)';
-  return typeof props.height === 'number' ? `${props.height}px` : props.height;
-});
+const heightProp = computed(() => resolveCarouselHeightProp(props.height));
 
 // 指示器占位
-const indicatorSpaceRpx = computed(() => {
-  if (!indicatorOutside.value) return 'var(--lk-rpx-0)';
-  const type = props.indicatorType;
-  if (type === 'number') return 'var(--lk-rpx-50)';
-  return 'var(--lk-rpx-40)';
-});
+const indicatorSpaceRpx = computed(() => resolveCarouselIndicatorSpace({
+  indicatorOutside: indicatorOutside.value,
+  indicatorType: props.indicatorType,
+}));
 
 // 外层容器样式
-const outerStyle = computed(() => {
-  if (props.autoHeight) {
-    const total = currentHeight.value + (indicatorOutside.value ? indicatorHeightPx.value : 0);
-    return {
-      height: total > 0 ? `${total}px` : 'var(--lk-rpx-200)',
-      transition: 'height 0.3s ease',
-    };
-  }
-  return {
-    height: heightProp.value,
-    '--lk-indicator-space': indicatorSpaceRpx.value,
-  };
-});
+const outerStyle = computed(() => resolveCarouselOuterStyle({
+  autoHeight: props.autoHeight,
+  currentHeight: currentHeight.value,
+  indicatorOutside: indicatorOutside.value,
+  indicatorHeightPx: indicatorHeightPx.value,
+  heightProp: heightProp.value,
+  indicatorSpaceRpx: indicatorSpaceRpx.value,
+}));
 
 // Swiper 样式
-const swiperStyle = computed(() => {
-  if (props.autoHeight) {
-    return { height: currentHeight.value > 0 ? `${currentHeight.value}px` : '100%' };
-  }
-  if (indicatorOutside.value) {
-    return { height: 'calc(100% - var(--lk-indicator-space))' };
-  }
-  return { height: '100%' };
-});
+const swiperStyle = computed(() => resolveCarouselSwiperStyle({
+  autoHeight: props.autoHeight,
+  currentHeight: currentHeight.value,
+  indicatorOutside: indicatorOutside.value,
+}));
 
 // 卡片样式变量
-const cardStyleVars = computed(() => {
-  if (!props.card) return {};
-  return {
-    '--lk-card-scale': props.cardScale ? String(props.cardScale) : '0.9',
-    '--lk-card-radius': props.cardRadius || 'var(--lk-rpx-16)',
-    '--lk-card-shadow': props.cardShadow || '0 var(--lk-rpx-8) var(--lk-rpx-24) rgba(0,0,0,0.12)',
-  };
-});
+const cardStyleVars = computed(() => resolveCarouselCardStyleVars({
+  card: props.card,
+  cardScale: props.cardScale,
+  cardRadius: props.cardRadius,
+  cardShadow: props.cardShadow,
+}));
 
 // 测量内容高度
 function measureActiveHeight() {
@@ -103,8 +129,7 @@ function measureActiveHeight() {
     const q = uni.createSelectorQuery().in(instance?.proxy);
     q.select(`#lk-slide-${idx}`)
       .boundingClientRect(rect => {
-        const r: any = rect as any;
-        const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
+        const h = getCarouselRectHeight(rect);
         if (h && h !== currentHeight.value) {
           currentHeight.value = h;
           emit('height-change', h);
@@ -130,8 +155,7 @@ function measureIndicatorHeight() {
     const q = uni.createSelectorQuery().in(instance?.proxy);
     q.select('#lk-indicators-outside')
       .boundingClientRect(rect => {
-        const r: any = rect as any;
-        const h = Array.isArray(r) ? r[0]?.height || 0 : r?.height || 0;
+        const h = getCarouselRectHeight(rect);
         indicatorHeightPx.value = h || 0;
       })
       .exec();
@@ -144,7 +168,7 @@ watch(
   val => {
     const n = length.value;
     if (typeof val !== 'number' || n === 0) return;
-    const clamped = Math.max(0, Math.min(val, Math.max(0, n - 1)));
+    const clamped = clampCarouselIndex(val, n);
     if (innerCurrent.value !== clamped) innerCurrent.value = clamped;
   }
 );
@@ -168,17 +192,17 @@ watch(
   }
 );
 
-function updateActive(index: number, source: 'swiper' | 'indicator' | 'api' = 'api') {
+function updateActive(index: number, source: CarouselChangeSource = 'api') {
   const oldValue = innerCurrent.value;
-  if (oldValue === index) return;
+  if (!shouldUpdateCarouselActive(oldValue, index)) return;
   innerCurrent.value = index;
   emit('update:current', index);
   emit('change', index, oldValue, source);
   if (source === 'swiper' && props.autoPlay) emit('autoplay-change', index, oldValue);
 }
 
-function onSwiperChange(e: any) {
-  const idx = e?.detail?.current ?? 0;
+function onSwiperChange(e: CarouselSwiperChangeEventLike) {
+  const idx = getCarouselSwiperCurrent(e);
   updateActive(idx, 'swiper');
 }
 
@@ -190,12 +214,14 @@ function onItemClick(index: number, event?: unknown) {
 function setActive(index: number, event?: unknown) {
   const n = length.value;
   if (n === 0) return;
-  const clamped = Math.max(0, Math.min(index, n - 1));
+  const clamped = clampCarouselIndex(index, n);
   emit('indicator-click', clamped, innerCurrent.value, event);
   updateActive(clamped, 'indicator');
 }
 
-const rootStyle = computed<StyleValue>(() => [outerStyle.value, props.customStyle as StyleValue]);
+const rootStyle = computed<StyleValue>(() =>
+  resolveCarouselRootStyle(outerStyle.value, props.customStyle as StyleValue)
+);
 
 onMounted(() => {
   measureActiveHeight();
@@ -223,12 +249,11 @@ onMounted(() => {
         <view
           :id="`lk-slide-${index}`"
           class="lk-carousel__item-wrap"
-          :class="{
-            'is-card': card,
-            'is-active': index === innerCurrent,
-            'is-inactive': index !== innerCurrent,
-            'is-auto-height': autoHeight,
-          }"
+          :class="resolveCarouselItemClass({
+            card,
+            active: index === innerCurrent,
+            autoHeight,
+          })"
           :style="card ? cardStyleVars : undefined"
           @tap="onItemClick(index, $event)"
         >
@@ -246,14 +271,12 @@ onMounted(() => {
     <template v-if="props.indicatorOverlay && showIndicators">
       <view
         class="lk-carousel__indicators"
-        :class="[
-          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
-          `is-align-${indicatorAlign}`,
-          {
-            'is-vertical': indicatorVertical,
-            'is-animated': indicatorAnimated,
-          },
-        ]"
+        :class="resolveCarouselIndicatorsClass({
+          position: resolvedIndicatorPosition,
+          indicatorAlign,
+          indicatorVertical,
+          indicatorAnimated,
+        })"
       >
         <view v-if="indicatorType === 'number'" class="lk-carousel__indicator-number">
           {{ innerCurrent + 1 }}/{{ length }}
@@ -263,17 +286,15 @@ onMounted(() => {
           v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           :key="index"
           class="lk-carousel__indicator"
-          :class="{
-            'is-active': index === innerCurrent,
-            'is-dot': indicatorType === 'dots',
-            'is-bar': indicatorType === 'bars',
-          }"
-          :style="{
-            backgroundColor:
-              index === innerCurrent
-                ? indicatorActiveColor || undefined
-                : indicatorInactiveColor,
-          }"
+          :class="resolveCarouselIndicatorClass({
+            active: index === innerCurrent,
+            indicatorType,
+          })"
+          :style="resolveCarouselIndicatorStyle({
+            active: index === innerCurrent,
+            indicatorActiveColor,
+            indicatorInactiveColor,
+          })"
           @tap.stop="indicatorClickable ? setActive(index, $event) : undefined"
         ></view>
       </view>
@@ -284,14 +305,12 @@ onMounted(() => {
       <view
         id="lk-indicators-outside"
         class="lk-carousel__indicators is-outside"
-        :class="[
-          `lk-carousel__indicators--pos-${resolvedIndicatorPosition}`,
-          `is-align-${indicatorAlign}`,
-          {
-            'is-vertical': indicatorVertical,
-            'is-animated': indicatorAnimated,
-          },
-        ]"
+        :class="resolveCarouselIndicatorsClass({
+          position: resolvedIndicatorPosition,
+          indicatorAlign,
+          indicatorVertical,
+          indicatorAnimated,
+        })"
       >
         <view v-if="indicatorType === 'number'" class="lk-carousel__indicator-number">
           {{ innerCurrent + 1 }}/{{ length }}
@@ -301,17 +320,15 @@ onMounted(() => {
           v-else-if="indicatorType === 'dots' || indicatorType === 'bars'"
           :key="index"
           class="lk-carousel__indicator"
-          :class="{
-            'is-active': index === innerCurrent,
-            'is-dot': indicatorType === 'dots',
-            'is-bar': indicatorType === 'bars',
-          }"
-          :style="{
-            backgroundColor:
-              index === innerCurrent
-                ? indicatorActiveColor || undefined
-                : indicatorInactiveColor,
-          }"
+          :class="resolveCarouselIndicatorClass({
+            active: index === innerCurrent,
+            indicatorType,
+          })"
+          :style="resolveCarouselIndicatorStyle({
+            active: index === innerCurrent,
+            indicatorActiveColor,
+            indicatorInactiveColor,
+          })"
           @tap.stop="indicatorClickable ? setActive(index, $event) : undefined"
         ></view>
       </view>

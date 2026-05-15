@@ -42,6 +42,8 @@ export type CarouselIndicatorPosition =
   (typeof CarouselIndicatorPosition)[keyof typeof CarouselIndicatorPosition];
 export type CarouselIndicatorAlign =
   (typeof CarouselIndicatorAlign)[keyof typeof CarouselIndicatorAlign];
+// 轮播项可为图片地址、对象或业务自定义结构，slot 侧保留宽松类型以兼容现有用法。
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CarouselItem = any;
 
 export const carouselProps = {
