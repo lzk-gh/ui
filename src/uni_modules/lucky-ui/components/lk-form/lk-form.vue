@@ -4,6 +4,11 @@ import { reactive, provide, computed } from 'vue';
 import { formProps, formEmits } from './form.props';
 import type { FormContext, FormItemContext, ValidateError } from './context';
 import { formContextKey } from './context';
+import {
+  normalizeValidateErrors,
+  resolveFormClass,
+  resolveTargetFormFields,
+} from './form.utils';
 
 defineOptions({ name: 'LkForm' });
 const props = defineProps(formProps);
@@ -22,21 +27,14 @@ function removeField(f: FormItemContext) {
 
 /** 验证全部或指定字段，返回 Promise。失败时 reject 携带 ValidateError[] */
 async function validate(opts?: { fields?: string[]; silent?: boolean }) {
-  const target = opts?.fields?.length
-    ? fields.filter(f => f.prop && opts.fields!.includes(f.prop))
-    : fields;
+  const target = resolveTargetFormFields(fields, opts?.fields);
   const errors: ValidateError[] = [];
   for (const f of target) {
     try {
       await f.validate();
       if (f.prop) emit('validate-field', f.prop, true, null);
     } catch (e: unknown) {
-      const fieldErrors: ValidateError[] = [];
-      if (Array.isArray(e)) {
-        fieldErrors.push(...(e as ValidateError[]));
-      } else if (e) {
-        fieldErrors.push(e as ValidateError);
-      }
+      const fieldErrors = normalizeValidateErrors(e);
       errors.push(...fieldErrors);
       if (f.prop) emit('validate-field', f.prop, false, fieldErrors.length ? fieldErrors : null);
     }
@@ -53,15 +51,13 @@ async function validate(opts?: { fields?: string[]; silent?: boolean }) {
 
 /** 重置指定或全部字段到初始状态，并清除验证结果 */
 function resetFields(list?: string[]) {
-  (list?.length ? fields.filter(f => f.prop && list.includes(f.prop)) : fields).forEach(f =>
-    f.reset()
-  );
+  resolveTargetFormFields(fields, list).forEach(f => f.reset());
   emit('reset', list);
 }
 
 /** 清除指定或全部字段的验证状态（不重置值） */
 function clearValidate(list?: string[]) {
-  (list?.length ? fields.filter(f => f.prop && list.includes(f.prop)) : fields).forEach(f =>
+  resolveTargetFormFields(fields, list).forEach(f =>
     f.setValidateStatus('idle')
   );
   emit('clear-validate', list);
@@ -95,7 +91,7 @@ async function validateField(prop: string) {
     await f.validate();
     emit('validate-field', prop, true, null);
   } catch (error) {
-    const errors = Array.isArray(error) ? (error as ValidateError[]) : [error as ValidateError];
+    const errors = normalizeValidateErrors(error);
     emit('validate-field', prop, false, errors);
     return Promise.reject(errors);
   }
@@ -120,12 +116,11 @@ function scrollToField(prop: string) {
 }
 
 const classes = computed(() => [
-  'lk-form',
-  {
-    'lk-form--border': props.border,
-    'lk-form--card': props.card,
-  },
-  props.customClass,
+  ...resolveFormClass({
+    border: props.border,
+    card: props.card,
+    customClass: props.customClass,
+  }),
 ]);
 
 const style = computed(() => props.customStyle as StyleValue);

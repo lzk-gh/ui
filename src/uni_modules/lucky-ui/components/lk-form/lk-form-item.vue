@@ -7,38 +7,43 @@ import {
   formContextKey,
   type FormContext,
   type FormRule,
-  type ValidateError,
   type FormItemContext,
 } from './context';
 import { useLocale } from '../../composables/useLocale';
+import {
+  filterFormRulesByTrigger,
+  getFormFieldRules,
+  resolveFormItemClass,
+  resolveFormItemLabelStyle,
+  resolveFormItemRequired,
+  resolveFormItemResetValue,
+  validateFormValue,
+  type FormValidateStatus,
+} from './form.utils';
 
 defineOptions({ name: 'LkFormItem' });
 const props = defineProps(formItemProps);
 const form = inject(formContextKey, null as FormContext | null);
 const { t } = useLocale('form');
 
-const status = ref<'idle' | 'validating' | 'success' | 'error'>('idle');
+const status = ref<FormValidateStatus>('idle');
 const msg = ref('');
 const requiredMark = ref(false);
 
 function rules(): FormRule[] {
-  if (!props.prop || !form?.rules) return [];
-  const r = form.rules[props.prop];
-  return r ? (Array.isArray(r) ? r : [r]) : [];
+  return getFormFieldRules(form?.rules, props.prop);
 }
 function computeReq() {
-  if (props.required !== undefined) return props.required;
-  return rules().some(r => r.required);
+  return resolveFormItemRequired({
+    explicitRequired: props.required,
+    rules: rules(),
+  });
 }
 
 async function doValidate(trigger?: 'blur' | 'change') {
   const prop = props.prop;
   if (!prop || !form) return;
-  const list = rules().filter(r => {
-    if (!trigger || !r.trigger) return true;
-    const arr = Array.isArray(r.trigger) ? r.trigger : [r.trigger];
-    return arr.includes(trigger);
-  });
+  const list = filterFormRulesByTrigger(rules(), trigger);
   if (!list.length) {
     status.value = 'success';
     msg.value = '';
@@ -47,52 +52,13 @@ async function doValidate(trigger?: 'blur' | 'change') {
   const val = form.model[prop];
   status.value = 'validating';
   msg.value = '';
-  const errs: ValidateError[] = [];
-  for (const rule of list) {
-    const m: string = rule.message || t<string>('validationFailed');
-    if (rule.required) {
-      const empty =
-        val === undefined ||
-        val === null ||
-        (typeof val === 'string' && val.trim() === '') ||
-        (Array.isArray(val) && !val.length) ||
-        (typeof val === 'number' && isNaN(val));
-      if (empty) {
-        errs.push({ field: prop, message: m, rule });
-        continue;
-      }
-    }
-    if (rule.min != null && typeof val === 'string' && val.length < rule.min) {
-      errs.push({ field: prop, message: m, rule });
-      continue;
-    }
-    if (rule.max != null && typeof val === 'string' && val.length > rule.max) {
-      errs.push({ field: prop, message: m, rule });
-      continue;
-    }
-    if (rule.min != null && typeof val === 'number' && val < rule.min) {
-      errs.push({ field: prop, message: m, rule });
-      continue;
-    }
-    if (rule.max != null && typeof val === 'number' && val > rule.max) {
-      errs.push({ field: prop, message: m, rule });
-      continue;
-    }
-    if (rule.pattern && typeof val === 'string' && !rule.pattern.test(val)) {
-      errs.push({ field: prop, message: m, rule });
-      continue;
-    }
-    if (rule.validator) {
-      try {
-        const r = await rule.validator(val, rule, form.model);
-        if (r === false) errs.push({ field: prop, message: m, rule });
-        else if (typeof r === 'string') errs.push({ field: prop, message: r, rule });
-      } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : m;
-        errs.push({ field: prop, message: errorMessage || m, rule });
-      }
-    }
-  }
+  const errs = await validateFormValue({
+    field: prop,
+    value: val,
+    rules: list,
+    model: form.model,
+    fallbackMessage: t<string>('validationFailed'),
+  });
   if (errs.length) {
     status.value = 'error';
     msg.value = errs[0].message;
@@ -112,19 +78,7 @@ const itemCtx: FormItemContext = {
   reset() {
     if (props.prop && form) {
       const v = form.model[props.prop];
-      // 按字段的当前类型正确还原初始值
-      if (Array.isArray(v)) {
-        form.model[props.prop] = [];
-      } else if (typeof v === 'boolean' || v === true || v === false) {
-        form.model[props.prop] = false;
-      } else if (typeof v === 'number') {
-        form.model[props.prop] = 0;
-      } else if (v === null || v === undefined) {
-        // null / undefined 字段保留为 null
-        form.model[props.prop] = null;
-      } else {
-        form.model[props.prop] = '';
-      }
+      form.model[props.prop] = resolveFormItemResetValue(v);
     }
     status.value = 'idle';
     msg.value = '';
@@ -144,8 +98,7 @@ watch(
 
 const labelStyle = computed(() => {
   const w = props.labelWidth || form?.labelWidth;
-  if (!w) return {};
-  return { width: typeof w === 'number' ? `${w}rpx` : w };
+  return resolveFormItemLabelStyle(w);
 });
 
 // 继承表单的 labelAlign
@@ -157,6 +110,14 @@ const isTopLayout = computed(() => resolvedLabelAlign.value === 'top' || props.v
 // 表单是否开启 border/card
 const hasBorder = computed(() => form?.border);
 const style = computed(() => props.customStyle as StyleValue);
+const classes = computed(() => resolveFormItemClass({
+  customClass: props.customClass,
+  status: status.value,
+  labelAlign: resolvedLabelAlign.value,
+  topLayout: isTopLayout.value,
+  border: hasBorder.value,
+  link: props.isLink,
+}));
 
 defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: () => itemCtx.setValidateStatus('idle') });
 </script>
@@ -165,16 +126,7 @@ defineExpose({ validate: doValidate, resetField: itemCtx.reset, clearValidate: (
   <view
     :id="id"
     class="lk-form-item"
-    :class="[
-      customClass,
-      `is-${status}`,
-      `lk-form-item--${resolvedLabelAlign}`,
-      {
-        'lk-form-item--top': isTopLayout,
-        'lk-form-item--border': hasBorder,
-        'lk-form-item--link': isLink,
-      },
-    ]"
+    :class="classes"
     :style="style"
     :data-prop="prop"
   >
