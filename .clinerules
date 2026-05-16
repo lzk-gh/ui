@@ -13,3 +13,7 @@ Mandatory tool use:
 
 Fallback: if MCP tools are unavailable, state that SymbioPulse was unavailable, then use native code search. If `sym_sniff` returns no useful target, continue with native search and still call `sym_form_synapse` after the relevant files are known. Do not invent MCP results.
 <!-- symbiopulse:managed:end -->
+
+# PowerShell Environment Rules
+- In PowerShell (win32), do NOT use `&&` to chain commands. Use `;` instead.
+- Example: `git status; git add .`

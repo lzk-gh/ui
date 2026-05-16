@@ -96,6 +96,7 @@
                 fit="cover"
                 class="product-image"
                 :show-loading="false"
+                :preview="false"
                 :style="{ opacity: loading ? 0 : 1 }"
                 @load="onImageLoad"
                 @error="onImageError"
