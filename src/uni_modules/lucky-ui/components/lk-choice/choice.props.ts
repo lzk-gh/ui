@@ -22,6 +22,8 @@ export const choiceProps = {
   allowUnselect: LkProp.boolean(true),
   /** 间距 (rpx) */
   gap: LkProp.number(20),
+  /** 是否允许选项换行；置于横向滚动容器内时应设为 false */
+  wrap: LkProp.boolean(true),
 } as const;
 
 export const choiceEmits = ['update:modelValue', 'change', 'click'];

@@ -3,11 +3,21 @@
 .lk-choice-container {
   width: 100%;
   overflow: hidden;
+
+  &--nowrap {
+    width: auto;
+    overflow: visible;
+  }
 }
 
 @include b(choice) {
   display: flex;
   flex-wrap: wrap;
+
+  @include m(nowrap) {
+    flex-wrap: nowrap;
+    width: max-content;
+  }
 
   @include e(item) {
     display: inline-flex;
@@ -39,6 +49,13 @@
       color: var(--lk-color-primary);
       font-weight: 600;
       box-shadow: inset 0 0 0 var(--lk-rpx-2) var(--lk-color-primary);
+    }
+  }
+
+  @include m(nowrap) {
+    @include e(item) {
+      flex-shrink: 0;
+      white-space: nowrap;
     }
   }
 

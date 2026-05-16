@@ -7,6 +7,7 @@ import {
   isChoiceSelected,
   resolveChoiceContainerStyle,
   resolveChoiceItemClass,
+  resolveChoiceRootClass,
   resolveChoiceSelection,
   type ChoiceOption,
   type ChoiceValue,
@@ -52,11 +53,16 @@ function itemClass(option: ChoiceOption) {
     selected: isSelected(option.value),
   });
 }
+
+const rootClass = computed(() => resolveChoiceRootClass({
+  wrap: props.wrap,
+  customClass: props.customClass,
+}));
 </script>
 
 <template>
-  <view class="lk-choice-container">
-    <view class="lk-choice" :class="customClass" :style="containerStyle">
+  <view class="lk-choice-container" :class="{ 'lk-choice-container--nowrap': !wrap }">
+    <view :class="rootClass" :style="containerStyle">
       <view
         v-for="(opt, index) in options"
         :key="index"

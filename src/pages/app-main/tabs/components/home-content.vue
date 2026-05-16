@@ -43,9 +43,11 @@
                 />
               </view>
             </lk-input>
-            <lk-button class="filter-trigger" height="100" @click="showFilter = true">
-              <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" />
-            </lk-button>
+            <view class="filter-trigger-wrap">
+              <lk-button class="filter-trigger" @click="showFilter = true">
+                <lk-icon name="sliders" size="32" color="var(--test-text-inverse)" />
+              </lk-button>
+            </view>
           </view>
 
           <!-- 分类标签 -->
@@ -57,6 +59,7 @@
               "
               size="lg"
               :gap="30"
+              :wrap="false"
             />
           </lk-horizontal-scroll>
         </view>
@@ -405,16 +408,21 @@ const goToDetail = (_item: WaterfallItem) => {
   margin-bottom: 40rpx;
   flex-shrink: 0;
 
-  .filter-trigger {
+  .filter-trigger-wrap {
     flex: 0 0 100rpx;
     width: 100rpx;
-    height: 100rpx;
     min-height: 100rpx;
-    min-width: 100rpx;
-    padding: 0;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .filter-trigger {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
     box-sizing: border-box;
   }
 

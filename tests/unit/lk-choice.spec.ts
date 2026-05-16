@@ -3,6 +3,7 @@ import {
   isChoiceSelected,
   resolveChoiceContainerStyle,
   resolveChoiceItemClass,
+  resolveChoiceRootClass,
   resolveChoiceSelection,
 } from '../../src/uni_modules/lucky-ui/components/lk-choice/choice.utils';
 
@@ -71,6 +72,20 @@ describe('lk-choice selection rules', () => {
       'lk-choice__item',
       'lk-choice__item--lg',
       { 'is-selected': true },
+    ]);
+  });
+
+  it('builds root classes from wrap and custom class', () => {
+    expect(resolveChoiceRootClass({ wrap: true, customClass: 'tag-row' })).toEqual([
+      'lk-choice',
+      { 'lk-choice--nowrap': false },
+      'tag-row',
+    ]);
+
+    expect(resolveChoiceRootClass({ wrap: false, customClass: '' })).toEqual([
+      'lk-choice',
+      { 'lk-choice--nowrap': true },
+      '',
     ]);
   });
 });

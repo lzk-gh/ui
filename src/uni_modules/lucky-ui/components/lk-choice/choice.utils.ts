@@ -77,6 +77,17 @@ export function resolveChoiceContainerStyle(options: {
   };
 }
 
+export function resolveChoiceRootClass(options: {
+  wrap: boolean;
+  customClass: unknown;
+}) {
+  return [
+    'lk-choice',
+    { 'lk-choice--nowrap': !options.wrap },
+    options.customClass,
+  ];
+}
+
 export function resolveChoiceItemClass(options: {
   size: string;
   selected: boolean;
