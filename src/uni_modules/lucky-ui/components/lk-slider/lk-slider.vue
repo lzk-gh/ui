@@ -214,6 +214,7 @@ function onTouchEnd(e?: Event | SliderPointerEvent) {
   draggingIndex.value = -1;
   const finalVal = commitChange();
   emit('dragend', finalVal, index, e);
+  emit('drag-release', finalVal);
 }
 
 async function onTrackClick(e: Event | SliderPointerEvent) {

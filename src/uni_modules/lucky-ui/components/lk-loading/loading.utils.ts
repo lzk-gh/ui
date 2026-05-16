@@ -22,8 +22,22 @@ export function resolveLoadingRootClass(options: {
   ];
 }
 
-export function resolveLoadingRootStyle(color: string) {
-  return { '--_color': color };
+export function resolveLoadingRootStyle(options: {
+  color: string;
+  showTrack: boolean;
+  trackColor: string;
+}) {
+  const style: any = {
+    '--_color': options.color,
+  };
+
+  if (!options.showTrack) {
+    style['--_track-color'] = 'transparent';
+  } else if (options.trackColor) {
+    style['--_track-color'] = options.trackColor;
+  }
+
+  return style;
 }
 
 export function resolveLoadingSquareStyle(size: string | number) {

@@ -24,7 +24,11 @@ const rootClass = computed(() => resolveLoadingRootClass({
   type: _type.value,
   vertical: props.vertical,
 }));
-const rootStyle = computed(() => resolveLoadingRootStyle(props.color));
+const rootStyle = computed(() => resolveLoadingRootStyle({
+  color: props.color,
+  showTrack: props.showTrack,
+  trackColor: props.trackColor,
+}));
 const squareStyle = computed(() => resolveLoadingSquareStyle(props.size));
 const heightStyle = computed(() => resolveLoadingHeightStyle(props.size));
 const barStyle = computed(() => resolveLoadingBarStyle(props.size));
@@ -52,6 +56,15 @@ const showBottomText = computed(() => shouldRenderLoadingText({
       class="lk-loading__spinner"
       :style="squareStyle"
     ></view>
+
+    <!-- Circular -->
+    <view
+      v-else-if="_type === 'circular'"
+      class="lk-loading__circular"
+      :style="squareStyle"
+    >
+      <view class="lk-loading__circular-dot"></view>
+    </view>
 
     <!-- Dots -->
     <view

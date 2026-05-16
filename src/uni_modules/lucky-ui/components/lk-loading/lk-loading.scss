@@ -23,13 +23,43 @@
   }
 
   @include e(spinner) {
-    border: var(--lk-rpx-6) solid var(--lk-color-border-light);
+    border: var(--lk-rpx-6) solid var(--_track-color, var(--lk-color-border-light));
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;
     display: inline-block;
     box-sizing: border-box;
     flex-shrink: 0;
+  }
+
+  @include e(circular) {
+    position: relative;
+    border-radius: 50%;
+    border: var(--lk-rpx-4) solid var(--_track-color, var(--lk-color-border-light));
+    box-sizing: border-box;
+    flex-shrink: 0;
+
+    @include e(circular-dot) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: lk-spin 1s linear infinite;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: calc(var(--lk-rpx-4) * -1);
+        left: 50%;
+        width: var(--lk-rpx-8);
+        height: var(--lk-rpx-8);
+        background: var(--_color);
+        border-radius: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 var(--lk-rpx-8) var(--_color);
+      }
+    }
   }
 
   @include e(dots) {
@@ -140,7 +170,7 @@
   }
 
   @include e(ring) {
-    border: var(--lk-rpx-4) solid var(--lk-color-border-light);
+    border: var(--lk-rpx-4) solid var(--_track-color, var(--lk-color-border-light));
     border-top-color: var(--_color);
     border-radius: 50%;
     animation: lk-spin 0.8s linear infinite;

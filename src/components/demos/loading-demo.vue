@@ -58,6 +58,19 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
     <demo-block title="环形样式">
       <view class="loading-row">
         <lk-loading type="ring" text="环形加载" />
+        <lk-loading variant="circular" text="Circular" />
+      </view>
+    </demo-block>
+
+    <demo-block title="环型轨道背景">
+      <view class="loading-row">
+        <lk-loading variant="circular" :show-track="true" text="有轨道" />
+        <lk-loading variant="circular" :show-track="false" text="无轨道" />
+        <lk-loading type="spinner" :show-track="true" text="Spinner" />
+        <lk-loading type="spinner" :show-track="false" text="无轨道" />
+      </view>
+      <view class="loading-row" style="margin-top: 24rpx">
+        <lk-loading variant="circular" track-color="rgba(255, 0, 0, 0.1)" text="自定义轨道色" />
       </view>
     </demo-block>
 

@@ -10,6 +10,14 @@ const vRange = ref([20, 60]);
 const vRangeTooltip = ref([30, 70]);
 const v3 = ref(45);
 const vValue = ref(50);
+const vDrag = ref(30);
+
+const onDragRelease = (val: any) => {
+  uni.showToast({
+    title: `拖拽松开: ${val}`,
+    icon: 'none',
+  });
+};
 </script>
 
 <template>
@@ -18,6 +26,13 @@ const vValue = ref(50);
       <view class="demo-item">
         <lk-slider v-model="v1" />
         <text class="value-text">当前：{{ v1 }}</text>
+      </view>
+    </demo-block>
+
+    <demo-block title="拖拽松开事件 (Drag Release)">
+      <view class="demo-item">
+        <lk-slider v-model="vDrag" @drag-release="onDragRelease" />
+        <text class="value-text">拖拽结束会触发 Toast 提示</text>
       </view>
     </demo-block>
 

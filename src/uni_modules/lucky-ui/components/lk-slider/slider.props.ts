@@ -74,5 +74,6 @@ export const sliderEmits = {
   input: (_val: SliderValue) => true,
   dragstart: (_val: SliderValue, _index: number, _event: unknown) => true,
   dragend: (_val: SliderValue, _index: number, _event: unknown) => true,
+  'drag-release': (_val: SliderValue) => true,
   click: (_val: SliderValue, _event: unknown) => true,
 };

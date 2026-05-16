@@ -38,6 +38,12 @@ export const loadingProps = {
   /** 是否垂直排列 */
   vertical: LkProp.boolean(false),
 
+  /** 是否显示轨道（仅对 circular/spinner 有效） */
+  showTrack: LkProp.boolean(true),
+
+  /** 轨道颜色 */
+  trackColor: LkProp.string(''),
+
   /** 加载文字 */
   text: LkProp.string(''),
 } as const;
