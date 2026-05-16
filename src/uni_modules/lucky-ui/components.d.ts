@@ -60,6 +60,7 @@ declare module '@vue/runtime-core' {
     LkWaterfall: typeof import('./components/lk-waterfall/lk-waterfall.vue')['default']
     LkWatermark: typeof import('./components/lk-watermark/lk-watermark.vue')['default']
     LkCarousel: typeof import('./components/lk-carousel/lk-carousel.vue')['default']
+    LkCarouselItem: typeof import('./components/lk-carousel/lk-carousel-item.vue')['default']
     LkCalendar: typeof import('./components/lk-calendar/lk-calendar.vue')['default']
     LkCalendarPicker: typeof import('./components/lk-calendar-picker/lk-calendar-picker.vue')['default']
     LkBacktop: typeof import('./components/lk-backtop/lk-backtop.vue')['default']

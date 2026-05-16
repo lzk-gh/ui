@@ -108,6 +108,7 @@ export { default as LkWatermark } from './lk-watermark/lk-watermark.vue';
 export * from './lk-watermark/watermark.props';
 
 export { default as LkCarousel } from './lk-carousel/lk-carousel.vue';
+export { default as LkCarouselItem } from './lk-carousel/lk-carousel-item.vue';
 export * from './lk-carousel/carousel.props';
 export { default as LkCalendar } from './lk-calendar/lk-calendar.vue';
 export * from './lk-calendar/calendar.props';

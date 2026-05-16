@@ -111,9 +111,9 @@ const goToSettings = () => {
         </view>
       </view>
 
-      <lk-space direction="vertical" :gap="36">
+      <lk-space direction="vertical" :gap="24">
         <!-- 统计数据 -->
-        <lk-card class="stats-card" padding="34rpx 24rpx" shadow="base" @click="goToAnalytics">
+        <lk-card class="stats-card" padding="24rpx 20rpx" shadow="base" @click="goToAnalytics">
           <view class="stats-row">
             <view v-for="(stat, i) in stats" :key="i" class="stat-item">
               <text class="stat-value">{{ stat.value }}</text>
@@ -123,7 +123,7 @@ const goToSettings = () => {
         </lk-card>
 
         <!-- 快捷入口 -->
-        <lk-card class="quick-entry section-card" padding="20rpx" shadow="sm">
+        <lk-card class="quick-entry section-card" padding="16rpx" shadow="sm">
           <lk-grid :columns="2" :border="false">
             <view class="entry-item" @click="goToCheckIn">
               <lk-icon name="calendar-check" size="40" color="var(--test-primary)" />
@@ -137,7 +137,7 @@ const goToSettings = () => {
         </lk-card>
 
         <!-- 订单状态 -->
-        <lk-card class="section-card" padding="30rpx" shadow="sm" overflow="visible">
+        <lk-card class="section-card" padding="24rpx" shadow="sm" overflow="visible">
           <template #header>
             <text class="section-title">My Orders</text>
           </template>
@@ -155,7 +155,7 @@ const goToSettings = () => {
         </lk-card>
 
         <!-- 菜单项 -->
-        <lk-card shadow="sm">
+        <lk-card shadow="sm" padding="0">
           <lk-cell-group>
             <lk-cell
               title="Edit Profile"
@@ -170,7 +170,7 @@ const goToSettings = () => {
           </lk-cell-group>
         </lk-card>
 
-        <lk-card shadow="sm">
+        <lk-card shadow="sm" padding="0">
           <lk-cell-group>
             <lk-cell
               title="Theme Management"
@@ -222,6 +222,10 @@ const goToSettings = () => {
 @use '@/styles/test-page.scss' as test;
 
 .mine-content {
+  --mine-inset-x: #{30rpx};
+  --mine-section-gap: #{24rpx};
+  --mine-profile-to-cards: #{40rpx};
+
   background-color: test.$test-bg-page;
   position: relative;
   flex: 1;
@@ -243,7 +247,7 @@ const goToSettings = () => {
 .content-wrap {
   position: relative;
   z-index: 1;
-  padding: 40rpx 40rpx 140rpx;
+  padding: 32rpx var(--mine-inset-x) 120rpx;
 }
 
 .profile-header {
@@ -251,7 +255,7 @@ const goToSettings = () => {
   flex-direction: column;
   align-items: center;
   margin-top: calc(env(safe-area-inset-top) + 56rpx);
-  margin-bottom: 40rpx;
+  margin-bottom: var(--mine-profile-to-cards);
 
   .user-name {
     font-size: 40rpx;
@@ -338,14 +342,14 @@ const goToSettings = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20rpx;
-  padding: 20rpx;
+  gap: 16rpx;
+  padding: 16rpx;
   font-size: 26rpx;
   font-weight: bold;
   color: test.$test-text-primary;
 }
 
 .logout-btn-wrap {
-  margin-block: 60rpx;
+  margin-block: 40rpx;
 }
 </style>
