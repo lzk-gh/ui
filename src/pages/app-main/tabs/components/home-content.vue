@@ -7,9 +7,9 @@
       class="home-waterfall"
       :items="products"
       :height="contentHeight"
-      :gutter="16"
-      :row-gap="20"
-      :padding-x="20"
+      gutter="32rpx"
+      row-gap="40rpx"
+      padding-x="30rpx"
       :padding-y="0"
       card-radius="24"
       @load-more="handleLoadMore"
@@ -51,6 +51,7 @@
           </view>
 
           <!-- 分类标签 -->
+          <view class="category-section">
           <lk-horizontal-scroll hide-scrollbar>
             <lk-choice
               v-model="activeCategory"
@@ -62,6 +63,7 @@
               :wrap="false"
             />
           </lk-horizontal-scroll>
+          </view>
         </view>
       </template>
 
@@ -343,6 +345,10 @@ const goToDetail = (_item: WaterfallItem) => {
 @use '@/styles/test-page.scss' as test;
 
 .home-content {
+  --home-inset-x: #{30rpx};
+  --home-section-gap: #{40rpx};
+  --home-inline-gap: #{20rpx};
+
   background-color: test.$test-bg-page;
   box-sizing: border-box;
   display: flex;
@@ -372,7 +378,7 @@ const goToDetail = (_item: WaterfallItem) => {
 }
 
 .header-container {
-  padding: 30rpx 30rpx 20rpx;
+  padding: var(--home-inset-x) var(--home-inset-x) 0;
   flex-shrink: 0;
 }
 
@@ -380,7 +386,7 @@ const goToDetail = (_item: WaterfallItem) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40rpx;
+  margin-bottom: var(--home-section-gap);
   flex-shrink: 0;
 
   .user-info {
@@ -404,8 +410,8 @@ const goToDetail = (_item: WaterfallItem) => {
 .search-section {
   display: flex;
   align-items: stretch;
-  gap: 20rpx;
-  margin-bottom: 40rpx;
+  gap: var(--home-inline-gap);
+  margin-bottom: var(--home-section-gap);
   flex-shrink: 0;
 
   .filter-trigger-wrap {
@@ -460,6 +466,11 @@ const goToDetail = (_item: WaterfallItem) => {
       }
     }
   }
+}
+
+.category-section {
+  margin-bottom: var(--home-section-gap);
+  flex-shrink: 0;
 }
 
 .home-content--no-list-animation {

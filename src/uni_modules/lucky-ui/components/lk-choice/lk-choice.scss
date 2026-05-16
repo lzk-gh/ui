@@ -17,6 +17,7 @@
   @include m(nowrap) {
     flex-wrap: nowrap;
     width: max-content;
+    gap: var(--lk-choice-gap);
   }
 
   @include e(item) {
@@ -56,6 +57,7 @@
     @include e(item) {
       flex-shrink: 0;
       white-space: nowrap;
+      margin: 0;
     }
   }
 

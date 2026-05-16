@@ -59,11 +59,22 @@ describe('lk-choice selection rules', () => {
   it('builds container style from gap and object custom style', () => {
     expect(resolveChoiceContainerStyle({
       gap: 20,
+      wrap: true,
       customStyle: { color: 'red' },
     })).toEqual({
       margin: '-10rpx',
       '--lk-choice-gap': '20rpx',
       color: 'red',
+    });
+
+    expect(resolveChoiceContainerStyle({
+      gap: 30,
+      wrap: false,
+      customStyle: '',
+    })).toEqual({
+      margin: 0,
+      gap: '30rpx',
+      '--lk-choice-gap': '30rpx',
     });
   });
 

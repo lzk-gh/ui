@@ -60,12 +60,20 @@ export function resolveChoiceSelection(options: {
 
 export function resolveChoiceContainerStyle(options: {
   gap: number;
+  wrap: boolean;
   customStyle: StyleValue;
 }): CSSProperties {
-  const style: CSSProperties = {
-    margin: `-${options.gap / 2}rpx`,
-    '--lk-choice-gap': `${options.gap}rpx`,
-  };
+  const gapToken = `${options.gap}rpx`;
+  const style: CSSProperties = options.wrap
+    ? {
+        margin: `-${options.gap / 2}rpx`,
+        '--lk-choice-gap': gapToken,
+      }
+    : {
+        margin: 0,
+        gap: gapToken,
+        '--lk-choice-gap': gapToken,
+      };
   const customStyle =
     typeof options.customStyle === 'object' && options.customStyle !== null && !Array.isArray(options.customStyle)
       ? options.customStyle as CSSProperties

@@ -44,6 +44,7 @@ function handleSelect(option: ChoiceOption) {
 
 const containerStyle = computed(() => resolveChoiceContainerStyle({
   gap: props.gap || 0,
+  wrap: props.wrap,
   customStyle: props.customStyle as StyleValue,
 }));
 
