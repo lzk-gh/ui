@@ -18,6 +18,7 @@ export interface ResolveTagClassOptions {
 }
 
 export function expandShortHex(hex: string): string {
+  if (typeof hex !== 'string') return '';
   return hex
     .split('')
     .map((char) => char + char)
@@ -25,7 +26,9 @@ export function expandShortHex(hex: string): string {
 }
 
 export function toSoftColor(color: string): string {
+  if (typeof color !== 'string') return '';
   const value = color.trim();
+  if (!value) return '';
   const hex = value.replace('#', '');
   const normalized = hex.length === 3 ? expandShortHex(hex) : hex;
 
@@ -37,16 +40,21 @@ export function toSoftColor(color: string): string {
   }
 
   const rgb = value.match(/^rgba?\(([^)]+)\)$/i);
-  if (rgb) {
-    const [r, g, b] = rgb[1].split(',').map((part) => part.trim());
-    if (r && g && b) return `rgba(${r}, ${g}, ${b}, 0.12)`;
+  if (rgb && rgb[1]) {
+    const parts = rgb[1].split(',');
+    if (parts.length >= 3) {
+      const [r, g, b] = parts.map((part) => part.trim());
+      if (r && g && b) return `rgba(${r}, ${g}, ${b}, 0.12)`;
+    }
   }
 
   return color;
 }
 
 export function resolveTagSemanticColor(color: string): { text: string; bg: string } {
+  if (typeof color !== 'string') return { text: '', bg: '' };
   const value = color.trim();
+  if (!value) return { text: '', bg: '' };
   const colorMap: Record<string, { text: string; bg: string }> = {
     primary: {
       text: 'var(--lk-brand-600)',

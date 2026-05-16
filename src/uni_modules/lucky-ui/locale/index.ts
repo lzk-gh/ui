@@ -85,6 +85,7 @@ export const Locale = {
     }
   },
   t<T = string>(path: string, ...args: unknown[]): T {
+    if (typeof path !== 'string') return path as any;
     const langMessages = messages[currentLocale.value] || zhHans;
     const value = path.split('.').reduce<unknown>((obj, key) => {
       if (!obj || typeof obj !== 'object') return undefined;

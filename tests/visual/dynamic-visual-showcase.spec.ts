@@ -3,7 +3,7 @@ import { SHOWCASE_CASES } from '../../src/components/showcase/showcase-cases';
 
 const DYNAMIC_VISUAL_CASES = ['carousel', 'chart-lite', 'timeline'] as const;
 const CASES = SHOWCASE_CASES.filter(item => DYNAMIC_VISUAL_CASES.includes(item.slug as never));
-const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages/showcase/index?component=${slug}`;
+const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages_sub/showcase/index?component=${slug}`;
 
 test.describe('dynamic visual showcase baseline', () => {
   test('remaining dynamic visual cases are explicitly tracked', () => {

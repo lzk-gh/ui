@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('按钮加载状态文字和图标颜色保持白色，不随主题切换', async ({ page }) => {
   // 导航到测试页面，携带 component=button
-  await page.goto('http://localhost:5173/pages/showcase/index?component=button');
+  await page.goto('http://localhost:5173/pages_sub/showcase/index?component=button');
   
   // 等待页面加载
   await page.waitForLoadState('networkidle');

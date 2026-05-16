@@ -6,13 +6,6 @@
         "navigationBarTitleText": "Lucky UI",
         "navigationStyle": "custom"
       }
-    },
-    {
-      "path": "pages/showcase/index",
-      "style": {
-        "navigationBarTitleText": "组件展示",
-        "navigationStyle": "custom"
-      }
     }
   ],
   "subPackages": [
@@ -20,6 +13,13 @@
       "root": "pages_sub",
       "name": "sub-pages",
       "pages": [
+        {
+          "path": "showcase/index",
+          "style": {
+            "navigationBarTitleText": "组件展示",
+            "navigationStyle": "custom"
+          }
+        },
         {
           "path": "component-detail/index",
           "style": {

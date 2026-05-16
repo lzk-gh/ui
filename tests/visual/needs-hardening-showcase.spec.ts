@@ -13,7 +13,7 @@ const NEEDS_HARDENING_CASES = [
 ] as const;
 
 const CASES = SHOWCASE_CASES.filter(item => NEEDS_HARDENING_CASES.includes(item.slug as never));
-const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages/showcase/index?component=${slug}`;
+const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages_sub/showcase/index?component=${slug}`;
 
 test.describe('needs-hardening showcase baseline', () => {
   test('medium-risk hardening cases are explicitly tracked', () => {

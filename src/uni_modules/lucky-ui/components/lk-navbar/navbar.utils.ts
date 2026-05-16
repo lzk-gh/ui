@@ -44,8 +44,24 @@ export function resolveNavbarMergedStyle(options: {
 }): StyleValue {
   const style: Record<string, string | number> = { zIndex: options.zIndex };
   if (options.background) style.background = options.background;
+
   if (!options.customStyle) return style;
-  if (typeof options.customStyle === 'string') return [style, options.customStyle];
+
+  // 微信小程序中，如果 customStyle 是对象，手动合并以保证兼容性
+  if (typeof options.customStyle === 'object' && options.customStyle !== null) {
+    if (Array.isArray(options.customStyle)) {
+      let merged = { ...style };
+      options.customStyle.forEach((item) => {
+        if (typeof item === 'object' && item !== null) {
+          merged = { ...merged, ...item };
+        }
+      });
+      return merged;
+    }
+    return { ...style, ...options.customStyle };
+  }
+
+  // 字符串类型交由框架处理，通常使用数组包裹即可，避开手动 split
   return [style, options.customStyle];
 }
 

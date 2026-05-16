@@ -3,7 +3,7 @@ import { SHOWCASE_CASES } from '../../src/components/showcase/showcase-cases';
 
 const VISUAL_CASES = SHOWCASE_CASES.filter(item => item.visualEnabled);
 
-const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages/showcase/index?component=${slug}`;
+const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages_sub/showcase/index?component=${slug}`;
 
 for (const componentCase of VISUAL_CASES) {
   test(`截图对比 - ${componentCase.slug}`, async ({ page }) => {

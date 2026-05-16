@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test';
 
 test('LkCard ripple effect', async ({ page }) => {
-  await page.goto('/pages/showcase/index'); // 假设在这里导航到 card demo
+  await page.goto('/pages_sub/showcase/index'); // 假设在这里导航到 card demo
   
   // 查找启用了 ripple 的卡片
   const card = page.locator('.lk-card.lk-ripple').first();

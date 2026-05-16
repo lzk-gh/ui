@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { SHOWCASE_CASES } from '../../src/components/showcase/showcase-cases';
 
 const HIGH_RISK_CASES = SHOWCASE_CASES.filter(item => item.riskLevel === 'high');
-const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages/showcase/index?component=${slug}`;
+const getShowcaseUrl = (slug: string) => `/?component=${slug}#/pages_sub/showcase/index?component=${slug}`;
 
 test.describe('high-risk showcase baseline', () => {
   test('high-risk cases are explicitly tracked', () => {

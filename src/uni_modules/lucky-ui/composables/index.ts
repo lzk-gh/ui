@@ -13,7 +13,4 @@ export type {
   ChartSize,
 } from './useChartCanvas';
 
-export { usePagePullRefresh } from './usePagePullRefresh';
-export type { UsePagePullRefreshOptions } from './usePagePullRefresh';
-
 export { useLocale } from './useLocale';
