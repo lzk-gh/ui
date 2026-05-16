@@ -6,6 +6,9 @@ import { ref, computed, readonly } from 'vue';
 
 export type Theme = 'light' | 'dark';
 
+/** 无本地记录时的默认主题 */
+export const DEFAULT_THEME: Theme = 'dark';
+
 const THEME_STORAGE_KEY = 'lk-theme';
 const BRAND_COLOR_STORAGE_KEY = 'lk-brand-color';
 const DEFAULT_BRAND_COLOR = '#6965db';
@@ -21,7 +24,7 @@ function readStorageValue(key: string): unknown {
 function readStoredTheme(): Theme {
   const savedTheme = readStorageValue(THEME_STORAGE_KEY);
   if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
-  return getSystemTheme();
+  return DEFAULT_THEME;
 }
 
 function readStoredBrandColor(): string {
@@ -103,29 +106,6 @@ function persistData() {
   } catch (e) {
     console.error('Theme persistence failed', e);
   }
-}
-
-/**
- * 检测系统主题偏好
- */
-function getSystemTheme(): Theme {
-  // #ifdef MP
-  try {
-    const systemInfo = uni.getSystemInfoSync();
-    if (systemInfo.theme === 'dark' || systemInfo.theme === 'light') {
-      return systemInfo.theme;
-    }
-  } catch {
-    // System theme is optional; fallback keeps theme deterministic.
-  }
-  // #endif
-
-  // #ifdef H5
-  if (typeof window !== 'undefined' && window.matchMedia) {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-  // #endif
-  return 'light';
 }
 
 /**

@@ -30,7 +30,8 @@ import {
   type CarouselChangeSource,
   type CarouselSwiperChangeEventLike,
 } from './carousel.utils';
-import lkCarouselItem from './lk-carousel-item.vue';
+
+defineOptions({ name: 'LkCarousel' });
 
 const props = defineProps(carouselProps);
 const emit = defineEmits(carouselEmits);
@@ -260,9 +261,14 @@ onMounted(() => {
           <template v-if="hasDefaultSlot">
             <slot :item="item" :index="index" />
           </template>
-          <template v-else>
-            <lk-carousel-item :src="item" />
-          </template>
+          <view v-else class="lk-carousel__slide">
+            <image
+              class="lk-carousel__slide-image"
+              :src="String(item)"
+              mode="aspectFill"
+              :draggable="false"
+            />
+          </view>
         </view>
       </swiper-item>
     </swiper>

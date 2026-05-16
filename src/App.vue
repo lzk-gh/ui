@@ -12,10 +12,8 @@ import { LK_ICONS_WOFF_BASE64 } from '@/uni_modules/lucky-ui/components/lk-icon/
 try {
   const savedTheme = uni.getStorageSync('lk-theme');
   const savedBrandColor = uni.getStorageSync('lk-brand-color');
-  const prefersDark =
-    typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches;
   const initialTheme =
-    savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : prefersDark ? 'dark' : 'light';
+    savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'dark';
   if (typeof document !== 'undefined') {
     const root = document.documentElement;
     root.classList.add('lk-theme-booting');

@@ -16,8 +16,15 @@ const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
 const brandStyleVars = computed(() => themeStore.brandStyleVars);
 
-// Tab 配置
+// Tab 配置（预览 Tab 置首，便于首屏展示组件库）
 const tabConfig: TabConfig[] = [
+  {
+    id: 'overview',
+    label: '预览',
+    icon: 'grid',
+    activeIconFill: true,
+    keepAlive: true,
+  },
   {
     id: 'home',
     label: '首页',
@@ -47,21 +54,22 @@ const tabConfig: TabConfig[] = [
     activeIconFill: true,
     keepAlive: true,
   },
-  {
-    id: 'overview',
-    label: '预览',
-    icon: 'grid',
-    activeIconFill: true,
-    keepAlive: true,
-  },
 ];
 
-// 所有平台统一使用静态导入，避免 App 端 iife 格式不兼容 code-splitting
-tabConfig[0].component = markRaw(HomeTab);
-tabConfig[1].component = markRaw(CartTab);
-tabConfig[2].component = markRaw(DetailTab);
-tabConfig[3].component = markRaw(MineTab);
-tabConfig[4].component = markRaw(OverviewTab);
+const tabComponents: Record<string, typeof HomeTab> = {
+  overview: OverviewTab,
+  home: HomeTab,
+  cart: CartTab,
+  detail: DetailTab,
+  mine: MineTab,
+};
+
+tabConfig.forEach((tab) => {
+  const component = tabComponents[tab.id];
+  if (component) {
+    tab.component = markRaw(component);
+  }
+});
 
 const handleTabChange = (tabId: string) => {
   console.log('[App] Tab changed to:', tabId);
@@ -78,10 +86,13 @@ const handleTabChange = (tabId: string) => {
     <lk-tabbar-container
       :tabs="tabConfig"
       :mode="themeStore.tabbarMode"
-      default-tab="home"
+      default-tab="overview"
       @change="handleTabChange"
     >
       <!-- #ifdef MP-WEIXIN -->
+      <template #tab-overview>
+        <overview-tab />
+      </template>
       <template #tab-home>
         <home-tab />
       </template>
@@ -93,9 +104,6 @@ const handleTabChange = (tabId: string) => {
       </template>
       <template #tab-mine>
         <mine-tab />
-      </template>
-      <template #tab-overview>
-        <overview-tab />
       </template>
       <!-- #endif -->
     </lk-tabbar-container>

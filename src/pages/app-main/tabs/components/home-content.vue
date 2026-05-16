@@ -346,8 +346,8 @@ const goToDetail = (_item: WaterfallItem) => {
 
 .home-content {
   --home-inset-x: #{30rpx};
-  --home-section-gap: #{40rpx};
-  --home-inline-gap: #{20rpx};
+  --home-section-gap: #{26rpx};
+  --home-inline-gap: #{16rpx};
 
   background-color: test.$test-bg-page;
   box-sizing: border-box;
