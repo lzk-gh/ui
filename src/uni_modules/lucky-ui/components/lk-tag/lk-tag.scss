@@ -46,7 +46,7 @@
 
   @include m(solid) {
     background: var(--lk-color-primary);
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
   }
 
   @include m(outline) {

@@ -4,7 +4,7 @@
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--test-bg-card, var(--lk-color-bg-container, #fff));
+  --_bg: var(--test-bg-card, var(--lk-color-bg-container, var(--lk-color-white)));
   --_radius: var(--lk-radius-lg, 24rpx);
   --_title-fs: var(--lk-rpx-34, 34rpx);
   --_subtitle-fs: var(--lk-font-size-sm, 24rpx);

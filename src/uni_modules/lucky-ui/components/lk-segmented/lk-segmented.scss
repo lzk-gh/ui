@@ -13,7 +13,7 @@
   --lk-seg-track-bg: var(--lk-color-fill-tertiary);
   --lk-seg-slider-bg: var(--lk-color-primary);
   --lk-seg-text: var(--lk-color-primary);
-  --lk-seg-text-active: var(--lk-color-text-inverse);
+  --lk-seg-text-active: var(--lk-color-white);
   --lk-seg-text-disabled: var(--lk-color-text-placeholder, rgba(0, 0, 0, 0.35));
 
   position: relative;
@@ -108,5 +108,6 @@
 
   @include e(label) {
     line-height: 1;
+    color: inherit;
   }
 }

@@ -15,7 +15,7 @@
   position: absolute;
   max-width: var(--lk-rpx-320);
   padding: var(--lk-rpx-8) var(--lk-rpx-16);
-  color: var(--lk-chart-tooltip-color, var(--lk-color-text-inverse));
+  color: var(--lk-chart-tooltip-color, var(--lk-color-white));
   background: var(--lk-chart-tooltip-bg, var(--lk-color-text));
   border-radius: var(--lk-radius-sm);
   font-size: var(--lk-font-size-xs);

@@ -14,12 +14,12 @@
   --lk-upload-mask-bg: var(--lk-overlay-bg);
   --lk-upload-mask-surface-bg: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
   --lk-upload-mask-surface-text: var(--lk-color-text);
-  --lk-upload-mask-text: var(--lk-color-text-inverse);
+  --lk-upload-mask-text: var(--lk-color-white);
   --lk-upload-del-bg: var(--lk-color-fill-secondary);
   --lk-upload-del-border: var(--lk-color-border-light);
   --lk-upload-del-icon-color: var(--lk-color-text-secondary);
   --lk-upload-status-bg: var(--lk-color-success);
-  --lk-upload-status-icon-color: var(--lk-color-text-inverse);
+  --lk-upload-status-icon-color: var(--lk-color-white);
 
   display: flex;
   flex-wrap: wrap;

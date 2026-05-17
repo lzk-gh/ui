@@ -222,7 +222,7 @@ watch(
           :style="activeBgStyle"
         >
           <view class="tabbar-float-orb__inner">
-            <lk-icon :name="resolveTabIcon(activeTab)" size="44" />
+            <lk-icon :name="resolveTabIcon(activeTab)" size="44" color="white" />
           </view>
         </view>
 
@@ -450,7 +450,7 @@ $tabbar-safe-area-bottom: var(
     border-radius: 50%;
     background: var(--lk-color-primary);
     box-shadow: 0 var(--lk-rpx-10) var(--lk-rpx-28) rgba(var(--lk-brand-rgb), 0.36);
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
     box-sizing: border-box;
   }
 }
@@ -591,10 +591,10 @@ $tabbar-safe-area-bottom: var(
     }
 
     .lk-tabbar-container--block & {
-      color: var(--lk-color-text-inverse);
+      color: var(--lk-color-white);
       .tabbar-item__icon,
       .tabbar-item__label {
-        color: var(--lk-color-text-inverse) !important;
+        color: var(--lk-color-white) !important;
       }
     }
   }
@@ -630,7 +630,7 @@ $tabbar-safe-area-bottom: var(
     font-size: var(--lk-font-size-xs);
     line-height: calc(var(--lk-spacing-md) * 2);
     text-align: center;
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
     background: var(--lk-color-danger);
     border-radius: var(--lk-radius-md);
   }

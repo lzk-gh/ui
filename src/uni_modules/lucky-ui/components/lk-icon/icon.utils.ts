@@ -10,6 +10,8 @@ export const iconSemanticColorMap: Record<string, string> = {
   textPlaceholder: 'var(--lk-color-text-placeholder)',
   textDisabled: 'var(--lk-color-text-disabled)',
   textInverse: 'var(--lk-color-text-inverse)',
+  white: 'var(--lk-color-white)',
+  black: 'var(--lk-color-black)',
 };
 
 export function resolveIconColor(color: string): string {

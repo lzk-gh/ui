@@ -252,7 +252,7 @@
     }
 
     &.is-selected {
-      color: #ffffff;
+      color: var(--lk-color-white);
     }
 
     &.is-week-mode {
@@ -323,7 +323,7 @@
   }
 
   @include e(marker-label) {
-    color: #ffffff;
+    color: var(--lk-color-white);
     font-size: var(--lk-rpx-16);
     font-weight: var(--lk-font-weight-bold);
     line-height: var(--lk-rpx-18);

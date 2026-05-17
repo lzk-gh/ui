@@ -153,6 +153,10 @@ page {
   --lk-z-index-notify: 2100;
   --lk-z-index-loading: 2200;
 
+  /* === 基础色彩（不随主题变化） === */
+  --lk-color-white: #ffffff;
+  --lk-color-black: #000000;
+
   /* === 品牌色（支持运行时覆盖）=== */
   --lk-brand-100: #{colors.$color-brand-100};
   --lk-brand-200: #{colors.$color-brand-200};
@@ -289,12 +293,12 @@ page,
   --lk-switch-size-lg: 64rpx;
   --lk-switch-color-on: var(--lk-color-primary);
   --lk-switch-color-off: var(--lk-fill-1);
-  --lk-switch-knob-color: #ffffff;
+  --lk-switch-knob-color: var(--lk-color-white);
 
   /* === 滑块 === */
   --lk-slider-track-color: var(--lk-fill-1);
   --lk-slider-fill-color: var(--lk-color-primary);
-  --lk-slider-thumb-color: #ffffff;
+  --lk-slider-thumb-color: var(--lk-color-white);
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 
   /* === 评分 === */
@@ -321,7 +325,7 @@ page,
 
   /* === 预加载调试器 === */
   --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
-  --lk-preload-debugger-text: #ffffff;
+  --lk-preload-debugger-text: var(--lk-color-white);
   --lk-preload-debugger-text-muted: rgba(255, 255, 255, 0.6);
   --lk-preload-debugger-text-faint: rgba(255, 255, 255, 0.4);
   --lk-preload-debugger-border: rgba(255, 255, 255, 0.1);
@@ -334,12 +338,12 @@ page,
   /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
   --lk-checkbox-checked-color: var(--lk-color-primary);
-  --lk-checkbox-check-color: #ffffff;
+  --lk-checkbox-check-color: var(--lk-color-white);
 
   /* === 单选框 === */
   --lk-radio-border-color: var(--lk-color-border);
   --lk-radio-checked-color: var(--lk-color-primary);
-  --lk-radio-check-color: #ffffff;
+  --lk-radio-check-color: var(--lk-color-white);
 }
 
 /* =============================================================================
@@ -461,12 +465,12 @@ page,
   --lk-switch-size-lg: 64rpx;
   --lk-switch-color-on: var(--lk-color-primary);
   --lk-switch-color-off: var(--lk-fill-1);
-  --lk-switch-knob-color: #ffffff;
+  --lk-switch-knob-color: var(--lk-color-white);
 
   /* === 滑块 === */
   --lk-slider-track-color: var(--lk-fill-1);
   --lk-slider-fill-color: var(--lk-color-primary);
-  --lk-slider-thumb-color: #ffffff;
+  --lk-slider-thumb-color: var(--lk-color-white);
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 
   /* === 评分 === */
@@ -493,7 +497,7 @@ page,
 
   /* === 预加载调试器 === */
   --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
-  --lk-preload-debugger-text: #ffffff;
+  --lk-preload-debugger-text: var(--lk-color-white);
   --lk-preload-debugger-text-muted: rgba(255, 255, 255, 0.7);
   --lk-preload-debugger-text-faint: rgba(255, 255, 255, 0.45);
   --lk-preload-debugger-border: rgba(255, 255, 255, 0.16);
@@ -506,12 +510,12 @@ page,
   /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
   --lk-checkbox-checked-color: var(--lk-color-primary);
-  --lk-checkbox-check-color: #ffffff;
+  --lk-checkbox-check-color: var(--lk-color-white);
 
   /* === 单选框 === */
   --lk-radio-border-color: var(--lk-color-border);
   --lk-radio-checked-color: var(--lk-color-primary);
-  --lk-radio-check-color: #ffffff;
+  --lk-radio-check-color: var(--lk-color-white);
 }
 
 /* =============================================================================
@@ -546,8 +550,8 @@ page,
   --lk-chart-card-bg: var(--lk-color-bg-container);
   --lk-chart-card-border: var(--lk-color-border-light);
   --lk-chart-card-shadow: var(--lk-shadow-sm);
-  --lk-chart-tooltip-bg: var(--lk-color-text);
-  --lk-chart-tooltip-color: var(--lk-color-text-inverse);
+  --lk-chart-tooltip-bg: var(--lk-color-black);
+  --lk-chart-tooltip-color: var(--lk-color-white);
 
   /* 圆角 */
   --lk-radius-pill: var(--lk-radius-full);

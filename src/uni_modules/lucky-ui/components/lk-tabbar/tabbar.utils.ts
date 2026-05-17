@@ -147,7 +147,7 @@ export function resolveTabbarIconColor(options: {
   activeColor: string;
   inactiveColor: string;
 }): string {
-  if (options.bump) return 'var(--lk-color-text-inverse)';
+  if (options.bump) return 'var(--lk-color-white)';
   if (options.active) return options.activeColor || 'var(--lk-color-primary)';
   return options.inactiveColor || 'var(--lk-color-text-secondary)';
 }

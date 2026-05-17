@@ -189,7 +189,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     margin: 0;
     margin-top: calc(var(--lk-control-height-xs) * -1); // 向上突出
     z-index: 10;
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
     border-radius: 50%;
 
     // 凸起项始终显示为激活态颜色
@@ -201,7 +201,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     .lk-tabbar-item__label {
       position: relative;
       z-index: 2;
-      color: var(--lk-color-text-inverse);
+      color: var(--lk-color-white);
     }
 
     // 点击缩放回弹效果
@@ -295,7 +295,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
     font-weight: 500;
     line-height: calc(var(--lk-spacing-md) * 2);
     text-align: center;
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
     background-color: var(--lk-color-danger);
     border-radius: var(--lk-radius-md);
     box-sizing: border-box;

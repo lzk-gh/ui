@@ -151,12 +151,11 @@
       }
     }
 
-    /* 数字样式 */
     @include e(indicator-number) {
       padding: var(--lk-spacing-xxs) var(--lk-spacing-sm);
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
-      color: var(--lk-color-text-inverse);
+      color: var(--lk-color-white);
       border-radius: var(--lk-radius-full);
       font-size: var(--lk-font-size-xs);
       font-weight: 500;

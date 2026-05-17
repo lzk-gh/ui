@@ -165,7 +165,7 @@ function onClick() {
         :style="closeStyle"
         @tap.stop="onClose"
       >
-        <lk-icon name="x-lg" size="32" color="var(--lk-color-text-inverse)" />
+        <lk-icon name="x-lg" size="32" color="white" />
       </view>
     </view>
   </view>

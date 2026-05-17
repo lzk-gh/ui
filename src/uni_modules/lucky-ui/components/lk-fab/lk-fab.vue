@@ -330,7 +330,7 @@ const currentIcon = computed(() => resolveFabCurrentIcon({
       <!-- 主按钮 -->
       <view :class="mainClass">
         <view class="lk-fab__icon" :style="iconStyle">
-          <LkIcon :name="currentIcon" :size="48" />
+          <LkIcon :name="currentIcon" :size="48" color="white" />
         </view>
       </view>
     </view>

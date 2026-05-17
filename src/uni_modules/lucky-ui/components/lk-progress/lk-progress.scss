@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
     font-size: var(--lk-rpx-20);
     transition: width var(--lk-transition-base);
     backface-visibility: hidden;
@@ -100,7 +100,7 @@
 
   @include e(text-in) {
     font-size: var(--lk-rpx-20);
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
     padding: 0 var(--lk-spacing-xxs);
     white-space: nowrap;
   }

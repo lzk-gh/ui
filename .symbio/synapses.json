@@ -1,1 +1,788 @@
-{}
+{
+  "token:3309a7a7941818e131b4dfb9a6349914": {
+    "intent_hash": "token:3309a7a7941818e131b4dfb9a6349914",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804778
+  },
+  "token:94a08da1fecbb6e8b46990538c7b50b2": {
+    "intent_hash": "token:94a08da1fecbb6e8b46990538c7b50b2",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 63.0,
+    "last_accessed": 1779039639.2325573
+  },
+  "token:6b0577221eaf8e2533447339a50f404e": {
+    "intent_hash": "token:6b0577221eaf8e2533447339a50f404e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804801
+  },
+  "token:1fc0d7c7ba4bdb7abcba0ea37ff673d7": {
+    "intent_hash": "token:1fc0d7c7ba4bdb7abcba0ea37ff673d7",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804816
+  },
+  "token:c76a5e84e4bdee527e274ea30c680d79": {
+    "intent_hash": "token:c76a5e84e4bdee527e274ea30c680d79",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804823
+  },
+  "token:baec6461b0d69dde1b861aefbe375d8a": {
+    "intent_hash": "token:baec6461b0d69dde1b861aefbe375d8a",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 19.5,
+    "last_accessed": 1779036343.2839403
+  },
+  "antigen:9869f598b75252f5848b955e14c3c195": {
+    "intent_hash": "antigen:9869f598b75252f5848b955e14c3c195",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804847
+  },
+  "token:d229bbf31eaeebc7c88897732d8b932d": {
+    "intent_hash": "token:d229bbf31eaeebc7c88897732d8b932d",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804854
+  },
+  "token:dd47e21793c3e4493d24a10e132c93db": {
+    "intent_hash": "token:dd47e21793c3e4493d24a10e132c93db",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804863
+  },
+  "token:5dd2199ad68327cc76d583b057aee7d5": {
+    "intent_hash": "token:5dd2199ad68327cc76d583b057aee7d5",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.280487
+  },
+  "token:06d3aecc98edbb4cb9566d03d551bbb6": {
+    "intent_hash": "token:06d3aecc98edbb4cb9566d03d551bbb6",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.280488
+  },
+  "token:d508fe45cecaf653904a0e774084bb5c": {
+    "intent_hash": "token:d508fe45cecaf653904a0e774084bb5c",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 31.5,
+    "last_accessed": 1779036459.7709627
+  },
+  "token:5db8dca30c2d7f0c2bc225ae852c5053": {
+    "intent_hash": "token:5db8dca30c2d7f0c2bc225ae852c5053",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804894
+  },
+  "token:4f6f68a9f66cbd4f1ac6ca3362bf6dc4": {
+    "intent_hash": "token:4f6f68a9f66cbd4f1ac6ca3362bf6dc4",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.28049
+  },
+  "token:e4cc87d350eb0d4adedc28a1f466e8b9": {
+    "intent_hash": "token:e4cc87d350eb0d4adedc28a1f466e8b9",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.280491
+  },
+  "token:1cb251ec0d568de6a929b520c4aed8d1": {
+    "intent_hash": "token:1cb251ec0d568de6a929b520c4aed8d1",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 42.0,
+    "last_accessed": 1779039123.1658762
+  },
+  "token:10bf08f0bbd6689475be65b4ae441bd9": {
+    "intent_hash": "token:10bf08f0bbd6689475be65b4ae441bd9",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 24.0,
+    "last_accessed": 1779036673.332751
+  },
+  "token:ddbfc1b6aa0ad4d79c5dac7aa3b44888": {
+    "intent_hash": "token:ddbfc1b6aa0ad4d79c5dac7aa3b44888",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804947
+  },
+  "token:636ea2faf6b757798e5ffb0369a57d13": {
+    "intent_hash": "token:636ea2faf6b757798e5ffb0369a57d13",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 33.0,
+    "last_accessed": 1779037464.3826203
+  },
+  "token:0a64bcb656ca6609b4b367e243dec230": {
+    "intent_hash": "token:0a64bcb656ca6609b4b367e243dec230",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804966
+  },
+  "token:5b0af0243223a45fea5e35e46a5bcb13": {
+    "intent_hash": "token:5b0af0243223a45fea5e35e46a5bcb13",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804973
+  },
+  "token:ec03f91ae56e478455e3786e91559194": {
+    "intent_hash": "token:ec03f91ae56e478455e3786e91559194",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804983
+  },
+  "token:37b51d194a7513e45b56f6524f2d51f2": {
+    "intent_hash": "token:37b51d194a7513e45b56f6524f2d51f2",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804987
+  },
+  "token:e4d23e841d8e8804190027bce3180fa5": {
+    "intent_hash": "token:e4d23e841d8e8804190027bce3180fa5",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2804995
+  },
+  "token:3c709b10a5d47ba33d85337dd9110917": {
+    "intent_hash": "token:3c709b10a5d47ba33d85337dd9110917",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2805
+  },
+  "token:70dda5dfb8053dc6d1c492574bce9bfd": {
+    "intent_hash": "token:70dda5dfb8053dc6d1c492574bce9bfd",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 31.5,
+    "last_accessed": 1779036459.7709672
+  },
+  "token:6e3df1e2bccb9e5eea0d1822814ed45f": {
+    "intent_hash": "token:6e3df1e2bccb9e5eea0d1822814ed45f",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 33.0,
+    "last_accessed": 1779037464.3826208
+  },
+  "eeec97ff49570d74086da11ed00d4b92": {
+    "intent_hash": "eeec97ff49570d74086da11ed00d4b92",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2805023
+  },
+  "token:b1bc248a7ff2b2e95569f56de68615df": {
+    "intent_hash": "token:b1bc248a7ff2b2e95569f56de68615df",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779035821.2805028
+  },
+  "token:a3c2e491e2711c6da2be0b01a1420d7f": {
+    "intent_hash": "token:a3c2e491e2711c6da2be0b01a1420d7f",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.2839315
+  },
+  "token:4bbb5c8b9e0649dd8569d550c348af6f": {
+    "intent_hash": "token:4bbb5c8b9e0649dd8569d550c348af6f",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.2839327
+  },
+  "antigen:a2542e706ec5743fc680f92643127061": {
+    "intent_hash": "antigen:a2542e706ec5743fc680f92643127061",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.2839336
+  },
+  "token:92cfbdb7dd906a8905d938e9342ff135": {
+    "intent_hash": "token:92cfbdb7dd906a8905d938e9342ff135",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.283935
+  },
+  "token:8552b73a9cafc420d8c27ef7698912a7": {
+    "intent_hash": "token:8552b73a9cafc420d8c27ef7698912a7",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.283936
+  },
+  "token:57d184f0ceab3885e6634f0eaca92340": {
+    "intent_hash": "token:57d184f0ceab3885e6634f0eaca92340",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.283937
+  },
+  "a389aec3abd028d512903663f2daa50e": {
+    "intent_hash": "a389aec3abd028d512903663f2daa50e",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.2839394
+  },
+  "token:9e89951c38afed9279a11544f2ffcd41": {
+    "intent_hash": "token:9e89951c38afed9279a11544f2ffcd41",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.283941
+  },
+  "token:1ffd9e753c8054cc61456ac7fac1ac89": {
+    "intent_hash": "token:1ffd9e753c8054cc61456ac7fac1ac89",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.283942
+  },
+  "token:36521bd2899a53624d375530f97d0e30": {
+    "intent_hash": "token:36521bd2899a53624d375530f97d0e30",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-icon/icon.utils.ts",
+    "weight": 4.5,
+    "last_accessed": 1779036343.2839427
+  },
+  "token:8d34cfffdf9f464593e56e31f492d7fe": {
+    "intent_hash": "token:8d34cfffdf9f464593e56e31f492d7fe",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709572
+  },
+  "token:130a360689f8d613da10c94d53527a1b": {
+    "intent_hash": "token:130a360689f8d613da10c94d53527a1b",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 34.5,
+    "last_accessed": 1779037464.3826149
+  },
+  "token:a91c78e040f7b9d158f381e197f8beb4": {
+    "intent_hash": "token:a91c78e040f7b9d158f381e197f8beb4",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 27.0,
+    "last_accessed": 1779039123.1658778
+  },
+  "antigen:a6156b4290af5d98c53cba29a67f2d26": {
+    "intent_hash": "antigen:a6156b4290af5d98c53cba29a67f2d26",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.77096
+  },
+  "token:a5e5b41b6d7efa650eab1735e605653d": {
+    "intent_hash": "token:a5e5b41b6d7efa650eab1735e605653d",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709606
+  },
+  "token:dcdd1274f35ac5a8573e07b0582ad92c": {
+    "intent_hash": "token:dcdd1274f35ac5a8573e07b0582ad92c",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.770961
+  },
+  "token:b2145aac704ce76dbe1ac7adac535b23": {
+    "intent_hash": "token:b2145aac704ce76dbe1ac7adac535b23",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709622
+  },
+  "token:f560e48a65ee7f725e50f38f3359ba77": {
+    "intent_hash": "token:f560e48a65ee7f725e50f38f3359ba77",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709632
+  },
+  "token:388a56dbb62a010dc26a378981346247": {
+    "intent_hash": "token:388a56dbb62a010dc26a378981346247",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.770964
+  },
+  "token:a14fa2166ed698f3d04061f57e5ab9b9": {
+    "intent_hash": "token:a14fa2166ed698f3d04061f57e5ab9b9",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.770965
+  },
+  "8cf0047592e833342fb3bd387a2c89e6": {
+    "intent_hash": "8cf0047592e833342fb3bd387a2c89e6",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709656
+  },
+  "token:604de9c3f0eb443de2c21c8d6dfd570b": {
+    "intent_hash": "token:604de9c3f0eb443de2c21c8d6dfd570b",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.770966
+  },
+  "token:478bba9350388de9a1fdf6475272b1ee": {
+    "intent_hash": "token:478bba9350388de9a1fdf6475272b1ee",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709665
+  },
+  "token:76ee3de97a1b8b903319b7c013d8c877": {
+    "intent_hash": "token:76ee3de97a1b8b903319b7c013d8c877",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709668
+  },
+  "token:2a8ba00dec48537db375f27c9f864f38": {
+    "intent_hash": "token:2a8ba00dec48537db375f27c9f864f38",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709675
+  },
+  "token:e54ac8a3670287de8d7437ec612828b3": {
+    "intent_hash": "token:e54ac8a3670287de8d7437ec612828b3",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.770968
+  },
+  "token:cc18899823959f3020f5f7b1fd5a7cd5": {
+    "intent_hash": "token:cc18899823959f3020f5f7b1fd5a7cd5",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779036459.7709684
+  },
+  "antigen:4dccdb43d45238b74a2ba03483071b2e": {
+    "intent_hash": "antigen:4dccdb43d45238b74a2ba03483071b2e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.3327477
+  },
+  "token:aa895ddefbb5ea04a56c078ba23fa45e": {
+    "intent_hash": "token:aa895ddefbb5ea04a56c078ba23fa45e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.3327503
+  },
+  "token:ce50a09343724eb82df11390e2c1de18": {
+    "intent_hash": "token:ce50a09343724eb82df11390e2c1de18",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.332752
+  },
+  "token:66e44938dd018e5a9941daf98a52a02e": {
+    "intent_hash": "token:66e44938dd018e5a9941daf98a52a02e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.3327525
+  },
+  "token:837ccd817f30f33fe794be015b75e0e9": {
+    "intent_hash": "token:837ccd817f30f33fe794be015b75e0e9",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.332753
+  },
+  "cbb79565a59c940940fa152608b2f8ef": {
+    "intent_hash": "cbb79565a59c940940fa152608b2f8ef",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.332754
+  },
+  "token:bd6d488aae0fbac08ca5fb3064f4b23b": {
+    "intent_hash": "token:bd6d488aae0fbac08ca5fb3064f4b23b",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779036673.3327544
+  },
+  "token:a0e7b2a565119c0a7ec3126a16016113": {
+    "intent_hash": "token:a0e7b2a565119c0a7ec3126a16016113",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 30.0,
+    "last_accessed": 1779038185.891987
+  },
+  "token:f101560cd3a60ccf403a4b17bd03886f": {
+    "intent_hash": "token:f101560cd3a60ccf403a4b17bd03886f",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 13.5,
+    "last_accessed": 1779037464.3826165
+  },
+  "token:50517adfbee3053b172368d6260a2fa9": {
+    "intent_hash": "token:50517adfbee3053b172368d6260a2fa9",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 13.5,
+    "last_accessed": 1779037464.382618
+  },
+  "antigen:012cb04ba090305132bb125942b28ebf": {
+    "intent_hash": "antigen:012cb04ba090305132bb125942b28ebf",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 13.5,
+    "last_accessed": 1779037464.3826187
+  },
+  "ace759bc4d4fd4a9ebfcc5e5a636a3a8": {
+    "intent_hash": "ace759bc4d4fd4a9ebfcc5e5a636a3a8",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 13.5,
+    "last_accessed": 1779037464.3826194
+  },
+  "token:f77eb714587c458cff6a3311857ce6ac": {
+    "intent_hash": "token:f77eb714587c458cff6a3311857ce6ac",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 13.5,
+    "last_accessed": 1779037464.3826218
+  },
+  "token:c823700d7dc707620d9bb628be856c7b": {
+    "intent_hash": "token:c823700d7dc707620d9bb628be856c7b",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 13.5,
+    "last_accessed": 1779037464.3826234
+  },
+  "81cbb9f66ad0dd12fd523e734e07eb04": {
+    "intent_hash": "81cbb9f66ad0dd12fd523e734e07eb04",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779037588.2071676
+  },
+  "token:8c9219ebcd2e737fd4d06048f07b5307": {
+    "intent_hash": "token:8c9219ebcd2e737fd4d06048f07b5307",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779037588.2071686
+  },
+  "token:f1965a4636989fcb7d3ceb4fb907414c": {
+    "intent_hash": "token:f1965a4636989fcb7d3ceb4fb907414c",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779037588.207169
+  },
+  "token:4c093c074827523a5e36642b4ff79bc6": {
+    "intent_hash": "token:4c093c074827523a5e36642b4ff79bc6",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779037588.2071695
+  },
+  "antigen:e8bc539da00cc8b8ca9b2bcd45f397f9": {
+    "intent_hash": "antigen:e8bc539da00cc8b8ca9b2bcd45f397f9",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779037588.20717
+  },
+  "token:0bba1a7f7d9cfb96fa181c3110fb090c": {
+    "intent_hash": "token:0bba1a7f7d9cfb96fa181c3110fb090c",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779037588.2071707
+  },
+  "token:b48f9115125a356f2d32fde1fd846740": {
+    "intent_hash": "token:b48f9115125a356f2d32fde1fd846740",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.891975
+  },
+  "antigen:8413fbb9c013cc00d4bfe0a2957380f0": {
+    "intent_hash": "antigen:8413fbb9c013cc00d4bfe0a2957380f0",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919764
+  },
+  "token:5903718e1aa71376a6330b8b9cebf51b": {
+    "intent_hash": "token:5903718e1aa71376a6330b8b9cebf51b",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919792
+  },
+  "token:3030b805176e421ff769782623f071a6": {
+    "intent_hash": "token:3030b805176e421ff769782623f071a6",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919802
+  },
+  "token:8cf608d0c1031807d877c3d5a330a0a5": {
+    "intent_hash": "token:8cf608d0c1031807d877c3d5a330a0a5",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919823
+  },
+  "62f50439bb087b2ca8a90d0a7ce1c666": {
+    "intent_hash": "62f50439bb087b2ca8a90d0a7ce1c666",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919833
+  },
+  "token:2805ba35a46fd703543fb61625cd9393": {
+    "intent_hash": "token:2805ba35a46fd703543fb61625cd9393",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919845
+  },
+  "token:1332d126530c792b57eedd2de804b98e": {
+    "intent_hash": "token:1332d126530c792b57eedd2de804b98e",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 7.5,
+    "last_accessed": 1779038185.8919854
+  },
+  "token:71654efcb42c782b10f40f05876aa5e4": {
+    "intent_hash": "token:71654efcb42c782b10f40f05876aa5e4",
+    "target_filepath": "src/uni_modules/lucky-ui/components/lk-tabbar-container/lk-tabbar-container.vue",
+    "weight": 15.0,
+    "last_accessed": 1779038889.4493382
+  },
+  "token:32a9736d8dafd8d9e2e9605eb26e90c1": {
+    "intent_hash": "token:32a9736d8dafd8d9e2e9605eb26e90c1",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493327
+  },
+  "token:ff4a008470319a22d9cf3d14af485977": {
+    "intent_hash": "token:ff4a008470319a22d9cf3d14af485977",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493337
+  },
+  "token:0d4a21b5bb4bad61cbd66418fb4f03c5": {
+    "intent_hash": "token:0d4a21b5bb4bad61cbd66418fb4f03c5",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493344
+  },
+  "fe25dafb3829a707c665a785a405deee": {
+    "intent_hash": "fe25dafb3829a707c665a785a405deee",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493349
+  },
+  "antigen:c0c2c0e116d6b47018713f1293db4666": {
+    "intent_hash": "antigen:c0c2c0e116d6b47018713f1293db4666",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493356
+  },
+  "token:5cde9aad32f032f6f0d00389b6af361b": {
+    "intent_hash": "token:5cde9aad32f032f6f0d00389b6af361b",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493363
+  },
+  "token:7233e0709c8461e49cc22bf210fde6e4": {
+    "intent_hash": "token:7233e0709c8461e49cc22bf210fde6e4",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493368
+  },
+  "token:58c18a77fbf595a6b3746d7a743d892e": {
+    "intent_hash": "token:58c18a77fbf595a6b3746d7a743d892e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779038889.4493375
+  },
+  "token:602f08e9091adf3646bc3400fc6195c2": {
+    "intent_hash": "token:602f08e9091adf3646bc3400fc6195c2",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658742
+  },
+  "token:845a9c3a3e9b850db73d1d669b7be0c0": {
+    "intent_hash": "token:845a9c3a3e9b850db73d1d669b7be0c0",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658757
+  },
+  "token:5eb94171f089d8b7f026ed978fce1a8b": {
+    "intent_hash": "token:5eb94171f089d8b7f026ed978fce1a8b",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658764
+  },
+  "token:bbe90393779defc85d02512560b11584": {
+    "intent_hash": "token:bbe90393779defc85d02512560b11584",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.165877
+  },
+  "token:f451700dc288f8df83243c3fd25f250f": {
+    "intent_hash": "token:f451700dc288f8df83243c3fd25f250f",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658783
+  },
+  "75d797a25d232d25ff7af14d671da91e": {
+    "intent_hash": "75d797a25d232d25ff7af14d671da91e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.165879
+  },
+  "antigen:32643e9a70c6ab6e223d962ebd63d5d7": {
+    "intent_hash": "antigen:32643e9a70c6ab6e223d962ebd63d5d7",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658797
+  },
+  "token:3c68f51f07775960be3044314a52c072": {
+    "intent_hash": "token:3c68f51f07775960be3044314a52c072",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658807
+  },
+  "token:9913107b19cb6012250134ff91377430": {
+    "intent_hash": "token:9913107b19cb6012250134ff91377430",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 7.5,
+    "last_accessed": 1779039123.1658812
+  },
+  "token:af7f9805c7d7433b9f9c5b0d10cdc700": {
+    "intent_hash": "token:af7f9805c7d7433b9f9c5b0d10cdc700",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.4766183
+  },
+  "364893a12862c5eabc70d3515cc423d3": {
+    "intent_hash": "364893a12862c5eabc70d3515cc423d3",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.4766192
+  },
+  "token:f4d3af137930921e8d7d1ee67c186866": {
+    "intent_hash": "token:f4d3af137930921e8d7d1ee67c186866",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.47662
+  },
+  "token:96ce59f5a52b420baf960e461925c94e": {
+    "intent_hash": "token:96ce59f5a52b420baf960e461925c94e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.476621
+  },
+  "token:15d61712450a686a7f365adf4fef581f": {
+    "intent_hash": "token:15d61712450a686a7f365adf4fef581f",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.4766214
+  },
+  "token:a82fd95db10ff25dfad39f07372ebe37": {
+    "intent_hash": "token:a82fd95db10ff25dfad39f07372ebe37",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.476622
+  },
+  "token:66cfd225989f05ce1bf861a14863c211": {
+    "intent_hash": "token:66cfd225989f05ce1bf861a14863c211",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.4766228
+  },
+  "antigen:664311093aee473cd73b7f6036482876": {
+    "intent_hash": "antigen:664311093aee473cd73b7f6036482876",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039257.4766238
+  },
+  "token:346007a606e851d867b6bae4f1bad6d7": {
+    "intent_hash": "token:346007a606e851d867b6bae4f1bad6d7",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 19.5,
+    "last_accessed": 1779039639.2325602
+  },
+  "antigen:4eb50ba77234d79fa9b88cef3f812d1e": {
+    "intent_hash": "antigen:4eb50ba77234d79fa9b88cef3f812d1e",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039403.3418055
+  },
+  "token:88e05ca2f6324208bbc1043eec74b42a": {
+    "intent_hash": "token:88e05ca2f6324208bbc1043eec74b42a",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039403.3418067
+  },
+  "dbb3ed05d9908e7bf7258cfe072b0774": {
+    "intent_hash": "dbb3ed05d9908e7bf7258cfe072b0774",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039403.3418074
+  },
+  "token:805dda72a3c2e5866b9f225c7c9173fc": {
+    "intent_hash": "token:805dda72a3c2e5866b9f225c7c9173fc",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039403.3418078
+  },
+  "token:a2c888380f797262756c89a3b769a245": {
+    "intent_hash": "token:a2c888380f797262756c89a3b769a245",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 9.0,
+    "last_accessed": 1779039403.3418083
+  },
+  "antigen:7d6a16753417050e89abe64db83cbea5": {
+    "intent_hash": "antigen:7d6a16753417050e89abe64db83cbea5",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779039515.7126887
+  },
+  "token:2d1d33afd7d24ff6fa9114c4d448e4d6": {
+    "intent_hash": "token:2d1d33afd7d24ff6fa9114c4d448e4d6",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779039515.7126899
+  },
+  "token:2ffc1d2028ac5a27639864ac2cc5c399": {
+    "intent_hash": "token:2ffc1d2028ac5a27639864ac2cc5c399",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779039515.7126906
+  },
+  "token:339a65e93299ad8d72c42b263aa23117": {
+    "intent_hash": "token:339a65e93299ad8d72c42b263aa23117",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779039515.7126918
+  },
+  "ccfe8fb055bfd543e0ccc56538b1495a": {
+    "intent_hash": "ccfe8fb055bfd543e0ccc56538b1495a",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779039515.7126925
+  },
+  "token:e993f73fe538d4c81722e65424741042": {
+    "intent_hash": "token:e993f73fe538d4c81722e65424741042",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 12.0,
+    "last_accessed": 1779039515.7126932
+  },
+  "b55e3920aea213197dfc2936fd3d7633": {
+    "intent_hash": "b55e3920aea213197dfc2936fd3d7633",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 10.5,
+    "last_accessed": 1779039639.2325583
+  },
+  "token:6746e23ab0e4dc5232972bcec7ed4727": {
+    "intent_hash": "token:6746e23ab0e4dc5232972bcec7ed4727",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 10.5,
+    "last_accessed": 1779039639.2325592
+  },
+  "token:4f7ecdf4629aeb2b8fd881df82ca04a5": {
+    "intent_hash": "token:4f7ecdf4629aeb2b8fd881df82ca04a5",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 10.5,
+    "last_accessed": 1779039639.2325594
+  },
+  "antigen:575012037a7f7f49980fa2f4a36aef36": {
+    "intent_hash": "antigen:575012037a7f7f49980fa2f4a36aef36",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 10.5,
+    "last_accessed": 1779039639.2325609
+  },
+  "token:a3ded254a0470d5bbd4448691a6d87ab": {
+    "intent_hash": "token:a3ded254a0470d5bbd4448691a6d87ab",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779039842.596138
+  },
+  "token:79667b49ddaa7126d11ba361febcf7e7": {
+    "intent_hash": "token:79667b49ddaa7126d11ba361febcf7e7",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779039842.5961392
+  },
+  "antigen:6761f2344662f9cff14bf6e47830cb31": {
+    "intent_hash": "antigen:6761f2344662f9cff14bf6e47830cb31",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779039842.5961404
+  },
+  "token:90030eae80632f0be34bf01c98794cf4": {
+    "intent_hash": "token:90030eae80632f0be34bf01c98794cf4",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779039842.5961413
+  },
+  "4a4d4efcd194c5e53d5aa934ad2d49d3": {
+    "intent_hash": "4a4d4efcd194c5e53d5aa934ad2d49d3",
+    "target_filepath": "src/uni_modules/lucky-ui/theme/src/component-vars.scss",
+    "weight": 15.0,
+    "last_accessed": 1779039842.596142
+  }
+}

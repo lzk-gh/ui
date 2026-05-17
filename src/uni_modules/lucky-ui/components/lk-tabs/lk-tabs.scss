@@ -206,7 +206,7 @@
 
       @include when(active) {
         background-color: var(--lk-tabs-active-color);
-        color: var(--lk-color-text-inverse);
+        color: var(--lk-color-white);
         box-shadow: var(--lk-shadow-sm);
       }
     }

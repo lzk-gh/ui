@@ -189,7 +189,7 @@
     // 确认键
     @include m(confirm) {
       background: var(--kb-accent);
-      color: var(--lk-color-text-inverse);
+      color: var(--lk-color-white);
       border-color: transparent;
 
       &:active {

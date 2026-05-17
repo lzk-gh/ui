@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(button) {
   --_h: var(--lk-control-height-md);
@@ -7,7 +7,7 @@
   --_radius: var(--lk-radius-md);
 
   --_bg: var(--lk-color-primary);
-  --_color: #ffffff;
+  --_color: var(--lk-color-white);
   --_border: 0px solid transparent;
   --_opacity-disabled: 0.6;
 
@@ -37,13 +37,13 @@
 
   // 暗黑模式适配
   @at-root .lk-theme-dark & {
-    --_color: #ffffff;
+    --_color: var(--lk-color-white);
     
     // 确保其它变体在暗黑模式下文字也默认为白色（覆盖 var(--lk-text-primary) 的 #e1e1e1）
     &.lk-button--outline,
     &.lk-button--soft,
     &.lk-button--text {
-      --_color: #ffffff;
+      --_color: var(--lk-color-white);
     }
   }
 
@@ -149,8 +149,8 @@
   }
 
   @include when(loading) {
-    --_color: #ffffff !important;
-    color: #ffffff !important;
+    --_color: var(--lk-color-white) !important;
+    color: var(--lk-color-white) !important;
     background-color: var(--_bg) !important;
     cursor: wait;
 

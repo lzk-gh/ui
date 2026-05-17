@@ -35,7 +35,7 @@
   }
 
   @include when(has-background) {
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-color-white);
 
     .lk-navbar__title,
     .lk-navbar__subtitle,
