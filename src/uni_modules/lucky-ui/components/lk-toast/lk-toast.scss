@@ -20,6 +20,56 @@
     bottom: 8%;
   }
 
+  @include m(primary) {
+    @include e(inner) {
+      background: var(--lk-color-primary-soft);
+      border-color: var(--lk-color-primary);
+    }
+    @include e(text) {
+      color: var(--lk-color-primary);
+    }
+  }
+
+  @include m(success) {
+    @include e(inner) {
+      background: var(--lk-color-success-soft);
+      border-color: var(--lk-color-success);
+    }
+    @include e(text) {
+      color: var(--lk-color-success);
+    }
+  }
+
+  @include m(warning) {
+    @include e(inner) {
+      background: var(--lk-color-warning-soft);
+      border-color: var(--lk-color-warning);
+    }
+    @include e(text) {
+      color: var(--lk-color-warning);
+    }
+  }
+
+  @include m(error) {
+    @include e(inner) {
+      background: var(--lk-color-danger-soft);
+      border-color: var(--lk-color-danger);
+    }
+    @include e(text) {
+      color: var(--lk-color-danger);
+    }
+  }
+
+  @include m(info) {
+    @include e(inner) {
+      background: var(--lk-color-info-soft);
+      border-color: var(--lk-color-info);
+    }
+    @include e(text) {
+      color: var(--lk-color-info);
+    }
+  }
+
   @include e(overlay) {
     position: fixed;
     left: 0;

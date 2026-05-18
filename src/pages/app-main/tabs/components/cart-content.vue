@@ -22,7 +22,8 @@ const showMorePopup = ref(false);
 const navHeaderPaddingTop = ref('0rpx');
 
 const goBack = () => {
-  uni.switchTab({ url: '/pages/tabbar/home/index' });
+  // 切换到首页 tab
+  uni.switchTab({ url: '/pages/app-main/index' });
 };
 
 const handleMoreAction = (type: string) => {
@@ -30,26 +31,29 @@ const handleMoreAction = (type: string) => {
   uni.showToast({ title: `Action: ${type}`, icon: 'none' });
 };
 
-const cartItems = ref([
+const quotes = ref([
   {
-    title: 'Modern light clothes',
-    sub: 'Dress modern',
-    price: '212.99',
-    count: 4,
-    image: 'https://picsum.photos/200/200?random=11',
+    title: 'Believe in yourself',
+    sub: 'Your limitation—it’s only your imagination.',
+    author: 'Inspiration',
+    icon: 'lightning-fill',
+    image: 'https://picsum.photos/200/200?random=21',
   },
   {
-    title: 'Modern light clothes',
-    sub: 'Dress modern',
-    price: '162.99',
-    count: 1,
-    image: 'https://picsum.photos/200/200?random=12',
+    title: 'Push yourself',
+    sub: 'Great things never come from comfort zones.',
+    author: 'Success',
+    icon: 'trophy-fill',
+    image: 'https://picsum.photos/200/200?random=22',
+  },
+  {
+    title: 'Stay Focused',
+    sub: 'Dream it. Wish it. Do it.',
+    author: 'Action',
+    icon: 'target',
+    image: 'https://picsum.photos/200/200?random=23',
   },
 ]);
-
-const handlePay = () => {
-  uni.showToast({ title: '准备支付...', icon: 'loading' });
-};
 
 onMounted(() => {
   // #ifdef MP-WEIXIN
@@ -70,11 +74,11 @@ onMounted(() => {
     <!-- 固定导航栏（移出 scroll-view ，避免滚动时消失） -->
     <view class="nav-header" :style="{ paddingTop: navHeaderPaddingTop }">
       <view class="icon-btn" @click="goBack">
-        <lk-icon name="chevron-left" size="40" color="var(--test-text-primary)" />
+        <lk-icon name="house-door" size="40" color="var(--test-text-primary)" />
       </view>
-      <text class="nav-title">Checkout</text>
+      <text class="nav-title">Daily Wisdom</text>
       <view class="icon-btn" @click="showMorePopup = true">
-        <lk-icon name="three-dots" size="40" color="var(--test-text-primary)" />
+        <lk-icon name="heart" size="40" color="var(--test-text-primary)" />
       </view>
     </view>
 
@@ -89,39 +93,39 @@ onMounted(() => {
       <view class="drag-handle"></view>
       <view class="popup-menu-content">
         <lk-cell
-          title="Select All Items"
-          icon="check-all"
+          title="Share All Wisdom"
+          icon="share"
           clickable
           border
-          @click="handleMoreAction('select-all')"
+          @click="handleMoreAction('share')"
         />
         <lk-cell
-          title="Clear Cart"
-          icon="trash"
+          title="Refresh Quotes"
+          icon="arrow-clockwise"
           clickable
           border
-          @click="handleMoreAction('clear')"
+          @click="handleMoreAction('refresh')"
         />
         <lk-cell
-          title="Manage Vouchers"
-          icon="ticket-perforated"
+          title="My Favorites"
+          icon="heart"
           clickable
           border
-          @click="handleMoreAction('voucher')"
+          @click="handleMoreAction('fav')"
         />
         <lk-cell
-          title="Shipping Support"
-          icon="headset"
+          title="Support Us"
+          icon="emoji-smile"
           clickable
           @click="handleMoreAction('support')"
         />
       </view>
     </lk-popup>
 
-    <!-- 商品列表 -->
+    <!-- 励志语录列表 -->
     <view class="cart-items">
       <lk-card
-        v-for="(item, index) in cartItems"
+        v-for="(item, index) in quotes"
         :key="index"
         class="cart-item"
         padding="24rpx"
@@ -136,50 +140,34 @@ onMounted(() => {
                 <text class="item-title">{{ item.title }}</text>
                 <text class="item-sub">{{ item.sub }}</text>
               </view>
-              <lk-icon name="three-dots" size="32" color="var(--test-text-secondary)" />
+              <lk-icon :name="item.icon" size="32" color="var(--test-primary)" />
             </view>
             <view class="item-footer">
-              <text class="item-price">${{ item.price }}</text>
-              <view class="stepper-wrap">
-                <lk-stepper v-model="item.count" :min="1" />
-              </view>
+              <text class="item-author">By {{ item.author }}</text>
             </view>
           </view>
         </view>
       </lk-card>
     </view>
 
-    <!-- 配送信息 -->
+    <!-- 精选推荐 -->
     <lk-card
       class="section-container"
-      title="Shipping Information"
+      title="Personal Growth"
       padding="0"
       shadow="none"
       transparent
     >
       <lk-cell-group>
         <lk-cell
-          title="VISA"
-          label="Primary"
-          value="**** **** **** 2143"
-          icon="credit-card-fill"
+          title="Daily Goals"
+          label="Incomplete"
+          value="Keep Going!"
+          icon="list-check"
           arrow
         />
       </lk-cell-group>
     </lk-card>
-
-    <!-- 金额结算 -->
-    <lk-cell-group class="bill-container" card>
-      <lk-cell title="Total (9 items)" value="$1,014.95" />
-      <lk-cell title="Shipping Fee" value="$0.00" />
-      <lk-cell title="Discount" value="$0.00" />
-      <lk-cell class="subtotal" title="Sub Total" value="$1,014.95" />
-    </lk-cell-group>
-
-    <!-- 支付按钮 -->
-    <view class="footer-btn">
-      <lk-button type="primary" block radius="55" height="110" @click="handlePay">Pay</lk-button>
-    </view>
 
     <view class="safe-area-bottom"></view>
     </scroll-view>
@@ -282,13 +270,13 @@ onMounted(() => {
 
     .item-footer {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
 
-      .item-price {
-        font-size: 32rpx;
-        font-weight: bold;
-        color: test.$test-text-primary;
+      .item-author {
+        font-size: 24rpx;
+        font-style: italic;
+        color: test.$test-primary;
       }
     }
   }
@@ -296,21 +284,6 @@ onMounted(() => {
 
 .section-container {
   margin-bottom: 60rpx;
-}
-
-.bill-container {
-  margin-bottom: 60rpx;
-
-  :deep(.subtotal .lk-cell__title),
-  :deep(.subtotal .lk-cell__value) {
-    color: test.$test-text-primary;
-    font-weight: bold;
-    font-size: 34rpx;
-  }
-}
-
-.footer-btn {
-  padding: 20rpx 0;
 }
 
 .safe-area-bottom {

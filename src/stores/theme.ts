@@ -15,11 +15,11 @@ type TabbarModeValue = (typeof TabbarContainerMode)[keyof typeof TabbarContainer
 function readStoredTabbarMode(): TabbarModeValue {
   try {
     const raw = uni.getStorageSync(TABBAR_MODE_STORAGE_KEY);
-    if (typeof raw !== 'string') return TabbarContainerMode.Block;
+    if (typeof raw !== 'string') return TabbarContainerMode.TextRaise;
     const allowed = Object.values(TabbarContainerMode) as string[];
-    return allowed.includes(raw) ? (raw as TabbarModeValue) : TabbarContainerMode.Block;
+    return allowed.includes(raw) ? (raw as TabbarModeValue) : TabbarContainerMode.TextRaise;
   } catch {
-    return TabbarContainerMode.Block;
+    return TabbarContainerMode.TextRaise;
   }
 }
 

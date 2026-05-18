@@ -15,9 +15,12 @@
   display: inline-flex;
   align-items: center;
   width: 100%;
+  height: 100%;
+  min-height: var(--_height);
   background: var(--_bg);
   border-radius: var(--_radius);
   padding: 0 var(--_px);
+  box-sizing: border-box;
 
   :root.lk-theme-booting & {
     transition: none !important;
@@ -30,6 +33,8 @@
     padding-left: 0;
     padding-right: 0;
     box-shadow: none !important;
+    min-height: 0;
+    height: auto;
 
     .lk-input__inner {
       text-align: left;
@@ -57,7 +62,7 @@
   @include e(inner) {
     flex: 1;
     min-width: 0;
-    height: var(--_height);
+    height: 100%;
     font-size: var(--_fs);
     background: transparent;
     border: 0 !important;
@@ -66,7 +71,7 @@
     padding: 0;
     // 使用新的中性文字颜色变量
     color: var(--lk-text-primary);
-    line-height: calc(var(--_height) - var(--lk-rpx-4));
+    line-height: normal;
 
     &::placeholder {
       // 使用新的占位符颜色变量
@@ -77,6 +82,7 @@
   @include e(prefix) {
     display: flex;
     align-items: center;
+    height: 100%;
     // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
     flex-shrink: 0;
@@ -93,6 +99,7 @@
   @include e(suffix) {
     display: flex;
     align-items: center;
+    height: 100%;
     // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
     flex-shrink: 0;
@@ -125,7 +132,7 @@
   // 假输入框样式
   @include e(fake) {
     flex: 1;
-    height: var(--_height);
+    height: 100%;
     display: flex;
     align-items: center;
   }

@@ -98,7 +98,7 @@ export function resolveCarouselNextMargin(options: {
 
 export function resolveCarouselHeightProp(height: string | number) {
   if (!height) return 'var(--lk-rpx-320)';
-  return typeof height === 'number' ? `${height}px` : height;
+  return typeof height === 'number' ? `${height}rpx` : height;
 }
 
 export function resolveCarouselIndicatorSpace(options: {
@@ -136,17 +136,21 @@ export function resolveCarouselOuterStyle(options: {
 export function resolveCarouselSwiperStyle(options: {
   autoHeight?: boolean;
   currentHeight: number;
-  indicatorOutside: boolean;
+  indicatorOutside?: boolean;
+  heightProp?: string;
 }) {
-  if (options.autoHeight) {
-    return { height: options.currentHeight > 0 ? `${options.currentHeight}px` : '100%' };
+  const { autoHeight, currentHeight, indicatorOutside, heightProp } = options;
+  if (autoHeight) {
+    return { height: currentHeight > 0 ? `${currentHeight}px` : '100%' };
   }
 
-  if (options.indicatorOutside) {
-    return { height: 'calc(100% - var(--lk-indicator-space))' };
+  const baseHeight = heightProp || '100%';
+
+  if (indicatorOutside) {
+    return { height: `calc(${baseHeight} - var(--lk-indicator-space))` };
   }
 
-  return { height: '100%' };
+  return { height: baseHeight };
 }
 
 export function resolveCarouselCardStyleVars(options: {

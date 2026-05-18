@@ -20,11 +20,11 @@ defineProps<{
 const themeStore = useThemeStore();
 const themeClass = computed(() => themeStore.themeClass);
 
-const carouselImages = [
+const carouselImages = ref([
   'https://picsum.photos/800/1000?random=10',
   'https://picsum.photos/800/1000?random=11',
   'https://picsum.photos/800/1000?random=12',
-];
+]);
 
 const quantity = ref(1);
 const sizes = ['S', 'M', 'L', 'XL'];
@@ -37,11 +37,7 @@ const showReviewPopup = ref(false);
 const showDescModal = ref(false);
 
 const goBack = () => {
-  uni.switchTab({ url: '/pages/tabbar/home/index' });
-};
-
-const addToCart = () => {
-  uni.switchTab({ url: '/pages/tabbar/cart/index' });
+  uni.switchTab({ url: '/pages/app-main/index' });
 };
 </script>
 
@@ -150,23 +146,7 @@ const addToCart = () => {
       </view>
     </view>
 
-    <!-- 底部按钮 -->
-    <view class="footer-bar">
-      <lk-button
-        class="add-cart-btn"
-        type="primary"
-        block
-        radius="60"
-        height="120"
-        @click="addToCart"
-      >
-        <lk-icon name="cart-plus" size="40" color="var(--test-text-inverse)" />
-        <view class="btn-text-content">
-          <text class="main-text">Add to Cart | $100.99</text>
-          <text class="original-price">$190.99</text>
-        </view>
-      </lk-button>
-    </view>
+    <!-- 商品规格等内容保留用于展示组件 -->
 
     <view class="safe-area-bottom"></view>
 
@@ -263,7 +243,6 @@ const addToCart = () => {
 
 .image-container {
   width: 100%;
-  padding: 0 20rpx 20rpx;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -492,38 +471,6 @@ const addToCart = () => {
     &.active {
       border-color: test.$test-text-primary;
       transform: scale(1.1);
-    }
-  }
-}
-
-.footer-bar {
-  position: relative;
-  padding: 30rpx 40rpx 0;
-  margin-top: 20rpx;
-
-  .add-cart-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20rpx;
-    box-shadow: test.$test-shadow-md;
-
-    .btn-text-content {
-      display: flex;
-      align-items: center;
-      gap: 12rpx;
-
-      .main-text {
-        color: test.$test-text-inverse;
-        font-size: 32rpx;
-        font-weight: bold;
-      }
-
-      .original-price {
-        color: test.$test-text-tertiary;
-        font-size: 22rpx;
-        text-decoration: line-through;
-      }
     }
   }
 }

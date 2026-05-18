@@ -39,7 +39,7 @@ export const tabbarContainerProps = {
   /** Tabbar 模式 */
   mode: LkProp.enum(
     Object.values(TabbarContainerMode),
-    TabbarContainerMode.Block,
+    TabbarContainerMode.TextRaise,
     'TabbarContainer.mode'
   ),
 

@@ -482,18 +482,6 @@
     ],
     "fingerprint": "687b58693d6b0492"
   },
-  ".playwright-cli": {
-    "path": ".playwright-cli",
-    "files": [],
-    "file_count": 0,
-    "extensions": {},
-    "symbols": [],
-    "keywords": [
-      "cli",
-      "playwright"
-    ],
-    "fingerprint": "f9083fabe83de551"
-  },
   "ai": {
     "path": "ai",
     "files": [
@@ -585,23 +573,20 @@
       "COMPONENT_COMPLETION_SUMMARY.md",
       "COMPONENT_DEMO_PLAN.md",
       "DEMO_IMPLEMENTATION_PLAN.md",
-      "IMPLEMENTATION_SUMMARY.md",
       "NEW_ARCHITECTURE.md",
       "OPEN_SOURCE_COMPONENT_SCORE.md",
       "TESTING_GUIDE.md",
       "TEST_PAGE_STYLES.md",
       "TEST_PAGE_STYLES_QUICK_REF.md",
-      "TRANSITION_CLEANUP.md",
-      "TRANSITION_REFACTOR.md",
       "TRANSITION_SUMMARY.md",
       "USE_TRANSITION_GUIDE.md",
       "Z_INDEX_GUIDE.md",
       "index.md",
       "package.json"
     ],
-    "file_count": 17,
+    "file_count": 14,
     "extensions": {
-      ".md": 16,
+      ".md": 13,
       ".json": 1
     },
     "symbols": [],
@@ -611,15 +596,15 @@
       "component_demo_plan",
       "demo_implementation_plan",
       "docs",
-      "implementation_summary",
       "index",
       "json",
       "new_architecture",
       "open_source_component_score",
       "package",
-      "test_page_styles"
+      "test_page_styles",
+      "test_page_styles_quick_ref"
     ],
-    "fingerprint": "f8201db8cddb9995"
+    "fingerprint": "ce7283c851b0a45d"
   },
   "docs/.vitepress": {
     "path": "docs/.vitepress",
@@ -1455,23 +1440,17 @@
   },
   "src/pages_sub/product-detail": {
     "path": "src/pages_sub/product-detail",
-    "files": [
-      "index.vue"
-    ],
-    "file_count": 1,
-    "extensions": {
-      ".vue": 1
-    },
+    "files": [],
+    "file_count": 0,
+    "extensions": {},
     "symbols": [],
     "keywords": [
       "detail",
-      "index",
       "pages_sub",
       "product",
-      "src",
-      "vue"
+      "src"
     ],
-    "fingerprint": "fcf93c014d92216e"
+    "fingerprint": "afdfabbf46fc3867"
   },
   "src/pages_sub/search": {
     "path": "src/pages_sub/search",
@@ -2170,6 +2149,7 @@
       ".scss": 1
     },
     "symbols": [
+      "baseheight",
       "carouselchangesource",
       "carouseleffect",
       "carouselemits",
@@ -2207,6 +2187,7 @@
       "value"
     ],
     "keywords": [
+      "baseheight",
       "carousel",
       "carouselchangesource",
       "carouseleffect",
@@ -2217,10 +2198,9 @@
       "carouselitem",
       "carouselprops",
       "clampcarouselindex",
-      "components",
-      "getcarousellength"
+      "components"
     ],
-    "fingerprint": "e0749676023a207b"
+    "fingerprint": "d1024005bcf795ab"
   },
   "src/uni_modules/lucky-ui/components/lk-cell": {
     "path": "src/uni_modules/lucky-ui/components/lk-cell",
@@ -3489,7 +3469,6 @@
       "resolveloadingrootstyle",
       "resolveloadingsquarestyle",
       "resolveloadingtext",
-      "resolveloadingtype",
       "shouldrenderloadingtext",
       "value"
     ],
@@ -3507,7 +3486,7 @@
       "resolveloadingrootstyle",
       "resolveloadingsquarestyle"
     ],
-    "fingerprint": "00a88735bc1b2d25"
+    "fingerprint": "feada6f345934542"
   },
   "src/uni_modules/lucky-ui/components/lk-meta-row": {
     "path": "src/uni_modules/lucky-ui/components/lk-meta-row",
@@ -3616,10 +3595,11 @@
       "capsulereserve",
       "capsuletop",
       "defaultpadding",
-      "merged",
+      "isnavbarstyleobject",
       "navbaremits",
       "navbarmenubuttoninfo",
       "navbarprops",
+      "navbarstyleobject",
       "navbartitlealign",
       "navbarvariant",
       "resolvenavbarcontentheight",
@@ -3628,7 +3608,6 @@
       "resolvenavbarplaceholderstyle",
       "resolvenavbarrootclass",
       "resolvenavbarsafestyle",
-      "resolvenavbarshowback",
       "safepadding",
       "shouldnavigateback"
     ],
@@ -3639,14 +3618,14 @@
       "capsuletop",
       "components",
       "defaultpadding",
+      "isnavbarstyleobject",
       "lucky",
-      "merged",
       "navbar",
       "navbaremits",
       "navbarmenubuttoninfo",
       "navbarprops"
     ],
-    "fingerprint": "3a7750aca62fb432"
+    "fingerprint": "0f41489c142132d0"
   },
   "src/uni_modules/lucky-ui/components/lk-notice-bar": {
     "path": "src/uni_modules/lucky-ui/components/lk-notice-bar",
@@ -3893,8 +3872,6 @@
       "popupprops",
       "preset",
       "raw",
-      "resolvepopupcloseonoverlay",
-      "resolvepopupnumber",
       "resolvepopuppanelstyle",
       "resolvepopupsize",
       "resolvepopupsnaptarget",
@@ -3917,7 +3894,7 @@
       "getpopuptouchclienty",
       "ispopupbottomdraggable"
     ],
-    "fingerprint": "647a99fbca6ec80f"
+    "fingerprint": "e634bf7d65104d62"
   },
   "src/uni_modules/lucky-ui/components/lk-preload-debugger": {
     "path": "src/uni_modules/lucky-ui/components/lk-preload-debugger",
@@ -4164,6 +4141,7 @@
       "resolveskeletonavatarstyle",
       "resolveskeletonhoststyle",
       "resolveskeletonindexedvalue",
+      "resolveskeletonrootclass",
       "resolveskeletonrowstyle",
       "resolveskeletontitlestyle",
       "skeletonprops"
@@ -4177,12 +4155,12 @@
       "resolveskeletonavatarstyle",
       "resolveskeletonhoststyle",
       "resolveskeletonindexedvalue",
+      "resolveskeletonrootclass",
       "resolveskeletonrowstyle",
       "resolveskeletontitlestyle",
-      "scss",
-      "skeleton"
+      "scss"
     ],
-    "fingerprint": "ef70dccc9ae78ceb"
+    "fingerprint": "8ce65cc8688ac943"
   },
   "src/uni_modules/lucky-ui/components/lk-slider": {
     "path": "src/uni_modules/lucky-ui/components/lk-slider",
@@ -4512,15 +4490,13 @@
   "src/uni_modules/lucky-ui/components/lk-tabbar-container": {
     "path": "src/uni_modules/lucky-ui/components/lk-tabbar-container",
     "files": [
-      "# Lucky UI 迈向高质量开源项目实施计划.ini",
       "lk-tabbar-container.scss",
       "lk-tabbar-container.vue",
       "tabbar-container.props.ts",
       "tabbar-container.utils.ts"
     ],
-    "file_count": 5,
+    "file_count": 4,
     "extensions": {
-      ".ini": 1,
       ".scss": 1,
       ".vue": 1,
       ".ts": 2
@@ -4529,8 +4505,8 @@
       "gettabbarcontainerpreloadids",
       "insetbottom",
       "istabbarcontainerslidingmode",
+      "istabbarcontainerstyleobject",
       "left",
-      "merged",
       "resolvetabbarcontaineractivebgstyle",
       "resolvetabbarcontainerbadgetext",
       "resolvetabbarcontainerclass",
@@ -4547,23 +4523,24 @@
       "tabbarcontainermode",
       "tabbarcontainerprops",
       "tabbarcontainersafeareainfo",
+      "tabbarcontainerstyleobject",
       "width"
     ],
     "keywords": [
       "components",
       "container",
       "gettabbarcontainerpreloadids",
-      "ini",
       "insetbottom",
       "istabbarcontainerslidingmode",
+      "istabbarcontainerstyleobject",
       "left",
       "lucky",
-      "merged",
       "props",
       "resolvetabbarcontaineractivebgstyle",
-      "resolvetabbarcontainerbadgetext"
+      "resolvetabbarcontainerbadgetext",
+      "resolvetabbarcontainerclass"
     ],
-    "fingerprint": "409ec950a584a5c6"
+    "fingerprint": "81b59f3f3413f610"
   },
   "src/uni_modules/lucky-ui/components/lk-tabs": {
     "path": "src/uni_modules/lucky-ui/components/lk-tabs",
@@ -6092,32 +6069,6 @@
     ],
     "fingerprint": "6b4ab8f43d922a21"
   },
-  "tests/visual/screenshot.spec.ts-snapshots": {
-    "path": "tests/visual/screenshot.spec.ts-snapshots",
-    "files": [],
-    "file_count": 0,
-    "extensions": {},
-    "symbols": [],
-    "keywords": [
-      "screenshot",
-      "snapshots",
-      "spec",
-      "tests",
-      "visual"
-    ],
-    "fingerprint": "ca92e87e0b1d4837"
-  },
-  ".tmp": {
-    "path": ".tmp",
-    "files": [],
-    "file_count": 0,
-    "extensions": {},
-    "symbols": [],
-    "keywords": [
-      "tmp"
-    ],
-    "fingerprint": "1e41c4cdc8220113"
-  },
   "docs/assets": {
     "path": "docs/assets",
     "files": [
@@ -6602,16 +6553,16 @@
       "lk-collapse.spec.ts",
       "lk-countdown.spec.ts",
       "lk-curtain.spec.ts",
+      "lk-custom-entry.spec.ts",
       "lk-divider.spec.ts",
       "lk-dropdown.spec.ts",
       "lk-empty.spec.ts",
       "lk-fab.spec.ts",
-      "lk-form.spec.ts",
-      "lk-grid.spec.ts"
+      "lk-form.spec.ts"
     ],
-    "file_count": 70,
+    "file_count": 71,
     "extensions": {
-      ".ts": 70
+      ".ts": 71
     },
     "symbols": [
       "action",
@@ -6621,6 +6572,9 @@
       "cardstyle",
       "classes",
       "columnwidth",
+      "componentexports",
+      "componentsdir",
+      "componentsource",
       "copy",
       "custom",
       "customstyle",
@@ -6636,24 +6590,21 @@
       "getillustrationsrc",
       "horizontal",
       "index",
+      "indexfile",
       "items",
       "layout",
       "logs",
       "makeday",
       "makefield",
       "markermap",
+      "missing",
       "objectstyle",
       "option",
       "outer",
       "overlap",
       "palette",
       "params",
-      "passwordtoggle",
-      "points",
-      "positions",
-      "preset",
-      "presetconfig",
-      "primed"
+      "passwordtoggle"
     ],
     "keywords": [
       "action",
@@ -6669,6 +6620,6 @@
       "button",
       "calendar"
     ],
-    "fingerprint": "c197301796b9162e"
+    "fingerprint": "1083cbe43b2c0438"
   }
 }

@@ -116,6 +116,7 @@ const swiperStyle = computed(() => resolveCarouselSwiperStyle({
   autoHeight: props.autoHeight,
   currentHeight: currentHeight.value,
   indicatorOutside: indicatorOutside.value,
+  heightProp: heightProp.value,
 }));
 
 // 卡片样式变量

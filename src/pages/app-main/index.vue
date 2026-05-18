@@ -34,11 +34,10 @@ const tabConfig: TabConfig[] = [
   },
   {
     id: 'cart',
-    label: '购物车',
-    icon: 'cart',
+    label: '智言',
+    icon: 'lightning-charge',
     activeIconFill: true,
     keepAlive: true,
-    badge: 5,
   },
   {
     id: 'detail',
@@ -51,7 +50,7 @@ const tabConfig: TabConfig[] = [
     id: 'mine',
     label: '我的',
     icon: 'gear',
-    activeIconFill: true,
+    activeIconFill: false,
     keepAlive: true,
   },
 ];

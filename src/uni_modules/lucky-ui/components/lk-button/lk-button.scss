@@ -17,7 +17,10 @@
   justify-content: center;
   box-sizing: border-box;
 
-  height: var(--_h);
+  height: 100%;
+  width: 100%;
+  min-height: var(--_h);
+  min-width: 0;
   padding: 0 var(--_px);
   font-size: var(--_fs);
   border-radius: var(--_radius);

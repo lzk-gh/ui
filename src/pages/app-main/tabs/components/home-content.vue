@@ -74,7 +74,6 @@
           :border="false"
           shadow="none"
           transparent
-          @click="goToDetail(item)"
         >
           <template #cover>
             <view
@@ -210,6 +209,7 @@ import LkInput from '@/uni_modules/lucky-ui/components/lk-input/lk-input.vue';
 import LkImage from '@/uni_modules/lucky-ui/components/lk-image/lk-image.vue';
 import LkLoading from '@/uni_modules/lucky-ui/components/lk-loading/lk-loading.vue';
 import LkHorizontalScroll from '@/uni_modules/lucky-ui/components/lk-horizontal-scroll/lk-horizontal-scroll.vue';
+import { toastStore } from '@/uni_modules/lucky-ui/components/lk-toast/toast-manager';
 
 const props = withDefaults(
   defineProps<{
@@ -335,11 +335,6 @@ const handleLoadMore = () => {
 const goToSearch = () => {
   uni.navigateTo({ url: '/pages_sub/search/index' });
 };
-
-/** 跳转到详情页 */
-const goToDetail = (_item: WaterfallItem) => {
-  uni.navigateTo({ url: '/pages_sub/product-detail/index' });
-};
 </script>
 
 <style lang="scss" scoped>
@@ -347,8 +342,8 @@ const goToDetail = (_item: WaterfallItem) => {
 
 .home-content {
   --home-inset-x: #{30rpx};
-  --home-section-gap: #{26rpx};
-  --home-inline-gap: #{16rpx};
+  --home-section-gap: #{36rpx};
+  --home-inline-gap: #{20rpx};
 
   background-color: test.$test-bg-page;
   box-sizing: border-box;
@@ -379,7 +374,7 @@ const goToDetail = (_item: WaterfallItem) => {
 }
 
 .header-container {
-  padding: var(--home-inset-x) var(--home-inset-x) 0;
+  padding: var(--home-inset-x);
   flex-shrink: 0;
 }
 
@@ -418,7 +413,6 @@ const goToDetail = (_item: WaterfallItem) => {
   .filter-trigger-wrap {
     flex: 0 0 100rpx;
     width: 100rpx;
-    min-height: 100rpx;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -426,10 +420,12 @@ const goToDetail = (_item: WaterfallItem) => {
   }
 
   .filter-trigger {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    padding: 0;
+    width: 100rpx !important;
+    height: 100rpx !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    border-radius: 24rpx !important;
     box-sizing: border-box;
   }
 
@@ -442,12 +438,6 @@ const goToDetail = (_item: WaterfallItem) => {
     --_radius: 24rpx;
     --_height: 100rpx;
     --_px: 30rpx;
-
-    :deep(.lk-input__fake) {
-      height: 100rpx;
-      display: flex;
-      align-items: center;
-    }
 
     .search-ticker {
       flex: 1;
@@ -467,11 +457,6 @@ const goToDetail = (_item: WaterfallItem) => {
       }
     }
   }
-}
-
-.category-section {
-  margin-bottom: var(--home-section-gap);
-  flex-shrink: 0;
 }
 
 .home-content--no-list-animation {
