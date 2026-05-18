@@ -1,12 +1,5 @@
-// =============================================================================
-// 基础样式: 排版 (Typography)
-// =============================================================================
-// 为 h1-h6, p, a 等排版元素定义基础样式，
-// 便于在富文本渲染等场景中保持样式统一。
-// =============================================================================
 @use '../tokens' as theme;
 
-// --- 标题 ---
 .h1,
 .h2,
 .h3,
@@ -16,7 +9,6 @@
   font-family: theme.$font-family-base;
   font-weight: theme.$font-weight-bold;
   line-height: theme.$line-height-tight;
-  // 使用 CSS 变量，支持主题切换
   color: var(--lk-text-primary);
   margin-top: theme.$spacing-xl;
   margin-bottom: theme.$spacing-md;
@@ -31,7 +23,6 @@
 .h3 {
   font-size: theme.$font-size-lg;
 }
-// h4, h5, h6 使用基础字号，通过字重区分
 .h4 {
   font-size: theme.$font-size-base;
 }
@@ -42,27 +33,22 @@
   font-size: theme.$font-size-base;
 }
 
-// --- 段落 ---
 .p {
   margin-bottom: theme.$spacing-md;
 }
 
-// --- 链接---
 .a,
 navigator {
   color: theme.$color-text-link;
 
-  // 过渡效果
   transition: color theme.$motion-duration-sm;
 
   &:hover {
-    // 在 H5 端，设置 hover 效果
     color: theme.$color-brand-primary-hover;
     text-decoration: underline;
   }
 }
 
-// --- 其他行内元素 ---
 .strong {
   font-weight: theme.$font-weight-bold;
 }

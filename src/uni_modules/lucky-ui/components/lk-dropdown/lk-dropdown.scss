@@ -63,17 +63,13 @@
 }
 
 @include b(dropdown-item) {
-  // =========================================
   // 1. 定义组件级 CSS 变量
-  // =========================================
   --_py: var(--lk-spacing-md);
   --_px: var(--lk-spacing-xl);
   --_fs: var(--lk-font-size-md);
   --_gap: var(--lk-spacing-sm);
 
-  // =========================================
   // 2. 核心盒模型
-  // =========================================
   display: flex;
   align-items: center;
   padding: var(--_py) var(--_px);

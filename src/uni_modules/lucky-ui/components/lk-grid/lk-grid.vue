@@ -23,7 +23,6 @@ const emit = defineEmits(gridEmits);
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple();
 const activeIndex = ref<string | number>(-1);
 
-// 间距统一使用 rpx，确保跨端一致
 const gapValue = computed(() => resolveGridGap(props.gap));
 
 const gridStyle = computed(() => resolveGridStyle({
@@ -37,7 +36,6 @@ const innerGapStyle = computed(() => resolveGridInnerGapStyle(props.itemGap));
 
 const containerClass = computed(() => resolveGridContainerClass(props.clip));
 
-// 计算分页：当启用 carousel 时按 (columns * rows) 分页
 const pages = computed(() => paginateGridItems(props.items || [], props.columns, props.rows));
 
 function onItemClick(item: GridItem, index: number, pageIndex: number = 0, event?: unknown) {

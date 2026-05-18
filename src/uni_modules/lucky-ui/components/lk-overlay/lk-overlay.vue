@@ -20,7 +20,6 @@ const externalShow = computed(() => resolveOverlayVisible({
   modelValue: props.modelValue,
 }));
 
-// ==================== 动画管理 ====================
 const {
   display,
   classes: transitionClasses,

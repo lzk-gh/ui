@@ -1,8 +1,6 @@
 @use '../../theme/src/mixins' as *;
 
-// ============================================
 // LkKeyboard - Apple Style Keyboard
-// ============================================
 
 @include b(keyboard) {
   // CSS Variables
@@ -236,9 +234,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   }
 
-  // ============================================
   // 车牌键盘特殊样式
-  // ============================================
   @include m(plate) {
     .lk-keyboard__key {
       --kb-key-height: var(--lk-rpx-72);

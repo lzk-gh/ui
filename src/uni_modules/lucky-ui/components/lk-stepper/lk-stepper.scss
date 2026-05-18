@@ -1,11 +1,9 @@
 @use '../../theme/src/mixins/bem' as *;
 
 @include b(stepper) {
-  // --- 基础变量 ---
   --stepper-height: var(--lk-rpx-56);
-  --stepper-btn-size: var(--lk-rpx-56); // 按钮宽=高
+  --stepper-btn-size: var(--lk-rpx-56);
   --stepper-input-width: var(--lk-rpx-64);
-  // 使用步进器专用灰色主题变量，便于统一定制
   --stepper-bg: var(--lk-stepper-bg, var(--lk-bg-input));
   --stepper-active-bg: var(--lk-bg-active);
   --stepper-color: var(--lk-text-primary);
@@ -20,7 +18,6 @@
     margin-left: var(--stepper-gap);
   }
 
-  // --- 尺寸修饰符 ---
   @include m(sm) {
     --stepper-height: var(--lk-rpx-44);
     --stepper-btn-size: var(--lk-rpx-44);
@@ -33,7 +30,6 @@
     --stepper-input-width: var(--lk-rpx-80);
   }
 
-  // --- 按钮通用样式 ---
   @include e(btn) {
     position: relative;
     box-sizing: border-box;
@@ -47,7 +43,6 @@
     cursor: pointer;
     transition: background-color 0.1s;
 
-    // 纯 CSS 绘制图标 (黑科技)
     &::before,
     &::after {
       content: '';
@@ -60,13 +55,11 @@
       border-radius: var(--lk-rpx-2);
     }
 
-    // 横线 (Minus & Plus 都有)
     &::before {
       width: 50%;
       height: var(--lk-rpx-4);
     }
 
-    // 竖线 (只有 Plus 有)
     &.lk-stepper__plus::after {
       width: var(--lk-rpx-4);
       height: 50%;
@@ -83,7 +76,6 @@
     }
   }
 
-  // --- 输入框样式 ---
   @include e(input) {
     box-sizing: border-box;
     width: var(--stepper-input-width);
@@ -96,9 +88,9 @@
     vertical-align: middle;
     background-color: var(--stepper-bg);
     border: 0;
-    border-width: 0; // 消除某些平台默认边框
+    border-width: 0;
     border-radius: var(--stepper-radius);
-    -webkit-appearance: none; // iOS 消除阴影
+    -webkit-appearance: none;
 
     &.is-disabled {
       color: var(--lk-text-disabled);
@@ -108,7 +100,6 @@
 
   @include when(disabled) {
     @include e(btn) {
-      // 整体禁用时的覆盖
     }
   }
 }

@@ -1,9 +1,6 @@
-// =============================================================================
 // 混入: 1px 边框 (Hairline)
-// =============================================================================
 @use '../tokens/colors' as theme;
 
-// --- 1px 边框混入 ---
 // @param {String} $position - 边框位置 (top, bottom, left, right, all)
 // @param {Color} $color - 边框颜色，默认为主要边框色
 // @param {Number} $z-index - 伪元素的 z-index

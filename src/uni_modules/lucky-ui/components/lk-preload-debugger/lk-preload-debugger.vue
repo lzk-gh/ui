@@ -98,7 +98,6 @@ function handleClear() {
   updateStats();
 }
 
-// 事件处理器
 function handleTaskStart(event: Parameters<PreloadEventHandler>[0]) {
   addLog('start', t('taskStart', { resource: event.task?.resource || t('unknown') }));
   updateStats();
@@ -151,7 +150,6 @@ onUnmounted(() => {
     </view>
 
     <view v-if="isExpanded" class="lk-preload-debugger__body">
-      <!-- 统计信息 -->
       <view class="lk-preload-debugger__stats-wrapper">
         <view class="lk-preload-debugger__stats">
           <view class="stat-item">
@@ -177,7 +175,6 @@ onUnmounted(() => {
         </view>
       </view>
 
-      <!-- 控制按钮 -->
       <view class="lk-preload-debugger__actions">
         <view class="action-btn" :class="{ 'action-btn--active': isPaused }" @click="togglePause">
           {{ isPaused ? t('resume') : t('pause') }}
@@ -185,7 +182,6 @@ onUnmounted(() => {
         <view class="action-btn action-btn--danger" @click="handleClear">{{ t('clear') }}</view>
       </view>
 
-      <!-- 日志列表 -->
       <scroll-view class="lk-preload-debugger__logs" scroll-y :scroll-into-view="lastLogId">
         <view
           v-for="log in logs"

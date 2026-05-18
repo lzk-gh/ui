@@ -48,7 +48,6 @@
     border-radius: 999px;
   }
 
-  // --- 新增：间断点样式 ---
   @include e(stop) {
     position: absolute;
     height: var(--lk-slider-track-height);
@@ -62,7 +61,6 @@
     // 如果想要类似 ElementUI 那种效果 (未激活是圆点，激活被覆盖)
     // 简单做法：设为背景色的对比色
   }
-  // -----------------------
 
   @include e(bar) {
     position: absolute;

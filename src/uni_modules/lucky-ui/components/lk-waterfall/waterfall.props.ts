@@ -147,7 +147,7 @@ export const waterfallProps = {
   bounces: LkProp.boolean(true),
 
   /**
-   * 是否增强模式 (小程序)
+   * 是否启用小程序 scroll-view enhanced
    */
   enhanced: LkProp.boolean(true),
 

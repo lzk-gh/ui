@@ -1,9 +1,7 @@
 @use '../../theme/src/mixins' as *;
 
 @include b(cell) {
-  // =========================================
   // 1. 定义组件级 CSS 变量
-  // =========================================
   --_bg: var(--lk-bg-container);
   --_fs: var(--lk-font-size-md);
   --_title-fs: var(--lk-font-size-md);
@@ -13,9 +11,7 @@
   --_px: var(--lk-control-padding-x-md);
   --_gap: var(--lk-spacing-md);
 
-  // =========================================
   // 2. 核心盒模型
-  // =========================================
   display: flex;
   align-items: center;
   padding: var(--_py) var(--_px);

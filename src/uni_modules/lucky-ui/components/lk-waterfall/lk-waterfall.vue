@@ -1,13 +1,12 @@
 <script setup lang="ts">
 /**
- * LkWaterfall - 高性能瀑布流组件
+ * LkWaterfall 瀑布流组件
  *
  * 特性:
  * - 贪心算法双列分配 (始终放入较短列)
  * - 绝对定位布局 (兼容小程序)
  * - 图片高度预计算 (基于 ratio)
  * - 使用 lk-skeleton 组件库骨架屏
- * - 60fps 滚动性能
  * - 无限滚动 + 预加载
  * - 作用域插槽自定义卡片
  */
@@ -45,8 +44,6 @@ import {
 const props = defineProps(waterfallProps);
 const emit = defineEmits(waterfallEmits);
 
-// ======================== 响应式状态 ========================
-
 const instance = getCurrentInstance();
 const uid = instance?.uid ?? Math.floor(Math.random() * 1e6);
 const rootId = `lk-waterfall-${uid}`;
@@ -69,10 +66,8 @@ const processedIndex = ref(0);
 const isProcessing = ref(false);
 /** 初始化完成 */
 const isReady = ref(false);
-/** 图片加载兜底定时器 */
+/** 图片加载超时定时器 */
 const imageLoadTimers = new Map<string | number, ReturnType<typeof setTimeout>>();
-
-// ======================== 计算属性 ========================
 
 function getSystemInfo() {
   return uni.getSystemInfoSync?.();
@@ -123,10 +118,8 @@ const totalHeight = computed(
     })
 );
 
-// ======================== 贪心布局算法 ========================
-
 /**
- * 处理新增数据 (同步增量布局，使用绝对定位)
+ * 同步增量布局，使用绝对定位。
  */
 function processNewItems() {
   if (isProcessing.value) return;
@@ -172,8 +165,6 @@ function resetLayout() {
   isProcessing.value = false;
 }
 
-// ======================== 事件处理 ========================
-
 function onScroll(e: { detail?: { scrollTop?: number }; scrollTop?: number }) {
   scrollTop.value = extractWaterfallScrollTop(e);
 
@@ -182,7 +173,6 @@ function onScroll(e: { detail?: { scrollTop?: number }; scrollTop?: number }) {
     scrollHeight: totalHeight.value,
   });
 
-  // 检查是否需要加载更多
   if (shouldWaterfallLoadMore({
     totalHeight: totalHeight.value,
     scrollTop: scrollTop.value,
@@ -247,8 +237,6 @@ function onImageError(card: PlacedCard) {
   emit('image-error', card.item, card.index);
 }
 
-// ======================== 容器测量 ========================
-
 async function measureContainer() {
   await nextTick();
 
@@ -264,13 +252,11 @@ async function measureContainer() {
         if (info && info.width && info.width > 0) {
           containerWidth.value = info.width;
         } else {
-          // 降级使用屏幕宽度
           containerWidth.value = sys?.windowWidth || 375;
         }
         if (info && info.height && info.height > 0) {
           containerHeight.value = info.height;
         } else {
-          // 降级使用屏幕高度
           containerHeight.value = sys?.windowHeight || 600;
         }
         resolve();
@@ -278,8 +264,6 @@ async function measureContainer() {
       .exec();
   });
 }
-
-// ======================== 生命周期 ========================
 
 onMounted(async () => {
   await measureContainer();
@@ -291,30 +275,24 @@ onBeforeUnmount(() => {
   clearAllImageLoadTimers();
 });
 
-// 监听数据变化
 watch(
   () => props.items.length,
   (newLen, oldLen) => {
     if (newLen > oldLen) {
-      // 新增数据，增量处理
       processNewItems();
     } else if (newLen < oldLen || newLen === 0) {
-      // 数据减少或清空，重置布局
       resetLayout();
       processNewItems();
     }
   }
 );
 
-// 监听容器宽度变化，重新布局
 watch(columnWidth, (newWidth, oldWidth) => {
   if (oldWidth > 0 && newWidth !== oldWidth) {
     resetLayout();
     processNewItems();
   }
 });
-
-// ======================== 样式计算 ========================
 
 const rootClass = computed(() => resolveWaterfallClass(props.customClass));
 

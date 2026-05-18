@@ -239,7 +239,7 @@ export function useTabbarPreload(config: TabbarPreloadConfig) {
   };
 
   onMounted(() => {
-    // 延迟开始预加载，确保首页完全加载
+    // 首页进入稳定后再预加载其他 Tab。
     setTimeout(() => {
       preloadOtherTabs();
     }, delay);

@@ -1,17 +1,9 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// lk-timeline  ·  Apple Design Language  v2
-// ─────────────────────────────────────────────────────────────────────────────
-
-// ── Variables ─────────────────────────────────────────────────────────────────
-
 $dot-size: calc(var(--lk-spacing-md) * 2);
-$track-width: var(--lk-control-height-xs); // 轨道列宽（含节点两侧空白）
-$left-col-width: var(--lk-control-height-lg); // 左侧时间列固定宽
-$item-gap: var(--lk-control-height-xs); // 项目间距
+$track-width: var(--lk-control-height-xs);
+$left-col-width: var(--lk-control-height-lg);
+$item-gap: var(--lk-control-height-xs);
 $line-width: var(--lk-rpx-2);
 $line-color: var(--lk-color-border);
-
-// ── 容器 ──────────────────────────────────────────────────────────────────────
 
 .lk-timeline {
   display: flex;
@@ -33,15 +25,12 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// ── 条目 ──────────────────────────────────────────────────────────────────────
-
 .lk-timeline-item {
   --lk-ti-accent: var(--lk-color-primary);
 
   display: flex;
   position: relative;
 
-  // ── 垂直布局 ────────────────────────────────────────────────────────────────
   &--vertical {
     flex-direction: row;
     align-items: stretch;
@@ -52,13 +41,12 @@ $line-color: var(--lk-color-border);
     }
   }
 
-  // ── 水平布局 ────────────────────────────────────────────────────────────────
   &--horizontal {
     flex-direction: column;
     align-items: flex-start;
     padding-right: $item-gap;
-    flex-shrink: 0; // 防止被挤压
-    min-width: var(--lk-rpx-240); // 设定最小宽度以支持滚动
+    flex-shrink: 0;
+    min-width: var(--lk-rpx-240);
 
     &:last-child {
       padding-right: 0;
@@ -107,8 +95,6 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// ── 左侧列（时间 / 自定义左插槽） ────────────────────────────────────────────
-
 .lk-timeline-item__left {
   width: $left-col-width;
   min-width: 0;
@@ -117,9 +103,9 @@ $line-color: var(--lk-color-border);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;  // 右对齐靠近节点
+  align-items: flex-end;
   justify-content: flex-start;
-  padding-top: var(--lk-spacing-xxs);      // 与节点圆中心微对齐
+  padding-top: var(--lk-spacing-xxs);
   padding-right: var(--lk-spacing-md);
   overflow-wrap: break-word;
   word-break: break-word;
@@ -139,7 +125,6 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// 左侧列 date 标签
 .lk-timeline-item__date {
   display: block;
   max-width: 100%;
@@ -155,7 +140,6 @@ $line-color: var(--lk-color-border);
   line-height: 1.2;
 }
 
-// 左侧列 time 文字
 .lk-timeline-item__time {
   display: block;
   max-width: 100%;
@@ -170,8 +154,6 @@ $line-color: var(--lk-color-border);
   line-height: 1.2;
 }
 
-// ── 轨道（节点 + 线）────────────────────────────────────────────────────────
-
 .lk-timeline-item__track {
   display: flex;
   flex-direction: column;
@@ -181,8 +163,6 @@ $line-color: var(--lk-color-border);
   position: relative;
   align-self: stretch;
 }
-
-// ── 线轴（实体节点） ────────────────────────────────────────────────────────
 
 .lk-timeline-item__line {
   width: $line-width;
@@ -218,7 +198,6 @@ $line-color: var(--lk-color-border);
     background-size: 100% var(--lk-rpx-12);
   }
 
-  // 流动动效
   &.is-animated {
     animation: lk-line-flow 1s infinite linear;
 
@@ -226,13 +205,11 @@ $line-color: var(--lk-color-border);
       background-size: 100% var(--lk-rpx-32);
     }
     
-    // 水平方向动效适配
     .lk-timeline-item--horizontal &.is-dashed {
       background-size: var(--lk-rpx-32) 100%;
     }
   }
 
-  // 高级流光特效 (Streaming - 单脉冲接力模式)
   &.is-streaming {
     position: relative;
     overflow: hidden;
@@ -252,13 +229,11 @@ $line-color: var(--lk-color-border);
       top: -100%;
       left: 0;
       opacity: 0;
-      // 接力逻辑：时长 = 总数 * 0.8s，延迟 = 索引 * 0.8s
       animation: lk-line-stream-v-relay calc(var(--lk-ti-total) * 0.8s) infinite linear;
       animation-delay: calc(var(--lk-ti-index) * 0.8s);
       will-change: transform, opacity;
     }
 
-    // 水平流光适配
     .lk-timeline-item--horizontal &::before {
       background: linear-gradient(
         to right,
@@ -277,10 +252,8 @@ $line-color: var(--lk-color-border);
 }
 
 @keyframes lk-line-stream-v-relay {
-  // 光点只在 1/Total 的窗口期内活跃
   0% { transform: translateY(0); opacity: 0; }
   2% { opacity: 1; }
-  // 假定节点多，20% 左右完成位移
   18% { transform: translateY(450%); opacity: 1; }
   20% { opacity: 0; }
   100% { transform: translateY(450%); opacity: 0; }
@@ -303,15 +276,12 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// 水平模式下的动画位移
 .lk-timeline-item--horizontal {
   @keyframes lk-line-flow {
     from { background-position: 0 0; }
     to { background-position: var(--lk-rpx-32) 0; }
   }
 }
-
-// ── 节点圆 ──────────────────────────────────────────────────────────────────
 
 .lk-timeline-item__dot {
   width: $dot-size;
@@ -383,8 +353,6 @@ $line-color: var(--lk-color-border);
   width: 100%;
 }
 
-// ── 右侧内容区 ────────────────────────────────────────────────────────────────
-
 .lk-timeline-item__body {
   flex: 1;
   min-width: 0;
@@ -398,8 +366,6 @@ $line-color: var(--lk-color-border);
     margin-top: var(--lk-spacing-xxs);
   }
 }
-
-// ── 标题 ─────────────────────────────────────────────────────────────────────
 
 .lk-timeline-item__title-row {
   display: flex;
@@ -422,8 +388,6 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// ── 副标题 ────────────────────────────────────────────────────────────────────
-
 .lk-timeline-item__subtitle-row {
   display: flex;
   align-items: center;
@@ -434,8 +398,6 @@ $line-color: var(--lk-color-border);
   color: var(--lk-text-secondary);
   line-height: 1.4;
 }
-
-// ── 正文描述 ──────────────────────────────────────────────────────────────────
 
 .lk-timeline-item__desc-row {
   display: flex;
@@ -451,8 +413,6 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// ── extra 插槽区 ─────────────────────────────────────────────────────────────
-
 .lk-timeline-item__body > .lk-timeline-item-preview {
   margin-top: var(--lk-spacing-xs);
   display: flex;
@@ -463,7 +423,6 @@ $line-color: var(--lk-color-border);
   }
 }
 
-// 图片预览缩略图
 .lk-timeline-preview-img {
   width: calc(var(--lk-control-height-lg) * 1.25);
   height: calc(var(--lk-control-height-lg) * 1.25);
@@ -473,7 +432,6 @@ $line-color: var(--lk-color-border);
   flex-shrink: 0;
 }
 
-// 图片预览信息块
 .lk-timeline-preview-card {
   display: flex;
   align-items: flex-start;

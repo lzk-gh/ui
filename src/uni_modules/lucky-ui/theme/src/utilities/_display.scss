@@ -1,8 +1,5 @@
-// =============================================================================
 // 工具类: 显示与布局 (Display & Layout)
-// =============================================================================
 
-// --- display ---
 .d-none {
   display: none !important;
 }
@@ -19,7 +16,6 @@
   display: flex !important;
 }
 
-// --- visibility ---
 .visible {
   visibility: visible !important;
 }
@@ -27,7 +23,6 @@
   visibility: hidden !important;
 }
 
-// --- flex direction ---
 .flex-row {
   flex-direction: row !important;
 }
@@ -41,7 +36,6 @@
   flex-direction: column-reverse !important;
 }
 
-// --- flex wrap ---
 .flex-wrap {
   flex-wrap: wrap !important;
 }
@@ -52,7 +46,6 @@
   flex-wrap: wrap-reverse !important;
 }
 
-// --- justify content ---
 .justify-start {
   justify-content: flex-start !important;
 }
@@ -72,7 +65,6 @@
   justify-content: space-evenly !important;
 }
 
-// --- align items ---
 .items-start {
   align-items: flex-start !important;
 }
@@ -89,7 +81,6 @@
   align-items: stretch !important;
 }
 
-// --- flex grow & shrink ---
 .flex-grow-0 {
   flex-grow: 0 !important;
 }

@@ -3,7 +3,7 @@ import type { CSSProperties, Ref } from 'vue';
 import { Locale } from '../locale';
 
 /**
- * requestAnimationFrame 兼容处理
+ * requestAnimationFrame 降级
  * 小程序环境中 requestAnimationFrame 不可用，使用 setTimeout 作为 fallback
  */
 const raf = globalThis.requestAnimationFrame?.bind(globalThis);
@@ -77,7 +77,7 @@ export interface TransitionConfig {
   leaveFrom?: CSSProperties | Ref<CSSProperties> | (() => CSSProperties);
   /** 自定义离开后样式（仅在离开阶段且非激活时应用） */
   leaveTo?: CSSProperties | Ref<CSSProperties> | (() => CSSProperties);
-  /** 目标元素引用（可选）。提供则使用 transition/animationend 事件精确结束；否则使用定时器兜底 */
+  /** 目标元素引用。提供后可用 transition/animationend 判断结束，否则使用定时器 */
   target?: Ref<HTMLElement | null>;
   /** 是否启用基于事件的结束检测，默认 true。仅当 target 存在时有效 */
   useEvents?: boolean;
@@ -272,7 +272,7 @@ export function useTransition(
       if (state.value.active && enterTo) Object.assign(result, enterTo);
     }
     if (state.value.leaving) {
-      // 离开前（active->false 前）我们在设置 active=false 后保持 leaveTo
+      // active=false 后保持 leaveTo，避免离场样式回跳。
       if (!state.value.active && leaveTo) Object.assign(result, leaveTo);
       if (state.value.active && leaveFrom) Object.assign(result, leaveFrom);
     }
@@ -326,10 +326,10 @@ export function useTransition(
 
     nextTick(() => {
       callbacks.onEnter?.();
-      // 使用兼容的 rAF 确保初始样式先应用
+      // 下一帧切换 active，让初始样式先落到节点。
       rafEnter = rAF(() => {
         state.value.active = true;
-        // 事件结束监听（若可用）+ 超时兜底
+        // 事件监听与超时降级并行。
         attachEndListeners(finishEnter);
         enterTimer = setTimeout(
           () => {

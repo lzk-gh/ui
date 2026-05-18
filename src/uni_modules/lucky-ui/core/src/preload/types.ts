@@ -97,7 +97,7 @@ export type PreloadEventType =
   | 'queue:pause'
   | 'queue:resume';
 
-/** 预加载事件处理器 */
+/** 预加载事件回调 */
 export type PreloadEventHandler = (event: PreloadEvent) => void;
 
 /** 预加载事件 */

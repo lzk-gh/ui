@@ -42,7 +42,6 @@ const resolvedCancelText = computed(() => resolveModalText({
   fallback: t('cancel'),
 }));
 
-// ==================== 动画配置计算 ====================
 const transitionConfig = computed<TransitionConfig>(() => {
   return resolveModalTransitionConfig({
     animationType: props.animationType,
@@ -75,7 +74,6 @@ const showResolvedHeader = computed(() => shouldModalHeaderRender({
   hasHeaderSlot: !!slots.header,
 }));
 
-// ==================== useTransition ====================
 const {
   classes: transitionClasses,
   styles: transitionStyles,
@@ -97,7 +95,6 @@ const {
   },
 });
 
-// ==================== 关闭逻辑 ====================
 function close() {
   // 如果正在离开，直接返回（防止重复触发）
   if (!canTriggerModalAction(state.value.leaving)) return;

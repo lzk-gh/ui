@@ -1,26 +1,12 @@
-/* =============================================================================
-   Lucky UI 统一主题变量
-   =============================================================================
-   设计原则：
-   1. 所有变量统一使用 --lk-* 前缀
-   2. 通过 .lk-theme-light / .lk-theme-dark 类切换主题（兼容小程序）
-   3. 品牌色支持运行时动态修改
-   ============================================================================= */
-
 @use './tokens/colors' as colors;
 @use './tokens/typography' as typo;
 @use './tokens/spacing' as spacing;
 
-/* =============================================================================
-   基础变量（不随主题变化）
-   ============================================================================= */
 :root,
 page {
-  /* === 字体 === */
   --lk-font-family: #{typo.$font-family-base};
   --lk-font-family-code: #{typo.$font-family-code};
 
-  /* === 字号 === */
   --lk-font-size-xs: #{typo.$font-size-xs};
   --lk-font-size-sm: #{typo.$font-size-sm};
   --lk-font-size-base: #{typo.$font-size-base};
@@ -29,18 +15,15 @@ page {
   --lk-font-size-xl: #{typo.$font-size-xl};
   --lk-font-size-xxl: #{typo.$font-size-xxl};
 
-  /* === 字重 === */
   --lk-font-weight-light: #{typo.$font-weight-light};
   --lk-font-weight-regular: #{typo.$font-weight-regular};
   --lk-font-weight-medium: #{typo.$font-weight-medium};
   --lk-font-weight-bold: #{typo.$font-weight-bold};
 
-  /* === 行高 === */
   --lk-line-height-base: #{typo.$line-height-base};
   --lk-line-height-tight: #{typo.$line-height-tight};
   --lk-line-height-loose: #{typo.$line-height-loose};
 
-  /* === 间距 === */
   --lk-spacing-xxs: 4rpx;
   --lk-spacing-xs: 8rpx;
   --lk-spacing-sm: 12rpx;
@@ -49,7 +32,6 @@ page {
   --lk-spacing-xl: 32rpx;
   --lk-spacing-xxl: 48rpx;
 
-  /* === rpx 基础尺寸别名（用于消除组件内 rpx 字面量） === */
   --lk-rpx-0: 0rpx;
   --lk-rpx-1: 1rpx;
   --lk-rpx-2: 2rpx;
@@ -103,7 +85,6 @@ page {
   --lk-rpx-2000: 2000rpx;
   --lk-rpx-9999: 9999rpx;
 
-  /* === 圆角 === */
   --lk-radius-none: 0;
   --lk-radius-xs: 4rpx;
   --lk-radius-sm: 8rpx;
@@ -112,24 +93,20 @@ page {
   --lk-radius-xl: 32rpx;
   --lk-radius-full: 9999px;
 
-  /* === 控件高度 === */
   --lk-control-height-xs: 48rpx;
   --lk-control-height-sm: 64rpx;
   --lk-control-height-md: 80rpx;
   --lk-control-height-lg: 96rpx;
 
-  /* === 控件内边距 === */
   --lk-control-padding-x-xs: 12rpx;
   --lk-control-padding-x-sm: 16rpx;
   --lk-control-padding-x-md: 24rpx;
   --lk-control-padding-x-lg: 32rpx;
 
-  /* === 过渡动画 === */
   --lk-transition-fast: 0.15s ease;
   --lk-transition-base: 0.25s ease;
   --lk-transition-slow: 0.35s ease;
 
-  /* === 层级 (Z-Index) === */
   /* 导航层 */
   --lk-z-index-sticky: 100;
   --lk-z-index-navbar: 200;
@@ -153,11 +130,9 @@ page {
   --lk-z-index-notify: 2100;
   --lk-z-index-loading: 2200;
 
-  /* === 基础色彩（不随主题变化） === */
   --lk-color-white: #ffffff;
   --lk-color-black: #000000;
 
-  /* === 品牌色（支持运行时覆盖）=== */
   --lk-brand-100: #{colors.$color-brand-100};
   --lk-brand-200: #{colors.$color-brand-200};
   --lk-brand-300: #{colors.$color-brand-300};
@@ -169,19 +144,14 @@ page {
   --lk-brand-900: #{colors.$color-brand-900};
 }
 
-/* =============================================================================
-   亮色主题（默认）
-   ============================================================================= */
 :root,
 page,
 .lk-theme-light {
-  /* === 主色 === */
   --lk-color-primary: var(--lk-brand-600);
   --lk-color-primary-hover: var(--lk-brand-700);
   --lk-color-primary-active: var(--lk-brand-800);
   --lk-color-primary-soft: var(--lk-brand-100);
 
-  /* === 语义色 === */
   --lk-color-success: #52c41a;
   --lk-color-success-soft: #f6ffed;
   --lk-color-warning: #faad14;
@@ -191,7 +161,6 @@ page,
   --lk-color-info: #1890ff;
   --lk-color-info-soft: #e6f7ff;
 
-  /* === 文字（中性色，与品牌色解耦）=== */
   /* 主要文字颜色变量 */
   --lk-text-primary: #{colors.$color-text-primary-light};
   --lk-text-regular: #{colors.$color-text-regular-light};
@@ -201,7 +170,6 @@ page,
   --lk-text-disabled: #{colors.$color-text-disabled};
   --lk-text-inverse: #{colors.$color-text-inverse-light};
 
-  /* === 背景（中性色，与品牌色解耦）=== */
   /* 主要背景颜色变量 */
   --lk-bg-page: #{colors.$color-bg-page-light};
   --lk-bg-container: #{colors.$color-bg-container-light};
@@ -217,42 +185,34 @@ page,
   // 使用新的中性点击叠加色，而不是填充色
   --lk-bg-disabled: var(--lk-fill-1);
 
-  /* === 填充色（中性色，与品牌色解耦）=== */
   /* 主要填充颜色变量 */
   --lk-fill-quaternary: #f7f7f7; /* 调整为 #f7f7f7，匹配亮色默认控件背景 */
   --lk-fill-tertiary: #f7f7f7; /* 调整为 #f7f7f7，使滑块/标签等默认背景一致 */
   --lk-fill-secondary: var(--lk-fill-1);
   --lk-fill-primary: var(--lk-fill-2);
 
-  /* === 公共弱背景/轨道色 === */
   /* 用于 Input、Stepper、Picker 选中底、Slider 轨道、NoticeBar 等公共组件弱背景 */
   --lk-bg-input: var(--lk-fill-1);
 
-  /* === 边框 === */
   --lk-color-border: #{colors.$color-border-primary};
   --lk-color-border-light: #{colors.$color-border-secondary};
 
-  /* === 阴影 === */
   --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
   --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.15);
   --lk-overlay-bg: rgba(0, 0, 0, 0.55);
 
-  /* === 交互效果（中性色，与品牌色解耦）=== */
   /* 点击叠加色（使用透明度，适用于任何背景） */
   --lk-bg-active: rgba(0, 0, 0, 0.08);
   --lk-color-ripple: rgba(0, 0, 0, 0.12);
   --lk-color-highlight: rgba(0, 0, 0, 0.04);
 
-  /* === 骨架屏与加载（纯灰色，无色调）=== */
   --lk-skeleton-start: #f0f2f5;
   --lk-skeleton-end: #e1e4e8;
   --lk-loading-spinner: #c8c9cc;
 
-  /* === 图标 === */
   --lk-icon-color: var(--lk-text-primary);
 
-  /* === 输入框 === */
   // 使用统一的公共弱背景/轨道色
   --lk-input-bg: var(--lk-bg-input);
   --lk-input-border: var(--lk-color-border);
@@ -263,13 +223,11 @@ page,
   --lk-input-border-error: var(--lk-color-danger);
   --lk-input-shadow-error: 0 0 0 4rpx var(--lk-color-danger-soft);
 
-  /* === 表单 === */
   --lk-form-item-gap: var(--lk-spacing-xl);
   --lk-form-error-color: var(--lk-color-danger);
   --lk-form-label-color: var(--lk-text-primary);
   --lk-form-label-required-color: var(--lk-color-danger);
 
-  /* === 开关 === */
   --lk-switch-size-sm: 40rpx;
   --lk-switch-size-md: 52rpx;
   --lk-switch-size-lg: 64rpx;
@@ -277,22 +235,18 @@ page,
   --lk-switch-color-off: var(--lk-fill-1);
   --lk-switch-knob-color: var(--lk-color-white);
 
-  /* === 滑块 === */
   --lk-slider-track-color: var(--lk-fill-1);
   --lk-slider-fill-color: var(--lk-color-primary);
   --lk-slider-thumb-color: var(--lk-color-white);
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 
-  /* === 评分 === */
   --lk-rate-color-fill: var(--lk-color-warning);
   --lk-rate-color-void: var(--lk-fill-1);
   --lk-rate-icon-size: 48rpx;
   --lk-rate-gap: 8rpx;
 
-  /* === 步进器 === */
   --lk-stepper-bg: var(--lk-fill-1);
 
-  /* === 键盘 === */
   --lk-keyboard-bg: var(--lk-bg-elevated);
   --lk-keyboard-key-bg: var(--lk-bg-container);
   --lk-keyboard-key-bg-active: var(--lk-fill-1);
@@ -305,7 +259,6 @@ page,
   --lk-keyboard-header-border: var(--lk-color-border-light);
   --lk-keyboard-indicator-bg: var(--lk-color-border);
 
-  /* === 预加载调试器 === */
   --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
   --lk-preload-debugger-text: var(--lk-color-white);
   --lk-preload-debugger-text-muted: rgba(255, 255, 255, 0.6);
@@ -317,28 +270,21 @@ page,
   --lk-preload-debugger-log-bg: rgba(0, 0, 0, 0.3);
   --lk-preload-debugger-log-border: rgba(255, 255, 255, 0.05);
 
-  /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
   --lk-checkbox-checked-color: var(--lk-color-primary);
   --lk-checkbox-check-color: var(--lk-color-white);
 
-  /* === 单选框 === */
   --lk-radio-border-color: var(--lk-color-border);
   --lk-radio-checked-color: var(--lk-color-primary);
   --lk-radio-check-color: var(--lk-color-white);
 }
 
-/* =============================================================================
-   暗色主题
-   ============================================================================= */
 .lk-theme-dark {
-  /* === 主色（暗色下调亮）=== */
   --lk-color-primary: var(--lk-brand-500);
   --lk-color-primary-hover: var(--lk-brand-400);
   --lk-color-primary-active: var(--lk-brand-300);
   --lk-color-primary-soft: rgba(var(--lk-brand-rgb, 105, 101, 219), 0.15);
 
-  /* === 语义色（暗色适配）=== */
   --lk-color-success: #73d13d;
   --lk-color-success-soft: rgba(82, 196, 26, 0.15);
   --lk-color-warning: #ffc53d;
@@ -348,7 +294,6 @@ page,
   --lk-color-info: #40a9ff;
   --lk-color-info-soft: rgba(24, 144, 255, 0.15);
 
-  /* === 文字（中性色，与品牌色解耦）=== */
   /* 主要文字颜色变量 */
   --lk-text-primary: #{colors.$color-text-primary-dark};
   --lk-text-regular: #{colors.$color-text-regular-dark};
@@ -358,7 +303,6 @@ page,
   --lk-text-disabled: rgba(255, 255, 255, 0.25);
   --lk-text-inverse: #{colors.$color-text-inverse-dark};
 
-  /* === 背景（中性色，与品牌色解耦）=== */
   /* 主要背景颜色变量 */
   --lk-bg-page: #{colors.$color-bg-page-dark};
   --lk-bg-container: #{colors.$color-bg-container-dark};
@@ -371,43 +315,35 @@ page,
   // 使用新的中性点击叠加色，而不是填充色
   --lk-bg-disabled: rgba(255, 255, 255, 0.08);
 
-  /* === 填充色（中性色，与品牌色解耦）=== */
   /* 主要填充颜色变量 */
   --lk-fill-quaternary: rgba(255, 255, 255, 0.04);
   --lk-fill-tertiary: rgba(255, 255, 255, 0.08);
   --lk-fill-secondary: var(--lk-fill-1);
   --lk-fill-primary: var(--lk-fill-2);
 
-  /* === 公共弱背景/轨道色 === */
   /* 用于 Input、Stepper、Picker 选中底、Slider 轨道、NoticeBar 等公共组件弱背景 */
   --lk-bg-input: var(--lk-fill-1);
 
-  /* === 边框 === */
   --lk-color-border: rgba(255, 255, 255, 0.2);
   --lk-color-border-light: rgba(255, 255, 255, 0.1);
 
-  /* === 阴影 === */
   --lk-shadow-sm: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
   --lk-shadow-base: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
   --lk-shadow-lg: 0 16rpx 48rpx rgba(0, 0, 0, 0.5);
   --lk-overlay-bg: rgba(0, 0, 0, 0.6);
 
-  /* === 交互效果（中性色，与品牌色解耦）=== */
   /* 点击叠加色（使用透明度，适用于任何背景） */
   --lk-bg-active: rgba(255, 255, 255, 0.12);
   --lk-color-ripple: rgba(255, 255, 255, 0.2);
   --lk-color-highlight: rgba(255, 255, 255, 0.08);
 
-  /* === 骨架屏与加载（纯灰色，无色调）=== */
   --lk-skeleton-start: #2c2c2c;
   --lk-skeleton-end: #3d3d3d;
   --lk-loading-spinner: #5d5d5d;
 
-  /* === 图标 === */
   /* 图标默认跟随文字颜色，自动适配暗黑模式 */
   --lk-icon-color: var(--lk-text-primary);
 
-  /* === 输入框 === */
   // 使用统一的公共弱背景/轨道色
   --lk-input-bg: var(--lk-bg-input);
   --lk-input-border: var(--lk-color-border);
@@ -418,13 +354,11 @@ page,
   --lk-input-border-error: var(--lk-color-danger);
   --lk-input-shadow-error: 0 0 0 4rpx var(--lk-color-danger-soft);
 
-  /* === 表单 === */
   --lk-form-item-gap: var(--lk-spacing-xl);
   --lk-form-error-color: var(--lk-color-danger);
   --lk-form-label-color: var(--lk-text-primary);
   --lk-form-label-required-color: var(--lk-color-danger);
 
-  /* === 开关 === */
   --lk-switch-size-sm: 40rpx;
   --lk-switch-size-md: 52rpx;
   --lk-switch-size-lg: 64rpx;
@@ -432,22 +366,18 @@ page,
   --lk-switch-color-off: var(--lk-fill-1);
   --lk-switch-knob-color: var(--lk-color-white);
 
-  /* === 滑块 === */
   --lk-slider-track-color: var(--lk-fill-1);
   --lk-slider-fill-color: var(--lk-color-primary);
   --lk-slider-thumb-color: var(--lk-color-white);
   --lk-slider-thumb-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 
-  /* === 评分 === */
   --lk-rate-color-fill: var(--lk-color-warning);
   --lk-rate-color-void: var(--lk-fill-1);
   --lk-rate-icon-size: 48rpx;
   --lk-rate-gap: 8rpx;
 
-  /* === 步进器 === */
   --lk-stepper-bg: var(--lk-fill-1);
 
-  /* === 键盘 === */
   --lk-keyboard-bg: var(--lk-bg-container);
   --lk-keyboard-key-bg: var(--lk-fill-1);
   --lk-keyboard-key-bg-active: var(--lk-fill-2);
@@ -460,7 +390,6 @@ page,
   --lk-keyboard-header-border: var(--lk-color-border-light);
   --lk-keyboard-indicator-bg: var(--lk-color-border);
 
-  /* === 预加载调试器 === */
   --lk-preload-debugger-bg: rgba(0, 0, 0, 0.9);
   --lk-preload-debugger-text: var(--lk-color-white);
   --lk-preload-debugger-text-muted: rgba(255, 255, 255, 0.7);
@@ -472,20 +401,16 @@ page,
   --lk-preload-debugger-log-bg: rgba(0, 0, 0, 0.4);
   --lk-preload-debugger-log-border: rgba(255, 255, 255, 0.08);
 
-  /* === 复选框 === */
   --lk-checkbox-border-color: var(--lk-color-border);
   --lk-checkbox-checked-color: var(--lk-color-primary);
   --lk-checkbox-check-color: var(--lk-color-white);
 
-  /* === 单选框 === */
   --lk-radio-border-color: var(--lk-color-border);
   --lk-radio-checked-color: var(--lk-color-primary);
   --lk-radio-check-color: var(--lk-color-white);
 }
 
-/* =============================================================================
    图表变量
-   ============================================================================= */
 :root,
 page,
 .lk-theme-light,

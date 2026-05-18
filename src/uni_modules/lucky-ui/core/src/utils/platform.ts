@@ -20,7 +20,6 @@ export function clearSystemInfoCache(): void {
   systemInfo = null;
 }
 
-// ==================== Vue 版本检测 ====================
 
 /**
  * 检查是否为 Vue3 版本
@@ -61,7 +60,6 @@ export function isUniAppX(): boolean {
   // #endif
 }
 
-// ==================== App 平台检测 ====================
 
 /**
  * 检查是否为 App 环境
@@ -141,7 +139,6 @@ export function isAppHarmony(): boolean {
   // #endif
 }
 
-// ==================== Web 平台检测 ====================
 
 /**
  * 检查是否为 H5 环境
@@ -169,7 +166,6 @@ export function isWeb(): boolean {
   // #endif
 }
 
-// ==================== 小程序平台检测 ====================
 
 /**
  * 检查是否为微信小程序
@@ -327,7 +323,6 @@ export function isMp(): boolean {
   // #endif
 }
 
-// ==================== 快应用检测 ====================
 
 /**
  * 检查是否为快应用通用(包含联盟、华为)
@@ -368,7 +363,6 @@ export function isQuickappWebviewHuawei(): boolean {
   // #endif
 }
 
-// ==================== 综合检测函数 ====================
 
 /**
  * 获取当前平台类型
@@ -508,7 +502,6 @@ export function getUniVersion(): string {
   // #endif
 }
 
-// ==================== 平台组合检测 ====================
 
 /**
  * 检查是否为小程序环境（具体的小程序平台）

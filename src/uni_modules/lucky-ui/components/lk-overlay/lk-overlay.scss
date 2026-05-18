@@ -10,5 +10,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // 基础样式不带 opacity: 0，由 .lk-transition 控制初始状态
+  // opacity 初始态由 .lk-transition 控制。
 }

@@ -27,10 +27,8 @@ export async function initLkIconsFont(opt: InitFontOptions) {
   let source = '';
 
   if (opt.source === 'cdn') {
-    // 强制选用 ttf，兼容性最好
     source = `url("${opt.url}")`;
   } else {
-    // base64 数据：传入纯 base64 字符串，这里拼接成 data URL
     const format = opt.format ?? 'woff';
     const mime = format === 'woff' ? 'font/woff' : 'font/truetype';
     source = `url("data:${mime};charset=utf-8;base64,${opt.data}") format("${format}")`;
@@ -38,9 +36,8 @@ export async function initLkIconsFont(opt: InitFontOptions) {
 
   try {
     // #ifndef H5
-    // 小程序 / App 启动早期可能还没有 page 实例，直接 global 加载会触发 $page undefined
-    // 在部分 App 极早期启动阶段，waitForPageReady 可能由于底层通讯未好而导致 Network Error
-    // 稍作延迟等待底层加载完毕
+    // 小程序/App 启动早期无 page 实例时，global 加载可能触发 $page undefined。
+    // 延迟到页面可用后再加载字体。
     await new Promise(resolve => setTimeout(resolve, 200));
     await waitForPageReady();
     // #endif
@@ -63,7 +60,7 @@ export async function initLkIconsFont(opt: InitFontOptions) {
   } catch (e) {
     try {
       // #ifndef H5
-      // 兜底：部分宿主对 global 参数兼容不稳定，退化为局部注入避免启动报错
+      // 部分宿主对 global 参数支持不稳定，降级为局部注入。
       await new Promise((resolve, reject) => {
         // @ts-ignore: uni API
         uni.loadFontFace({

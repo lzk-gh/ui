@@ -14,7 +14,6 @@ defineOptions({ name: 'LkForm' });
 const props = defineProps(formProps);
 const emit = defineEmits(formEmits);
 
-// 使用 reactive 注册表存储所有 FormItem
 const fields: FormItemContext[] = reactive([]);
 
 function addField(f: FormItemContext) {
@@ -41,7 +40,6 @@ async function validate(opts?: { fields?: string[]; silent?: boolean }) {
   }
   emit('validate', errors.length === 0, errors.length ? errors : null);
   if (errors.length) {
-    // 滚动到第一个错误字段
     if (props.scrollToError) {
       scrollToField(errors[0].field);
     }
@@ -99,7 +97,6 @@ async function validateField(prop: string) {
 
 /** 滚动到指定字段（H5 & 小程序通用：uni.pageScrollTo + 节点查询） */
 function scrollToField(prop: string) {
-  // 通过节点查询找到对应 form-item 的位置
   const query = uni.createSelectorQuery();
   query
     .select(`.lk-form-item[data-prop="${prop}"]`)
@@ -125,9 +122,8 @@ const classes = computed(() => [
 
 const style = computed(() => props.customStyle as StyleValue);
 
-// 响应式上下文：使用 computed 确保 rules/labelWidth/showMessage 变化时 FormItem 能感知
 const formContext = computed<FormContext>(() => ({
-  model: props.model,          // 对象引用，天然响应式
+  model: props.model,
   rules: props.rules,
   labelWidth: props.labelWidth,
   labelAlign: props.labelAlign,
@@ -147,7 +143,6 @@ const formContext = computed<FormContext>(() => ({
 
 provide(formContextKey, formContext.value);
 
-// 暴露公共方法，支持 ref 调用
 defineExpose({
   validate,
   validateField,

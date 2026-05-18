@@ -1,4 +1,3 @@
-<!-- F:\luckyone\ui\src\uni_modules\lucky-ui\components\lk-segmented\lk-segmented.vue -->
 <script setup lang="ts">
 import type { StyleValue } from 'vue';
 import { ref, watch, nextTick, getCurrentInstance, computed, onMounted } from 'vue';
@@ -17,7 +16,6 @@ const inst = getCurrentInstance();
 const active = ref(props.modelValue);
 const sliderStyle = ref<Record<string, string>>({ opacity: '0' });
 
-/* 根节点注入变量 */
 const rootStyle = computed<StyleValue>(() => resolveSegmentedRootStyle({
   radius: props.radius,
   duration: props.duration,
@@ -28,7 +26,6 @@ const rootStyle = computed<StyleValue>(() => resolveSegmentedRootStyle({
   customStyle: props.customStyle as StyleValue,
 }));
 
-/* 选择 */
 function select(opt: SegmentedOption, event?: unknown) {
   const result = resolveSegmentedSelection({
     option: opt,
@@ -48,11 +45,9 @@ function select(opt: SegmentedOption, event?: unknown) {
   emit('update:modelValue', result.value);
   emit('select', { value: result.value, option: opt, oldValue: result.oldValue });
   emit('change', result.value, opt, result.oldValue);
-  // 增加延时确保 DOM 更新完毕
   setTimeout(updateSlider, 50);
 }
 
-/* 监听 */
 watch(
   () => props.modelValue,
   v => {
@@ -66,7 +61,6 @@ watch(
   { deep: true }
 );
 
-/* 计算滑块 */
 function updateSlider() {
   const q = uni.createSelectorQuery().in(inst);
   q.select('.lk-segmented').boundingClientRect();
@@ -98,10 +92,8 @@ onMounted(() => setTimeout(updateSlider, 50));
     :class="[customClass, `lk-segmented--${size}`, { 'lk-segmented--block': block }]"
     :style="rootStyle"
   >
-    <!-- 滑块 -->
     <view class="lk-segmented__slider" :style="sliderStyle" />
 
-    <!-- 选项 -->
     <view
       v-for="opt in options"
       :key="opt.value"
@@ -109,7 +101,6 @@ onMounted(() => setTimeout(updateSlider, 50));
       :class="{ 'is-active': opt.value === active, 'is-disabled': opt.disabled }"
       @tap="select(opt, $event)"
     >
-      <!-- 默认插槽 (可被自定义) -->
       <slot name="item" :option="opt" :active="opt.value === active">
         <text class="lk-segmented__label">{{ opt.label }}</text>
       </slot>

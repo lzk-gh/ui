@@ -21,8 +21,6 @@ const props = defineProps(uploadProps);
 const emit = defineEmits(uploadEmits);
 const { t } = useLocale('upload');
 
-/* ───────────── 内部文件列表 ───────────── */
-
 const fileList = ref<UploadFile[]>([...props.modelValue]);
 
 watch(
@@ -32,12 +30,8 @@ watch(
   },
 );
 
-/* ───────────── 内置删除确认弹窗状态 ───────────── */
-
 const deleteConfirmVisible = ref(false);
 const pendingDeleteIndex = ref(-1);
-
-/* ───────────── 工具函数 ───────────── */
 
 let _uid = 0;
 function genUid(): string {
@@ -81,15 +75,11 @@ function getItemClass(file: UploadFile) {
   ];
 }
 
-/* ───────────── 同步外部 ───────────── */
-
 function syncModel(list: UploadFile[]) {
   fileList.value = list;
   emit('update:modelValue', [...list]);
   emit('change', [...list]);
 }
-
-/* ───────────── 选择文件 ───────────── */
 
 async function onSelect(e?: Event) {
   if (props.disabled) return;
@@ -106,8 +96,6 @@ async function onSelect(e?: Event) {
   chooseFileH5();
   // #endif
 }
-
-/* ---------- 小程序端选择 ---------- */
 
 function chooseFileMp() {
   const count = props.multiple ? remainCount.value : 1;
@@ -135,8 +123,6 @@ function chooseFileMp() {
   });
 }
 
-/* ---------- H5 端选择 ---------- */
-
 function chooseFileH5() {
   const input = document.createElement('input');
   input.type = 'file';
@@ -150,12 +136,9 @@ function chooseFileH5() {
   input.click();
 }
 
-/* ───────────── 选择后处理 ───────────── */
-
 async function handleAfterChoose(items: UploadFile[]) {
   if (!items.length) return;
 
-  /* 大小校验 */
   const oversized: UploadFile[] = [];
   const valid: UploadFile[] = [];
   for (const f of items) {
@@ -170,7 +153,6 @@ async function handleAfterChoose(items: UploadFile[]) {
   }
   if (!valid.length) return;
 
-  /* beforeRead 钩子 */
   if (props.beforeRead) {
     const target = valid.length === 1 ? valid[0] : valid;
     try {
@@ -181,25 +163,20 @@ async function handleAfterChoose(items: UploadFile[]) {
     }
   }
 
-  /* 合并到列表 */
   const merged = fileList.value.concat(valid).slice(0, props.maxCount);
   syncModel(merged);
 
   const readTarget = valid.length === 1 ? valid[0] : valid;
   emit('afterRead', readTarget, { index: fileList.value.length - valid.length });
 
-  /* afterRead 回调 prop */
   if (props.afterRead) {
     props.afterRead(readTarget, { index: fileList.value.length - valid.length });
   }
 
-  /* 如果配置了 action 则自动上传 */
   if (props.action) {
     valid.forEach((f) => doUpload(f));
   }
 }
-
-/* ───────────── 上传逻辑 ───────────── */
 
 function doUpload(file: UploadFile) {
   file.status = UploadStatus.Uploading;
@@ -207,7 +184,6 @@ function doUpload(file: UploadFile) {
   file.message = t('uploading');
   syncModel([...fileList.value]);
 
-  /* 自定义上传函数（可接入 Request 等外部请求工具） */
   if (props.customRequest) {
     props.customRequest({
       file,
@@ -241,7 +217,6 @@ function doUpload(file: UploadFile) {
     return;
   }
 
-  /* 内置 uni.uploadFile */
   const uploadTask = uni.uploadFile({
     url: props.action,
     filePath: file.url,
@@ -268,7 +243,6 @@ function doUpload(file: UploadFile) {
     },
   });
 
-  /* 监听进度 */
   if (uploadTask && typeof uploadTask.onProgressUpdate === 'function') {
     uploadTask.onProgressUpdate((res) => {
       file.progress = res.progress;
@@ -277,8 +251,6 @@ function doUpload(file: UploadFile) {
     });
   }
 }
-
-/* ───────────── 删除文件 ───────────── */
 
 async function removeFile(index: number) {
   if (index < 0 || index >= fileList.value.length) return;
@@ -323,8 +295,6 @@ function onDeleteCancel() {
   pendingDeleteIndex.value = -1;
 }
 
-/* ───────────── 预览图片 ───────────── */
-
 function onPreview(index: number) {
   const file = fileList.value[index];
   emit('clickPreview', file, { index });
@@ -343,8 +313,6 @@ function onPreview(index: number) {
   // #endif
 }
 
-/* ───────────── 重新上传 ───────────── */
-
 function retryUpload(index: number) {
   const file = fileList.value[index];
   if (file.status !== UploadStatus.Fail) return;
@@ -356,8 +324,6 @@ function clearFiles() {
   syncModel([]);
   emit('clear');
 }
-
-/* ───────────── 暴露方法 ───────────── */
 
 defineExpose({
   /** 手动选择文件 */

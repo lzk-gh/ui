@@ -45,9 +45,6 @@ preferRuntimeSafeArea = true;
 // #endif
 const safeAreaBottom = resolveTabbarSafeAreaBottom(systemInfo);
 
-// ============================================================================
-// 子项管理
-// ============================================================================
 const itemCount = ref(0);
 let itemIndexCounter = 0;
 
@@ -62,14 +59,10 @@ function registerItem() {
   };
 }
 
-// ============================================================================
-// Slider 模式相关
-// ============================================================================
 const sliderLeft = ref(0);
 const sliderWidth = ref(0);
 const tabbarRef = ref<HTMLElement | null>(null);
 
-// 计算滑块位置
 function updateSliderPosition(index: number) {
   if (props.mode !== TabbarMode.Slider) return;
 
@@ -86,7 +79,6 @@ function updateSliderPosition(index: number) {
   });
 }
 
-// 当激活项变化时更新滑块位置
 watch(
   () => props.modelValue,
   val => {
@@ -96,14 +88,10 @@ watch(
   { immediate: true }
 );
 
-// 首次加载时更新滑块位置
 onMounted(() => {
   updateSliderPosition(resolveTabbarIndex(props.modelValue));
 });
 
-// ============================================================================
-// 样式计算
-// ============================================================================
 const rootStyle = computed(() => resolveTabbarRootStyle({
   zIndex: props.zIndex,
   safeArea: props.safeArea,
@@ -137,9 +125,6 @@ const rootClass = computed(() => resolveTabbarRootClass({
   glassBg: props.glassBg,
 }));
 
-// ============================================================================
-// 事件处理
-// ============================================================================
 function setActive(val: TabbarValue, index: number, event?: unknown) {
   const item = props.list.length > 0 ? props.list[index] : undefined;
   emit('click', val, item, index, event);
@@ -152,10 +137,8 @@ function setActive(val: TabbarValue, index: number, event?: unknown) {
   emit('update:modelValue', val);
   emit('change', val, item);
 
-  // 更新滑块位置
   updateSliderPosition(index);
 
-  // 如果开启了页面跳转
   if (item?.pagePath && shouldSwitchTabbarPage({
     switchPage: props.switchPage,
     item,
@@ -168,14 +151,10 @@ function setActive(val: TabbarValue, index: number, event?: unknown) {
   }
 }
 
-// 点击 list 模式的 item
 function onItemClick(index: number, _item: TabbarItemConfig, event: unknown) {
   setActive(index, index, event);
 }
 
-// ============================================================================
-// 提供给子组件的上下文
-// ============================================================================
 provide(tabbarContextKey, {
   active: computed(() => props.modelValue),
   setActive,
@@ -186,12 +165,8 @@ provide(tabbarContextKey, {
   registerItem,
 });
 
-// ============================================================================
-// 辅助计算
-// ============================================================================
 const isSliderMode = computed(() => props.mode === TabbarMode.Slider);
 
-// 判断某个项是否是中间凸起项
 function isBumpItem(index: number) {
   const total = props.list.length || itemCount.value;
   return isTabbarBumpItem({
@@ -226,13 +201,11 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
     :class="rootClass"
     :style="tabbarStyle"
   >
-    <!-- Slider 模式下的滑块指示器 -->
     <view v-if="isSliderMode" class="lk-tabbar__slider" :style="sliderStyle">
       <view class="lk-tabbar__slider-inner" />
     </view>
 
     <view class="lk-tabbar__wrapper">
-      <!-- List 模式渲染 -->
       <template v-if="list.length > 0">
         <view
           v-for="(item, index) in list"
@@ -244,11 +217,9 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
           })"
           @tap="onItemClick(index, item, $event)"
         >
-          <!-- 凸起模式的特殊背景 -->
           <view v-if="isBumpItem(index)" class="lk-tabbar-item__bump-bg" />
 
           <view class="lk-tabbar-item__icon">
-            <!-- 自定义图标(图片) -->
             <template v-if="item.customIcon">
               <image
                 :src="resolveListItemIcon(item, resolveTabbarItemActive(modelValue, index))"
@@ -256,7 +227,6 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
                 mode="aspectFit"
               />
             </template>
-            <!-- lk-icon 内置图标 -->
             <template v-else>
               <lk-icon
                 :name="resolveListItemIcon(item, resolveTabbarItemActive(modelValue, index))"
@@ -265,9 +235,7 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
               />
             </template>
 
-            <!-- 小红点 -->
             <view v-if="item.dot" class="lk-tabbar-item__dot" />
-            <!-- 徽标 -->
             <view
               v-else-if="shouldShowTabbarBadge({
                 dot: item.dot,
@@ -283,12 +251,10 @@ function resolveListItemIcon(item: TabbarItemConfig, active: boolean) {
         </view>
       </template>
 
-      <!-- Slot 模式渲染 -->
       <slot v-else />
     </view>
   </view>
 
-  <!-- fixed 时撑起占位，避免内容被遮挡 -->
   <view
     v-if="fixed"
     class="lk-tabbar__placeholder"

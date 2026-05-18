@@ -51,7 +51,7 @@ export const virtualListProps = {
   scrollAnchoring: LkProp.boolean(true),
   /** 是否启用 passive 事件 */
   enablePassive: LkProp.boolean(true),
-  /** 是否启用增强模式 */
+  /** 是否启用 scroll-view enhanced */
   enhanced: LkProp.boolean(true),
   /** 是否启用回弹效果 */
   bounces: LkProp.boolean(false),

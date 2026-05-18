@@ -1,15 +1,11 @@
 @use '../../theme/src/mixins' as *;
 
 @include b(avatar) {
-  // =========================================
   // 1. 定义组件级 CSS 变量
-  // =========================================
   --_color: var(--lk-text-secondary);
   --_fs: var(--lk-control-font-size-md);
 
-  // =========================================
   // 2. 核心盒模型
-  // =========================================
   position: relative;
   overflow: hidden;
   display: inline-flex;

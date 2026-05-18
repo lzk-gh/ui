@@ -75,7 +75,6 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    // transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1); // 移除这个，由 useTransition 接管
 
     &.pos-top {
       top: 8%;

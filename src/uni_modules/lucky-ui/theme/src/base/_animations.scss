@@ -13,7 +13,6 @@
     opacity: 1;
   }
 
-  /* ========== Fade 淡入淡出 ========== */
 
   &.lk-transition-fade {
     &:not(.lk-transition-active) {
@@ -112,7 +111,6 @@
     }
   }
 
-  /* ========== Slide 滑动 ========== */
 
   &.lk-transition-slide-up {
     &:not(.lk-transition-active) {
@@ -150,7 +148,6 @@
     }
   }
 
-  /* ========== Zoom 缩放 ========== */
 
   &.lk-transition-zoom-in {
     &:not(.lk-transition-active) {
@@ -262,7 +259,6 @@
     }
   }
 
-  /* ========== Flip 翻转 ========== */
 
   &.lk-transition-flip-left {
     transform-style: preserve-3d;
@@ -312,7 +308,6 @@
     }
   }
 
-  /* ========== Bounce 弹跳 ========== */
 
   &.lk-transition-bounce-in {
     // Bounce 使用 keyframes 驱动，避免与基础 transition 叠加导致闪烁
@@ -396,7 +391,6 @@
     }
   }
 
-  /* ========== Rotate 旋转 ========== */
 
   &.lk-transition-rotate-in {
     transform-origin: center;
@@ -459,7 +453,6 @@
   }
 }
 
-/* ========== Bounce 动画关键帧 ========== */
 
 @keyframes lk-bounce-in {
   0% {

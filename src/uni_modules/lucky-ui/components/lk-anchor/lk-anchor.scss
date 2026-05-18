@@ -1,6 +1,5 @@
 @use '../../theme/src/mixins' as *;
 
-// ─── lk-anchor 侧边栏容器 ───────────────────────────────────────
 @include b(anchor) {
   display: block;
   width: 100%;
@@ -16,7 +15,6 @@
   }
 }
 
-// ─── lk-anchor-link 菜单项 ─────────────────────────────────────
 @include b(anchor-link) {
   display: flex;
   align-items: center;
@@ -61,7 +59,6 @@
     z-index: 3;
   }
 
-  // ─── 激活状态 ───────────────────────────────────────────────
   @include m(active) {
     // 关键：激活项背景与右侧内容容器背景色一致，形成融合视觉
     background-color: var(--lk-anchor-bg-active, var(--lk-bg-container));

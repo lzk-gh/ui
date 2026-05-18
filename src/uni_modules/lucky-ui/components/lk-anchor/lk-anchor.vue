@@ -61,9 +61,7 @@ function finishProgrammaticScroll() {
   pendingTargetHref.value = '';
 }
 
-// 测量目标元素位置
 async function measureTargets(baseScrollTop: number = 0) {
-  // 确保 DOM 已经渲染
   await nextTick();
   const hrefs = children.value.map(child => child?.props?.href as string).filter(href => !!href);
   if (hrefs.length === 0) {
@@ -99,7 +97,6 @@ async function measureTargets(baseScrollTop: number = 0) {
     .map((href, idx) => {
       const rect = results[startIndex + idx];
       if (!rect) return null;
-      // 核心计算公式：目标元素视口Top - 容器视口Top + 此时传入的容器已滚动距离
       const top = (rect.top || 0) - (containerRect?.top || 0) + resolveAnchorNumber(baseScrollTop);
       return { href, top, height: rect.height || 0 };
     })
@@ -108,7 +105,6 @@ async function measureTargets(baseScrollTop: number = 0) {
 
   targets.value = measured;
 
-  // 测量完毕后立刻计算一次当前激活项，解决初始无激活项的问题
   resolveActiveByScroll(baseScrollTop);
 }
 
@@ -161,9 +157,7 @@ function resolveProgrammaticScroll(scrollTop: number, headerHeight: number = 0) 
   return true;
 }
 
-// 滚动监听逻辑
 function onScroll(scrollTop: number, headerHeight: number = 0) {
-  // 移除了小程序每次滚动都重测位置的代码，解决高度计算错乱与高亮漂移
   if (resolveProgrammaticScroll(scrollTop, headerHeight)) return;
   resolveActiveByScroll(scrollTop, headerHeight);
 }

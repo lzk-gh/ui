@@ -13,7 +13,6 @@ const emit = defineEmits(radioGroupEmits);
 
 const form = inject(formContextKey, null);
 
-// 使用 Symbol.for 确保和子组件匹配
 const LK_RADIO_GROUP_KEY = Symbol.for('LkRadioGroup');
 
 const style = computed(() => props.customStyle as StyleValue);
@@ -23,7 +22,6 @@ function updateValue(value: RadioValue) {
   emit('update:modelValue', value);
   emit('change', value);
   emit('item-change', value);
-  // 表单联动验证
   if (props.validateEvent && props.prop) {
     form?.emitFieldChange(props.prop, value);
   }

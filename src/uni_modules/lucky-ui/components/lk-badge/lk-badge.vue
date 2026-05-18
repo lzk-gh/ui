@@ -26,9 +26,7 @@ const visible = computed(() => shouldShowBadge({
   value: props.value,
 }));
 
-/**
- * 小程序端优先使用直出样式，确保语义色稳定生效
- */
+/** 小程序端使用直出样式，避免语义色被样式隔离影响 */
 const badgeStyle = computed(() => resolveBadgeStyle({
   offset: props.offset as [number, number],
   color: props.color,

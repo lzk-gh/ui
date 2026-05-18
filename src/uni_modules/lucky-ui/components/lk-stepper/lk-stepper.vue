@@ -33,8 +33,6 @@ function format(value: string | number): string {
   });
 }
 
-// --- 计算属性 ---
-
 const isMinusDisabled = computed(
   () => isStepperMinusDisabled({
     disabled: props.disabled,
@@ -63,9 +61,6 @@ const classes = computed(() => resolveStepperClass({
   disabled: props.disabled,
 }));
 
-// --- 事件处理 ---
-
-// 统一变更处理
 async function handleChange(type: StepperAction, val?: string) {
   const result = resolveStepperChange({
     action: type,
@@ -87,12 +82,10 @@ async function handleChange(type: StepperAction, val?: string) {
   const clampedVal = result.value;
   emit('before-change', clampedVal, type);
 
-  // 拦截逻辑
   if (props.beforeChange) {
     try {
       const allow = await props.beforeChange(clampedVal);
       if (!allow) {
-        // 恢复原值 (主要针对 input 输入的情况)
         current.value = String(props.modelValue);
         emit('change-cancel', clampedVal, type, 'before-change');
         return;
@@ -114,7 +107,6 @@ async function handleChange(type: StepperAction, val?: string) {
   }
 }
 
-// 输入框事件
 function onInput(e: Event | { detail?: { value?: string }; target?: { value?: string } }) {
   const value = readStepperInputValue(e);
   current.value = value;
@@ -122,7 +114,6 @@ function onInput(e: Event | { detail?: { value?: string }; target?: { value?: st
 }
 
 function onBlur(e: unknown) {
-  // Blur 时强制修正格式和范围
   handleChange('input', normalizeStepperBlurValue({
     current: current.value,
     min: props.min,
@@ -136,22 +127,21 @@ function onFocus(e: unknown) {
   emit('focus', e);
 }
 
-// --- 长按处理 (简单实现) ---
 let longPressTimer: ReturnType<typeof setTimeout> | null = null;
-// 标记是否由 touch 事件处理过，用于阻止 PC 端重复触发 click
+// 移动端 touch 后可能继续触发 click，需屏蔽重复变更。
 let touchHandled = false;
 
 function onTouchStart(type: 'minus' | 'plus') {
   touchHandled = true;
-  handleChange(type); // 立即触发一次
+  handleChange(type);
 
   if (!props.longPress) return;
 
   longPressTimer = setTimeout(() => {
     longPressTimer = setInterval(() => {
       handleChange(type);
-    }, 200); // 长按触发间隔
-  }, 600); // 长按触发阈值
+    }, 200);
+  }, 600);
 }
 
 function onTouchEnd() {
@@ -160,14 +150,12 @@ function onTouchEnd() {
     clearInterval(longPressTimer);
     longPressTimer = null;
   }
-  // 延迟重置，确保后续 click 事件能被正确屏蔽
   setTimeout(() => {
     touchHandled = false;
   }, 300);
 }
 
 function onClick(type: 'minus' | 'plus') {
-  // 如果已由 touchstart 处理过，跳过（移动端会同时触发 touch 和 click）
   if (touchHandled) return;
   handleChange(type);
 }

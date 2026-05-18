@@ -1,26 +1,19 @@
 @use '../../theme/src/mixins' as *;
 
 @include b(textarea) {
-  // --- CSS Token 映射 (连接你的主题系统) ---
-  // 1. 颜色
   --lk-ta-color-primary: var(--lk-color-primary);
   --lk-ta-color-error: var(--lk-color-danger);
-  // 使用新的中性文字颜色变量
   --lk-ta-text-color: var(--lk-text-primary);
   --lk-ta-text-color-secondary: var(--lk-text-placeholder);
   --lk-ta-text-color-disabled: var(--lk-text-disabled);
 
-  // 2. 背景 (关键改进：支持透明和填充)
   --lk-ta-bg: var(--lk-bg-container);
-  // 填充模式使用统一的控件填充色（更干净的颜色）
   --lk-ta-bg-filled: var(--lk-bg-input);
   --lk-ta-bg-disabled: var(--lk-fill-1);
 
-  // 3. 边框
   --lk-ta-border-color: var(--lk-color-border, var(--lk-color-border));
   --lk-ta-border-radius: var(--lk-radius-md, var(--lk-rpx-12));
 
-  // 4. 尺寸
   --lk-ta-fs: var(--lk-control-font-size-md, var(--lk-rpx-28));
   --lk-ta-padding: var(--lk-rpx-24);
 
@@ -33,9 +26,6 @@
   color: var(--lk-ta-text-color);
   transition: all 0.2s;
 
-  // --- 变体 Variant 实现 ---
-
-  // 1. Outline (默认描边)
   @include m(outline) {
     background-color: var(--lk-ta-bg);
     border: var(--lk-rpx-2) solid var(--lk-ta-border-color);
@@ -43,24 +33,21 @@
 
     @include when(focused) {
       border-color: var(--lk-ta-color-primary);
-      // 可选：添加光晕
       box-shadow: 0 0 0 var(--lk-rpx-4) rgb(var(--lk-brand-rgb) / 15%);
     }
   }
 
-  // 2. Filled (填充风格 - 现代感强，无边框)
   @include m(filled) {
     background-color: var(--lk-ta-bg-filled);
-    border: var(--lk-rpx-2) solid transparent; // 预留边框位防抖动
+    border: var(--lk-rpx-2) solid transparent;
     border-radius: var(--lk-ta-border-radius);
 
     @include when(focused) {
-      background-color: var(--lk-ta-bg); // 聚焦变白
+      background-color: var(--lk-ta-bg);
       border-color: var(--lk-ta-color-primary);
     }
   }
 
-  // 3. Flush (无边框 - 极简)
   @include m(flush) {
     background-color: transparent;
     border: none;
@@ -74,8 +61,6 @@
     }
   }
 
-  // --- 状态 ---
-
   @include when(disabled) {
     opacity: 0.7;
     cursor: not-allowed;
@@ -83,14 +68,12 @@
     color: var(--lk-ta-text-color-disabled);
   }
 
-  // --- 内部元素 ---
-
   @include e(label) {
     margin-bottom: var(--lk-rpx-12);
     font-size: var(--lk-rpx-26);
     font-weight: 500;
     color: var(--lk-ta-text-color);
-    padding: 0 var(--lk-rpx-8); // 对齐视觉
+    padding: 0 var(--lk-rpx-8);
   }
 
   @include e(wrapper) {
@@ -114,14 +97,12 @@
   }
 
   @include e(placeholder) {
-    // 使用新的占位符颜色变量
     color: var(--lk-text-placeholder);
   }
 
-  // --- 右侧区域 (清空按钮) ---
   @include e(suffix) {
     display: flex;
-    align-items: flex-start; // 靠上对齐
+    align-items: flex-start;
     margin-left: var(--lk-rpx-16);
   }
 
@@ -132,15 +113,14 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: var(--lk-fill-tertiary); // 浅灰底
+    background-color: var(--lk-fill-tertiary);
     transition: background-color 0.2s;
     cursor: pointer;
 
     &:active {
-      background-color: var(--lk-fill-secondary); // 点击深色反馈
+      background-color: var(--lk-fill-secondary);
     }
 
-    // 纯CSS绘制关闭图标 (建议替换为 <lk-icon>)
     .lk-icon-close {
       position: relative;
       width: var(--lk-rpx-16);
@@ -162,19 +142,17 @@
     }
   }
 
-  // --- 底部 Footer ---
   @include e(footer) {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 var(--lk-ta-padding) var(--lk-rpx-16);
-    margin-top: calc(var(--lk-rpx-8) * -1); // 拉近一点距离
+    margin-top: calc(var(--lk-rpx-8) * -1);
   }
 
   @include e(count) {
     font-size: var(--lk-rpx-22);
-    // 使用新的中性文字颜色变量
     color: var(--lk-text-secondary);
-    margin-left: auto; // 挤到最右边
+    margin-left: auto;
   }
 }

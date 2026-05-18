@@ -2,7 +2,6 @@
  * Tabbar 页面容器系统
  * @description 实现单页面内的 Tab 切换，避免页面重新渲染导致的闪烁
  *
- * 核心思路：
  * 1. 只有一个真正的"页面"作为 Tabbar 容器
  * 2. 各个 Tab 内容作为组件存在，通过 v-show 或 keep-alive 切换
  * 3. Tabbar 组件固定在容器底部，不随 Tab 内容变化
@@ -96,7 +95,6 @@ export function initTabbarContainer(tabs: TabConfig[], defaultTabId?: string): v
   state.value.instances.clear();
   state.value.visitedTabs.clear();
 
-  // 初始化各 Tab 实例状态
   tabs.forEach(tab => {
     state.value.instances.set(tab.id, {
       component: null,
@@ -106,7 +104,6 @@ export function initTabbarContainer(tabs: TabConfig[], defaultTabId?: string): v
     });
   });
 
-  // 设置默认激活的 Tab
   const initialTab = defaultTabId || tabs[0]?.id || '';
   if (initialTab) {
     switchTab(initialTab);
@@ -133,7 +130,6 @@ export async function switchTab(tabId: string): Promise<void> {
     return;
   }
 
-  // 如果组件未加载，先加载
   if (!instance.loaded && !instance.loading) {
     instance.loading = true;
     log('Loading tab component:', tabId);
@@ -145,11 +141,9 @@ export async function switchTab(tabId: string): Promise<void> {
         instance.error = null;
         log('Tab component skipped (no component):', tabId);
       } else if (typeof tab.component === 'function') {
-        // 动态导入
         const module = await (tab.component as () => Promise<{ default: Component }>)();
         instance.component = markRaw(module.default);
       } else {
-        // 静态组件
         instance.component = markRaw(tab.component);
       }
       instance.loaded = true;
@@ -163,7 +157,6 @@ export async function switchTab(tabId: string): Promise<void> {
     }
   }
 
-  // 切换激活状态
   state.value.activeId = tabId;
   state.value.visitedTabs.add(tabId);
   log('Switched to tab:', tabId);

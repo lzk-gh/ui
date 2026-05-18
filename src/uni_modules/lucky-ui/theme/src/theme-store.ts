@@ -1,6 +1,6 @@
 /**
- * Lucky UI 主题管理 (核心实现)
- * 提供主题切换、品牌色动态修改、以及针对小程序性能优化的瞬间切换机制。
+ * Lucky UI 主题管理
+ * 提供主题切换、品牌色变量与小程序系统 UI 同步。
  */
 import { ref, computed, readonly } from 'vue';
 
@@ -32,13 +32,10 @@ function readStoredBrandColor(): string {
   return typeof savedColor === 'string' && savedColor ? savedColor : DEFAULT_BRAND_COLOR;
 }
 
-// ======================== 内部状态 ========================
 const _theme = ref<Theme>(readStoredTheme());
 const _isSwitching = ref(false);
 const _brandColor = ref<string>(readStoredBrandColor());
 let switchingTimer: any = null;
-
-// ======================== 工具函数 ========================
 
 /**
  * HEX 转 RGB
@@ -163,10 +160,8 @@ function applySystemUI() {
   // #endif
 }
 
-// ======================== 核心方法 ========================
-
 /**
- * 执行主题切换 (分步原子操作以优化性能)
+ * 执行主题切换
  */
 function performSetTheme(t: Theme) {
   if (_theme.value === t) return;
@@ -176,11 +171,10 @@ function performSetTheme(t: Theme) {
     switchingTimer = null;
   }
 
-  // 第一步：进入切换状态，应用禁用过渡的类名
   _isSwitching.value = true;
   applyToDOM();
 
-  // 第二步：延迟一帧（给浏览器/WebView 时间渲染切换状态），然后真正修改颜色
+  // 先落禁用过渡类，再切换主题变量。
   const switchDelay = 32;
 
   setTimeout(() => {
@@ -189,7 +183,7 @@ function performSetTheme(t: Theme) {
     applySystemUI();
     persistData();
 
-    // 第三步：等待渲染完成，移除禁用过渡的类名
+    // 保留短暂窗口，避免主题变量切换触发全局过渡。
     switchingTimer = setTimeout(() => {
       _isSwitching.value = false;
       applyToDOM();
@@ -218,8 +212,6 @@ function setBrandColor(color: string) {
   applyToDOM();
   persistData();
 }
-
-// ======================== 导出接口 ========================
 
 /**
  * 主题 Composable

@@ -1,7 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { baseProps, LkProp } from '../common/props';
 
-/* ───────────── 文件状态枚举 ───────────── */
 
 export const UploadStatus = {
   Ready: 'ready',
@@ -12,7 +11,6 @@ export const UploadStatus = {
 
 export type UploadStatus = (typeof UploadStatus)[keyof typeof UploadStatus];
 
-/* ───────────── 文件对象类型 ───────────── */
 
 export interface UploadFile {
   /** 唯一标识 */
@@ -39,7 +37,6 @@ export interface UploadFile {
   file?: File;
 }
 
-/* ───────────── 上传来源枚举 ───────────── */
 
 export const UploadSourceType = {
   Album: 'album',
@@ -48,7 +45,6 @@ export const UploadSourceType = {
 
 export type UploadSourceType = (typeof UploadSourceType)[keyof typeof UploadSourceType];
 
-/* ───────────── 接受的文件类型 ───────────── */
 
 export const UploadAccept = {
   Image: 'image',
@@ -58,7 +54,6 @@ export const UploadAccept = {
 
 export type UploadAccept = (typeof UploadAccept)[keyof typeof UploadAccept];
 
-/* ───────────── beforeRead / beforeDelete 回调签名 ───────────── */
 
 export type BeforeReadFn = (
   file: UploadFile | UploadFile[],
@@ -84,7 +79,6 @@ export type CustomRequestFn = (options: {
   onFail: (error: unknown) => void;
 }) => void;
 
-/* ───────────── Props ───────────── */
 
 export const uploadProps = {
   ...baseProps,
@@ -194,7 +188,6 @@ export const uploadProps = {
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>;
 
-/* ───────────── Emits ───────────── */
 
 export const uploadEmits = {
   /** v-model 更新 */

@@ -50,7 +50,6 @@
     }
   }
 
-  /* 确保默认情况下（非 striped）不会显示条纹，使用更高优先级覆盖可能的意外规则 */
   &:not(.is-striped) {
     .lk-progress__bar::after {
       background-image: none !important;

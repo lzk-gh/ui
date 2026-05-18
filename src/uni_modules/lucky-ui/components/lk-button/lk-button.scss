@@ -35,11 +35,10 @@
     background-color 0.2s,
     transform 0.1s;
 
-  // 暗黑模式适配
   @at-root .lk-theme-dark & {
     --_color: var(--lk-color-white);
     
-    // 确保其它变体在暗黑模式下文字也默认为白色（覆盖 var(--lk-text-primary) 的 #e1e1e1）
+    // 暗色下 outline/soft/text 使用白色文字。
     &.lk-button--outline,
     &.lk-button--soft,
     &.lk-button--text {
@@ -84,21 +83,17 @@
 
   @include m(outline) {
     --_bg: transparent;
-    // 使用中性文字颜色，而非品牌色
     --_color: var(--lk-text-primary);
     --_border: var(--lk-rpx-2) solid var(--lk-color-primary);
   }
 
   @include m(soft) {
-    // 使用中性填充色背景，而不是品牌淡色
     --_bg: var(--lk-fill-2);
-    // 使用中性文字颜色，而非品牌色
     --_color: var(--lk-text-primary);
   }
 
   @include m(text) {
     --_bg: transparent;
-    // 使用中性文字颜色，而非品牌色
     --_color: var(--lk-text-primary);
     height: auto;
     min-height: 0;
@@ -106,7 +101,6 @@
     line-height: 1.5;
     font-weight: 400;
 
-    // 点击时高亮文字为主题色，无背景色
     &:active:not(.is-disabled):not(.is-loading) {
       --_color: var(--lk-color-primary);
       background: transparent;
@@ -114,7 +108,6 @@
     }
   }
 
-  // 对于非 primary 按钮（outline, soft），使用中性点击叠加色
   @include m(outline) {
     &:active:not(.is-disabled):not(.is-loading) {
       background: var(--lk-bg-active);
@@ -127,7 +120,6 @@
     }
   }
 
-  // 对于 primary 按钮（solid，默认），使用品牌色变暗效果
   &:not(.lk-button--outline):not(.lk-button--soft):not(.lk-button--text) {
     &:active:not(.is-disabled):not(.is-loading) {
       background: var(--lk-color-primary-active);

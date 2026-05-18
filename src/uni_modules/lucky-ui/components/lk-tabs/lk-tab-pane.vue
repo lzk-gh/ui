@@ -23,7 +23,7 @@ const tabs = inject<TabsContext | null>('LkTabs', null);
 const loaded = ref(false);
 const active = computed(() => tabs?.active.value === props.name);
 
-// 小程序端不支持在模板中进行赋值等副作用，这里用 watch 管理懒加载一次
+// 小程序端模板不执行副作用，使用 watch 管理首次懒加载。
 watch(active, val => {
   if (val) loaded.value = true;
 });

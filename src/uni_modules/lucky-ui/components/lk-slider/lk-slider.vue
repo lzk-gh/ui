@@ -61,9 +61,6 @@ function initValue(val: number | number[]) {
   });
 }
 
-// --- 计算属性 ---
-
-// 计算间断点的位置数组
 const stops = computed(() => {
   return resolveSliderStops({
     showStops: props.showStops,
@@ -124,8 +121,6 @@ const blockCustomStyle = computed(() => {
     blockColor: props.blockColor,
   });
 });
-
-// --- 逻辑 ---
 
 function measureTrack(): Promise<{ left: number; width: number }> {
   return new Promise(resolve => {
@@ -247,13 +242,10 @@ onMounted(() => nextTick(() => measureTrack()));
       @mouseup.stop.prevent="onTouchEnd"
       @mouseleave="onTouchEnd"
     >
-      <!-- 背景轨道 -->
       <view class="lk-slider__track" :style="trackStyle"></view>
 
-      <!-- 激活条 -->
       <view class="lk-slider__bar" :style="barStyle"></view>
 
-      <!-- 间断点 (Stops) -->
       <view
         v-for="stop in stops"
         :key="stop"
@@ -261,7 +253,6 @@ onMounted(() => nextTick(() => measureTrack()));
         :style="{ left: stop + '%' }"
       ></view>
 
-      <!-- 滑块 1 -->
       <view class="lk-slider__thumb-wrapper" :style="getThumbStyle(0)">
         <slot name="button" :value="currentVal[0]">
           <view class="lk-slider__thumb" :style="blockCustomStyle">
@@ -272,7 +263,6 @@ onMounted(() => nextTick(() => measureTrack()));
         </slot>
       </view>
 
-      <!-- 滑块 2（range 模式） -->
       <view v-if="range" class="lk-slider__thumb-wrapper" :style="getThumbStyle(1)">
         <slot name="button" :value="currentVal[1]">
           <view class="lk-slider__thumb" :style="blockCustomStyle">
@@ -284,7 +274,6 @@ onMounted(() => nextTick(() => measureTrack()));
       </view>
     </view>
 
-    <!-- 单滑块独立值显示（range 模式下值已内嵌在 thumb tooltip 中）-->
     <text v-if="showValue && showValueText && !range" class="lk-slider__value">
       {{ formatDisplayValue(currentVal[0]) }}
     </text>
