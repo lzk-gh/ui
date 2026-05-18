@@ -31,8 +31,8 @@ interface TimelineCtx {
   lineAnimated: boolean;
 }
 
-const emit = defineEmits<{ (e: 'click', ev: Event): void }>();
 const props = defineProps(timelineItemProps);
+const emit = defineEmits<{ (e: 'click', ev: Event): void }>();
 const slots = useSlots();
 
 const injectedRaw = inject<ComputedRef<TimelineCtx>>(

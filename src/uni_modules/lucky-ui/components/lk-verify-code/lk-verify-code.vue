@@ -259,16 +259,6 @@ function setValue(code: string) {
   }
 }
 
-// 暴露方法
-defineExpose({
-  focus,
-  blur,
-  clear,
-  setValue,
-  startCountdown,
-  stopCountdown,
-});
-
 // 生命周期
 onMounted(async () => {
   if (props.autofocus) {
@@ -279,6 +269,16 @@ onMounted(async () => {
 
 onUnmounted(() => {
   stopCountdown();
+});
+
+// 暴露方法
+defineExpose({
+  focus,
+  blur,
+  clear,
+  setValue,
+  startCountdown,
+  stopCountdown,
 });
 </script>
 

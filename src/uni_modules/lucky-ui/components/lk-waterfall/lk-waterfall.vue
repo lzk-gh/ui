@@ -1,15 +1,4 @@
 <script setup lang="ts">
-/**
- * LkWaterfall 瀑布流组件
- *
- * 特性:
- * - 贪心算法双列分配 (始终放入较短列)
- * - 绝对定位布局 (兼容小程序)
- * - 图片高度预计算 (基于 ratio)
- * - 使用 lk-skeleton 组件库骨架屏
- * - 无限滚动 + 预加载
- * - 作用域插槽自定义卡片
- */
 import {
   computed,
   getCurrentInstance,
@@ -41,8 +30,22 @@ import {
   shouldWaterfallLoadMore,
 } from './waterfall.utils';
 
+defineOptions({ name: 'LkWaterfall' });
+
 const props = defineProps(waterfallProps);
 const emit = defineEmits(waterfallEmits);
+
+/**
+ * LkWaterfall 瀑布流组件
+ *
+ * 特性:
+ * - 贪心算法双列分配 (始终放入较短列)
+ * - 绝对定位布局 (兼容小程序)
+ * - 图片高度预计算 (基于 ratio)
+ * - 使用 lk-skeleton 组件库骨架屏
+ * - 无限滚动 + 预加载
+ * - 作用域插槽自定义卡片
+ */
 
 const instance = getCurrentInstance();
 const uid = instance?.uid ?? Math.floor(Math.random() * 1e6);

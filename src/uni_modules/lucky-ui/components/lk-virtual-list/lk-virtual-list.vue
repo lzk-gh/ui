@@ -19,7 +19,10 @@ import {
 } from './virtual-list.utils';
 import type { VirtualListScrollEvent } from './virtual-list.utils';
 
+defineOptions({ name: 'LkVirtualList' });
+
 const props = defineProps(virtualListProps);
+const emit = defineEmits(['scroll', 'reach-bottom', 'prefetch']);
 
 const wrapperRef = ref<unknown>();
 const currentScrollTop = ref(0);
@@ -111,8 +114,6 @@ const rootStyle = computed(() =>
     customStyle: props.customStyle,
   })
 );
-
-const emit = defineEmits(['scroll', 'reach-bottom', 'prefetch']);
 
 const nearBottomEmitted = ref(false);
 const prefetchEmitted = ref(false);

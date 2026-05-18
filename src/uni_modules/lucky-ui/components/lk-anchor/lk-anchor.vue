@@ -254,8 +254,6 @@ provide('lkAnchor', {
   props,
 });
 
-defineExpose({ measureTargets, setTargets, onScroll, scrollTo: handleClick, active: activeHref });
-
 onMounted(() => {
   setTimeout(() => measureTargets(), 500);
 });
@@ -263,6 +261,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearScrollTimers();
 });
+
+defineExpose({ measureTargets, setTargets, onScroll, scrollTo: handleClick, active: activeHref });
 </script>
 
 <template>
