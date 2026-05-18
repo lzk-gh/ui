@@ -183,7 +183,7 @@ watch(
           <view v-else-if="getTabInstance(tab.id)?.error" class="lk-tabbar-container__error">
             <lk-icon name="exclamation-circle" size="80" />
             <text class="error-text">{{ resolvedErrorText }}</text>
-            <view class="error-retry" @click="retryLoad(tab.id)">{{ resolvedRetryText }}</view>
+            <view class="error-retry" @tap="retryLoad(tab.id)">{{ resolvedRetryText }}</view>
           </view>
 
           <!-- Tab 内容组件 -->
@@ -231,7 +231,7 @@ watch(
           :key="tab.id"
           class="tabbar-item"
           :class="{ 'is-active': tab.id === activeId }"
-          @click="handleTabClick(tab)"
+          @tap="handleTabClick(tab)"
         >
           <!-- 手电筒模式下的照亮效果 -->
           <view v-if="activeMode === 'flashlight'" class="tabbar-item__flashlight" />

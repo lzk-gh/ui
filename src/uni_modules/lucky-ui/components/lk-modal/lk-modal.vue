@@ -189,11 +189,11 @@ function onCloseClick() {
             <view
               v-if="showCancel"
               class="lk-modal__text-btn lk-modal__text-btn--cancel"
-              @click="cancel"
+              @tap="cancel"
             >
               {{ resolvedCancelText }}
             </view>
-            <view class="lk-modal__text-btn lk-modal__text-btn--confirm" @click="confirm">
+            <view class="lk-modal__text-btn lk-modal__text-btn--confirm" @tap="confirm">
               {{ resolvedConfirmText }}
             </view>
           </template>

@@ -135,7 +135,7 @@ function onClick() {
       v-if="display"
       :model-value="modelValue"
       :z-index="props.zIndex"
-      @click="onOverlayClick"
+      @tap="onOverlayClick"
     />
     <view
       class="lk-curtain__content"

@@ -183,7 +183,7 @@ watch(
       @touchstart.passive="onTouchStart('minus')"
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
-      @click.stop="onClick('minus')"
+      @tap.stop="onClick('minus')"
     />
 
     <input
@@ -203,7 +203,7 @@ watch(
       @touchstart.passive="onTouchStart('plus')"
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
-      @click.stop="onClick('plus')"
+      @tap.stop="onClick('plus')"
     />
   </view>
 </template>

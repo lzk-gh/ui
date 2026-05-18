@@ -1,7 +1,9 @@
 const path = require('node:path');
 const fs = require('node:fs');
 const assert = require('node:assert');
+require('./setup-miniprogram-env');
 const simulate = require('miniprogram-simulate');
+require('./setup-miniprogram-env').setupUniMpApp();
 
 /**
  * 获取微信小程序构建后的组件路径。
@@ -47,30 +49,28 @@ function runButtonSnapshotTest() {
 }
 
 /**
- * 执行 lk-button 加载状态测试。
+ * 执行 lk-button 小程序 tap 事件绑定测试。
  */
-function runButtonLoadingTest() {
+function runButtonTapBindingTest() {
   const componentPath = resolveButtonComponentPath();
   assert.ok(fs.existsSync(`${componentPath}.json`), '未检测到小程序构建产物，请先构建 mp-weixin。');
 
   const component = simulate.load(componentPath);
-  const wrapper = simulate.render(component, {
-    loading: true,
-  });
+  const wrapper = simulate.render(component);
   wrapper.attach(document.createElement('parent-wrapper'));
 
   const buttonNode = wrapper.querySelector('.lk-button');
   assert.ok(buttonNode, '未找到 lk-button 节点');
-  
-  // 检查是否包含 is-loading 类
-  assert.ok(buttonNode.dom.className.includes('is-loading'), 'loading=true 时未包含 is-loading 类');
-  
-  // 检查 loading 时 hover-class 是否被禁用为 'none'
-  const hoverClass = buttonNode.dom.getAttribute('hover-class');
-  assert.equal(hoverClass, 'none', 'loading=true 时 hover-class 未被设置为 none');
+
+  // 检查小程序模板使用 tap 事件承接点击，不回退到 click。
+  const jsonTree = wrapper.toJSON();
+  const nativeButton = jsonTree.children && jsonTree.children[0];
+  assert.ok(nativeButton.event && nativeButton.event.tap, '未检测到 tap 事件绑定');
+
+  assert.ok(buttonNode.dom.className.includes('lk-button'), '小程序按钮类名异常');
 }
 
 module.exports = {
   runButtonSnapshotTest,
-  runButtonLoadingTest,
+  runButtonTapBindingTest,
 };

@@ -123,6 +123,7 @@ function chooseFileMp() {
   });
 }
 
+// #ifdef H5
 function chooseFileH5() {
   const input = document.createElement('input');
   input.type = 'file';
@@ -135,6 +136,7 @@ function chooseFileH5() {
   };
   input.click();
 }
+// #endif
 
 async function handleAfterChoose(items: UploadFile[]) {
   if (!items.length) return;

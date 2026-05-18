@@ -46,7 +46,7 @@ function handleClick(e: Event) {
     :class="props.customClass"
     :style="[iconStyle, props.customStyle as any]"
     aria-hidden="true"
-    @click="handleClick"
+    @tap="handleClick"
   >
     {{ iconChar }}
   </text>

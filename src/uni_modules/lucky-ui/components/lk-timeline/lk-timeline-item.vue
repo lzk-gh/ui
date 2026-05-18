@@ -125,7 +125,7 @@ function onTap(ev: Event) {
 </script>
 
 <template>
-  <view :class="itemClass" :style="itemStyle" role="listitem" @click="onTap">
+  <view :class="itemClass" :style="itemStyle" role="listitem" @tap="onTap">
     <!-- 左侧列：时间 / 自定义（有内容时才渲染） -->
     <view v-if="hasLeft" class="lk-timeline-item__left">
       <slot name="left">

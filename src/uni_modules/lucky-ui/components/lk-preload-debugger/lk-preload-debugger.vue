@@ -142,7 +142,7 @@ onUnmounted(() => {
     :class="debuggerClass"
     :style="debuggerStyle"
   >
-    <view class="lk-preload-debugger__header" @click="toggleExpand">
+    <view class="lk-preload-debugger__header" @tap="toggleExpand">
       <text class="lk-preload-debugger__title">{{ t('title') }}</text>
       <view class="lk-preload-debugger__badge" :class="statusClass">
         {{ statusLabel }}
@@ -176,10 +176,10 @@ onUnmounted(() => {
       </view>
 
       <view class="lk-preload-debugger__actions">
-        <view class="action-btn" :class="{ 'action-btn--active': isPaused }" @click="togglePause">
+        <view class="action-btn" :class="{ 'action-btn--active': isPaused }" @tap="togglePause">
           {{ isPaused ? t('resume') : t('pause') }}
         </view>
-        <view class="action-btn action-btn--danger" @click="handleClear">{{ t('clear') }}</view>
+        <view class="action-btn action-btn--danger" @tap="handleClear">{{ t('clear') }}</view>
       </view>
 
       <scroll-view class="lk-preload-debugger__logs" scroll-y :scroll-into-view="lastLogId">

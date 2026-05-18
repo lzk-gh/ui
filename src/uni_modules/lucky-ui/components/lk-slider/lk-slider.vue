@@ -232,7 +232,7 @@ onMounted(() => nextTick(() => measureTrack()));
     <view
       :id="trackId"
       class="lk-slider__track-container"
-      @click="onTrackClick"
+      @tap="onTrackClick"
       @touchstart.stop.prevent="onTouchStart"
       @touchmove.stop.prevent="onTouchMove"
       @touchend.stop.prevent="onTouchEnd"

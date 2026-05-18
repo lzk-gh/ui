@@ -48,7 +48,7 @@ onUnmounted(() => {
     class="lk-anchor-link"
     :class="linkClass"
     :style="linkStyle"
-    @click="onClick"
+    @tap="onClick"
   >
     <view v-if="showLine && isActive" class="lk-anchor-link__indicator"></view>
     <view class="lk-anchor-link__title">

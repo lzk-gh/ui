@@ -14,6 +14,8 @@
 - 禁止：小程序不支持 `*` 通配符选择器
 - 禁止：小程序 `scoped` 下不建议使用标签选择器穿透子组件
 - 禁止：App 端部分场景不支持 `CSS filter`
+- 警告：`::-webkit-*` / `-webkit-*` 只能作为渐进增强，不能成为核心交互依赖
+- 警告：`position: fixed`、浮层、底部栏和拖拽组件必须进入 H5 / App / 小程序验收矩阵
 - 使用：`rpx` 作为响应式单位
 - 使用：平台差异场景必须使用条件编译
 
@@ -22,7 +24,27 @@
 - `picker` 在各平台表现不同，必须使用条件编译分支
 - `textarea` 的 `padding` 在 App / 小程序可能无效，优先使用外层容器控制间距
 - `position: fixed` 在小程序相对窗口，在 App 可能相对 webview，需单独验证
-- 禁止在 UniApp 页面/组件中使用 `<component :is="...">` 动态组件，小程序端不支持
+- 禁止在小程序可达模板中使用 `<component :is="...">` 动态组件；H5 / App 分支可保留，小程序必须提供具名 slot 或静态分支
+- 组件原生节点交互优先使用 `@tap`；自定义组件监听自身 emits 时可继续使用 `@click`
+- 浏览器 API（`document` / `window` / `navigator` / `getComputedStyle`）必须放入 H5 条件编译；其他平台使用 `uni` API 或降级默认值
+
+## 兼容门禁分级
+
+`pnpm run compat-check` 输出 error / warn 两级结果；`pnpm run compat-check:strict` 在存在 error 时失败。
+
+| 级别 | 场景 | 处理要求 |
+| --- | --- | --- |
+| error | 小程序不支持标签、通配选择器、未隔离动态组件、未隔离浏览器 API、原生模板 `@click` | 必须修复或用条件编译隔离 |
+| warn | fixed、filter、webkit、picker、textarea padding 等平台差异 | 必须记录风险并纳入平台验收 |
+
+## 验收矩阵
+
+| 命令 | 目标 |
+| --- | --- |
+| `pnpm run compat-check:strict` | 阻断明确跨端错误 |
+| `pnpm run compat:risk-matrix` | 输出组件高/中/低风险清单 |
+| `pnpm run build:mp:all` | 串行验证全小程序平台构建 |
+| `pnpm run compat:matrix` | 执行 strict、类型检查、H5 构建、全小程序构建和小程序测试 |
 
 ## AI 代码输出约束
 

@@ -157,7 +157,7 @@ function getKeyStyle(key: KeyboardKey) {
     class="lk-keyboard__overlay"
     :class="{ 'is-visible': isVisible }"
     :style="{ zIndex: zIndex - 1 }"
-    @click="onOverlayClick"
+    @tap="onOverlayClick"
   />
 
   <!-- 键盘主体 -->
@@ -165,7 +165,7 @@ function getKeyStyle(key: KeyboardKey) {
     <!-- 标题栏 -->
     <view v-if="title || showClose || showConfirm" class="lk-keyboard__header">
       <view class="lk-keyboard__header-left">
-        <view v-if="showClose" class="lk-keyboard__close" @click="closeKeyboard">
+        <view v-if="showClose" class="lk-keyboard__close" @tap="closeKeyboard">
           <text class="lk-keyboard__close-text">{{ t('hide') }}</text>
         </view>
       </view>
@@ -173,7 +173,7 @@ function getKeyStyle(key: KeyboardKey) {
         <text v-if="title">{{ title }}</text>
       </view>
       <view class="lk-keyboard__header-right">
-        <view v-if="showConfirm" class="lk-keyboard__done" @click="onConfirm">
+        <view v-if="showConfirm" class="lk-keyboard__done" @tap="onConfirm">
           <text class="lk-keyboard__done-text">{{ resolvedConfirmText }}</text>
         </view>
       </view>
@@ -192,7 +192,7 @@ function getKeyStyle(key: KeyboardKey) {
           :key="keyIndex"
           :class="getKeyClass(key)"
           :style="getKeyStyle(key)"
-          @click="onKeyPress(key)"
+          @tap="onKeyPress(key)"
         >
           <template v-if="key.type === 'delete'">
             <LkIcon name="arrow-left" :size="40" />

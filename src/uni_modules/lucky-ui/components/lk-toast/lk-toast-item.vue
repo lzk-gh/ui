@@ -28,7 +28,7 @@ const { classes, styles, display } = useTransition(
     v-if="display"
     class="lk-toast-mgr__item"
     :class="resolveToastManagerItemClass(item.position)"
-    @click="toastStore.close(item.id)"
+    @tap="toastStore.close(item.id)"
   >
     <view class="lk-toast-mgr__inner" :class="classes" :style="styles">
       <text class="lk-toast-mgr__text">{{ item.message }}</text>

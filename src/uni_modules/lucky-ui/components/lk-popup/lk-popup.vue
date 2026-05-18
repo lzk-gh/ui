@@ -315,7 +315,7 @@ const panelClass = computed(() => [transitionClasses.value, props.customClass]);
           v-if="closable"
           class="lk-popup__close"
           :class="`lk-popup__close--${closeIconPosition}`"
-          @click="onCloseClick"
+          @tap="onCloseClick"
         >
           <lk-icon :name="closeIcon" size="36" />
         </view>

@@ -1,10 +1,10 @@
-const { runButtonSnapshotTest, runButtonLoadingTest } = require('./button.spec');
+const { runButtonSnapshotTest, runButtonTapBindingTest } = require('./button.spec');
 const { runTimelineBasicTest, runTimelineStatusTest } = require('./timeline.spec');
 
 function run() {
   try {
     runButtonSnapshotTest();
-    runButtonLoadingTest();
+    runButtonTapBindingTest();
     console.log('[test:mp] lk-button 小程序渲染测试通过。');
 
     runTimelineBasicTest();

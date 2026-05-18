@@ -228,7 +228,7 @@ watch(
     <view
       v-if="showClear"
       class="lk-input__clear"
-      @click.stop="clear"
+      @tap.stop="clear"
     >
       <lk-icon name="x-circle-fill" size="32" />
     </view>
@@ -237,7 +237,7 @@ watch(
     <view
       v-if="showPasswordToggle"
       class="lk-input__password-toggle"
-      @click.stop="togglePassword"
+      @tap.stop="togglePassword"
     >
       <lk-icon :name="passwordVisible ? 'eye' : 'eye-slash'" size="36" />
     </view>

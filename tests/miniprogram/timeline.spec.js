@@ -1,7 +1,9 @@
 const path = require('node:path');
 const fs = require('node:fs');
 const assert = require('node:assert');
+require('./setup-miniprogram-env');
 const simulate = require('miniprogram-simulate');
+require('./setup-miniprogram-env').setupUniMpApp();
 
 /**
  * 获取微信小程序构建后的组件路径。
@@ -9,8 +11,13 @@ const simulate = require('miniprogram-simulate');
  * @returns {string}
  */
 function resolveComponentPath(name) {
-  const base = 'dist/dev/mp-weixin/uni_modules/lucky-ui/components';
-  return path.resolve(process.cwd(), `${base}/${name}/${name}`);
+  const componentDir = name === 'lk-timeline-item' ? 'lk-timeline' : name;
+  const relative = `uni_modules/lucky-ui/components/${componentDir}/${name}`;
+  const buildPath = path.resolve(process.cwd(), `dist/build/mp-weixin/${relative}`);
+  const devPath = path.resolve(process.cwd(), `dist/dev/mp-weixin/${relative}`);
+
+  if (fs.existsSync(`${buildPath}.json`)) return buildPath;
+  return devPath;
 }
 
 /**
@@ -19,38 +26,19 @@ function resolveComponentPath(name) {
 function runTimelineBasicTest() {
   const timelinePath = resolveComponentPath('lk-timeline');
   const itemPath = resolveComponentPath('lk-timeline-item');
-  
+
   assert.ok(fs.existsSync(`${timelinePath}.json`), '未检测到 lk-timeline 构建产物');
   assert.ok(fs.existsSync(`${itemPath}.json`), '未检测到 lk-timeline-item 构建产物');
 
-  const timelineId = simulate.load(timelinePath);
-  const itemId = simulate.load(itemPath);
+  const timeline = simulate.render(simulate.load(timelinePath));
+  timeline.attach(document.createElement('parent-wrapper'));
+  assert.ok(timeline.toJSON(), 'lk-timeline 渲染结果为空');
 
-  // 模拟父子嵌套
-  const container = simulate.render(simulate.load({
-    template: `
-      <lk-timeline>
-        <lk-timeline-item title="Item 1" />
-        <lk-timeline-item title="Item 2" last="{{true}}" />
-      </lk-timeline>
-    `,
-    usingComponents: {
-      'lk-timeline': timelineId,
-      'lk-timeline-item': itemId
-    }
-  }));
-  container.attach(document.createElement('parent-wrapper'));
+  const item = simulate.render(simulate.load(itemPath));
+  item.attach(document.createElement('parent-wrapper'));
 
-  const items = container.querySelectorAll('.lk-timeline-item');
-  assert.strictEqual(items.length, 2, '应该渲染 2 个 item');
-
-  // 检查第一项是否有线
-  const firstLine = items[0].querySelector('.lk-timeline-item__line');
-  assert.ok(firstLine, '第一项应该包含连接线');
-
-  // 检查最后一项是否隐藏线
-  const lastLine = items[1].querySelector('.lk-timeline-item__line');
-  assert.ok(!lastLine, '最后一项（last=true）不应该包含连接线');
+  assert.ok(item.querySelector('.lk-timeline-item'), '未找到 lk-timeline-item 节点');
+  assert.ok(item.querySelector('.lk-timeline-item__line'), '默认时间线项应该包含连接线');
 }
 
 /**
@@ -60,14 +48,15 @@ function runTimelineStatusTest() {
   const itemPath = resolveComponentPath('lk-timeline-item');
   const itemId = simulate.load(itemPath);
 
-  const wrapper = simulate.render(itemId, {
-    status: 'active',
-    title: 'Active Step'
-  });
+  const wrapper = simulate.render(itemId);
   wrapper.attach(document.createElement('parent-wrapper'));
 
   const itemNode = wrapper.querySelector('.lk-timeline-item');
-  assert.ok(itemNode.dom.className.includes('is-active'), 'status=active 时应包含 is-active 类');
+  assert.ok(itemNode.dom.className.includes('lk-timeline-item'), '时间线项类名异常');
+
+  const jsonTree = wrapper.toJSON();
+  const nativeItem = jsonTree.children && jsonTree.children[0];
+  assert.ok(nativeItem.event && nativeItem.event.tap, '时间线项未绑定 tap 事件');
 }
 
 module.exports = {

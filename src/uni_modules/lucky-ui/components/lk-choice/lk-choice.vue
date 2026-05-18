@@ -68,7 +68,7 @@ const rootClass = computed(() => resolveChoiceRootClass({
         v-for="(opt, index) in options"
         :key="index"
         :class="itemClass(opt)"
-        @click="handleSelect(opt)"
+        @tap="handleSelect(opt)"
       >
         <slot name="item" :option="opt" :selected="isSelected(opt.value)">
           <lk-icon v-if="opt.icon" :name="opt.icon" class="lk-choice__icon" />

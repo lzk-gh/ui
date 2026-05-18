@@ -440,7 +440,7 @@ function getCardStyle(card: PlacedCard): CSSProperties {
             },
           ]"
           :style="getCardStyle(card)"
-          @click="onCardClick(card)"
+          @tap="onCardClick(card)"
         >
           <!-- 插槽内容 -->
           <slot

@@ -262,7 +262,7 @@ watch(innerShow, value => {
             size="lg"
             :disabled="confirmDisabled"
             hover-class="none"
-            @click="confirm"
+            @tap="confirm"
           >
             {{ resolvedConfirmText }}
           </lk-button>

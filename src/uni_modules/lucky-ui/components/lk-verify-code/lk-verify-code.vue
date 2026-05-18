@@ -305,7 +305,7 @@ defineExpose({
     />
 
     <!-- 单元格容器 -->
-    <view class="lk-verify-code__cells" :style="containerStyle" @click="focus">
+    <view class="lk-verify-code__cells" :style="containerStyle" @tap="focus">
       <view
         v-for="(_, index) in props.length"
         :key="index"
@@ -324,7 +324,7 @@ defineExpose({
             : {},
           props.errorColor && props.status === VerifyCodeStatus.Error ? { borderColor: props.errorColor } : {},
         ]"
-        @click.stop="onCellClick(index)"
+        @tap.stop="onCellClick(index)"
       >
         <!-- 已输入的值 -->
         <view v-if="index < val.length" class="lk-verify-code__value">
@@ -353,7 +353,7 @@ defineExpose({
       <text
         class="lk-verify-code__countdown-btn"
         :class="{ 'is-disabled': isCountingDown || props.disabled }"
-        @click="startCountdown"
+        @tap="startCountdown"
       >
         {{ countdownDisplayText }}
       </text>
