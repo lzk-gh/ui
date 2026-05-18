@@ -59,7 +59,7 @@ const nearbyCards = [
   min-height: 100vh;
   margin-top: calc(var(--lk-rpx-12) * -1);
   padding-bottom: var(--lk-rpx-80);
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
 
   :deep(.demo-block) {
     padding-top: var(--lk-rpx-32);
@@ -85,7 +85,7 @@ const nearbyCards = [
   height: 328rpx;
   overflow: hidden;
   border-radius: var(--lk-radius-xl);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   border: var(--lk-rpx-1) solid var(--lk-color-border-light);
   box-shadow: var(--lk-shadow-sm);
 
@@ -112,7 +112,7 @@ const nearbyCards = [
     bottom: var(--lk-spacing-md);
     padding: var(--lk-rpx-6) var(--lk-rpx-12);
     border-radius: var(--lk-radius-full);
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-text-inverse);
     background: rgba(0, 0, 0, 0.38);
     font-size: var(--lk-font-size-xs);
   }
@@ -134,14 +134,14 @@ const nearbyCards = [
   }
 
   &__name {
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     font-size: var(--lk-font-size-base);
     font-weight: 700;
   }
 
   &__meta {
     margin-top: var(--lk-rpx-8);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     font-size: var(--lk-font-size-xs);
   }
 

@@ -1,10 +1,10 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(backtop) {
   --_size: var(--lk-rpx-88);
   --_radius: 50%;
-  --_bg: var(--lk-color-bg-container);
-  --_bg-active: var(--lk-color-primary-bg-soft);
+  --_bg: var(--lk-bg-container);
+  --_bg-active: var(--lk-color-primary-soft);
   --_border: var(--lk-color-border-light);
   --_color: var(--lk-color-primary);
   --_shadow: var(--lk-shadow-lg);

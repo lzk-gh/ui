@@ -133,9 +133,9 @@ function onCloseClick() {
 <template>
   <!-- 遮罩层保持原始 show，避免动画干扰 -->
   <lk-overlay
-    :show="props.modelValue"
+    :model-value="props.modelValue"
     :z-index="zIndex"
-    @update:show="close"
+    @update:model-value="close"
     @click="onOverlayClick"
   />
 

@@ -19,13 +19,6 @@ export const POPUP_DEFAULT_TRANSITION_BY_POSITION: Record<
 export const POPUP_VELOCITY_THRESHOLD = 0.5;
 export const POPUP_SCROLL_BOUND_EPS = 6;
 
-export function resolvePopupCloseOnOverlay(options: {
-  closeOnClickOverlay?: boolean;
-  closeOnOverlay: boolean;
-}): boolean {
-  return options.closeOnClickOverlay ?? options.closeOnOverlay;
-}
-
 export function resolvePopupSize(value: string | number): string {
   return addUnit(value) || '';
 }
@@ -167,10 +160,6 @@ export function resolvePopupSnapTarget(options: {
   return candidates.reduce((best, point) =>
     Math.abs(point - options.currentY) < Math.abs(best - options.currentY) ? point : best
   );
-}
-
-export function resolvePopupNumber(value: unknown, fallback: number): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 
 export function canExpandPopupSheet(options: {

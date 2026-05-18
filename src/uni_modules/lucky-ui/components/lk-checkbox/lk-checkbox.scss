@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(checkbox) {
   display: inline-flex;
@@ -46,7 +46,7 @@
     align-items: center;
     justify-content: center;
     border: var(--lk-rpx-2) solid var(--lk-color-border);
-    background-color: var(--lk-color-bg-container);
+    background-color: var(--lk-bg-container);
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease;
@@ -163,7 +163,7 @@
     opacity: 0.5;
     cursor: not-allowed;
     .lk-checkbox__icon {
-      background-color: var(--lk-color-bg-disabled);
+      background-color: var(--lk-bg-disabled);
     }
   }
 }

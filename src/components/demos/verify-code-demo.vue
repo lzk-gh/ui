@@ -207,13 +207,13 @@ function handleSetValue() {
 
 .demo-label {
   font-size: 26rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 .value {
   margin-top: 16rpx;
   font-size: 24rpx;
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
   text-align: center;
 }
 
@@ -229,7 +229,7 @@ function handleSetValue() {
   padding: 16rpx 32rpx;
   font-size: 26rpx;
   color: var(--lk-color-primary);
-  background: var(--lk-color-fill-tertiary);
+  background: var(--lk-fill-tertiary);
   border-radius: var(--lk-radius-lg);
   transition: all 0.2s ease;
 

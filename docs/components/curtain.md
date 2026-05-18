@@ -20,7 +20,7 @@ const show = ref(false)
   <lk-button @click="show = true">显示幕帘</lk-button>
 
   <lk-curtain
-    v-model:show="show"
+    v-model="show"
     image-url="https://img.yzcdn.cn/vant/apple-1.jpg"
   />
 </template>
@@ -30,7 +30,7 @@ const show = ref(false)
 
 ```vue
 <lk-curtain
-  v-model:show="show"
+  v-model="show"
   image-url="https://img.yzcdn.cn/vant/apple-2.jpg"
   close-position="top-right"
 />
@@ -42,9 +42,9 @@ const show = ref(false)
 
 ```vue
 <lk-curtain
-  v-model:show="show"
+  v-model="show"
   image-url="https://img.yzcdn.cn/vant/apple-3.jpg"
-  close-on-click-overlay
+  close-on-overlay
 />
 ```
 
@@ -54,7 +54,7 @@ const show = ref(false)
 
 ```vue
 <lk-curtain
-  v-model:show="show"
+  v-model="show"
   width="580rpx"
   height="800rpx"
   close-position="bottom"
@@ -69,7 +69,7 @@ const show = ref(false)
 
 ```vue
 <lk-curtain
-  v-model:show="show"
+  v-model="show"
   image-url="https://img.yzcdn.cn/vant/apple-1.jpg"
   link="/pages/index/index"
   link-type="navigateTo"
@@ -109,7 +109,7 @@ import CurtainDemo from '@/components/demos/curtain-demo.vue'
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
 | zIndex | 层级 | `number` | `10090` |
-| show | 是否显示，支持 `v-model:show` | `boolean` | `false` |
+| modelValue | 是否显示，支持 `v-model` | `boolean` | `false` |
 | imageUrl | 幕帘图片地址 | `string` | `''` |
 | imageMode | 图片裁剪模式 | `CurtainImageMode` | `aspectFit` |
 | width | 幕帘宽度 | `string \| number` | `'600rpx'` |
@@ -117,7 +117,7 @@ import CurtainDemo from '@/components/demos/curtain-demo.vue'
 | closePosition | 关闭按钮位置 | `top-left \| top-right \| bottom-left \| bottom-right \| bottom` | `bottom` |
 | closeOffset | 角位关闭按钮偏移 | `string \| number` | `'24rpx'` |
 | closeOffsetBottom | 底部关闭按钮偏移 | `string \| number` | `'36rpx'` |
-| closeOnClickOverlay | 点击遮罩是否关闭 | `boolean` | `false` |
+| closeOnOverlay | 点击遮罩是否关闭 | `boolean` | `false` |
 | link | 点击内容后的跳转地址 | `string` | `''` |
 | linkType | 跳转方式 | `navigateTo \| redirectTo \| reLaunch \| switchTab \| navigateBack` | `navigateTo` |
 
@@ -125,7 +125,7 @@ import CurtainDemo from '@/components/demos/curtain-demo.vue'
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
-| update:show | 显示状态变化 | `(show: boolean)` |
+| update:modelValue | 显示状态变化 | `(show: boolean)` |
 | close | 点击关闭按钮时触发 | `()` |
 | click | 点击幕帘内容时触发 | `()` |
 | click-overlay | 点击遮罩层时触发 | `()` |
@@ -149,5 +149,5 @@ import CurtainDemo from '@/components/demos/curtain-demo.vue'
 | 场景 | 验收方式 | 要点 |
 |------|----------|------|
 | 展示台基线 | 自动回归 | `tests/visual/needs-hardening-showcase.spec.ts` 校验组件路由、verified 状态与中风险标记 |
-| 浮层关闭 | 人工验收 | 关闭按钮位置、遮罩点击和 `update:show` 在目标端一致 |
+| 浮层关闭 | 人工验收 | 关闭按钮位置、遮罩点击和 `update:modelValue` 在目标端一致 |
 | 外链跳转 | 人工验收 | H5 直接跳转、App 外部打开、小程序复制链接的降级说明可追溯 |

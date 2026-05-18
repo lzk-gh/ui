@@ -73,7 +73,7 @@ const fixed = ref(false);
   overflow-y: auto;
   border: 2rpx solid var(--lk-color-border-light);
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
 }
 
 .scroll-card--relative {
@@ -88,7 +88,7 @@ const fixed = ref(false);
   justify-content: center;
   color: var(--lk-text-secondary);
   font-size: 26rpx;
-  background: var(--lk-color-fill);
+  background: var(--lk-fill-1);
 }
 
 .hero--compact {
@@ -103,13 +103,13 @@ const fixed = ref(false);
   color: var(--lk-color-primary);
   font-size: 26rpx;
   font-weight: 700;
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-primary-soft);
 }
 
 .sticky-bar,
 .sticky-tabs,
 .section-title {
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   border-bottom: 2rpx solid var(--lk-color-border-light);
 }
 
@@ -170,7 +170,7 @@ const fixed = ref(false);
   padding: 24rpx;
   color: var(--lk-text-secondary);
   font-size: 26rpx;
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   border-top: 2rpx solid var(--lk-color-border-light);
   box-shadow: 0 -8rpx 24rpx rgba(15, 23, 42, 0.08);
 }

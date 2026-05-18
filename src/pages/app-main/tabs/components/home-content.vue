@@ -128,7 +128,7 @@
 
     <view v-if="isLoading" class="waterfall-loading-overlay">
       <view class="loading-toast">
-        <lk-loading type="spinner" size="28" text="加载中" color="var(--test-primary)" />
+        <lk-loading variant="spinner" size="28" text="加载中" color="var(--test-primary)" />
       </view>
     </view>
 

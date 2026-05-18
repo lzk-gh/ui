@@ -111,7 +111,7 @@ function onDragEnd(position: { x: number; y: number }) {
 
 .desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   margin-bottom: 16rpx;
 }
 
@@ -126,10 +126,10 @@ function onDragEnd(position: { x: number; y: number }) {
   align-items: flex-start;
   gap: 12rpx;
   padding: 24rpx;
-  background: var(--lk-color-fill-secondary);
+  background: var(--lk-fill-secondary);
   border-radius: var(--lk-radius-lg);
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   line-height: 1.6;
 }
 </style>

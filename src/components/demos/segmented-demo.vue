@@ -112,8 +112,8 @@ const disabledOptions = [
         block
         style="
           --lk-seg-track-bg: var(--lk-color-primary);
-          --lk-seg-slider-bg: var(--lk-color-primary-bg-soft);
-          --lk-seg-text: var(--lk-color-text-inverse);
+          --lk-seg-slider-bg: var(--lk-color-primary-soft);
+          --lk-seg-text: var(--lk-text-inverse);
           --lk-seg-text-active: var(--lk-color-primary);
         "
       />
@@ -148,13 +148,13 @@ const disabledOptions = [
 
 .sub-title {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   margin-bottom: 16rpx;
 }
 
 .tip-text {
   margin-top: 12rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-xs);
 }
 

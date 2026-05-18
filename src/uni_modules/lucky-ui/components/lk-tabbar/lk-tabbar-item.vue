@@ -63,7 +63,7 @@ const showBadge = computed(() => shouldShowTabbarBadge({
 const badgeText = computed(() => resolveTabbarBadgeText(props.badge));
 
 const activeColor = computed(() => tabbar?.activeColor.value || 'var(--lk-color-primary)');
-const inactiveColor = computed(() => tabbar?.inactiveColor.value || 'var(--lk-color-text-secondary)');
+const inactiveColor = computed(() => tabbar?.inactiveColor.value || 'var(--lk-text-secondary)');
 
 // 当前应该显示的图标
 const currentIcon = computed(() => {

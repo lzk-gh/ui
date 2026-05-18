@@ -175,7 +175,7 @@ watch(
         >
           <!-- 加载中状态 -->
           <view v-if="getTabInstance(tab.id)?.loading" class="lk-tabbar-container__loading">
-            <lk-loading type="spinner" size="64" />
+            <lk-loading variant="spinner" size="64" />
             <text class="loading-text">{{ resolvedLoadingText }}</text>
           </view>
 
@@ -353,7 +353,7 @@ $tabbar-safe-area-bottom: var(
     right: 0;
     bottom: 0;
     z-index: 300;
-    background: var(--lk-color-bg-container);
+    background: var(--lk-bg-container);
     border-top: 1px solid var(--lk-color-border);
     padding-bottom: $tabbar-safe-area-bottom;
     overflow: visible;
@@ -446,7 +446,7 @@ $tabbar-safe-area-bottom: var(
     display: flex;
     align-items: center;
     justify-content: center;
-    border: var(--lk-rpx-6) solid var(--lk-color-bg-container);
+    border: var(--lk-rpx-6) solid var(--lk-bg-container);
     border-radius: 50%;
     background: var(--lk-color-primary);
     box-shadow: 0 var(--lk-rpx-10) var(--lk-rpx-28) rgba(var(--lk-brand-rgb), 0.36);

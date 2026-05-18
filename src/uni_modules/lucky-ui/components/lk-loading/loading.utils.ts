@@ -1,12 +1,5 @@
 import type { LoadingVariant } from './loading.props';
 
-export function resolveLoadingType(options: {
-  type?: string;
-  variant: LoadingVariant;
-}): string {
-  return options.type || options.variant;
-}
-
 export function normalizeLoadingSize(size: string | number): number {
   if (typeof size === 'number') return size;
   return parseInt(size, 10);

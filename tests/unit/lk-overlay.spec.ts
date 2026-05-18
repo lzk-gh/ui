@@ -10,19 +10,13 @@ import {
 } from '../../src/uni_modules/lucky-ui/components/lk-overlay/overlay.utils';
 
 describe('lk-overlay visibility and interaction rules', () => {
-  it('resolves modelValue before legacy show prop', () => {
+  it('resolves visibility from modelValue', () => {
     expect(resolveOverlayVisible({
       modelValue: true,
-      show: false,
     })).toBe(true);
     expect(resolveOverlayVisible({
       modelValue: false,
-      show: true,
     })).toBe(false);
-    expect(resolveOverlayVisible({
-      modelValue: undefined,
-      show: true,
-    })).toBe(true);
   });
 
   it('builds background and style from opacity or explicit background', () => {

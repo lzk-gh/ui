@@ -130,7 +130,7 @@ const getPriorityColor = (p: number) => {
 const getPriorityBg = (p: number) => {
   if (p >= 3) return 'var(--lk-color-danger-bg-soft)';
   if (p >= 2) return 'var(--lk-color-warning-bg-soft)';
-  return 'var(--lk-color-primary-bg-soft)';
+  return 'var(--lk-color-primary-soft)';
 };
 
 const handleStatusChange = (item: any) => {
@@ -206,13 +206,13 @@ const handleEdit = (item: any) => {
 
 <template>
   <view class="todo-page" :class="themeClass">
-    <lk-navbar title="待办清单" left-arrow @click-left="handleBack">
+    <lk-navbar title="待办清单" show-back @click-left="handleBack">
       <template #right>
         <view style="display: flex; align-items: center; gap: 20rpx">
           <lk-icon
             :name="theme === 'dark' ? 'sun' : 'moon'"
             size="32"
-            color="var(--lk-color-text-secondary)"
+            color="var(--lk-text-secondary)"
             @click="toggleTheme"
           />
           <lk-icon
@@ -229,7 +229,7 @@ const handleEdit = (item: any) => {
       <view
         style="
           padding: 20rpx 24rpx;
-          background-color: var(--lk-color-bg-surface);
+          background-color: var(--lk-bg-container);
           border-bottom: 1rpx solid var(--lk-color-border-light);
         "
       >
@@ -270,7 +270,7 @@ const handleEdit = (item: any) => {
               <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-primary)">{{
                 todoList.length
               }}</text>
-              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary)">全部</text>
+              <text style="font-size: 22rpx; color: var(--lk-text-secondary)">全部</text>
             </lk-space>
           </lk-card>
           <lk-card shadow="never" :border="true" padding="16rpx">
@@ -278,7 +278,7 @@ const handleEdit = (item: any) => {
               <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-warning)">{{
                 pendingCount
               }}</text>
-              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary)">进行中</text>
+              <text style="font-size: 22rpx; color: var(--lk-text-secondary)">进行中</text>
             </lk-space>
           </lk-card>
           <lk-card shadow="never" :border="true" padding="16rpx">
@@ -286,7 +286,7 @@ const handleEdit = (item: any) => {
               <text style="font-size: 32rpx; font-weight: bold; color: var(--lk-color-success)">{{
                 completedCount
               }}</text>
-              <text style="font-size: 22rpx; color: var(--lk-color-text-secondary)">已完成</text>
+              <text style="font-size: 22rpx; color: var(--lk-text-secondary)">已完成</text>
             </lk-space>
           </lk-card>
         </lk-grid>
@@ -307,8 +307,8 @@ const handleEdit = (item: any) => {
                       fontSize: '30rpx',
                       fontWeight: 'bold',
                       color: item.completed
-                        ? 'var(--lk-color-text-placeholder)'
-                        : 'var(--lk-color-text-primary)',
+                        ? 'var(--lk-text-placeholder)'
+                        : 'var(--lk-text-primary)',
                       textDecoration: item.completed ? 'line-through' : 'none',
                     }"
                     >{{ item.title }}</text
@@ -323,16 +323,16 @@ const handleEdit = (item: any) => {
                 >
               </lk-space>
 
-              <text style="font-size: 26rpx; color: var(--lk-color-text-regular)">{{
+              <text style="font-size: 26rpx; color: var(--lk-text-regular)">{{
                 item.desc
               }}</text>
 
               <lk-space direction="vertical" :gap="12" fill>
                 <lk-space justify="between" fill>
-                  <text style="font-size: 24rpx; color: var(--lk-color-text-secondary)"
+                  <text style="font-size: 24rpx; color: var(--lk-text-secondary)"
                     >进度: {{ item.progress }}%</text
                   >
-                  <text style="font-size: 24rpx; color: var(--lk-color-text-secondary)"
+                  <text style="font-size: 24rpx; color: var(--lk-text-secondary)"
                     >截止: {{ item.dueDate }}</text
                   >
                 </lk-space>
@@ -355,7 +355,7 @@ const handleEdit = (item: any) => {
                   <lk-icon
                     name="edit"
                     size="32"
-                    color="var(--lk-color-text-secondary)"
+                    color="var(--lk-text-secondary)"
                     @click="handleEdit(item)"
                   />
                   <lk-icon
@@ -372,8 +372,8 @@ const handleEdit = (item: any) => {
 
         <lk-divider v-if="filteredList.length > 0" text="没有更多任务了" />
         <view v-else style="padding: 100rpx 0; text-align: center">
-          <lk-icon name="info" size="120" color="var(--lk-color-text-placeholder)" />
-          <view style="margin-top: 20rpx; color: var(--lk-color-text-placeholder)"
+          <lk-icon name="info" size="120" color="var(--lk-text-placeholder)" />
+          <view style="margin-top: 20rpx; color: var(--lk-text-placeholder)"
             >暂无相关任务</view
           >
         </view>
@@ -381,7 +381,7 @@ const handleEdit = (item: any) => {
     </scroll-view>
 
     <!-- 新增/编辑弹窗 -->
-    <lk-popup v-model:show="showAddPopup" position="bottom" round title="添加新任务" height="85vh">
+    <lk-popup v-model="showAddPopup" position="bottom" round title="添加新任务" height="85vh">
       <view style="padding: 32rpx">
         <lk-form ref="formRef" :model="formModel" :label-width="160">
           <lk-space direction="vertical" :gap="32" fill>
@@ -410,7 +410,7 @@ const handleEdit = (item: any) => {
                 />
               </lk-tooltip>
               <text
-                style="margin-left: 20rpx; font-size: 24rpx; color: var(--lk-color-text-secondary)"
+                style="margin-left: 20rpx; font-size: 24rpx; color: var(--lk-text-secondary)"
               >
                 {{ getPriorityLabel(formModel.priority) }}
               </text>
@@ -464,7 +464,7 @@ const handleEdit = (item: any) => {
 
     <!-- 庆祝幕帘 -->
     <lk-curtain
-      v-model:show="showCelebration"
+      v-model="showCelebration"
       image-url="https://img.yzcdn.cn/vant/apple-1.jpg"
       width="600"
       height="800"
@@ -478,7 +478,7 @@ const handleEdit = (item: any) => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--lk-color-bg-layout);
+  background-color: var(--lk-bg-layout);
 }
 
 .todo-page__scroll {
@@ -494,7 +494,7 @@ const handleEdit = (item: any) => {
   .label {
     width: 160rpx;
     font-size: 28rpx;
-    color: var(--lk-color-text-regular);
+    color: var(--lk-text-regular);
   }
 }
 </style>

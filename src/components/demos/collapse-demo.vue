@@ -103,7 +103,7 @@ const activeNames5 = ref(['1']);
 
 .collapse-content {
   padding: var(--lk-spacing-md);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
   line-height: 1.6;
 }

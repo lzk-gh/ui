@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: var(--lk-color-bg-container);
+  background-color: var(--lk-bg-container);
   border-radius: var(--lk-radius-lg);
   overflow: hidden;
 
@@ -18,7 +18,7 @@
   --lk-tabs-font-size: var(--lk-font-size-base);
   --lk-tabs-padding: 0 var(--lk-spacing-lg);
   --lk-tabs-item-gap: var(--lk-spacing-xs);
-  --lk-tabs-header-border: 1px solid var(--lk-border-color-light, var(--lk-color-border-light));
+  --lk-tabs-header-border: 1px solid var(--lk-color-border-light, var(--lk-color-border-light));
   --lk-tabs-fade-width: var(--lk-control-height-xs);
 
   /* ── header (Tab 栏容器) ────────────────────── */
@@ -69,7 +69,7 @@
     left: 0;
     background: linear-gradient(
       to right,
-      var(--lk-color-bg-container) 0%,
+      var(--lk-bg-container) 0%,
       transparent 100%
     );
 
@@ -82,7 +82,7 @@
     right: 0;
     background: linear-gradient(
       to left,
-      var(--lk-color-bg-container) 0%,
+      var(--lk-bg-container) 0%,
       transparent 100%
     );
 
@@ -245,7 +245,7 @@
       }
 
       @include when(active) {
-        background-color: var(--lk-color-bg-container);
+        background-color: var(--lk-bg-container);
         color: var(--lk-tabs-active-text-color);
         box-shadow: var(--lk-shadow-sm);
       }

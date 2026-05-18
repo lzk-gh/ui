@@ -142,10 +142,6 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('');
 | round                 | 是否圆角                                                   | `boolean`                                  | `true`       |
 | radius                | 圆角大小                                                   | `string`                                   | `24rpx`      |
 | draggable             | 是否开启拖拽，仅底部模式有效                               | `boolean`                                  | `false`      |
-| contentDraggable      | 兼容旧参数，内容区不再接管拖拽手势                         | `boolean`                                  | `true`       |
-| contentScrollTop      | 兼容旧参数，自定义滚动内容的 scrollTop                     | `number`                                   | `undefined`  |
-| contentScrollHeight   | 兼容旧参数，自定义滚动内容的 scrollHeight                  | `number`                                   | `undefined`  |
-| contentViewportHeight | 兼容旧参数，自定义滚动内容的可视高度                       | `number`                                   | `undefined`  |
 | snapPoints            | 底部拖拽吸附点，值为 translateY 占窗口高度比例             | `number[]`                                 | `[0.5, 0.1]` |
 | title                 | 标题                                                       | `string`                                   | `''`         |
 | closable              | 是否显示关闭图标                                           | `boolean`                                  | `false`      |
@@ -153,7 +149,6 @@ const pos = ref<'top' | 'bottom' | 'left' | 'right' | ''>('');
 | closeIconPosition     | 关闭图标位置                                               | `top-right \| top-left`                    | `top-right`  |
 | overlay               | 是否显示遮罩                                               | `boolean`                                  | `true`       |
 | closeOnOverlay        | 点击遮罩关闭                                               | `boolean`                                  | `true`       |
-| closeOnClickOverlay   | 点击遮罩关闭，兼容旧参数名                                 | `boolean`                                  | `undefined`  |
 | lockScroll            | 锁定背景滚动                                               | `boolean`                                  | `true`       |
 | safeArea              | 底部是否适配安全区                                         | `boolean`                                  | `true`       |
 | height                | 弹层高度                                                   | `string \| number`                         | `''`         |

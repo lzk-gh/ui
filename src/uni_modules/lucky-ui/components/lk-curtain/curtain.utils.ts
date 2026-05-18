@@ -92,8 +92,8 @@ export function resolveCurtainTransitionConfig(): TransitionConfig {
   };
 }
 
-export function shouldCloseCurtainOnOverlay(closeOnClickOverlay: boolean): boolean {
-  return closeOnClickOverlay;
+export function shouldCloseCurtainOnOverlay(closeOnOverlay: boolean): boolean {
+  return closeOnOverlay;
 }
 
 export function shouldNavigateCurtainLink(link: string): boolean {

@@ -10,8 +10,6 @@ import {
   isPopupContentAtLower,
   normalizePopupSnapPixels,
   POPUP_VELOCITY_THRESHOLD,
-  resolvePopupCloseOnOverlay,
-  resolvePopupNumber,
   resolvePopupPanelStyle,
   resolvePopupSize,
   resolvePopupSnapTarget,
@@ -21,16 +19,7 @@ import {
 } from '../../src/uni_modules/lucky-ui/components/lk-popup/popup.utils';
 
 describe('lk-popup transition and drag rules', () => {
-  it('resolves overlay closing and popup dimensions', () => {
-    expect(resolvePopupCloseOnOverlay({
-      closeOnClickOverlay: undefined,
-      closeOnOverlay: true,
-    })).toBe(true);
-    expect(resolvePopupCloseOnOverlay({
-      closeOnClickOverlay: false,
-      closeOnOverlay: true,
-    })).toBe(false);
-
+  it('resolves popup dimensions', () => {
     expect(resolvePopupSize(320)).toBe('320rpx');
     expect(resolvePopupSize('80vh')).toBe('80vh');
     expect(resolvePopupSize('')).toBe('');
@@ -146,7 +135,6 @@ describe('lk-popup transition and drag rules', () => {
   });
 
   it('resolves scroll lower boundary and panel styles', () => {
-    expect(resolvePopupNumber(Number.NaN, 12)).toBe(12);
     expect(canExpandPopupSheet({
       translateY: 120,
       minSnapY: 80,

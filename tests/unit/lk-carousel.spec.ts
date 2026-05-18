@@ -159,8 +159,7 @@ describe('lk-carousel layout and navigation rules', () => {
       'is-bar': true,
     });
     expect(resolveCarouselIndicatorInactiveColor({
-      indicatorInactiveColor: '',
-      indicatorColor: '#ddd',
+      indicatorInactiveColor: '#ddd',
     })).toBe('#ddd');
     expect(resolveCarouselIndicatorStyle({
       active: false,

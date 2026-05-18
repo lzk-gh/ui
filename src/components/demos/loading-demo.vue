@@ -45,19 +45,19 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
     <demo-block title="弹跳样式">
       <view class="loading-row">
-        <lk-loading type="bounce" text="弹跳加载" />
+        <lk-loading variant="bounce" text="弹跳加载" />
       </view>
     </demo-block>
 
     <demo-block title="波浪样式">
       <view class="loading-row">
-        <lk-loading type="wave" text="波浪加载" />
+        <lk-loading variant="wave" text="波浪加载" />
       </view>
     </demo-block>
 
     <demo-block title="环形样式">
       <view class="loading-row">
-        <lk-loading type="ring" text="环形加载" />
+        <lk-loading variant="ring" text="环形加载" />
         <lk-loading variant="circular" text="Circular" />
       </view>
     </demo-block>
@@ -66,8 +66,8 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
       <view class="loading-row">
         <lk-loading variant="circular" :show-track="true" text="有轨道" />
         <lk-loading variant="circular" :show-track="false" text="无轨道" />
-        <lk-loading type="spinner" :show-track="true" text="Spinner" />
-        <lk-loading type="spinner" :show-track="false" text="无轨道" />
+        <lk-loading variant="spinner" :show-track="true" text="Spinner" />
+        <lk-loading variant="spinner" :show-track="false" text="无轨道" />
       </view>
       <view class="loading-row" style="margin-top: 24rpx">
         <lk-loading variant="circular" track-color="rgba(255, 0, 0, 0.1)" text="自定义轨道色" />
@@ -76,13 +76,13 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
     <demo-block title="省略号样式">
       <view class="loading-row">
-        <lk-loading type="ellipsis" text="省略号加载" />
+        <lk-loading variant="ellipsis" text="省略号加载" />
       </view>
     </demo-block>
 
     <demo-block title="文字闪光样式">
       <view class="loading-row">
-        <lk-loading type="text" text="Loading..." />
+        <lk-loading variant="text" text="Loading..." />
       </view>
     </demo-block>
   </view>

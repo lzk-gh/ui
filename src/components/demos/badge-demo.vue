@@ -140,12 +140,12 @@ const resetBadge = () => {
   align-items: center;
   gap: 8rpx;
   padding: 16rpx;
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-md);
 
   text {
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 }
 </style>

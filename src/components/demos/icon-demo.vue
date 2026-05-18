@@ -176,7 +176,7 @@ const copyIconUsage = (name: string) => {
 }
 
 .engine-item {
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border: 2rpx solid var(--lk-color-border);
   border-radius: var(--lk-radius-md);
   padding: 18rpx;
@@ -184,13 +184,13 @@ const copyIconUsage = (name: string) => {
 
 .engine-label {
   display: block;
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
   font-size: 22rpx;
   margin-bottom: 6rpx;
 }
 
 .engine-value {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 34rpx;
   font-weight: 700;
 }
@@ -203,7 +203,7 @@ const copyIconUsage = (name: string) => {
 .engine-tip {
   display: block;
   margin-top: 14rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 23rpx;
   line-height: 1.5;
 }
@@ -216,7 +216,7 @@ const copyIconUsage = (name: string) => {
   padding: 14rpx 16rpx;
   border-radius: var(--lk-radius-md);
   border: 2rpx solid var(--lk-color-border);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   margin-bottom: 18rpx;
 }
 
@@ -227,13 +227,13 @@ const copyIconUsage = (name: string) => {
 }
 
 .preview-control__label {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 26rpx;
   font-weight: 600;
 }
 
 .preview-control__hint {
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
   font-size: 22rpx;
 }
 
@@ -244,14 +244,14 @@ const copyIconUsage = (name: string) => {
   padding: 12rpx 16rpx;
   border-radius: var(--lk-radius-md);
   border: 2rpx solid var(--lk-color-border);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   margin-bottom: 18rpx;
 }
 
 .search-input {
   flex: 1;
   font-size: 26rpx;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
 }
 
 .icon-grid {
@@ -268,7 +268,7 @@ const copyIconUsage = (name: string) => {
   padding: 16rpx 8rpx;
   border-radius: var(--lk-radius-md);
   border: 2rpx solid var(--lk-color-border);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
 
   &:active {
     transform: scale(0.96);
@@ -278,7 +278,7 @@ const copyIconUsage = (name: string) => {
 
 .icon-label {
   font-size: 20rpx;
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
   margin-top: 8rpx;
   text-align: center;
   word-break: break-all;
@@ -294,7 +294,7 @@ const copyIconUsage = (name: string) => {
   margin-bottom: 10rpx;
   font-size: 24rpx;
   font-weight: 600;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 .demo-row {
@@ -307,7 +307,7 @@ const copyIconUsage = (name: string) => {
   min-width: 120rpx;
   padding: 10rpx 8rpx;
   border-radius: 12rpx;
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border: 2rpx solid var(--lk-color-border);
   display: flex;
   flex-direction: column;
@@ -317,7 +317,7 @@ const copyIconUsage = (name: string) => {
 
 .group-label {
   font-size: 18rpx;
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
   text-align: center;
 }
 </style>

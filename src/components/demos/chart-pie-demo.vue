@@ -315,7 +315,7 @@ watch(
 .metric {
   display: block;
   margin-top: var(--lk-rpx-4);
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: var(--lk-rpx-48);
   font-weight: 800;
   line-height: 1;

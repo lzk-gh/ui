@@ -439,24 +439,24 @@ onMounted(() => {
 <style lang="scss" scoped>
 .demo-page {
   min-height: 100vh;
-  background: var(--lk-color-bg-page, #f5f5f5);
+  background: var(--lk-bg-page, #f5f5f5);
 }
 
 .demo-header {
   padding: 24rpx 32rpx;
-  background: var(--lk-color-bg-elevated, #fff);
+  background: var(--lk-bg-elevated, #fff);
 }
 
 .demo-title {
   font-size: 36rpx;
   font-weight: 600;
-  color: var(--lk-color-text, #333);
+  color: var(--lk-text-primary, #333);
   display: block;
 }
 
 .demo-desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary, #999);
+  color: var(--lk-text-secondary, #999);
   margin-top: 8rpx;
   display: block;
 }
@@ -464,7 +464,7 @@ onMounted(() => {
 .demo-stats {
   display: flex;
   padding: 20rpx 32rpx;
-  background: var(--lk-color-bg-elevated, #fff);
+  background: var(--lk-bg-elevated, #fff);
   border-top: 1px solid var(--lk-color-border, #eee);
   gap: 48rpx;
 }
@@ -483,7 +483,7 @@ onMounted(() => {
 
 .stat-label {
   font-size: 20rpx;
-  color: var(--lk-color-text-tertiary, #bbb);
+  color: var(--lk-text-tertiary, #bbb);
   margin-top: 4rpx;
 }
 
@@ -519,7 +519,7 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--lk-color-bg-elevated, #fff);
+  background: var(--lk-bg-elevated, #fff);
   overflow: hidden;
 
   &--loading {
@@ -567,7 +567,7 @@ onMounted(() => {
 .card__title {
   font-size: 26rpx;
   font-weight: 500;
-  color: var(--lk-color-text, #333);
+  color: var(--lk-text-primary, #333);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -596,7 +596,7 @@ onMounted(() => {
 
 .card__name {
   font-size: 20rpx;
-  color: var(--lk-color-text-secondary, #999);
+  color: var(--lk-text-secondary, #999);
 }
 
 .card__likes {
@@ -612,6 +612,6 @@ onMounted(() => {
 
 .card__likes-count {
   font-size: 20rpx;
-  color: var(--lk-color-text-secondary, #999);
+  color: var(--lk-text-secondary, #999);
 }
 </style>

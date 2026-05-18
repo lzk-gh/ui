@@ -3,7 +3,7 @@
 @include b(loading) {
   display: inline-flex;
   align-items: center;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   --_color: var(--lk-loading-spinner);
 
   // 通用间距逻辑：如果后面有文本，则给动画容器加间距
@@ -91,7 +91,7 @@
   @include e(bar) {
     position: relative;
     height: var(--lk-rpx-12);
-    background: var(--lk-color-fill-tertiary);
+    background: var(--lk-fill-tertiary);
     border-radius: var(--lk-rpx-12);
     overflow: hidden;
     width: var(--lk-rpx-160);

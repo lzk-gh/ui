@@ -8,7 +8,6 @@ import {
   resolveLoadingRootStyle,
   resolveLoadingSquareStyle,
   resolveLoadingText,
-  resolveLoadingType,
   shouldRenderLoadingText,
 } from './loading.utils';
 
@@ -16,12 +15,8 @@ defineOptions({ name: 'LkLoading' });
 
 const props = defineProps(loadingProps);
 
-const _type = computed(() => resolveLoadingType({
-  type: props.type,
-  variant: props.variant,
-}));
 const rootClass = computed(() => resolveLoadingRootClass({
-  type: _type.value,
+  type: props.variant,
   vertical: props.vertical,
 }));
 const rootStyle = computed(() => resolveLoadingRootStyle({
@@ -33,11 +28,11 @@ const squareStyle = computed(() => resolveLoadingSquareStyle(props.size));
 const heightStyle = computed(() => resolveLoadingHeightStyle(props.size));
 const barStyle = computed(() => resolveLoadingBarStyle(props.size));
 const displayText = computed(() => resolveLoadingText({
-  type: _type.value,
+  type: props.variant,
   text: props.text,
 }));
 const showBottomText = computed(() => shouldRenderLoadingText({
-  type: _type.value,
+  type: props.variant,
   text: props.text,
 }));
 </script>
@@ -52,14 +47,14 @@ const showBottomText = computed(() => shouldRenderLoadingText({
   >
     <!-- Spinner（改进） -->
     <view
-      v-if="_type === 'spinner'"
+      v-if="variant === 'spinner'"
       class="lk-loading__spinner"
       :style="squareStyle"
     ></view>
 
     <!-- Circular -->
     <view
-      v-else-if="_type === 'circular'"
+      v-else-if="variant === 'circular'"
       class="lk-loading__circular"
       :style="squareStyle"
     >
@@ -68,7 +63,7 @@ const showBottomText = computed(() => shouldRenderLoadingText({
 
     <!-- Dots -->
     <view
-      v-else-if="_type === 'dots'"
+      v-else-if="variant === 'dots'"
       class="lk-loading__dots"
       :style="heightStyle"
     >
@@ -77,7 +72,7 @@ const showBottomText = computed(() => shouldRenderLoadingText({
 
     <!-- Bar -->
     <view
-      v-else-if="_type === 'bar'"
+      v-else-if="variant === 'bar'"
       class="lk-loading__bar"
       :style="barStyle"
     >
@@ -86,7 +81,7 @@ const showBottomText = computed(() => shouldRenderLoadingText({
 
     <!-- Bounce -->
     <view
-      v-else-if="_type === 'bounce'"
+      v-else-if="variant === 'bounce'"
       class="lk-loading__bounce"
       :style="heightStyle"
     >
@@ -95,7 +90,7 @@ const showBottomText = computed(() => shouldRenderLoadingText({
 
     <!-- Wave -->
     <view
-      v-else-if="_type === 'wave'"
+      v-else-if="variant === 'wave'"
       class="lk-loading__wave"
       :style="heightStyle"
     >
@@ -104,14 +99,14 @@ const showBottomText = computed(() => shouldRenderLoadingText({
 
     <!-- Ring -->
     <view
-      v-else-if="_type === 'ring'"
+      v-else-if="variant === 'ring'"
       class="lk-loading__ring"
       :style="squareStyle"
     ></view>
 
     <!-- Ellipsis -->
     <view
-      v-else-if="_type === 'ellipsis'"
+      v-else-if="variant === 'ellipsis'"
       class="lk-loading__ellipsis"
       :style="heightStyle"
     >
@@ -119,7 +114,7 @@ const showBottomText = computed(() => shouldRenderLoadingText({
     </view>
 
     <!-- Text Shine -->
-    <view v-else-if="_type === 'text'" class="lk-loading__text-shine">
+    <view v-else-if="variant === 'text'" class="lk-loading__text-shine">
       <text class="loading-text">{{ displayText }}</text>
     </view>
 

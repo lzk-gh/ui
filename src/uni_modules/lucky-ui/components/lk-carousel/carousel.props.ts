@@ -42,7 +42,7 @@ export type CarouselIndicatorPosition =
   (typeof CarouselIndicatorPosition)[keyof typeof CarouselIndicatorPosition];
 export type CarouselIndicatorAlign =
   (typeof CarouselIndicatorAlign)[keyof typeof CarouselIndicatorAlign];
-// 轮播项可为图片地址、对象或业务自定义结构，slot 侧保留宽松类型以兼容现有用法。
+// 轮播项可为图片地址、对象或业务自定义结构，slot 侧按透传数据处理。
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CarouselItem = any;
 
@@ -72,10 +72,8 @@ export const carouselProps = {
     'Carousel.indicatorAlign'
   ),
   indicatorClickable: { type: Boolean, default: undefined },
-  /** 指示器非激活颜色（优先级高于 indicatorColor） */
+  /** 指示器非激活颜色 */
   indicatorInactiveColor: LkProp.string(''),
-  /** 指示器非激活颜色（兼容旧字段） */
-  indicatorColor: LkProp.string(''),
   /** 指示器激活颜色 */
   indicatorActiveColor: LkProp.string(''),
   card: { type: Boolean, default: undefined },

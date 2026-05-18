@@ -232,7 +232,7 @@ defineExpose({
             >
               <lk-loading
                 v-if="status !== PullRefreshStatus.Success"
-                type="text"
+                variant="text"
                 :text="indicatorText"
               />
               <text v-else class="lk-pull-refresh__text">

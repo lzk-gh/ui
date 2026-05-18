@@ -1,10 +1,10 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(cell) {
   // =========================================
   // 1. 定义组件级 CSS 变量
   // =========================================
-  --_bg: var(--lk-color-bg-container);
+  --_bg: var(--lk-bg-container);
   --_fs: var(--lk-font-size-md);
   --_title-fs: var(--lk-font-size-md);
   --_label-fs: var(--lk-font-size-sm);
@@ -31,7 +31,7 @@
     transition: background-color 0.2s ease;
     // 当存在波纹效果 (.lk-ripple) 时，不应用传统的背景色激活反馈
     &:active:not(.lk-ripple) {
-      background-color: var(--lk-color-bg-active);
+      background-color: var(--lk-bg-active);
     }
   }
 
@@ -100,7 +100,7 @@
   }
 
   @include e(arrow) {
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 }
 
@@ -117,7 +117,7 @@
   }
 
   @include e(body) {
-    background: var(--lk-color-bg-container);
+    background: var(--lk-bg-container);
     border-radius: 0;
     overflow: hidden;
   }

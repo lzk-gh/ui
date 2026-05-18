@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(input) {
   --_height: var(--lk-control-height-md);
@@ -111,7 +111,7 @@
       color var(--lk-transition-fast);
 
     &:active {
-      background: var(--lk-color-bg-active);
+      background: var(--lk-bg-active);
     }
   }
 
@@ -150,7 +150,7 @@
   }
 
   @include when(readonly) {
-    background: var(--lk-color-bg-disabled);
+    background: var(--lk-bg-disabled);
   }
 
   // 密码明暗切换按钮

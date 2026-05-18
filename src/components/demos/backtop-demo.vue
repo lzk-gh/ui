@@ -163,7 +163,7 @@ function onPageTopAreaTap(event: unknown) {
 
 .desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   margin-bottom: 16rpx;
 }
 
@@ -171,7 +171,7 @@ function onPageTopAreaTap(event: unknown) {
   height: 520rpx;
   border: 2rpx solid var(--lk-color-border);
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   overflow: hidden;
 }
 
@@ -179,7 +179,7 @@ function onPageTopAreaTap(event: unknown) {
   overflow: hidden;
   border: 2rpx solid var(--lk-color-border);
   border-radius: var(--lk-radius-xl);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
 }
 
 .page-top-trigger {
@@ -191,7 +191,7 @@ function onPageTopAreaTap(event: unknown) {
   margin-bottom: 16rpx;
   border: 2rpx dashed var(--lk-color-primary);
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-primary-soft);
   color: var(--lk-color-primary);
   font-size: var(--lk-font-size-sm);
   font-weight: 600;
@@ -203,7 +203,7 @@ function onPageTopAreaTap(event: unknown) {
   align-items: center;
   justify-content: center;
   border-bottom: 2rpx solid var(--lk-color-border-light);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   color: var(--lk-color-primary);
   font-size: var(--lk-font-size-sm);
   font-weight: 600;
@@ -224,23 +224,23 @@ function onPageTopAreaTap(event: unknown) {
   padding: 20rpx;
   margin-bottom: 12rpx;
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-fill);
+  background: var(--lk-fill-1);
 }
 
 .phone-item__title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: var(--lk-font-size-base);
   font-weight: 600;
 }
 
 .phone-item__desc {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-xs);
 }
 
 .code-tip {
   margin-top: 16rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-xs);
   line-height: 1.6;
 }
@@ -254,13 +254,13 @@ function onPageTopAreaTap(event: unknown) {
   padding: 0 16rpx;
   margin-bottom: 12rpx;
   border-radius: var(--lk-radius-md);
-  background: var(--lk-color-fill);
-  color: var(--lk-color-text-secondary);
+  background: var(--lk-fill-1);
+  color: var(--lk-text-secondary);
 }
 
 .placeholder {
   height: 600rpx;
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-lg);
   border: 2rpx dashed var(--lk-color-border);
 }
@@ -277,12 +277,12 @@ function onPageTopAreaTap(event: unknown) {
   padding: 16rpx;
   background: var(--lk-color-info-bg-soft);
   border-radius: var(--lk-radius-md);
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
 }
 
 .tips__text {
   font-size: 22rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 </style>

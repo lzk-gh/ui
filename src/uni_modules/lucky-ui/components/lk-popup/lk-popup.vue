@@ -20,8 +20,6 @@ import {
   isPopupContentAtLower,
   normalizePopupSnapPixels,
   POPUP_VELOCITY_THRESHOLD,
-  resolvePopupCloseOnOverlay,
-  resolvePopupNumber,
   resolvePopupPanelStyle,
   resolvePopupSize,
   resolvePopupSnapTarget,
@@ -34,10 +32,6 @@ defineOptions({ name: 'LkPopup' });
 
 const props = defineProps(popupProps);
 const emit = defineEmits(popupEmits);
-const closeOnOverlayResolved = computed(() => resolvePopupCloseOnOverlay({
-  closeOnClickOverlay: props.closeOnClickOverlay,
-  closeOnOverlay: props.closeOnOverlay,
-}));
 const popupHeight = computed(() => resolvePopupSize(props.height));
 const popupWidth = computed(() => resolvePopupSize(props.width));
 
@@ -62,7 +56,7 @@ const {
 
 function onOverlayClick() {
   emit('click-overlay');
-  if (closeOnOverlayResolved.value) emit('update:modelValue', false);
+  if (props.closeOnOverlay) emit('update:modelValue', false);
 }
 
 function onCloseClick() {
@@ -237,20 +231,16 @@ function onContentScroll(e: { detail?: { scrollTop?: number; scrollHeight?: numb
   }
 }
 
-function resolveNumber(value: unknown, fallback: number): number {
-  return resolvePopupNumber(value, fallback);
-}
-
 function getGestureScrollTop(): number {
-  return Math.max(0, resolveNumber(props.contentScrollTop, internalContentScrollTop.value));
+  return Math.max(0, internalContentScrollTop.value);
 }
 
 function getGestureScrollHeight(): number {
-  return Math.max(0, resolveNumber(props.contentScrollHeight, internalContentScrollHeight.value));
+  return Math.max(0, internalContentScrollHeight.value);
 }
 
 function getGestureViewportHeight(): number {
-  return Math.max(0, resolveNumber(props.contentViewportHeight, windowHeight - translateY.value));
+  return Math.max(0, windowHeight - translateY.value);
 }
 
 function canExpandSheet(): boolean {
@@ -275,13 +265,6 @@ function isContentAtLower(): boolean {
   });
 }
 
-watch(
-  () => [props.contentScrollTop, props.contentScrollHeight, props.contentViewportHeight] as const,
-  () => {
-    if (isContentAtLower()) expandSheetFromContentLower();
-  }
-);
-
 const panelStyle = computed(() => {
   return resolvePopupPanelStyle({
     position: props.position,
@@ -302,10 +285,10 @@ const panelStyle = computed(() => {
 <template>
   <lk-overlay
     v-if="overlay && display"
-    :show="modelValue"
+    :model-value="modelValue"
     :z-index="zIndex"
     :lock-scroll="lockScroll"
-    :close-on-click="closeOnOverlayResolved"
+    :close-on-click="closeOnOverlay"
     @click="onOverlayClick"
   />
   <view v-if="display" :class="wrapperClass" :style="wrapperStyle" @touchmove.stop>

@@ -181,8 +181,8 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   --card-demo-muted: var(--lk-text-secondary, #8c8c8c);
   --card-demo-copy: var(--lk-text-regular, #666666);
   --card-demo-soft: var(--lk-fill-1, #f7f8fa);
-  --card-demo-active-soft: var(--lk-color-primary-bg-soft, #eef5ff);
-  --card-demo-simple-icon-bg: var(--lk-color-primary-bg-soft, #eef5ff);
+  --card-demo-active-soft: var(--lk-color-primary-soft, #eef5ff);
+  --card-demo-simple-icon-bg: var(--lk-color-primary-soft, #eef5ff);
 
   width: 100%;
   display: flex;

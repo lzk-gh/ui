@@ -4,20 +4,20 @@
   --lk-upload-preview-size: calc(var(--lk-control-height-lg) * 1.875);
   --lk-upload-gap: var(--lk-spacing-sm);
   --lk-upload-radius: var(--lk-radius-lg);
-  --lk-upload-bg: var(--lk-color-fill-tertiary);
-  --lk-upload-bg-active: var(--lk-color-fill-secondary);
+  --lk-upload-bg: var(--lk-fill-tertiary);
+  --lk-upload-bg-active: var(--lk-fill-secondary);
   --lk-upload-border: var(--lk-color-border-light);
   --lk-upload-border-active: var(--lk-color-primary);
-  --lk-upload-text: var(--lk-color-text-secondary);
-  --lk-upload-text-weak: var(--lk-color-text-tertiary);
-  --lk-upload-file-icon-bg: var(--lk-color-bg-container);
+  --lk-upload-text: var(--lk-text-secondary);
+  --lk-upload-text-weak: var(--lk-text-tertiary);
+  --lk-upload-file-icon-bg: var(--lk-bg-container);
   --lk-upload-mask-bg: var(--lk-overlay-bg);
-  --lk-upload-mask-surface-bg: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-  --lk-upload-mask-surface-text: var(--lk-color-text);
+  --lk-upload-mask-surface-bg: var(--lk-bg-elevated, var(--lk-bg-container));
+  --lk-upload-mask-surface-text: var(--lk-text-primary);
   --lk-upload-mask-text: var(--lk-color-white);
-  --lk-upload-del-bg: var(--lk-color-fill-secondary);
+  --lk-upload-del-bg: var(--lk-fill-secondary);
   --lk-upload-del-border: var(--lk-color-border-light);
-  --lk-upload-del-icon-color: var(--lk-color-text-secondary);
+  --lk-upload-del-icon-color: var(--lk-text-secondary);
   --lk-upload-status-bg: var(--lk-color-success);
   --lk-upload-status-icon-color: var(--lk-color-white);
 
@@ -47,7 +47,7 @@
     box-sizing: border-box;
 
     @include when(image) {
-      background: var(--lk-color-bg-container);
+      background: var(--lk-bg-container);
     }
 
     @include when(file) {
@@ -160,7 +160,7 @@
     height: var(--lk-rpx-8);
     overflow: hidden;
     border-radius: var(--lk-rpx-4);
-    background: var(--lk-color-bg-container);
+    background: var(--lk-bg-container);
   }
 
   @include e(progress-bar) {

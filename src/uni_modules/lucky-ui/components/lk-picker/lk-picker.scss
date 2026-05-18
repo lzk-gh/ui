@@ -1,10 +1,10 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(picker) {
-  --lk-picker-bg: var(--lk-color-bg-container);
+  --lk-picker-bg: var(--lk-bg-container);
   --lk-picker-header-border: var(--lk-color-border-light);
-  --lk-picker-title-color: var(--lk-color-text);
-  --lk-picker-cancel-color: var(--lk-color-text-secondary);
+  --lk-picker-title-color: var(--lk-text-primary);
+  --lk-picker-cancel-color: var(--lk-text-secondary);
   --lk-picker-confirm-color: var(--lk-color-primary);
   --lk-picker-item-height: var(--lk-rpx-100);
 

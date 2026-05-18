@@ -236,7 +236,7 @@ function slideClass(item: FashionSlide) {
         :auto-height="true"
         indicator-type="dots"
         indicator-active-color="var(--lk-color-primary)"
-        indicator-color="var(--lk-color-border-light)"
+        indicator-inactive-color="var(--lk-color-border-light)"
       >
         <template #default="{ item }">
           <view class="custom-content">
@@ -258,7 +258,7 @@ function slideClass(item: FashionSlide) {
 
 <style scoped lang="scss">
 .component-demo {
-  --carousel-demo-on-media: var(--lk-color-text-inverse);
+  --carousel-demo-on-media: var(--lk-text-inverse);
   --carousel-demo-indicator-muted: var(--lk-color-border-light);
   --carousel-demo-hero-min-height: 440rpx;
   --carousel-demo-slide-min-height: 340rpx;
@@ -270,7 +270,7 @@ function slideClass(item: FashionSlide) {
   gap: 32rpx;
   min-height: 100vh;
   padding-bottom: var(--lk-rpx-60);
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
 }
 
 .hero-slide,
@@ -426,17 +426,17 @@ function slideClass(item: FashionSlide) {
   padding: var(--lk-spacing-lg);
   border: var(--lk-rpx-2) solid var(--lk-color-border-light);
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
 }
 
 .content-card__title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: var(--lk-font-size-lg);
   font-weight: 700;
 }
 
 .content-card__desc {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
   line-height: 1.7;
 }
@@ -450,7 +450,7 @@ function slideClass(item: FashionSlide) {
 .content-card__stat {
   padding: var(--lk-rpx-8) var(--lk-rpx-16);
   border-radius: var(--lk-radius-full);
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-primary-soft);
   color: var(--lk-color-primary);
   font-size: var(--lk-font-size-xs);
 }

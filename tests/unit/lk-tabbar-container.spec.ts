@@ -51,10 +51,10 @@ describe('lk-tabbar-container layout and navigation rules', () => {
       preferRuntimeSafeArea: false,
       safeAreaBottom: 34,
       customStyle: { background: '#fff' },
-    })).toEqual([
-      { '--lk-tabbar-container-safe-area-bottom': '34px' },
-      { background: '#fff' },
-    ]);
+    })).toEqual({
+      '--lk-tabbar-container-safe-area-bottom': '34px',
+      background: '#fff',
+    });
     expect(resolveTabbarContainerActiveBgStyle({
       count: 4,
       activeIndex: 2,

@@ -6,26 +6,10 @@ import {
   resolveNavbarPlaceholderStyle,
   resolveNavbarRootClass,
   resolveNavbarSafeStyle,
-  resolveNavbarShowBack,
   shouldNavigateBack,
 } from '../../src/uni_modules/lucky-ui/components/lk-navbar/navbar.utils';
 
 describe('lk-navbar layout and back rules', () => {
-  it('resolves compatible back switch from leftArrow before showBack', () => {
-    expect(resolveNavbarShowBack({
-      leftArrow: true,
-      showBack: false,
-    })).toBe(true);
-    expect(resolveNavbarShowBack({
-      leftArrow: false,
-      showBack: true,
-    })).toBe(false);
-    expect(resolveNavbarShowBack({
-      leftArrow: undefined,
-      showBack: true,
-    })).toBe(true);
-  });
-
   it('builds root class and merged style', () => {
     expect(resolveNavbarRootClass({
       variant: 'elevated',
@@ -60,10 +44,7 @@ describe('lk-navbar layout and back rules', () => {
       zIndex: 300,
       background: '',
       customStyle: { color: 'red' },
-    })).toEqual([
-      { zIndex: 300 },
-      { color: 'red' },
-    ]);
+    })).toEqual({ zIndex: 300, color: 'red' });
   });
 
   it('calculates content height and capsule safe padding', () => {

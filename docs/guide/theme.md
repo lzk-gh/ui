@@ -85,10 +85,10 @@ isDark.value = mediaQuery.theme === 'dark'
 | `--lk-color-warning` | 警告色 | `#f59e0b` |
 | `--lk-color-danger` | 危险色 | `#ef4444` |
 | `--lk-color-info` | 信息色 | `#64748b` |
-| `--lk-color-text-1` | 主文本 | `#1a1a2e` |
-| `--lk-color-text-2` | 次要文本 | `#6b7280` |
-| `--lk-color-bg` | 页面背景 | `#f8f8fc` |
-| `--lk-color-bg-card` | 卡片背景 | `#ffffff` |
+| `--lk-text-primary` | 主文本 | `#1a1a2e` |
+| `--lk-text-secondary` | 次要文本 | `#6b7280` |
+| `--lk-bg-page` | 页面背景 | `#f8f8fc` |
+| `--lk-bg-container` | 卡片背景 | `#ffffff` |
 
 ### 圆角
 

@@ -1,10 +1,9 @@
 import type { StyleValue } from 'vue';
 
 export function resolveOverlayVisible(options: {
-  modelValue: boolean | undefined;
-  show: boolean;
+  modelValue: boolean;
 }): boolean {
-  return options.modelValue ?? options.show;
+  return options.modelValue;
 }
 
 export function resolveOverlayBackground(options: {

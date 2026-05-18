@@ -135,7 +135,7 @@ describe('lk-tabbar layout and item rules', () => {
       bump: true,
       activeColor: '#1677ff',
       inactiveColor: '#999',
-    })).toBe('var(--lk-color-text-inverse)');
+    })).toBe('var(--lk-color-white)');
   });
 
   it('resolves fill icons, badges, label style and page switch', () => {

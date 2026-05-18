@@ -67,7 +67,7 @@ const v5 = ref('');
   flex-direction: column;
   gap: 32rpx;
   padding: 30rpx;
-  background-color: var(--lk-color-bg-page);
+  background-color: var(--lk-bg-page);
 }
 
 .demo-col {
@@ -78,7 +78,7 @@ const v5 = ref('');
 
 .tips {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   margin-bottom: 12rpx;
 }
 
@@ -89,7 +89,7 @@ const v5 = ref('');
   .tag {
     font-size: 22rpx;
     color: var(--lk-color-primary, #2979ff);
-    background: var(--lk-color-primary-bg-soft, var(--lk-color-primary-soft));
+    background: var(--lk-color-primary-soft, var(--lk-color-primary-soft));
     padding: 4rpx 12rpx;
     border-radius: 8rpx;
   }

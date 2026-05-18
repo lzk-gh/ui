@@ -163,7 +163,7 @@ function onClose() {
 }
 
 .input-display {
-  background: var(--lk-color-bg-elevated);
+  background: var(--lk-bg-elevated);
   border-radius: var(--lk-radius-lg);
   padding: 32rpx;
   margin-bottom: 16rpx;
@@ -171,20 +171,20 @@ function onClose() {
 
 .input-label {
   font-size: var(--lk-font-size-sm);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   margin-bottom: 12rpx;
 }
 
 .input-value {
   font-size: 48rpx;
   font-weight: 600;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   min-height: 64rpx;
   line-height: 64rpx;
   word-break: break-all;
 
   &.is-placeholder {
-    color: var(--lk-color-text-tertiary);
+    color: var(--lk-text-tertiary);
     font-weight: 400;
     font-size: var(--lk-font-size-lg);
   }
@@ -192,7 +192,7 @@ function onClose() {
 
 .desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   margin-bottom: 16rpx;
 }
 
@@ -207,10 +207,10 @@ function onClose() {
   align-items: flex-start;
   gap: 12rpx;
   padding: 24rpx;
-  background: var(--lk-color-fill-secondary);
+  background: var(--lk-fill-secondary);
   border-radius: var(--lk-radius-lg);
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   line-height: 1.6;
 }
 </style>

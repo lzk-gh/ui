@@ -10,7 +10,7 @@ import {
 describe('lk-icon style rules', () => {
   it('maps semantic colors to theme variables and preserves custom colors', () => {
     expect(resolveIconColor('primary')).toBe('var(--lk-color-primary)');
-    expect(resolveIconColor('textSecondary')).toBe('var(--lk-color-text-secondary)');
+    expect(resolveIconColor('textSecondary')).toBe('var(--lk-text-secondary)');
     expect(resolveIconColor('#ff0000')).toBe('#ff0000');
     expect(resolveIconColor('rgb(1, 2, 3)')).toBe('rgb(1, 2, 3)');
     expect(resolveIconColor('')).toBe('');

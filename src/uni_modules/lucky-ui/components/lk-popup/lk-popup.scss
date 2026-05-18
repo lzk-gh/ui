@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(popup) {
   position: fixed;
@@ -44,7 +44,7 @@
 
       @include e(safe) {
         flex-shrink: 0;
-        background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
+        background: var(--lk-bg-elevated, var(--lk-bg-container));
       }
     }
   }
@@ -99,8 +99,8 @@
   }
 
   @include e(panel) {
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    color: var(--lk-color-text);
+    background: var(--lk-bg-elevated, var(--lk-bg-container));
+    color: var(--lk-text-primary);
     box-shadow: var(--lk-shadow-base);
     /* subtle border for clearer separation */
     border: var(--lk-rpx-1) solid var(--lk-color-border-light);
@@ -143,7 +143,7 @@
   @include e(title) {
     font-size: var(--lk-rpx-32);
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     text-align: center;
   }
 
@@ -157,11 +157,11 @@
     width: var(--lk-rpx-64);
     height: var(--lk-rpx-64);
     cursor: pointer;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     transition: color 0.2s;
 
     &:hover {
-      color: var(--lk-color-text);
+      color: var(--lk-text-primary);
     }
 
     @include m(top-right) {

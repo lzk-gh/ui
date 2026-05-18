@@ -153,7 +153,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
   text {
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 }
 
@@ -165,7 +165,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
   text {
     font-size: 22rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 }
 
@@ -183,7 +183,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 
   text {
     font-size: 20rpx;
-    color: var(--lk-color-text-tertiary);
+    color: var(--lk-text-tertiary);
     text-align: center;
   }
 }
@@ -195,7 +195,7 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 }
 
 .image-card {
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-lg);
   overflow: hidden;
   box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
@@ -208,14 +208,14 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 .image-card-title {
   font-size: 30rpx;
   font-weight: 600;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   display: block;
   margin-bottom: 12rpx;
 }
 
 .image-card-desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   line-height: 1.6;
   display: block;
   margin-bottom: 16rpx;
@@ -231,6 +231,6 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
 .image-card-time {
   margin-left: auto;
   font-size: 22rpx;
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
 }
 </style>

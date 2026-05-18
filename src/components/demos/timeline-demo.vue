@@ -200,14 +200,14 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   display: flex;
   flex-direction: column;
   gap: 24rpx;
-  background: var(--lk-color-bg, #f2f2f7);
+  background: var(--lk-bg-page, #f2f2f7);
 }
 
 // 左侧时间列（demo 用）
 .time-label {
   font-size: 28rpx;
   font-weight: 600;
-  color: var(--lk-color-text, #1c1c1e);
+  color: var(--lk-text-primary, #1c1c1e);
   font-variant-numeric: tabular-nums;
   text-align: right;
   line-height: 1.2;
@@ -244,8 +244,8 @@ import DemoBlock from '@/uni_modules/lucky-ui/components/demo-block/demo-block.v
   }
 
   &--soft {
-    background: var(--lk-color-bg-weak, #e5e5ea);
-    color: var(--lk-color-text-secondary, #8e8e93);
+    background: var(--lk-fill-1, #e5e5ea);
+    color: var(--lk-text-secondary, #8e8e93);
   }
 }
 </style>

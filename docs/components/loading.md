@@ -55,22 +55,19 @@ phone: loading
 适合空状态占位、全页加载或卡片加载态。
 
 ```vue
-<lk-loading type="ring" text="加载中..." vertical />
+<lk-loading variant="ring" text="加载中..." vertical />
 ```
 
 ## 扩展动画类型
 
-当前组件提供两套入口：
-
-- `variant`：声明式基础类型，适合常规场景。
-- `type`：兼容旧版与扩展动画，适合需要更多视觉样式的场景。
+当前组件统一通过 `variant` 声明动画类型。
 
 ```vue
 <template>
-  <lk-loading type="bounce" text="弹跳加载" />
-  <lk-loading type="wave" text="波浪加载" />
-  <lk-loading type="ellipsis" text="处理中" />
-  <lk-loading type="text" text="Loading..." />
+  <lk-loading variant="bounce" text="弹跳加载" />
+  <lk-loading variant="wave" text="波浪加载" />
+  <lk-loading variant="ellipsis" text="处理中" />
+  <lk-loading variant="text" text="Loading..." />
 </template>
 ```
 

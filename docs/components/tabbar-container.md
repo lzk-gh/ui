@@ -116,7 +116,7 @@ interface TabConfig {
 
 ## 主题与样式
 
-容器与底部栏颜色使用 Lucky UI 主题 **CSS 变量**（`--lk-bg-page`、`--lk-color-primary`、`--lk-color-bg-container` 等）。接入方引入主题 SCSS 后即可随亮暗色切换；无需依赖业务项目里的测试页样式文件。
+容器与底部栏颜色使用 Lucky UI 主题 **CSS 变量**（`--lk-bg-page`、`--lk-color-primary`、`--lk-bg-container` 等）。接入方引入主题 SCSS 后即可随亮暗色切换；无需依赖业务项目里的测试页样式文件。
 
 ## 发布前检查
 

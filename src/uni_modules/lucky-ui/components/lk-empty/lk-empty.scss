@@ -1,7 +1,7 @@
 .lk-empty {
   --lk-empty-padding: var(--lk-spacing-xl) var(--lk-spacing-lg);
-  --lk-empty-title-color: var(--lk-color-text, var(--lk-text-primary));
-  --lk-empty-description-color: var(--lk-color-text-secondary, var(--lk-text-secondary));
+  --lk-empty-title-color: var(--lk-text-primary);
+  --lk-empty-description-color: var(--lk-text-secondary);
   --lk-empty-title-size: var(--lk-font-size-lg);
   --lk-empty-description-size: var(--lk-font-size-sm);
   --lk-empty-gap: var(--lk-spacing-sm);

@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(progress) {
   display: flex;
@@ -9,7 +9,7 @@
     position: relative;
     flex: 1;
     height: var(--lk-rpx-12);
-    background: var(--lk-color-fill-tertiary);
+    background: var(--lk-fill-tertiary);
     border-radius: var(--lk-rpx-100);
     overflow: hidden;
     /* #ifdef H5 */
@@ -92,7 +92,7 @@
 
   @include e(text) {
     font-size: var(--lk-rpx-24);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     min-width: var(--lk-rpx-80);
     text-align: right;
     margin-left: var(--lk-spacing-sm);

@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(form) {
   display: flex;
@@ -11,13 +11,13 @@
   }
 
   @include m(border) {
-    background: var(--lk-color-bg-container);
+    background: var(--lk-bg-container);
   }
 
   @include m(card) {
     margin: var(--lk-spacing-md);
     border-radius: var(--lk-radius-lg, var(--lk-rpx-16));
-    background: var(--lk-color-bg-container);
+    background: var(--lk-bg-container);
     overflow: hidden;
   }
 }
@@ -109,7 +109,7 @@
   }
 
   @include m(border) {
-    background-color: var(--lk-color-bg-container);
+    background-color: var(--lk-bg-container);
     &::after {
       content: '';
       position: absolute;
@@ -128,7 +128,7 @@
 
   @include m(link) {
     &:active {
-      background-color: var(--lk-color-bg-active);
+      background-color: var(--lk-bg-active);
     }
   }
 

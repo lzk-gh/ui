@@ -183,7 +183,7 @@ const wellness: RadarLiteItem[] = [
   padding: var(--lk-spacing-lg);
   border: var(--lk-rpx-2) solid var(--lk-color-border-light);
   border-radius: var(--lk-radius-xl);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   box-shadow: var(--lk-shadow-sm);
   animation: chart-lite-card-in 420ms ease-out both;
 }
@@ -198,12 +198,12 @@ const wellness: RadarLiteItem[] = [
 .spark-title,
 .spark-desc,
 .ring-label {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
 }
 
 .spark-value {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: var(--lk-rpx-48);
   font-weight: 800;
   line-height: 1;
@@ -279,7 +279,7 @@ const wellness: RadarLiteItem[] = [
 }
 
 .ring-value {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: var(--lk-font-size-sm);
   font-weight: 700;
 }

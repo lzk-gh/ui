@@ -10,11 +10,11 @@
   --lk-seg-inset: var(--lk-rpx-6);
   --lk-seg-gutter: var(--lk-rpx-0);
 
-  --lk-seg-track-bg: var(--lk-color-fill-tertiary);
+  --lk-seg-track-bg: var(--lk-fill-tertiary);
   --lk-seg-slider-bg: var(--lk-color-primary);
   --lk-seg-text: var(--lk-color-primary);
   --lk-seg-text-active: var(--lk-color-white);
-  --lk-seg-text-disabled: var(--lk-color-text-placeholder, rgba(0, 0, 0, 0.35));
+  --lk-seg-text-disabled: var(--lk-text-placeholder, rgba(0, 0, 0, 0.35));
 
   position: relative;
   display: inline-flex;

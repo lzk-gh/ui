@@ -43,17 +43,17 @@ const desc = computed(() => descMap[props.tabId || ''] || '演示内容');
   align-items: center;
   justify-content: center;
   gap: 12rpx;
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
 
   &__title {
     font-size: 34rpx;
     font-weight: 700;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
   }
 
   &__desc {
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     padding: 0 36rpx;
     text-align: center;
     line-height: 1.6;

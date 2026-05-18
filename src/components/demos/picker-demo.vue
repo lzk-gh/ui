@@ -149,6 +149,6 @@ const cascadeDisplay = computed(() => {
 .result {
   margin-top: 16rpx;
   font-size: 28rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 </style>

@@ -1,15 +1,15 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(navbar) {
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  --lk-navbar-bg: var(--lk-color-bg-container);
-  --lk-navbar-bg-soft: var(--lk-color-fill-tertiary);
-  --lk-navbar-text: var(--lk-color-text);
-  --lk-navbar-text-secondary: var(--lk-color-text-secondary);
+  --lk-navbar-bg: var(--lk-bg-container);
+  --lk-navbar-bg-soft: var(--lk-fill-tertiary);
+  --lk-navbar-text: var(--lk-text-primary);
+  --lk-navbar-text-secondary: var(--lk-text-secondary);
   --lk-navbar-border: var(--lk-color-border-light);
-  --lk-navbar-active-bg: var(--lk-color-bg-active);
+  --lk-navbar-active-bg: var(--lk-bg-active);
   --lk-navbar-shadow: var(--lk-shadow-sm);
 
   background: var(--lk-navbar-bg);

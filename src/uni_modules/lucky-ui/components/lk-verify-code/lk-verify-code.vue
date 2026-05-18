@@ -155,10 +155,8 @@ function onPaste(e: ClipboardEvent) {
 
   // #ifdef H5
   try {
-    const legacyWindow = window as unknown as { clipboardData?: DataTransfer };
-    const clipboardData = e.clipboardData || legacyWindow.clipboardData;
     const pastedText = normalizeVerifyCodeValue({
-      value: clipboardData?.getData('text') || '',
+      value: e.clipboardData?.getData('text') || '',
       type: props.type,
       length: props.length,
     });

@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(toast) {
   position: fixed;
@@ -43,7 +43,7 @@
     max-width: 80vw;
     padding: var(--lk-rpx-24) var(--lk-rpx-40);
     border-radius: var(--lk-border-radius-base); // Medium radius
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
+    background: var(--lk-bg-elevated, var(--lk-bg-container));
     box-shadow: var(--lk-shadow-base);
     border: 1px solid var(--lk-color-border-light);
 
@@ -53,7 +53,7 @@
 
   @include e(text) {
     font-size: var(--lk-font-size-md);
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     font-weight: 500;
     line-height: 1.5;
     text-align: center;
@@ -98,7 +98,7 @@
     max-width: 80vw;
     padding: var(--lk-rpx-20) var(--lk-rpx-32);
     border-radius: 999px;
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
+    background: var(--lk-bg-elevated, var(--lk-bg-container));
     box-shadow: var(--lk-shadow-base);
     border: 1px solid var(--lk-color-border-light);
   }

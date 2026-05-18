@@ -126,7 +126,7 @@ const handleAsyncChange = (): Promise<boolean> => {
 
   text {
     font-size: 28rpx;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
   }
 }
 </style>

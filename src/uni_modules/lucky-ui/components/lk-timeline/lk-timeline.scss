@@ -165,7 +165,7 @@ $line-color: var(--lk-color-border);
   text-align: right;
   font-size: var(--lk-font-size-sm);
   font-weight: 500;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
 }
@@ -334,7 +334,7 @@ $line-color: var(--lk-color-border);
   }
 
   &--outlined {
-    background-color: var(--lk-color-bg);
+    background-color: var(--lk-bg-page);
     border: var(--lk-rpx-4) solid var(--lk-ti-accent);
   }
 
@@ -409,7 +409,7 @@ $line-color: var(--lk-color-border);
 .lk-timeline-item__title {
   font-size: var(--lk-font-size-lg);
   font-weight: 600;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   line-height: 1.3;
   letter-spacing: -0.01em;
 
@@ -418,7 +418,7 @@ $line-color: var(--lk-color-border);
   }
 
   .is-pending & {
-    color: var(--lk-color-text-tertiary);
+    color: var(--lk-text-tertiary);
   }
 }
 
@@ -431,7 +431,7 @@ $line-color: var(--lk-color-border);
 
 .lk-timeline-item__subtitle {
   font-size: var(--lk-font-size-xs);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   line-height: 1.4;
 }
 
@@ -443,11 +443,11 @@ $line-color: var(--lk-color-border);
 
 .lk-timeline-item__desc {
   font-size: var(--lk-font-size-base);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   line-height: 1.6;
 
   .is-pending & {
-    color: var(--lk-color-text-tertiary);
+    color: var(--lk-text-tertiary);
   }
 }
 
@@ -469,7 +469,7 @@ $line-color: var(--lk-color-border);
   height: calc(var(--lk-control-height-lg) * 1.25);
   border-radius: var(--lk-radius-md);
   overflow: hidden;
-  background: var(--lk-color-bg-weak);
+  background: var(--lk-fill-1);
   flex-shrink: 0;
 }
 
@@ -479,7 +479,7 @@ $line-color: var(--lk-color-border);
   align-items: flex-start;
   margin-top: var(--lk-spacing-xs);
   padding: var(--lk-spacing-md);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-lg);
 
   & > .lk-timeline-preview-card__info {
@@ -491,7 +491,7 @@ $line-color: var(--lk-color-border);
     height: calc(var(--lk-control-height-lg) + var(--lk-spacing-xxs));
     border-radius: var(--lk-radius-sm);
     flex-shrink: 0;
-    background: var(--lk-color-bg-weak);
+    background: var(--lk-fill-1);
   }
 
   &__info {
@@ -508,13 +508,13 @@ $line-color: var(--lk-color-border);
   &__name {
     font-size: var(--lk-font-size-sm);
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     line-height: 1.3;
   }
 
   &__meta {
     font-size: var(--lk-font-size-xs);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     line-height: 1.4;
   }
 }

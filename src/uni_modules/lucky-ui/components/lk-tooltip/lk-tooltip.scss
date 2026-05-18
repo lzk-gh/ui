@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(tooltip) {
   position: relative;
@@ -16,12 +16,12 @@
     position: absolute;
     z-index: 2000;
     padding: var(--lk-spacing-xs) var(--lk-spacing-sm);
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
+    background: var(--lk-bg-elevated, var(--lk-bg-container));
     border: 1px solid var(--lk-color-border-light);
     border-radius: var(--lk-radius-md);
     box-shadow: var(--lk-shadow-sm);
     font-size: var(--lk-font-size-sm);
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     white-space: nowrap;
     pointer-events: auto;
 
@@ -85,7 +85,7 @@
         height: 0;
         border-style: solid;
         border-width: var(--lk-rpx-6) var(--lk-rpx-6) 0 var(--lk-rpx-6);
-        border-color: var(--lk-color-bg-elevated, var(--lk-color-bg-container)) transparent
+        border-color: var(--lk-bg-elevated, var(--lk-bg-container)) transparent
           transparent transparent;
       }
     }
@@ -110,7 +110,7 @@
         border-style: solid;
         border-width: 0 var(--lk-rpx-6) var(--lk-rpx-6) var(--lk-rpx-6);
         border-color: transparent transparent
-          var(--lk-color-bg-elevated, var(--lk-color-bg-container)) transparent;
+          var(--lk-bg-elevated, var(--lk-bg-container)) transparent;
       }
     }
 
@@ -134,7 +134,7 @@
         border-style: solid;
         border-width: var(--lk-rpx-6) 0 var(--lk-rpx-6) var(--lk-rpx-6);
         border-color: transparent transparent transparent
-          var(--lk-color-bg-elevated, var(--lk-color-bg-container));
+          var(--lk-bg-elevated, var(--lk-bg-container));
       }
     }
 
@@ -157,7 +157,7 @@
         height: 0;
         border-style: solid;
         border-width: var(--lk-rpx-6) var(--lk-rpx-6) var(--lk-rpx-6) 0;
-        border-color: transparent var(--lk-color-bg-elevated, var(--lk-color-bg-container))
+        border-color: transparent var(--lk-bg-elevated, var(--lk-bg-container))
           transparent transparent;
       }
     }

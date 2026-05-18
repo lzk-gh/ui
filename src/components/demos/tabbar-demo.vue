@@ -100,8 +100,8 @@ function changeMode(mode: TabbarMode) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--lk-color-bg-hover);
-  color: var(--lk-color-text-secondary);
+  background: var(--lk-bg-hover);
+  color: var(--lk-text-secondary);
   font-size: 22rpx;
 
   &--active {

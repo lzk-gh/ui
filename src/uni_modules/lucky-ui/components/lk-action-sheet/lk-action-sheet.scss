@@ -1,7 +1,7 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(action-sheet) {
-  --_bg: var(--lk-color-bg-container);
+  --_bg: var(--lk-bg-container);
   --_radius: var(--lk-radius-lg);
   --_head-padding: var(--lk-spacing-lg) var(--lk-spacing-xl) var(--lk-spacing-sm);
   --_item-padding: var(--lk-spacing-xl);
@@ -31,12 +31,12 @@
   @include e(title) {
     font-size: var(--_title-fs);
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
   }
 
   @include e(desc) {
     font-size: var(--_desc-fs);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     line-height: 1.4;
   }
 
@@ -78,7 +78,7 @@
     }
 
     @include when(loading) {
-      color: var(--lk-color-text-secondary);
+      color: var(--lk-text-secondary);
       cursor: wait;
     }
   }
@@ -89,7 +89,7 @@
 
   @include e(sub) {
     font-size: var(--_desc-fs);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 
   @include e(cancel) {
@@ -102,7 +102,7 @@
     border-top: var(--lk-rpx-2) solid var(--lk-color-border-light);
 
     &:active {
-      background: var(--lk-color-bg-active);
+      background: var(--lk-bg-active);
     }
   }
 

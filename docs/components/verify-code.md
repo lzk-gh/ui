@@ -200,9 +200,9 @@ function handleSetValue() {
 ```css
 --lk-color-primary         /* 主色调 */
 --lk-color-border          /* 边框颜色 */
---lk-color-text            /* 文字颜色 */
---lk-color-text-secondary  /* 次要文字颜色 */
---lk-color-fill-tertiary   /* 填充色 */
+--lk-text-primary            /* 文字颜色 */
+--lk-text-secondary  /* 次要文字颜色 */
+--lk-fill-tertiary   /* 填充色 */
 --lk-radius-lg             /* 圆角大小 */
 ```
 

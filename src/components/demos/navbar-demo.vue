@@ -123,20 +123,20 @@ const handleMore = () => {
   align-items: center;
   justify-content: center;
   border-radius: var(--lk-radius-full);
-  background: var(--lk-color-fill-tertiary);
-  color: var(--lk-color-text-secondary);
+  background: var(--lk-fill-tertiary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
 }
 
 .demo-hero {
   border-radius: var(--lk-radius-xl);
   overflow: hidden;
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-primary-soft);
 }
 
 .demo-hero__content {
   padding: var(--lk-spacing-lg);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
 }
 </style>

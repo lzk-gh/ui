@@ -55,7 +55,7 @@ const tabbarList = [
   overflow: hidden;
   border: 1rpx solid var(--lk-color-border-light);
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
 }
 
 .preview-content {
@@ -64,18 +64,18 @@ const tabbarList = [
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
 }
 
 .preview-title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 30rpx;
   font-weight: 700;
 }
 
 .preview-desc {
   margin-top: 12rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 24rpx;
 }
 </style>

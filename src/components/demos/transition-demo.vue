@@ -394,7 +394,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 <style scoped lang="scss">
 .transition-demo {
   width: 100%;
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
 }
 
 .demo-scroll {
@@ -403,7 +403,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 }
 
 .control-panel {
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   padding: 32rpx;
   margin: 24rpx;
   border-radius: var(--lk-radius-lg);
@@ -420,7 +420,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   .control-label {
     display: block;
     font-size: 28rpx;
-    color: var(--lk-color-text-primary);
+    color: var(--lk-text-primary);
     margin-bottom: 16rpx;
     font-weight: 500;
   }
@@ -437,14 +437,14 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
     display: block;
     font-size: 32rpx;
     font-weight: 600;
-    color: var(--lk-color-text-primary);
+    color: var(--lk-text-primary);
     margin-bottom: 8rpx;
   }
 
   .category-desc {
     display: block;
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 }
 
@@ -455,7 +455,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 }
 
 .animation-item {
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-md);
   padding: 24rpx;
   height: 232rpx;
@@ -474,7 +474,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 
   .animation-label {
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     margin-bottom: 16rpx;
     text-align: center;
     line-height: 32rpx;
@@ -508,7 +508,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 }
 
 .preset-item {
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-md);
   padding: 24rpx;
   min-height: 256rpx;
@@ -531,7 +531,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
   .preset-name {
     font-size: 28rpx;
     font-weight: 500;
-    color: var(--lk-color-text-primary);
+    color: var(--lk-text-primary);
   }
 
   .preset-info {
@@ -542,7 +542,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 
   .preset-detail {
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 
   .preset-stage {
@@ -570,7 +570,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 }
 
 .example-item {
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-md);
   padding: 24rpx;
 
@@ -578,7 +578,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
     display: block;
     font-size: 28rpx;
     font-weight: 500;
-    color: var(--lk-color-text-primary);
+    color: var(--lk-text-primary);
     margin-bottom: 16rpx;
   }
 }
@@ -596,7 +596,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 }
 
 .list-item {
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
   border-radius: var(--lk-radius-sm);
   padding: 20rpx;
   height: 84rpx;
@@ -607,7 +607,7 @@ const callbackUsageCode = `const { classes, styles, display } = useTransition(
 
   .list-text {
     font-size: 28rpx;
-    color: var(--lk-color-text-primary);
+    color: var(--lk-text-primary);
   }
 }
 

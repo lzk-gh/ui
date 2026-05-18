@@ -72,7 +72,6 @@ const indicatorOutside = computed(() => isCarouselIndicatorOutside({
 }));
 const indicatorInactiveColor = computed(() => resolveCarouselIndicatorInactiveColor({
   indicatorInactiveColor: props.indicatorInactiveColor,
-  indicatorColor: props.indicatorColor,
 }));
 
 // Margin 处理

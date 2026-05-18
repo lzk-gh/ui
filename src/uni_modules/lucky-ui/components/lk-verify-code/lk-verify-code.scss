@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--lk-color-bg-container);
+    background: var(--lk-bg-container);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -47,14 +47,14 @@
     align-items: center;
     justify-content: center;
     font-weight: 500;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     animation: verifyCodePopIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   // 密码圆点
   @include e(dot) {
     font-size: var(--lk-rpx-48);
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     line-height: 1;
   }
 
@@ -82,7 +82,7 @@
 
   // 提示文字
   @include e(tips) {
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 
   // 倒计时容器
@@ -107,7 +107,7 @@
     }
 
     &.is-disabled {
-      color: var(--lk-color-text-placeholder);
+      color: var(--lk-text-placeholder);
       pointer-events: none;
     }
   }
@@ -126,7 +126,7 @@
       }
 
       &.is-filled {
-        background: var(--lk-color-fill-tertiary);
+        background: var(--lk-fill-tertiary);
         border-color: var(--lk-color-border);
       }
     }
@@ -147,7 +147,7 @@
       }
 
       &.is-filled {
-        border-bottom-color: var(--lk-color-text-secondary);
+        border-bottom-color: var(--lk-text-secondary);
       }
     }
   }
@@ -159,16 +159,16 @@
     .lk-verify-code__cell {
       border: var(--lk-rpx-2) solid var(--lk-color-border);
       border-radius: 50%;
-      background: var(--lk-color-fill-quaternary);
+      background: var(--lk-fill-quaternary);
 
       &.is-active {
         border-color: var(--lk-color-primary);
-        background: var(--lk-color-bg-container);
+        background: var(--lk-bg-container);
         box-shadow: 0 0 0 var(--lk-rpx-4) rgba(var(--lk-brand-rgb), 0.12);
       }
 
       &.is-filled {
-        background: var(--lk-color-fill-tertiary);
+        background: var(--lk-fill-tertiary);
         border-color: transparent;
       }
     }
@@ -217,7 +217,7 @@
     pointer-events: none;
 
     .lk-verify-code__cell {
-      background: var(--lk-color-fill-quaternary);
+      background: var(--lk-fill-quaternary);
     }
   }
 }

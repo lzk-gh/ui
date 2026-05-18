@@ -166,8 +166,6 @@ import DropdownDemo from '@/components/demos/dropdown-demo.vue'
 | update:modelValue | 选中项变化 | `(value: string \| number) => void` |
 | change | 选中项变化后的回调 | `(value: string \| number, payload?: DropdownSelectPayload) => void` |
 | select | 选择菜单项时触发 | `(payload: { name, event }) => void` |
-| show | 菜单展开时触发，兼容旧命名 | `() => void` |
-| hide | 菜单收起时触发，兼容旧命名 | `() => void` |
 | open | 菜单展开时触发 | `() => void` |
 | close | 菜单收起时触发 | `() => void` |
 | click-trigger | 点击触发器时触发 | `(event?: Event) => void` |

@@ -8,6 +8,12 @@ export const LoadingVariant = {
   Spinner: 'spinner',
   Circular: 'circular',
   Dots: 'dots',
+  Bar: 'bar',
+  Bounce: 'bounce',
+  Wave: 'wave',
+  Ring: 'ring',
+  Ellipsis: 'ellipsis',
+  Text: 'text',
 } as const;
 
 export type LoadingVariant = (typeof LoadingVariant)[keyof typeof LoadingVariant];
@@ -31,9 +37,6 @@ export const loadingProps = {
    * @value dots 点状
    */
   variant: LkProp.enum(Object.values(LoadingVariant), LoadingVariant.Spinner, 'Loading.variant'),
-
-  /** 类型（兼容旧版） */
-  type: LkProp.string(''),
 
   /** 是否垂直排列 */
   vertical: LkProp.boolean(false),

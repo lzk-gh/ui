@@ -49,10 +49,10 @@ export const modalProps = {
   /** 是否显示取消按钮 */
   showCancel: LkProp.boolean(true),
 
-  /** 确认按钮文本（兼容旧参数名） */
+  /** 确认按钮文本 */
   confirmText: LkProp.string(''),
 
-  /** 取消按钮文本（兼容旧参数名） */
+  /** 取消按钮文本 */
   cancelText: LkProp.string(''),
 
   /** 动画预设名称 */

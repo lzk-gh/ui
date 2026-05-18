@@ -70,9 +70,8 @@ export function isCarouselIndicatorOutside(options: {
 
 export function resolveCarouselIndicatorInactiveColor(options: {
   indicatorInactiveColor: string;
-  indicatorColor: string;
 }): string | undefined {
-  return options.indicatorInactiveColor || options.indicatorColor || undefined;
+  return options.indicatorInactiveColor || undefined;
 }
 
 export function resolveCarouselPreviousMargin(options: {

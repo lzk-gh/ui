@@ -4,14 +4,8 @@ import { baseProps, LkProp } from '../common/props';
 export const overlayProps = {
   ...baseProps,
 
-  /** 是否显示（兼容写法） */
-  show: LkProp.boolean(false),
-
   /** 是否显示（v-model） */
-  modelValue: {
-    type: Boolean,
-    default: undefined as unknown as boolean,
-  },
+  modelValue: LkProp.boolean(false),
 
   /** 层级 */
   zIndex: LkProp.number(900),
@@ -38,7 +32,6 @@ export const overlayEmits = {
   click: (_event?: unknown) => true,
   close: (_event?: unknown) => true,
   open: () => true,
-  'update:show': (_value: boolean) => true,
   'update:modelValue': (_value: boolean) => true,
   'after-enter': () => true,
   'after-leave': () => true,

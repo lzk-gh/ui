@@ -133,18 +133,18 @@ const currentSize = ref<WatermarkSize>('md');
   padding: var(--lk-spacing-lg);
   border: var(--lk-rpx-1) solid var(--lk-color-border-light);
   border-radius: var(--lk-radius-xl);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
 }
 
 .demo-card__title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: var(--lk-font-size-lg);
   font-weight: 700;
 }
 
 .demo-card__desc {
   margin-top: var(--lk-spacing-sm);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
   line-height: 1.6;
 }
@@ -168,18 +168,18 @@ const currentSize = ref<WatermarkSize>('md');
   display: flex;
   justify-content: space-between;
   padding: var(--lk-spacing-sm) 0;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
 }
 
 .demo-panel__value {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-weight: 600;
 }
 
 .demo-tip {
   margin-bottom: var(--lk-spacing-md);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
   line-height: 1.6;
 }
@@ -197,12 +197,12 @@ const currentSize = ref<WatermarkSize>('md');
   justify-content: center;
   border: var(--lk-rpx-1) solid var(--lk-color-border-light);
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   overflow: hidden;
 }
 
 .size-label {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
 }
 </style>

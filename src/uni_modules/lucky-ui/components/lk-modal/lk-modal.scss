@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins/bem' as *;
+@use '../../theme/src/mixins/bem' as *;
 
 @include b(modal) {
   position: fixed;
@@ -9,8 +9,8 @@
   /* 外层仅负责定位与居中，不参与动画 transform，避免冲突 */
 
   @include e(panel) {
-    background: var(--lk-color-bg-elevated, var(--lk-color-bg-container));
-    color: var(--lk-color-text);
+    background: var(--lk-bg-elevated, var(--lk-bg-container));
+    color: var(--lk-text-primary);
     border-radius: var(--lk-radius-lg);
     box-shadow: var(--lk-shadow-lg);
     /* 去掉外层细边框，内部无边框设计 */
@@ -42,7 +42,7 @@
     right: var(--lk-spacing-sm);
     top: 50%;
     transform: translateY(-50%);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     padding: var(--lk-spacing-xxs);
     border-radius: var(--lk-radius-full);
     cursor: pointer;
@@ -55,7 +55,7 @@
     justify-content: center;
 
     &:active {
-      background: var(--lk-color-bg-active);
+      background: var(--lk-bg-active);
     }
   }
 
@@ -85,12 +85,12 @@
         align-items: center;
         justify-content: center;
         font-size: var(--lk-rpx-32);
-        color: var(--lk-color-text);
+        color: var(--lk-text-primary);
         position: relative;
         transition: background-color 0.2s ease;
 
         &:active {
-          background-color: var(--lk-color-bg-active);
+          background-color: var(--lk-bg-active);
         }
 
         @include m(confirm) {
@@ -99,7 +99,7 @@
         }
 
         @include m(cancel) {
-          color: var(--lk-color-text-secondary);
+          color: var(--lk-text-secondary);
           &::after {
             content: '';
             position: absolute;

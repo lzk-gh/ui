@@ -11,12 +11,12 @@ let observer: MutationObserver | null = null;
 
 const varNames = [
   '--lk-color-primary',
-  '--lk-color-primary-bg-soft',
-  '--lk-color-bg-page',
-  '--lk-color-bg-body',
-  '--lk-color-bg-surface',
-  '--lk-color-bg-surface-variant',
-  '--lk-color-text',
+  '--lk-color-primary-soft',
+  '--lk-bg-page',
+  '--lk-bg-page',
+  '--lk-bg-container',
+  '--lk-bg-hover',
+  '--lk-text-primary',
   '--lk-color-border',
   '--color-bg-body',
   '--color-bg-container',
@@ -113,21 +113,21 @@ const currentDataTheme = computed(() => {
       <text class="theme-debugger__demo-title">视觉验证:</text>
       <view
         class="theme-debugger__demo-block"
-        :style="{ background: 'var(--lk-color-primary-bg-soft)' }"
+        :style="{ background: 'var(--lk-color-primary-soft)' }"
       >
-        --lk-color-primary-bg-soft
+        --lk-color-primary-soft
       </view>
       <view
         class="theme-debugger__demo-block"
-        :style="{ background: 'var(--lk-color-bg-surface)' }"
+        :style="{ background: 'var(--lk-bg-container)' }"
       >
-        --lk-color-bg-surface
+        --lk-bg-container
       </view>
       <view
         class="theme-debugger__demo-block"
-        :style="{ background: 'var(--lk-color-bg-surface-variant)' }"
+        :style="{ background: 'var(--lk-bg-hover)' }"
       >
-        --lk-color-bg-surface-variant
+        --lk-bg-hover
       </view>
     </view>
   </view>
@@ -136,7 +136,7 @@ const currentDataTheme = computed(() => {
 <style lang="scss" scoped>
 .theme-debugger {
   padding: 32rpx;
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   border-radius: var(--lk-radius-md);
   margin: 32rpx;
   font-size: 24rpx;
@@ -151,13 +151,13 @@ const currentDataTheme = computed(() => {
   &__title {
     font-size: 32rpx;
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
   }
 
   &__toggle {
     padding: 16rpx 32rpx;
     background: var(--lk-color-primary);
-    color: var(--lk-color-text-inverse);
+    color: var(--lk-text-inverse);
     border-radius: var(--lk-radius-sm);
     border: none;
     font-size: 24rpx;
@@ -167,11 +167,11 @@ const currentDataTheme = computed(() => {
     display: flex;
     justify-content: space-between;
     padding: 16rpx 0;
-    border-bottom: 1px solid var(--lk-color-border-weak);
+    border-bottom: 1px solid var(--lk-color-border-light);
   }
 
   &__label {
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     font-weight: 500;
   }
 
@@ -194,7 +194,7 @@ const currentDataTheme = computed(() => {
     display: block;
     font-size: 28rpx;
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     margin-bottom: 16rpx;
   }
 
@@ -208,13 +208,13 @@ const currentDataTheme = computed(() => {
   }
 
   &__var-name {
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     flex-shrink: 0;
     margin-right: 16rpx;
   }
 
   &__var-value {
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     word-break: break-all;
     text-align: right;
   }
@@ -227,7 +227,7 @@ const currentDataTheme = computed(() => {
     display: block;
     font-size: 28rpx;
     font-weight: 600;
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     margin-bottom: 16rpx;
   }
 
@@ -235,7 +235,7 @@ const currentDataTheme = computed(() => {
     padding: 32rpx;
     margin-bottom: 16rpx;
     border-radius: var(--lk-radius-sm);
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     font-size: 24rpx;
     text-align: center;
     border: 2rpx solid var(--lk-color-border);

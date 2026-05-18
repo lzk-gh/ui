@@ -159,7 +159,7 @@ function onFinish() {
   gap: 18rpx;
   padding: 28rpx;
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   box-shadow: 0 4rpx 20rpx rgba(15, 23, 42, 0.05);
 }
 
@@ -167,7 +167,7 @@ function onFinish() {
 .sale-desc,
 .state-label,
 .slot-unit {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 24rpx;
   line-height: 1.5;
 }
@@ -184,7 +184,7 @@ function onFinish() {
 }
 
 .sale-title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 34rpx;
   font-weight: 800;
 }
@@ -234,11 +234,11 @@ function onFinish() {
   gap: 6rpx;
   padding: 18rpx 8rpx;
   border-radius: var(--lk-radius-md);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
 }
 
 .slot-value {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 40rpx;
   font-weight: 800;
   line-height: 1;

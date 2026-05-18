@@ -71,7 +71,7 @@ const handleConfirmReceipt = () => {
 <template>
   <view class="order-detail-page" :class="themeClass">
     <!-- 自定义导航栏 -->
-    <lk-navbar title="订单详情" left-arrow @click-left="handleBack">
+    <lk-navbar title="订单详情" show-back @click-left="handleBack">
       <template #right>
         <view class="theme-toggle" @click="toggleTheme">
           <lk-icon :name="theme === 'dark' ? 'sun' : 'moon'" size="28" />
@@ -98,7 +98,7 @@ const handleConfirmReceipt = () => {
           <!-- 订单状态 -->
           <lk-card shadow="base">
             <lk-space justify="between" align="center" fill>
-              <text style="font-size: 28rpx; font-weight: 600; color: var(--lk-color-text-primary)"
+              <text style="font-size: 28rpx; font-weight: 600; color: var(--lk-text-primary)"
                 >当前状态：运输中</text
               >
               <lk-tag type="solid" size="sm">已发货</lk-tag>
@@ -111,17 +111,17 @@ const handleConfirmReceipt = () => {
               <lk-image src="https://picsum.photos/200/200" width="160" height="160" radius="12" />
               <lk-space direction="vertical" :gap="8" fill>
                 <text
-                  style="font-size: 28rpx; font-weight: bold; color: var(--lk-color-text-primary)"
+                  style="font-size: 28rpx; font-weight: bold; color: var(--lk-text-primary)"
                   >Lucky UI 高级定制组件库</text
                 >
-                <text style="font-size: 24rpx; color: var(--lk-color-text-secondary)"
+                <text style="font-size: 24rpx; color: var(--lk-text-secondary)"
                   >规格：全套组件 + 终身更新</text
                 >
                 <lk-space justify="between" align="center" fill>
                   <text style="font-size: 32rpx; color: var(--lk-color-danger); font-weight: bold"
                     >¥ 999.00</text
                   >
-                  <text style="font-size: 24rpx; color: var(--lk-color-text-placeholder)">x 1</text>
+                  <text style="font-size: 24rpx; color: var(--lk-text-placeholder)">x 1</text>
                 </lk-space>
               </lk-space>
             </lk-space>
@@ -133,21 +133,21 @@ const handleConfirmReceipt = () => {
               <lk-collapse-item title="费用明细" name="fee">
                 <lk-space direction="vertical" :gap="16" fill style="padding: 24rpx">
                   <lk-space justify="between" fill>
-                    <text style="font-size: 26rpx; color: var(--lk-color-text-regular)"
+                    <text style="font-size: 26rpx; color: var(--lk-text-regular)"
                       >商品总额</text
                     >
-                    <text style="font-size: 26rpx; color: var(--lk-color-text-primary)"
+                    <text style="font-size: 26rpx; color: var(--lk-text-primary)"
                       >¥ 999.00</text
                     >
                   </lk-space>
                   <lk-space justify="between" fill>
-                    <text style="font-size: 26rpx; color: var(--lk-color-text-regular)">运费</text>
-                    <text style="font-size: 26rpx; color: var(--lk-color-text-primary)"
+                    <text style="font-size: 26rpx; color: var(--lk-text-regular)">运费</text>
+                    <text style="font-size: 26rpx; color: var(--lk-text-primary)"
                       >¥ 0.00</text
                     >
                   </lk-space>
                   <lk-space justify="between" fill>
-                    <text style="font-size: 26rpx; color: var(--lk-color-text-regular)"
+                    <text style="font-size: 26rpx; color: var(--lk-text-regular)"
                       >优惠券</text
                     >
                     <text style="font-size: 26rpx; color: var(--lk-color-danger)">- ¥ 100.00</text>
@@ -158,7 +158,7 @@ const handleConfirmReceipt = () => {
                       style="
                         font-size: 28rpx;
                         font-weight: bold;
-                        color: var(--lk-color-text-primary);
+                        color: var(--lk-text-primary);
                       "
                       >实付款</text
                     >
@@ -175,18 +175,18 @@ const handleConfirmReceipt = () => {
           <lk-card title="订单信息" shadow="base">
             <lk-space direction="vertical" :gap="16" fill>
               <lk-space justify="between" fill>
-                <text style="font-size: 26rpx; color: var(--lk-color-text-secondary)"
+                <text style="font-size: 26rpx; color: var(--lk-text-secondary)"
                   >订单编号</text
                 >
                 <lk-space :gap="8" align="center">
-                  <text style="font-size: 26rpx; color: var(--lk-color-text-primary)"
+                  <text style="font-size: 26rpx; color: var(--lk-text-primary)"
                     >LK202310010001</text
                   >
                   <lk-tag size="sm" type="outline" @click="handleCopy">复制</lk-tag>
                 </lk-space>
               </lk-space>
               <lk-space justify="between" fill>
-                <text style="font-size: 26rpx; color: var(--lk-color-text-secondary)"
+                <text style="font-size: 26rpx; color: var(--lk-text-secondary)"
                   >物流信息</text
                 >
                 <text
@@ -196,18 +196,18 @@ const handleConfirmReceipt = () => {
                 >
               </lk-space>
               <lk-space justify="between" fill>
-                <text style="font-size: 26rpx; color: var(--lk-color-text-secondary)"
+                <text style="font-size: 26rpx; color: var(--lk-text-secondary)"
                   >下单时间</text
                 >
-                <text style="font-size: 26rpx; color: var(--lk-color-text-primary)"
+                <text style="font-size: 26rpx; color: var(--lk-text-primary)"
                   >2023-10-01 10:00:00</text
                 >
               </lk-space>
               <lk-space justify="between" fill>
-                <text style="font-size: 26rpx; color: var(--lk-color-text-secondary)"
+                <text style="font-size: 26rpx; color: var(--lk-text-secondary)"
                   >支付方式</text
                 >
-                <text style="font-size: 26rpx; color: var(--lk-color-text-primary)">微信支付</text>
+                <text style="font-size: 26rpx; color: var(--lk-text-primary)">微信支付</text>
               </lk-space>
             </lk-space>
           </lk-card>
@@ -216,7 +216,7 @@ const handleConfirmReceipt = () => {
     </scroll-view>
 
     <!-- 物流详情弹窗 -->
-    <lk-popup v-model:show="showLogistics" position="bottom" round title="物流详情" height="60vh">
+    <lk-popup v-model="showLogistics" position="bottom" round title="物流详情" height="60vh">
       <view style="padding: 32rpx">
         <lk-timeline>
           <lk-timeline-item
@@ -249,7 +249,7 @@ const handleConfirmReceipt = () => {
       <view
         style="
           padding: 20rpx 32rpx;
-          background-color: var(--lk-color-bg-surface);
+          background-color: var(--lk-bg-container);
           border-top: 1rpx solid var(--lk-color-border-light);
           padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
         "
@@ -264,7 +264,7 @@ const handleConfirmReceipt = () => {
     <!-- 反馈组件 -->
     <lk-toast ref="toastRef" />
     <lk-modal
-      v-model:show="showConfirmModal"
+      v-model="showConfirmModal"
       title="确认收货"
       content="您是否已收到商品并确认无误？"
       show-cancel-button
@@ -278,7 +278,7 @@ const handleConfirmReceipt = () => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--lk-color-bg-layout);
+  background-color: var(--lk-bg-layout);
 }
 
 .order-detail-page__scroll {

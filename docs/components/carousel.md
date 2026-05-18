@@ -38,7 +38,7 @@ const list = [
   indicator-type="bars"
   indicator-position="top-right"
   indicator-active-color="#fff"
-  indicator-color="rgba(255,255,255,0.4)"
+  indicator-inactive-color="rgba(255,255,255,0.4)"
 />
 ```
 
@@ -144,7 +144,7 @@ import CarouselDemo from '@/components/demos/carousel-demo.vue'
 | indicatorPosition | 指示器位置 | `bottom \| top \| left \| right \| top-left \| top-right \| bottom-left \| bottom-right \| auto` | `auto` |
 | indicatorAlign | 指示器排列对齐方式 | `center \| start \| end` | `center` |
 | indicatorClickable | 指示器是否可点击切换 | `boolean` | `undefined` |
-| indicatorColor | 未激活指示器颜色 | `string` | `''` |
+| indicatorInactiveColor | 未激活指示器颜色 | `string` | `''` |
 | indicatorActiveColor | 激活指示器颜色 | `string` | `''` |
 | card | 是否启用卡片模式 | `boolean` | `undefined` |
 | cardPrevMargin | 卡片模式前侧留白 | `string` | `''` |

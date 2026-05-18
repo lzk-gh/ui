@@ -9,7 +9,6 @@ import {
   resolveNavbarPlaceholderStyle,
   resolveNavbarRootClass,
   resolveNavbarSafeStyle,
-  resolveNavbarShowBack,
   shouldNavigateBack,
 } from './navbar.utils';
 
@@ -39,14 +38,6 @@ type SysInfoLike = {
 const sys: SysInfoLike = typeof uni !== 'undefined' ? (uni.getSystemInfoSync() as SysInfoLike) : {};
 const statusBarHeight = sys.statusBarHeight ?? 0;
 const windowWidth: number = typeof sys.windowWidth === 'number' ? sys.windowWidth : 0;
-
-const showBackComputed = computed(() => {
-  // leftArrow 为兼容属性：若用户显式传入，以它为准
-  return resolveNavbarShowBack({
-    leftArrow: props.leftArrow,
-    showBack: props.showBack,
-  });
-});
 
 const rootClass = computed(() => resolveNavbarRootClass({
   variant: props.variant,
@@ -163,7 +154,7 @@ function onRightClick(event: unknown) {
         @tap="onLeftClick"
       >
         <lk-icon
-          v-if="showBackComputed"
+          v-if="showBack"
           :name="backIcon"
           size="36"
           class="lk-navbar__back"

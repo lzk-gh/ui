@@ -91,13 +91,13 @@ onUnmounted(() => {
   gap: 12rpx;
   padding: 24rpx;
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-surface);
+  background: var(--lk-bg-container);
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
 }
 
 .roller-label {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 .slider-row {
@@ -109,7 +109,7 @@ onUnmounted(() => {
 
 .slider-tip {
   font-size: 24rpx;
-  color: var(--lk-color-text-tertiary);
+  color: var(--lk-text-tertiary);
 }
 
 .currency-line {

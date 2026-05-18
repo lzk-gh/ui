@@ -37,10 +37,10 @@ import LkButton from '@/uni_modules/lucky-ui/components/lk-button/lk-button.vue'
 }
 .cell {
   border-radius: var(--lk-radius-sm);
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-primary-soft);
 }
 .tag {
-  background: var(--lk-color-primary-bg-soft);
+  background: var(--lk-color-primary-soft);
   color: var(--lk-color-primary);
   border-radius: var(--lk-radius-sm);
 }

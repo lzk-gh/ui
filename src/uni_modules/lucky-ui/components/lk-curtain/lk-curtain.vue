@@ -41,7 +41,7 @@ const resolvedCopySuccessText = computed(() => resolveCurtainCopySuccessText({
 const rootStyle = computed(() => resolveCurtainRootStyle({
   customStyle: props.customStyle as StyleValue,
   zIndex: props.zIndex,
-  show: props.show,
+  show: props.modelValue,
 }));
 
 const contentStyle = computed(() => {
@@ -66,17 +66,17 @@ const {
   classes: contentClasses,
   styles: contentStyles,
   display,
-} = useTransition(() => props.show, transitionConfig.value);
+} = useTransition(() => props.modelValue, transitionConfig.value);
 
 function onOverlayClick() {
   emit('click-overlay');
-  if (shouldCloseCurtainOnOverlay(props.closeOnClickOverlay)) {
+  if (shouldCloseCurtainOnOverlay(props.closeOnOverlay)) {
     onClose();
   }
 }
 
 function onClose() {
-  emit('update:show', false);
+  emit('update:modelValue', false);
   emit('close');
 }
 
@@ -133,7 +133,7 @@ function onClick() {
   >
     <lk-overlay
       v-if="display"
-      :show="show"
+      :model-value="modelValue"
       :z-index="props.zIndex"
       @click="onOverlayClick"
     />

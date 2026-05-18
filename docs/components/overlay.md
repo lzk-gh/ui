@@ -81,8 +81,7 @@ import OverlayDemo from '@/components/demos/overlay-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| show | 是否显示，兼容旧写法 | `boolean` | `false` |
-| modelValue | 是否显示（v-model） | `boolean` | `undefined` |
+| modelValue | 是否显示（v-model） | `boolean` | `false` |
 | zIndex | 层级 | `number` | `900` |
 | opacity | 遮罩透明度 | `number` | `0.55` |
 | background | 自定义背景色；传入后优先于 `opacity` | `string` | `''` |
@@ -100,7 +99,6 @@ import OverlayDemo from '@/components/demos/overlay-demo.vue'
 | click | 点击遮罩时触发 | `(event?: Event) => void` |
 | open | 遮罩开始打开时触发 | `() => void` |
 | close | 点击遮罩并触发关闭时触发 | `(event?: Event) => void` |
-| update:show | 兼容旧写法的状态更新 | `(value: boolean) => void` |
 | update:modelValue | v-model 状态更新 | `(value: boolean) => void` |
 | after-enter | 入场动画结束 | `() => void` |
 | after-leave | 离场动画结束 | `() => void` |

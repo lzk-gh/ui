@@ -71,7 +71,7 @@ function onScroll(e) {
 
 ```vue
 <lk-backtop text="TOP">
-  <lk-icon name="arrow-up-circle-fill" size="40" color="var(--lk-color-text-inverse)" />
+  <lk-icon name="arrow-up-circle-fill" size="40" color="var(--lk-text-inverse)" />
 </lk-backtop>
 ```
 

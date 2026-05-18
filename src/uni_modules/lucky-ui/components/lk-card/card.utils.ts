@@ -3,10 +3,10 @@ import type { CSSProperties, StyleValue } from 'vue';
 export const cardShadowMap: Record<string, string> = {
   none: 'none',
   never: 'none',
-  sm: 'var(--test-shadow-sm, var(--lk-shadow-sm))',
-  md: 'var(--test-shadow-md, var(--lk-shadow-base))',
-  base: 'var(--test-shadow-md, var(--lk-shadow-base))',
-  lg: 'var(--test-shadow-lg, var(--lk-shadow-lg))',
+  sm: 'var(--lk-shadow-sm)',
+  md: 'var(--lk-shadow-base)',
+  base: 'var(--lk-shadow-base)',
+  lg: 'var(--lk-shadow-lg)',
 };
 
 export function resolveCardClass(options: {

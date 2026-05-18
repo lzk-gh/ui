@@ -121,7 +121,7 @@ const platformText = computed(() => {
   display: block;
   margin-top: 12rpx;
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 .size-row {
@@ -133,7 +133,7 @@ const platformText = computed(() => {
 
 .size-label {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 .size-box {

@@ -135,8 +135,8 @@ phone: empty
 | CSS 变量 | 说明 | 默认值 |
 |----------|------|--------|
 | `--lk-empty-padding` | 容器内边距 | `var(--lk-spacing-xl) var(--lk-spacing-lg)` |
-| `--lk-empty-title-color` | 标题颜色 | `var(--lk-color-text)` |
-| `--lk-empty-description-color` | 描述颜色 | `var(--lk-color-text-secondary)` |
+| `--lk-empty-title-color` | 标题颜色 | `var(--lk-text-primary)` |
+| `--lk-empty-description-color` | 描述颜色 | `var(--lk-text-secondary)` |
 | `--lk-empty-title-size` | 标题字号 | `var(--lk-font-size-lg)` |
 | `--lk-empty-description-size` | 描述字号 | `var(--lk-font-size-sm)` |
 | `--lk-empty-gap` | 标题与描述间距 | `var(--lk-spacing-sm)` |

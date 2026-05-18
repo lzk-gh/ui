@@ -74,7 +74,7 @@ function openPageDemo() {
       <lk-pull-refresh v-model="dotsRefreshing" height="420rpx" @refresh="refreshDots">
         <template #text="{ status }">
           <view class="mini-indicator">
-            <lk-loading v-if="status === 'refreshing'" type="ellipsis" size="28" />
+            <lk-loading v-if="status === 'refreshing'" variant="ellipsis" size="28" />
             <text v-else class="mini-indicator__text">
               {{ status === 'loosing' ? '松开刷新' : '下拉刷新' }}
             </text>
@@ -134,7 +134,7 @@ function openPageDemo() {
 .compact-item,
 .page-entry {
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   box-shadow: 0 4rpx 18rpx rgba(15, 23, 42, 0.05);
 }
 
@@ -150,21 +150,21 @@ function openPageDemo() {
 }
 
 .feed-title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 28rpx;
   font-weight: 700;
 }
 
 .feed-desc,
 .page-entry__desc {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 24rpx;
   line-height: 1.5;
 }
 
 .compact-item {
   padding: 22rpx 24rpx;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
 
   &:not(:first-child) {
     margin-top: 14rpx;
@@ -179,7 +179,7 @@ function openPageDemo() {
 }
 
 .mini-indicator__text {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 24rpx;
   font-weight: 700;
 }
@@ -213,7 +213,7 @@ function openPageDemo() {
 
 .page-entry__title {
   display: block;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 30rpx;
   font-weight: 800;
 }

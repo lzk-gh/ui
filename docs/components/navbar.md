@@ -89,7 +89,7 @@ function handleBack() {
 
 | 插槽名 | 说明 |
 |--------|------|
-| default | 标题区域自定义内容（兼容旧写法） |
+| default | 标题区域自定义内容 |
 | left | 左侧区域自定义 |
 | center | 中间区域自定义（在屏幕中心显示，优先于 title） |
 | right | 右侧区域自定义 |

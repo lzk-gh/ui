@@ -6,7 +6,7 @@
   font-weight: 600;
   font-size: var(--lk-number-roller-digit-height);
   line-height: var(--lk-number-roller-digit-height);
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   --lk-number-roller-digit-height: var(--lk-rpx-56);
   --lk-number-roller-speed: 800ms;
   --lk-number-roller-easing: cubic-bezier(0.33, 1, 0.68, 1);
@@ -57,7 +57,7 @@
     align-items: center;
     justify-content: center;
     font-size: 0.6em;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     padding: 0 var(--lk-rpx-4);
     height: var(--lk-number-roller-digit-height);
     line-height: var(--lk-number-roller-digit-height);

@@ -75,7 +75,7 @@ const toggleLoading = () => {
 
 .content-loaded {
   padding: 24rpx;
-  background: var(--lk-color-bg);
+  background: var(--lk-bg-page);
   border-radius: 16rpx;
 }
 
@@ -95,17 +95,17 @@ const toggleLoading = () => {
 .user-name {
   font-size: 32rpx;
   font-weight: 500;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
 }
 
 .user-desc {
   font-size: 24rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
 }
 
 .content-text {
   font-size: 28rpx;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   line-height: 1.6;
 }
 </style>

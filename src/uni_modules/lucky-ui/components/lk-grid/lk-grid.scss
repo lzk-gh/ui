@@ -27,7 +27,7 @@
 
   @include e(item-text) {
     font-size: var(--lk-font-size-sm);
-    color: var(--lk-color-text);
+    color: var(--lk-text-primary);
     line-height: 1.5;
   }
 }

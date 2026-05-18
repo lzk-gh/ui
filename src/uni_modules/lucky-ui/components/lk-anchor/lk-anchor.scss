@@ -64,11 +64,11 @@
   // ─── 激活状态 ───────────────────────────────────────────────
   @include m(active) {
     // 关键：激活项背景与右侧内容容器背景色一致，形成融合视觉
-    background-color: var(--lk-anchor-bg-active, var(--lk-color-bg-container));
+    background-color: var(--lk-anchor-bg-active, var(--lk-bg-container));
 
     // 按压时保持激活背景，不产生额外反馈
     &:active {
-      background-color: var(--lk-anchor-bg-active, var(--lk-color-bg-container));
+      background-color: var(--lk-anchor-bg-active, var(--lk-bg-container));
     }
 
     // 激活项上方「切角」伪元素：左下圆角覆盖，产生侧边栏色→白色的过渡凹角
@@ -81,7 +81,7 @@
       height: var(--lk-rpx-16);
       border-radius: 0 0 var(--lk-radius-md) 0;
       background-color: transparent;
-      box-shadow: var(--lk-rpx-4) var(--lk-rpx-4) 0 var(--lk-rpx-4) var(--lk-anchor-bg-active, var(--lk-color-bg-container));
+      box-shadow: var(--lk-rpx-4) var(--lk-rpx-4) 0 var(--lk-rpx-4) var(--lk-anchor-bg-active, var(--lk-bg-container));
       z-index: 1;
     }
 
@@ -95,7 +95,7 @@
       height: var(--lk-rpx-16);
       border-radius: 0 var(--lk-radius-md) 0 0;
       background-color: transparent;
-      box-shadow: var(--lk-rpx-4) calc(var(--lk-rpx-4) * -1) 0 var(--lk-rpx-4) var(--lk-anchor-bg-active, var(--lk-color-bg-container));
+      box-shadow: var(--lk-rpx-4) calc(var(--lk-rpx-4) * -1) 0 var(--lk-rpx-4) var(--lk-anchor-bg-active, var(--lk-bg-container));
       z-index: 1;
     }
 

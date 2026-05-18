@@ -118,7 +118,7 @@ describe('lk-segmented interaction rules', () => {
     }) as Array<Record<string, string>>;
 
     expect(style[0]).toMatchObject({
-      '--lk-seg-radius': 'var(--lk-radius-pill)',
+      '--lk-seg-radius': 'var(--lk-radius-full)',
       '--lk-seg-duration': '300ms',
       '--lk-seg-easing': 'linear',
       '--lk-seg-inset': '4rpx',

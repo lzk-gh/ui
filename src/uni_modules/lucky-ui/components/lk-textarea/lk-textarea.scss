@@ -1,4 +1,4 @@
-﻿@use '../../theme/src/mixins' as *;
+@use '../../theme/src/mixins' as *;
 
 @include b(textarea) {
   // --- CSS Token 映射 (连接你的主题系统) ---
@@ -8,7 +8,7 @@
   // 使用新的中性文字颜色变量
   --lk-ta-text-color: var(--lk-text-primary);
   --lk-ta-text-color-secondary: var(--lk-text-placeholder);
-  --lk-ta-text-color-disabled: var(--lk-color-text-disabled);
+  --lk-ta-text-color-disabled: var(--lk-text-disabled);
 
   // 2. 背景 (关键改进：支持透明和填充)
   --lk-ta-bg: var(--lk-bg-container);
@@ -17,7 +17,7 @@
   --lk-ta-bg-disabled: var(--lk-fill-1);
 
   // 3. 边框
-  --lk-ta-border-color: var(--lk-border-color, var(--lk-color-border));
+  --lk-ta-border-color: var(--lk-color-border, var(--lk-color-border));
   --lk-ta-border-radius: var(--lk-radius-md, var(--lk-rpx-12));
 
   // 4. 尺寸

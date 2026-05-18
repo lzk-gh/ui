@@ -46,27 +46,6 @@ export const popupProps = {
   /** 是否开启拖拽（仅 bottom 模式有效） */
   draggable: LkProp.boolean(false),
 
-  /** 兼容旧参数：内容区域不再接管拖拽手势，弹层通过手柄拖动 */
-  contentDraggable: LkProp.boolean(true),
-
-  /** 兼容旧参数：自定义滚动内容的 scrollTop */
-  contentScrollTop: {
-    type: Number,
-    default: undefined,
-  },
-
-  /** 兼容旧参数：自定义滚动内容的 scrollHeight */
-  contentScrollHeight: {
-    type: Number,
-    default: undefined,
-  },
-
-  /** 兼容旧参数：自定义滚动内容的可视高度 */
-  contentViewportHeight: {
-    type: Number,
-    default: undefined,
-  },
-
   /**
    * 底部拖拽吸附点：每个值为 translateY 占窗口高度的比例（0~1），例如 0.5 表示半屏、0.1 表示更接近全展开
    */
@@ -95,25 +74,19 @@ export const popupProps = {
   /** 点击遮罩是否关闭 */
   closeOnOverlay: LkProp.boolean(true),
 
-  /** 点击遮罩是否关闭（兼容旧参数名） */
-  closeOnClickOverlay: {
-    type: Boolean,
-    default: undefined,
-  },
-
   /** 是否锁定滚动 */
   lockScroll: LkProp.boolean(true),
 
   /** 是否开启安全区域适配 */
   safeArea: LkProp.boolean(true),
 
-  /** 弹层高度（兼容旧参数） */
+  /** 弹层高度 */
   height: {
     type: [String, Number] as PropType<string | number>,
     default: '',
   },
 
-  /** 弹层宽度（兼容旧参数） */
+  /** 弹层宽度 */
   width: {
     type: [String, Number] as PropType<string | number>,
     default: '',

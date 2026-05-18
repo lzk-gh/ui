@@ -52,7 +52,7 @@ const onReceive = () => {
         <view class="demo-p">最简单的图片幕帘展示。</view>
         <lk-button block @click="showBasic = true">显示基础幕帘</lk-button>
         <lk-curtain
-          v-model:show="showBasic"
+          v-model="showBasic"
           image-url="https://img.yzcdn.cn/vant/apple-1.jpg"
           @click="onCurtainClick"
         />
@@ -71,7 +71,7 @@ const onReceive = () => {
           <lk-button block variant="soft" @click="openPosition('bottom')">正下方 (默认)</lk-button>
         </view>
         <lk-curtain
-          v-model:show="showPosition"
+          v-model="showPosition"
           :close-position="currentPosition"
           image-url="https://img.yzcdn.cn/vant/apple-2.jpg"
         />
@@ -83,8 +83,8 @@ const onReceive = () => {
           开启遮罩层点击关闭
         </lk-button>
         <lk-curtain
-          v-model:show="showOverlayClose"
-          close-on-click-overlay
+          v-model="showOverlayClose"
+          close-on-overlay
           image-url="https://img.yzcdn.cn/vant/apple-3.jpg"
         />
       </demo-block>
@@ -97,7 +97,7 @@ const onReceive = () => {
         </lk-button>
 
         <lk-curtain
-          v-model:show="showCustom"
+          v-model="showCustom"
           width="580rpx"
           height="800rpx"
           close-position="bottom"

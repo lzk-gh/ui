@@ -494,17 +494,17 @@ function onMore() {
   gap: 16rpx;
   padding: 64rpx 24rpx;
   font-size: 28rpx;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   text-align: center;
-  background: var(--lk-color-bg);
+  background: var(--lk-bg-page);
 
   &__text {
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     font-size: 26rpx;
   }
 
   &__sub {
-    color: var(--lk-color-text-placeholder);
+    color: var(--lk-text-placeholder);
     font-size: 22rpx;
     margin-top: 4rpx;
   }
@@ -522,7 +522,7 @@ function onMore() {
 
   &__text {
     font-size: 26rpx;
-    color: var(--lk-color-text-placeholder);
+    color: var(--lk-text-placeholder);
   }
 }
 
@@ -574,7 +574,7 @@ function onMore() {
 
   &__text {
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     transition: color 0.2s ease;
   }
 }
@@ -591,7 +591,7 @@ function onMore() {
 
   &__label {
     font-size: 22rpx;
-    color: var(--lk-color-text-tertiary);
+    color: var(--lk-text-tertiary);
     transition: color 0.25s ease;
   }
 
@@ -612,7 +612,7 @@ function onMore() {
 
   &__label {
     font-size: var(--lk-font-size-base, 28rpx);
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     transition: color 0.25s ease;
   }
 
@@ -668,7 +668,7 @@ function onMore() {
 
   &__label {
     font-size: 22rpx;
-    color: var(--lk-color-text-tertiary);
+    color: var(--lk-text-tertiary);
     transition: all 0.25s ease;
   }
 

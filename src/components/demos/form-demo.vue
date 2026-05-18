@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
 import LkForm from '@/uni_modules/lucky-ui/components/lk-form/lk-form.vue';
 import LkFormItem from '@/uni_modules/lucky-ui/components/lk-form/lk-form-item.vue';
@@ -91,7 +91,7 @@ const onListSubmit = async () => {
   flex-direction: column;
   gap: 32rpx;
   padding-bottom: 100rpx;
-  background-color: var(--lk-color-bg-page, #f7f8fa);
+  background-color: var(--lk-bg-page, #f7f8fa);
   min-height: 100vh;
 
   &__actions {

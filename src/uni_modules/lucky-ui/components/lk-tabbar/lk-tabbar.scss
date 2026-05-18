@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LkTabbar 底部导航栏
  * 支持三种模式：fixed（简约）、slider（滑块）、bump（中间凸起）
  * 设计参考 iOS TabBar，支持丝滑动画
@@ -19,7 +19,7 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 .lk-tabbar {
   position: relative;
   width: 100%;
-  background-color: var(--lk-tabbar-bg, var(--lk-color-bg-container));
+  background-color: var(--lk-tabbar-bg, var(--lk-bg-container));
   box-sizing: border-box;
 
   // 固定定位
@@ -53,13 +53,13 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 
   // 毛玻璃效果
   &--glass {
-    background: var(--lk-color-bg-elevated);
+    background: var(--lk-bg-elevated);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 
     // 暗色主题下的毛玻璃
     .lk-theme-dark & {
-      background: var(--lk-color-bg-elevated);
+      background: var(--lk-bg-elevated);
     }
   }
 
@@ -322,14 +322,14 @@ $tabbar-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); // 回弹曲线
 // ============================================================================
 .lk-theme-dark {
   .lk-tabbar {
-    background-color: var(--lk-color-bg-container);
+    background-color: var(--lk-bg-container);
 
     &--border::before {
       background-color: var(--lk-color-border-light);
     }
 
     &--glass {
-      background: var(--lk-color-bg-elevated);
+      background: var(--lk-bg-elevated);
     }
   }
 

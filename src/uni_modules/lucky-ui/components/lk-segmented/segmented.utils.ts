@@ -81,7 +81,7 @@ export function resolveSegmentedRootStyle(
   options: ResolveSegmentedRootStyleOptions,
 ): StyleValue {
   const vars: Record<string, string> = {
-    '--lk-seg-radius': options.radius || 'var(--lk-radius-pill)',
+    '--lk-seg-radius': options.radius || 'var(--lk-radius-full)',
     '--lk-seg-duration': `${options.duration}ms`,
     '--lk-seg-easing': options.easing,
     '--lk-seg-inset': options.inset,

@@ -259,7 +259,7 @@ const mockCustomRequest: InstanceType<typeof LkUpload>['$props']['customRequest'
 
 .upload-custom-text {
   margin-top: var(--lk-spacing-xs);
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: var(--lk-font-size-sm);
 }
 </style>

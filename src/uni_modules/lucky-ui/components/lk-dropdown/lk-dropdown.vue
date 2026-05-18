@@ -44,10 +44,8 @@ function toggle(v?: boolean) {
   if (next === open.value) return;
   open.value = next;
   if (next) {
-    emit('show');
     emit('open');
   } else {
-    emit('hide');
     emit('close');
   }
 }

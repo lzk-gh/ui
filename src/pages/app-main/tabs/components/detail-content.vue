@@ -177,7 +177,7 @@ const addToCart = () => {
       round
       height="90vh"
       draggable
-      close-on-click-overlay
+      close-on-overlay
     >
       <view class="review-popup-container">
         <view class="popup-header">

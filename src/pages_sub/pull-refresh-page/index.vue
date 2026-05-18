@@ -72,7 +72,7 @@ function pad(value: number) {
   min-height: 130vh;
   padding: 28rpx;
   box-sizing: border-box;
-  background: var(--lk-color-bg-page);
+  background: var(--lk-bg-page);
 }
 
 .hero {
@@ -81,7 +81,7 @@ function pad(value: number) {
   gap: 12rpx;
   padding: 34rpx;
   border-radius: var(--lk-radius-xl);
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   background: linear-gradient(135deg, rgba(105, 101, 219, 0.12), rgba(24, 144, 255, 0.08));
 }
 
@@ -98,7 +98,7 @@ function pad(value: number) {
 }
 
 .hero-desc {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 25rpx;
   line-height: 1.5;
 }
@@ -129,7 +129,7 @@ function pad(value: number) {
   gap: 20rpx;
   padding: 24rpx;
   border-radius: var(--lk-radius-lg);
-  background: var(--lk-color-bg-container);
+  background: var(--lk-bg-container);
   box-shadow: 0 4rpx 18rpx rgba(15, 23, 42, 0.05);
 
   &:not(:first-child) {
@@ -158,13 +158,13 @@ function pad(value: number) {
 }
 
 .item-title {
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 28rpx;
   font-weight: 800;
 }
 
 .item-desc {
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 24rpx;
 }
 </style>

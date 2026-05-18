@@ -8,20 +8,22 @@ import {
   resolveLoadingRootStyle,
   resolveLoadingSquareStyle,
   resolveLoadingText,
-  resolveLoadingType,
   shouldRenderLoadingText,
 } from '../../src/uni_modules/lucky-ui/components/lk-loading/loading.utils';
 
 describe('lk-loading display rules', () => {
-  it('resolves explicit type before variant for compatibility', () => {
-    expect(resolveLoadingType({
-      type: 'ring',
-      variant: LoadingVariant.Spinner,
-    })).toBe('ring');
-    expect(resolveLoadingType({
-      type: '',
-      variant: LoadingVariant.Dots,
-    })).toBe('dots');
+  it('exposes every loading variant through variant', () => {
+    expect(Object.values(LoadingVariant)).toEqual([
+      'spinner',
+      'circular',
+      'dots',
+      'bar',
+      'bounce',
+      'wave',
+      'ring',
+      'ellipsis',
+      'text',
+    ]);
   });
 
   it('normalizes size and builds animation styles', () => {
@@ -43,7 +45,11 @@ describe('lk-loading display rules', () => {
       'lk-loading--spinner',
       { 'is-vertical': true },
     ]);
-    expect(resolveLoadingRootStyle('#1677ff')).toEqual({ '--_color': '#1677ff' });
+    expect(resolveLoadingRootStyle({
+      color: '#1677ff',
+      showTrack: true,
+      trackColor: '',
+    })).toEqual({ '--_color': '#1677ff' });
   });
 
   it('resolves text display rules', () => {

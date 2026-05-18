@@ -16,10 +16,8 @@ defineOptions({ name: 'LkOverlay' });
 const props = defineProps(overlayProps);
 const emit = defineEmits(overlayEmits);
 
-// 外部受控值（优先使用 modelValue）
 const externalShow = computed(() => resolveOverlayVisible({
   modelValue: props.modelValue,
-  show: props.show,
 }));
 
 // ==================== 动画管理 ====================
@@ -49,7 +47,6 @@ const overlayStyle = computed(() => resolveOverlayStyle({
 function onClick(event?: unknown) {
   emit('click', event);
   if (shouldCloseOverlayOnClick(props.closeOnClick)) {
-    emit('update:show', false);
     emit('update:modelValue', false);
     emit('close', event);
   }

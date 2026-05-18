@@ -204,8 +204,8 @@ const showRight = () => {
 .popup-content {
   padding: 40rpx;
   font-size: 32rpx;
-  color: var(--lk-color-text);
-  background-color: var(--lk-color-bg-container);
+  color: var(--lk-text-primary);
+  background-color: var(--lk-bg-container);
   min-width: 200rpx;
   min-height: 100rpx;
   display: flex;
@@ -222,11 +222,11 @@ const showRight = () => {
   justify-content: center;
   height: 100%;
   font-size: 32rpx;
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
 
   .desc {
     font-size: 24rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
   }
 }
 
@@ -243,11 +243,11 @@ const showRight = () => {
 .popup-content-large {
   padding: 0 40rpx 40rpx;
   height: 100%;
-  background-color: var(--lk-color-bg-container);
+  background-color: var(--lk-bg-container);
 
   .desc {
     font-size: 28rpx;
-    color: var(--lk-color-text-secondary);
+    color: var(--lk-text-secondary);
     margin-bottom: 30rpx;
     line-height: 1.6;
     background: var(--lk-fill-tertiary);
@@ -266,13 +266,13 @@ const showRight = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--lk-color-bg-container);
+  background-color: var(--lk-bg-container);
 }
 
 .nested-scroll-header {
   flex-shrink: 0;
   padding: 24rpx 40rpx;
-  color: var(--lk-color-text-secondary);
+  color: var(--lk-text-secondary);
   font-size: 26rpx;
   line-height: 1.5;
   border-bottom: 1rpx solid var(--lk-color-border-light);
@@ -286,7 +286,7 @@ const showRight = () => {
 .nested-scroll-item {
   padding: 30rpx 40rpx;
   border-bottom: 1rpx solid var(--lk-color-border-light);
-  color: var(--lk-color-text);
+  color: var(--lk-text-primary);
   font-size: 30rpx;
 }
 </style>

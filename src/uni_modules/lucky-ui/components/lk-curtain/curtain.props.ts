@@ -58,7 +58,7 @@ export const curtainProps = {
   /**
    * 是否显示幕帘
    */
-  show: LkProp.boolean(false),
+  modelValue: LkProp.boolean(false),
   /**
    * 幕帘图片地址
    */
@@ -95,7 +95,7 @@ export const curtainProps = {
   /**
    * 点击遮罩层是否关闭
    */
-  closeOnClickOverlay: LkProp.boolean(false),
+  closeOnOverlay: LkProp.boolean(false),
   /**
    * 链接跳转地址
    */
@@ -113,7 +113,7 @@ export const curtainProps = {
 export type CurtainProps = ExtractPropTypes<typeof curtainProps>;
 
 export const curtainEmits = {
-  'update:show': (show: boolean) => typeof show === 'boolean',
+  'update:modelValue': (show: boolean) => typeof show === 'boolean',
   close: () => true,
   click: () => true,
   'click-overlay': () => true,
