@@ -32,7 +32,11 @@ type MpStickyObserver = {
 let io: IntersectionObserver | MpStickyObserver | null = null;
 
 const stickyClass = computed(() => resolveStickyClass(props.customClass));
-const stickyStyle = computed(() => resolveStickyStyle(props));
+const stickyStyle = computed(() => resolveStickyStyle({
+  offsetTop: props.offsetTop,
+  zIndex: props.zIndex,
+  customStyle: props.customStyle,
+}));
 
 function observe() {
   // 使用 IntersectionObserver 观察占位变化，判断是否吸顶

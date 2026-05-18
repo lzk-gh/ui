@@ -148,6 +148,8 @@ function handleSetValue() {
 
 | 参数              | 说明             | 类型                                           | 默认值             |
 | ----------------- | ---------------- | ---------------------------------------------- | ------------------ |
+| customClass       | 组件可视根节点自定义类名 | `string \| object \| array`                    | `''`               |
+| customStyle       | 组件可视根节点自定义样式 | `string \| object`                             | `''`               |
 | v-model           | 绑定值           | `string`                                       | `''`               |
 | length            | 验证码长度       | `4 \| 6 \| 8`                                  | `6`                |
 | type              | 输入类型         | `'number' \| 'text'`                           | `'number'`         |

@@ -106,6 +106,8 @@ import SkeletonDemo from '@/components/demos/skeleton-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | loading | 是否显示骨架；为 `false` 时渲染默认插槽 | `boolean` | `true` |
 | avatar | 是否显示头像占位 | `boolean` | `false` |
 | avatarSize | 头像尺寸 | `string` | `'72rpx'` |

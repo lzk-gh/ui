@@ -21,12 +21,13 @@ describe('lk-anchor scroll and link rules', () => {
       activeBgColor: '#f4f4f5',
       textColor: '#333',
       activeColor: '#1989fa',
-    })).toEqual({
+      customStyle: { width: '200rpx' },
+    })).toEqual([{
       '--lk-anchor-bg-sidebar': '#fff',
       '--lk-anchor-bg-active': '#f4f4f5',
       '--lk-anchor-text-color': '#333',
       '--lk-anchor-active-color': '#1989fa',
-    });
+    }, { width: '200rpx' }]);
   });
 
   it('normalizes targets and parses supported numeric units', () => {
@@ -114,9 +115,14 @@ describe('lk-anchor scroll and link rules', () => {
 
   it('resolves link active, class and click guard', () => {
     expect(resolveAnchorLinkActive('intro', 'intro')).toBe(true);
-    expect(resolveAnchorLinkClass({ active: true, disabled: false })).toEqual([
+    expect(resolveAnchorLinkClass({
+      active: true,
+      disabled: false,
+      customClass: 'custom-link',
+    })).toEqual([
       'lk-anchor-link--active',
       '',
+      'custom-link',
     ]);
     expect(canClickAnchorLink(false, 'intro')).toBe(true);
     expect(canClickAnchorLink(true, 'intro')).toBe(false);

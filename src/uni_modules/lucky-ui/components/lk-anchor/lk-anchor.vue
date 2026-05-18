@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, provide, onMounted, onBeforeUnmount, nextTick, watch, computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { anchorProps } from './anchor.props';
 import {
   normalizeAnchorTargets,
@@ -28,7 +29,13 @@ const isProgrammaticScrolling = ref(false);
 let scrollUnlockTimer: ReturnType<typeof setTimeout> | null = null;
 let scrollSettleTimer: ReturnType<typeof setTimeout> | null = null;
 
-const anchorStyle = computed(() => resolveAnchorStyle(props));
+const anchorStyle = computed(() => resolveAnchorStyle({
+  bgColor: props.bgColor,
+  activeBgColor: props.activeBgColor,
+  textColor: props.textColor,
+  activeColor: props.activeColor,
+  customStyle: props.customStyle as StyleValue,
+}));
 
 function register(child: AnchorChild) {
   children.value.push(child);
@@ -259,7 +266,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <view class="lk-anchor" :style="anchorStyle">
+  <view class="lk-anchor" :class="props.customClass" :style="anchorStyle">
     <scroll-view
       scroll-y
       class="lk-anchor__scroll"

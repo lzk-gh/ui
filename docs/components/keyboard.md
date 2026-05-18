@@ -138,6 +138,8 @@ import KeyboardDemo from '@/components/demos/keyboard-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | visible | 是否显示，支持 `v-model:visible` | `boolean` | `false` |
 | type | 键盘类型 | `number \| idcard \| plate \| custom` | `number` |
 | theme | 键盘主题 | `light \| dark` | `light` |

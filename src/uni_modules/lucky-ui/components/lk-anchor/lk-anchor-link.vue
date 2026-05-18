@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, getCurrentInstance, onMounted, onUnmounted } from 'vue';
-import type { ComponentInternalInstance } from 'vue';
+import type { ComponentInternalInstance, StyleValue } from 'vue';
 import { anchorLinkProps } from './anchor.props';
 import { canClickAnchorLink, resolveAnchorLinkActive, resolveAnchorLinkClass } from './anchor.utils';
 
@@ -20,7 +20,12 @@ const parent = inject<AnchorContext | null>('lkAnchor', null);
 const instance = getCurrentInstance();
 
 const isActive = computed(() => resolveAnchorLinkActive(parent?.activeHref.value, props.href));
-const linkClass = computed(() => resolveAnchorLinkClass({ active: isActive.value, disabled: props.disabled }));
+const linkClass = computed(() => resolveAnchorLinkClass({
+  active: isActive.value,
+  disabled: props.disabled,
+  customClass: props.customClass,
+}));
+const linkStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 const showLine = computed(() => parent?.props?.showLine);
 
 function onClick() {
@@ -42,6 +47,7 @@ onUnmounted(() => {
     :id="'anchor-link-' + props.href"
     class="lk-anchor-link"
     :class="linkClass"
+    :style="linkStyle"
     @click="onClick"
   >
     <view v-if="showLine && isActive" class="lk-anchor-link__indicator"></view>

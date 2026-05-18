@@ -1,4 +1,4 @@
-import type { LoadingVariant } from './loading.props';
+import type { StyleValue } from 'vue';
 
 export function normalizeLoadingSize(size: string | number): number {
   if (typeof size === 'number') return size;
@@ -8,10 +8,12 @@ export function normalizeLoadingSize(size: string | number): number {
 export function resolveLoadingRootClass(options: {
   type: string;
   vertical: boolean;
+  customClass?: unknown;
 }) {
   return [
     `lk-loading--${options.type}`,
     { 'is-vertical': options.vertical },
+    options.customClass,
   ];
 }
 
@@ -19,8 +21,9 @@ export function resolveLoadingRootStyle(options: {
   color: string;
   showTrack: boolean;
   trackColor: string;
-}) {
-  const style: any = {
+  customStyle?: StyleValue;
+}): StyleValue {
+  const style: Record<string, string> = {
     '--_color': options.color,
   };
 
@@ -30,7 +33,7 @@ export function resolveLoadingRootStyle(options: {
     style['--_track-color'] = options.trackColor;
   }
 
-  return style;
+  return [style, options.customStyle || ''] as StyleValue;
 }
 
 export function resolveLoadingSquareStyle(size: string | number) {

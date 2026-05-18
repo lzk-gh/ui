@@ -189,27 +189,34 @@ export function resolvePopupPanelStyle(options: {
   windowHeight: number;
   translateY: number;
   round: boolean;
+  customStyle?: StyleValue;
 }): StyleValue {
   const base = options.transitionStyles as Record<string, unknown>;
   if (isPopupBottomDraggable(options)) {
     const visibleHeight = Math.max(0, options.windowHeight - options.translateY);
-    return {
-      ...base,
-      height: `${visibleHeight}px`,
-      transform: 'none',
-      transition: options.isGestureActive
-        ? 'none'
-        : `height ${Math.max(options.transitionDuration, 260) * 0.001}s cubic-bezier(0.18, 0.89, 0.32, 1.28)`,
-      ...(options.width ? { width: options.width } : {}),
-      borderRadius: options.round
-        ? 'var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0'
-        : '0',
-    };
+    return [
+      options.customStyle || '',
+      {
+        ...base,
+        height: `${visibleHeight}px`,
+        transform: 'none',
+        transition: options.isGestureActive
+          ? 'none'
+          : `height ${Math.max(options.transitionDuration, 260) * 0.001}s cubic-bezier(0.18, 0.89, 0.32, 1.28)`,
+        ...(options.width ? { width: options.width } : {}),
+        borderRadius: options.round
+          ? 'var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0'
+          : '0',
+      },
+    ] as StyleValue;
   }
 
-  return {
-    ...base,
-    ...(options.height ? { height: options.height } : {}),
-    ...(options.width ? { width: options.width } : {}),
-  };
+  return [
+    options.customStyle || '',
+    {
+      ...base,
+      ...(options.height ? { height: options.height } : {}),
+      ...(options.width ? { width: options.width } : {}),
+    },
+  ] as StyleValue;
 }

@@ -101,6 +101,8 @@ import LoadingDemo from '@/components/demos/loading-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | size | 图标尺寸，数字或纯数字字符串按 `rpx` 处理 | `string \| number` | `'40'` |
 | color | 加载图标颜色 | `string` | `var(--lk-color-primary)` |
 | variant | 基础动画类型，推荐用于常规场景 | `spinner \| circular \| dots` | `spinner` |

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
+import type { StyleValue } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import LkButton from '../lk-button/lk-button.vue';
@@ -66,6 +67,7 @@ const rootStyle = computed(() => resolveModalRootStyle(props.zIndex));
 const panelStyle = computed(() => resolveModalPanelStyle({
   transitionStyles: transitionStyles.value,
   width: props.width,
+  customStyle: props.customStyle as StyleValue,
 }));
 const showResolvedHeader = computed(() => shouldModalHeaderRender({
   showHeader: props.showHeader,
@@ -94,6 +96,7 @@ const {
     emit('after-leave');
   },
 });
+const panelClass = computed(() => [transitionClasses.value, props.customClass]);
 
 function close() {
   // 如果正在离开，直接返回（防止重复触发）
@@ -140,7 +143,7 @@ function onCloseClick() {
   <view v-if="display" class="lk-modal" :style="rootStyle">
     <view
       class="lk-modal__panel"
-      :class="transitionClasses"
+      :class="panelClass"
       :style="panelStyle"
     >
       <!-- Header -->

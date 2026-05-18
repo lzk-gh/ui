@@ -1,3 +1,5 @@
+import type { StyleValue } from 'vue';
+
 export function resolveSkeletonIndexedValue(
   value: string | string[],
   index: number,
@@ -13,15 +15,20 @@ export function resolveSkeletonIndexedValue(
 export function resolveSkeletonHostStyle(options: {
   duration: string | number;
   easing: string;
-}) {
+  customStyle?: StyleValue;
+}): StyleValue {
   const duration = typeof options.duration === 'number'
     ? `${options.duration}s`
     : String(options.duration || '1.8s');
 
-  return {
+  return [{
     '--lk-skel-duration': duration,
     '--lk-skel-ease': options.easing,
-  };
+  }, options.customStyle || ''] as StyleValue;
+}
+
+export function resolveSkeletonRootClass(customClass?: unknown) {
+  return ['lk-skeleton', customClass];
 }
 
 export function resolveSkeletonAvatarStyle(options: {

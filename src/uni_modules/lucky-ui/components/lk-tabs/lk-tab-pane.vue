@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed, watch } from 'vue';
-import type { Ref } from 'vue';
+import type { PropType, Ref, StyleValue } from 'vue';
+import { baseProps } from '../common/props';
 import type { TabPaneContext, TabsValue } from './tabs.props';
 import { resolveTabPaneLoaded } from './tabs.utils';
 
 defineOptions({ name: 'LkTabPane' });
 
 const props = defineProps({
-  name: { type: [String, Number], required: true },
+  ...baseProps,
+  name: { type: [String, Number] as PropType<TabsValue>, required: true },
   label: { type: String, required: true },
   disabled: { type: Boolean, default: false },
 });
@@ -22,6 +24,8 @@ interface TabsContext {
 const tabs = inject<TabsContext | null>('LkTabs', null);
 const loaded = ref(false);
 const active = computed(() => tabs?.active.value === props.name);
+const paneClass = computed(() => ['lk-tab-pane', props.customClass]);
+const paneStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 // 小程序端模板不执行副作用，使用 watch 管理首次懒加载。
 watch(active, val => {
@@ -41,7 +45,7 @@ onBeforeUnmount(() => tabs?.unregister({ name: props.name, label: props.label })
 </script>
 
 <template>
-  <view v-show="active" class="lk-tab-pane">
+  <view v-show="active" :class="paneClass" :style="paneStyle">
     <slot v-if="!tabs?.lazy || loaded || active" />
   </view>
 </template>

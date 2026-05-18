@@ -104,6 +104,8 @@ phone: timeline
 
 | 参数          | 说明                    | 类型      | 默认值     |
 | ------------- | ----------------------- | --------- | ---------- |
+| `customClass` | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| `customStyle` | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | `direction`   | 方向                    | `'vertical' \| 'horizontal'` | `'vertical'` |
 | `show-line`   | 是否显示连接线          | `boolean` | `true`     |
 | `active-index`| 高亮节点索引（0-based） | `number`  | `-1`       |
@@ -113,6 +115,8 @@ phone: timeline
 
 | 参数          | 说明                              | 类型      | 默认值      |
 | ------------- | --------------------------------- | --------- | ----------- |
+| `customClass` | 组件可视根节点自定义类名           | `string \| object \| array` | `''` |
+| `customStyle` | 组件可视根节点自定义样式           | `string \| object` | `''` |
 | `index`       | 节点序号（numbered 和 activeIndex 使用） | `number`  | `-1`  |
 | `status`      | 节点状态                          | `'default' \| 'active' \| 'completed' \| 'pending' \| 'error'` | `'default'` |
 | `title`       | 主标题                            | `string`  | `''`        |

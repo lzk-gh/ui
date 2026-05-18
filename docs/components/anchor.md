@@ -110,6 +110,8 @@ import AnchorDemo from '@/components/demos/anchor-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | bgColor | 侧边栏背景色 | `string` | `''` |
 | activeBgColor | 激活项背景色 | `string` | `''` |
 | textColor | 普通项文字颜色 | `string` | `''` |
@@ -124,6 +126,8 @@ import AnchorDemo from '@/components/demos/anchor-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | title | 锚点标题 | `string` | `''` |
 | href | 对应内容区元素 id，不带 `#` | `string` | `''` |
 | disabled | 是否禁用 | `boolean` | `false` |

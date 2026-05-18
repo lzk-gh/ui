@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, useSlots, type ComputedRef } from 'vue';
+import type { StyleValue } from 'vue';
 import { timelineItemProps } from './timeline-item.props';
 import type { TimelineDirection, TimelineDotVariant, TimelineLineVariant, TimelineLineMode } from './timeline.props';
 import {
@@ -97,6 +98,7 @@ const itemClass = computed(() => resolveTimelineItemClass({
   completed: isCompleted.value,
   pending: isPending.value,
   error: isError.value,
+  customClass: props.customClass,
 }));
 
 const trackClass = computed(() => resolveTimelineTrackClass({
@@ -114,6 +116,7 @@ const itemStyle = computed(() => resolveTimelineItemStyle({
   accentColor: accentColor.value,
   index: props.index,
   total: ctx.value.total,
+  customStyle: props.customStyle as StyleValue,
 }));
 
 function onTap(ev: Event) {

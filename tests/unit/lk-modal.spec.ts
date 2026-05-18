@@ -74,7 +74,11 @@ describe('lk-modal transition and action rules', () => {
     expect(resolveModalPanelStyle({
       transitionStyles: { opacity: 1 },
       width: '600rpx',
-    })).toEqual({ opacity: 1, width: '600rpx' });
+      customStyle: { transform: 'scale(0.9)' },
+    })).toEqual([
+      { transform: 'scale(0.9)' },
+      { opacity: 1, width: '600rpx' },
+    ]);
     expect(resolveModalHeaderClass('center')).toEqual(['is-title-center']);
     expect(resolveModalFooterClass({
       footerType: 'text',

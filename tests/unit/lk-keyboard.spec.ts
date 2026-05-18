@@ -140,18 +140,21 @@ describe('lk-keyboard input and layout rules', () => {
       type: 'number',
       isVisible: true,
       blur: false,
+      customClass: 'custom-keyboard',
     })).toEqual([
       'lk-keyboard',
       'lk-keyboard--dark',
       'lk-keyboard--number',
       { 'is-visible': true, 'is-blur': false },
+      'custom-keyboard',
     ]);
 
     expect(resolveKeyboardStyle({
       zIndex: 100,
       safeAreaInsetBottom: true,
       safeBottom: 12,
-    })).toEqual({ zIndex: 100, paddingBottom: '12px' });
+      customStyle: { backgroundColor: '#fff' },
+    })).toEqual([{ zIndex: 100, paddingBottom: '12px' }, { backgroundColor: '#fff' }]);
 
     expect(resolveKeyboardKeyClass({ text: 'OK', type: 'confirm', flex: 2 })).toEqual([
       'lk-keyboard__key',

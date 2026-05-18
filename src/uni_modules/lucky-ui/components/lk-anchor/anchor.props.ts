@@ -1,7 +1,9 @@
-import { LkProp } from '../common/props';
+import { baseProps, LkProp } from '../common/props';
 import type { ExtractPropTypes } from 'vue';
 
 export const anchorProps = {
+  ...baseProps,
+
   /**
    * 侧边栏背景颜色（可选；不传则走主题变量）
    */
@@ -45,6 +47,8 @@ export const anchorProps = {
 };
 
 export const anchorLinkProps = {
+  ...baseProps,
+
   /**
    * 标题
    */

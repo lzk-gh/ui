@@ -4,6 +4,7 @@ import {
   ref,
   watch,
 } from 'vue';
+import type { StyleValue } from 'vue';
 import LkOverlay from '../lk-overlay/lk-overlay.vue';
 import LkIcon from '../lk-icon/lk-icon.vue';
 import { popupProps, popupEmits } from './popup.props';
@@ -278,8 +279,10 @@ const panelStyle = computed(() => {
     windowHeight,
     translateY: translateY.value,
     round: props.round,
+    customStyle: props.customStyle as StyleValue,
   });
 });
+const panelClass = computed(() => [transitionClasses.value, props.customClass]);
 </script>
 
 <template>
@@ -292,7 +295,7 @@ const panelStyle = computed(() => {
     @click="onOverlayClick"
   />
   <view v-if="display" :class="wrapperClass" :style="wrapperStyle" @touchmove.stop>
-    <view class="lk-popup__panel" :class="transitionClasses" :style="panelStyle">
+    <view class="lk-popup__panel" :class="panelClass" :style="panelStyle">
       <view
         v-if="position === 'bottom' && draggable"
         class="lk-popup__drag-handle"

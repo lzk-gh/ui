@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+import type { StyleValue } from 'vue';
 import { keyboardProps, keyboardEmits, type KeyboardKey } from './keyboard.props';
 import {
   resolveKeyboardClass,
@@ -129,12 +130,14 @@ const keyboardClass = computed(() => resolveKeyboardClass({
   type: props.type,
   isVisible: isVisible.value,
   blur: props.blur,
+  customClass: props.customClass,
 }));
 
 const keyboardStyle = computed(() => resolveKeyboardStyle({
   zIndex: props.zIndex,
   safeAreaInsetBottom: props.safeAreaInsetBottom,
   safeBottom,
+  customStyle: props.customStyle as StyleValue,
 }));
 
 // 按键样式

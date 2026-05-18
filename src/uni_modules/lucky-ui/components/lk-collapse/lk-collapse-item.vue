@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import type { PropType } from 'vue';
+import type { PropType, StyleValue } from 'vue';
 import { useRipple } from '@/uni_modules/lucky-ui/composables/useRipple';
+import { baseProps } from '../common/props';
 import { collapseInjectionKey, type CollapseName } from './collapse.props';
 import {
   resolveCollapseBodyStyle,
@@ -12,6 +13,7 @@ import {
 defineOptions({ name: 'LkCollapseItem' });
 
 const props = defineProps({
+  ...baseProps,
   name: { type: [String, Number] as PropType<CollapseName>, required: true },
   title: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
@@ -25,7 +27,9 @@ const open = computed(() => collapse?.active.value.includes(props.name) ?? false
 const itemClass = computed(() => resolveCollapseItemClass({
   open: open.value,
   disabled: props.disabled,
+  customClass: props.customClass,
 }));
+const itemStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 const { rippleActive, rippleWaveStyle, triggerRipple } = useRipple({ duration: 800 });
 const headerClass = computed(() => resolveCollapseHeaderClass(rippleActive.value));
@@ -56,7 +60,7 @@ function onHeaderTap(e: unknown) {
 </script>
 
 <template>
-  <view class="lk-collapse-item" :class="itemClass">
+  <view class="lk-collapse-item" :class="itemClass" :style="itemStyle">
     <view
       class="lk-collapse-item__header lk-ripple"
       :class="headerClass"

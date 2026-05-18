@@ -130,11 +130,13 @@ export function resolveVerifyCodeRootClass(options: {
   variant: string;
   statusClass: string;
   disabled: boolean;
+  customClass?: unknown;
 }) {
   return [
     `lk-verify-code--${options.variant}`,
     options.statusClass,
     { 'is-disabled': options.disabled },
+    options.customClass,
   ];
 }
 

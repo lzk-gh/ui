@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { verifyCodeProps, verifyCodeEmits, VerifyCodeStatus } from './verify-code.props';
 import {
   normalizeVerifyCodeValue,
@@ -72,7 +73,9 @@ const rootClass = computed(() => resolveVerifyCodeRootClass({
   variant: props.variant,
   statusClass: statusClass.value,
   disabled: props.disabled,
+  customClass: props.customClass,
 }));
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 // 监听外部值变化
 watch(
@@ -283,6 +286,7 @@ onUnmounted(() => {
   <view
     class="lk-verify-code"
     :class="rootClass"
+    :style="rootStyle"
   >
     <!-- 隐藏的真实输入框 -->
     <input

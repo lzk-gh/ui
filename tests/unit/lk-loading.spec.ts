@@ -41,15 +41,18 @@ describe('lk-loading display rules', () => {
     expect(resolveLoadingRootClass({
       type: 'spinner',
       vertical: true,
+      customClass: 'custom-loading',
     })).toEqual([
       'lk-loading--spinner',
       { 'is-vertical': true },
+      'custom-loading',
     ]);
     expect(resolveLoadingRootStyle({
       color: '#1677ff',
       showTrack: true,
       trackColor: '',
-    })).toEqual({ '--_color': '#1677ff' });
+      customStyle: { marginTop: '8rpx' },
+    })).toEqual([{ '--_color': '#1677ff' }, { marginTop: '8rpx' }]);
   });
 
   it('resolves text display rules', () => {

@@ -5,6 +5,7 @@ import {
   resolveSkeletonHostStyle,
   resolveSkeletonIndexedValue,
   resolveSkeletonRowStyle,
+  resolveSkeletonRootClass,
   resolveSkeletonTitleStyle,
 } from '../../src/uni_modules/lucky-ui/components/lk-skeleton/skeleton.utils';
 
@@ -20,18 +21,24 @@ describe('lk-skeleton display rules', () => {
     expect(resolveSkeletonHostStyle({
       duration: 2.4,
       easing: 'ease-in-out',
-    })).toEqual({
+      customStyle: { marginTop: '8rpx' },
+    })).toEqual([{
       '--lk-skel-duration': '2.4s',
       '--lk-skel-ease': 'ease-in-out',
-    });
+    }, { marginTop: '8rpx' }]);
 
     expect(resolveSkeletonHostStyle({
       duration: '',
       easing: 'linear',
-    })).toEqual({
+    })).toEqual([{
       '--lk-skel-duration': '1.8s',
       '--lk-skel-ease': 'linear',
-    });
+    }, '']);
+
+    expect(resolveSkeletonRootClass('custom-skeleton')).toEqual([
+      'lk-skeleton',
+      'custom-skeleton',
+    ]);
   });
 
   it('builds avatar and title styles', () => {

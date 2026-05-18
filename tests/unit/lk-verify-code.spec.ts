@@ -115,10 +115,12 @@ describe('lk-verify-code input and countdown rules', () => {
       variant: 'rounded',
       statusClass: 'is-success',
       disabled: true,
+      customClass: 'custom-code',
     })).toEqual([
       'lk-verify-code--rounded',
       'is-success',
       { 'is-disabled': true },
+      'custom-code',
     ]);
 
     expect(resolveVerifyCodeCellClass({

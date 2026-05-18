@@ -156,15 +156,19 @@ describe('lk-popup transition and drag rules', () => {
       windowHeight: 800,
       translateY: 300,
       round: true,
-    })).toEqual({
-      opacity: 1,
-      height: '500px',
-      transform: 'none',
-      transition: 'height 0.26s cubic-bezier(0.18, 0.89, 0.32, 1.28)',
-      width: '500rpx',
-      borderRadius:
-        'var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0',
-    });
+      customStyle: { transform: 'scale(0.9)' },
+    })).toEqual([
+      { transform: 'scale(0.9)' },
+      {
+        opacity: 1,
+        height: '500px',
+        transform: 'none',
+        transition: 'height 0.26s cubic-bezier(0.18, 0.89, 0.32, 1.28)',
+        width: '500rpx',
+        borderRadius:
+          'var(--lk-popup-radius, var(--lk-rpx-24)) var(--lk-popup-radius, var(--lk-rpx-24)) 0 0',
+      },
+    ]);
 
     expect(resolvePopupPanelStyle({
       position: 'center',
@@ -177,9 +181,12 @@ describe('lk-popup transition and drag rules', () => {
       windowHeight: 800,
       translateY: 0,
       round: false,
-    })).toEqual({
-      opacity: 1,
-      height: '600rpx',
-    });
+    })).toEqual([
+      '',
+      {
+        opacity: 1,
+        height: '600rpx',
+      },
+    ]);
   });
 });

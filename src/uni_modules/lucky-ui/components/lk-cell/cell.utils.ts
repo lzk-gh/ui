@@ -42,10 +42,14 @@ export function resolveCellGroupClass(options: {
   inset: boolean;
   card: boolean;
   border: boolean;
+  customClass?: unknown;
 }) {
-  return [{
-    'is-inset': options.inset,
-    'is-card': options.card,
-    'is-border': options.border,
-  }];
+  return [
+    {
+      'is-inset': options.inset,
+      'is-card': options.card,
+      'is-border': options.border,
+    },
+    options.customClass,
+  ];
 }

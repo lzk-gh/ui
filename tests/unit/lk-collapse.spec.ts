@@ -82,10 +82,17 @@ describe('lk-collapse state and style rules', () => {
   });
 
   it('builds item, header and body styles', () => {
-    expect(resolveCollapseItemClass({ open: true, disabled: false })).toEqual({
-      'is-open': true,
-      'is-disabled': false,
-    });
+    expect(resolveCollapseItemClass({
+      open: true,
+      disabled: false,
+      customClass: 'custom-item',
+    })).toEqual([
+      {
+        'is-open': true,
+        'is-disabled': false,
+      },
+      'custom-item',
+    ]);
     expect(resolveCollapseHeaderClass(true)).toEqual({ 'lk-ripple--active': true });
     expect(resolveCollapseBodyStyle({
       animationDuration: '0.2s',

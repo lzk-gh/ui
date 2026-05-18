@@ -134,11 +134,15 @@ export function isTabbarBumpItem(options: {
 export function resolveTabbarItemClass(options: {
   active: boolean;
   bump: boolean;
+  customClass?: unknown;
 }) {
-  return {
-    'is-active': options.active,
-    'lk-tabbar-item--bump': options.bump,
-  };
+  return [
+    {
+      'is-active': options.active,
+      'lk-tabbar-item--bump': options.bump,
+    },
+    options.customClass,
+  ];
 }
 
 export function resolveTabbarIconColor(options: {

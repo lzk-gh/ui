@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { watch, computed, onUnmounted } from 'vue';
+import type { StyleValue } from 'vue';
 import { useTransition } from '@/uni_modules/lucky-ui/composables/useTransition';
 import { toastProps, toastEmits } from './toast.props';
 import {
@@ -76,6 +77,8 @@ const {
     onAfterLeave: () => emit('after-leave'),
   }
 );
+const innerClass = computed(() => [transitionClasses.value, props.customClass]);
+const innerStyle = computed<StyleValue>(() => [props.customStyle, transitionStyles.value] as StyleValue);
 
 onUnmounted(() => clearTimers());
 </script>
@@ -93,7 +96,7 @@ onUnmounted(() => clearTimers());
     :class="rootClass"
     :style="rootStyle"
   >
-    <view class="lk-toast__inner" :class="transitionClasses" :style="transitionStyles">
+    <view class="lk-toast__inner" :class="innerClass" :style="innerStyle">
       <text class="lk-toast__text"
         ><slot>{{ message }}</slot></text
       >

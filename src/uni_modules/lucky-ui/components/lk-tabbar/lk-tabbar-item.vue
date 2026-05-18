@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+import type { StyleValue } from 'vue';
 import { tabbarContextKey } from './context';
 import { tabbarItemProps } from './tabbar-item.props';
 import {
@@ -52,7 +53,9 @@ const isBumpItem = computed(() => {
 const itemClass = computed(() => resolveTabbarItemClass({
   active: isActive.value,
   bump: isBumpItem.value,
+  customClass: props.customClass,
 }));
+const itemStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 // 徽标显示
 const showBadge = computed(() => shouldShowTabbarBadge({
@@ -104,6 +107,7 @@ function onTap(event: unknown) {
   <view
     class="lk-tabbar-item"
     :class="itemClass"
+    :style="itemStyle"
     @tap="onTap"
   >
     <!-- 凸起模式的特殊背景 -->

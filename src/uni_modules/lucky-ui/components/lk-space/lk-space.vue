@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { spaceProps } from './space.props';
 import {
   resolveSpaceAlign,
@@ -26,10 +27,12 @@ const klass = computed(() => resolveSpaceClass({
   wrap: props.wrap,
   fill: props.fill,
 }));
+const rootClass = computed(() => ['lk-space-container', props.customClass]);
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 </script>
 
 <template>
-  <view class="lk-space-container">
+  <view :class="rootClass" :style="rootStyle">
     <view :class="klass" :style="style">
       <slot />
     </view>

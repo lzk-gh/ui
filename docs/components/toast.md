@@ -141,6 +141,8 @@ function close() {
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | message | 提示内容 | `string` | — |
 | duration | 自动关闭时长（ms），0 表示不关闭 | `number` | `2000` |
 | position | 显示位置 | `top \| center \| bottom` | `center` |
@@ -148,7 +150,10 @@ function close() {
 
 ### LkToastManager 组件
 
-无需传入 Props，直接放置在根节点即可（全局单例）。
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 
 ## 发布验收
 

@@ -122,6 +122,8 @@ import SpaceDemo from '@/components/demos/space-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | gap | 间距大小。支持预设值、数字、带单位字符串或数组 `[水平, 垂直]` | `number \| string \| [number \| string, number \| string] \| 'sm' \| 'md' \| 'lg'` | `md` |
 | direction | 排列方向 | `horizontal \| vertical` | `horizontal` |
 | align | 交叉轴对齐方式 | `start \| center \| end \| baseline \| stretch` | `horizontal` 时默认 `center`；`vertical` 时默认 `stretch` |

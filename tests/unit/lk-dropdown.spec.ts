@@ -118,10 +118,14 @@ describe('lk-dropdown open and item rules', () => {
     expect(resolveDropdownItemClass({
       active: true,
       disabled: false,
-    })).toEqual({
-      'is-active': true,
-      'is-disabled': false,
-    });
+      customClass: 'custom-item',
+    })).toEqual([
+      {
+        'is-active': true,
+        'is-disabled': false,
+      },
+      'custom-item',
+    ]);
 
     const event = { type: 'tap' };
     expect(createDropdownItemPayload({

@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import { LkProp } from '../common/props';
+import { baseProps, LkProp } from '../common/props';
 
 /**
  * 节点状态
@@ -14,6 +14,8 @@ export const TimelineItemDotVariant = ['filled', 'outlined', 'numbered'] as cons
 export type TimelineItemDotVariant = (typeof TimelineItemDotVariant)[number];
 
 export const timelineItemProps = {
+  ...baseProps,
+
   /**
    * 节点序号（配合 dotVariant="numbered"）
    */

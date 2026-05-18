@@ -1,13 +1,21 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
+import type { StyleValue } from 'vue';
+import { baseProps, LkProp } from '../common/props';
+
 defineOptions({ name: 'LkCarouselItem' });
 
-defineProps<{
-  src?: string;
-}>();
+const props = defineProps({
+  ...baseProps,
+  src: LkProp.string(''),
+});
+
+const itemClass = computed(() => ['lk-carousel-item', props.customClass]);
+const itemStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 </script>
 
 <template>
-  <view class="lk-carousel-item">
+  <view :class="itemClass" :style="itemStyle">
     <image
       v-if="src"
       class="lk-carousel-item__image"

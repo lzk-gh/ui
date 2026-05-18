@@ -1,6 +1,9 @@
 import type { ExtractPropTypes, PropType } from 'vue';
+import { baseProps } from '../common/props';
 
 export const tabbarItemProps = {
+  ...baseProps,
+
   /** 唯一标识（必填） */
   name: {
     type: [String, Number] as PropType<string | number>,

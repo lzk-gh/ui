@@ -61,10 +61,14 @@ describe('lk-cell interaction and group rules', () => {
       inset: true,
       card: true,
       border: false,
-    })).toEqual([{
-      'is-inset': true,
-      'is-card': true,
-      'is-border': false,
-    }]);
+      customClass: 'custom-group',
+    })).toEqual([
+      {
+        'is-inset': true,
+        'is-card': true,
+        'is-border': false,
+      },
+      'custom-group',
+    ]);
   });
 });

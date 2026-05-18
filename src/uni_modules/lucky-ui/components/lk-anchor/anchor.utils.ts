@@ -1,3 +1,5 @@
+import type { StyleValue } from 'vue';
+
 export type AnchorTargetInput = {
   href: string;
   top: number;
@@ -24,13 +26,14 @@ export function resolveAnchorStyle(options: {
   activeBgColor?: string;
   textColor?: string;
   activeColor?: string;
-}) {
+  customStyle?: StyleValue;
+}): StyleValue {
   const style: Record<string, string> = {};
   if (options.bgColor) style['--lk-anchor-bg-sidebar'] = options.bgColor;
   if (options.activeBgColor) style['--lk-anchor-bg-active'] = options.activeBgColor;
   if (options.textColor) style['--lk-anchor-text-color'] = options.textColor;
   if (options.activeColor) style['--lk-anchor-active-color'] = options.activeColor;
-  return style;
+  return [style, options.customStyle || ''] as StyleValue;
 }
 
 export function normalizeAnchorTargets(nextTargets: AnchorTargetInput[] | null | undefined): AnchorTarget[] {
@@ -138,10 +141,15 @@ export function resolveAnchorLinkActive(activeHref: string | undefined, href: st
   return activeHref === href;
 }
 
-export function resolveAnchorLinkClass(options: { active: boolean; disabled: boolean }): string[] {
+export function resolveAnchorLinkClass(options: {
+  active: boolean;
+  disabled: boolean;
+  customClass?: unknown;
+}): unknown[] {
   return [
     options.active ? 'lk-anchor-link--active' : '',
     options.disabled ? 'lk-anchor-link--disabled' : '',
+    options.customClass,
   ];
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue';
-import type { Ref } from 'vue';
+import type { Ref, StyleValue } from 'vue';
+import { baseProps } from '../common/props';
 import type { DropdownSelectPayload, DropdownValue } from './dropdown.props';
 import {
   canSelectDropdownItem,
@@ -12,6 +13,7 @@ import {
 defineOptions({ name: 'LkDropdownItem' });
 
 const props = defineProps({
+  ...baseProps,
   name: { type: [String, Number], required: true },
   disabled: { type: Boolean, default: false },
   icon: { type: String, default: '' },
@@ -33,7 +35,9 @@ const active = computed(() => resolveDropdownItemActive({
 const itemClass = computed(() => resolveDropdownItemClass({
   active: active.value,
   disabled: props.disabled,
+  customClass: props.customClass,
 }));
+const itemStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 function click(event: unknown) {
   const payload = createDropdownItemPayload({
@@ -53,6 +57,7 @@ function click(event: unknown) {
   <view
     class="lk-dropdown-item"
     :class="itemClass"
+    :style="itemStyle"
     @tap="click"
   >
     <lk-icon v-if="icon" :name="icon" size="34" class="lk-dropdown-item__icon" />

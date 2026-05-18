@@ -82,11 +82,15 @@ export function resolveCollapseRootStyle(options: {
 export function resolveCollapseItemClass(options: {
   open: boolean;
   disabled: boolean;
+  customClass?: unknown;
 }) {
-  return {
-    'is-open': options.open,
-    'is-disabled': options.disabled,
-  };
+  return [
+    {
+      'is-open': options.open,
+      'is-disabled': options.disabled,
+    },
+    options.customClass,
+  ];
 }
 
 export function resolveCollapseHeaderClass(rippleActive: boolean) {

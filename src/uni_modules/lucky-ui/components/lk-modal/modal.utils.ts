@@ -69,11 +69,15 @@ export function resolveModalRootStyle(zIndex: number): StyleValue {
 export function resolveModalPanelStyle(options: {
   transitionStyles: StyleValue;
   width: string;
+  customStyle?: StyleValue;
 }): StyleValue {
-  return {
-    ...(options.transitionStyles as Record<string, unknown>),
-    width: options.width,
-  };
+  return [
+    options.customStyle || '',
+    {
+      ...(options.transitionStyles as Record<string, unknown>),
+      width: options.width,
+    },
+  ] as StyleValue;
 }
 
 export function resolveModalHeaderClass(titleAlign: string) {

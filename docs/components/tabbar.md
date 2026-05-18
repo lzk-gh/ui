@@ -168,6 +168,8 @@ const tabbarList = [
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | v-model | 当前激活项的索引或 name | `string \| number` | `0` |
 | mode | 模式：`fixed` / `slider` / `bump` | `string` | `'fixed'` |
 | list | 导航项配置数组（简化用法） | `TabbarItemConfig[]` | `[]` |
@@ -185,6 +187,8 @@ const tabbarList = [
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | name | 唯一标识（必填） | `string \| number` | - |
 | icon | 图标名称 | `string` | - |
 | selectedIcon | 选中态图标名称 | `string` | - |

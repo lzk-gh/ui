@@ -120,10 +120,14 @@ describe('lk-tabbar layout and item rules', () => {
     expect(resolveTabbarItemClass({
       active: true,
       bump: false,
-    })).toEqual({
-      'is-active': true,
-      'lk-tabbar-item--bump': false,
-    });
+      customClass: 'custom-item',
+    })).toEqual([
+      {
+        'is-active': true,
+        'lk-tabbar-item--bump': false,
+      },
+      'custom-item',
+    ]);
     expect(resolveTabbarIconColor({
       active: true,
       bump: false,

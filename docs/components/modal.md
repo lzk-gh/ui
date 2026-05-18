@@ -130,6 +130,8 @@ const form = ref({ name: '', phone: '' })
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | modelValue | 是否显示（v-model） | `boolean` | `false` |
 | zIndex | 层级 | `number` | `1500` |
 | title | 标题文字 | `string` | `''` |

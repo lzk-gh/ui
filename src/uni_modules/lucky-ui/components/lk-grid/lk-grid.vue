@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import type { StyleValue } from 'vue';
 import { gridEmits, gridProps, type GridItem } from './grid.props';
 import LkIcon from '@/uni_modules/lucky-ui/components/lk-icon/lk-icon.vue';
 import LkCarousel from '@/uni_modules/lucky-ui/components/lk-carousel/lk-carousel.vue';
@@ -35,6 +36,8 @@ const itemStyle = computed(() => resolveGridItemStyle(gapValue.value));
 const innerGapStyle = computed(() => resolveGridInnerGapStyle(props.itemGap));
 
 const containerClass = computed(() => resolveGridContainerClass(props.clip));
+const rootClass = computed(() => [containerClass.value, props.customClass]);
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 
 const pages = computed(() => paginateGridItems(props.items || [], props.columns, props.rows));
 
@@ -62,6 +65,8 @@ function onPageChange(index: number, oldIndex?: number) {
     :auto-play="false"
     :loop="false"
     :indicator-overlay="false"
+    :custom-class="props.customClass"
+    :custom-style="props.customStyle"
     @change="onPageChange"
   >
     <template #default="{ item: page, index: pageIndex }">
@@ -88,7 +93,7 @@ function onPageChange(index: number, oldIndex?: number) {
     </template>
   </lk-carousel>
 
-  <view v-else :class="containerClass">
+  <view v-else :class="rootClass" :style="rootStyle">
     <view class="lk-grid" :style="gridStyle">
       <template v-if="items && items.length">
         <view

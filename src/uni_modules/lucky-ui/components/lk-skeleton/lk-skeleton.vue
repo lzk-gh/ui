@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { skeletonProps } from './skeleton.props';
 import {
   resolveSkeletonAnimatedClass,
   resolveSkeletonAvatarStyle,
   resolveSkeletonHostStyle,
+  resolveSkeletonRootClass,
   resolveSkeletonRowStyle,
   resolveSkeletonTitleStyle,
 } from './skeleton.utils';
@@ -15,7 +17,9 @@ const props = defineProps(skeletonProps);
 const hostStyle = computed(() => resolveSkeletonHostStyle({
   duration: props.duration,
   easing: props.easing,
+  customStyle: props.customStyle as StyleValue,
 }));
+const rootClass = computed(() => resolveSkeletonRootClass(props.customClass));
 const avatarStyle = computed(() => resolveSkeletonAvatarStyle({
   avatarSize: props.avatarSize,
   round: props.round,
@@ -29,7 +33,7 @@ const animatedClass = computed(() => resolveSkeletonAnimatedClass(props.animated
 </script>
 
 <template>
-  <view v-if="loading" class="lk-skeleton" :style="hostStyle">
+  <view v-if="loading" :class="rootClass" :style="hostStyle">
     <view
       v-if="avatar"
       class="lk-skeleton__avatar"

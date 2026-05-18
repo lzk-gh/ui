@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { StyleValue } from 'vue';
 import { loadingProps } from './loading.props';
 import {
   resolveLoadingBarStyle,
@@ -18,11 +19,13 @@ const props = defineProps(loadingProps);
 const rootClass = computed(() => resolveLoadingRootClass({
   type: props.variant,
   vertical: props.vertical,
+  customClass: props.customClass,
 }));
 const rootStyle = computed(() => resolveLoadingRootStyle({
   color: props.color,
   showTrack: props.showTrack,
   trackColor: props.trackColor,
+  customStyle: props.customStyle as StyleValue,
 }));
 const squareStyle = computed(() => resolveLoadingSquareStyle(props.size));
 const heightStyle = computed(() => resolveLoadingHeightStyle(props.size));

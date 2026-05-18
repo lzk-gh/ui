@@ -111,11 +111,15 @@ export function resolveDropdownItemActive(options: {
 export function resolveDropdownItemClass(options: {
   active: boolean;
   disabled: boolean;
+  customClass?: unknown;
 }) {
-  return {
-    'is-active': options.active,
-    'is-disabled': options.disabled,
-  };
+  return [
+    {
+      'is-active': options.active,
+      'is-disabled': options.disabled,
+    },
+    options.customClass,
+  ];
 }
 
 export function createDropdownItemPayload(options: {

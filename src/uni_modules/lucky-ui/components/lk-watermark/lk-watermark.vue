@@ -29,7 +29,7 @@ const effectiveParams = computed(() => {
 
 const watermarkItems = computed(() => resolveWatermarkItems(props.rows, props.columns));
 
-const rootClass = computed(() => resolveWatermarkClass(props));
+const rootClass = computed(() => [resolveWatermarkClass(props), props.customClass]);
 
 const rootStyle = computed<StyleValue>(() => resolveWatermarkRootStyle(props.customStyle));
 

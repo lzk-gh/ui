@@ -1,3 +1,4 @@
+import type { StyleValue } from 'vue';
 import { KeyboardType, type KeyboardKey, type KeyboardType as KeyboardTypeValue } from './keyboard.props';
 
 export type KeyboardPlateMode = 'province' | 'alphanum';
@@ -193,6 +194,7 @@ export function resolveKeyboardClass(options: {
   type: string;
   isVisible: boolean;
   blur: boolean;
+  customClass?: unknown;
 }) {
   return [
     'lk-keyboard',
@@ -202,6 +204,7 @@ export function resolveKeyboardClass(options: {
       'is-visible': options.isVisible,
       'is-blur': options.blur,
     },
+    options.customClass,
   ];
 }
 
@@ -209,11 +212,12 @@ export function resolveKeyboardStyle(options: {
   zIndex: number;
   safeAreaInsetBottom: boolean;
   safeBottom: number;
-}) {
-  return {
+  customStyle?: StyleValue;
+}): StyleValue {
+  return [{
     zIndex: options.zIndex,
     paddingBottom: options.safeAreaInsetBottom ? `${options.safeBottom}px` : '0',
-  };
+  }, options.customStyle || ''] as StyleValue;
 }
 
 export function resolveKeyboardKeyClass(key: KeyboardKey) {

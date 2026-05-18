@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
+import type { StyleValue } from 'vue';
 import { timelineProps } from './timeline.props';
 import { resolveTimelineContext, resolveTimelineRootClass } from './timeline.utils';
 
@@ -20,11 +21,12 @@ const ctx = computed(() => resolveTimelineContext({
 
 provide('LkTimelineCtx', ctx);
 
-const rootClass = computed(() => resolveTimelineRootClass(props.direction));
+const rootClass = computed(() => resolveTimelineRootClass(props.direction, props.customClass));
+const rootStyle = computed<StyleValue>(() => props.customStyle as StyleValue);
 </script>
 
 <template>
-  <view :class="rootClass" role="list">
+  <view :class="rootClass" :style="rootStyle" role="list">
     <slot />
   </view>
 </template>

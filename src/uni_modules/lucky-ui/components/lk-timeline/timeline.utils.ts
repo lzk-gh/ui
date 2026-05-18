@@ -1,3 +1,4 @@
+import type { StyleValue } from 'vue';
 import type {
   TimelineDirection,
   TimelineDotVariant,
@@ -35,10 +36,11 @@ export function resolveTimelineContext(options: Partial<TimelineContextValue>): 
   };
 }
 
-export function resolveTimelineRootClass(direction: TimelineDirection) {
+export function resolveTimelineRootClass(direction: TimelineDirection, customClass?: unknown) {
   return [
     'lk-timeline',
     `lk-timeline--${direction}`,
+    customClass,
   ];
 }
 
@@ -66,6 +68,7 @@ export function resolveTimelineItemClass(options: {
   completed: boolean;
   pending: boolean;
   error: boolean;
+  customClass?: unknown;
 }) {
   return [
     'lk-timeline-item',
@@ -75,6 +78,7 @@ export function resolveTimelineItemClass(options: {
     options.completed && 'is-completed',
     options.pending && 'is-pending',
     options.error && 'is-error',
+    options.customClass,
   ];
 }
 
@@ -104,12 +108,13 @@ export function resolveTimelineItemStyle(options: {
   accentColor: string;
   index: number;
   total: number;
-}) {
-  return {
+  customStyle?: StyleValue;
+}): StyleValue {
+  return [{
     '--lk-ti-accent': options.accentColor,
     '--lk-ti-index': options.index >= 0 ? options.index : 0,
     '--lk-ti-total': options.total,
-  };
+  }, options.customStyle || ''] as StyleValue;
 }
 
 export function resolveTimelineInheritedValue<T>(itemValue: T | '' | undefined, contextValue: T, fallback: T): T {

@@ -147,6 +147,8 @@ import DropdownDemo from '@/components/demos/dropdown-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | modelValue | 当前选中值 | `string \| number` | `''` |
 | zIndex | 弹层层级 | `number` | `500` |
 | trigger | 触发方式 | `click \| hover` | `click` |
@@ -184,6 +186,8 @@ import DropdownDemo from '@/components/demos/dropdown-demo.vue'
 
 | 参数 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
+| customClass | 组件可视根节点自定义类名 | `string \| object \| array` | `''` |
+| customStyle | 组件可视根节点自定义样式 | `string \| object` | `''` |
 | name | 菜单项唯一值，必填 | `string \| number` | — |
 | disabled | 是否禁用 | `boolean` | `false` |
 | icon | 左侧图标名 | `string` | `''` |

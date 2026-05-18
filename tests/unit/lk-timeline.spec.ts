@@ -29,9 +29,10 @@ describe('lk-timeline context and item rules', () => {
       lineAnimated: true,
     });
 
-    expect(resolveTimelineRootClass('horizontal')).toEqual([
+    expect(resolveTimelineRootClass('horizontal', 'custom-timeline')).toEqual([
       'lk-timeline',
       'lk-timeline--horizontal',
+      'custom-timeline',
     ]);
   });
 
@@ -63,6 +64,7 @@ describe('lk-timeline context and item rules', () => {
       completed: false,
       pending: false,
       error: false,
+      customClass: 'custom-item',
     })).toEqual([
       'lk-timeline-item',
       'lk-timeline-item--vertical',
@@ -71,6 +73,7 @@ describe('lk-timeline context and item rules', () => {
       false,
       false,
       false,
+      'custom-item',
     ]);
 
     expect(resolveTimelineTrackClass({ last: false, showLine: false })).toEqual({
@@ -98,11 +101,12 @@ describe('lk-timeline context and item rules', () => {
       accentColor: '#f00',
       index: -1,
       total: 6,
-    })).toEqual({
+      customStyle: { marginTop: '8rpx' },
+    })).toEqual([{
       '--lk-ti-accent': '#f00',
       '--lk-ti-index': 0,
       '--lk-ti-total': 6,
-    });
+    }, { marginTop: '8rpx' }]);
   });
 
   it('detects left column content', () => {
