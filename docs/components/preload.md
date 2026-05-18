@@ -233,9 +233,9 @@ manager.addTask({
 
 | 功能                | H5  | 微信小程序            | 其他小程序            |
 | ------------------- | --- | --------------------- | --------------------- |
-| requestIdleCallback | ✅  | ❌ (降级 setTimeout)  | ❌ (降级 setTimeout)  |
-| link prefetch       | ✅  | ❌                    | ❌                    |
-| uni.preloadPage     | ❌  | ✅                    | 部分支持              |
+| requestIdleCallback | ✅  | setTimeout fallback   | setTimeout fallback   |
+| link prefetch       | ✅  | 依运行端能力          | 依运行端能力          |
+| uni.preloadPage     | 依运行端能力 | ✅           | 依运行端能力          |
 | Image 预加载        | ✅  | ✅ (uni.getImageInfo) | ✅ (uni.getImageInfo) |
 
 ## 注意事项

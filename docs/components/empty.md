@@ -143,7 +143,7 @@ phone: empty
 
 ## 兼容说明
 
-内置插画通过 UniApp `<image>` 渲染 SVG data URI，不依赖 DOM、`v-html` 或远程网络。若目标小程序平台限制 data URI SVG，可通过 `image` 传入本地静态图片或 CDN 图片兜底。
+内置插画通过 UniApp `<image>` 渲染 SVG data URI，不依赖 DOM、`v-html` 或远程网络。若当前运行端限制 data URI SVG，可通过 `image` 传入本地静态图片或 CDN 图片兜底。
 
 ## 素材许可
 

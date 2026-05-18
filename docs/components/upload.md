@@ -52,7 +52,7 @@ const onOversize = file => {
 <script setup lang="ts">
 const beforeRead = file => {
   if (file.type === 'image/gif') {
-    uni.showToast({ title: '不支持 GIF 格式', icon: 'none' });
+    uni.showToast({ title: '请上传非 GIF 图片', icon: 'none' });
     return false;
   }
   return true;

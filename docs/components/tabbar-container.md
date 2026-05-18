@@ -29,12 +29,12 @@ import type { TabConfig } from '@/uni_modules/lucky-ui';
 
 ## 平台说明
 
-- **H5 / App**：在 `TabConfig` 上为每个 Tab 提供 `component`（可 `markRaw` 同步组件，或 `() => import('...')` 异步），容器内用动态组件渲染。
-- **小程序**：不支持上述动态组件写法时，使用具名插槽 **`tab-{tabId}`** 传入各 Tab 内容（`tabId` 与配置里的 `id` 一致）。
+- **动态组件配置**：在 `TabConfig` 上为每个 Tab 提供 `component`（可 `markRaw` 同步组件，或 `() => import('...')` 异步），适用于支持动态组件渲染的 UniApp 运行端。
+- **具名插槽配置**：需要规避动态组件端差时，使用具名插槽 **`tab-{tabId}`** 传入各 Tab 内容（`tabId` 与配置里的 `id` 一致）。
 - **底部定位**：容器内部底栏使用 fixed 定位与安全区占位。App、H5、小程序的 safe area 行为不同，首屏发布前必须在目标端确认底部遮挡与滚动高度。
 - **视觉模式**：`flashlight`、`float`、`mask-fill` 等模式包含滤镜或较复杂动画；性能敏感页面优先使用 `plain`、`block`、`marker-top`、`marker-bottom`。
 
-## 基础示例（H5 / App 思路）
+## 基础示例（动态组件配置）
 
 ```vue
 <script setup lang="ts">
@@ -56,7 +56,7 @@ const tabs: TabConfig[] = [
 </template>
 ```
 
-## 小程序插槽示例
+## 具名插槽示例
 
 ```vue
 <lk-tabbar-container :tabs="tabs" default-tab="home">
@@ -106,7 +106,7 @@ interface TabConfig {
   icon: string;
   selectedIcon?: string;
   activeIconFill?: boolean;
-  /** H5/App：Tab 内容组件；可为异步 import */
+  /** 动态组件配置：Tab 内容组件；可为异步 import */
   component?: Component | (() => Promise<{ default: Component }>);
   keepAlive?: boolean;
   badge?: number;
@@ -120,9 +120,9 @@ interface TabConfig {
 
 ## 发布前检查
 
-1. H5/App 使用 `component` 配置；小程序使用 `tab-{id}` 插槽，不混用动态组件。
+1. `component` 动态组件配置与 `tab-{id}` 具名插槽方案二选一，避免同一 Tab 混用两套内容来源。
 2. 若页面已有原生 tabbar、自定义 navbar 或 safe area 占位，需要确认 `lk-tabbar-container__placeholder` 不会产生双重底部间距。
-3. 启用滤镜类视觉模式时，低端 App WebView 可能降级；公开示例默认使用 `block`。
+3. 启用滤镜类视觉模式时，低端 App WebView 表现可能简化；公开示例默认使用 `block`。
 
 ## 发布验收
 
@@ -131,8 +131,8 @@ interface TabConfig {
 | 场景 | 验收方式 | 要点 |
 |------|----------|------|
 | 展示台基线 | 自动回归 | `tests/visual/high-risk-showcase.spec.ts` 校验组件路由、verified 状态与高风险标记 |
-| H5 / App | 人工验收 | 动态组件、懒加载、重试、保活切换状态稳定 |
-| 小程序 | 人工验收 | 使用 `tab-{id}` 插槽降级，不依赖 `<component :is>` 动态组件 |
+| 动态组件配置 | 人工验收 | 动态组件、懒加载、重试、保活切换状态稳定 |
+| 具名插槽配置 | 人工验收 | 使用 `tab-{id}` 插槽方案，规避 `<component :is>` 动态渲染端差 |
 | 底部安全区 | 人工验收 | fixed 底栏、placeholder 与系统 safe area 不产生双重遮挡 |
 
 ::: warning
